@@ -1,0 +1,10 @@
+{
+  "name" : "treachery",
+  "title": "Treachery",
+  "id": 2,
+  "image": "treachery.png",
+  "date": "07/03/1940",
+  "weather": "CLEAR",
+  "maxTurns": 36,
+  "description": "On 22 June, France signed an armistice with the Germans, pulling out of the war and agreeing to drastically reduce her armed forces. The agreement did not require that the French hand their powerful navy to Germany, but British leaders feared that such an arrangement would follow. Consequently, without formality of a declaration of war, British forces attacked their former allies. Over 1,100 French sailors died in what many called a war crime."
+}

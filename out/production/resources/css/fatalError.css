@@ -1,0 +1,10 @@
+.label {
+    -fx-text-fill: red;
+    -fx-font: bold 12pt "Lucida Grande";
+}
+
+#main-pane {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, white 0%, grey 100%);
+    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
+    -fx-alignment: center;
+}

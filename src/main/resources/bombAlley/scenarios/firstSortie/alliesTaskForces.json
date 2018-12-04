@@ -1,0 +1,35 @@
+[
+  {
+    "name": "TF1",
+    "title": "Alexandria",
+    "location": "BE31",
+    "ships": [
+      "BB02 Warspite",
+      "BB05 Malaya",
+      "CVL04 Eagle",
+      "CL28 Orion",
+      "CL27 Neptune",
+      "CL03 Sydney",
+      "CL38 Gloucester",
+      "CL39 Liverpool",
+      "CL01a Caledon",
+      "CL02 Calypso",
+      "DD01 Stuart",
+      "DD35 Dainty",
+      "DD37 Decoy",
+      "DD69 Hasty",
+      "DD106 Nubian",
+      "DD72 Hero",
+      "DD105 Mohawk",
+      "DD71 Hereward",
+      "DD73 Hostile",
+      "CA01 Duquesne",
+      "CA02 Tourville",
+      "CA03 Suffren",
+      "CL01 Duguay Trouin",
+      "DD56 Basque",
+      "DD49 Le Fortune",
+      "DD53 Forbin"
+    ]
+  }
+]

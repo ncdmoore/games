@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group 'enigma'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile     group: 'com.google.inject',    name: 'guice',           version: '4.0'
+    compile     group: 'com.google.code.gson', name: 'gson',            version: '2.7'
+    compile     group: 'org.slf4j',            name: 'slf4j-api'   ,    version: '1.6.1'
+    compile     group: 'ch.qos.logback',       name: 'logback-classic', version: '0.9.26'
+    compileOnly group: 'org.projectlombok',    name: 'lombok',          version: '1.18.4'
+    testCompile group: 'junit',                name: 'junit',           version: '4.12'
+    testCompile group: 'org.projectlombok',    name: 'lombok',          version: '1.18.4'
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["src/main/resources"]
+            includes = ["**/*.fxml", "**/*.css", "**/*.json", "**/*.xml", "**/*.png", "**/*.properties"]
+        }
+    }
+}

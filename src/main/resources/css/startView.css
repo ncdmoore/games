@@ -1,0 +1,61 @@
+////////////////////////////////////////////////////////////////////
+// Define variables that may be used in this file.
+// Currently only colors variables can be defined.
+////////////////////////////////////////////////////////////////////
+* {
+    -fx-var-background-color: rgb(224, 228, 203);
+}
+
+
+.root {
+    -fx-background: -fx-var-background-color;
+}
+
+.button {
+    -fx-text-fill: navy;
+    -fx-effect:  dropshadow(one-pass-box, black, 8, 0.0 , 2, 0);
+}
+
+
+#flags {
+    -fx-spacing: 490;
+}
+
+////////////////////////////////////////////////////////////////////
+// Game title.
+////////////////////////////////////////////////////////////////////
+#title {
+    -fx-font: bold 16pt "Lucida Grande";
+    -fx-text-fill: navy;
+    -fx-padding: /* top: */ 20 /* right: */ 0 /* bottom: */ 0 /* left: */ 0;
+}
+
+////////////////////////////////////////////////////////////////////
+// Center the title pain that contains the flags and title.
+////////////////////////////////////////////////////////////////////
+#title-pane {
+    -fx-border-width: 1px;
+    -fx-border-color: -fx-var-background-color;
+    -fx-border-insets: /* top: */ 120 /* right: */ 0 /* bottom: */ 0 /* left: */ 255;
+    -fx-background-insets: /* top: */ 120 /* right: */ 0 /* bottom: */ 0 /* left: */ 255;
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, gray 0%, lightblue 100%);
+    -fx-alignment: top-center;
+}
+
+////////////////////////////////////////////////////////////////////
+// Center the main pane that contains the image and command buttons.
+////////////////////////////////////////////////////////////////////
+#main-pane {
+    -fx-border-insets: /* top: */ 0   /* right: */ 0 /* bottom: */ 0 /* left: */ 255;
+    -fx-border-width: 1px;
+    -fx-border-color: -fx-var-background-color;
+    -fx-alignment: top-left;
+}
+
+////////////////////////////////////////////////////////////////////
+// Center Command buttons within the main pane.
+////////////////////////////////////////////////////////////////////
+#command-buttons {
+    -fx-padding: /* top: */ 120 /* right: */ 0 /* bottom: */ 0 /* left: */ 270;
+    -fx-spacing: 3;
+}
