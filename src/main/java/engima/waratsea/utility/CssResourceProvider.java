@@ -2,9 +2,8 @@ package engima.waratsea.utility;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engima.waratsea.model.game.GameTitle;
 import lombok.extern.slf4j.Slf4j;
-
-import engima.waratsea.model.game.Game;
 
 import java.net.URL;
 import java.util.Optional;
@@ -17,16 +16,16 @@ import java.util.Optional;
 public class CssResourceProvider {
 
     private static final String CSS_DIR = "/css/";
-    private final Game game;
+    private final GameTitle gameTitle;
 
     /**
      * Construct a css resource provider. The game may override the default css styles for a given view.
      *
-     * @param game The game.
+     * @param gameTitle The game title.
      */
     @Inject
-    public CssResourceProvider(final Game game) {
-        this.game = game;
+    public CssResourceProvider(final GameTitle gameTitle) {
+        this.gameTitle = gameTitle;
     }
 
     /**
@@ -36,7 +35,7 @@ public class CssResourceProvider {
      * @return path of the css file.
      */
     public String get(final String name) {
-        String cssPath = game.getName() + CSS_DIR + name;
+        String cssPath = gameTitle.getValue() + CSS_DIR + name;
 
         Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(cssPath));
         return url.isPresent() ? useGameSpecificCss(cssPath) : useGameDefaultCss(name);

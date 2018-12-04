@@ -5,9 +5,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engima.waratsea.model.game.GameTitle;
 import lombok.extern.slf4j.Slf4j;
 import engima.waratsea.model.AppProps;
-import engima.waratsea.model.game.Game;
+
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ships.TaskForce;
 
@@ -52,17 +53,17 @@ public class ScenarioLoader {
     }
 
 
-    private Game game;
+    private GameTitle gameTitle;
     private AppProps props;
 
     /**
      * The constructor. Called by guice.
-     * @param game The game.
+     * @param gameTitle The game title.
      * @param props Application properties.
      */
     @Inject
-    public ScenarioLoader(final Game game, final AppProps props) {
-        this.game = game;
+    public ScenarioLoader(final GameTitle gameTitle, final AppProps props) {
+        this.gameTitle = gameTitle;
         this.props = props;
     }
 
@@ -93,7 +94,7 @@ public class ScenarioLoader {
      * @throws ScenarioException if the scenario task force cannot be loaded.
      */
     public List<TaskForce> loadTaskForce(final String scenarioName, final Side side) throws ScenarioException {
-        String path = game.getName() + "/" + SCENARIO_DIRECTORY_NAME + "/" + scenarioName + FILE_NAME_MAP.get(side);
+        String path = gameTitle.getValue() + "/" + SCENARIO_DIRECTORY_NAME + "/" + scenarioName + FILE_NAME_MAP.get(side);
         Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(path));
         return url.map(u -> readTaskForce(u, side))
                 .orElseThrow(() -> new ScenarioException("Unable to load task force for " + scenarioName + " for " + side));
@@ -107,7 +108,7 @@ public class ScenarioLoader {
      */
     private File[] getScenarioDirs() throws ScenarioException {
 
-        URL url = getClass().getClassLoader().getResource(game.getName() + SCENARIO_DIRECTORY_NAME);
+        URL url = getClass().getClassLoader().getResource(gameTitle.getValue() + SCENARIO_DIRECTORY_NAME);
 
         if (url == null) {
            throw new ScenarioException("Unable to find the scenario main directory");

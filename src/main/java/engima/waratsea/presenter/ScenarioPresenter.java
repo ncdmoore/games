@@ -9,7 +9,6 @@ import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
-import engima.waratsea.model.scenario.ScenarioLoader;
 import engima.waratsea.view.FatalErrorDialog;
 import engima.waratsea.view.ScenarioView;
 
@@ -22,7 +21,6 @@ public class ScenarioPresenter {
     private ScenarioView view;
     private Stage stage;
 
-    private ScenarioLoader scenarioLoader;
     private Scenario selectedScenario;
     private Provider<StartPresenter> startPresenterProvider;
     private Provider<TaskForcePresenter> taskForcePresenterProvider;
@@ -34,7 +32,6 @@ public class ScenarioPresenter {
      * The constructor for the scenario presenter. Guice will inject the view.
      * @param view Scenario view.
      * @param game The game.
-     * @param scenarioLoader Loads scenario data from json files.
      * @param startPresenterProvider provides the start presenter.
      * @param taskForcePresenterProvider provides the task force presenter.
      * @param fatalErrorDialogProvider provides the fatal error dialog.
@@ -42,13 +39,11 @@ public class ScenarioPresenter {
     @Inject
     public ScenarioPresenter(final ScenarioView view,
                              final Game game,
-                             final ScenarioLoader scenarioLoader,
                              final Provider<StartPresenter> startPresenterProvider,
                              final Provider<TaskForcePresenter> taskForcePresenterProvider,
                              final Provider<FatalErrorDialog> fatalErrorDialogProvider) {
         this.view = view;
         this.game = game;
-        this.scenarioLoader = scenarioLoader;
         this.startPresenterProvider = startPresenterProvider;
         this.taskForcePresenterProvider = taskForcePresenterProvider;
         this.fatalErrorDialogProvider = fatalErrorDialogProvider;
@@ -96,7 +91,7 @@ public class ScenarioPresenter {
         log.info("Selected side {}", side);
 
         game.setScenario(selectedScenario);
-        game.setSide(side);
+        game.setHumanSide(side);
 
         taskForcePresenterProvider.get().init(stage);
     }
@@ -115,7 +110,7 @@ public class ScenarioPresenter {
 
         if (view.getScenarios().getItems().isEmpty()) {                                                                 // Only initialize the list once.
             try {
-                view.setScenarios(scenarioLoader.loadSummaries());
+                view.setScenarios(game.initScenarios());
                 view.getScenarios().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> scenarioSelected(newValue));
                 view.getScenarios().getSelectionModel().select(0);
             } catch (ScenarioException ex) {

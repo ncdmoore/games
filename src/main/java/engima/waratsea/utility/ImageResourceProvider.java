@@ -1,10 +1,10 @@
 package engima.waratsea.utility;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.game.GameTitle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import lombok.extern.slf4j.Slf4j;
-import engima.waratsea.model.game.Game;
 
 import javax.inject.Singleton;
 import java.io.File;
@@ -19,16 +19,16 @@ import java.util.Optional;
 public class ImageResourceProvider {
 
     private static final String IMAGES_DIR = "images/";
-    private final Game game;
+    private final GameTitle gameTitle;
 
     /**
      * Construct a image resource provider.
      *
-     * @param game The game object.
+     * @param gameTitle The game title.
      */
     @Inject
-    public ImageResourceProvider(final Game game) {
-        this.game = game;
+    public ImageResourceProvider(final GameTitle gameTitle) {
+        this.gameTitle = gameTitle;
     }
 
     /**
@@ -62,7 +62,7 @@ public class ImageResourceProvider {
      * @return The image if it exists.
      */
     public Image getImage(final String scenario, final String resourceName) {
-        String path = game.getName() + "/scenarios/" + scenario + "/" + resourceName;
+        String path = gameTitle.getValue() + "/scenarios/" + scenario + "/" + resourceName;
         Optional<Image> image = loadImage(path);
         return image.orElseGet(() -> getImage(resourceName));
     }
@@ -74,7 +74,7 @@ public class ImageResourceProvider {
      * @return The game specific image if it exists.
      */
     private Optional<Image> getGameSpecificImage(final String resourceName) {
-        String path = game.getName() + "/" + IMAGES_DIR + resourceName;
+        String path = gameTitle.getValue() + "/" + IMAGES_DIR + resourceName;
         return loadImage(path);
     }
 

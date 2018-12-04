@@ -5,14 +5,10 @@ import com.google.inject.Provider;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import engima.waratsea.model.game.Game;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.ScenarioException;
-import engima.waratsea.model.scenario.ScenarioLoader;
 import engima.waratsea.model.ships.TaskForce;
 import engima.waratsea.view.FatalErrorDialog;
 import engima.waratsea.view.TaskForceView;
-
-import java.util.List;
 
 /**
  * This class is the presenter for the task for summary view. The task force summary gives the player an overview
@@ -24,7 +20,6 @@ public class TaskForcePresenter {
     private final Game game;
     private Stage stage;
 
-    private ScenarioLoader scenarioLoader;
 
     private TaskForce selectedTaskForce;
 
@@ -35,19 +30,16 @@ public class TaskForcePresenter {
      * This is the constructor.
      * @param view The corresponding view,
      * @param game The game object.
-     * @param scenarioLoader Loads scenario data.
      * @param scenarioPresenterProvider Provides the scenario presenter.
      * @param fatalErrorDialogProvider Provides the fatal error dialog.
      */
     @Inject
     public TaskForcePresenter(final TaskForceView view,
                               final Game game,
-                              final ScenarioLoader scenarioLoader,
                               final Provider<ScenarioPresenter> scenarioPresenterProvider,
                               final Provider<FatalErrorDialog> fatalErrorDialogProvider) {
         this.view = view;
         this.game = game;
-        this.scenarioLoader = scenarioLoader;
         this.scenarioPresenterProvider = scenarioPresenterProvider;
         this.fatalErrorDialogProvider = fatalErrorDialogProvider;
     }
@@ -74,18 +66,12 @@ public class TaskForcePresenter {
      * Initialize the task force data.
      */
     private void initTaskForce() {
-        String scenarioName = game.getScenario().getName();
 
         try {
-            Side humanSide = game.getSide();
-
-            List<TaskForce> taskForces = scenarioLoader.loadTaskForce(scenarioName, humanSide);
-            List<TaskForce> tff = scenarioLoader.loadTaskForce(scenarioName, humanSide.opposite());
-
-            view.setTaskForces(taskForces);
+            game.initTaskForces();
+            view.setTaskForces(game.getHumanPlayer().getTaskForces());
             view.getTaskForces().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> taskForceSelected(newValue));
             view.getTaskForces().getSelectionModel().select(0);
-
 
         } catch (ScenarioException ex) {
             fatalErrorDialogProvider.get().show("Unable to load  game scenario: '" + game.getScenario().getTitle() + "' task forces.");

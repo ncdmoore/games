@@ -3,6 +3,7 @@ package engima.waratsea;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import engima.waratsea.model.game.GameTitle;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class Main extends Application {
     private static final Map<String, Consumer<String>> HANDLERS = new HashMap<>();
 
     static {
-        PARAMETERS.put(GAME, Game.DEFAULT_GAME);
+        PARAMETERS.put(GAME, GameTitle.DEFAULT_GAME);
         HANDLERS.put(GAME, Main::handleGameParameter);
     }
 
@@ -47,8 +48,8 @@ public class Main extends Application {
 
         Injector injector = Guice.createInjector(new BasicModule());
 
-        Game game = initGame(injector);                                                                                 //The game instance must be injected first!
-        initProps(injector, game.getName());
+        GameTitle gameTitle = initGame(injector);                                                                                 //The game instance must be injected first!
+        initProps(injector, gameTitle.getValue());
         initPresenters(injector, primaryStage);
     }
 
@@ -117,12 +118,13 @@ public class Main extends Application {
      * Initialize the game.
      *
      * @param injector The guice injector.
-     * @return The game object.
+     * @return The game title.
      */
-    private Game initGame(final Injector injector) {
-        Game game = injector.getInstance(Game.class);                                                                   //The game instance must be injected first!
-        game.setName(PARAMETERS.get(GAME));
-        return game;
+    private GameTitle initGame(final Injector injector) {
+        GameTitle gameTitle = injector.getInstance(GameTitle.class);
+        injector.getInstance(Game.class);                                                                               //The game instance must be injected first!
+        gameTitle.setValue(PARAMETERS.get(GAME));
+        return gameTitle;
     }
 
     /**

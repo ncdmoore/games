@@ -2,13 +2,13 @@ package enigma.waratsea.model.scenario;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioLoader;
 import enigma.waratsea.TestModule;
 import org.junit.Before;
 import org.junit.Test;
 import engima.waratsea.model.AppProps;
-import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ships.TaskForce;
 import engima.waratsea.model.weather.WeatherType;
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ScenarioLoaderTest {
 
-    private Game game;
+    private GameTitle gameTitle;
     private ScenarioLoader scenarioLoader;
 
 
@@ -30,10 +30,10 @@ public class ScenarioLoaderTest {
     public void setup() {
         Injector injector = Guice.createInjector(new TestModule());
 
-        game = injector.getInstance(Game.class);                                                                        //The game instance must be injected first!
+        gameTitle = injector.getInstance(GameTitle.class);                                                              //The game instance must be injected first!
 
         AppProps appProps = injector.getInstance(AppProps.class);                                                       // Load the main application properties.
-        appProps.init(game.getName());
+        appProps.init(gameTitle.getValue());
 
         scenarioLoader = injector.getInstance(ScenarioLoader.class);
     }
@@ -54,7 +54,7 @@ public class ScenarioLoaderTest {
     private void scenarioSummaryLoading(String gameName) {
 
         try {
-            game.setName(gameName);
+            gameTitle.setValue(gameName);
 
             List<Scenario> scenarios = scenarioLoader.loadSummaries();
 
@@ -73,7 +73,7 @@ public class ScenarioLoaderTest {
     private void taskForceLoading(String gameName, String scenarioName)  {
 
         try {
-            game.setName(gameName);
+            gameTitle.setValue(gameName);
 
             List<TaskForce> taskForces = scenarioLoader.loadTaskForce(scenarioName, Side.ALLIES);
 
