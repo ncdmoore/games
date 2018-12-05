@@ -10,6 +10,13 @@ import java.util.List;
  */
 public interface Player {
 
+
+    /**
+     * This gets teh side of the player.
+     * @return The player's side ALLIES or AXIS.
+     */
+    Side getSide();
+
     /**
      * This sets the side of the player.
      * @param side ALLIES or AXIS.

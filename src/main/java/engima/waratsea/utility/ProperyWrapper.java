@@ -29,7 +29,7 @@ public class ProperyWrapper {
     }
 
     /**
-     * Get a property value of type string.
+     * Get a property value of action string.
      *
      * @param key the property to getImageView.
      * @return The value of the property.
@@ -39,7 +39,7 @@ public class ProperyWrapper {
     }
 
     /**
-     * Get the property value of type int.
+     * Get the property value of action int.
      *
      * @param key the property to getImageView.
      * @return The value of the property.

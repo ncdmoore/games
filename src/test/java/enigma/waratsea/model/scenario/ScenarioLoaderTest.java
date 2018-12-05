@@ -6,7 +6,7 @@ import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioLoader;
 import enigma.waratsea.TestModule;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import engima.waratsea.model.AppProps;
 import engima.waratsea.model.game.Side;
@@ -20,20 +20,21 @@ import java.util.List;
 
 public class ScenarioLoaderTest {
 
-    private GameTitle gameTitle;
-    private ScenarioLoader scenarioLoader;
+    private static GameTitle gameTitle;
+    private static AppProps props;
+    private static ScenarioLoader scenarioLoader;
 
 
     private List<String> games = new ArrayList<>(Arrays.asList("bombAlley", "coralSea"));
 
-    @Before
-    public void setup() {
+
+    @BeforeClass
+    public static void setup() {
         Injector injector = Guice.createInjector(new TestModule());
 
         gameTitle = injector.getInstance(GameTitle.class);                                                              //The game instance must be injected first!
 
-        AppProps appProps = injector.getInstance(AppProps.class);                                                       // Load the main application properties.
-        appProps.init(gameTitle.getValue());
+        props = injector.getInstance(AppProps.class);                                                                   // Load the main application properties.
 
         scenarioLoader = injector.getInstance(ScenarioLoader.class);
     }
@@ -55,6 +56,7 @@ public class ScenarioLoaderTest {
 
         try {
             gameTitle.setValue(gameName);
+            props.init(gameTitle.getValue());
 
             List<Scenario> scenarios = scenarioLoader.loadSummaries();
 

@@ -1,6 +1,8 @@
 package engima.waratsea.model.game;
 
 import com.google.inject.Inject;
+import engima.waratsea.event.GameEventRegistry;
+import engima.waratsea.event.ShipEvent;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.scenario.ScenarioLoader;
 import engima.waratsea.model.ships.TaskForce;
@@ -37,6 +39,9 @@ public class Game {
 
     private final ScenarioLoader scenarioLoader;
 
+    private final GameEventRegistry registry;
+
+
     @Getter
     @Setter
     private Scenario scenario;
@@ -51,10 +56,12 @@ public class Game {
     @Inject
     public Game(@Named("Human") final Player humanPlayer,
                 @Named("Computer") final Player computerPlayer,
-                final ScenarioLoader scenarioLoader) {
+                final ScenarioLoader scenarioLoader,
+                final GameEventRegistry registry) {
         this.humanPlayer = humanPlayer;
         this.computerPlayer = computerPlayer;
         this.scenarioLoader = scenarioLoader;
+        this.registry = registry;
     }
 
     /**
@@ -62,7 +69,7 @@ public class Game {
      * @return List of scenarios.
      * @throws ScenarioException Indicates the scenario summary data could not be loaded.
      */
-    public List<Scenario> initScenarios() throws ScenarioException {
+    public List<Scenario> initScenarios() throws ScenarioException {                                                    // New Game Step 1.
         return scenarioLoader.loadSummaries();
     }
 
@@ -70,7 +77,7 @@ public class Game {
      * Sets the sides of the two players of the game.
      * @param side The human player humanSide.
      */
-    public void setHumanSide(final Side side) {
+    public void setHumanSide(final Side side) {                                                                         // New Game Step 2.
         log.info("Human side: {}", side);
 
         humanSide = side;
@@ -78,21 +85,31 @@ public class Game {
         computerPlayer.setSide(humanSide.opposite());
     }
 
-
     /**
      * Initialize the task force data for both players.
      * @throws ScenarioException Indicates the scenario data could not be loaded.
      */
-    public void initTaskForces() throws ScenarioException {
-
+    public void initTaskForces() throws ScenarioException {                                                             // New Game Step 3.
         String scenarioName = scenario.getName();
 
         List<TaskForce> taskForces = scenarioLoader.loadTaskForce(scenarioName, humanSide);
-
         humanPlayer.setTaskForces(taskForces);
-
         taskForces = scenarioLoader.loadTaskForce(scenarioName, humanSide.opposite());
-
         computerPlayer.setTaskForces(taskForces);
+
+
+        ShipEvent s = new ShipEvent();
+        s.setAction("Spotted");
+        s.setName("Bismarck");
+
+        registry.fire(s);
+
+        ShipEvent x = new ShipEvent();
+        x.setAction("Sunk");
+        x.setName("hood");
+
+        registry.fire(x);
+
+
     }
 }

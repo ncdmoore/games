@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+
 @Slf4j
 public class GameTest {
 
@@ -31,7 +32,6 @@ public class GameTest {
         appProps.init(gameTitle.getValue());
 
         game = injector.getInstance(Game.class);
-
     }
 
     @Test

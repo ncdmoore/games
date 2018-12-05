@@ -181,7 +181,6 @@ public class TaskForceView {
      * @return
      */
     public Node draw(int xoffset, int yoffset, int z) {
-        log.info("draw {}", yoffset);
 
         Rectangle r = new Rectangle(xoffset, yoffset * 14 + 10 + z, 14, 14);
         r.setStroke(Color.BLACK);

@@ -1,7 +1,7 @@
 [
   {
     "name": "TF1",
-    "title": "Tobruk",
+    "title": "Tobruk Force",
     "location": "AW30",
     "ships": [
       "CD01 San Giorgio",
@@ -15,7 +15,7 @@
   },
   {
     "name": "TF2",
-    "title": "messina",
+    "title": "Messina Force",
     "location":  "AJ17",
     "ships": [
       "CA01 Trento",
@@ -33,7 +33,7 @@
   },
   {
     "name": "TF3",
-    "title": "Taranto",
+    "title": "Reaction Force",
     "location": "AL13",
     "ships": [
       "CA03 Zara",
@@ -52,7 +52,7 @@
   },
   {
     "name": "TF4",
-    "title": "Taranto",
+    "title": "Emergency Force",
     "location": "AL13",
     "ships": [
       "BB01 Conte di Cavour",
