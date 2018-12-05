@@ -30,8 +30,10 @@ public class GameEventRegistry {
             registry.put(eventClass, handlers);
         }
 
+        // This exact event handler already receives events of this type.
         if (registry.get(eventClass).contains(eventHandler)) {
             log.warn("Duplicate handler {} for event {}", eventHandler.getClass(), eventClass);
+            return;
         }
 
 
@@ -66,7 +68,7 @@ public class GameEventRegistry {
     @SuppressWarnings("unchecked")
     public void fire(final GameEvent event) {
 
-        log.info("fire event: '{}' action: '{}'", event.getClass(), event.getAction());
+        log.info("fire event: '{}'", event.getClass());
 
         List<GameEventHandler> handlers = registry.get(event.getClass());
         handlers.forEach(handler -> handler.notify(event));

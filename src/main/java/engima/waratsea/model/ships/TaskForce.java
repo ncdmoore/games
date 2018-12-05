@@ -24,6 +24,10 @@ public class TaskForce {
 
     @Getter
     @Setter
+    private TaskForceState state;
+
+    @Getter
+    @Setter
     private List<String> ships;
 
     /**

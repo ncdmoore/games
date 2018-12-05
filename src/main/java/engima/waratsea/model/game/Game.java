@@ -1,8 +1,9 @@
 package engima.waratsea.model.game;
 
 import com.google.inject.Inject;
-import engima.waratsea.event.GameEventRegistry;
+import engima.waratsea.event.DateEventFactory;
 import engima.waratsea.event.ShipEvent;
+import engima.waratsea.event.ShipEventFactory;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.scenario.ScenarioLoader;
 import engima.waratsea.model.ships.TaskForce;
@@ -39,8 +40,10 @@ public class Game {
 
     private final ScenarioLoader scenarioLoader;
 
-    private final GameEventRegistry registry;
 
+
+    private ShipEventFactory shipEventFactory;
+    private DateEventFactory dateEventFactory;
 
     @Getter
     @Setter
@@ -57,11 +60,13 @@ public class Game {
     public Game(@Named("Human") final Player humanPlayer,
                 @Named("Computer") final Player computerPlayer,
                 final ScenarioLoader scenarioLoader,
-                final GameEventRegistry registry) {
+                final ShipEventFactory shipEventFactory,
+                final DateEventFactory dateEventFactory) {
         this.humanPlayer = humanPlayer;
         this.computerPlayer = computerPlayer;
         this.scenarioLoader = scenarioLoader;
-        this.registry = registry;
+        this.shipEventFactory = shipEventFactory;
+        this.dateEventFactory = dateEventFactory;
     }
 
     /**
@@ -98,18 +103,17 @@ public class Game {
         computerPlayer.setTaskForces(taskForces);
 
 
-        ShipEvent s = new ShipEvent();
+        ShipEvent s = shipEventFactory.create();
         s.setAction("Spotted");
         s.setName("Bismarck");
 
-        registry.fire(s);
+        s.fire();
 
-        ShipEvent x = new ShipEvent();
+        ShipEvent x = shipEventFactory.create();
         x.setAction("Sunk");
         x.setName("hood");
 
-        registry.fire(x);
-
+        x.fire();
 
     }
 }

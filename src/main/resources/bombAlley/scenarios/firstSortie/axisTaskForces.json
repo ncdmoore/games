@@ -3,6 +3,7 @@
     "name": "TF1",
     "title": "Tobruk Force",
     "location": "AW30",
+    "state": "ACTIVE",
     "ships": [
       "CD01 San Giorgio",
       "DE34 Sauro-1",
@@ -17,6 +18,7 @@
     "name": "TF2",
     "title": "Messina Force",
     "location":  "AJ17",
+    "state": "ACTIVE",
     "ships": [
       "CA01 Trento",
       "CA07 Bolzano",
@@ -35,6 +37,7 @@
     "name": "TF3",
     "title": "Reaction Force",
     "location": "AL13",
+    "state": "ACTIVE",
     "ships": [
       "CA03 Zara",
       "CA05 Fiume",
@@ -54,6 +57,7 @@
     "name": "TF4",
     "title": "Emergency Force",
     "location": "AL13",
+    "state": "RESERVE",
     "ships": [
       "BB01 Conte di Cavour",
       "BB02 Guilio Cesare",

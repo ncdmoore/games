@@ -1,14 +1,24 @@
 package engima.waratsea.event;
 
+
+import com.google.inject.Inject;
+
 /**
- * This is the event interface. Classes that implement this interface are game events.
+ * This is the event base class.
  */
-public interface GameEvent {
+public abstract class GameEvent {
+
+    // Guice injects the registry. That is how it is assigned.
+    // Add a suppress warnings annotation to get rid of the "never assigned" warning.
+    @SuppressWarnings("unused")
+    @Inject
+    private GameEventRegistry registry;
 
     /**
-     * Return the event action. This represents the action of event that occurred.
-     * @return The event action.
+     * Generate the event. Tell the game event registry that the event has occurred.
      */
-    String getAction();
+    public void fire() {
+        registry.fire(this);
+    }
 }
 

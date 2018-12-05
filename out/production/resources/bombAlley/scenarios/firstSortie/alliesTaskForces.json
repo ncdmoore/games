@@ -3,6 +3,7 @@
     "name": "TF1",
     "title": "Alexandria",
     "location": "BE31",
+    "state": "ACTIVE",
     "ships": [
       "BB02 Warspite",
       "BB05 Malaya",

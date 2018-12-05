@@ -12,6 +12,7 @@ public class GameEventTest {
     private static GameEventRegistry gameEventRegistry;
     private static TestEventHandler testEventHandler;
     private static TestEventHandler testEventHandler2;
+    private static TestEventFactory testEventFactory;
 
 
     @BeforeClass
@@ -21,16 +22,17 @@ public class GameEventTest {
         gameEventRegistry = injector.getInstance(GameEventRegistry.class);
         testEventHandler = injector.getInstance(TestEventHandler.class);
         testEventHandler2 = injector.getInstance(TestEventHandler.class);
+        testEventFactory = injector.getInstance(TestEventFactory.class);
     }
 
     @Test
     public void testEventFireAndReception() {
         gameEventRegistry.register(TestEvent.class, testEventHandler);
 
-        TestEvent testEvent = new TestEvent();
+        TestEvent testEvent = testEventFactory.create();
         testEvent.setName("A test event");
 
-        gameEventRegistry.fire(testEvent);
+        testEvent.fire();
 
         assert (testEventHandler.isEventReceived());
     }
@@ -41,16 +43,16 @@ public class GameEventTest {
 
         gameEventRegistry.stopFutureEvents(TestEvent.class, testEventHandler);
 
-        TestEvent testEvent = new TestEvent();
+        TestEvent testEvent = testEventFactory.create();
         testEvent.setName("A test event");
 
-        gameEventRegistry.fire(testEvent);
+        testEvent.fire();
 
         assert (testEventHandler.isEventReceived());                                                                    // Must receive at least one event, to stop receiving future events.
 
         testEventHandler.setEventReceived(false);
 
-        gameEventRegistry.fire(testEvent);
+        testEvent.fire();
 
         assert (!testEventHandler.isEventReceived());
     }
@@ -63,10 +65,10 @@ public class GameEventTest {
         testEventHandler.setEventReceived(false);
         testEventHandler2.setEventReceived(false);
 
-        TestEvent testEvent = new TestEvent();
+        TestEvent testEvent = testEventFactory.create();
         testEvent.setName("A test event");
 
-        gameEventRegistry.fire(testEvent);
+        testEvent.fire();
 
         assert (testEventHandler.isEventReceived());
         assert (testEventHandler2.isEventReceived());

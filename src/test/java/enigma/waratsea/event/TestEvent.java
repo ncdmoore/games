@@ -4,7 +4,7 @@ import engima.waratsea.event.GameEvent;
 import lombok.Getter;
 import lombok.Setter;
 
-public class TestEvent implements GameEvent {
+public class TestEvent extends GameEvent {
     @Getter
     @Setter
     private String action;
