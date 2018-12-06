@@ -15,7 +15,6 @@ import java.util.Map;
 @Singleton
 public class GameEventRegistry {
     private static Map<Class<?>, List<GameEventHandler>> registry = new HashMap<>();
-    private static Map<Class<?>, List<GameEventHandler>> unregistry = new HashMap<>();
 
     /**
      * Register for an event.
@@ -36,7 +35,6 @@ public class GameEventRegistry {
             return;
         }
 
-
         log.info("Register {} for {}", eventClass, eventHandler);
         registry.get(eventClass).add(eventHandler);
         log.info("{} contains {} handlers", eventClass, registry.get(eventClass).size());
@@ -49,15 +47,25 @@ public class GameEventRegistry {
      * @param eventHandler -
      * @param <E> -
      */
-    public <E> void stopFutureEvents(final Class<? extends GameEvent> eventClass, final GameEventHandler<E> eventHandler) {
+    public <E> void unregister(final Class<? extends GameEvent> eventClass, final GameEventHandler<E> eventHandler) {
 
-        if (!unregistry.containsKey(eventClass)) {
-            List<GameEventHandler> handlers = new ArrayList<>();
-            unregistry.put(eventClass, handlers);
-        }
+        log.info("Unegister {} for {}", eventClass, eventHandler);
 
-        log.info("Stop future events {} for {}", eventClass, eventHandler);
-        unregistry.get(eventClass).add(eventHandler);
+        if (registry.containsKey(eventClass)) {
+           List<GameEventHandler> handlers = registry.get(eventClass);
+
+           // Since the event handler can unregister during the processing of the notification
+           // we make a copy of the current list of handlers and update the copy. Then we
+           // replace the newly updated copy in the registry. This keeps this method from
+           // updating/writing to the registry while the fire method below is still using the
+           // registry. This avoids a data exception being thrown.
+           if (handlers.contains(eventHandler)) {
+               List<GameEventHandler> updatedHandlers = new ArrayList<>(handlers);
+               updatedHandlers.remove(eventHandler);
+               registry.put(eventClass, updatedHandlers);
+               log.info("{} contains {} handlers", eventClass, registry.get(eventClass).size());
+           }
+       }
     }
 
     /**
@@ -72,22 +80,5 @@ public class GameEventRegistry {
 
         List<GameEventHandler> handlers = registry.get(event.getClass());
         handlers.forEach(handler -> handler.notify(event));
-
-        // If the event handler has requested to stop receiving future events then the unregistry will contain an
-        // entry for that event handler. Remove that event handler from the registry.
-        //
-        // Note, that the event handler cannot directly unregister as that causes an exception in that this
-        // fire method is still executing and the event handler attempted to modify the handlers in use!
-        // Thus, the event handler places itself in the un-registry by calling stopFutureEvents.
-        // Once the event handler is completely through executing its code we come here and determine if the
-        // event handler should be unregistered.
-        //
-        // Once an event handler is removed from the registry it is also removed from the un-registry.
-        if (unregistry.containsKey(event.getClass())) {
-            List<GameEventHandler> unregisteredHandlers = unregistry.get(event.getClass());
-            handlers.removeAll(unregisteredHandlers);
-            unregisteredHandlers.clear();
-            log.info("{} contains {} handlers", event.getClass(), registry.get(event.getClass()).size());
-        }
     }
 }

@@ -13,6 +13,7 @@ public class GameEventTest {
     private static TestEventHandler testEventHandler;
     private static TestEventHandler testEventHandler2;
     private static TestEventFactory testEventFactory;
+    private static TestEventHandlerUnregister testEventHandlerUnregister;
 
 
     @BeforeClass
@@ -23,6 +24,7 @@ public class GameEventTest {
         testEventHandler = injector.getInstance(TestEventHandler.class);
         testEventHandler2 = injector.getInstance(TestEventHandler.class);
         testEventFactory = injector.getInstance(TestEventFactory.class);
+        testEventHandlerUnregister = injector.getInstance(TestEventHandlerUnregister.class);
     }
 
     @Test
@@ -39,22 +41,14 @@ public class GameEventTest {
 
     @Test
     public void testEventFireAndRecptionUnregister() {
-        gameEventRegistry.register(TestEvent.class, testEventHandler);
-
-        gameEventRegistry.stopFutureEvents(TestEvent.class, testEventHandler);
+        gameEventRegistry.register(TestEvent.class, testEventHandlerUnregister);
 
         TestEvent testEvent = testEventFactory.create();
         testEvent.setName("A test event");
 
         testEvent.fire();
 
-        assert (testEventHandler.isEventReceived());                                                                    // Must receive at least one event, to stop receiving future events.
-
-        testEventHandler.setEventReceived(false);
-
-        testEvent.fire();
-
-        assert (!testEventHandler.isEventReceived());
+        assert (testEventHandlerUnregister.isEventReceived());
     }
 
     @Test
