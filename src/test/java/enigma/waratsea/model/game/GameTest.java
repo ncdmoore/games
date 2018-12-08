@@ -39,7 +39,7 @@ public class GameTest {
         List<Scenario> scenarios = game.initScenarios();
         game.setScenario(scenarios.get(0));
         game.setHumanSide(Side.ALLIES);
-        game.initTaskForces();
+        game.start();
 
         List<TaskForce> humanForces = game.getHumanPlayer().getTaskForces();
         List<TaskForce> computerForces = game.getComputerPlayer().getTaskForces();

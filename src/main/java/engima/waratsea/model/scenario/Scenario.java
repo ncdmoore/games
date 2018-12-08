@@ -35,7 +35,6 @@ public class Scenario implements Comparable<Scenario> {
     @Setter
     private String description;
 
-    @Setter
     private Date date;
 
     @Getter
@@ -56,6 +55,15 @@ public class Scenario implements Comparable<Scenario> {
     }
 
     /**
+     * Set the scenaro start date.
+     * @param date The scenario start date.
+     */
+    @SuppressWarnings("unused") // Gson sets the date.
+    public void setDate(final Date date) {
+        this.date = new Date(date.getTime());
+    }
+
+    /**
      * Returns the string value of the scenario. This is used in the javafx list view control.
      *
      * @return The string value of the scenario.
@@ -73,7 +81,7 @@ public class Scenario implements Comparable<Scenario> {
      * scenario.
      */
     @Override
-    public int compareTo(@NotNull Scenario otherScenario) {
+    public int compareTo(@NotNull final Scenario otherScenario) {
         return id.compareTo(otherScenario.id);
     }
 
@@ -84,7 +92,7 @@ public class Scenario implements Comparable<Scenario> {
      * @return True if the two scenario objects are equal. False otherwise.
      */
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
         return (other instanceof Scenario) && id.equals(((Scenario) other).id);
     }
 

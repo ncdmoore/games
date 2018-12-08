@@ -2,6 +2,7 @@ package engima.waratsea.utility;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -23,7 +24,7 @@ public class ProperyWrapper {
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(name)) {
             properties.load(inputStream);
             log.info("Loaded properties: {}", name);
-        } catch (Exception ex) {
+        } catch (IOException | RuntimeException ex) {
             log.warn("Unable to open resource file {}", name);
         }
     }

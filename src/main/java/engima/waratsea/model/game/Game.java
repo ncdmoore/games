@@ -1,9 +1,9 @@
 package engima.waratsea.model.game;
 
 import com.google.inject.Inject;
-import engima.waratsea.event.DateEventFactory;
+import engima.waratsea.event.GameEvent;
 import engima.waratsea.event.ShipEvent;
-import engima.waratsea.event.ShipEventFactory;
+import engima.waratsea.event.TurnEvent;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.scenario.ScenarioLoader;
 import engima.waratsea.model.ships.TaskForce;
@@ -41,10 +41,6 @@ public class Game {
     private final ScenarioLoader scenarioLoader;
 
 
-
-    private ShipEventFactory shipEventFactory;
-    private DateEventFactory dateEventFactory;
-
     @Getter
     @Setter
     private Scenario scenario;
@@ -59,14 +55,10 @@ public class Game {
     @Inject
     public Game(@Named("Human") final Player humanPlayer,
                 @Named("Computer") final Player computerPlayer,
-                final ScenarioLoader scenarioLoader,
-                final ShipEventFactory shipEventFactory,
-                final DateEventFactory dateEventFactory) {
+                final ScenarioLoader scenarioLoader) {
         this.humanPlayer = humanPlayer;
         this.computerPlayer = computerPlayer;
         this.scenarioLoader = scenarioLoader;
-        this.shipEventFactory = shipEventFactory;
-        this.dateEventFactory = dateEventFactory;
     }
 
     /**
@@ -94,7 +86,9 @@ public class Game {
      * Initialize the task force data for both players.
      * @throws ScenarioException Indicates the scenario data could not be loaded.
      */
-    public void initTaskForces() throws ScenarioException {                                                             // New Game Step 3.
+    public void start() throws ScenarioException {                                                                      // New Game Step 3.
+        GameEvent.init();
+
         String scenarioName = scenario.getName();
 
         List<TaskForce> taskForces = scenarioLoader.loadTaskForce(scenarioName, humanSide);
@@ -103,17 +97,22 @@ public class Game {
         computerPlayer.setTaskForces(taskForces);
 
 
-        ShipEvent s = shipEventFactory.create();
+        ShipEvent s = new ShipEvent();
         s.setAction("Spotted");
         s.setName("Bismarck");
 
         s.fire();
 
-        ShipEvent x = shipEventFactory.create();
+        ShipEvent x = new ShipEvent();
         x.setAction("Sunk");
         x.setName("hood");
 
         x.fire();
+
+
+        TurnEvent t = new TurnEvent();
+        t.setTurn(10);
+        t.fire();
 
     }
 }
