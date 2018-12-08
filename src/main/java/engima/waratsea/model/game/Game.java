@@ -2,8 +2,10 @@ package engima.waratsea.model.game;
 
 import com.google.inject.Inject;
 import engima.waratsea.event.GameEvent;
-import engima.waratsea.event.ShipEvent;
-import engima.waratsea.event.TurnEvent;
+import engima.waratsea.event.ship.ShipEvent;
+import engima.waratsea.event.ship.ShipEventAction;
+import engima.waratsea.event.ship.ShipEventType;
+import engima.waratsea.event.turn.TurnEvent;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.scenario.ScenarioLoader;
 import engima.waratsea.model.ships.TaskForce;
@@ -98,13 +100,15 @@ public class Game {
 
 
         ShipEvent s = new ShipEvent();
-        s.setAction("Spotted");
-        s.setName("Bismarck");
+        s.setAction(ShipEventAction.DAMAGED_SURFACE_COMBAT);
+        s.setShipType(ShipEventType.BATTLESHIP);
+        s.setSide(Side.AXIS);
+        s.setName("Warspite");
 
         s.fire();
 
         ShipEvent x = new ShipEvent();
-        x.setAction("Sunk");
+        x.setAction(ShipEventAction.SUNK);
         x.setName("hood");
 
         x.fire();

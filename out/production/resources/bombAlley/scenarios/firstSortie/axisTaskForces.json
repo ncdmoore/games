@@ -58,6 +58,20 @@
     "title": "Emergency Force",
     "location": "AL13",
     "state": "RESERVE",
+    "releaseShipEvents": [
+      {
+        "action": "SPOTTED",
+        "side": "ALLIES",
+        "taskForceName": "*",
+        "shipType": "BATTLESHIP"
+      },
+      {
+        "action": "DAMAGED_SURFACE_COMBAT",
+        "side": "AXIS",
+        "taskForceName": "*",
+        "shipType": "ANY"
+      }
+    ],
     "ships": [
       "BB01 Conte di Cavour",
       "BB02 Guilio Cesare",

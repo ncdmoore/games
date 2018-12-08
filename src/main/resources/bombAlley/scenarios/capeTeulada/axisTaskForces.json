@@ -1,0 +1,92 @@
+[
+  {
+    "name": "TF1",
+    "title": "Naples Force",
+    "location": "AG12",
+    "state": "ACTIVE",
+    "ships": [
+      "BB01 Giulio Cesare",
+      "BB06 Vittorio Veneto",
+      "CA04 Pola",
+      "CA05 Fiume",
+      "CA06 Gorizia",
+      "DD13 Freccia",
+      "DD14 Dardo",
+      "DD15 Saetta",
+      "DD25 Oriani",
+      "DD26 Gioberti",
+      "DD27 Carducci",
+      "DD28 Alfieri",
+      "DD33 Granatiere",
+      "DD35 Bersagliere",
+      "DD38 Fuciliere",
+      "DD39 Alpino"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "Messina Force",
+    "location": "AJ17",
+    "state": "ACTIVE",
+    "ships": [
+      "CA01 Trento",
+      "CA02 Trieste",
+      "CA07 Bolzano",
+      "DD36 Carabiniere",
+      "DD37 Ascari",
+      "DD40 Lanciere"
+    ]
+  },
+  {
+    "name": "TF3",
+    "title": "Palermo Force",
+    "location": "AG17",
+    "state": "ACTIVE",
+    "ships": [
+      "DE46 Spica-1",
+      "DE47 Spica-2",
+      "DE48 Spica-3",
+      "DE49 Spica-4"
+    ]
+  },
+  {
+    "name": "TF4",
+    "title": "Brinidisi Bombardment Force",
+    "location": "AN13",
+    "state": "RESERVE",
+    "releaseTurnEvents" : [
+      {
+        "turn": 24
+      }
+    ],
+    "ships": [
+      "DD03 Da Recco",
+      "DD07 Pessagno",
+      "DD08 Pigafetta",
+      "DD51 Riboty",
+      "DE10 Sirtori-1",
+      "DE11 Sirtori-2"
+    ]
+  },
+  {
+    "name": "TF5",
+    "title": "Otranto Support Force",
+    "location": "AN13",
+    "state": "RESERVE",
+    "releaseShipEvents" : [
+      {
+        "action": "ATTACKED",
+        "side": "AXIS",
+        "taskForceName": "TF4"
+      }
+    ],
+    "ships": [
+      "DD03 Da Recco",
+      "DD07 Pessagno",
+      "DD08 Pigafetta",
+      "DD51 Riboty",
+      "DE10 Sirtori-1",
+      "DE11 Sirtori-2"
+    ]
+  }
+]

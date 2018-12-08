@@ -1,5 +1,7 @@
 package engima.waratsea.event;
 
+import engima.waratsea.event.ship.ShipEvent;
+import engima.waratsea.event.turn.TurnEvent;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -32,13 +34,13 @@ public abstract class GameEvent {
 
         // This exact event handler already receives events of this type.
         if (list.contains(handler)) {
-            log.warn("{}: Duplicate handler {}", clazz, handler.getClass());
+            log.warn("{}: Duplicate handler: {}", clazz, handler.getClass());
             return list;
         }
 
         List<T> updatedList = new ArrayList<>(list);
 
-        log.info("{}: Register handler {}", clazz.getSimpleName(), handler);
+        log.info("{}: Register handler: {}", clazz.getSimpleName(), handler);
         updatedList.add(handler);
         log.info("{}: Contains {} handlers", clazz.getSimpleName(), updatedList.size());
         return updatedList;
@@ -54,7 +56,7 @@ public abstract class GameEvent {
      * @return The updated list with the event handler removed.
      */
     protected static <T> List<T> remove(final Class<?> clazz, final List<T> list, final T handler) {
-        log.info("{}: Unegister  {}", clazz.getSimpleName(), handler.getClass());
+        log.info("{}: Unregister handler: {}", clazz.getSimpleName(), handler);
 
         // Since the event handler can unregister during the processing of the notification
         // we make a copy of the current list of handlers and update the copy. Then we
@@ -65,7 +67,7 @@ public abstract class GameEvent {
         if (list.contains(handler)) {
             updatedList = new ArrayList<>(list);
             updatedList.remove(handler);
-            log.info("{}: Contains {} handlers", clazz.getSimpleName(), list.size());
+            log.info("{}: Contains {} handlers", clazz.getSimpleName(), updatedList.size());
         }
 
         return updatedList;

@@ -1,4 +1,6 @@
-package engima.waratsea.event;
+package engima.waratsea.event.ship;
+
+import engima.waratsea.event.ship.ShipEvent;
 
 /**
  * Implement this interface to receive ship events.

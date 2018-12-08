@@ -1,5 +1,6 @@
-package engima.waratsea.event;
+package engima.waratsea.event.turn;
 
+import engima.waratsea.event.GameEvent;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,7 @@ import java.util.List;
  */
 @Slf4j
 public class TurnEvent extends GameEvent {
-    private static List<TurnEventHandler> handlers = new ArrayList<>();
+    private static transient List<TurnEventHandler> handlers = new ArrayList<>();
 
     /**
      * Initialize the turn event class. This method clears out all turn event handlers.
@@ -51,4 +52,30 @@ public class TurnEvent extends GameEvent {
     @Getter
     @Setter
     private int turn;
+
+    /**
+     * Determines if two turn events are equal.
+     *
+     * @param other The other turn event to test for equality.
+     * @return True if the turn events are equal. False otherwise.
+     */
+    @Override
+    public boolean equals(final Object other) {
+        if (other instanceof TurnEvent) {
+            return turn == ((TurnEvent) other).turn;
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
+     * Defined just to make findbugs happy.
+     *
+     * @return The super classes hashcode.
+     */
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

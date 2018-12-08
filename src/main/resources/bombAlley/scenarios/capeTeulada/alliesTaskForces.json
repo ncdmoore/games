@@ -1,0 +1,124 @@
+[
+  {
+    "name": "TF1",
+    "title": "Detached Force",
+    "location": "BE31",
+    "state": "ACTIVE",
+    "ships": [
+      "BB10 Ramillies",
+      "CA01 Berwick",
+      "CL35 Newcastle",
+      "DD38 Defender",
+      "DD61 Gallant",
+      "DD67 Greyhound",
+      "DD69 Griffin",
+      "DD71 Hereward"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "Covering Force",
+    "location": "BE31",
+    "state": "ACTIVE",
+    "ships": [
+      "CVL04 Eagle",
+      "BB05 Barham",
+      "BB06 Malaya"
+    ]
+  },
+  {
+    "name": "TF3",
+    "title": "Mediterranean Force",
+    "location": "BE31",
+    "state": "RESERVE",
+    "releaseTurnEvents" : [
+      {
+        "turn": 24
+      }
+    ],
+    "ships": [
+      "BB02 Warspite",
+      "BB03 Valiant",
+      "CV05 Illustrious",
+      "CL25 Ajax",
+      "CL28 Orion",
+      "CL03 Sydney",
+      "DD46 Encounter",
+      "DD72 Hero",
+      "DD76 Hyperion",
+      "DD78 Ilex",
+      "DD105 Mohawk",
+      "DD106 Nubian",
+      "DD114 Janus",
+      "DD117 Jervis",
+      "DD118 Juno"
+    ]
+  },
+  {
+    "name": "TF4",
+    "title": "Malta Convoy Escort",
+    "location": "BE31",
+    "state": "ACTIVE",
+    "ships": [
+      "CL34 Glasgow",
+      "CL38 Gloucester",
+      "CA12 York"
+    ]
+  },
+  {
+    "name": "TF5",
+    "title": "Westbound Convoy",
+    "location": "BE31",
+    "state": "ACTIVE",
+    "ships": [
+      "CL06 Coventry",
+      "CL10 Calcutta",
+      "DD35 Dainty",
+      "DD37 Decoy",
+      "DD69 Hasty",
+      "DD70 Javock",
+      "TR01",
+      "TR02",
+      "TR03",
+      "TR04"
+    ]
+  },
+  {
+    "name": "TF6",
+    "title": "Eastbound Convoy",
+    "location": "F20",
+    "state": "ACTIVE",
+    "ships": [
+      "CL37 Southampton",
+      "CL40 Manchester",
+      "DD74 Hotspur",
+      "DE97 Flower-1",
+      "DE98 Flower-2",
+      "DE99 Flower-3",
+      "DE100 Flower-4",
+      "TR05",
+      "TR06",
+      "TR07"
+    ]
+  },
+  {
+    "name": "TF7",
+    "title": "Covering Group",
+    "location": "F20",
+    "state": "ACTIVE",
+    "ships": [
+      "BC01 Renown",
+      "CV04 Ark Royal",
+      "CL17 Despatch",
+      "CL36 Sheffield",
+      "DD53 Faulknor",
+      "DD55 Firedrake",
+      "DD56 Forester",
+      "DD60 Fury",
+      "DD35 Ducan",
+      "DD113 Jaguar",
+      "DD123 Kelvin",
+      "DE01 V&W"
+    ]
+  }
+]
