@@ -53,4 +53,13 @@ public class ViewProps {
     public int getInt(final String key) {
         return props.getInt(key);
     }
+
+    /**
+     * Get a double property.
+     * @param key The name of the property to get.
+     * @return The value of the property.
+     */
+    public double getDouble(final String key) {
+        return props.getDouble(key);
+    }
 }

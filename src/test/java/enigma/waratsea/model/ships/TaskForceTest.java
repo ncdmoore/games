@@ -3,6 +3,7 @@ package enigma.waratsea.model.ships;
 import engima.waratsea.event.ship.ShipEvent;
 import engima.waratsea.event.ship.ShipEventAction;
 import engima.waratsea.event.ship.ShipEventType;
+import engima.waratsea.event.turn.RandomTurnEvent;
 import engima.waratsea.event.turn.TurnEvent;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ships.TaskForce;
@@ -11,6 +12,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TaskForceTest {
 
@@ -123,5 +127,63 @@ public class TaskForceTest {
         event.fire();
 
         assert (taskForce.getState() == TaskForceState.RESERVE);
+    }
+
+    @Test
+    public void testTaskForceActivateRandomTurnEventExactTurn() {
+        TaskForce taskForce = new TaskForce();
+        taskForce.setState(TaskForceState.RESERVE);
+
+        Set<Integer> releaseValues = Stream.of(4, 5, 6).collect(Collectors.toSet());
+
+        RandomTurnEvent releaseEvent = new RandomTurnEvent();
+        releaseEvent.setTurn(1);
+        releaseEvent.setValues(releaseValues);
+
+        List<RandomTurnEvent> releaseEvents = new ArrayList<>();
+        releaseEvents.add(releaseEvent);
+
+        taskForce.setReleaseRandomTurnEvents(releaseEvents);
+        taskForce.registerEvents();
+
+        RandomTurnEvent firedEvent = new RandomTurnEvent();
+        firedEvent.setTurn(1);
+        firedEvent.setValues(Stream.of(5).collect(Collectors.toSet()));
+
+
+        assert (taskForce.getState() == TaskForceState.RESERVE);
+
+        firedEvent.fire();
+
+        assert (taskForce.getState() == TaskForceState.ACTIVE);
+    }
+
+    @Test
+    public void testTaskForceActivateRandomTurnEventGreaterThan() {
+        TaskForce taskForce = new TaskForce();
+        taskForce.setState(TaskForceState.RESERVE);
+
+        Set<Integer> releaseValues = Stream.of(1).collect(Collectors.toSet());
+
+        RandomTurnEvent releaseEvent = new RandomTurnEvent();
+        releaseEvent.setTurnGreaterThan(16);
+        releaseEvent.setValues(releaseValues);
+
+        List<RandomTurnEvent> releaseEvents = new ArrayList<>();
+        releaseEvents.add(releaseEvent);
+
+        taskForce.setReleaseRandomTurnEvents(releaseEvents);
+        taskForce.registerEvents();
+
+        RandomTurnEvent firedEvent = new RandomTurnEvent();
+        firedEvent.setTurn(16);
+        firedEvent.setValues(Stream.of(1).collect(Collectors.toSet()));
+
+
+        assert (taskForce.getState() == TaskForceState.RESERVE);
+
+        firedEvent.fire();
+
+        assert (taskForce.getState() == TaskForceState.ACTIVE);
     }
 }

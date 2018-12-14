@@ -23,3 +23,53 @@
     -fx-alignment: top-center;
 }
 
+
+.active {
+    -fx-text-fill: black;
+}
+
+.reserve {
+    -fx-text-fill: red;
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-text-fill: white;
+}
+
+.marker {
+}
+
+
+.popup-mapRef {
+    -fx-padding: 0 10 0 10;
+    -fx-spacing: 5;
+    //-fx-background-color: linear-gradient( to left bottom, indianred, white, lightgreen);
+    //-fx-background-color: linear-gradient( to left bottom, tomato, white, steelblue);
+    -fx-background-color: linear-gradient( to right bottom, white, silver);
+    -fx-border-color: black;
+    -fx-border-width: 0.5;
+    -fx-effect:  dropshadow(one-pass-box, black, 8, 0.0 , 2, 0);
+}
+
+.popup-mapRef-text {
+    -fx-font: normal 8pt "Lucida Grande";
+    -fx-fill: black;
+}
+
+.popup-name {
+    -fx-padding: 10 10 10 10;
+    -fx-spacing: 5;
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, white 0%, khaki 100%);
+    -fx-border-color: black;
+    -fx-border-width: 0.5;
+    -fx-effect:  dropshadow(one-pass-box, black, 8, 0.0 , 2, 0);
+}
+
+.popup-name-text {
+    -fx-font: normal 8pt "Lucida Grande";
+}
+
+.popup-name-text-inactive {
+    -fx-font: normal 8pt "Lucida Grande";
+    -fx-fill: red;
+}

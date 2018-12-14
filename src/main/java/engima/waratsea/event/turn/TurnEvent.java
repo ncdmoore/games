@@ -56,26 +56,11 @@ public class TurnEvent extends GameEvent {
     /**
      * Determines if two turn events are equal.
      *
-     * @param other The other turn event to test for equality.
+     * @param firedEvent The other turn event to test for equality.
      * @return True if the turn events are equal. False otherwise.
      */
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof TurnEvent) {
-            return turn == ((TurnEvent) other).turn;
-        } else {
-            return false;
-        }
-
+    public boolean match(final TurnEvent firedEvent) {
+            return turn == firedEvent.turn;
     }
 
-    /**
-     * Defined just to make findbugs happy.
-     *
-     * @return The super classes hashcode.
-     */
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }

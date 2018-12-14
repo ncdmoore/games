@@ -74,58 +74,41 @@ public class ShipEvent extends GameEvent {
     /**
      * Determines if two ship events are equal.
      *
-     * @param other The other ship event to test for equality.
+     * @param firedEvent The other ship event to test for equality.
      * @return True if the ship events are equal. False otherwise.
      */
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof ShipEvent) {
+    public boolean match(final ShipEvent firedEvent) {
 
-            ShipEvent otherShipEvent = (ShipEvent) other;
+        return side == firedEvent.side
+                && action == firedEvent.action
+                && isShipTypeEqual(firedEvent.shipType)
+                && isTaskForceNameEqual(firedEvent.taskForceName);
 
-            return side == otherShipEvent.side
-                    && action == otherShipEvent.action
-                    && isShipTypeEqual(otherShipEvent.shipType)
-                    && isTaskForceNameEqual(otherShipEvent.taskForceName);
-
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Defined just to make findbugs happy.
-     *
-     * @return The super classes hashcode.
-     */
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 
     /**
      * Determine if the task force names between the two ship events are equal.
      *
-     * @param otherTaskForceName The other task force name
+     * @param firedTaskForceName The other task force name
      * @return True if the two task force names are equal. False otherwise.
      */
-    private boolean isTaskForceNameEqual(final String otherTaskForceName) {
-        return taskForceName == null || otherTaskForceName == null                                                      // Non specified task force name matches all.
-                || taskForceName.equalsIgnoreCase(otherTaskForceName)
+    private boolean isTaskForceNameEqual(final String firedTaskForceName) {
+        return taskForceName == null || firedTaskForceName == null                                                      // Non specified task force name matches all.
+                || taskForceName.equalsIgnoreCase(firedTaskForceName)
                 || taskForceName.equalsIgnoreCase(WILDCARD)
-                || otherTaskForceName.equalsIgnoreCase(WILDCARD);
+                || firedTaskForceName.equalsIgnoreCase(WILDCARD);
     }
 
     /**
      * Determine if the ship types between two ship events are equal.
      *
-     * @param otherShipType The other ship event's ship type.
+     * @param firedShipType The other ship event's ship type.
      * @return True if the two ship event's ship types are equal. False otherwise.
      */
-    private boolean isShipTypeEqual(final ShipEventType otherShipType) {
+    private boolean isShipTypeEqual(final ShipEventType firedShipType) {
         return shipType == ShipEventType.ANY
-                || otherShipType == ShipEventType.ANY
-                || shipType == otherShipType;
+                || firedShipType == ShipEventType.ANY
+                || shipType == firedShipType;
 
     }
 }

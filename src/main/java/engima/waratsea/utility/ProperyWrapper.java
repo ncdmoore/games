@@ -30,9 +30,9 @@ public class ProperyWrapper {
     }
 
     /**
-     * Get a property value of action string.
+     * Get a property string value.
      *
-     * @param key the property to getImageView.
+     * @param key the property to get.
      * @return The value of the property.
      */
     public String getString(final String key) {
@@ -40,12 +40,22 @@ public class ProperyWrapper {
     }
 
     /**
-     * Get the property value of action int.
+     * Get the property int value.
      *
-     * @param key the property to getImageView.
+     * @param key the property to get.
      * @return The value of the property.
      */
     public int getInt(final String key) {
         return Integer.parseInt(properties.getProperty(key));
+    }
+
+
+    /**
+     * Get the property value.
+     * @param key the property to get.
+     * @return The value of the property.
+     */
+    public double getDouble(final String key) {
+        return Double.parseDouble(properties.getProperty(key));
     }
 }
