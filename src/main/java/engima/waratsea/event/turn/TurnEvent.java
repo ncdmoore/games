@@ -1,19 +1,23 @@
 package engima.waratsea.event.turn;
 
 import engima.waratsea.event.GameEvent;
+import engima.waratsea.event.GameEventHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Indicates that a turn event has occurred in the game. A new turn has started.
  */
 @Slf4j
 public class TurnEvent extends GameEvent {
-    private static transient List<TurnEventHandler> handlers = new ArrayList<>();
+    private static transient List<GameEventHandler<TurnEvent>> handlers = new ArrayList<>();
+    private static transient Map<Object, GameEventHandler<TurnEvent>> map = new HashMap<>();
 
     /**
      * Initialize the turn event class. This method clears out all turn event handlers.
@@ -25,19 +29,23 @@ public class TurnEvent extends GameEvent {
     /**
      * This is how event handlers register to receive turn event notifications.
      *
+     * @param handler The turn event handler.
      * @param turnEventHandler The turn event handler that is registered.
      */
-    public static void register(final TurnEventHandler turnEventHandler) {
+    public static void register(final Object handler, final GameEventHandler<TurnEvent> turnEventHandler) {
+        map.put(handler, turnEventHandler);
         handlers = add(TurnEvent.class, handlers, turnEventHandler);
     }
 
     /**
      * This is how event handlers unregister for turn event notifications.
      *
-     * @param turnEventHandler The turn event handler that is unregistered.
+     * @param handler The turn event handler that is unregistered.
      */
-    public static void unregister(final TurnEventHandler turnEventHandler) {
-        handlers = remove(TurnEvent.class, handlers, turnEventHandler);
+    public static void unregister(final Object handler) {
+        if (map.containsKey(handler)) {
+            handlers = remove(TurnEvent.class, handlers, map.get(handler));
+        }
     }
 
     /**

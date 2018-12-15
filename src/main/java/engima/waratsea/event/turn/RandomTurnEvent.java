@@ -1,12 +1,15 @@
 package engima.waratsea.event.turn;
 
 import engima.waratsea.event.GameEvent;
+import engima.waratsea.event.GameEventHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -14,7 +17,8 @@ import java.util.Set;
  */
 @Slf4j
 public class RandomTurnEvent extends GameEvent {
-    private static transient List<RandomTurnEventHandler> handlers = new ArrayList<>();
+    private static transient List<GameEventHandler<RandomTurnEvent>> handlers = new ArrayList<>();
+    private static transient Map<Object, GameEventHandler<RandomTurnEvent>> map = new HashMap<>();
 
     /**
      * Initialize the random turn event class. This method clears out all random turn event handlers.
@@ -26,19 +30,23 @@ public class RandomTurnEvent extends GameEvent {
     /**
      * This is how event handlers register to receive random turn event notifications.
      *
+     * @param handler The handler of the random turn event.
      * @param randomTurnEventHandler The random turn event handler that is registered.
      */
-    public static void register(final RandomTurnEventHandler randomTurnEventHandler) {
+    public static void register(final Object handler, final GameEventHandler<RandomTurnEvent> randomTurnEventHandler) {
+        map.put(handler, randomTurnEventHandler);
         handlers = add(RandomTurnEvent.class, handlers, randomTurnEventHandler);
     }
 
     /**
      * This is how event handlers unregister for random turn event notifications.
      *
-     * @param randomTurnEventHandler The random turn event handler that is unregistered.
+     * @param handler The random turn event handler that is unregistered.
      */
-    public static void unregister(final RandomTurnEventHandler randomTurnEventHandler) {
-        handlers = remove(RandomTurnEvent.class, handlers, randomTurnEventHandler);
+    public static void unregister(final Object handler) {
+        if (map.containsKey(handler)) {
+            handlers = remove(RandomTurnEvent.class, handlers, map.get(handler));
+        }
     }
 
     /**

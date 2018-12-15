@@ -99,7 +99,7 @@ public class Game {
         computerPlayer.setTaskForces(taskForces);
 
 
-        /*ShipEvent s = new ShipEvent();
+        ShipEvent s = new ShipEvent();
         s.setAction(ShipEventAction.DAMAGED_SURFACE_COMBAT);
         s.setShipType(ShipEventType.BATTLESHIP);
         s.setSide(Side.AXIS);
@@ -116,7 +116,7 @@ public class Game {
 
         TurnEvent t = new TurnEvent();
         t.setTurn(10);
-        t.fire();*/
+        t.fire();
 
     }
 }

@@ -1,20 +1,25 @@
 package engima.waratsea.event.ship;
 
 import engima.waratsea.event.GameEvent;
+import engima.waratsea.event.GameEventHandler;
 import engima.waratsea.model.game.Side;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Indicates that a ship event has occurred in the game.
  */
 @Slf4j
 public class ShipEvent extends GameEvent {
-    private static transient List<ShipEventHandler> handlers = new ArrayList<>();
+    private static transient List<GameEventHandler<ShipEvent>> handlers = new ArrayList<>();
+    private static transient Map<Object, GameEventHandler<ShipEvent>> map = new HashMap<>();
+
     private static final transient String WILDCARD = "*";
 
     /**
@@ -22,24 +27,29 @@ public class ShipEvent extends GameEvent {
      */
     public static void init() {
         handlers.clear();
+        map.clear();
     }
 
     /**
      * This is how event handlers register to receive ship event notifications.
      *
+     * @param handler The object that handles the event.
      * @param shipEventHandler The ship event handler that is registered.
      */
-    public static void register(final ShipEventHandler shipEventHandler) {
+    public static void register(final Object handler, final GameEventHandler<ShipEvent> shipEventHandler) {
+        map.put(handler, shipEventHandler);
         handlers = add(ShipEvent.class, handlers, shipEventHandler);
     }
 
     /**
      * This is how event handlers unregister for ship event notifications.
      *
-     * @param shipEventHandler The ship event handler that is unregistered.
+     * @param handler The ship event handler that is unregistered.
      */
-    public static void unregister(final ShipEventHandler shipEventHandler) {
-        handlers = remove(ShipEvent.class, handlers, shipEventHandler);
+    public static void unregister(final Object handler) {
+        if (map.containsKey(handler)) {
+            handlers = remove(ShipEvent.class, handlers, map.get(handler));
+        }
     }
 
     @Getter

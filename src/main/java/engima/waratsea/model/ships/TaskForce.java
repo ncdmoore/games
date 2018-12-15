@@ -1,11 +1,8 @@
 package engima.waratsea.model.ships;
 
 import engima.waratsea.event.ship.ShipEvent;
-import engima.waratsea.event.ship.ShipEventHandler;
 import engima.waratsea.event.turn.RandomTurnEvent;
-import engima.waratsea.event.turn.RandomTurnEventHandler;
 import engima.waratsea.event.turn.TurnEvent;
-import engima.waratsea.event.turn.TurnEventHandler;
 import engima.waratsea.model.target.Target;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +14,7 @@ import java.util.List;
  * This class represents a task force, which is a collection of ships.
  */
 @Slf4j
-public class TaskForce implements ShipEventHandler, TurnEventHandler, RandomTurnEventHandler {
+public class TaskForce  {
 
     @Getter
     @Setter
@@ -74,15 +71,15 @@ public class TaskForce implements ShipEventHandler, TurnEventHandler, RandomTurn
      */
     public void registerEvents() {
         if (state == TaskForceState.RESERVE && releaseShipEvents != null) {
-            ShipEvent.register(this);
+            ShipEvent.register(this, this::handleShipEvent);
         }
 
         if (state == TaskForceState.RESERVE && releaseTurnEvents != null) {
-            TurnEvent.register(this);
+            TurnEvent.register(this, this::handleTurnEvent);
         }
 
         if (state == TaskForceState.RESERVE && releaseRandomTurnEvents != null) {
-            RandomTurnEvent.register(this);
+            RandomTurnEvent.register(this, this::handleRandomTurnEvent);
         }
     }
 
@@ -91,8 +88,7 @@ public class TaskForce implements ShipEventHandler, TurnEventHandler, RandomTurn
      *
      * @param event The fired event.
      */
-    @Override
-    public void notify(final ShipEvent event) {
+    private void handleShipEvent(final ShipEvent event) {
         log.info("{} {} notify ship event {} {} {}", new Object[] {name, title, event.getAction(), event.getSide(), event.getShipType()});
 
         boolean release = releaseShipEvents.stream().anyMatch(shipEvent -> shipEvent.match(event));
@@ -109,8 +105,7 @@ public class TaskForce implements ShipEventHandler, TurnEventHandler, RandomTurn
      *
      * @param event the fired event.
      */
-    @Override
-    public void notify(final TurnEvent event) {
+    private void handleTurnEvent(final TurnEvent event) {
         log.info("{} {} notify turn event {}", new Object[] {name, title, event.getTurn()});
 
         boolean release = releaseTurnEvents.stream().anyMatch(turnEvent -> turnEvent.match(event));
@@ -127,8 +122,7 @@ public class TaskForce implements ShipEventHandler, TurnEventHandler, RandomTurn
      *
      * @param event the fired event.
      */
-    @Override
-    public void notify(final RandomTurnEvent event) {
+    private void handleRandomTurnEvent(final RandomTurnEvent event) {
         log.info("{} {} notify random turn event {}", new Object[] {name, title, event.getTurn()});
 
         boolean release = releaseRandomTurnEvents.stream().anyMatch(randomTurnEvent -> randomTurnEvent.match(event));
