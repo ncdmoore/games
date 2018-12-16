@@ -2,9 +2,8 @@ package engima.waratsea.view;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.ships.TaskForceState;
+import engima.waratsea.presenter.map.TaskForceMarkerDTO;
 import engima.waratsea.view.map.MapView;
-import engima.waratsea.view.map.Marker;
-import engima.waratsea.view.map.PopUp;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -103,7 +102,6 @@ public class TaskForceView {
 
         VBox vBox = new VBox(titlePane, hBox, pushButtons);
 
-
         Scene scene = new Scene(vBox, sceneWidth, sceneHeight);
 
         scene.getStylesheets().add(cssResourceProvider.get(CSS_FILE));
@@ -185,19 +183,12 @@ public class TaskForceView {
     /**
      * Place a task force marker on the preview map.
      *
-     * @param marker The task force marker.
+     * @param dto Task force data transfer object.
      */
-    public void markTaskForceOnMap(final Marker marker) {
-         taskForceMap.addMarker(marker);
-    }
-
-    /**
-     * Place a task force marker's popup on the preview map.
-     *
-     * @param popUp The pop up to add.
-     */
-    public void addTaskForcePopUp(final PopUp popUp) {
-        taskForceMap.addPopUp(popUp);
+    public void markTaskForceOnMap(final TaskForceMarkerDTO dto) {
+        dto.setGridSize(taskForceMap.getGridSize());
+        dto.setXOffset(props.getInt("taskforce.previewMap.popup.xOffset"));
+        taskForceMap.markTaskForce(dto);
     }
 
     /**

@@ -12,17 +12,6 @@ import java.util.regex.Pattern;
 @Slf4j
 public final class GameMap {
 
-
-   private int gridSize;
-
-    /**
-     * Create a game map and specify the grid size.
-     * @param gridsize The size of the map's grid.
-     */
-   public void init(final int gridsize) {
-       this.gridSize = gridsize;
-   }
-
     /**
      * Convert a game map reference into grid coordinates.
      * @param mapRefernce game map reference.
@@ -47,7 +36,7 @@ public final class GameMap {
         log.info("Map reference: {}", mapRefernce);
         log.info("Grid row: {}, column: {}", row, column);
 
-        return new Grid(gridSize, row, column);
+        return new Grid(row, column);
     }
 
     /**
@@ -57,7 +46,7 @@ public final class GameMap {
      * @param columnLabel String that represents the column on the game map.
      * @return The integer equivalent of the given column string.
      */
-    private static int convertColumn(final String columnLabel) {
+    private int convertColumn(final String columnLabel) {
 
         char[] numericCharacters = columnLabel.toCharArray();
         final int alphabetSize = 26;

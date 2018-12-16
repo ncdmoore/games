@@ -1,11 +1,13 @@
 package engima.waratsea.view.map;
 
+import engima.waratsea.presenter.map.TaskForceMarkerDTO;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -21,7 +23,10 @@ public class MapView {
 
     private int numberOfRows;
     private int numberOfColumns;
+
+    @Getter
     private int gridSize;
+
     private int offset;
     private int yPopUpAdjust;
     private int yBottomThreshold;
@@ -30,8 +35,6 @@ public class MapView {
 
     private Map<String, Marker> markerMap = new HashMap<>();                //marker name -> grid.
     private Map<String, Marker> mapRefMarkerMap = new HashMap<>();          //map reference -> grid.
-    private Map<String, PopUp> popUpMap = new HashMap<>();                 //map name -> popup.
-    private Map<String, PopUp> mapRefPopUpMap = new HashMap<>();           //map reference -> popup.
 
     /**
      * The map view constructor.
@@ -77,44 +80,21 @@ public class MapView {
     }
 
     /**
-     * Place a marker on the grid map.
+     * Place the task force marker on the map.
      *
-     * @param marker The marker placed on the map.
+     * @param dto The task force marker data transfer object.
      */
-    public void addMarker(final Marker marker) {
-        log.info("addMarker {} {}, {}", new Object[]{marker.getName(), marker.getX(), marker.getY()});
+    public void markTaskForce(final TaskForceMarkerDTO dto) {
 
-        if (mapRefMarkerMap.containsKey(marker.getMapRef())) {
-            Marker existingMarker = mapRefMarkerMap.get(marker.getMapRef());
-            markerMap.put(marker.getName(), existingMarker);
+        if (mapRefMarkerMap.containsKey(dto.getMapReference())) {
+            Marker existingMarker = mapRefMarkerMap.get(dto.getMapReference());
+            existingMarker.addText(dto.getName(), dto.isActive());
+            markerMap.put(dto.getName(), existingMarker);
         } else {
-            marker.draw(map);
-            mapRefMarkerMap.put(marker.getMapRef(), marker);
-            markerMap.put(marker.getName(), marker);
-        }
-    }
-
-    /**
-     * Place a popUp on the map.
-     *
-      * @param popUp The popUp that is placed on the map.
-     */
-    public void addPopUp(final PopUp popUp) {
-
-        String name = popUp.getMarker().getName();
-        String mapRef = popUp.getMarker().getMapRef();
-        boolean active = popUp.getMarker().isActive();
-
-        log.info("addPopUp {} {} {},{} {}", new Object[]{name, mapRef, popUp.getMarker().getX(), popUp.getMarker().getY(), active});
-
-        if (mapRefPopUpMap.containsKey(mapRef)) {
-            PopUp existingPopUp = mapRefPopUpMap.get(mapRef);
-            popUpMap.put(name, existingPopUp);
-            existingPopUp.addText(name, active);
-        } else {
-            popUp.draw(active);
-            mapRefPopUpMap.put(mapRef, popUp);
-            popUpMap.put(name, popUp);
+            Marker marker = new Marker(dto);
+            marker.draw(map, dto.isActive());
+            mapRefMarkerMap.put(dto.getMapReference(), marker);
+            markerMap.put(dto.getName(), marker);
         }
     }
 
@@ -122,7 +102,7 @@ public class MapView {
      * This method is called to adjust the y coordinate of the popup's that are near the bottom of the map.
      */
     public void finish() {
-        popUpMap.values().stream().filter(p -> p.isPopUpNearMapBotton(yBottomThreshold))
+        markerMap.values().stream().filter(p -> p.isPopUpNearMapBotton(yBottomThreshold))
                 .forEach(p -> p.adjustY(yPopUpAdjust));
     }
 
@@ -132,8 +112,7 @@ public class MapView {
      * @param name specifies the marker to select.
      */
     public void selectMarker(final String name) {
-        markerMap.get(name).select();
-        popUpMap.get(name).display(map);
+        markerMap.get(name).select(map);
     }
 
     /**
@@ -142,8 +121,7 @@ public class MapView {
      * @param name specifies the marker to clear.
      */
     public void clearMarker(final String name) {
-        markerMap.get(name).clear();
-        popUpMap.get(name).hide(map);
+        markerMap.get(name).clear(map);
 
     }
 

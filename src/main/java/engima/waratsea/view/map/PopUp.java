@@ -1,13 +1,14 @@
 package engima.waratsea.view.map;
 
+import engima.waratsea.presenter.map.TaskForceMarkerDTO;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,23 +18,24 @@ public class PopUp {
 
     private static final int NAME_VBOX = 1;
 
-    @Getter
-    private final Marker marker;
-
+    private final String mapRef;
+    private final GridView gridView;
     private final int xOffset;
-    private EventHandler<? super MouseEvent> eventHandler;
-    private VBox popUp;
+    private final EventHandler<? super MouseEvent> eventHandler;
+
+    private VBox popUp = new VBox();
+    private List<String> names = new ArrayList<>();
 
     /**
      * Construct a popup for a given marker.
-     * @param marker The marker that corresponds to this popUp.
-     * @param xOffset The popups x offset from its marker.
-     * @param eventHandler Handles mouse clicks for this popUp.
+     * @param dto The data for the task force marker and associated popup.
      */
-    public PopUp(final Marker marker, final int xOffset, final EventHandler<? super MouseEvent> eventHandler) {
-        this.marker = marker;
-        this.xOffset = xOffset;
-        this.eventHandler = eventHandler;
+    public PopUp(final TaskForceMarkerDTO dto) {
+        this.names.add(dto.getName());
+        this.mapRef = dto.getMapReference();
+        this.gridView = dto.getGridView();
+        this.xOffset = dto.getXOffset();
+        this.eventHandler = dto.getPopupEventHandler();
     }
 
     /**
@@ -42,14 +44,13 @@ public class PopUp {
      * @param active indicates if the corresponding marker is active.
      */
     public void draw(final boolean active) {
-        popUp = new VBox();
 
-        Text mapRefText = new Text(marker.getMapRef());
+        Text mapRefText = new Text(mapRef);
         mapRefText.getStyleClass().add("popup-mapRef-text");
         VBox mapRefVbox = new VBox(mapRefText);
         mapRefVbox.getStyleClass().add("popup-mapRef");
 
-        Text nameText = new Text(marker.getName());
+        Text nameText = new Text(names.get(0));
 
         String textStyle = active ? "popup-name-text" : "popup-name-text-inactive";
 
@@ -60,8 +61,8 @@ public class PopUp {
         popUp.setOnMouseClicked(eventHandler);
 
         popUp.getChildren().addAll(mapRefVbox, nameVbox);
-        popUp.setLayoutX(marker.getX() + xOffset);
-        popUp.setLayoutY(marker.getY());
+        popUp.setLayoutX(gridView.getX() + xOffset);
+        popUp.setLayoutY(gridView.getY());
     }
 
     /** Add text to the popup.
@@ -70,6 +71,8 @@ public class PopUp {
      * @param active indicates if the corresponding marker is active.
      */
     public void addText(final String name, final boolean active) {
+        names.add(name);
+
         Text text = new Text(name);
 
         String textStyle = active ? "popup-name-text" : "popup-name-text-inactive";
@@ -99,15 +102,6 @@ public class PopUp {
         map.getChildren().remove(popUp);
     }
 
-    /**
-     * Determine if the pop up is near the bottom of the map.
-     *
-     * @param yThreshold The y threshold for which popups are moved upward to avoid running off the bottom of the map.
-     * @return True if the popup is near the bottom of the map.
-     */
-    public boolean isPopUpNearMapBotton(final int yThreshold) {
-        return popUp.getLayoutY() > yThreshold;
-    }
 
     /**
      * Move the marker's popup away from the bottom of the map.
@@ -118,5 +112,14 @@ public class PopUp {
         VBox vBox = (VBox) popUp.getChildren().get(NAME_VBOX);
         int size = vBox.getChildren().size();
         popUp.setLayoutY(popUp.getLayoutY() - (scale * size));
+    }
+
+    /**
+     * Get the y-coordinate of the popup.
+     *
+     * @return The y-coordinate of the popup.
+     */
+    public double getY() {
+        return popUp.getLayoutY();
     }
 }

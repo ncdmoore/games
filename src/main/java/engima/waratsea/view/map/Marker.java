@@ -1,67 +1,33 @@
 package engima.waratsea.view.map;
 
+import engima.waratsea.presenter.map.TaskForceMarkerDTO;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import lombok.Getter;
 
 /**
  * The class represents a marker on a map.
  */
 public class Marker {
 
-    @Getter
-    private String name;
-
-    @Getter
-    private String mapRef;
-
-    @Getter
-    private int x;
-
-    @Getter
-    private int y;
-
-    @Getter
-    private int size;
-
-    @Getter
-    private boolean active;
-
-    @Getter
-    private Rectangle rectangle;
-
     private final double opacity = 0.3;
 
-    private EventHandler<? super MouseEvent> eventHandler;
+    private final GridView gridView;
+    private final EventHandler<? super MouseEvent> eventHandler;
+    private final PopUp popUp;
+
+    private Rectangle rectangle;
 
     /**
      * Construct a marker.
-     * @param name The name of the marker.
-     * @param mapRef The location of the marker on the map. Map reference.
-     * @param x x-coordinate of the marker.
-     * @param y y-coordinate of the marker.
-     * @param size size of the marker.
-     * @param active indicates whether the marker is active or not.
-     * @param eventHandler Method that handles mouse clicks on this marker.
+     * @param dto All the data needed to create a marker.
      */
-    public Marker(final String name,
-                  final String mapRef,
-                  final int x,
-                  final int y,
-                  final int size,
-                  final boolean active,
-                  final EventHandler<? super MouseEvent> eventHandler) {
-
-        this.name = name;
-        this.mapRef = mapRef;
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.active = active;
-        this.eventHandler = eventHandler;
+    public Marker(final TaskForceMarkerDTO dto) {
+        this.gridView = dto.getGridView();
+        this.eventHandler = dto.getMarkerEventHandler();
+        this.popUp = new PopUp(dto);
     }
 
     /**
@@ -69,31 +35,50 @@ public class Marker {
      * Register a mouse click callback for the marker.
      *
      * @param map The map where the marker is drawn.
+     * @param active Indicates whether the popup contents are active or inactive.
      */
-    public void draw(final Group map) {
-        rectangle = new Rectangle(x, y, size, size);
+    public void draw(final Group map, final boolean active) {
+        rectangle = new Rectangle(gridView.getX(), gridView.getY(), gridView.getSize(), gridView.getSize());
         rectangle.setStroke(Color.BLACK);
         rectangle.setOpacity(opacity);
 
         setOnMouseClicked(eventHandler);
 
         map.getChildren().add(rectangle);
+
+        popUp.draw(active);
+    }
+
+    /**
+     * Add text to the marker's corresponding popup.
+     *
+     * @param name The text to add.
+     * @param active Indicates if the name is active or inactive.
+     */
+    public void addText(final String name, final boolean active) {
+        popUp.addText(name, active);
     }
 
     /**
      * Select this marker. The marker is now the currently selected marker.
+     *
+     * @param map The game map.
      */
-    public void select() {
+    public void select(final Group map) {
         rectangle.setFill(Color.BLACK);
         rectangle.setOpacity(1.0);
+        popUp.display(map);
     }
 
     /**
      * Clear this marker. The marker is no longer selected if it was selected.
+     *
+     * @param map The game map.
      **/
-    public void clear() {
+    public void clear(final Group map) {
         rectangle.setFill(Color.BLACK);
         rectangle.setOpacity(opacity);
+        popUp.hide(map);
     }
 
     /**
@@ -114,4 +99,24 @@ public class Marker {
     private void setOnMouseClicked(final EventHandler<? super MouseEvent> callback) {
         rectangle.setOnMouseClicked(callback);
     }
+
+    /**
+     * Move the marker's popup away from the bottom of the map.
+     *
+     * @param scale How much the y is adjusted per text item in the popup.
+     **/
+    public void adjustY(final int scale) {
+        popUp.adjustY(scale);
+    }
+
+    /**
+     * Determine if the pop up is near the bottom of the map.
+     *
+     * @param yThreshold The y threshold for which popups are moved upward to avoid running off the bottom of the map.
+     * @return True if the popup is near the bottom of the map.
+     */
+    public boolean isPopUpNearMapBotton(final int yThreshold) {
+        return popUp.getY() > yThreshold;
+    }
+
 }

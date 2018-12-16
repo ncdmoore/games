@@ -3,11 +3,7 @@ package engima.waratsea.presenter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.map.GameMap;
-import engima.waratsea.model.map.Grid;
-import engima.waratsea.model.ships.TaskForceState;
-import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.map.Marker;
-import engima.waratsea.view.map.PopUp;
+import engima.waratsea.presenter.map.TaskForceMarkerDTO;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +26,6 @@ public class TaskForcePresenter {
     private TaskForceView view;
     private final Game game;
     private GameMap gameMap;
-    private ViewProps props;
     private Stage stage;
 
     private TaskForce selectedTaskForce;
@@ -44,7 +39,6 @@ public class TaskForcePresenter {
      * @param view The corresponding view,
      * @param game The game object.
      * @param gameMap The preview game map.
-     * @param props The view properties.
      * @param scenarioPresenterProvider Provides the scenario presenter.
      * @param fatalErrorDialogProvider Provides the fatal error dialog.
      */
@@ -52,17 +46,13 @@ public class TaskForcePresenter {
     public TaskForcePresenter(final TaskForceView view,
                               final Game game,
                               final GameMap gameMap,
-                              final ViewProps props,
                               final Provider<ScenarioPresenter> scenarioPresenterProvider,
                               final Provider<FatalErrorDialog> fatalErrorDialogProvider) {
         this.view = view;
         this.game = game;
         this.gameMap = gameMap;
-        this.props = props;
         this.scenarioPresenterProvider = scenarioPresenterProvider;
         this.fatalErrorDialogProvider = fatalErrorDialogProvider;
-
-        this.gameMap.init(props.getInt("taskforce.previewMap.gridSize"));
     }
 
     /**
@@ -91,7 +81,6 @@ public class TaskForcePresenter {
      * Initialize the task force data.
      */
     private void initTaskForce() {
-
         try {
             game.start();
             view.setTaskForces(game.getHumanPlayer().getTaskForces());
@@ -102,7 +91,6 @@ public class TaskForcePresenter {
         }
     }
 
-
     /**
      * Mark the task forces on the preview map.
      */
@@ -110,12 +98,11 @@ public class TaskForcePresenter {
         List<TaskForce> taskForces = game.getHumanPlayer().getTaskForces();
 
         taskForces.forEach(taskForce -> {
-            Grid grid = gameMap.getGrid(taskForce.getLocation());
-            boolean active = taskForce.getState() == TaskForceState.ACTIVE;
-            Marker marker = new Marker(taskForce.getName(), taskForce.getLocation(), grid.getX(), grid.getY(), grid.getSize(), active, this::mouseClick);
-            PopUp popUp = new PopUp(marker, props.getInt("taskforce.previewMap.popup.xOffset"), this::closePopup);
-            view.markTaskForceOnMap(marker);
-            view.addTaskForcePopUp(popUp);
+            TaskForceMarkerDTO dto = new TaskForceMarkerDTO(taskForce);
+            dto.setGameMap(gameMap);
+            dto.setMarkerEventHandler(this::mouseClick);
+            dto.setPopupEventHandler(this::closePopup);
+            view.markTaskForceOnMap(dto);
         });
 
         view.finish();

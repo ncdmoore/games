@@ -67,6 +67,15 @@ public class TaskForce  {
     }
 
     /**
+     * Determines if the task force is active.
+     *
+     * @return True if the task force is active. False otherwise.
+     */
+    public boolean isActive() {
+        return state == TaskForceState.ACTIVE;
+    }
+
+    /**
      * Register the task force for game events.
      */
     public void registerEvents() {
