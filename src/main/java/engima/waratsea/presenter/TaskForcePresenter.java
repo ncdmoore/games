@@ -3,7 +3,8 @@ package engima.waratsea.presenter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.map.GameMap;
-import engima.waratsea.presenter.map.TaskForceMarkerDTO;
+import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
+import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import engima.waratsea.view.FatalErrorDialog;
 import engima.waratsea.view.TaskForceView;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -70,6 +72,9 @@ public class TaskForcePresenter {
         view.show(stage);
 
         markTaskForces();
+        markTargets();
+
+        view.finish();
 
         view.getContinueButton().setOnAction(event -> continueButton());
         view.getBackButton().setOnAction(event -> backButton());
@@ -105,7 +110,30 @@ public class TaskForcePresenter {
             view.markTaskForceOnMap(dto);
         });
 
-        view.finish();
+    }
+
+    /**
+     * Mark the task force targets on the preview map.
+     */
+    private void markTargets() {
+        List<TaskForce> taskForces = game.getHumanPlayer().getTaskForces();
+        taskForces.forEach(this::markTaskForceTargets);
+    }
+
+    /**
+     * Mark the given task force's targets.
+     * @param taskForce The task force whose targets are marked.
+     */
+    private void markTaskForceTargets(final TaskForce taskForce) {
+        Optional.ofNullable(taskForce.getTargets())
+                .ifPresent(targets -> targets.forEach(target -> {
+                    TargetMarkerDTO dto = new TargetMarkerDTO(taskForce, target);
+                    dto.setGameMap(gameMap);
+                    dto.setMarkerEventHandler(this::showTargetPopup);
+                    dto.setPopupEventHandler(this::closePopup);
+                    view.markTargetOnMap(dto);
+                }));
+
     }
 
     /**
@@ -140,7 +168,6 @@ public class TaskForcePresenter {
      * @param event Mouse event.
      */
     private void mouseClick(final MouseEvent event) {
-
         Object o = event.getSource();
 
         List<String> names = view.getTaskForceFromMarker(o).stream().sorted().collect(Collectors.toList());
@@ -149,20 +176,38 @@ public class TaskForcePresenter {
 
         List<TaskForce> taskForces = game.getHumanPlayer().getTaskForces();
 
-        List<TaskForce> selected = taskForces.stream().filter(t -> t.getName().equalsIgnoreCase(names.get(0))).collect(Collectors.toList());
+        List<TaskForce> selected = taskForces.stream()
+                .filter(taskForce -> names.contains(taskForce.getName()))
+                .collect(Collectors.toList());
+
+        int index = 0;
+        if (selected.size() > 1) {
+            index = selected.indexOf(selectedTaskForce) + 1;
+            if (index >= selected.size()) {
+                index = 0;
+            }
+        }
 
         // Notify view that the task force has been selected.
         // This keeps the view list in sync with the grid clicks.
-        view.getTaskForces().getSelectionModel().select(selected.get(0));
+        view.getTaskForces().getSelectionModel().select(selected.get(index));
 
         // Select the task force. This is needed for clicks that don't change the
         // task force, but redisplay the popup.
-        taskForceSelected(selected.get(0));
+        taskForceSelected(selected.get(index));
+    }
+
+    /**
+     * Show the target popup upon target clicks.
+     * @param event The mouse event.
+     */
+    private void showTargetPopup(final MouseEvent event) {
+        Object o = event.getSource();
+        view.selectTarget(o);
     }
 
     /**
      * Close the popup.
-     *
      * @param event the mouse event.
      */
     private void closePopup(final MouseEvent event) {

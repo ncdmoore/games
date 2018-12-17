@@ -34,7 +34,7 @@ public class TaskForce  {
 
     @Getter
     @Setter
-    private List<Target> target;
+    private List<Target> targets;
 
     @Getter
     @Setter

@@ -2,8 +2,12 @@
   {
     "name": "TF1",
     "title": "Detached Force",
-    "location": "BE31",
+    "location": "BH31",
     "state": "ACTIVE",
+    "mission": "TRANSPORT",
+    "targets": [
+      {"location": "G23"}
+    ],
     "ships": [
       "BB10 Ramillies",
       "CA01 Berwick",
@@ -18,8 +22,9 @@
   {
     "name": "TF2",
     "title": "Covering Force",
-    "location": "BE31",
+    "location": "BH31",
     "state": "ACTIVE",
+    "mission": "PATROL",
     "ships": [
       "CVL04 Eagle",
       "BB05 Barham",
@@ -29,11 +34,12 @@
   {
     "name": "TF3",
     "title": "Mediterranean Force",
-    "location": "BE31",
+    "location": "BH31",
     "state": "RESERVE",
+    "mission": "PATROL",
     "releaseTurnEvents" : [
       {
-        "turn": 24
+        "turn": 8
       }
     ],
     "ships": [
@@ -57,8 +63,9 @@
   {
     "name": "TF4",
     "title": "Malta Convoy Escort",
-    "location": "BE31",
+    "location": "BH31",
     "state": "ACTIVE",
+    "mission": "ESCORT",
     "ships": [
       "CL34 Glasgow",
       "CL38 Gloucester",
@@ -68,8 +75,12 @@
   {
     "name": "TF5",
     "title": "Westbound Convoy",
-    "location": "BE31",
+    "location": "BH31",
     "state": "ACTIVE",
+    "mission": "TRANSPORT",
+    "targets": [
+      {"location": "AI24"}
+    ],
     "ships": [
       "CL06 Coventry",
       "CL10 Calcutta",
@@ -86,8 +97,12 @@
   {
     "name": "TF6",
     "title": "Eastbound Convoy",
-    "location": "F20",
+    "location": "G23",
     "state": "ACTIVE",
+    "mission": "TRANSPORT",
+    "targets": [
+      {"location": "AI24"}
+    ],
     "ships": [
       "CL37 Southampton",
       "CL40 Manchester",
@@ -104,8 +119,9 @@
   {
     "name": "TF7",
     "title": "Covering Group",
-    "location": "F20",
+    "location": "G23",
     "state": "ACTIVE",
+    "mission": "PATROL",
     "ships": [
       "BC01 Renown",
       "CV04 Ark Royal",

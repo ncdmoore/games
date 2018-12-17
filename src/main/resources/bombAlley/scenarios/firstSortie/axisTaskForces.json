@@ -4,6 +4,7 @@
     "title": "Tobruk Force",
     "location": "AW30",
     "state": "ACTIVE",
+    "mission": "PATROL",
     "ships": [
       "CD01 San Giorgio",
       "DE34 Sauro-1",
@@ -19,6 +20,7 @@
     "title": "Messina Force",
     "location":  "AJ17",
     "state": "ACTIVE",
+    "mission": "PATROL",
     "ships": [
       "CA01 Trento",
       "CA07 Bolzano",
@@ -38,6 +40,7 @@
     "title": "Reaction Force",
     "location": "AL13",
     "state": "ACTIVE",
+    "mission": "PATROL",
     "ships": [
       "CA03 Zara",
       "CA05 Fiume",
@@ -58,6 +61,7 @@
     "title": "Emergency Force",
     "location": "AL13",
     "state": "RESERVE",
+    "mission": "PATROL",
     "releaseShipEvents": [
       {
         "action": "SPOTTED",

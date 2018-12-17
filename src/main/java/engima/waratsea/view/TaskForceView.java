@@ -2,7 +2,8 @@ package engima.waratsea.view;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.ships.TaskForceState;
-import engima.waratsea.presenter.map.TaskForceMarkerDTO;
+import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
+import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.view.map.MapView;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -49,7 +50,6 @@ public class TaskForceView {
 
     /**
      * Constructor called by guice.
-     *
      * @param props view properties.
      * @param cssResourceProvider CSS file provider.
      * @param imageResourceProvider Image file provider.
@@ -77,7 +77,6 @@ public class TaskForceView {
 
     /**
      * Show the task forces summary view.
-     *
      * @param stage The stage on which the task force scene is set.
      */
     public void show(final Stage stage) {
@@ -112,7 +111,6 @@ public class TaskForceView {
 
     /**
      * build the task force list.
-     *
      * @return Node containing the task force list.
      */
     private Node buildTaskForceList() {
@@ -141,7 +139,6 @@ public class TaskForceView {
 
     /**
      * build the task force push buttons.
-     *
      * @return Node containing the push buttons.
      */
     private Node buildPushButtons() {
@@ -162,7 +159,6 @@ public class TaskForceView {
 
     /**
      * Set the selected task force.
-     *
      * @param taskForce the selected task force.
      */
     public void setTaskForce(final TaskForce taskForce) {
@@ -172,7 +168,6 @@ public class TaskForceView {
 
     /**
      * Clear the selected task force marker.
-     *
      * @param taskForce the task force whose marker is cleared.
      */
     public void clearTaskForce(final TaskForce taskForce) {
@@ -182,13 +177,22 @@ public class TaskForceView {
 
     /**
      * Place a task force marker on the preview map.
-     *
      * @param dto Task force data transfer object.
      */
     public void markTaskForceOnMap(final TaskForceMarkerDTO dto) {
         dto.setGridSize(taskForceMap.getGridSize());
         dto.setXOffset(props.getInt("taskforce.previewMap.popup.xOffset"));
         taskForceMap.markTaskForce(dto);
+    }
+
+    /**
+     * Place a target marker on the preview map.
+     * @param dto Target data transfer object.
+     */
+    public void markTargetOnMap(final TargetMarkerDTO dto) {
+        dto.setGridSize(taskForceMap.getGridSize());
+        dto.setXOffset(props.getInt("taskforce.previewMap.popup.xOffset"));
+        taskForceMap.markTarget(dto);
     }
 
     /**
@@ -200,7 +204,6 @@ public class TaskForceView {
 
     /**
      * Get the task force name from the task force marker that was clicked.
-     *
      * @param clickedMarker The clicked marker.
      * @return The name of the task force that corresponds to the marker.
      */
@@ -208,9 +211,17 @@ public class TaskForceView {
         return taskForceMap.getNameFromMarker(clickedMarker);
     }
 
+
+    /**
+     * Select a target. Show the corresponding popup.
+     * @param clickedMarker The target's marker.
+     */
+    public void selectTarget(final Object clickedMarker) {
+        taskForceMap.selectTargetMarker(clickedMarker);
+    }
+
     /**
      * Close the popup.
-     *
      * @param event the mouse event.
      */
     public void closePopup(final MouseEvent event) {

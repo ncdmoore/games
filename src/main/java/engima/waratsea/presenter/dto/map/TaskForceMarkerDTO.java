@@ -1,4 +1,4 @@
-package engima.waratsea.presenter.map;
+package engima.waratsea.presenter.dto.map;
 
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.Grid;
@@ -12,7 +12,7 @@ import lombok.Setter;
 /**
  * Task force marker data transfer object. Used to transfer task force information to the view layer.
  */
-public class TaskForceMarkerDTO {
+public class TaskForceMarkerDTO implements PopUpDTO {
 
     @Getter
     private final String mapReference;
@@ -40,6 +40,10 @@ public class TaskForceMarkerDTO {
     @Getter
     @Setter
     private int xOffset;
+
+    @Getter
+    @Setter
+    private String style;
 
     /**
      * Construct the task force marker DTO.
@@ -70,4 +74,12 @@ public class TaskForceMarkerDTO {
         gridView = new GridView(size, grid.getRow(), grid.getColumn());
     }
 
+    /**
+     * Get the related popup text.
+     *
+     * @return The task force name is placed in the popup.
+     */
+    public String getText() {
+        return name;
+    }
 }

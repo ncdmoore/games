@@ -4,6 +4,7 @@
     "title": "Naples Force",
     "location": "AG12",
     "state": "ACTIVE",
+    "mission": "PATROL",
     "ships": [
       "BB01 Giulio Cesare",
       "BB06 Vittorio Veneto",
@@ -28,6 +29,7 @@
     "title": "Messina Force",
     "location": "AJ17",
     "state": "ACTIVE",
+    "mission": "PATROL",
     "ships": [
       "CA01 Trento",
       "CA02 Trieste",
@@ -42,6 +44,7 @@
     "title": "Palermo Force",
     "location": "AG17",
     "state": "ACTIVE",
+    "mission": "PATROL",
     "ships": [
       "DE46 Spica-1",
       "DE47 Spica-2",
@@ -54,6 +57,7 @@
     "title": "Brinidisi Bombardment Force",
     "location": "AN13",
     "state": "RESERVE",
+    "mission": "BOMBARDMENT",
     "releaseTurnEvents" : [
       {
         "turn": 24
@@ -73,6 +77,7 @@
     "title": "Otranto Support Force",
     "location": "AN13",
     "state": "RESERVE",
+    "mission": "PATROL",
     "releaseShipEvents" : [
       {
         "action": "ATTACKED",
