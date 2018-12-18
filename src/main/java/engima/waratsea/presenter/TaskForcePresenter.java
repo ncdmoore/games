@@ -105,7 +105,7 @@ public class TaskForcePresenter {
         taskForces.forEach(taskForce -> {
             TaskForceMarkerDTO dto = new TaskForceMarkerDTO(taskForce);
             dto.setGameMap(gameMap);
-            dto.setMarkerEventHandler(this::mouseClick);
+            dto.setMarkerEventHandler(this::showTaskForcePopup);
             dto.setPopupEventHandler(this::closePopup);
             view.markTaskForceOnMap(dto);
         });
@@ -143,12 +143,19 @@ public class TaskForcePresenter {
     private void taskForceSelected(final TaskForce taskForce) {
         log.info("Task force selected: {}", taskForce.getName());
 
-        game.getHumanPlayer().getTaskForces().forEach(t -> view.clearTaskForce(t));
-
+        clearAllTaskForces();
         this.selectedTaskForce = taskForce;
         view.setTaskForce(selectedTaskForce);
     }
 
+    /**
+     * Clear all the task force selections.
+     */
+    private void clearAllTaskForces() {
+        game.getHumanPlayer().getTaskForces()
+                .forEach(taskForce -> view.clearTaskForce(taskForce));
+
+    }
     /**
      * Call back for the continue button.
      */
@@ -164,10 +171,10 @@ public class TaskForcePresenter {
     }
 
     /**
-     * Task force map grid clicked.
+     * Task force map grid clicked. Show the task force's corresponding popup.
      * @param event Mouse event.
      */
-    private void mouseClick(final MouseEvent event) {
+    private void showTaskForcePopup(final MouseEvent event) {
         Object o = event.getSource();
 
         List<String> names = view.getTaskForceFromMarker(o).stream().sorted().collect(Collectors.toList());
@@ -180,13 +187,7 @@ public class TaskForcePresenter {
                 .filter(taskForce -> names.contains(taskForce.getName()))
                 .collect(Collectors.toList());
 
-        int index = 0;
-        if (selected.size() > 1) {
-            index = selected.indexOf(selectedTaskForce) + 1;
-            if (index >= selected.size()) {
-                index = 0;
-            }
-        }
+        int index = selectTheNextTaskForce(selected);
 
         // Notify view that the task force has been selected.
         // This keeps the view list in sync with the grid clicks.
@@ -195,6 +196,22 @@ public class TaskForcePresenter {
         // Select the task force. This is needed for clicks that don't change the
         // task force, but redisplay the popup.
         taskForceSelected(selected.get(index));
+    }
+
+    /**
+     * A task force marker has been clicked. Select the next task force that resides in the marker's grid.
+     * @param selected The list of task forces residing in the marker's grid.
+     * @return The index of the now selected task force.
+     */
+    private int selectTheNextTaskForce(final List<TaskForce> selected) {
+        int index = 0;
+        if (selected.size() > 1) {
+            index = selected.indexOf(selectedTaskForce) + 1;
+            if (index >= selected.size()) {
+                index = 0;
+            }
+        }
+        return index;
     }
 
     /**
