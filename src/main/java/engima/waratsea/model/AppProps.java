@@ -5,7 +5,7 @@ import com.google.inject.Singleton;
 import engima.waratsea.utility.ProperyWrapper;
 
 /**
- * This class represents all the view properties.
+ * This class represents all the application properties.
  */
 @Singleton
 public class AppProps {
@@ -32,7 +32,7 @@ public class AppProps {
      * @param name Specifies the name of the game which then is used to determine which properties file to load.
      */
     public void init(final String name) {
-        props.init(APP_PROPERTIES);                                                                                    // Load default view properties.
+        props.init(APP_PROPERTIES);                                                                                    // Load default application properties.
         props.init(name + "/" + APP_PROPERTIES);                                                                 // Load game specific properties.
     }
 
