@@ -89,15 +89,15 @@ public class MapView {
      */
     public void markTaskForce(final TaskForceMarkerDTO dto) {
 
-        if (mapRefMarkerMap.containsKey(dto.getMapReference())) {
+        if (mapRefMarkerMap.containsKey(dto.getMapReference())) {                                                       //Check if this grid already has a marker.
             TaskForceMarker existingMarker = mapRefMarkerMap.get(dto.getMapReference());
-            existingMarker.addText(dto.getText(), dto.isActive());
-            markerMap.put(dto.getName(), existingMarker);
+            existingMarker.addText(dto.getText(), dto.isActive());                                                      //Add this task force's name to the existing marker.
+            markerMap.put(dto.getName(), existingMarker);                                                               //Index this task force's name to the existing marker.
         } else {
-            TaskForceMarker marker = new TaskForceMarker(dto);
-            marker.draw(map, dto.isActive());
+            TaskForceMarker marker = new TaskForceMarker(dto);                                                          //Create a new marker.
+            marker.draw(map, dto.isActive());                                                                           //Store this task force's name in the new marker.
             mapRefMarkerMap.put(dto.getMapReference(), marker);
-            markerMap.put(dto.getName(), marker);
+            markerMap.put(dto.getName(), marker);                                                                       //Index this task force's name to the new marker.
         }
     }
 
@@ -113,6 +113,8 @@ public class MapView {
         } else {
             TargetMarker marker = new TargetMarker(dto);
 
+            //If the target marker occupies the same space as a task force marker
+            //then make the target marker inactive.
             boolean active = !mapRefMarkerMap.containsKey(dto.getMapReference());
 
             marker.draw(map, active);
@@ -139,10 +141,10 @@ public class MapView {
      * @param name specifies the marker to select.
      */
     public void selectMarker(final String name) {
-        markerMap.get(name).select(map, name);
+        markerMap.get(name).select(map, name);                                                                          //Show the task force marker.
 
         Optional.ofNullable(targetMap.get(name))
-                .ifPresent(targetMarkers -> targetMarkers.forEach(targetMarker -> targetMarker.select(map)));
+                .ifPresent(targetMarkers -> targetMarkers.forEach(targetMarker -> targetMarker.select(map)));           //Show this task force's target markers if any exist.
     }
 
     /**
@@ -150,10 +152,10 @@ public class MapView {
      * @param name specifies the marker to clear.
      */
     public void clearMarker(final String name) {
-        markerMap.get(name).clear(map);
+        markerMap.get(name).clear(map);                                                                                 //Hide the task force marker.
 
         Optional.ofNullable(targetMap.get(name))
-                .ifPresent(targetMarkers -> targetMarkers.forEach(targetMarker -> targetMarker.clear(map)));
+                .ifPresent(targetMarkers -> targetMarkers.forEach(targetMarker -> targetMarker.clear(map)));            //Hide any target marker's if any exist.
     }
 
     /**
@@ -168,7 +170,7 @@ public class MapView {
     }
 
     /**
-     * Select target marker. Show the corresponding popup.
+     * Select target marker. Show the corresponding popup. Note, only a single target marker can be clicked.
      * @param clickedMarker represents the marker.
      */
     public void selectTargetMarker(final Object clickedMarker) {
