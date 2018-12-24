@@ -80,6 +80,7 @@ public class TaskForceView {
      * @param stage The stage on which the task force scene is set.
      */
     public void show(final Stage stage) {
+
         Label title = new Label("Task Forces");
         title.setId("title");
 
@@ -158,7 +159,7 @@ public class TaskForceView {
     }
 
     /**
-     * Set the selected task force.
+     * Set the selected task force. Show this task force's map marker.
      * @param taskForce the selected task force.
      */
     public void setTaskForce(final TaskForce taskForce) {
