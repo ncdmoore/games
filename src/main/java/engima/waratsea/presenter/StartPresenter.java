@@ -17,19 +17,20 @@ public class StartPresenter {
     private StartView view;
     private Stage stage;
 
+    private Provider<StartView> viewProvider;
     private Provider<ScenarioPresenter> scenarioPresenterProvider;
 
     /**
      * The constructor for the start presenter. Guice will inject the view and the scenario presenter.
      *
-     * @param view The starting view.
+     * @param viewProvider The starting view.
      * @param scenarioPresenterProvider The scenario presenter provider. The scenario presenter is obtained from this
      *                                  provider
      */
     @Inject
-    public StartPresenter(final StartView view,
+    public StartPresenter(final Provider<StartView> viewProvider,
                           final Provider<ScenarioPresenter> scenarioPresenterProvider) {
-        this.view = view;
+        this.viewProvider = viewProvider;
         this.scenarioPresenterProvider = scenarioPresenterProvider;
     }
 
@@ -40,6 +41,8 @@ public class StartPresenter {
      */
     public void init(final Stage primaryStage) {
         log.info("init.");
+
+        view = viewProvider.get();
 
         this.stage = primaryStage;
 

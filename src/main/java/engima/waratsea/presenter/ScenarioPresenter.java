@@ -22,6 +22,7 @@ public class ScenarioPresenter {
     private Stage stage;
 
     private Scenario selectedScenario;
+    private Provider<ScenarioView> viewProvider;
     private Provider<StartPresenter> startPresenterProvider;
     private Provider<TaskForcePresenter> taskForcePresenterProvider;
     private Provider<FatalErrorDialog> fatalErrorDialogProvider;
@@ -30,20 +31,20 @@ public class ScenarioPresenter {
 
     /**
      * The constructor for the scenario presenter. Guice will inject the view.
-     * @param view Scenario view.
      * @param game The game.
+     * @param viewProvider Scenario view.
      * @param startPresenterProvider provides the start presenter.
      * @param taskForcePresenterProvider provides the task force presenter.
      * @param fatalErrorDialogProvider provides the fatal error dialog.
      */
     @Inject
-    public ScenarioPresenter(final ScenarioView view,
-                             final Game game,
+    public ScenarioPresenter(final Game game,
+                             final Provider<ScenarioView> viewProvider,
                              final Provider<StartPresenter> startPresenterProvider,
                              final Provider<TaskForcePresenter> taskForcePresenterProvider,
                              final Provider<FatalErrorDialog> fatalErrorDialogProvider) {
-        this.view = view;
         this.game = game;
+        this.viewProvider = viewProvider;
         this.startPresenterProvider = startPresenterProvider;
         this.taskForcePresenterProvider = taskForcePresenterProvider;
         this.fatalErrorDialogProvider = fatalErrorDialogProvider;
@@ -56,6 +57,8 @@ public class ScenarioPresenter {
      */
     public void init(final Stage primaryStage) {
         log.info("init.");
+
+        view = viewProvider.get();
 
         this.stage = primaryStage;
 

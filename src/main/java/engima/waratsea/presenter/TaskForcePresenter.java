@@ -2,6 +2,7 @@ package engima.waratsea.presenter;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
@@ -24,35 +25,36 @@ import java.util.stream.Collectors;
  * of all task forces before the game is started.
  */
 @Slf4j
+@Singleton
 public class TaskForcePresenter {
-    private TaskForceView view;
     private final Game game;
     private GameMap gameMap;
+    private TaskForceView view;
     private Stage stage;
 
     private TaskForce selectedTaskForce;
 
-
+    private Provider<TaskForceView> viewProvider;
     private Provider<ScenarioPresenter> scenarioPresenterProvider;
     private Provider<FatalErrorDialog> fatalErrorDialogProvider;
 
     /**
      * This is the constructor.
-     * @param view The corresponding view,
      * @param game The game object.
      * @param gameMap The preview game map.
+     * @param viewProvider The corresponding view,
      * @param scenarioPresenterProvider Provides the scenario presenter.
      * @param fatalErrorDialogProvider Provides the fatal error dialog.
      */
     @Inject
-    public TaskForcePresenter(final TaskForceView view,
-                              final Game game,
+    public TaskForcePresenter(final Game game,
                               final GameMap gameMap,
+                              final Provider<TaskForceView> viewProvider,
                               final Provider<ScenarioPresenter> scenarioPresenterProvider,
                               final Provider<FatalErrorDialog> fatalErrorDialogProvider) {
-        this.view = view;
         this.game = game;
         this.gameMap = gameMap;
+        this.viewProvider = viewProvider;
         this.scenarioPresenterProvider = scenarioPresenterProvider;
         this.fatalErrorDialogProvider = fatalErrorDialogProvider;
     }
@@ -64,6 +66,8 @@ public class TaskForcePresenter {
      */
     public void init(final Stage primaryStage) {
         log.info("init.");
+
+        view = viewProvider.get();
 
         this.stage = primaryStage;
 
