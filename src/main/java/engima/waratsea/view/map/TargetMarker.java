@@ -4,7 +4,6 @@ import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 /**
@@ -12,7 +11,7 @@ import javafx.scene.shape.Circle;
  */
 public class TargetMarker {
 
-    private final double opacity = 1.0;
+    private static final double OPACITY = 1.0;
 
     private final GridView gridView;
     private final EventHandler<? super MouseEvent> eventHandler;
@@ -43,12 +42,8 @@ public class TargetMarker {
 
         if (active) {
             double radius = (double) gridView.getSize() / 2;
-
             circle = new Circle(gridView.getX() + radius, gridView.getY() + radius, radius);
-            circle.setStroke(Color.RED);
-            circle.setFill(Color.RED);
-            circle.setOpacity(opacity);
-
+            circle.getStyleClass().add("target-marker");
             setOnMouseClicked(eventHandler);
         }
 
@@ -78,7 +73,7 @@ public class TargetMarker {
     public void clear(final Group map) {
         if (circle != null) {
             map.getChildren().remove(circle);
-            circle.setOpacity(opacity);
+            circle.setOpacity(OPACITY);
         }
         popUp.hide(map);
     }

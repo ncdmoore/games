@@ -17,16 +17,6 @@ public class ComputerPlayer implements Player {
     private Side side;
 
     @Getter
+    @Setter
     private List<TaskForce> taskForces;
-
-
-    /**
-     * Set the players task forces and parse into active and reserve groups.
-     * @param taskForces The players task forces.
-     */
-    public void setTaskForces(final List<TaskForce> taskForces) {
-        this.taskForces = taskForces;
-
-        this.taskForces.forEach(TaskForce::registerEvents);
-    }
 }

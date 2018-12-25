@@ -6,6 +6,8 @@ import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.GameTitle;
+import engima.waratsea.model.ships.TaskForceData;
+import engima.waratsea.model.ships.TaskForceFactory;
 import lombok.extern.slf4j.Slf4j;
 import engima.waratsea.model.AppProps;
 
@@ -20,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -52,24 +55,27 @@ public class ScenarioLoader {
         FILE_NAME_MAP.put(Side.AXIS, AXIS_TASK_FORCE_FILE_NAME);
     }
 
-
     private GameTitle gameTitle;
     private AppProps props;
+    private TaskForceFactory taskForceFactory;
 
     /**
      * The constructor. Called by guice.
      * @param gameTitle The game title.
      * @param props Application properties.
+     * @param taskForceFactory Factory for creating task force objects.
      */
     @Inject
-    public ScenarioLoader(final GameTitle gameTitle, final AppProps props) {
+    public ScenarioLoader(final GameTitle gameTitle,
+                          final AppProps props,
+                          final TaskForceFactory taskForceFactory) {
         this.gameTitle = gameTitle;
         this.props = props;
+        this.taskForceFactory = taskForceFactory;
     }
 
     /**
      * Load the game scenario summaries.
-     *
      * @return A list of scenarios.
      * @throws ScenarioException if the scenario summaries cannot be loaded.
      */
@@ -87,7 +93,6 @@ public class ScenarioLoader {
 
     /**
      * Load the task force for the given scenario and side.
-     *
      * @param scenarioName The scenario name.
      * @param side The side: ALLIES or AXIS.
      * @return A list of task forces.
@@ -102,7 +107,6 @@ public class ScenarioLoader {
 
     /**
      * Get all the scenario directories.
-     *
      * @return An array of directory files.
      * @throws ScenarioException Thrown if unable to read the scenario files.
      */
@@ -126,7 +130,6 @@ public class ScenarioLoader {
     /**
      * Verify that the directory is readable. If the directory is not readable then we will exclude it from
      * the list of scenarios.
-     *
      * @param directory The scenario directory to test for readability.
      * @return True if the scenario directory can be read. False otherwise.
      */
@@ -138,7 +141,6 @@ public class ScenarioLoader {
 
     /**
      * Read the scenario summary json file.
-     *
      * @param directory The directory that contains the scenario summary json file.
      * @return A Scenario object. null is returned if the json file fails to parse.
      */
@@ -158,7 +160,6 @@ public class ScenarioLoader {
         }
     }
 
-
     /**
      * Read the task force data from scenario task force json files for the given side.
      * @param url specifies the task force json file.
@@ -169,18 +170,27 @@ public class ScenarioLoader {
         Path path = Paths.get(url.getPath());
 
         try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-            Type collectionType = new TypeToken<List<TaskForce>>() { }.getType();
+            Type collectionType = new TypeToken<List<TaskForceData>>() { }.getType();
 
             Gson gson = new Gson();
-            List<TaskForce> taskForces = gson.fromJson(br, collectionType);
+            List<TaskForceData> taskForces = gson.fromJson(br, collectionType);
 
             log.info("load task forces for side: {}, number of task forces: {}", side, taskForces.size());
 
-            return taskForces;
+            return seedTaskForces(taskForces);
         } catch (Exception ex) {                                                                                        // Catch any Gson errors.
             log.error("Unable to load task forces: {}", url.getPath(), ex);
             return null;
         }
+    }
+
+    /**
+     * Seed the task forces with the data from the JSON file.
+     * @param data Task force data from the JSON file.
+     * @return An intialized or seeded Task Force.
+     */
+    private List<TaskForce> seedTaskForces(final List<TaskForceData> data) {
+        return data.stream().map(taskForceFactory::create).collect(Collectors.toList());
     }
 
 }

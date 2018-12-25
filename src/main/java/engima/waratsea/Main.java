@@ -4,6 +4,7 @@ package engima.waratsea;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.game.GameTitle;
+import engima.waratsea.model.map.MapProps;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -136,6 +137,9 @@ public class Main extends Application {
     private void initProps(final Injector injector, final String gameName) {
         AppProps appProps = injector.getInstance(AppProps.class);                                                       // Load the main application properties.
         appProps.init(gameName);
+
+        MapProps mapProps = injector.getInstance(MapProps.class);
+        mapProps.init(gameName);
 
         ViewProps viewProps = injector.getInstance(ViewProps.class);                                                    // Load the GUI view properties.
         viewProps.init(gameName);

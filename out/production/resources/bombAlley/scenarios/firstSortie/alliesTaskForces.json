@@ -4,6 +4,11 @@
     "title": "Alexandria",
     "location": "BE31",
     "state": "ACTIVE",
+    "mission": "BOMBARDMENT",
+    "targets": [
+      {"location": "AF12"},
+      {"location": "AE12"}
+    ],
     "ships": [
       "BB02 Warspite",
       "BB05 Malaya",

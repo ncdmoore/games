@@ -27,7 +27,6 @@ public interface PopUpDTO {
      */
     GridView getGridView();
 
-
     /**
      * How far in pixels the popup's top corner is x-offset from the grid.
      * @return The popup's x-coordinate offset.

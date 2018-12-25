@@ -2,11 +2,11 @@
   {
     "name": "TF1",
     "title": "Detached Force",
-    "location": "BH31",
+    "location": "Alexandria",
     "state": "ACTIVE",
-    "mission": "TRANSPORT",
+    "mission": "FERRY",
     "targets": [
-      {"location": "G23"}
+      {"location": "Gibraltar"}
     ],
     "ships": [
       "BB10 Ramillies",
@@ -22,7 +22,7 @@
   {
     "name": "TF2",
     "title": "Covering Force",
-    "location": "BH31",
+    "location": "Alexandria",
     "state": "ACTIVE",
     "mission": "PATROL",
     "ships": [
@@ -34,7 +34,7 @@
   {
     "name": "TF3",
     "title": "Mediterranean Force",
-    "location": "BH31",
+    "location": "Alexandria",
     "state": "RESERVE",
     "mission": "PATROL",
     "releaseTurnEvents" : [
@@ -63,7 +63,7 @@
   {
     "name": "TF4",
     "title": "Malta Convoy Escort",
-    "location": "BH31",
+    "location": "Alexandria",
     "state": "ACTIVE",
     "mission": "ESCORT",
     "ships": [
@@ -75,11 +75,11 @@
   {
     "name": "TF5",
     "title": "Westbound Convoy",
-    "location": "BH31",
+    "location": "Alexandria",
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "AI24"}
+      {"location": "Malta"}
     ],
     "ships": [
       "CL06 Coventry",
@@ -97,11 +97,11 @@
   {
     "name": "TF6",
     "title": "Eastbound Convoy",
-    "location": "G23",
+    "location": "Gibraltar",
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "AI24"}
+      {"location": "Malta"}
     ],
     "ships": [
       "CL37 Southampton",
@@ -119,7 +119,7 @@
   {
     "name": "TF7",
     "title": "Covering Group",
-    "location": "G23",
+    "location": "Gibraltar",
     "state": "ACTIVE",
     "mission": "PATROL",
     "ships": [

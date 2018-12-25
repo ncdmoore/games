@@ -1,5 +1,7 @@
 package engima.waratsea.model.map;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.regex.Matcher;
@@ -10,17 +12,42 @@ import java.util.regex.Pattern;
  *
  */
 @Slf4j
+@Singleton
 public final class GameMap {
+
+    private static final String MAP_REFERENCE_FORMAT = "\\s*([a-zA-Z]{1,2})(\\d{1,2})\\s*";
+
+    private MapProps props;
+
+    /**
+     * The constructor of the GameMap. Called by guice.
+     * @param props Map properties.
+     */
+    @Inject
+    public GameMap(final MapProps props) {
+        this.props = props;
+    }
+
+    /**
+     * Convert a location name to a map reference. For example, the name Gibraltar is converted to G23.
+     * @param name A named location on the map.
+     * @return The corresponding map reference of where the name is located.
+     */
+    public String convertNameToReference(final String name) {
+        Pattern pattern = Pattern.compile(MAP_REFERENCE_FORMAT);
+        Matcher matcher = pattern.matcher(name);
+        return  matcher.matches() ? name : props.getString(name);
+    }
 
     /**
      * Convert a game map reference into grid coordinates.
-     * @param mapRefernce game map reference.
+     * @param mapReference game map reference.
      * @return a map grid coordinate.
      */
-    public Grid getGrid(final String mapRefernce) {
+    public Grid getGrid(final String mapReference) {
 
-        Pattern pattern = Pattern.compile("\\s*([a-zA-Z]+)(\\d+)\\s*");
-        Matcher matcher = pattern.matcher(mapRefernce);
+        Pattern pattern = Pattern.compile(MAP_REFERENCE_FORMAT);
+        Matcher matcher = pattern.matcher(mapReference);
 
         int row = 0;
         int column = 0;
@@ -33,7 +60,7 @@ public final class GameMap {
         }
 
 
-        log.info("Map reference: {}", mapRefernce);
+        log.info("Map reference: {}", mapReference);
         log.info("Grid row: {}, column: {}", row, column);
 
         return new Grid(row, column);

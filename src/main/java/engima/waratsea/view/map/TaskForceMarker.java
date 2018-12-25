@@ -4,7 +4,6 @@ import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TaskForceMarker {
 
-    private final double opacity = 0.3;
+    private final double opacity = 0.5;
 
     private final GridView gridView;
     private final EventHandler<? super MouseEvent> eventHandler;
@@ -41,8 +40,9 @@ public class TaskForceMarker {
      */
     public void draw(final Group map, final boolean active) {
         rectangle = new Rectangle(gridView.getX(), gridView.getY(), gridView.getSize(), gridView.getSize());
-        rectangle.setStroke(Color.BLACK);
         rectangle.setOpacity(opacity);
+
+        rectangle.getStyleClass().add("taskforce-marker");
 
         setOnMouseClicked(eventHandler);
 

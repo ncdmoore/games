@@ -36,9 +36,13 @@
     -fx-text-fill: white;
 }
 
-.marker {
+.taskforce-marker {
+    -fx-fill: linear-gradient( to right bottom, silver, black);
 }
 
+.target-marker {
+    -fx-fill: radial-gradient(center 50% 50%, radius 60%, white, red, black);
+}
 
 .popup-mapRef {
     -fx-padding: 0 10 0 10;
@@ -56,7 +60,7 @@
     -fx-fill: black;
 }
 
-.popup-name {
+.popup-taskforce {
     -fx-padding: 10 10 10 10;
     -fx-spacing: 5;
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, white 0%, khaki 100%);
@@ -65,11 +69,21 @@
     -fx-effect:  dropshadow(one-pass-box, black, 8, 0.0 , 2, 0);
 }
 
-.popup-name-text {
+.popup-target {
+    -fx-padding: 10 10 10 10;
+    -fx-spacing: 5;
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, white 0%, salmon 100%);
+    -fx-border-color: black;
+    -fx-border-width: 0.5;
+    -fx-effect:  dropshadow(one-pass-box, black, 8, 0.0 , 2, 0);
+}
+
+
+.popup-text {
     -fx-font: normal 8pt "Lucida Grande";
 }
 
-.popup-name-text-inactive {
+.popup-text-inactive {
     -fx-font: normal 8pt "Lucida Grande";
-    -fx-fill: red;
+    -fx-text-fill: red;
 }

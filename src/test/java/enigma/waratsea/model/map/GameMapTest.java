@@ -1,18 +1,36 @@
 package enigma.waratsea.model.map;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.Grid;
+import engima.waratsea.model.map.MapProps;
+import enigma.waratsea.TestModule;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class GameMapTest {
+    private static GameTitle gameTitle;
+    private static MapProps props;
+    private static GameMap gameMap;
 
+    @BeforeClass
+    public static void setup() {
+        Injector injector = Guice.createInjector(new TestModule());
+        gameTitle = injector.getInstance(GameTitle.class);                                                              //The game instance must be injected first!
+        props = injector.getInstance(MapProps.class);
+        gameMap = injector.getInstance(GameMap.class);
+
+        final String gameName = "bombAlley";
+
+        gameTitle.setValue(gameName);
+        props.init(gameName);
+    }
 
     @Test
     public void testConversionFromMapReference() {
         String mapReference = "F20";
-
-        GameMap gameMap = new GameMap();
-        gameMap.init(12);
 
         Grid grid = gameMap.getGrid(mapReference);
 
@@ -39,5 +57,26 @@ public class GameMapTest {
 
         assert (grid.getRow() == 0);
         assert (grid.getColumn() == 0);
+
+        mapReference = "A1";
+
+        grid = gameMap.getGrid(mapReference);
+
+        assert (grid.getRow() == 0);
+        assert (grid.getColumn() == 0);
+    }
+
+    @Test
+    public void testMapPropConversionNeeded() {
+        String name = "Gibraltar";
+        String mapReference = gameMap.convertNameToReference(name);
+        assert ("G23".equals(mapReference));
+    }
+
+    @Test
+    public void testMapPropNoConversionNeeded() {
+        String name = "BF31";
+        String mapReference = gameMap.convertNameToReference(name);
+        assert (name.equals(mapReference));
     }
 }
