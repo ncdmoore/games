@@ -21,8 +21,7 @@ import java.util.List;
 public class ScenarioLoaderTest {
 
     private static GameTitle gameTitle;
-    private static AppProps props;
-    private static ScenarioLoader scenarioLoader;
+    private static Injector injector;
 
 
     private List<String> games = new ArrayList<>(Arrays.asList("bombAlley", "coralSea"));
@@ -30,13 +29,11 @@ public class ScenarioLoaderTest {
 
     @BeforeClass
     public static void setup() {
-        Injector injector = Guice.createInjector(new TestModule());
+        injector = Guice.createInjector(new TestModule());
 
         gameTitle = injector.getInstance(GameTitle.class);                                                              //The game instance must be injected first!
 
-        props = injector.getInstance(AppProps.class);                                                                   // Load the main application properties.
 
-        scenarioLoader = injector.getInstance(ScenarioLoader.class);
     }
 
     @Test
@@ -56,7 +53,8 @@ public class ScenarioLoaderTest {
 
         try {
             gameTitle.setValue(gameName);
-            props.init(gameTitle.getValue());
+            AppProps props = injector.getInstance(AppProps.class);                                                      // Load the main application properties.
+            ScenarioLoader scenarioLoader = injector.getInstance(ScenarioLoader.class);
 
             List<Scenario> scenarios = scenarioLoader.loadSummaries();
 
@@ -76,6 +74,7 @@ public class ScenarioLoaderTest {
 
         try {
             gameTitle.setValue(gameName);
+            ScenarioLoader scenarioLoader = injector.getInstance(ScenarioLoader.class);
 
             List<TaskForce> taskForces = scenarioLoader.loadTaskForce(scenarioName, Side.ALLIES);
 

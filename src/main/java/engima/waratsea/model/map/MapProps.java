@@ -2,6 +2,7 @@ package engima.waratsea.model.map;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.utility.ProperyWrapper;
 
 /**
@@ -16,21 +17,18 @@ public class MapProps {
 
     /**
      * The constructor of the Map properties.
-     *
+     * @param gameTitle The game's title/name.
      * @param props Property wrapper.
      */
     @Inject
-    public MapProps(final ProperyWrapper props) {
+    public MapProps(final GameTitle gameTitle,
+                    final ProperyWrapper props) {
         this.props = props;
-    }
 
-    /**
-     * Initialize the game map properties.
-     *
-     * @param name Specifies the name of the game which then is used to determine which properties file to load.
-     */
-    public void init(final String name) {
-        props.init(name + "/" + MAP_PROPERTIES);                                                                 // Load game specific properties.
+        String gameName = gameTitle.getValue();
+
+        props.init(gameName + "/" + MAP_PROPERTIES);                                                                 // Load game specific properties.
+
     }
 
     /**

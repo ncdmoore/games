@@ -34,14 +34,17 @@ public class TaskForceTest {
     public static void setup() {
         Injector injector = Guice.createInjector(new TestModule());
 
+        GameTitle gameTitle = injector.getInstance(GameTitle.class);
+        gameTitle.setValue("bombAlley");
+
         factory = injector.getInstance(TaskForceFactory.class);
     }
 
     @Test
     public void testTaskForceActivateShipEvent() {
 
-
         TaskForceData data = new TaskForceData();
+        data.setLocation("Alexandria");
         data.setState(TaskForceState.RESERVE);
 
         ShipEvent releaseEvent = new ShipEvent();
@@ -72,6 +75,7 @@ public class TaskForceTest {
     @Test
     public void testTaskForceNonActivationShipEvent() {
         TaskForceData data = new TaskForceData();
+        data.setLocation("Alexandria");
         data.setState(TaskForceState.RESERVE);
 
         ShipEvent releaseEvent = new ShipEvent();
@@ -102,6 +106,7 @@ public class TaskForceTest {
     @Test
     public void testTaskForceActivateTurnEvent() {
         TaskForceData data = new TaskForceData();
+        data.setLocation("Malta");
         data.setState(TaskForceState.RESERVE);
 
         int turnNumber = 10;
@@ -129,6 +134,7 @@ public class TaskForceTest {
     @Test
     public void testTaskForceNonActivationTurnEvent() {
         TaskForceData data = new TaskForceData();
+        data.setLocation("Alexandria");
         data.setState(TaskForceState.RESERVE);
 
         int turnNumber = 10;
@@ -156,6 +162,7 @@ public class TaskForceTest {
     @Test
     public void testTaskForceActivateRandomTurnEventExactTurn() {
         TaskForceData data = new TaskForceData();
+        data.setLocation("Alexandria");
         data.setState(TaskForceState.RESERVE);
 
         Set<Integer> releaseValues = Stream.of(4, 5, 6).collect(Collectors.toSet());
@@ -186,6 +193,7 @@ public class TaskForceTest {
     @Test
     public void testTaskForceActivateRandomTurnEventGreaterThan() {
         TaskForceData data = new TaskForceData();
+        data.setLocation("Alexandria");
         data.setState(TaskForceState.RESERVE);
 
         Set<Integer> releaseValues = Stream.of(1).collect(Collectors.toSet());

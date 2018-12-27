@@ -4,14 +4,10 @@ package engima.waratsea;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.game.GameTitle;
-import engima.waratsea.model.map.MapProps;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import engima.waratsea.model.AppProps;
-import engima.waratsea.model.game.Game;
 import engima.waratsea.presenter.StartPresenter;
-import engima.waratsea.view.ViewProps;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -40,7 +36,6 @@ public class Main extends Application {
 
     /**
      * This is the entry point into the javafx GUI.
-     *
      * @param primaryStage The primary javafx stage of the application.
      */
     @Override
@@ -49,14 +44,12 @@ public class Main extends Application {
 
         Injector injector = Guice.createInjector(new BasicModule());
 
-        GameTitle gameTitle = initGame(injector);                                                                                 //The game instance must be injected first!
-        initProps(injector, gameTitle.getValue());
-        initPresenters(injector, primaryStage);
+        initGame(injector);                                                                                             //The game instance must be injected first!
+        initGUI(injector, primaryStage);
     }
 
     /**
      * The main entry point of the application.
-     *
      * @param args not used.
      */
     public static void main(final String[] args) {
@@ -67,7 +60,6 @@ public class Main extends Application {
     /**
      * Update global game parameters based on the application arguments.
      * Global game parameters are specified in the form name=value
-     *
      * @param args The application arguments.
      */
     private static void handleArguments(final String[] args) {
@@ -88,7 +80,6 @@ public class Main extends Application {
      * Set the game name value. The game must be a known game. This is determined by looking for a resource directory
      * that corresponds to the game name. If a resource directory is found then resources exists for the given game
      * and the game name is valid. If no resource directory exists then the game name is invalid.
-     *
      * @param game name of the game.
      */
     private static void handleGameParameter(final String game) {
@@ -100,7 +91,6 @@ public class Main extends Application {
 
     /**
      * Verify the given game name. Check if a corresponding resource directory exists for the given game.
-     *
      * @param game Name of the game to verify.
      * @return True if the given game name is valid. False otherwise.
      */
@@ -117,41 +107,19 @@ public class Main extends Application {
 
     /**
      * Initialize the game.
-     *
      * @param injector The guice injector.
-     * @return The game title.
      */
-    private GameTitle initGame(final Injector injector) {
+    private void initGame(final Injector injector) {
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
-        injector.getInstance(Game.class);                                                                               //The game instance must be injected first!
         gameTitle.setValue(PARAMETERS.get(GAME));
-        return gameTitle;
-    }
-
-    /**
-     * Initialize all of the application properties.
-     *
-     * @param injector The guice injector.
-     * @param gameName The name of the game.
-     */
-    private void initProps(final Injector injector, final String gameName) {
-        AppProps appProps = injector.getInstance(AppProps.class);                                                       // Load the main application properties.
-        appProps.init(gameName);
-
-        MapProps mapProps = injector.getInstance(MapProps.class);
-        mapProps.init(gameName);
-
-        ViewProps viewProps = injector.getInstance(ViewProps.class);                                                    // Load the GUI view properties.
-        viewProps.init(gameName);
     }
 
     /**
      * Initialize the GUI presenters.
-     *
      * @param injector The guice injector.
      * @param primaryStage The Javafx primary stage of the application.
      */
-    private void initPresenters(final Injector injector, final Stage primaryStage) {
+    private void initGUI(final Injector injector, final Stage primaryStage) {
         StartPresenter startPresenter = injector.getInstance(StartPresenter.class);
         startPresenter.init(primaryStage);
     }

@@ -2,6 +2,7 @@ package engima.waratsea.view;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.utility.ProperyWrapper;
 
 /**
@@ -15,25 +16,21 @@ public class ViewProps {
     private static final String VIEW_PROPERTIES = "properties/view.properties";
 
     /**
-     * The constructor of the View properties.
-     *
-      * @param props Property wrapper.
+     * The constructor of the View properties.  First, the default view properties are loaded and then the game specific
+     *      * view properties are loaded. This way a game specific view property may overwrite a default application view
+     *      * property.
+     * @param gameTitle The game'title/name.
+     * @param props Property wrapper.
      */
     @Inject
-    public ViewProps(final ProperyWrapper props) {
+    public ViewProps(final GameTitle gameTitle,
+                     final ProperyWrapper props) {
         this.props = props;
-    }
 
-    /**
-     * Initialize the view properties. First, the default view properties are loaded and then the game specific
-     * view properties are loaded. This way a game specific view property may overwrite a default application view
-     * property.
-     *
-     * @param name Specifies the name of the game which then is used to determine which properties file to load.
-     */
-    public void init(final String name) {
+        String gameName = gameTitle.getValue();
+
         props.init(VIEW_PROPERTIES);                                                                                    // Load default view properties.
-        props.init(name + "/" + VIEW_PROPERTIES);                                                                 // Load game specific properties.
+        props.init(gameName + "/" + VIEW_PROPERTIES);                                                            // Load game specific properties.
     }
 
     /**

@@ -19,13 +19,13 @@ public class GameMapTest {
     public static void setup() {
         Injector injector = Guice.createInjector(new TestModule());
         gameTitle = injector.getInstance(GameTitle.class);                                                              //The game instance must be injected first!
+        final String gameName = "bombAlley";
+        gameTitle.setValue(gameName);
+
         props = injector.getInstance(MapProps.class);
         gameMap = injector.getInstance(GameMap.class);
 
-        final String gameName = "bombAlley";
 
-        gameTitle.setValue(gameName);
-        props.init(gameName);
     }
 
     @Test

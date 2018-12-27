@@ -2,6 +2,7 @@ package engima.waratsea.model;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.utility.ProperyWrapper;
 
 /**
@@ -11,29 +12,23 @@ import engima.waratsea.utility.ProperyWrapper;
 public class AppProps {
 
     private final ProperyWrapper props;
-
     private static final String APP_PROPERTIES = "properties/app.properties";
 
     /**
-     * The constructor of the Application properties.
-     *
+     * The constructor of the Application properties. First, the default application properties are loaded and then the game
+     *      * specific application properties are loaded. This way a game specific property may overwrite a default application
+     *      * property.
+     * @param gameTitle The game's title/name.
      * @param props Property wrapper.
      */
     @Inject
-    public AppProps(final ProperyWrapper props) {
-        this.props = props;
-    }
+    public AppProps(final GameTitle gameTitle, final ProperyWrapper props) {
+        String gameName = gameTitle.getValue();
 
-    /**
-     * Initialize the application properties. First, the default application properties are loaded and then the game
-     * specific application properties are loaded. This way a game specific property may overwrite a default application
-     * property.
-     *
-     * @param name Specifies the name of the game which then is used to determine which properties file to load.
-     */
-    public void init(final String name) {
         props.init(APP_PROPERTIES);                                                                                    // Load default application properties.
-        props.init(name + "/" + APP_PROPERTIES);                                                                 // Load game specific properties.
+        props.init(gameName + "/" + APP_PROPERTIES);                                                             // Load game specific properties.
+
+        this.props = props;
     }
 
     /**

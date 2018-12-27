@@ -19,17 +19,17 @@ import java.util.List;
 @Slf4j
 public class GameTest {
 
-    private GameTitle gameTitle;
     private Game game;
 
     @Before
     public void setup() {
         Injector injector = Guice.createInjector(new TestModule());
 
-        gameTitle = injector.getInstance(GameTitle.class);                                                              //The game instance must be injected first!
+        GameTitle gameTitle = injector.getInstance(GameTitle.class);                                                    //The game instance must be injected first!
 
-        AppProps appProps = injector.getInstance(AppProps.class);                                                       // Load the main application properties.
-        appProps.init(gameTitle.getValue());
+        gameTitle.setValue("bombAlley");
+
+        injector.getInstance(AppProps.class);                                                                           // Load the main application properties.
 
         game = injector.getInstance(Game.class);
     }
