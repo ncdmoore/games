@@ -1,0 +1,26 @@
+{
+  "type": "CRUISER",
+  "class": "Dido",
+  "nationality": "BRITISH",
+  "weapons": {
+    "primary": 0,
+    "secondary": 0,
+    "tertiary": 2,
+    "torpedo": 1,
+    "AA": 4
+  },
+  "armour": {
+    "primary": "NONE",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "LIGHT",
+    "deck": false
+  },
+  "movement": {
+    "even": 3,
+    "odd": 3
+  },
+  "hull": 3,
+  "fuel": 216
+}

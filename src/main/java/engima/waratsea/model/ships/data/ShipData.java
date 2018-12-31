@@ -1,0 +1,55 @@
+package engima.waratsea.model.ships.data;
+
+import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.ships.ShipType;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
+
+/**
+ * Represents the ship's data that is read and written to JSON files.
+ */
+public class ShipData {
+
+    @Getter
+    @Setter
+    private String name;
+
+    @Getter
+    @Setter
+    private ShipType type;
+
+    @Getter
+    @Setter
+    private String shipClass;
+
+    @Getter
+    @Setter
+    private Nation nationality;
+
+    @Getter
+    @Setter
+    private WeaponData weapons;
+
+    @Getter
+    @Setter
+    private ArmourData armour;
+
+    @Getter
+    @Setter
+    private MovementData movement;
+
+    @Getter
+    @Setter
+    private int hull;
+
+    @Getter
+    @Setter
+    private int fuel;
+
+    @Getter
+    @Setter
+    private List<Integer> flightDeck;
+
+}

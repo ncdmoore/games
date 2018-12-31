@@ -1,0 +1,26 @@
+{
+  "type": "AIRCRAFT_CARRIER",
+  "class": "Illustrious",
+  "nationality": "BRITISH",
+  "weapons": {
+    "secondary": 0,
+    "tertiary": 2,
+    "torpedo": 0,
+    "AA": 6
+  },
+  "armour": {
+    "flight deck": "LIGHT",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "LIGHT",
+    "deck": false
+  },
+  "movement": {
+    "even": 3,
+    "odd": 3
+  },
+  "hull": 10,
+  "fuel": 384,
+  "flightDeck": [0, 4, 6, 8]
+}

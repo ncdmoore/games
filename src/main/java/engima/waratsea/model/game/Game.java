@@ -8,7 +8,7 @@ import engima.waratsea.event.ship.ShipEventType;
 import engima.waratsea.event.turn.TurnEvent;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.scenario.ScenarioLoader;
-import engima.waratsea.model.ships.TaskForce;
+import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

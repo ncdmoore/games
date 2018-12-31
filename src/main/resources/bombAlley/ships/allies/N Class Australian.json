@@ -1,0 +1,26 @@
+{
+  "type": "DESTROYER",
+  "class": "N Class",
+  "nationality": "AUSTRALIAN",
+  "weapons": {
+    "primary": 0,
+    "secondary": 0,
+    "tertiary": 2,
+    "torpedo": 2,
+    "AA": 1
+  },
+  "armour": {
+    "primary": "NONE",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "NONE",
+    "deck": false
+  },
+  "movement": {
+    "even": 4,
+    "odd": 3
+  },
+  "hull": 2,
+  "fuel": 168
+}

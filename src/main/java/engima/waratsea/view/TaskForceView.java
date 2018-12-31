@@ -1,7 +1,7 @@
 package engima.waratsea.view;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.ships.TaskForceState;
+import engima.waratsea.model.taskForce.TaskForceState;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.view.map.MapView;
@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import engima.waratsea.model.ships.TaskForce;
+import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 

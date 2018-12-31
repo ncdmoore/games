@@ -1,0 +1,26 @@
+{
+  "type": "AIRCRAFT_CARRIER",
+  "class": "Furious",
+  "nationality": "BRITISH",
+  "weapons": {
+    "secondary": 0,
+    "tertiary": 2,
+    "torpedo": 0,
+    "AA": 2
+  },
+  "armour": {
+    "flight deck": "NONE",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "LIGHT",
+    "deck": false
+  },
+  "movement": {
+    "even": 3,
+    "odd": 2
+  },
+  "hull": 9,
+  "fuel": 384,
+  "flightDeck": [0, 3, 6]
+}

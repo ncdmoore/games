@@ -39,8 +39,8 @@ public class StartPresenter {
      *
      * @param primaryStage the primary stage.
      */
-    public void init(final Stage primaryStage) {
-        log.info("init.");
+    public void show(final Stage primaryStage) {
+        log.info("show.");
 
         view = viewProvider.get();
 
@@ -60,7 +60,7 @@ public class StartPresenter {
     private void newGame() {
         log.info("New Game.");
 
-        scenarioPresenterProvider.get().init(stage);
+        scenarioPresenterProvider.get().show(stage);
     }
 
     /**

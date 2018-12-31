@@ -1,0 +1,25 @@
+{
+  "type": "AIRCRAFT CARRIER",
+  "class": "Sparviero",
+  "nationality": "ITALIAN",
+  "weapons": {
+    "secondary": 1,
+    "tertiary": 0,
+    "torpedo": 0,
+    "AA": 3
+  },
+  "armour": {
+    "flight deck": "NONE",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "NONE"
+  },
+  "movement": {
+    "even": 2,
+    "odd": 1
+  },
+  "hull": 4,
+  "fuel": 264,
+  "flightDeck": [0, 2, 4]
+}

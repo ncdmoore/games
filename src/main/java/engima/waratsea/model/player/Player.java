@@ -1,7 +1,7 @@
 package engima.waratsea.model.player;
 
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.ships.TaskForce;
+import engima.waratsea.model.taskForce.TaskForce;
 
 import java.util.List;
 

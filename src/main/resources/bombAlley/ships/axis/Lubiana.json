@@ -1,0 +1,26 @@
+{
+  "type": "DESTROYER",
+  "class": "Lubiana",
+  "nationality": "ITALIAN",
+  "weapons": {
+    "primary": 0,
+    "secondary": 0,
+    "tertiary": 1,
+    "torpedo": 1,
+    "AA": 1
+  },
+  "armour": {
+    "primary": "NONE",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "NONE",
+    "deck": false
+  },
+  "movement": {
+    "even": 4,
+    "odd": 4
+  },
+  "hull": 1,
+  "fuel": 96
+}

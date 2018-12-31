@@ -48,7 +48,7 @@ public class MapView {
      * @param numRows number of grid rows for this map.
      * @param gridsize size of the square grid.
      * @param yAdjust the scale by which pop ups are moved if they are close to the bottom of the map.
-     * @param yThreshold the y threshold value in which the pop up is moved up to avoid running off the bottom of the map.
+     * @param yThreshold the y threshold health in which the pop up is moved up to avoid running off the bottom of the map.
      */
     public void init(final int numColumns, final int numRows, final int gridsize, final int yAdjust, final int yThreshold) {
 

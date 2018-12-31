@@ -1,0 +1,26 @@
+{
+  "type": "TRANSPORT",
+  "class": "Large Transport",
+  "nationality": "BRITISH",
+  "weapons": {
+    "primary": 0,
+    "secondary": 0,
+    "tertiary": 0,
+    "torpedo": 0,
+    "AA": 1
+  },
+  "armour": {
+    "primary": "NONE",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "NONE",
+    "deck": false
+  },
+  "movement": {
+    "even": 2,
+    "odd": 2
+  },
+  "hull": 3,
+  "fuel": 240
+}

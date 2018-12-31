@@ -2,7 +2,7 @@ package engima.waratsea.presenter.dto.map;
 
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.Grid;
-import engima.waratsea.model.ships.TaskForce;
+import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.view.map.GridView;
 import javafx.event.EventHandler;

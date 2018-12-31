@@ -1,0 +1,26 @@
+{
+  "type": "CRUISER",
+  "class": "Trento",
+  "nationality": "ITALIAN",
+  "weapons": {
+    "primary": 0,
+    "secondary": 5,
+    "tertiary": 1,
+    "torpedo": 2,
+    "AA": 3
+  },
+  "armour": {
+    "primary": "NONE",
+    "secondary": "LIGHT",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "NONE",
+    "deck": false
+  },
+  "movement": {
+    "even": 3,
+    "odd": 3
+  },
+  "hull": 6,
+  "fuel": 312
+}

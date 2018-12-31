@@ -1,0 +1,26 @@
+{
+  "type": "BATTLESHIP",
+  "class": "Queen Elizabeth",
+  "nationality": "BRITISH",
+  "weapons": {
+    "primary": 10,
+    "secondary": 3,
+    "tertiary": 1,
+    "torpedo": 0,
+    "AA": 4
+  },
+  "armour": {
+    "primary": "HEAVY",
+    "secondary": "LIGHT",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "HEAVY",
+    "deck": true
+  },
+  "movement": {
+    "even": 3,
+    "odd": 2
+  },
+  "hull": 14,
+  "fuel": 336
+}

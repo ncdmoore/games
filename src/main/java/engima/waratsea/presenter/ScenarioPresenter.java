@@ -55,8 +55,8 @@ public class ScenarioPresenter {
      *
      * @param primaryStage the stage that the scenario view is placed.
      */
-    public void init(final Stage primaryStage) {
-        log.info("init.");
+    public void show(final Stage primaryStage) {
+        log.info("show.");
 
         view = viewProvider.get();
 
@@ -96,14 +96,14 @@ public class ScenarioPresenter {
         game.setScenario(selectedScenario);
         game.setHumanSide(side);
 
-        taskForcePresenterProvider.get().init(stage);
+        taskForcePresenterProvider.get().show(stage);
     }
 
     /**
      * Callback when the back button is clicked. Return to the start screen.
      */
     private void backButton() {
-        startPresenterProvider.get().init(stage);
+        startPresenterProvider.get().show(stage);
     }
 
     /**

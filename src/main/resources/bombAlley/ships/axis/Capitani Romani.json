@@ -1,0 +1,26 @@
+{
+  "type": "CRUISER",
+  "class": "Capitani Romani",
+  "nationality": "ITALIAN",
+  "weapons": {
+    "primary": 0,
+    "secondary": 0,
+    "tertiary": 4,
+    "torpedo": 2,
+    "AA": 2
+  },
+  "armour": {
+    "primary": "NONE",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "NONE",
+    "deck": false
+  },
+  "movement": {
+    "even": 4,
+    "odd": 4
+  },
+  "hull": 3,
+  "fuel": 288
+}

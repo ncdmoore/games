@@ -64,9 +64,9 @@ public class Scenario implements Comparable<Scenario> {
     }
 
     /**
-     * Returns the string value of the scenario. This is used in the javafx list view control.
+     * Returns the string health of the scenario. This is used in the javafx list view control.
      *
-     * @return The string value of the scenario.
+     * @return The string health of the scenario.
      */
     @Override
     public String toString() {

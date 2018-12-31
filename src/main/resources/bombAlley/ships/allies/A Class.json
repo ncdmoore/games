@@ -1,7 +1,7 @@
 {
-  "type": "Destroyer",
+  "type": "DESTROYER",
   "shipClass": "A Class",
-  "nationality": "British",
+  "nationality": "BRITISH",
   "weapons":
   {
     "primary": 0,

@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.scenario.ScenarioException;
-import engima.waratsea.model.ships.TaskForce;
+import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.view.FatalErrorDialog;
 import engima.waratsea.view.TaskForceView;
 
@@ -64,8 +64,8 @@ public class TaskForcePresenter {
      *
      * @param primaryStage the stage that the scenario view is placed.
      */
-    public void init(final Stage primaryStage) {
-        log.info("init.");
+    public void show(final Stage primaryStage) {
+        log.info("show.");
 
         view = viewProvider.get();
 
@@ -171,7 +171,7 @@ public class TaskForcePresenter {
      * Call back for the back button.
      */
     private void backButton() {
-        scenarioPresenterProvider.get().init(stage);
+        scenarioPresenterProvider.get().show(stage);
     }
 
     /**

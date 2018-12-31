@@ -1,0 +1,26 @@
+{
+  "type": "BATTLESHIP",
+  "class": "Repulse",
+  "nationality": "BRITISH",
+  "weapons": {
+    "primary": 7,
+    "secondary": 0,
+    "tertiary": 4,
+    "torpedo": 2,
+    "AA": 4
+  },
+  "armour": {
+    "primary": "LIGHT",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "LIGHT",
+    "deck": false
+  },
+  "movement": {
+    "even": 3,
+    "odd": 2
+  },
+  "hull": 12,
+  "fuel": 336
+}

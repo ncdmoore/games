@@ -1,0 +1,26 @@
+{
+  "type": "BATTLESHIP",
+  "class": "King George V (1)",
+  "nationality": "BRITISH",
+  "weapons": {
+    "primary": 0,
+    "secondary": 0,
+    "tertiary": 1,
+    "torpedo": 0,
+    "AA": 2
+  },
+  "armour": {
+    "primary": "HEAVY",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "HEAVY",
+    "deck": false
+  },
+  "movement": {
+    "even": 2,
+    "odd": 2
+  },
+  "hull": 10,
+  "fuel": 384
+}

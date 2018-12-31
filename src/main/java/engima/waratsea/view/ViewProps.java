@@ -35,8 +35,8 @@ public class ViewProps {
 
     /**
      * Get a string property.
-     * @param key The name of the property to get.
-     * @return The value of the property.
+     * @param key The name of the property to getShipData.
+     * @return The health of the property.
      */
     public String getString(final String key) {
         return props.getString(key);
@@ -44,8 +44,8 @@ public class ViewProps {
 
     /**
      * Get an integer property.
-     * @param key The name of the property to get.
-     * @return The value of the property.
+     * @param key The name of the property to getShipData.
+     * @return The health of the property.
      */
     public int getInt(final String key) {
         return props.getInt(key);
@@ -53,8 +53,8 @@ public class ViewProps {
 
     /**
      * Get a double property.
-     * @param key The name of the property to get.
-     * @return The value of the property.
+     * @param key The name of the property to getShipData.
+     * @return The health of the property.
      */
     public double getDouble(final String key) {
         return props.getDouble(key);

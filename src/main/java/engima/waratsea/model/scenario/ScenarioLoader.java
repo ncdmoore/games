@@ -6,13 +6,13 @@ import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.GameTitle;
-import engima.waratsea.model.ships.TaskForceData;
-import engima.waratsea.model.ships.TaskForceFactory;
+import engima.waratsea.model.taskForce.TaskForceData;
+import engima.waratsea.model.taskForce.TaskForceFactory;
 import lombok.extern.slf4j.Slf4j;
 import engima.waratsea.model.AppProps;
 
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.ships.TaskForce;
+import engima.waratsea.model.taskForce.TaskForce;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -177,7 +177,7 @@ public class ScenarioLoader {
 
             log.info("load task forces for side: {}, number of task forces: {}", side, taskForces.size());
 
-            return seedTaskForces(taskForces);
+            return seedTaskForces(side, taskForces);
         } catch (Exception ex) {                                                                                        // Catch any Gson errors.
             log.error("Unable to load task forces: {}", url.getPath(), ex);
             return null;
@@ -186,11 +186,14 @@ public class ScenarioLoader {
 
     /**
      * Seed the task forces with the data from the JSON file.
+     * @param side The side of the task force. ALLIES or AXIS.
      * @param data Task force data from the JSON file.
      * @return An intialized or seeded Task Force.
      */
-    private List<TaskForce> seedTaskForces(final List<TaskForceData> data) {
-        return data.stream().map(taskForceFactory::create).collect(Collectors.toList());
+    private List<TaskForce> seedTaskForces(final Side side, final List<TaskForceData> data) {
+        return data.stream()
+                .map(taskForceData -> taskForceFactory.create(side, taskForceData))
+                .collect(Collectors.toList());
     }
 
 }

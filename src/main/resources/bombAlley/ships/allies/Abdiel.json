@@ -1,0 +1,26 @@
+{
+  "type": "MINELAYER",
+  "class": "Abdiel",
+  "nationality": "BRITISH",
+  "weapons": {
+    "primary": 0,
+    "secondary": 0,
+    "tertiary": 2,
+    "torpedo": 0,
+    "AA": 1
+  },
+  "armour": {
+    "primary": "NONE",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "NONE",
+    "deck": false
+  },
+  "movement": {
+    "even": 4,
+    "odd": 4
+  },
+  "hull": 2,
+  "fuel": 192
+}

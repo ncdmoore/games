@@ -1,0 +1,26 @@
+{
+  "type": "BATTLESHIP",
+  "class": "Royal Sovereign",
+  "nationality": "BRITISH",
+  "weapons": {
+    "primary": 10,
+    "secondary": 1,
+    "tertiary": 1,
+    "torpedo": 0,
+    "AA": 2
+  },
+  "armour": {
+    "primary": "HEAVY",
+    "secondary": "LIGHT",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "HEAVY",
+    "deck": false
+  },
+  "movement": {
+    "even": 2,
+    "odd": 1
+  },
+  "hull": 12,
+  "fuel": 288
+}

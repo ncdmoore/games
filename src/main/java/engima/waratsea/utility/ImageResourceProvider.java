@@ -42,7 +42,7 @@ public class ImageResourceProvider {
     }
 
     /**
-     * Get an image. First, attempt to get a specific game image for a the current game. If no specific image is found
+     * Get an image. First, attempt to getShipData a specific game image for a the current game. If no specific image is found
      * then the application default image is used. This allows any game to override the application default images.
      *
      * @param resourceName The resource file name.

@@ -9,5 +9,11 @@ public enum ShipType {
     CRUISER,
     DESTROYER,
     DESTROYER_ESCORT,
-    OTHER
+    MINELAYER,
+    MINESWEEPER,
+    OILER,
+    SLOOP,
+    SEAPLANE_TENDER,
+    SUBMARINE,
+    TRANSPORT
 }

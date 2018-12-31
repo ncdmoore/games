@@ -8,7 +8,7 @@ import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
-import engima.waratsea.model.ships.TaskForce;
+import engima.waratsea.model.taskForce.TaskForce;
 import enigma.waratsea.TestModule;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -44,8 +44,8 @@ public class GameTest {
         List<TaskForce> humanForces = game.getHumanPlayer().getTaskForces();
         List<TaskForce> computerForces = game.getComputerPlayer().getTaskForces();
 
-        String humanShipName = humanForces.get(0).getShips().get(0);
-        String computerShipName = computerForces.get(0).getShips().get(0);
+        String humanShipName = humanForces.get(0).getShips().get(0).getName();
+        String computerShipName = computerForces.get(0).getShips().get(0).getName();
 
         log.info("human ship {}", humanShipName);
         log.info("computer ship {},", computerShipName);

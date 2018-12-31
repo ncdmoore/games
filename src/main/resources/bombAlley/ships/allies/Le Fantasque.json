@@ -1,0 +1,26 @@
+{
+  "type": "DESTROYER",
+  "class": "Le Fantasque",
+  "nationality": "FRENCH",
+  "weapons": {
+    "primary": 0,
+    "secondary": 0,
+    "tertiary": 3,
+    "torpedo": 2,
+    "AA": 1
+  },
+  "armour": {
+    "primary": "NONE",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "NONE",
+    "deck": false
+  },
+  "movement": {
+    "even": 4,
+    "odd": 4
+  },
+  "hull": 3,
+  "fuel": 192
+}

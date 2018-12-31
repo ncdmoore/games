@@ -1,0 +1,26 @@
+{
+  "type": "BATTLESHIP",
+  "class": "Nelson",
+  "nationality": "BRITISH",
+  "weapons": {
+    "primary": 12,
+    "secondary": 5,
+    "tertiary": 1,
+    "torpedo": 1,
+    "AA": 3
+  },
+  "armour": {
+    "primary": "HEAVY",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "HEAVY",
+    "deck": true
+  },
+  "movement": {
+    "even": 2,
+    "odd": 2
+  },
+  "hull": 14,
+  "fuel": 336
+}

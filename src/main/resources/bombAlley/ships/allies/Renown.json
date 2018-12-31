@@ -1,0 +1,26 @@
+{
+  "type": "BATTLESHIP",
+  "class": "Renown",
+  "nationality": "BRITISH",
+  "weapons": {
+    "primary": 7,
+    "secondary": 0,
+    "tertiary": 5,
+    "torpedo": 2,
+    "AA": 5
+  },
+  "armour": {
+    "primary": "LIGHT",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "LIGHT",
+    "deck": false
+  },
+  "movement": {
+    "even": 3,
+    "odd": 3
+  },
+  "hull": 14,
+  "fuel": 432
+}

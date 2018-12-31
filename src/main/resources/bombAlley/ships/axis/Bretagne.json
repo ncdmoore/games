@@ -1,0 +1,26 @@
+{
+  "type": "BATTLESHIP",
+  "class": "Bretagne",
+  "nationality": "FRENCH",
+  "weapons": {
+    "primary": 7,
+    "secondary": 0,
+    "tertiary": 3,
+    "torpedo": 0,
+    "AA": 3
+  },
+  "armour": {
+    "primary": "HEAVY",
+    "secondary": "NONE",
+    "tertiary": "LIGHT",
+    "AA": "NONE",
+    "hull": "HEAVY",
+    "deck": false
+  },
+  "movement": {
+    "even": 2,
+    "odd": 2
+  },
+  "hull": 7,
+  "fuel": 264
+}

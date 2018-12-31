@@ -1,0 +1,26 @@
+{
+  "type": "AIRCRAFT_CARRIER",
+  "class": "Argus",
+  "nationality": "BRITISH",
+  "weapons": {
+    "secondary": 0,
+    "tertiary": 0,
+    "torpedo": 0,
+    "AA": 1
+  },
+  "armour": {
+    "flight deck": "NONE",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "NONE",
+    "deck": false
+  },
+  "movement": {
+    "even": 2,
+    "odd": 1
+  },
+  "hull": 5,
+  "fuel": 312,
+  "flightDeck": [0, 3]
+}

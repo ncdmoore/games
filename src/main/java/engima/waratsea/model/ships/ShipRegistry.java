@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.utility.ProperyWrapper;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,7 @@ import java.util.Map;
  * Maps ship names to ship class.
  */
 @Singleton
+@Slf4j
 public class ShipRegistry {
     private static final String ALLIED_SHIP_PROPERTIES = "ships/allies/alliedShip.properties";
     private static final String AXIS_SHIP_PROPERTIES = "ships/axis/axisShip.properties";
@@ -45,6 +47,8 @@ public class ShipRegistry {
      * @return The ship class.
      */
     public String getClass(final Side side, final String shipName) {
-        return shipMap.get(side).getString(shipName.trim());
+        String shipClassName = shipMap.get(side).getString(shipName.trim());
+        log.info("For ship '{}' and side {} get class '{}'", new Object[]{shipName, side, shipClassName});
+        return shipClassName;
     }
 }

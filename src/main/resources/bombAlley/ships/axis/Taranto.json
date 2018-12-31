@@ -1,0 +1,26 @@
+{
+  "type": "CRUISER",
+  "class": "Taranto",
+  "nationality": "ITALIAN",
+  "weapons": {
+    "primary": 0,
+    "secondary": 1,
+    "tertiary": 0,
+    "torpedo": 1,
+    "AA": 2
+  },
+  "armour": {
+    "primary": "NONE",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "LIGHT",
+    "deck": false
+  },
+  "movement": {
+    "even": 3,
+    "odd": 2
+  },
+  "hull": 3,
+  "fuel": 264
+}

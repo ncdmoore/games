@@ -33,8 +33,8 @@ public class MapProps {
 
     /**
      * Get a string property.
-     * @param key The name of the property to get.
-     * @return The property value.
+     * @param key The name of the property to getShipData.
+     * @return The property health.
      */
     public String getString(final String key) {
         return props.getString(key);
@@ -42,8 +42,8 @@ public class MapProps {
 
     /**
      * Get an integer property.
-     * @param key The name of the property to get.
-     * @return The property value.
+     * @param key The name of the property to getShipData.
+     * @return The property health.
      */
     public int getInt(final String key) {
         return props.getInt(key);

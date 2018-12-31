@@ -1,0 +1,26 @@
+{
+  "type": "BATTLESHIP",
+  "class": "Strasbourg",
+  "nationality": "FRENCH",
+  "weapons": {
+    "primary": 6,
+    "secondary": 0,
+    "tertiary": 6,
+    "torpedo": 0,
+    "AA": 4
+  },
+  "armour": {
+    "primary": "HEAVY",
+    "secondary": "NONE",
+    "tertiary": "LIGHT",
+    "AA": "NONE",
+    "hull": "LIGHT",
+    "deck": false
+  },
+  "movement": {
+    "even": 3,
+    "odd": 3
+  },
+  "hull": 11,
+  "fuel": 432
+}

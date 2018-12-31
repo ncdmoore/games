@@ -30,20 +30,20 @@ public class ProperyWrapper {
     }
 
     /**
-     * Get a property string value.
+     * Get a property string health.
      *
-     * @param key the property to get.
-     * @return The value of the property.
+     * @param key the property to getShipData.
+     * @return The health of the property.
      */
     public String getString(final String key) {
         return properties.getProperty(key);
     }
 
     /**
-     * Get the property int value.
+     * Get the property int health.
      *
-     * @param key the property to get.
-     * @return The value of the property.
+     * @param key the property to getShipData.
+     * @return The health of the property.
      */
     public int getInt(final String key) {
         return Integer.parseInt(properties.getProperty(key));
@@ -51,9 +51,9 @@ public class ProperyWrapper {
 
 
     /**
-     * Get the property value.
-     * @param key the property to get.
-     * @return The value of the property.
+     * Get the property health.
+     * @param key the property to getShipData.
+     * @return The health of the property.
      */
     public double getDouble(final String key) {
         return Double.parseDouble(properties.getProperty(key));

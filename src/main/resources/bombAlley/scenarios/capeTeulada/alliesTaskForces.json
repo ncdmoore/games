@@ -15,7 +15,7 @@
       "DD38 Defender",
       "DD61 Gallant",
       "DD67 Greyhound",
-      "DD69 Griffin",
+      "DD68 Griffin",
       "DD71 Hereward"
     ]
   },
@@ -27,8 +27,8 @@
     "mission": "PATROL",
     "ships": [
       "CVL04 Eagle",
-      "BB05 Barham",
-      "BB06 Malaya"
+      "BB04 Barham",
+      "BB05 Malaya"
     ]
   },
   {
@@ -87,7 +87,7 @@
       "DD35 Dainty",
       "DD37 Decoy",
       "DD69 Hasty",
-      "DD70 Javock",
+      "DD70 Havock",
       "TR01",
       "TR02",
       "TR03",
@@ -131,10 +131,10 @@
       "DD55 Firedrake",
       "DD56 Forester",
       "DD60 Fury",
-      "DD35 Ducan",
+      "DD34 Duncan",
       "DD113 Jaguar",
       "DD123 Kelvin",
-      "DE01 V&W"
+      "DE01 V&W-1"
     ]
   }
 ]

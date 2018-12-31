@@ -1,0 +1,26 @@
+{
+  "type": "DESTROYER",
+  "class": "Tribal",
+  "nationality": "BRITISH",
+  "weapons": {
+    "primary": 0,
+    "secondary": 0,
+    "tertiary": 3,
+    "torpedo": 1,
+    "AA": 2
+  },
+  "armour": {
+    "primary": "NONE",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "NONE",
+    "deck": false
+  },
+  "movement": {
+    "even": 4,
+    "odd": 3
+  },
+  "hull": 2,
+  "fuel": 144
+}

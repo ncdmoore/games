@@ -25,8 +25,6 @@ public class ShipRegistryTest {
 
     @Test
     public void TestAlliedShipLookup() {
-
-
         String shipName = "BB01 Queen Elizabeth";
         String shipClassName = "Queen Elizabeth";
 
@@ -37,8 +35,6 @@ public class ShipRegistryTest {
 
     @Test
     public void TestAxisShipLookup() {
-
-
         String shipName = "BB01 Conte di Cavour";
         String shipClassName = "Conte di Cavour";
 

@@ -24,7 +24,7 @@
         If you set the basedir property below, then all reported file
         names will be relative to the specified directory. See
         https://checkstyle.org/5.x/config.html#Checker
-        <property name="basedir" value="${basedir}"/>
+        <property name="basedir" health="${basedir}"/>
     -->
 
     <property name="fileExtensions" value="java, properties, xml"/>
@@ -52,18 +52,18 @@
     <!-- Miscellaneous other checks.                   -->
     <!-- See http://checkstyle.sf.net/config_misc.html -->
     <!-- <module name="RegexpSingleline">
-       <property name="format" value="\s+$"/>
-       <property name="minimum" value="0"/>
-       <property name="maximum" value="0"/>
-       <property name="message" value="Line has trailing spaces."/>
+       <property name="format" health="\s+$"/>
+       <property name="minimum" health="0"/>
+       <property name="maximum" health="0"/>
+       <property name="message" health="Line has trailing spaces."/>
     </module> -->
 
 
     <!-- Checks for Headers                                -->
     <!-- See http://checkstyle.sf.net/config_header.html   -->
     <!-- <module name="Header"> -->
-    <!--   <property name="headerFile" value="${checkstyle.header.file}"/> -->
-    <!--   <property name="fileExtensions" value="java"/> -->
+    <!--   <property name="headerFile" health="${checkstyle.header.file}"/> -->
+    <!--   <property name="fileExtensions" health="java"/> -->
     <!-- </module> -->
 
     <module name="TreeWalker">

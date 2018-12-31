@@ -1,0 +1,25 @@
+{
+  "type": "AIRCRAFT_CARRIER",
+  "class": "Commandant Teste",
+  "nationality": "FRENCH",
+  "weapons": {
+    "primary": 0,
+    "secondary": 0,
+    "tertiary": 1,
+    "torpedo": 1,
+    "AA": 0
+  },
+  "armour": {
+    "flight deck": "NONE",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "NONE"
+  },
+  "movement": {
+    "even": 2,
+    "odd": 2
+  },
+  "hull": 5,
+  "fuel": 384
+}

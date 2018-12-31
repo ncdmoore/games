@@ -1,0 +1,26 @@
+{
+  "type": "AIRCRAFT_CARRIER",
+  "class": "Miraglia",
+  "nationality": "ITALIAN",
+  "weapons": {
+    "primary": 0,
+    "secondary": 0,
+    "tertiary": 1,
+    "torpedo": 0,
+    "AA": 1
+  },
+  "armour": {
+    "flight deck": "NONE",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "NONE"
+  },
+  "movement": {
+    "even": 4,
+    "odd": 3
+  },
+  "hull": 2,
+  "fuel": 336,
+  "flightDeck": [0, 3]
+}

@@ -1,0 +1,26 @@
+{
+  "type": "BATTLESHIP",
+  "class": "Littorio",
+  "nationality": "ITALIAN",
+  "weapons": {
+    "primary": 11,
+    "secondary": 5,
+    "tertiary": 0,
+    "torpedo": 0,
+    "AA": 4
+  },
+  "armour": {
+    "primary": "HEAVY",
+    "secondary": "HEAVY",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "HEAVY",
+    "deck": true
+  },
+  "movement": {
+    "even": 3,
+    "odd": 3
+  },
+  "hull": 15,
+  "fuel": 336
+}

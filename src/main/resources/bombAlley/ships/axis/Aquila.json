@@ -1,0 +1,25 @@
+{
+  "type": "AIRCRAFT_CARRIER",
+  "class": "Aquila",
+  "nationality": "ITALIAN",
+  "weapons": {
+    "secondary": 0,
+    "tertiary": 1,
+    "torpedo": 0,
+    "AA": 9
+  },
+  "armour": {
+    "flight deck": "NONE",
+    "secondary": "NONE",
+    "tertiary": "NONE",
+    "AA": "NONE",
+    "hull": "NONE"
+  },
+  "movement": {
+    "even": 3,
+    "odd": 3
+  },
+  "hull": 10,
+  "fuel": 384,
+  "flightDeck": [0, 3, 5, 9, 11]
+}

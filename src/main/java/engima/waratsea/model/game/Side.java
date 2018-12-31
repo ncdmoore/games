@@ -5,8 +5,18 @@ package engima.waratsea.model.game;
  */
 public enum Side {
 
-    ALLIES,
-    AXIS;
+    ALLIES("Allies"),
+    AXIS("Axis");
+
+    private String value;
+
+    /**
+     * Constructs a Side.
+     * @param value The string representation of the side.
+     */
+    Side(final String value) {
+        this.value = value;
+    }
 
     /**
      * Given a side this method returns the opposing side.
@@ -14,5 +24,14 @@ public enum Side {
      */
     public Side opposite() {
         return this == ALLIES ? AXIS : ALLIES;
+    }
+
+    /**
+     * The string representation of this enum.
+     * @return The string health of the enum.
+     */
+    @Override
+    public String toString() {
+        return value;
     }
 }
