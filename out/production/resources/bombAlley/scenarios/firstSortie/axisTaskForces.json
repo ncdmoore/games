@@ -73,7 +73,7 @@
         "action": "DAMAGED_SURFACE_COMBAT",
         "side": "AXIS",
         "taskForceName": "*",
-        "shipType": "ANY"
+        "shipType": "*"
       }
     ],
     "ships": [

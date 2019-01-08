@@ -1,16 +1,17 @@
-package enigma.waratsea.model.ships;
+package enigma.waratsea.model.taskForce;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import engima.waratsea.event.ship.ShipEvent;
-import engima.waratsea.event.ship.ShipEventAction;
-import engima.waratsea.event.ship.ShipEventType;
-import engima.waratsea.event.turn.RandomTurnEvent;
-import engima.waratsea.event.turn.TurnEvent;
+import engima.waratsea.model.game.event.ship.ShipEvent;
+import engima.waratsea.model.game.event.ship.ShipEventAction;
+import engima.waratsea.model.game.event.ship.ShipEventMatcher;
+import engima.waratsea.model.game.event.turn.TurnEvent;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.game.event.turn.TurnEventMatcher;
+import engima.waratsea.model.ships.ShipType;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.model.taskForce.TaskForceData;
+import engima.waratsea.model.taskForce.data.TaskForceData;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.taskForce.TaskForceState;
 import enigma.waratsea.TestModule;
@@ -21,9 +22,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class TaskForceTest {
 
@@ -62,19 +60,18 @@ public class TaskForceTest {
         data.setState(TaskForceState.RESERVE);
         data.setShips(new ArrayList<>());
 
-        ShipEvent releaseEvent = new ShipEvent();
+        ShipEventMatcher releaseEvent = new ShipEventMatcher();
         releaseEvent.setSide(Side.ALLIES);
         releaseEvent.setAction(ShipEventAction.SPOTTED);
-        releaseEvent.setShipType(ShipEventType.ANY);
+        releaseEvent.setShipType("*");
 
-        List<ShipEvent> releaseEvents = new ArrayList<>();
+        List<ShipEventMatcher> releaseEvents = new ArrayList<>();
         releaseEvents.add(releaseEvent);
-
 
         ShipEvent event = new ShipEvent();
         event.setSide(Side.ALLIES);
         event.setAction(ShipEventAction.SPOTTED);
-        event.setShipType(ShipEventType.AIRCRAFT_CARRIER);
+        event.setShipType(ShipType.AIRCRAFT_CARRIER);
 
         data.setReleaseShipEvents(releaseEvents);
 
@@ -94,18 +91,18 @@ public class TaskForceTest {
         data.setState(TaskForceState.RESERVE);
         data.setShips(new ArrayList<>());
 
-        ShipEvent releaseEvent = new ShipEvent();
+        ShipEventMatcher releaseEvent = new ShipEventMatcher();
         releaseEvent.setSide(Side.ALLIES);
         releaseEvent.setAction(ShipEventAction.SPOTTED);
-        releaseEvent.setShipType(ShipEventType.BATTLESHIP);
+        releaseEvent.setShipType("BATTLESHIP");
 
-        List<ShipEvent> releaseEvents = new ArrayList<>();
+        List<ShipEventMatcher> releaseEvents = new ArrayList<>();
         releaseEvents.add(releaseEvent);
 
         ShipEvent event = new ShipEvent();
         event.setSide(Side.ALLIES);
         event.setAction(ShipEventAction.SPOTTED);
-        event.setShipType(ShipEventType.AIRCRAFT_CARRIER);
+        event.setShipType(ShipType.AIRCRAFT_CARRIER);
 
         data.setReleaseShipEvents(releaseEvents);
 
@@ -116,6 +113,12 @@ public class TaskForceTest {
         event.fire();
 
         assert (taskForce.getState() == TaskForceState.RESERVE);
+
+        event.setShipType(ShipType.BATTLESHIP);
+
+        event.fire();
+
+        Assert.assertEquals(taskForce.getState(), TaskForceState.ACTIVE);
     }
 
 
@@ -128,10 +131,10 @@ public class TaskForceTest {
 
         int turnNumber = 10;
 
-        TurnEvent releaseEvent = new TurnEvent();
+        TurnEventMatcher releaseEvent = new TurnEventMatcher();
         releaseEvent.setTurn(turnNumber);
 
-        List<TurnEvent> releaseEvents = new ArrayList<>();
+        List<TurnEventMatcher> releaseEvents = new ArrayList<>();
         releaseEvents.add(releaseEvent);
 
         TurnEvent event = new TurnEvent();
@@ -157,10 +160,10 @@ public class TaskForceTest {
 
         int turnNumber = 10;
 
-        TurnEvent releaseEvent = new TurnEvent();
+        TurnEventMatcher releaseEvent = new TurnEventMatcher();
         releaseEvent.setTurn(turnNumber);
 
-        List<TurnEvent> releaseEvents = new ArrayList<>();
+        List<TurnEventMatcher> releaseEvents = new ArrayList<>();
         releaseEvents.add(releaseEvent);
 
         TurnEvent event = new TurnEvent();
@@ -177,67 +180,4 @@ public class TaskForceTest {
         assert (taskForce.getState() == TaskForceState.RESERVE);
     }
 
-    @Test
-    public void testTaskForceActivateRandomTurnEventExactTurn() {
-        TaskForceData data = new TaskForceData();
-        data.setLocation("Alexandria");
-        data.setState(TaskForceState.RESERVE);
-        data.setShips(new ArrayList<>());
-
-        Set<Integer> releaseValues = Stream.of(4, 5, 6).collect(Collectors.toSet());
-
-        RandomTurnEvent releaseEvent = new RandomTurnEvent();
-        releaseEvent.setTurn(1);
-        releaseEvent.setValues(releaseValues);
-
-        List<RandomTurnEvent> releaseEvents = new ArrayList<>();
-        releaseEvents.add(releaseEvent);
-
-        data.setReleaseRandomTurnEvents(releaseEvents);
-
-        TaskForce taskForce = factory.create(Side.ALLIES, data);
-
-        RandomTurnEvent firedEvent = new RandomTurnEvent();
-        firedEvent.setTurn(1);
-        firedEvent.setValues(Stream.of(5).collect(Collectors.toSet()));
-
-
-        assert (taskForce.getState() == TaskForceState.RESERVE);
-
-        firedEvent.fire();
-
-        assert (taskForce.getState() == TaskForceState.ACTIVE);
-    }
-
-    @Test
-    public void testTaskForceActivateRandomTurnEventGreaterThan() {
-        TaskForceData data = new TaskForceData();
-        data.setLocation("Alexandria");
-        data.setState(TaskForceState.RESERVE);
-        data.setShips(new ArrayList<>());
-
-        Set<Integer> releaseValues = Stream.of(1).collect(Collectors.toSet());
-
-        RandomTurnEvent releaseEvent = new RandomTurnEvent();
-        releaseEvent.setTurnGreaterThan(16);
-        releaseEvent.setValues(releaseValues);
-
-        List<RandomTurnEvent> releaseEvents = new ArrayList<>();
-        releaseEvents.add(releaseEvent);
-
-        data.setReleaseRandomTurnEvents(releaseEvents);
-
-        TaskForce taskForce = factory.create(Side.ALLIES, data);
-
-        RandomTurnEvent firedEvent = new RandomTurnEvent();
-        firedEvent.setTurn(16);
-        firedEvent.setValues(Stream.of(1).collect(Collectors.toSet()));
-
-
-        assert (taskForce.getState() == TaskForceState.RESERVE);
-
-        firedEvent.fire();
-
-        assert (taskForce.getState() == TaskForceState.ACTIVE);
-    }
 }

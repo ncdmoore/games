@@ -12,11 +12,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +28,7 @@ import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents the task forces summary view.
@@ -47,6 +51,12 @@ public class TaskForceView {
     private Button backButton = new Button("Back");
 
     private MapView taskForceMap;
+
+    private Text stateValue = new Text();
+    private Text missionValue = new Text();
+    private Label reasonsValue = new Label();
+
+    private TabPane taskForceTabPane = new TabPane();
 
     /**
      * Constructor called by guice.
@@ -100,7 +110,9 @@ public class TaskForceView {
 
         HBox hBox = new HBox(mainPane, p);
 
-        VBox vBox = new VBox(titlePane, hBox, pushButtons);
+        Node taskForceDetails = buildTaskForceDetails();
+
+        VBox vBox = new VBox(titlePane, hBox, taskForceDetails, pushButtons);
 
         Scene scene = new Scene(vBox, sceneWidth, sceneHeight);
 
@@ -138,6 +150,31 @@ public class TaskForceView {
         return new VBox(taskForces);
     }
 
+    private Node buildTaskForceDetails() {
+
+        return buildTaskForceStateDetails();
+
+        //buildShipDetails();
+    }
+
+    private Node buildTaskForceStateDetails() {
+        Text stateLabel = new Text("Date:");
+        Text missionLabel = new Text("Mission:");
+
+        GridPane gridPane = new GridPane();
+        gridPane.add(missionLabel, 0, 0);
+        gridPane.add(missionValue, 1, 0);
+        gridPane.add(stateLabel, 0, 1);
+        gridPane.add(stateValue, 1, 1);
+        gridPane.add(reasonsValue, 1, 2);
+
+        return gridPane;
+    }
+
+    private void buildShipDetails() {
+
+    }
+
     /**
      * build the task force push buttons.
      * @return Node containing the push buttons.
@@ -162,9 +199,12 @@ public class TaskForceView {
      * Set the selected task force. Show this task force's map marker.
      * @param taskForce the selected task force.
      */
-    public void setTaskForce(final TaskForce taskForce) {
+    public void setSelectedTaskForce(final TaskForce taskForce) {
         String name = taskForce.getName();
         taskForceMap.selectMarker(name);
+        stateValue.setText(taskForce.getState().toString());
+        missionValue.setText(taskForce.getMission().toString());
+        reasonsValue.setText(String.join("\n", taskForce.getActivatedByText()));
     }
 
     /**

@@ -1,8 +1,9 @@
-package engima.waratsea.event.ship;
+package engima.waratsea.model.game.event.ship;
 
-import engima.waratsea.event.GameEvent;
-import engima.waratsea.event.GameEventHandler;
+import engima.waratsea.model.game.event.GameEvent;
+import engima.waratsea.model.game.event.GameEventHandler;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.ships.ShipType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +20,6 @@ import java.util.Map;
 public class ShipEvent extends GameEvent {
     private static transient List<GameEventHandler<ShipEvent>> handlers = new ArrayList<>();
     private static transient Map<Object, GameEventHandler<ShipEvent>> map = new HashMap<>();
-
-    private static final transient String WILDCARD = "*";
 
     /**
      * Initialize the ship event class. This method clears out all ship event handlers.
@@ -70,7 +69,7 @@ public class ShipEvent extends GameEvent {
 
     @Getter
     @Setter
-    private ShipEventType shipType;
+    private ShipType shipType;
 
     /**
      * This is how an event is fired and all the event handlers receive
@@ -79,46 +78,5 @@ public class ShipEvent extends GameEvent {
     public void fire() {
         log.info("Fire ship event: {}", action);
         handlers.forEach(h -> h.notify(this));
-    }
-
-    /**
-     * Determines if two ship events are equal.
-     *
-     * @param firedEvent The other ship event to test for equality.
-     * @return True if the ship events are equal. False otherwise.
-     */
-    public boolean match(final ShipEvent firedEvent) {
-
-        return side == firedEvent.side
-                && action == firedEvent.action
-                && isShipTypeEqual(firedEvent.shipType)
-                && isTaskForceNameEqual(firedEvent.taskForceName);
-
-    }
-
-    /**
-     * Determine if the task force names between the two ship events are equal.
-     *
-     * @param firedTaskForceName The other task force name
-     * @return True if the two task force names are equal. False otherwise.
-     */
-    private boolean isTaskForceNameEqual(final String firedTaskForceName) {
-        return taskForceName == null || firedTaskForceName == null                                                      // Non specified task force name matches all.
-                || taskForceName.equalsIgnoreCase(firedTaskForceName)
-                || taskForceName.equalsIgnoreCase(WILDCARD)
-                || firedTaskForceName.equalsIgnoreCase(WILDCARD);
-    }
-
-    /**
-     * Determine if the ship types between two ship events are equal.
-     *
-     * @param firedShipType The other ship event's ship type.
-     * @return True if the two ship event's ship types are equal. False otherwise.
-     */
-    private boolean isShipTypeEqual(final ShipEventType firedShipType) {
-        return shipType == ShipEventType.ANY
-                || firedShipType == ShipEventType.ANY
-                || shipType == firedShipType;
-
     }
 }

@@ -54,6 +54,7 @@ public class Shipyard {
         this.registry = registry;
 
         factoryMap.put(ShipType.AIRCRAFT_CARRIER, aircraftCarrierFactory);
+        factoryMap.put(ShipType.BATTLECRUISER, surfaceShipFactory);
         factoryMap.put(ShipType.BATTLESHIP, surfaceShipFactory);
         factoryMap.put(ShipType.CRUISER, surfaceShipFactory);
         factoryMap.put(ShipType.DESTROYER, surfaceShipFactory);

@@ -24,12 +24,10 @@ public class AircraftCarrier implements Ship, Airbase {
     @Getter
     private final Nation nationality;
 
-
     private Gun secondary;
     private Gun tertiary;
     private Gun antiAir;
     private Torpedo torpedo;
-
     private Movement movement;
     private Fuel fuel;
     private Hull hull;

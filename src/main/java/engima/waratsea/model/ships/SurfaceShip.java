@@ -28,7 +28,6 @@ public class SurfaceShip implements Ship {
     private Gun tertiary;
     private Gun antiAir;
     private Torpedo torpedo;
-
     private Movement movement;
     private Fuel fuel;
     private Hull hull;

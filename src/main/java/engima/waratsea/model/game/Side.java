@@ -1,21 +1,28 @@
 package engima.waratsea.model.game;
 
+import lombok.Getter;
+
 /**
  * WW2 at sea contains two combatants or sides.
  */
 public enum Side {
 
-    ALLIES("Allies"),
-    AXIS("Axis");
+    ALLIES("Allies", "Allied"),
+    AXIS("Axis", "Axis");
 
-    private String value;
+    private final String value;
+
+    @Getter
+    private final String possesive;
 
     /**
      * Constructs a Side.
      * @param value The string representation of the side.
+     * @param possesive The possesive form of the word.
      */
-    Side(final String value) {
+    Side(final String value, final String possesive) {
         this.value = value;
+        this.possesive = possesive;
     }
 
     /**

@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Represents the game map.
+ * Represents the game map. This is essentially the game board. It is not a GUI component.
  *
  */
 @Slf4j

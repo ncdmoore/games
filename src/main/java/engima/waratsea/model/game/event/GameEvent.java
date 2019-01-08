@@ -1,7 +1,7 @@
-package engima.waratsea.event;
+package engima.waratsea.model.game.event;
 
-import engima.waratsea.event.ship.ShipEvent;
-import engima.waratsea.event.turn.TurnEvent;
+import engima.waratsea.model.game.event.ship.ShipEvent;
+import engima.waratsea.model.game.event.turn.TurnEvent;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;

@@ -1,11 +1,7 @@
 package engima.waratsea.model.game;
 
 import com.google.inject.Inject;
-import engima.waratsea.event.GameEvent;
-import engima.waratsea.event.ship.ShipEvent;
-import engima.waratsea.event.ship.ShipEventAction;
-import engima.waratsea.event.ship.ShipEventType;
-import engima.waratsea.event.turn.TurnEvent;
+import engima.waratsea.model.game.event.GameEvent;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.scenario.ScenarioLoader;
 import engima.waratsea.model.taskForce.TaskForce;
@@ -97,26 +93,5 @@ public class Game {
         humanPlayer.setTaskForces(taskForces);
         taskForces = scenarioLoader.loadTaskForce(scenarioName, humanSide.opposite());
         computerPlayer.setTaskForces(taskForces);
-
-
-        ShipEvent s = new ShipEvent();
-        s.setAction(ShipEventAction.DAMAGED_SURFACE_COMBAT);
-        s.setShipType(ShipEventType.BATTLESHIP);
-        s.setSide(Side.AXIS);
-        s.setName("Warspite");
-
-        s.fire();
-
-        ShipEvent x = new ShipEvent();
-        x.setAction(ShipEventAction.SUNK);
-        x.setName("hood");
-
-        x.fire();
-
-
-        TurnEvent t = new TurnEvent();
-        t.setTurn(10);
-        t.fire();
-
     }
 }

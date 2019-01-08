@@ -1,4 +1,4 @@
-package enigma.waratsea.event;
+package enigma.waratsea.model.game.event;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

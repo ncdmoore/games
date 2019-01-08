@@ -7,6 +7,24 @@ package engima.waratsea.model.taskForce;
  * Certain game events will trigger a task force to change states from reserve to active.
  */
 public enum TaskForceState {
-    ACTIVE,
-    RESERVE
+    ACTIVE("Active"),
+    RESERVE("Reserve");
+
+    private String value;
+
+    /**
+     * Constructor.
+     * @param value The string value of the enum.
+     */
+    TaskForceState(final String value) {
+        this.value = value;
+    }
+
+    /**
+     * Return the string value of the enum.
+     */
+    @Override
+    public String toString() {
+        return value;
+    }
 }

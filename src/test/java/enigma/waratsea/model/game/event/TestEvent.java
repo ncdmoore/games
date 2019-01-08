@@ -1,6 +1,6 @@
-package enigma.waratsea.event;
+package enigma.waratsea.model.game.event;
 
-import engima.waratsea.event.GameEvent;
+import engima.waratsea.model.game.event.GameEvent;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

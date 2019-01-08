@@ -1,9 +1,10 @@
-package engima.waratsea.model.taskForce;
+package engima.waratsea.model.taskForce.data;
 
-import engima.waratsea.event.ship.ShipEvent;
-import engima.waratsea.event.turn.RandomTurnEvent;
-import engima.waratsea.event.turn.TurnEvent;
+import engima.waratsea.model.game.event.ship.ShipEventMatcher;
+import engima.waratsea.model.game.event.turn.TurnEventMatcher;
 import engima.waratsea.model.target.Target;
+import engima.waratsea.model.taskForce.TaskForceMission;
+import engima.waratsea.model.taskForce.TaskForceState;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -43,13 +44,10 @@ public class TaskForceData {
 
     @Getter
     @Setter
-    private List<ShipEvent> releaseShipEvents;
+    private List<ShipEventMatcher> releaseShipEvents;
 
     @Getter
     @Setter
-    private List<TurnEvent> releaseTurnEvents;
+    private List<TurnEventMatcher> releaseTurnEvents;
 
-    @Getter
-    @Setter
-    private List<RandomTurnEvent> releaseRandomTurnEvents;
 }

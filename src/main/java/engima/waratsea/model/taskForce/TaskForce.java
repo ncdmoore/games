@@ -2,24 +2,30 @@ package engima.waratsea.model.taskForce;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import engima.waratsea.event.ship.ShipEvent;
-import engima.waratsea.event.turn.RandomTurnEvent;
-import engima.waratsea.event.turn.TurnEvent;
+import engima.waratsea.model.game.event.ship.ShipEvent;
+import engima.waratsea.model.game.event.ship.ShipEventMatcher;
+import engima.waratsea.model.game.event.turn.TurnEvent;
 import engima.waratsea.model.aircraft.Airbase;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.game.event.turn.TurnEventMatcher;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.ships.Ship;
+import engima.waratsea.model.ships.ShipType;
 import engima.waratsea.model.ships.Shipyard;
 import engima.waratsea.model.ships.ShipyardException;
 import engima.waratsea.model.target.Target;
+import engima.waratsea.model.taskForce.data.TaskForceData;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * This class represents a task force, which is a collection of ships.
@@ -53,21 +59,21 @@ public class TaskForce  {
 
     @Getter
     @Setter
-    private List<ShipEvent> releaseShipEvents;
+    private List<ShipEventMatcher> releaseShipEvents;
 
     @Getter
     @Setter
-    private List<TurnEvent> releaseTurnEvents;
-
-    @Getter
-    @Setter
-    private List<RandomTurnEvent> releaseRandomTurnEvents;
+    private List<TurnEventMatcher> releaseTurnEvents;
 
     @Getter
     private List<Ship> ships;
 
     @Getter
     private List<Airbase> aircraftCarriers;
+
+    @Getter
+    private Map<ShipType, List<Ship>> shipMap;
+
 
     private GameMap gameMap;
     private Shipyard shipyard;
@@ -92,7 +98,6 @@ public class TaskForce  {
         state = data.getState();
         releaseShipEvents = data.getReleaseShipEvents();
         releaseTurnEvents = data.getReleaseTurnEvents();
-        releaseRandomTurnEvents = data.getReleaseRandomTurnEvents();
 
         this.gameMap = gameMap;
         this.shipyard = shipyard;
@@ -121,6 +126,28 @@ public class TaskForce  {
     }
 
     /**
+     * Get the reasons a task force is activated.
+     * @return A list of strings where each string is a separate reason the task force is activated.
+     */
+    public List<String> getActivatedByText() {
+        Stream<String> turnReasons = Stream.empty();
+
+        if (releaseTurnEvents != null) {
+            turnReasons = releaseTurnEvents.stream()
+                    .map(turnEventMatcher -> "Activated " + turnEventMatcher.getExplanation());
+        }
+
+        Stream<String> shipReasons = Stream.empty();
+
+        if (releaseShipEvents != null) {
+            shipReasons = releaseShipEvents.stream()
+                    .map(shipEventMatcher -> "Activated " + shipEventMatcher.getExplanation());
+        }
+
+        return Stream.concat(turnReasons, shipReasons).collect(Collectors.toList());
+    }
+
+    /**
      * Build all the task force's ships.
      * @param side The task force side. ALLIES or AXIS.
      * @param shipNames list of ship names.
@@ -130,6 +157,10 @@ public class TaskForce  {
                 .map(shipName -> buildShip(side, shipName))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+
+        shipMap = ships
+                .stream()
+                .collect(Collectors.groupingBy(Ship::getType));
     }
 
     /**
@@ -165,7 +196,7 @@ public class TaskForce  {
         location = gameMap.convertNameToReference(location);
 
         Optional.ofNullable(targets)
-                .ifPresent(targetList -> targetList.forEach(this::updateTargetLocation));
+                .ifPresent(targetList -> targetList.forEach(this::convertTargetLocation));
 
         if (state == TaskForceState.RESERVE && releaseShipEvents != null) {
             ShipEvent.register(this, this::handleShipEvent);
@@ -174,20 +205,15 @@ public class TaskForce  {
         if (state == TaskForceState.RESERVE && releaseTurnEvents != null) {
             TurnEvent.register(this, this::handleTurnEvent);
         }
-
-        if (state == TaskForceState.RESERVE && releaseRandomTurnEvents != null) {
-            RandomTurnEvent.register(this, this::handleRandomTurnEvent);
-        }
     }
 
     /**
      * If the target location is a base name, update the target's map reference.
      * @param target One of the task force's targets.
      */
-    private void updateTargetLocation(final Target target) {
+    private void convertTargetLocation(final Target target) {
         String mapReference =  gameMap.convertNameToReference(target.getLocation());
         target.setLocation(mapReference);
-
     }
 
     /**
@@ -197,7 +223,7 @@ public class TaskForce  {
     private void handleShipEvent(final ShipEvent event) {
         log.info("{} {} notify ship event {} {} {}", new Object[] {name, title, event.getAction(), event.getSide(), event.getShipType()});
 
-        boolean release = releaseShipEvents.stream().anyMatch(shipEvent -> shipEvent.match(event));
+        boolean release = releaseShipEvents.stream().anyMatch(eventMatcher -> eventMatcher.match(event));
 
         if (release) {
             state = TaskForceState.ACTIVE;
@@ -213,28 +239,12 @@ public class TaskForce  {
     private void handleTurnEvent(final TurnEvent event) {
         log.info("{} {} notify turn event {}", new Object[] {name, title, event.getTurn()});
 
-        boolean release = releaseTurnEvents.stream().anyMatch(turnEvent -> turnEvent.match(event));
+        boolean release = releaseTurnEvents.stream().anyMatch(eventMatcher -> eventMatcher.match(event));
 
         if (release) {
             state = TaskForceState.ACTIVE;
             log.info("{} state {}", name, state);
             TurnEvent.unregister(this);
-        }
-    }
-
-    /**
-     * A random turn event has fired.
-     * @param event the fired event.
-     */
-    private void handleRandomTurnEvent(final RandomTurnEvent event) {
-        log.info("{} {} notify random turn event {}", new Object[] {name, title, event.getTurn()});
-
-        boolean release = releaseRandomTurnEvents.stream().anyMatch(randomTurnEvent -> randomTurnEvent.match(event));
-
-        if (release) {
-            state = TaskForceState.ACTIVE;
-            log.info("{} state {}", name, state);
-            RandomTurnEvent.unregister(this);
         }
     }
 }

@@ -1,6 +1,7 @@
 package engima.waratsea.model.taskForce;
 
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.taskForce.data.TaskForceData;
 
 /**
  * Factory used by guice to create task forces.

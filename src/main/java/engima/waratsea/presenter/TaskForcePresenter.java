@@ -4,8 +4,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.ships.Ship;
+import engima.waratsea.model.ships.ShipType;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.view.ships.ShipViewType;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +18,12 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.view.FatalErrorDialog;
 import engima.waratsea.view.TaskForceView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -124,6 +130,7 @@ public class TaskForcePresenter {
         taskForces.forEach(this::markTaskForceTargets);
     }
 
+
     /**
      * Mark the given task force's targets.
      * @param taskForce The task force whose targets are marked.
@@ -149,7 +156,10 @@ public class TaskForcePresenter {
 
         clearAllTaskForces();
         this.selectedTaskForce = taskForce;
-        view.setTaskForce(selectedTaskForce);
+
+        getTaskForceShips();
+
+        view.setSelectedTaskForce(selectedTaskForce);
     }
 
     /**
@@ -160,6 +170,28 @@ public class TaskForcePresenter {
                 .forEach(taskForce -> view.clearTaskForce(taskForce));
 
     }
+
+    /**
+     *
+     */
+    private void getTaskForceShips() {
+        // This is a map of maps. The outer key is the ship classification used by the task force summary tabs.
+        // The innter map key is the actual ship type.
+        Map<ShipViewType, Map<ShipType, List<Ship>>> ships = new HashMap<>();
+
+        // Create the ship type sub maps. These are the inner maps.
+        Stream.of(ShipViewType.values()).forEach(shipViewType -> ships.put(shipViewType, new HashMap<>()));
+
+        Map<ShipType, List<Ship>> shipMap = selectedTaskForce.getShipMap();
+
+        shipMap.forEach((shipType, shipsOfThatType) -> {
+            ShipViewType viewType = ShipViewType.get(shipType);
+            Map<ShipType, List<Ship>> subMap = ships.get(viewType);
+            subMap.put(shipType, shipsOfThatType);
+        });
+    }
+
+
     /**
      * Call back for the continue button.
      */

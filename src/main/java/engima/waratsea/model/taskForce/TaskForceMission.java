@@ -17,7 +17,7 @@ public enum TaskForceMission {
 
     /**
      * Construct a task force mission type.
-     * @param value The string health. Used in the GUI.
+     * @param value The string value. Used in the GUI.
      */
     TaskForceMission(final String value) {
         this.value = value;
@@ -25,7 +25,7 @@ public enum TaskForceMission {
 
     /**
      * The string representation of the task force mission.
-     * @return The string health of the task force mission.
+     * @return The string value of the task force mission.
      */
     @Override
     public String toString() {

@@ -1,4 +1,4 @@
-package engima.waratsea.event;
+package engima.waratsea.model.game.event;
 
 /**
  * Implement this interface to receive game events.

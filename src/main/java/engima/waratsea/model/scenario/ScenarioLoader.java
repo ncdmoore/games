@@ -6,7 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.GameTitle;
-import engima.waratsea.model.taskForce.TaskForceData;
+import engima.waratsea.model.taskForce.data.TaskForceData;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import lombok.extern.slf4j.Slf4j;
 import engima.waratsea.model.AppProps;

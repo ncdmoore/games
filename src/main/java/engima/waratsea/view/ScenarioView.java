@@ -54,8 +54,6 @@ public class ScenarioView {
     private ImageView alliesFlag = new ImageView();
     private ImageView axisFlag = new ImageView();
 
-
-
     private ViewProps props;
     private CssResourceProvider cssResourceProvider;
     private ImageResourceProvider imageResourceProvider;

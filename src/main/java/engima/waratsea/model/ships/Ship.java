@@ -14,6 +14,12 @@ public interface Ship {
     String getName();
 
     /**
+     * Get the ship's type. Aircraft carrier, battleship, battlecruiser, etc.
+     * @return The ship's type.
+     */
+    ShipType getType();
+
+    /**
      * Determines if this ship is an aircraft carrier.
      * @return True if this ship is an aircraft carrier. False otherwise.
      */
