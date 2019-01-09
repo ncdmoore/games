@@ -31,6 +31,7 @@ public class AircraftCarrier implements Ship, Airbase {
     private Movement movement;
     private Fuel fuel;
     private Hull hull;
+    private Cargo cargo;
 
     private FlightDeck flightDeck;
     /**
@@ -52,6 +53,7 @@ public class AircraftCarrier implements Ship, Airbase {
         movement = new Movement(data.getMovement().getEven(), data.getMovement().getOdd());
         fuel = new Fuel(data.getFuel());
         hull = new Hull(data.getHull(), data.getArmour().getHull());
+        cargo = new Cargo(data.getCargo());
 
         flightDeck = new FlightDeck(data.getArmour().getFlightDeck(), data.getFlightDeck());
     }
@@ -74,4 +76,13 @@ public class AircraftCarrier implements Ship, Airbase {
     public boolean isCarrier() {
         return true;
     }
+
+    /**
+     * Call this method to load a ship to its maximum cargoShips capacity.
+     */
+    @Override
+    public void loadCargo() {
+        cargo.load();
+    }
+
 }

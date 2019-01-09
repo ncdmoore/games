@@ -158,8 +158,9 @@ public class TaskForceView {
     }
 
     private Node buildTaskForceStateDetails() {
-        Text stateLabel = new Text("Date:");
+        Text stateLabel = new Text("State:");
         Text missionLabel = new Text("Mission:");
+        reasonsValue.setWrapText(true);
 
         GridPane gridPane = new GridPane();
         gridPane.add(missionLabel, 0, 0);
@@ -167,6 +168,8 @@ public class TaskForceView {
         gridPane.add(stateLabel, 0, 1);
         gridPane.add(stateValue, 1, 1);
         gridPane.add(reasonsValue, 1, 2);
+
+        gridPane.setMaxWidth(props.getInt("taskForce.details.width"));
 
         return gridPane;
     }

@@ -30,4 +30,9 @@ public interface Ship {
      * @return The ship's nationality.
      */
     Nation getNationality();
+
+    /**
+     * Call this method to load a ship to its maximum cargoShips capacity.
+     */
+    void loadCargo();
 }

@@ -22,5 +22,6 @@
   },
   "hull": 10,
   "fuel": 384,
+  "cargo": 0,
   "flightDeck": [0, 3, 4, 6]
 }

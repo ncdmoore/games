@@ -19,5 +19,7 @@ public class Gun {
     public Gun(final int maxHealth, final ArmourType armour) {
         this.maxHealth = maxHealth;
         this.armour = armour;
+
+        this.health = maxHealth;
     }
 }

@@ -46,7 +46,11 @@ public class ShipData {
 
     @Getter
     @Setter
-    private int fuel;
+    private int fuel;                                             //Fuel is n times the value in the board game.
+
+    @Getter
+    @Setter
+    private int cargo;                                            //Cargo is 3 times the value in the board game. This is done to avoid fractions.
 
     @Getter
     @Setter

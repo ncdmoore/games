@@ -52,6 +52,24 @@ public class TaskForceTest {
         Assert.assertEquals(1, taskForce.getAircraftCarriers().size());
     }
 
+
+    @Test
+    public void testCargoShips() {
+        TaskForceData data = new TaskForceData();
+
+        List<String> shipNames = new ArrayList<>(Arrays.asList("CL36 Sheffield", "DD53 Faulknor"));
+        List<String> cargoShipNames = new ArrayList<>(Arrays.asList("DD53 Faulknor"));
+
+        data.setShips(shipNames);
+        data.setCargoShips(cargoShipNames);
+        data.setLocation("Alexandria");
+
+        TaskForce taskForce = factory.create(Side.ALLIES, data);
+
+        Assert.assertEquals(2, taskForce.getShips().size());
+        Assert.assertEquals(1, taskForce.getCargoShips().size());
+    }
+
     @Test
     public void testTaskForceActivateShipEvent() {
 

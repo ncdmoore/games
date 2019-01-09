@@ -19,7 +19,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -72,8 +72,13 @@ public class TaskForce  {
     private List<Airbase> aircraftCarriers;
 
     @Getter
-    private Map<ShipType, List<Ship>> shipMap;
+    private List<Ship> cargoShips;
 
+    @Getter
+    private Map<String, Ship> shipMap;
+
+    @Getter
+    private Map<ShipType, List<Ship>> shipTypeMap;
 
     private GameMap gameMap;
     private Shipyard shipyard;
@@ -103,6 +108,7 @@ public class TaskForce  {
         this.shipyard = shipyard;
 
         buildShips(side, data.getShips());
+        loadCargo(data.getCargoShips());
         getCarriers();
 
         finish();
@@ -130,19 +136,15 @@ public class TaskForce  {
      * @return A list of strings where each string is a separate reason the task force is activated.
      */
     public List<String> getActivatedByText() {
-        Stream<String> turnReasons = Stream.empty();
+        Stream<String> turnReasons = Optional.ofNullable(releaseTurnEvents)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(turnEventMatcher -> "\u2022 Activated " + turnEventMatcher.getExplanation());
 
-        if (releaseTurnEvents != null) {
-            turnReasons = releaseTurnEvents.stream()
-                    .map(turnEventMatcher -> "Activated " + turnEventMatcher.getExplanation());
-        }
-
-        Stream<String> shipReasons = Stream.empty();
-
-        if (releaseShipEvents != null) {
-            shipReasons = releaseShipEvents.stream()
-                    .map(shipEventMatcher -> "Activated " + shipEventMatcher.getExplanation());
-        }
+        Stream<String> shipReasons = Optional.ofNullable(releaseShipEvents)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(shipEventMatcher -> "\u2022 Activated " + shipEventMatcher.getExplanation());
 
         return Stream.concat(turnReasons, shipReasons).collect(Collectors.toList());
     }
@@ -158,9 +160,25 @@ public class TaskForce  {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
-        shipMap = ships
+        shipMap = ships.stream()
+                .collect(Collectors.toMap(Ship::getName, ship -> ship));
+
+        shipTypeMap = ships
                 .stream()
                 .collect(Collectors.groupingBy(Ship::getType));
+    }
+
+    /**
+     * Set the cargoShips status of all cargoShips ships.
+     * @param cargoShipNames List of ships carrying cargoShips.
+     */
+    private void loadCargo(final List<String> cargoShipNames) {
+        cargoShips = Optional.ofNullable(cargoShipNames)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(this::loadCargo)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -245,6 +263,22 @@ public class TaskForce  {
             state = TaskForceState.ACTIVE;
             log.info("{} state {}", name, state);
             TurnEvent.unregister(this);
+        }
+    }
+
+    /**
+     * Load the specified ship with cargoShips.
+     * @param shipName The name of the ship that is loaded with cargoShips.
+     * @return The cargo ship.
+     */
+    private Ship loadCargo(final String shipName) {
+        if (shipMap.containsKey(shipName)) {
+            Ship ship = shipMap.get(shipName);
+            ship.loadCargo();
+            return ship;
+        } else {
+            log.error("Invalid cargo ship name: '{}'", shipName);
+            return null;
         }
     }
 }

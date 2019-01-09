@@ -52,17 +52,10 @@ public class ShipEventMatcher {
      * @return The text explanation string.
      */
     public String getExplanation() {
-
+        String taskForce = taskForceName.equalsIgnoreCase(WILDCARD) ? "" : " in " + taskForceName;
         String ship = shipType.equalsIgnoreCase("*") ? "ship" : ShipType.valueOf(shipType).toString();
 
-        String explanation;
-        if (taskForceName.equalsIgnoreCase(WILDCARD)) {
-            explanation = "if an " + side.getPossesive() + " " + ship + " " + action + ".";
-        } else {
-            explanation = "if an " + side.getPossesive() + " " + ship + " in " + taskForceName + " " + action + ".";
-        }
-
-        return explanation;
+        return "if an " + side.getPossesive() + " " + ship + taskForce + " " + action + ".";
     }
 
     /**

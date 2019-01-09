@@ -50,4 +50,8 @@ public class TaskForceData {
     @Setter
     private List<TurnEventMatcher> releaseTurnEvents;
 
+    @Getter
+    @Setter
+    private List<String> cargoShips;
+
 }

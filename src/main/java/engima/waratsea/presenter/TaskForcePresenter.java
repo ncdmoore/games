@@ -182,7 +182,7 @@ public class TaskForcePresenter {
         // Create the ship type sub maps. These are the inner maps.
         Stream.of(ShipViewType.values()).forEach(shipViewType -> ships.put(shipViewType, new HashMap<>()));
 
-        Map<ShipType, List<Ship>> shipMap = selectedTaskForce.getShipMap();
+        Map<ShipType, List<Ship>> shipMap = selectedTaskForce.getShipTypeMap();
 
         shipMap.forEach((shipType, shipsOfThatType) -> {
             ShipViewType viewType = ShipViewType.get(shipType);

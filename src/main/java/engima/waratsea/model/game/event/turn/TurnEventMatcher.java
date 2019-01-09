@@ -71,6 +71,4 @@ public class TurnEventMatcher {
                 && turnGreaterThan <= firedEvent.getTurn()
                 && values != null && values.contains(firedEvent.getValue());
     }
-
-
 }

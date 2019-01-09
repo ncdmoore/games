@@ -31,6 +31,8 @@ public class SurfaceShip implements Ship {
     private Movement movement;
     private Fuel fuel;
     private Hull hull;
+    private Cargo cargo;
+
     /**
      * Constructor called by guice.
      * @param data Ship's data.
@@ -51,6 +53,7 @@ public class SurfaceShip implements Ship {
         movement = new Movement(data.getMovement().getEven(), data.getMovement().getOdd());
         fuel = new Fuel(data.getFuel());
         hull = new Hull(data.getHull(), data.getArmour().getHull());
+        cargo = new Cargo((data.getCargo()));
     }
 
     /**
@@ -61,5 +64,13 @@ public class SurfaceShip implements Ship {
     @Override
     public boolean isCarrier() {
         return false;
+    }
+
+    /**
+     * Call this method to load a ship to its maximum cargoShips capacity.
+     */
+    @Override
+    public void loadCargo() {
+        cargo.load();
     }
 }

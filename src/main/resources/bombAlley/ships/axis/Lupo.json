@@ -22,5 +22,6 @@
     "odd": 3
   },
   "hull": 1,
-  "fuel": 96
+  "fuel": 96,
+  "cargo": 1
 }
