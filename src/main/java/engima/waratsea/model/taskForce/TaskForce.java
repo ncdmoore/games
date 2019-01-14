@@ -4,12 +4,15 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
+import engima.waratsea.model.game.event.ship.data.ShipMatchData;
 import engima.waratsea.model.game.event.turn.TurnEvent;
 import engima.waratsea.model.aircraft.Airbase;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.turn.TurnEventMatcher;
+import engima.waratsea.model.game.event.turn.data.TurnMatchData;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.ships.Ship;
+import engima.waratsea.model.ships.ShipId;
 import engima.waratsea.model.ships.ShipType;
 import engima.waratsea.model.ships.Shipyard;
 import engima.waratsea.model.ships.ShipyardException;
@@ -101,8 +104,6 @@ public class TaskForce  {
         location = data.getLocation();
         targets = data.getTargets();
         state = data.getState();
-        releaseShipEvents = data.getReleaseShipEvents();
-        releaseTurnEvents = data.getReleaseTurnEvents();
 
         this.gameMap = gameMap;
         this.shipyard = shipyard;
@@ -110,6 +111,9 @@ public class TaskForce  {
         buildShips(side, data.getShips());
         loadCargo(data.getCargoShips());
         getCarriers();
+
+        buildShipEvents(data.getReleaseShipEvents());
+        buildTurnEvents(data.getReleaseTurnEvents());
 
         finish();
     }
@@ -131,6 +135,14 @@ public class TaskForce  {
         return state == TaskForceState.ACTIVE;
     }
 
+    // todo
+    public boolean atEnemyBase() {
+        return false;
+    }
+    public boolean atFriendlyBase() {
+        return false;
+    }
+
     /**
      * Get the reasons a task force is activated.
      * @return A list of strings where each string is a separate reason the task force is activated.
@@ -150,13 +162,23 @@ public class TaskForce  {
     }
 
     /**
+     * Get the specified ship.
+     * @param shipName The name of the ship.
+     * @return The ship identified by the given name.
+     */
+    public Ship getShip(final String shipName) {
+        return shipMap.get(shipName);
+    }
+
+    /**
      * Build all the task force's ships.
      * @param side The task force side. ALLIES or AXIS.
      * @param shipNames list of ship names.
      */
     private void buildShips(final Side side, final List<String> shipNames)  {
         ships = shipNames.stream()
-                .map(shipName -> buildShip(side, shipName))
+                .map(shipName -> new ShipId(shipName, side))
+                .map(this::buildShip)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
@@ -193,15 +215,16 @@ public class TaskForce  {
 
     /**
      * Build a given ship.
-     * @param side The side of the ship. ALLIES or AXIS.
-     * @param shipName The ship name.
+     * @param shipId Uniquely indentifies a ship.
      * @return The constructed ship.
      */
-    private Ship buildShip(final Side side, final String shipName) {
+    private Ship buildShip(final ShipId shipId) {
         try {
-            return shipyard.build(shipName, side);
+            Ship ship = shipyard.build(shipId);
+            ship.setTaskForce(this);
+            return ship;
         } catch (ShipyardException ex) {
-            log.error("Unable to build ship '{}' for side {}", shipName, side);
+            log.error("Unable to build ship '{}' for side {}", shipId.getName(), shipId.getSide());
             return null;
         }
     }
@@ -214,15 +237,40 @@ public class TaskForce  {
         location = gameMap.convertNameToReference(location);
 
         Optional.ofNullable(targets)
-                .ifPresent(targetList -> targetList.forEach(this::convertTargetLocation));
+                .orElseGet(Collections::emptyList)
+                .forEach(this::convertTargetLocation);
 
-        if (state == TaskForceState.RESERVE && releaseShipEvents != null) {
-            ShipEvent.register(this, this::handleShipEvent);
-        }
+        Optional.ofNullable(releaseShipEvents)
+                .filter(matchers -> state == TaskForceState.RESERVE)
+                .ifPresent(matchers -> ShipEvent.register(this, this::handleShipEvent));
 
-        if (state == TaskForceState.RESERVE && releaseTurnEvents != null) {
-            TurnEvent.register(this, this::handleTurnEvent);
-        }
+        Optional.ofNullable(releaseTurnEvents)
+                .filter(matchers -> state == TaskForceState.RESERVE)
+                .ifPresent(matchers -> TurnEvent.register(this, this::handleTurnEvent));
+    }
+
+    /**
+     * Build the ship release events.
+     * @param data Release ship match data from the JSON file.
+     */
+    private void buildShipEvents(final List<ShipMatchData> data) {
+        releaseShipEvents = Optional.ofNullable(data)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(ShipEventMatcher::new)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Build the turn release events.
+     * @param data Release turn match data from the JSON file.
+     */
+    private void buildTurnEvents(final List<TurnMatchData> data) {
+        releaseTurnEvents = Optional.ofNullable(data)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(TurnEventMatcher::new)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -239,7 +287,8 @@ public class TaskForce  {
      * @param event The fired event.
      */
     private void handleShipEvent(final ShipEvent event) {
-        log.info("{} {} notify ship event {} {} {}", new Object[] {name, title, event.getAction(), event.getSide(), event.getShipType()});
+        log.info("{} {} notify ship event {} {} {}.", new Object[] {name, title,
+                event.getShip().getShipId().getSide().getPossesive(), event.getShip().getType(), event.getAction()});
 
         boolean release = releaseShipEvents.stream().anyMatch(eventMatcher -> eventMatcher.match(event));
 

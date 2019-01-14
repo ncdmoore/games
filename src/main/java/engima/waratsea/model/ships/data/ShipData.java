@@ -1,6 +1,7 @@
 package engima.waratsea.model.ships.data;
 
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.ships.ShipId;
 import engima.waratsea.model.ships.ShipType;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,7 @@ public class ShipData {
 
     @Getter
     @Setter
-    private String name;
+    private transient ShipId shipId;
 
     @Getter
     @Setter

@@ -4,7 +4,9 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.ships.data.ShipData;
+import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Represents a surface ship: Battleship, cruisers, etc.
@@ -12,7 +14,7 @@ import lombok.Getter;
 public class SurfaceShip implements Ship {
 
     @Getter
-    private final String name;
+    private final ShipId shipId;
 
     @Getter
     private final ShipType type;
@@ -22,6 +24,10 @@ public class SurfaceShip implements Ship {
 
     @Getter
     private final Nation nationality;
+
+    @Getter
+    @Setter
+    private TaskForce taskForce;
 
     private Gun primary;
     private Gun secondary;
@@ -39,7 +45,7 @@ public class SurfaceShip implements Ship {
      */
     @Inject
     public SurfaceShip(@Assisted final ShipData data) {
-        name = data.getName();
+        shipId = data.getShipId();
         type = data.getType();
         shipClass = data.getShipClass();
         nationality = data.getNationality();
@@ -57,6 +63,16 @@ public class SurfaceShip implements Ship {
     }
 
     /**
+     * Get the ship's name.
+     *
+     * @return The ship's name.
+     */
+    @Override
+    public String getName() {
+        return shipId.getName();
+    }
+
+    /**
      * Determines if this ship is an aircraft carrier.
      *
      * @return True if this ship is an aircraft carrier. False otherwise.
@@ -64,6 +80,16 @@ public class SurfaceShip implements Ship {
     @Override
     public boolean isCarrier() {
         return false;
+    }
+
+    /**
+     * Get the ship's victory points if sunk.
+     *
+     * @return The ship's victory points.
+     */
+    @Override
+    public int getVictoryPoints() {
+        return 0;
     }
 
     /**

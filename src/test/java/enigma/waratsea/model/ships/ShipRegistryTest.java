@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.ships.ShipId;
 import engima.waratsea.model.ships.ShipRegistry;
 import enigma.waratsea.TestModule;
 import org.junit.BeforeClass;
@@ -28,7 +29,9 @@ public class ShipRegistryTest {
         String shipName = "BB01 Queen Elizabeth";
         String shipClassName = "Queen Elizabeth";
 
-        String result = registry.getClass(Side.ALLIES, shipName);
+        ShipId shipId = new ShipId(shipName, Side.ALLIES);
+
+        String result = registry.getClass(shipId);
 
         assert (shipClassName.equals(result));
     }
@@ -38,7 +41,9 @@ public class ShipRegistryTest {
         String shipName = "BB01 Conte di Cavour";
         String shipClassName = "Conte di Cavour";
 
-        String result = registry.getClass(Side.AXIS, shipName);
+        ShipId shipId = new ShipId(shipName, Side.AXIS);
+
+        String result = registry.getClass(shipId);
 
         assert (shipClassName.equals(result));
     }

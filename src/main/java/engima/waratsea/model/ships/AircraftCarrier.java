@@ -5,7 +5,9 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.Airbase;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.ships.data.ShipData;
+import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Represents an aircraft carrier.
@@ -13,7 +15,7 @@ import lombok.Getter;
 public class AircraftCarrier implements Ship, Airbase {
 
     @Getter
-    private final String name;
+    private final ShipId shipId;
 
     @Getter
     private final ShipType type;
@@ -23,6 +25,10 @@ public class AircraftCarrier implements Ship, Airbase {
 
     @Getter
     private final Nation nationality;
+
+    @Getter
+    @Setter
+    private TaskForce taskForce;
 
     private Gun secondary;
     private Gun tertiary;
@@ -40,7 +46,7 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Inject
     public AircraftCarrier(@Assisted final ShipData data) {
-        name = data.getName();
+        shipId = data.getShipId();
         type = data.getType();
         shipClass = data.getShipClass();
         nationality = data.getNationality();
@@ -58,6 +64,7 @@ public class AircraftCarrier implements Ship, Airbase {
         flightDeck = new FlightDeck(data.getArmour().getFlightDeck(), data.getFlightDeck());
     }
 
+
     /**
      * Get The aircraft carrier's current aircraft capacity.
      * @return The current aircraft capacity in steps.
@@ -68,6 +75,16 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
+     * Get the ship's name.
+     *
+     * @return The ship's name.
+     */
+    @Override
+    public String getName() {
+        return shipId.getName();
+    }
+
+    /**
      * Determines if this ship is an aircraft carrier.
      *
      * @return True if this ship is an aircraft carrier. False otherwise.
@@ -75,6 +92,16 @@ public class AircraftCarrier implements Ship, Airbase {
     @Override
     public boolean isCarrier() {
         return true;
+    }
+
+    /**
+     * Get the ship's victory points if sunk.
+     *
+     * @return The ship's victory points.
+     */
+    @Override
+    public int getVictoryPoints() {
+        return 0;
     }
 
     /**

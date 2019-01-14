@@ -62,6 +62,7 @@ public class Shipyard {
         factoryMap.put(ShipType.MINELAYER, surfaceShipFactory);
         factoryMap.put(ShipType.MINESWEEPER, surfaceShipFactory);
         factoryMap.put(ShipType.OILER, surfaceShipFactory);
+        factoryMap.put(ShipType.SEAPLANE_CARRIER, aircraftCarrierFactory);
         factoryMap.put(ShipType.SLOOP, surfaceShipFactory);
         factoryMap.put(ShipType.TRANSPORT, surfaceShipFactory);
 
@@ -73,17 +74,16 @@ public class Shipyard {
 
     /**
      * Build a ship.
-     * @param shipName The ship's class.
-     * @param side The side. ALLIES or AXIS.
+     * @param shipId uniquely identifies a ship.
      * @return The built ship.
      * @throws ShipyardException Indicates that the ship could not be built.
      */
-    public Ship build(final String shipName, final Side side) throws ShipyardException {
-        log.info("Build ship: '{}' for side {}", shipName, side);
-        String shipClassName = registry.getClass(side, shipName);
-        ShipData shipData = getShipData(shipClassName, side);
+    public Ship build(final ShipId shipId) throws ShipyardException {
+        log.info("Build ship: '{}' for side {}", shipId.getName(), shipId.getSide());
+        String shipClassName = registry.getClass(shipId);
+        ShipData shipData = getShipData(shipClassName, shipId.getSide());
         ShipType shipType = shipData.getType();
-        shipData.setName(shipName);
+        shipData.setShipId(shipId);
         return getFactory(shipType).create(shipData);
     }
 

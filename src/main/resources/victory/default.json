@@ -1,0 +1,89 @@
+{
+  "ship": [
+    {
+      "event": {
+        "action": "SUNK"
+      }
+    },
+    {
+      "event": {
+        "action": "OUT_OF_FUEL"
+      }
+    },
+    {
+      "event": {
+        "action": "DAMAGED_HULL",
+        "shipType": "BATTLESHIP"
+      },
+      "points": 3
+    },
+    {
+      "event": {
+        "action": "DAMAGED_HULL",
+        "shipType": "BATTLECRUISER"
+      },
+      "points": 3
+    },
+    {
+      "event": {
+        "action": "DAMAGED_HULL",
+        "shipType": "AIRCRAFT_CARRIER"
+      },
+      "points": 3
+    },
+    {
+      "event": {
+        "action": "DAMAGED_HULL",
+        "shipType": "SEAPLANE_CARRIER"
+      },
+      "points": 3
+    },
+    {
+      "event": {
+        "action": "DAMAGED_PRIMARY",
+        "shipType": "BATTLESHIP"
+      },
+      "points": 3
+    },
+    {
+      "event": {
+        "action": "DAMAGED_PRIMARY",
+        "shipType": "BATTLECRUISER"
+      },
+      "points": 3
+    },
+    {
+      "event": {
+        "action": "DAMAGED_PRIMARY",
+        "shipType": "AIRCRAFT_CARRIER"
+      },
+      "points": 3
+    },
+    {
+      "event": {
+        "action": "DAMAGED_PRIMARY",
+        "shipType": "SEAPLANE_CARRIER"
+      },
+      "points": 3
+    },
+    {
+      "event": {
+        "action": "BOMBARDMENT",
+        "shipType": "BATTLESHIP",
+        "location": "ANY_ENEMY_BASE"
+      },
+      "points": 5
+    },
+    {
+      "event": {
+        "action": "BOMBARDMENT",
+        "shipType": "CRUISER",
+        "location": "ANY_ENEMY_BASE"
+      },
+      "points": 1
+    }
+  ]
+}
+
+
+

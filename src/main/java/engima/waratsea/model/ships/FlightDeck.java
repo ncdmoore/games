@@ -17,7 +17,7 @@ public class FlightDeck {
 
     // The maximum capacity. This is fixed and never changes.
     @Getter
-    private final List<Integer> capacityList;
+    private final List<Integer> capacityList;    // Capacity in steps.
 
     // The current flight deck health. The health is an index into the capacity list
     @Getter

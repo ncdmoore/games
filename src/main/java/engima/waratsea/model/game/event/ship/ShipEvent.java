@@ -1,9 +1,9 @@
 package engima.waratsea.model.game.event.ship;
 
+import engima.waratsea.model.game.Asset;
 import engima.waratsea.model.game.event.GameEvent;
 import engima.waratsea.model.game.event.GameEventHandler;
-import engima.waratsea.model.game.Side;
-import engima.waratsea.model.ships.ShipType;
+import engima.waratsea.model.ships.Ship;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -53,30 +53,22 @@ public class ShipEvent extends GameEvent {
 
     @Getter
     @Setter
-    private ShipEventAction action;
+    private Ship ship;                      // The ship that experiences the event. The ship damaged, cargo loaded, sunk or spotted.
 
     @Getter
     @Setter
-    private String name;
+    private ShipEventAction action;         // The action that the ship experienced. Damaged, cargo loaded, sunk, spotted, etc.
 
     @Getter
     @Setter
-    private Side side;
-
-    @Getter
-    @Setter
-    private String taskForceName;
-
-    @Getter
-    @Setter
-    private ShipType shipType;
+    private Asset by;                       // The game asset ship, sub or aircraft that caused the event. The asset that did the event. Not all events have a by.
 
     /**
      * This is how an event is fired and all the event handlers receive
      * notification of the event.
      */
     public void fire() {
-        log.info("Fire ship event: {}", action);
+        log.info("Fire event: {} {} by {}", new Object[]{ship.getName(), action, by});
         handlers.forEach(h -> h.notify(this));
     }
 }

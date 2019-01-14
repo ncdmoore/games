@@ -25,7 +25,7 @@ public enum ShipViewType {
 
     static {
         viewTypeMap.put(ShipType.AIRCRAFT_CARRIER, AIRCRAFT_CARRIER);
-        viewTypeMap.put(ShipType.SEAPLANE_TENDER, AIRCRAFT_CARRIER);
+        viewTypeMap.put(ShipType.SEAPLANE_CARRIER, AIRCRAFT_CARRIER);
         viewTypeMap.put(ShipType.BATTLECRUISER, BATTLESHIP);
         viewTypeMap.put(ShipType.BATTLESHIP, BATTLESHIP);
         viewTypeMap.put(ShipType.CRUISER, CRUISER);

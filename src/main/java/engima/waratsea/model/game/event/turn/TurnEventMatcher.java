@@ -1,5 +1,7 @@
 package engima.waratsea.model.game.event.turn;
 
+import engima.waratsea.model.game.event.ship.data.ShipMatchData;
+import engima.waratsea.model.game.event.turn.data.TurnMatchData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,7 +9,7 @@ import java.util.Set;
 
 /**
  * This class is used to match turn events. An entity that is looking for a particular turn event can use this
- * class to detect if wanted event has occurred.
+ * class to detect if the wanted event has occurred.
  */
 public class TurnEventMatcher {
     @Getter
@@ -22,6 +24,15 @@ public class TurnEventMatcher {
     @Setter
     private Set<Integer> values;
 
+    /**
+     * Constructor.
+     * @param data Data read
+     */
+    public TurnEventMatcher(final TurnMatchData data) {
+        turn = data.getTurn();
+        turnGreaterThan = data.getTurnGreaterThan();
+        values = data.getValues();
+    }
     /**
      * Determine if the random fired event matches this event.
      *

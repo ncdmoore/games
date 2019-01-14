@@ -28,7 +28,6 @@ import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Represents the task forces summary view.

@@ -82,8 +82,7 @@
       {
         "action": "ATTACKED",
         "side": "AXIS",
-        "taskForceName": "TF4",
-        "shipType": "*"
+        "taskForceName": "TF4"
       }
     ],
     "ships": [

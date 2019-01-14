@@ -7,6 +7,7 @@ import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ships.Ship;
+import engima.waratsea.model.ships.ShipId;
 import engima.waratsea.model.ships.data.ShipData;
 import engima.waratsea.model.ships.ShipType;
 import engima.waratsea.model.ships.Shipyard;
@@ -31,14 +32,14 @@ public class ShipyardTest {
     }
 
     @Test
-    public void testShipClassLoadForAircraftCarrier() throws Exception {
+    public void testShipClassLoadForAircraftCarrier() {
         String shipClass = "Eagle";
         ShipData shipData = Deencapsulation.invoke(shipyard, "loadShipData", shipClass, Side.ALLIES);
         assert (shipData.getType().equals(ShipType.AIRCRAFT_CARRIER));
     }
 
     @Test
-    public void testShipClassLoadForDestroyer() throws Exception {
+    public void testShipClassLoadForDestroyer() {
         String shipClass = "A Class";
         ShipData shipData = Deencapsulation.invoke(shipyard, "loadShipData", shipClass, Side.ALLIES);
         assert (shipData.getType().equals(ShipType.DESTROYER));
@@ -47,12 +48,14 @@ public class ShipyardTest {
     @Test
     public void testBuildAircraftCarrier() throws Exception {
         String shipName = "CVL04 Eagle";
-        Ship ship = shipyard.build(shipName, Side.ALLIES);
+        ShipId shipId = new ShipId(shipName, Side.ALLIES);
+        Ship ship = shipyard.build(shipId);
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(Nation.BRITISH, ship.getNationality());
 
-        ship = shipyard.build(shipName, Side.ALLIES);
+        shipId = new ShipId(shipName, Side.ALLIES);
+        ship = shipyard.build(shipId);
 
         Airbase carrier = (Airbase) ship;
 
@@ -64,7 +67,9 @@ public class ShipyardTest {
     @Test
     public void testBuildDestroyer() throws Exception {
         String shipName = "DD18 Arrow";
-        Ship ship = shipyard.build(shipName, Side.ALLIES);
+        ShipId shipId = new ShipId(shipName, Side.ALLIES);
+
+        Ship ship = shipyard.build(shipId);
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(Nation.BRITISH, ship.getNationality());

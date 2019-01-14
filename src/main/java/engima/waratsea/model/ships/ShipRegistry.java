@@ -42,11 +42,12 @@ public class ShipRegistry {
 
     /**
      * Get a ship's class given the ship's name.
-     * @param side The side ALLIED or AXIS.
-     * @param shipName The ship name.
+     * @param shipId Uniquely identifies a ship.
      * @return The ship class.
      */
-    public String getClass(final Side side, final String shipName) {
+    public String getClass(final ShipId shipId) {
+        String shipName = shipId.getName();
+        Side side = shipId.getSide();
         String shipClassName = shipMap.get(side).getString(shipName.trim());
         log.info("For ship '{}' and side {} get class '{}'", new Object[]{shipName, side, shipClassName});
         return shipClassName;

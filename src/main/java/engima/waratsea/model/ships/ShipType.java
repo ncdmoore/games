@@ -14,7 +14,7 @@ public enum ShipType {
     MINESWEEPER("Minesweeper"),
     OILER("Oiler"),
     SLOOP("Sloop"),
-    SEAPLANE_TENDER("Seaplane tender"),
+    SEAPLANE_CARRIER("Seaplane carrier"),
     SUBMARINE("Submarine"),
     TRANSPORT("Transport");
 
