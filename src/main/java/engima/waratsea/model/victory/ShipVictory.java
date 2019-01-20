@@ -1,14 +1,19 @@
 package engima.waratsea.model.victory;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventAction;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
+import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
 import engima.waratsea.model.victory.data.ShipVictoryData;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Represents a ship victory condition.
  */
+@Slf4j
 public class ShipVictory {
 
     private ShipEventMatcher matcher;
@@ -19,12 +24,22 @@ public class ShipVictory {
      * Constructor.
      * @param data The victory condition data as read from a JSON file.
      * @param side The side ALLIES or AXIS.
+     * @param factory Factory for creating ship event matchers.
      */
-    public ShipVictory(final ShipVictoryData data, final Side side) {
-        matcher = new ShipEventMatcher(data.getEvent());
+    @Inject
+    public ShipVictory(@Assisted final ShipVictoryData data,
+                       @Assisted final Side side,
+                                 final ShipEventMatcherFactory factory) {
+
+
+        matcher = factory.create(data.getEvent());
         points = data.getPoints();
 
         matcher.setSide(side);
+
+        log.info("Victory condition match:");
+        matcher.log();
+        log.info("Points: {}", points);
     }
 
     /**

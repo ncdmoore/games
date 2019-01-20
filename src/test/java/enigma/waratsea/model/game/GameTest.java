@@ -3,14 +3,19 @@ package enigma.waratsea.model.game;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.AppProps;
+import engima.waratsea.model.airfield.Airfield;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.MapException;
+import engima.waratsea.model.port.Port;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.model.victory.VictoryException;
 import enigma.waratsea.TestModule;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,7 +40,7 @@ public class GameTest {
     }
 
     @Test
-    public void testTaskForces() throws ScenarioException {
+    public void testTaskForces() throws ScenarioException, MapException, VictoryException {
         List<Scenario> scenarios = game.initScenarios();
         game.setScenario(scenarios.get(0));
         game.setHumanSide(Side.ALLIES);
@@ -48,8 +53,31 @@ public class GameTest {
         String computerShipName = computerForces.get(0).getShips().get(0).getName();
 
         log.info("human ship {}", humanShipName);
-        log.info("computer ship {},", computerShipName);
+        log.info("computer ship {}", computerShipName);
 
         assert (!humanShipName.equals(computerShipName));
+
+        List<Airfield> humanAirfields = game.getHumanPlayer().getAirfields();
+        List<Airfield> computerAirfields = game.getComputerPlayer().getAirfields();
+
+        String humanAirfieldName = humanAirfields.get(0).getName();
+        String computerAirfieldName = computerAirfields.get(0).getName();
+
+        log.info("human airfield {}", humanAirfieldName);
+        log.info("computer airfield {}", computerAirfieldName);
+
+        Assert.assertNotEquals(humanAirfieldName, computerAirfieldName);
+
+
+        List<Port> humanPorts = game.getHumanPlayer().getPorts();
+        List<Port> computerPorts = game.getComputerPlayer().getPorts();
+
+        String humanPortName = humanPorts.get(0).getName();
+        String computerPortName = computerPorts.get(0).getName();
+
+        log.info("human port {}", humanPortName);
+        log.info("computer port {}", computerPortName);
+
+        Assert.assertNotEquals(humanPortName, computerPortName);
     }
 }

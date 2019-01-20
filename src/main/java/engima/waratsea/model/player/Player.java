@@ -1,6 +1,10 @@
 package engima.waratsea.model.player;
 
+import engima.waratsea.model.airfield.Airfield;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.port.Port;
+import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.taskForce.TaskForce;
 
 import java.util.List;
@@ -25,14 +29,26 @@ public interface Player {
 
     /**
      * This sets the player's task forces.
-     * @param taskForces The player's task forces.
+     * @param scenario The selected scenario.
+     * @throws ScenarioException Indicates the task forces could not be loaded.
      */
-    void setTaskForces(List<TaskForce> taskForces);
-
+    void buildAssets(Scenario scenario) throws ScenarioException;
 
     /**
      * This gets the player's task forces.
      * @return The player's task forces.
      */
     List<TaskForce> getTaskForces();
+
+    /**
+     * This gets the player's airfields.
+     * @return The player's airfields.
+     */
+    List<Airfield> getAirfields();
+
+    /**
+     * This gets the player's ports.
+     * @return The player's ports.
+     */
+    List<Port> getPorts();
 }

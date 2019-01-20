@@ -45,6 +45,10 @@ public class Scenario implements Comparable<Scenario> {
     @Setter
     private int maxTurns;
 
+    @Getter
+    @Setter
+    private String map;
+
     /**
      * Get the scenario start date.
      * @return The scenario start date.

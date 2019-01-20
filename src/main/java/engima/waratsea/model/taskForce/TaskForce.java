@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
+import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
 import engima.waratsea.model.game.event.ship.data.ShipMatchData;
 import engima.waratsea.model.game.event.turn.TurnEvent;
 import engima.waratsea.model.aircraft.Airbase;
@@ -39,6 +40,8 @@ public class TaskForce  {
     @Getter
     @Setter
     private String name;
+
+    private final Side side;
 
     @Getter
     @Setter
@@ -85,6 +88,7 @@ public class TaskForce  {
 
     private GameMap gameMap;
     private Shipyard shipyard;
+    private ShipEventMatcherFactory shipEventMatcherFactory;
 
     /**
      * Constructor of Task Force called by guice.
@@ -92,23 +96,27 @@ public class TaskForce  {
      * @param data The task force data read from a JSON file.
      * @param gameMap The game map.
      * @param shipyard builds ships from ship names and side.
+     * @param shipEventMatcherFactory Factory for creating ship event matchers.
      */
     @Inject
     public TaskForce(@Assisted final Side side,
                      @Assisted final TaskForceData data,
                                final GameMap gameMap,
-                               final Shipyard shipyard) {
+                               final Shipyard shipyard,
+                               final ShipEventMatcherFactory shipEventMatcherFactory) {
+        this.side = side;
         name = data.getName();
         title = data.getTitle();
         mission = data.getMission();
-        location = data.getLocation();
+        location = gameMap.convertNameToReference(data.getLocation());
         targets = data.getTargets();
         state = data.getState();
 
         this.gameMap = gameMap;
         this.shipyard = shipyard;
+        this.shipEventMatcherFactory = shipEventMatcherFactory;
 
-        buildShips(side, data.getShips());
+        buildShips(data.getShips());
         loadCargo(data.getCargoShips());
         getCarriers();
 
@@ -135,12 +143,20 @@ public class TaskForce  {
         return state == TaskForceState.ACTIVE;
     }
 
-    // todo
+    /**
+     * Determine if the task force is at an enemey port.
+     * @return True if the task force is currently located at an enemy port. False otherwise.
+     */
     public boolean atEnemyBase() {
-        return false;
+        return gameMap.isLocationBase(side.opposite(), location);
     }
+
+    /**
+     * Determine if the task force is at a friendly port.
+     * @return True if the task force is currently located at a friendly port. False otherwise.
+     */
     public boolean atFriendlyBase() {
-        return false;
+        return gameMap.isLocationBase(side, location);
     }
 
     /**
@@ -172,10 +188,9 @@ public class TaskForce  {
 
     /**
      * Build all the task force's ships.
-     * @param side The task force side. ALLIES or AXIS.
      * @param shipNames list of ship names.
      */
-    private void buildShips(final Side side, final List<String> shipNames)  {
+    private void buildShips(final List<String> shipNames)  {
         ships = shipNames.stream()
                 .map(shipName -> new ShipId(shipName, side))
                 .map(this::buildShip)
@@ -251,13 +266,13 @@ public class TaskForce  {
 
     /**
      * Build the ship release events.
-     * @param data Release ship match data from the JSON file.
+     * @param shipMatchData Release ship match data from the JSON file.
      */
-    private void buildShipEvents(final List<ShipMatchData> data) {
-        releaseShipEvents = Optional.ofNullable(data)
+    private void buildShipEvents(final List<ShipMatchData> shipMatchData) {
+        releaseShipEvents = Optional.ofNullable(shipMatchData)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(ShipEventMatcher::new)
+                .map(data -> shipEventMatcherFactory.create(data))
                 .collect(Collectors.toList());
     }
 

@@ -11,6 +11,8 @@ import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.turn.TurnEventMatcher;
 import engima.waratsea.model.game.event.turn.data.TurnMatchData;
+import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.ships.Ship;
 import engima.waratsea.model.ships.ShipId;
 import engima.waratsea.model.ships.Shipyard;
@@ -32,6 +34,7 @@ public class TaskForceTest {
 
     private static TaskForceFactory factory;
     private static Shipyard shipyard;
+    private static GameMap gameMap;
 
     @BeforeClass
     public static void setup() {
@@ -39,6 +42,8 @@ public class TaskForceTest {
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
         gameTitle.setValue("bombAlley");
+
+        gameMap = injector.getInstance(GameMap.class);
 
         shipyard = injector.getInstance(Shipyard.class);
 
@@ -235,4 +240,23 @@ public class TaskForceTest {
         assert (taskForce.getState() == TaskForceState.RESERVE);
     }
 
+    @Test
+    public void testTaskForceAtFriendlyBase() throws Exception {
+
+        Scenario scenario = new Scenario();
+        scenario.setName("firstSortie");
+        scenario.setTitle("The first Sortie");
+        scenario.setMap("june1940");
+
+        gameMap.load(scenario);
+
+        TaskForceData data = new TaskForceData();
+        data.setLocation("Alexandria");
+        data.setState(TaskForceState.RESERVE);
+        data.setShips(new ArrayList<>());
+
+        TaskForce taskForce = factory.create(Side.ALLIES, data);
+
+        Assert.assertTrue(taskForce.atFriendlyBase());
+    }
 }

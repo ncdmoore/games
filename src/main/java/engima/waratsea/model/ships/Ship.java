@@ -15,7 +15,6 @@ public interface Ship {
      */
     ShipId getShipId();
 
-
     /**
      * Get the ship's name.
      * @return The ship's name.

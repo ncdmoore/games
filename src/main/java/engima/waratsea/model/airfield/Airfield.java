@@ -1,5 +1,8 @@
 package engima.waratsea.model.airfield;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import engima.waratsea.model.airfield.data.AirfieldData;
 import engima.waratsea.model.game.Side;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,19 +13,32 @@ import lombok.Setter;
 public class Airfield {
 
     @Getter
-    @Setter
-    private String name;
+    private final String name;
 
     @Getter
-    @Setter
     private Side side;
 
     @Getter
-    @Setter
-    private int capacity;   //Capacity in steps.
-
+    private final int maxCapacity;   //Capacity in steps.
 
     @Getter
     @Setter
+    private int capacity;            //Capacity in steps.
+
+    @Getter
     private String location;
+
+    /**
+     * Constructor called by guice.
+     * @param side The side of the airfield ALLIES or AXIS.
+     * @param data The airfield data read in from a JSON file.
+     */
+    @Inject
+    public Airfield(@Assisted final Side side,
+                    @Assisted final AirfieldData data) {
+        this.side = side;
+        name = data.getName();
+        maxCapacity = data.getCapacity();
+        capacity = maxCapacity;
+    }
 }

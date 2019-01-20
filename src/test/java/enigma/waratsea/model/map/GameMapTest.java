@@ -3,10 +3,13 @@ package enigma.waratsea.model.map;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.game.GameTitle;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.Grid;
 import engima.waratsea.model.map.MapProps;
+import engima.waratsea.model.scenario.Scenario;
 import enigma.waratsea.TestModule;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -78,5 +81,18 @@ public class GameMapTest {
         String name = "BF31";
         String mapReference = gameMap.convertNameToReference(name);
         assert (name.equals(mapReference));
+    }
+
+    @Test
+    public void testMapLocation() throws Exception{
+        Scenario scenario = new Scenario();
+        scenario.setName("firstSortie");
+        scenario.setTitle("The first Sortie");
+        scenario.setMap("june1940");
+
+        gameMap.load(scenario);
+
+        Assert.assertTrue(gameMap.isLocationBase(Side.ALLIES, "BH31"));
+
     }
 }

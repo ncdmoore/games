@@ -8,6 +8,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventAction;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
+import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
 import engima.waratsea.model.game.event.ship.data.ShipMatchData;
 import engima.waratsea.model.ships.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShipEventTest {
+    private static ShipEventMatcherFactory shipEventMatcherFactory;
+
     private static TaskForce taskForce;
 
     private static String carrierName = "CVL04 Eagle";
@@ -34,6 +37,8 @@ public class ShipEventTest {
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
         gameTitle.setValue("bombAlley");
+
+        shipEventMatcherFactory = injector.getInstance(ShipEventMatcherFactory.class);
 
         TaskForceFactory factory = injector.getInstance(TaskForceFactory.class);
 
@@ -66,7 +71,7 @@ public class ShipEventTest {
         data.setSide(Side.ALLIES);
         data.setLocation("F20");
 
-        ShipEventMatcher matcher = new ShipEventMatcher(data);
+        ShipEventMatcher matcher = shipEventMatcherFactory.create(data);
 
         Assert.assertTrue(matcher.match(event));
     }
@@ -86,7 +91,7 @@ public class ShipEventTest {
         data.setSide(Side.ALLIES);
         data.setLocation("F20");
 
-        ShipEventMatcher matcher = new ShipEventMatcher(data);
+        ShipEventMatcher matcher = shipEventMatcherFactory.create(data);
 
         Assert.assertTrue(matcher.match(event));
     }
@@ -106,7 +111,7 @@ public class ShipEventTest {
         data.setSide(Side.ALLIES);
         data.setLocation("F20");
 
-        ShipEventMatcher matcher = new ShipEventMatcher(data);
+        ShipEventMatcher matcher = shipEventMatcherFactory.create(data);
 
         Assert.assertTrue(matcher.match(event));
     }
@@ -127,7 +132,7 @@ public class ShipEventTest {
         data.setSide(Side.ALLIES);
         data.setLocation("F20");
 
-        ShipEventMatcher matcher = new ShipEventMatcher(data);
+        ShipEventMatcher matcher = shipEventMatcherFactory.create(data);
 
         Assert.assertTrue(matcher.match(event));
     }
@@ -144,7 +149,7 @@ public class ShipEventTest {
         data.setAction("DAMAGED");
         data.setSide(Side.ALLIES);
 
-        ShipEventMatcher matcher = new ShipEventMatcher(data);
+        ShipEventMatcher matcher = shipEventMatcherFactory.create(data);
 
         Assert.assertTrue(matcher.match(event));
     }

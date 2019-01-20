@@ -93,12 +93,13 @@ public class ScenarioLoader {
 
     /**
      * Load the task force for the given scenario and side.
-     * @param scenarioName The scenario name.
+     * @param scenario The selected scenario.
      * @param side The side: ALLIES or AXIS.
      * @return A list of task forces.
      * @throws ScenarioException if the scenario task force cannot be loaded.
      */
-    public List<TaskForce> loadTaskForce(final String scenarioName, final Side side) throws ScenarioException {
+    public List<TaskForce> loadTaskForce(final Scenario scenario, final Side side) throws ScenarioException {
+        String scenarioName = scenario.getName();
         String path = gameTitle.getValue() + "/" + SCENARIO_DIRECTORY_NAME + "/" + scenarioName + FILE_NAME_MAP.get(side);
         Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(path));
         return url.map(u -> readTaskForce(u, side))
@@ -188,7 +189,7 @@ public class ScenarioLoader {
      * Seed the task forces with the data from the JSON file.
      * @param side The side of the task force. ALLIES or AXIS.
      * @param data Task force data from the JSON file.
-     * @return An intialized or seeded Task Force.
+     * @return An initialized or seeded Task Force.
      */
     private List<TaskForce> seedTaskForces(final Side side, final List<TaskForceData> data) {
         return data.stream()

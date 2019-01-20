@@ -3,10 +3,10 @@ package enigma.waratsea.model.victory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.game.event.ship.ShipEventAction;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
+import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.victory.ShipVictory;
-import engima.waratsea.model.victory.Victory;
+import engima.waratsea.model.victory.VictoryConditions;
 import engima.waratsea.model.victory.VictoryLoader;
 import enigma.waratsea.TestModule;
 import mockit.Deencapsulation;
@@ -15,7 +15,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -29,9 +28,16 @@ public class VictoryLoaderTest {
     }
 
     @Test
-    public void testDefaultVictoryLoading() throws Exception {
-        Victory alliedVictory = loader.build(Side.ALLIES);
-        Victory axisVictory = loader.build(Side.AXIS);
+    public void testVictoryLoading() throws Exception {
+
+        Scenario scenario = new Scenario();
+        scenario.setName("firstSortie");
+        scenario.setTitle("The first Sortie");
+        scenario.setMap("june1940");
+
+
+        VictoryConditions alliedVictory = loader.build(scenario, Side.ALLIES);
+        VictoryConditions axisVictory = loader.build(scenario, Side.AXIS);
 
         List<ShipVictory> alliedShips = Deencapsulation.getField(alliedVictory, "defaultShips");
 
@@ -45,6 +51,7 @@ public class VictoryLoaderTest {
 
         List<ShipEventMatcher> alliedMatchers = getMatchers(alliedShips);
 
+        // There is only one sunk event matcher.
         Assert.assertNotNull(alliedMatchers);
         Assert.assertFalse(alliedMatchers.isEmpty());
         Assert.assertEquals(1, alliedMatchers.size());

@@ -32,21 +32,19 @@ public class ScenarioLoaderTest {
         injector = Guice.createInjector(new TestModule());
 
         gameTitle = injector.getInstance(GameTitle.class);                                                              //The game instance must be injected first!
-
-
     }
 
     @Test
     public void testScenarioSummaryLoading()  {
         games.forEach(this::scenarioSummaryLoading);
-
     }
 
     //todo consider all scenarios.
     @Test
     public void testTaskForceLoading() {
         taskForceLoading("bombAlley", "firstSortie");
-        taskForceLoading("coralSea", "coralSea");
+        taskForceLoading("bombAlley", "capeTeulada");
+        //taskForceLoading("coralSea", "coralSea");
     }
 
     private void scenarioSummaryLoading(String gameName) {
@@ -76,11 +74,14 @@ public class ScenarioLoaderTest {
             gameTitle.setValue(gameName);
             ScenarioLoader scenarioLoader = injector.getInstance(ScenarioLoader.class);
 
-            List<TaskForce> taskForces = scenarioLoader.loadTaskForce(scenarioName, Side.ALLIES);
+            Scenario scenario = new Scenario();
+            scenario.setName(scenarioName);
+
+            List<TaskForce> taskForces = scenarioLoader.loadTaskForce(scenario, Side.ALLIES);
 
             assert (!taskForces.isEmpty());
 
-            taskForces = scenarioLoader.loadTaskForce(scenarioName, Side.AXIS);
+            taskForces = scenarioLoader.loadTaskForce(scenario, Side.AXIS);
 
             assert (!taskForces.isEmpty());
         } catch (Exception ex) {

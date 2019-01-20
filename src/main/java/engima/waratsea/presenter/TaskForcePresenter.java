@@ -4,8 +4,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.map.MapException;
 import engima.waratsea.model.ships.Ship;
 import engima.waratsea.model.ships.ShipType;
+import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.view.ships.ShipViewType;
@@ -77,7 +79,7 @@ public class TaskForcePresenter {
 
         this.stage = primaryStage;
 
-        initTaskForce();
+        startGame();
 
         view.show(stage);
 
@@ -95,14 +97,14 @@ public class TaskForcePresenter {
     /**
      * Initialize the task force data.
      */
-    private void initTaskForce() {
+    private void startGame() {
         try {
             game.start();
             view.setTaskForces(game.getHumanPlayer().getTaskForces());
             view.getTaskForces().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> taskForceSelected(newValue));
 
-        } catch (ScenarioException ex) {
-            fatalErrorDialogProvider.get().show("Unable to load  game scenario: '" + game.getScenario().getTitle() + "' task forces.");
+        } catch (ScenarioException | MapException | VictoryException ex) {
+            fatalErrorDialogProvider.get().show(ex.getMessage() + ".");
         }
     }
 
@@ -265,5 +267,13 @@ public class TaskForcePresenter {
      */
     private void closePopup(final MouseEvent event) {
         view.closePopup(event);
+    }
+
+    /**
+     * A fatal error has occurred.
+     * @param errorText The text to display on the GUI.
+     */
+    private void fatalError(final String errorText) {
+        fatalErrorDialogProvider.get().show(errorText + game.getScenario().getTitle() + "'.");
     }
 }

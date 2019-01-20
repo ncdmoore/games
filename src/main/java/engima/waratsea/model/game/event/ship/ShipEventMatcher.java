@@ -1,13 +1,18 @@
 package engima.waratsea.model.game.event.ship;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.game.Asset;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.data.ShipMatchData;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.ships.ShipType;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Optional;
 
 /**
  * This class is used to match ship events. An entity that is looking for a particular ship event can use this
@@ -46,15 +51,21 @@ public class ShipEventMatcher {
     /**
      * Constructor.
      * @param data Ship event matcher data read in from JSON.
+     * @param gameMap The game map.
      */
-    public ShipEventMatcher(final ShipMatchData data) {
+    @Inject
+    public ShipEventMatcher(@Assisted final ShipMatchData data,
+                                      final GameMap gameMap) {
         action = data.getAction();
         name = data.getName();
         side = data.getSide();
         taskForceName = data.getTaskForceName();
         shipType = data.getShipType();
-        location = data.getLocation();
         by = data.getBy();
+
+        location = Optional.ofNullable(data.getLocation())
+                .map(gameMap::convertNameToReference)
+                .orElse(null);
     }
 
     /**
@@ -188,5 +199,27 @@ public class ShipEventMatcher {
      */
     private boolean matchActionWildcard(final ShipEventAction shipAction) {
         return shipAction.toString().toLowerCase().contains(action.trim().toLowerCase());
+    }
+
+    /**
+     * Log the ship event match criteria.
+     */
+    public void log() {
+        log.info("Match action {}", logValue(action));
+        log.info("Match name {}", logValue(name));
+        log.info("Match side {}", logValue(side));
+        log.info("Match task force name {}", logValue(taskForceName));
+        log.info("Match ship type {}", logValue(shipType));
+        log.info("Match location {}", logValue(location));
+        log.info("Match by {}", logValue(by));
+    }
+
+    /**
+     * If not value is present output an "*".
+     * @param value The value to log.
+     * @return The value that is actually logged.
+     */
+    private Object logValue(final Object value) {
+        return (value == null) ? "*" : value;
     }
 }

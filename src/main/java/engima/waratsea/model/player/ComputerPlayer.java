@@ -1,5 +1,13 @@
 package engima.waratsea.model.player;
 
+import com.google.inject.Inject;
+import engima.waratsea.model.airfield.Airfield;
+import engima.waratsea.model.airfield.AirfieldBuilder;
+import engima.waratsea.model.port.Port;
+import engima.waratsea.model.port.PortBuilder;
+import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.model.scenario.ScenarioException;
+import engima.waratsea.model.scenario.ScenarioLoader;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,11 +20,46 @@ import java.util.List;
  */
 public class ComputerPlayer implements Player {
 
+    private ScenarioLoader scenarioLoader;
+    private AirfieldBuilder airfieldBuilder;
+    private PortBuilder portBuilder;
+
     @Getter
     @Setter
     private Side side;
 
     @Getter
-    @Setter
     private List<TaskForce> taskForces;
+
+    @Getter
+    private List<Airfield> airfields;
+
+    @Getter
+    private List<Port> ports;
+
+    /**
+     * Constructor called by guice.
+     * @param scenarioLoader Loads scenario data.
+     * @param airfieldBuilder Loads airfield data.
+     * @param portBuilder Loads port data.
+     */
+    @Inject
+    public ComputerPlayer(final ScenarioLoader scenarioLoader,
+                          final AirfieldBuilder airfieldBuilder,
+                          final PortBuilder portBuilder) {
+        this.scenarioLoader = scenarioLoader;
+        this.airfieldBuilder = airfieldBuilder;
+        this.portBuilder = portBuilder;
+    }
+
+    /**
+     * This sets the player's task forces.
+     * @param scenario The selected scenario.
+     */
+    @Override
+    public void buildAssets(final Scenario scenario) throws ScenarioException {
+        taskForces = scenarioLoader.loadTaskForce(scenario, side);
+        airfields = airfieldBuilder.build(side);
+        ports = portBuilder.build(side);
+    }
 }
