@@ -34,7 +34,7 @@ public class VictoryConditions {
     /**
      * Stores the history of events that award victory points.
      */
-    private class History {
+    private static class History {
         @Getter
         private final GameEvent event;
 

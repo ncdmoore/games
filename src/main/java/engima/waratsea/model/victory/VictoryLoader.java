@@ -4,7 +4,6 @@ package engima.waratsea.model.victory;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
@@ -25,6 +24,9 @@ import java.util.Optional;
 
 /**
  * This class loads the victory data from the victory json files.
+ * It loads the default victory data and it optionally loads scenario victory data.
+ * Not every scenario has specific victory conditions, thus there may not be any
+ * scenario victory data to load.
  *
  * Each victory consists
  */
@@ -59,15 +61,14 @@ public class VictoryLoader {
     }
 
     /**
-     * Load the victory conditions.
+     * Load the victory conditions. Load the default victory condition data and any scenario victory
+     * condition data, if it exists. A scenario might not have any victory conditions.
      * @param scenario The selected scenario.
      * @param side The side ALLIES or AXIS.
      * @return The Victory
-     * @throws VictoryException An error occurred while attempting to read the victory data.
+     * @throws VictoryException An error occurred while attempting to read the default victory data.
      */
     public VictoryConditions build(final Scenario scenario, final Side side) throws VictoryException {
-
-        log.info("here");
 
         if (defaultVictoryData == null) {
             loadDefaultVictoryData();
@@ -81,6 +82,9 @@ public class VictoryLoader {
             loadScenarioVictoryData(scenario, side);
             conditions.addScenarioConditions(scenarioVictoryData);
         } catch (VictoryException ex) {
+            //Unable to load the scenario victory conditions. If a scenario does not contain specific
+            //victory conditions then this is normal. Thus, all this code can do is warn that no
+            //specific scenario victory data exists for the particular side.
             log.warn("No scencario victory found for scenario '{}' for side {}", scenario.getTitle(), side);
         }
 
@@ -98,6 +102,12 @@ public class VictoryLoader {
                 .orElseThrow(() -> new VictoryException("Unable to load default victory"));
     }
 
+    /**
+     * Read the scenario specific data from the JSON file.
+     * @param scenario The selected scenario.
+     * @param side The side ALLIES or AXIS.
+     * @throws VictoryException Indicates that an error occurred while attempting to read the scenario victory data.
+     */
     private void loadScenarioVictoryData(final Scenario scenario, final Side side) throws VictoryException {
         String path = gameTitle.getValue() + "/scenarios/" + scenario.getName() + FILE_NAME_MAP.get(side);
         Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(path));
