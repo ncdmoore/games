@@ -167,12 +167,12 @@ public class TaskForce  {
         Stream<String> turnReasons = Optional.ofNullable(releaseTurnEvents)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(turnEventMatcher -> "\u2022 Activated " + turnEventMatcher.getExplanation());
+                .map(turnEventMatcher -> "\u2022 " + turnEventMatcher.getExplanation());
 
         Stream<String> shipReasons = Optional.ofNullable(releaseShipEvents)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(shipEventMatcher -> "\u2022 Activated " + shipEventMatcher.getExplanation());
+                .map(shipEventMatcher -> "\u2022 " + shipEventMatcher.getExplanation());
 
         return Stream.concat(turnReasons, shipReasons).collect(Collectors.toList());
     }

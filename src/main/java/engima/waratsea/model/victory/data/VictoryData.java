@@ -11,5 +11,9 @@ import java.util.List;
 public class VictoryData {
     @Getter
     @Setter
+    private String objectives;
+
+    @Getter
+    @Setter
     private List<ShipVictoryData> ship;
 }

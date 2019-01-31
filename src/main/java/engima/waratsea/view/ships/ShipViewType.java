@@ -55,4 +55,14 @@ public enum ShipViewType {
     public static ShipViewType get(final ShipType type) {
         return viewTypeMap.get(type);
     }
+
+    /**
+     * Return the string representation of the ship view type.
+     * @return The string representation of the ship view type.
+     */
+    @Override
+    public String toString() {
+        return value;
+    }
+
 }

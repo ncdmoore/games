@@ -81,7 +81,7 @@ public class TaskForcePresenter {
 
         startGame();
 
-        view.show(stage);
+        view.show(stage, game.getScenario());
 
         markTaskForces();
         markTargets();
@@ -91,7 +91,7 @@ public class TaskForcePresenter {
         view.getContinueButton().setOnAction(event -> continueButton());
         view.getBackButton().setOnAction(event -> backButton());
 
-        view.getTaskForces().getSelectionModel().select(0);
+        view.getTaskForces().getSelectionModel().selectFirst();
     }
 
     /**

@@ -86,12 +86,32 @@
       }
     ],
     "ships": [
-      "DD03 Da Recco",
-      "DD07 Pessagno",
-      "DD08 Pigafetta",
-      "DD51 Riboty",
+      "CL27 Taranto",
+      "DD50 Mirabello",
       "DE10 Sirtori-1",
-      "DE11 Sirtori-2"
+      "DE11 Sirtori-2",
+      "DE12 Sirtori-3",
+      "DE13 Sirtori-4",
+      "DE14 Sirtori-5",
+      "DE15 Sirtori-6",
+      "DE16 Sirtori-7",
+      "DE17 Sirtori-8",
+      "DE18 Sirtori-9",
+      "DE19 Sirtori-10",
+      "DE20 Sirtori-11",
+      "DE21 Sirtori-12",
+      "DE22 Sirtori-13",
+      "DE23 Sirtori-14",
+      "DE24 Sirtori-15",
+      "DE25 Sirtori-16",
+      "DE26 Sirtori-17",
+      "DE27 Sirtori-18",
+      "DE28 Sirtori-18",
+      "DE29 Sirtori-19",
+      "DE30 Sirtori-20",
+      "DE31 Sirtori-21",
+      "DE32 Sirtori-22",
+      "DE33 Sirtori-23"
     ]
   }
 ]

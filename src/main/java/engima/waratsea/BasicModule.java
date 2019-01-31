@@ -4,6 +4,8 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 import engima.waratsea.model.airfield.Airfield;
 import engima.waratsea.model.airfield.AirfieldFactory;
+import engima.waratsea.model.game.event.airfield.AirfieldEventMatcher;
+import engima.waratsea.model.game.event.airfield.AirfieldEventMatcherFactory;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
 import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
 import engima.waratsea.model.map.region.Region;
@@ -51,7 +53,7 @@ public class BasicModule extends AbstractModule {
         install(new FactoryModuleBuilder().implement(Port.class, Port.class).build(PortFactory.class));
 
         install(new FactoryModuleBuilder().implement(ShipEventMatcher.class, ShipEventMatcher.class).build(ShipEventMatcherFactory.class));
-
+        install(new FactoryModuleBuilder().implement(AirfieldEventMatcher.class, AirfieldEventMatcher.class).build(AirfieldEventMatcherFactory.class));
     }
 }
 

@@ -27,6 +27,9 @@ public class VictoryConditions {
     @Getter
     private int totalVictoryPoints;
 
+    @Getter
+    private String objectives;
+
     private List<ShipVictory> defaultShips;
     private List<ShipVictory> scenarioShips;
     private ShipVictoryFactory shipVictoryFactory;
@@ -81,6 +84,7 @@ public class VictoryConditions {
      * @param data The victory data for a specific scenario read in from a JSON file.
      */
     public void addScenarioConditions(final VictoryData data) {
+        objectives = data.getObjectives();
         scenarioShips = buildShipConditions(data.getShip());
 
         if (!registered) {

@@ -6,8 +6,8 @@
     "state": "ACTIVE",
     "mission": "BOMBARDMENT",
     "targets": [
-      {"location": "AF12"},
-      {"location": "AE12"}
+      {"location": "Tobruk"},
+      {"location": "Rhodes"}
     ],
     "ships": [
       "BB02 Warspite",

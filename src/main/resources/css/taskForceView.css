@@ -23,6 +23,28 @@
     -fx-alignment: top-center;
 }
 
+#objective-pane {
+    -fx-padding: 5 0 5 15;
+    -fx-spacing: 15;
+    -fx-border-color: -fx-var-background-color;
+    -fx-border-width: 1px;
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, tan 0%, silver 100%);
+    -fx-alignment: center-left;
+}
+
+#label-pane {
+    -fx-padding: 5 0 0 15;
+}
+
+#map-pane {
+    -fx-padding: /* top */ 0 /* right */ 0 /* bottom */ 0 /* left */ 15;
+    -fx-spacing: 5;
+}
+
+#details-pane {
+    -fx-padding: /* top */ 10 /* right */ 0 /* bottom */ 0 /* left */ 15;
+    -fx-spacing: 5;
+}
 
 .active {
     -fx-text-fill: black;
@@ -86,4 +108,41 @@
 .popup-text-inactive {
     -fx-font: normal 8pt "Lucida Grande";
     -fx-text-fill: red;
+}
+
+#taskforce-pane {
+    -fx-padding: /* top */ 10 /* right */ 0 /* bottom */ 0 /* left */ 10;
+    -fx-tile-alignment: top-left;
+    -fx-hgap: 4;
+    -fx-vgap: 4;
+}
+
+#taskforce-details-vbox {
+    -fx-spacing: 15;
+}
+
+#taskforce-details-grid {
+    -fx-hgap: 10;
+}
+
+
+#taskforce-pane .label {
+    -fx-padding: 2 0 2 5;
+    -fx-text-fill: blue;
+//    -fx-background-color: rgb(234, 238, 223);
+    -fx-background-color: whitesmoke;
+}
+
+#taskforce-summary-grid {
+    -fx-padding: /* top */ 10 /* right */ 0 /* bottom */ 0 /* left */ 10;
+    -fx-hgap: 10;
+}
+
+#taskforce-summary-grid .label {
+    -fx-text-fill: blue;
+}
+
+#push-buttons  {
+    -fx-spacing: 180;
+    -fx-padding: /* top: */ 40 /* right: */ 0 /* bottom: */ 20 /* left: */ 450;
 }

@@ -128,11 +128,12 @@ public class Game {
     }
 
     /**
-     * Load the game gameVictory.
+     * Load the game gameVictory. Also sets the scenario victory objective for the human player.
      * @throws VictoryException Indicates the game gameVictory could not be loaded.
      */
     private void loadGameVictory() throws VictoryException {
         gameVictory.load(scenario);
+        scenario.setObjectives(gameVictory.getObjectives(humanPlayer.getSide()));
     }
 
     /**

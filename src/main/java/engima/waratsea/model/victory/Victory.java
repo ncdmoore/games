@@ -38,4 +38,13 @@ public class Victory {
         conditions.put(Side.ALLIES, loader.build(scenario, Side.ALLIES));
         conditions.put(Side.AXIS, loader.build(scenario, Side.AXIS));
     }
+
+    /**
+     * Get the victory objectives for the given side.
+     * @param side The side ALLIES or AXIS.
+     * @return The sides victory objectives.
+     */
+    public String getObjectives(final Side side) {
+        return conditions.get(side).getObjectives();
+    }
 }

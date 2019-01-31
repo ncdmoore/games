@@ -1,11 +1,11 @@
 package engima.waratsea.model.scenario;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import engima.waratsea.model.weather.WeatherType;
 
+import javax.annotation.Nonnull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -49,6 +49,10 @@ public class Scenario implements Comparable<Scenario> {
     @Setter
     private String map;
 
+    @Getter
+    @Setter
+    private String objectives;
+
     /**
      * Get the scenario start date.
      * @return The scenario start date.
@@ -85,7 +89,7 @@ public class Scenario implements Comparable<Scenario> {
      * scenario.
      */
     @Override
-    public int compareTo(@NotNull final Scenario otherScenario) {
+    public int compareTo(@Nonnull final Scenario otherScenario) {
         return id.compareTo(otherScenario.id);
     }
 
