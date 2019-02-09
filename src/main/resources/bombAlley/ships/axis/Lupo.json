@@ -1,5 +1,5 @@
 {
-  "type": "DESTROYER",
+  "type": "DESTROYER_ESCORT",
   "class": "Spica",
   "nationality": "ITALIAN",
   "weapons": {
@@ -23,5 +23,6 @@
   },
   "hull": 1,
   "fuel": 96,
-  "cargo": 1
+  "cargo": 1,
+  "victoryPoints": 3
 }
