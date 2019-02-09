@@ -1,82 +1,51 @@
 package engima.waratsea.view.map;
 
-import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
-import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.model.map.GameGrid;
+import engima.waratsea.model.map.GameMap;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import org.apache.commons.collections4.map.MultiKeyMap;
 
 /**
- * This class represents a map view.
+ * Utility class for drawing a grid on a map.
  */
 @Slf4j
 public class MapView {
 
-    private int numberOfRows;
-    private int numberOfColumns;
-
     @Getter
     private int gridSize;
 
-    private int offset;
-    private int yPopUpAdjust;
-    private int yBottomThreshold;
-
+    @Getter
     private Group map = new Group();
 
-    private Map<String, TaskForceMarker> markerMap = new HashMap<>();                //marker name -> grid.
-    private Map<String, TaskForceMarker> mapRefMarkerMap = new HashMap<>();          //map reference -> grid.
-
-    private Map<String, List<TargetMarker>> targetMap = new HashMap<>();
-    private Map<String, TargetMarker> mapRefTargetMap = new HashMap<>();
+    private MultiKeyMap<Integer, Rectangle> grid = new MultiKeyMap<>();
 
     /**
-     * The map view constructor.
-     * @param numColumns number of grid columns for this map.
-     * @param numRows number of grid rows for this map.
-     * @param gridsize size of the square grid.
-     * @param yAdjust the scale by which pop ups are moved if they are close to the bottom of the map.
-     * @param yThreshold the y threshold health in which the pop up is moved up to avoid running off the bottom of the map.
+     * Draw the map's grid.
+     * @param gameMap The game map that this view represents.
+     * @param sizeOfTheGrids Size of the square grid in pixels.
+     * @return The grid.
      */
-    public void init(final int numColumns, final int numRows, final int gridsize, final int yAdjust, final int yThreshold) {
+    public Group draw(final GameMap gameMap, final int sizeOfTheGrids) {
+        int numberOfRows = gameMap.getRows();
+        int numberOfColumns = gameMap.getColumns();
 
-        numberOfColumns = numColumns;
-        numberOfRows = numRows;
-        gridSize = gridsize;
-        yPopUpAdjust = yAdjust;
-        yBottomThreshold = yThreshold;
+        gridSize = sizeOfTheGrids;
 
-        offset = gridSize / 2;
-    }
-
-    /**
-     * Draws the map grid.
-     * @return The node containing the map grid.
-     */
-    public Node drawMapGrid() {
-
-        int yOffset = 0;
         int currentNumberOfRows = numberOfRows;
 
         for (int col = 0; col < numberOfColumns; col++) {
             for (int row = 0; row < currentNumberOfRows; row++) {
-                Node r = drawGrid(col, row, yOffset);
+                GridView gridView = getGridView(new GameGrid(row, col));
+                Rectangle r = drawSingleGrid(gridView);
                 map.getChildren().add(r);
+                grid.put(row, col, r);
             }
 
-            yOffset = (yOffset == 0) ? offset : 0;
             currentNumberOfRows = (currentNumberOfRows == numberOfRows) ? numberOfRows - 1 : numberOfRows;
         }
 
@@ -84,129 +53,41 @@ public class MapView {
     }
 
     /**
-     * Place the task force marker on the map.
-     * @param dto The task force marker data transfer object.
+     * Get a grid view.
+     * @param gameGrid The game grid for which the grid view corresponds.
+     * @return The grid view.
      */
-    public void markTaskForce(final TaskForceMarkerDTO dto) {
-
-        if (mapRefMarkerMap.containsKey(dto.getMapReference())) {                                                       //Check if this grid already has a marker.
-            TaskForceMarker existingMarker = mapRefMarkerMap.get(dto.getMapReference());
-            existingMarker.addText(dto.getText(), dto.isActive());                                                      //Add this task force's name to the existing marker.
-            markerMap.put(dto.getName(), existingMarker);                                                               //Index this task force's name to the existing marker.
-        } else {
-            TaskForceMarker marker = new TaskForceMarker(dto);                                                          //Create a new marker.
-            marker.draw(map, dto.isActive());                                                                           //Store this task force's name in the new marker.
-            mapRefMarkerMap.put(dto.getMapReference(), marker);
-            markerMap.put(dto.getName(), marker);                                                                       //Index this task force's name to the new marker.
-        }
+    public GridView getGridView(final GameGrid gameGrid) {
+        return new GridView(gridSize, gameGrid);
     }
 
     /**
-     * Place the target marker on the map.
-     * @param dto The target marker data transfer object.
+     * Add a node to the map. This is called to add rectangles to the map.
+     * @param node The node added to the map.
      */
-    public void markTarget(final TargetMarkerDTO dto) {
-
-        if (mapRefTargetMap.containsKey(dto.getMapReference())) {
-            TargetMarker existingMarker = mapRefTargetMap.get(dto.getMapReference());
-            addTargetMarker(dto, existingMarker);
-        } else {
-            TargetMarker marker = new TargetMarker(dto);
-
-            //If the target marker occupies the same space as a task force marker
-            //then make the target marker inactive.
-            boolean active = !mapRefMarkerMap.containsKey(dto.getMapReference());
-
-            marker.draw(map, active);
-            mapRefTargetMap.put(dto.getMapReference(), marker);
-            addTargetMarker(dto, marker);
-        }
+    public void add(final Node node) {
+        map.getChildren().add(node);
     }
 
     /**
-     * This method is called to adjust the y coordinate of the popup's that are near the bottom of the map.
+     * Remove a node from the map.
+     * @param node The node removed from the map.
      */
-    public void finish() {
-        markerMap.values().stream()
-                .filter(marker -> marker.isPopUpNearMapBotton(yBottomThreshold))
-                .forEach(marker -> marker.adjustY(yPopUpAdjust));
-
-        mapRefTargetMap.values().stream()
-                .filter(marker -> marker.isPopUpNearMapBotton(yBottomThreshold))
-                .forEach(marker -> marker.adjustY(yPopUpAdjust));
-    }
-
-    /**
-     * Select a marker on the map.
-     * @param name specifies the marker to select.
-     */
-    public void selectMarker(final String name) {
-        markerMap.get(name).select(map, name);                                                                          //Show the task force marker.
-
-        Optional.ofNullable(targetMap.get(name))
-                .ifPresent(targetMarkers -> targetMarkers.forEach(targetMarker -> targetMarker.select(map)));           //Show this task force's target markers if any exist.
-    }
-
-    /**
-     * Clear a marker selection on the map.
-     * @param name specifies the marker to clear.
-     */
-    public void clearMarker(final String name) {
-        markerMap.get(name).clear(map);                                                                                 //Hide the task force marker.
-
-        Optional.ofNullable(targetMap.get(name))
-                .ifPresent(targetMarkers -> targetMarkers.forEach(targetMarker -> targetMarker.clear(map)));            //Hide any target marker's if any exist.
-    }
-
-    /**
-     * Get the name of the marker from the markers grid.
-     * @param clickedMarker represents the marker.
-     * @return A list of names associated with this marker.
-     */
-    public List<String> getNameFromMarker(final Object clickedMarker) {
-        return markerMap.entrySet().stream()
-                .filter(entry -> entry.getValue().wasClicked(clickedMarker))
-                .map(Map.Entry::getKey).collect(Collectors.toList());
-    }
-
-    /**
-     * Select target marker. Show the corresponding popup. Note, only a single target marker can be clicked.
-     * @param clickedMarker represents the marker.
-     */
-    public void selectTargetMarker(final Object clickedMarker) {
-        mapRefTargetMap.entrySet().stream()
-                .filter(entry -> entry.getValue().wasClicked(clickedMarker))
-                .findFirst()
-                .map(Map.Entry::getValue)
-                .ifPresent(targetMarker -> targetMarker.select(map));
-    }
-
-    /**
-     * Add a target marker to the preview map.
-     * @param dto Target marker data transfer object.
-     * @param marker The marker to add to the preview map.
-     */
-    private void addTargetMarker(final TargetMarkerDTO dto, final TargetMarker marker) {
-        if (!targetMap.containsKey(dto.getTaskForceName())) {
-            targetMap.put(dto.getTaskForceName(), new ArrayList<>());
-        }
-
-        targetMap.get(dto.getTaskForceName()).add(marker);
+    public void remove(final Node node) {
+        map.getChildren().remove(node);
     }
 
     /**
      * Draw a rectangle.
      *
-     * @param x x coordinate.
-     * @param y y coordinate.
-     * @param yOffset The y offset.
+     * @param gridView The grid's view.
      * @return A rectangle.
      */
-    private Node drawGrid(final int x, final int y, final int yOffset) {
+    private Rectangle drawSingleGrid(final GridView gridView) {
 
-        final double opacity = 0.05;
+        final double opacity = 0.07;
 
-        Rectangle r = new Rectangle(x * gridSize, y * gridSize + yOffset, gridSize, gridSize);
+        Rectangle r = new Rectangle(gridView.getX(), gridView.getY(), gridView.getSize(), gridView.getSize());
         r.setStroke(Color.BLACK);
         r.setFill(null);
         r.setOpacity(opacity);
@@ -214,13 +95,13 @@ public class MapView {
     }
 
     /**
-     * Close the popup.
-     *
-     * @param event the mouse event.
+     * Highlight a single grid on the map.
+     * @param gameGrid The corresponding game grid.
      */
-    public void closePopup(final MouseEvent event) {
-        VBox o = (VBox) event.getSource();
-        map.getChildren().remove(o);
-    }
+    public void highlight(final GameGrid gameGrid) {
+        Rectangle r = grid.get(gameGrid.getRow(), gameGrid.getColumn());
 
+        r.setOpacity(1.0);
+        r.setStroke(Color.RED);
+    }
 }

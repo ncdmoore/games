@@ -2,7 +2,6 @@ package engima.waratsea.view.map;
 
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import lombok.extern.slf4j.Slf4j;
@@ -38,15 +37,14 @@ public class TaskForceMarker {
      * @param map The map where the marker is drawn.
      * @param active Indicates whether the popup contents are active or inactive.
      */
-    public void draw(final Group map, final boolean active) {
+    public void draw(final MapView map, final boolean active) {
         rectangle = new Rectangle(gridView.getX(), gridView.getY(), gridView.getSize(), gridView.getSize());
         rectangle.setOpacity(opacity);
-
         rectangle.getStyleClass().add("taskforce-marker");
 
         setOnMouseClicked(eventHandler);
 
-        map.getChildren().add(rectangle);
+        map.add(rectangle);
 
         popUp.draw(active);
     }
@@ -66,7 +64,7 @@ public class TaskForceMarker {
      * @param map The game map.
      * @param name The name of the task force.
      */
-    public void select(final Group map, final String name) {
+    public void select(final MapView map, final String name) {
         rectangle.setOpacity(1.0);
         popUp.display(map, name);
     }
@@ -75,7 +73,7 @@ public class TaskForceMarker {
      * Clear this marker. The marker is no longer selected if it was selected.
      * @param map The game map.
      **/
-    public void clear(final Group map) {
+    public void clear(final MapView map) {
         rectangle.setOpacity(opacity);
         popUp.hide(map);
     }

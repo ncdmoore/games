@@ -1,20 +1,17 @@
 package engima.waratsea.model.map;
 
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Represents map grid coordinates.
  */
-public class Grid {
+public class GameGrid {
 
     @Getter
-    @Setter
-    private int row;
+    private final int row;
 
     @Getter
-    @Setter
-    private int column;
+    private final int column;
 
     /**
      * Create a map grid.
@@ -22,7 +19,7 @@ public class Grid {
      * @param row The map row that corresponds to this grid.
      * @param column The map column that corresponds to this grid.
      */
-    public Grid(final int row, final int column) {
+    public GameGrid(final int row, final int column) {
         this.row = row;
         this.column = column;
     }

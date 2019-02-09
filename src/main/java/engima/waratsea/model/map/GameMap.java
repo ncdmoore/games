@@ -6,6 +6,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.map.region.RegionLoader;
 import engima.waratsea.model.scenario.Scenario;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
@@ -31,6 +32,12 @@ public final class GameMap {
     private MapProps props;
     private RegionLoader regionLoader;
 
+    @Getter
+    private final int rows;
+
+    @Getter
+    private final int columns;
+
     private Map<Side, List<Region>> regions = new HashMap<>();
     private Map<Side, List<String>> airfields = new HashMap<>();
     private Map<Side, List<String>> ports = new HashMap<>();
@@ -46,6 +53,9 @@ public final class GameMap {
                    final RegionLoader regionLoader) {
         this.props = props;
         this.regionLoader = regionLoader;
+
+        rows = props.getInt("rows");
+        columns = props.getInt("columns");
     }
 
     /**
@@ -106,7 +116,7 @@ public final class GameMap {
      * @param mapReference game map reference.
      * @return a map grid coordinate.
      */
-    public Grid getGrid(final String mapReference) {
+    public GameGrid getGrid(final String mapReference) {
 
         Pattern pattern = Pattern.compile(MAP_REFERENCE_FORMAT);
         Matcher matcher = pattern.matcher(mapReference);
@@ -125,7 +135,7 @@ public final class GameMap {
         log.info("Map reference: {}", mapReference);
         log.info("Grid row: {}, column: {}", row, column);
 
-        return new Grid(row, column);
+        return new GameGrid(row, column);
     }
 
     /**
@@ -198,7 +208,7 @@ public final class GameMap {
      * @param side The port's side ALLIES or AXIS.
      * @return A list of port names.
      */
-    public List<String> parsePortNames(final Side side) {
+    private List<String> parsePortNames(final Side side) {
         List<String> portNames = regions.get(side)
                 .stream()
                 .flatMap(region -> region.getPorts().stream())

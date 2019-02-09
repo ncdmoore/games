@@ -2,7 +2,6 @@ package engima.waratsea.view.map;
 
 import engima.waratsea.presenter.dto.map.PopUpDTO;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -102,9 +101,9 @@ public class PopUp {
      * Display this popup.
      * @param map The map that contains this popup.
      */
-    public void display(final Group map) {
-        map.getChildren().remove(popUp);
-        map.getChildren().add(popUp);
+    public void display(final MapView map) {
+        map.remove(popUp);
+        map.add(popUp);
     }
 
     /**
@@ -112,25 +111,25 @@ public class PopUp {
      * @param map The map that contains this popup.
      * @param name The text in the popup to highlight.
      */
-    public void display(final Group map, final String name) {
+    public void display(final MapView map, final String name) {
         namesMap.forEach((key, value) -> value.setBackground(null));
 
-        map.getChildren().remove(popUp);
+        map.remove(popUp);
 
         if (names.size() > 1) {
             //Unable to use css as this is dynamic and the css never takes.
             namesMap.get(name).setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
         }
 
-        map.getChildren().add(popUp);
+        map.add(popUp);
     }
 
     /**
      * Hide this pop up.
      * @param map The map that contains this popup.
      */
-    public void hide(final Group map) {
-        map.getChildren().remove(popUp);
+    public void hide(final MapView map) {
+        map.remove(popUp);
     }
 
     /**

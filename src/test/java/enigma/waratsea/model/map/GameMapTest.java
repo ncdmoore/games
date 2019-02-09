@@ -5,7 +5,7 @@ import com.google.inject.Injector;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
-import engima.waratsea.model.map.Grid;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.MapProps;
 import engima.waratsea.model.scenario.Scenario;
 import enigma.waratsea.TestModule;
@@ -35,7 +35,7 @@ public class GameMapTest {
     public void testConversionFromMapReference() {
         String mapReference = "F20";
 
-        Grid grid = gameMap.getGrid(mapReference);
+        GameGrid grid = gameMap.getGrid(mapReference);
 
         assert (grid.getColumn() == 5);
         assert (grid.getRow() == 19);
@@ -73,7 +73,7 @@ public class GameMapTest {
     public void testMapPropConversionNeeded() {
         String name = "Gibraltar";
         String mapReference = gameMap.convertNameToReference(name);
-        assert ("G23".equals(mapReference));
+        assert ("H22".equals(mapReference));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class GameMapTest {
 
         gameMap.load(scenario);
 
-        Assert.assertTrue(gameMap.isLocationBase(Side.ALLIES, "BH31"));
+        Assert.assertTrue(gameMap.isLocationBase(Side.ALLIES, "BG32"));
 
     }
 }

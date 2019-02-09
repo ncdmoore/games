@@ -44,6 +44,7 @@ public class TaskForcePresenter {
 
     private Provider<TaskForceView> viewProvider;
     private Provider<ScenarioPresenter> scenarioPresenterProvider;
+    private Provider<MainPresenter> mainPresenterProvider;
     private Provider<FatalErrorDialog> fatalErrorDialogProvider;
 
     /**
@@ -52,6 +53,7 @@ public class TaskForcePresenter {
      * @param gameMap The preview game map.
      * @param viewProvider The corresponding view,
      * @param scenarioPresenterProvider Provides the scenario presenter.
+     * @param mainPresenterProvider Provides the main presenter.
      * @param fatalErrorDialogProvider Provides the fatal error dialog.
      */
     @Inject
@@ -59,11 +61,13 @@ public class TaskForcePresenter {
                               final GameMap gameMap,
                               final Provider<TaskForceView> viewProvider,
                               final Provider<ScenarioPresenter> scenarioPresenterProvider,
+                              final Provider<MainPresenter> mainPresenterProvider,
                               final Provider<FatalErrorDialog> fatalErrorDialogProvider) {
         this.game = game;
         this.gameMap = gameMap;
         this.viewProvider = viewProvider;
         this.scenarioPresenterProvider = scenarioPresenterProvider;
+        this.mainPresenterProvider = mainPresenterProvider;
         this.fatalErrorDialogProvider = fatalErrorDialogProvider;
     }
 
@@ -199,6 +203,8 @@ public class TaskForcePresenter {
      */
     private void continueButton() {
         log.info("continue button");
+        mainPresenterProvider.get().show(stage);
+
     }
 
     /**

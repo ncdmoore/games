@@ -1,10 +1,11 @@
 package engima.waratsea.presenter.dto.map;
 
 import engima.waratsea.model.map.GameMap;
-import engima.waratsea.model.map.Grid;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.view.map.GridView;
+import engima.waratsea.view.map.MapView;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import lombok.Getter;
@@ -32,7 +33,7 @@ public class TargetMarkerDTO implements PopUpDTO {
     private  EventHandler<? super MouseEvent> popupEventHandler;
 
     @Getter
-    private Grid grid;
+    private GameGrid grid;
 
     @Getter
     private GridView gridView;
@@ -47,7 +48,6 @@ public class TargetMarkerDTO implements PopUpDTO {
 
     /**
      * Construct the target marker DTO.
-     *
      * @param taskForce The task force that has this target.
      * @param target The targets.
      */
@@ -59,7 +59,6 @@ public class TargetMarkerDTO implements PopUpDTO {
 
     /**
      * Set the game map which allows the grid to be determined.
-     *
      * @param gameMap The game map.
      */
     public void setGameMap(final GameMap gameMap) {
@@ -67,17 +66,15 @@ public class TargetMarkerDTO implements PopUpDTO {
     }
 
     /**
-     * Set the size of the grid that the marker occupies.
-     *
-     * @param size map grid size.
+     * Set the map view which allows the grid view to be determined.
+     * @param mapView The view of the map.
      */
-    public void setGridSize(final int size) {
-        gridView = new GridView(size, grid.getRow(), grid.getColumn());
+    public void setMapView(final MapView mapView) {
+        gridView = mapView.getGridView(grid);
     }
 
     /**
      * Get the popup text for the target marker.
-     *
      * @return The popup text.
      */
     public String getText() {

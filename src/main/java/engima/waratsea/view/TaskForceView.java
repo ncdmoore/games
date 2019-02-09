@@ -8,9 +8,8 @@ import engima.waratsea.model.ships.Ship;
 import engima.waratsea.model.taskForce.TaskForceState;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
-import engima.waratsea.view.map.MapView;
+import engima.waratsea.view.map.TaskForcePreviewMapView;
 import engima.waratsea.view.ships.ShipViewType;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -65,7 +64,7 @@ public class TaskForceView {
     private Button backButton = new Button("Back");
 
     private Game game;
-    private MapView taskForceMap;
+    private TaskForcePreviewMapView taskForceMap;
 
     private Label stateValue = new Label();
     private Text missionValue = new Text();
@@ -91,21 +90,13 @@ public class TaskForceView {
                          final CssResourceProvider cssResourceProvider,
                          final ImageResourceProvider imageResourceProvider,
                          final Game game,
-                         final MapView taskForceMap) {
+                         final TaskForcePreviewMapView taskForceMap) {
 
         this.props = props;
         this.cssResourceProvider = cssResourceProvider;
         this.imageResourceProvider = imageResourceProvider;
         this.game = game;
         this.taskForceMap = taskForceMap;
-
-        int numberOfColumns = props.getInt("taskforce.previewMap.columns");
-        int numberOfRows = props.getInt("taskforce.previewMap.rows");
-        int gridSize = props.getInt("taskforce.previewMap.gridSize");
-        int yAdjust = props.getInt("taskforce.previewMap.popup.yScale");
-
-        int yBottomThreshold = props.getInt("taskforce.previewMap.y.size");
-        taskForceMap.init(numberOfColumns, numberOfRows, gridSize, yAdjust, yBottomThreshold);
 
         flags.put(Side.ALLIES, "alliesFlag50x34.png");
         flags.put(Side.AXIS, "axisFlag50x34.png");
@@ -133,13 +124,7 @@ public class TaskForceView {
         Node taskForceList = buildTaskForceList();
         Node pushButtons = buildPushButtons();
 
-        int sceneWidth = props.getInt("taskForce.scene.width");
-        int sceneHeight = props.getInt("taskForce.scene.height");
-
-        ImageView mapView = imageResourceProvider.getImageView("previewMap.png");
-
-        StackPane map = new StackPane(mapView, taskForceMap.drawMapGrid());
-        map.setAlignment(Pos.TOP_LEFT);
+        Node map = taskForceMap.draw();
 
         HBox mapPane = new HBox(taskForceList, map);
         mapPane.setId("map-pane");
@@ -147,6 +132,9 @@ public class TaskForceView {
         Node taskForceDetails = buildTaskForceDetails();
 
         VBox vBox = new VBox(titlePane, objectivesPane, labelPane, mapPane, taskForceDetails, pushButtons);
+
+        int sceneWidth = props.getInt("taskForce.scene.width");
+        int sceneHeight = props.getInt("taskForce.scene.height");
 
         Scene scene = new Scene(vBox, sceneWidth, sceneHeight);
 
@@ -325,7 +313,6 @@ public class TaskForceView {
      * @param dto Task force data transfer object.
      */
     public void markTaskForceOnMap(final TaskForceMarkerDTO dto) {
-        dto.setGridSize(taskForceMap.getGridSize());
         dto.setXOffset(props.getInt("taskforce.previewMap.popup.xOffset"));
         taskForceMap.markTaskForce(dto);
     }
@@ -335,7 +322,6 @@ public class TaskForceView {
      * @param dto Target data transfer object.
      */
     public void markTargetOnMap(final TargetMarkerDTO dto) {
-        dto.setGridSize(taskForceMap.getGridSize());
         dto.setXOffset(props.getInt("taskforce.previewMap.popup.xOffset"));
         taskForceMap.markTarget(dto);
     }
