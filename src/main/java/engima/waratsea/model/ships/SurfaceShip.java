@@ -26,6 +26,9 @@ public class SurfaceShip implements Ship {
     private final Nation nationality;
 
     @Getter
+    private final int victoryPoints;
+
+    @Getter
     @Setter
     private TaskForce taskForce;
 
@@ -37,6 +40,8 @@ public class SurfaceShip implements Ship {
     private Movement movement;
     private Fuel fuel;
     private Hull hull;
+
+    @Getter
     private Cargo cargo;
 
     /**
@@ -49,6 +54,7 @@ public class SurfaceShip implements Ship {
         type = data.getType();
         shipClass = data.getShipClass();
         nationality = data.getNationality();
+        victoryPoints = data.getVictoryPoints();
 
         primary = new Gun(data.getWeapons().getPrimary(), data.getArmour().getPrimary());
         secondary = new Gun(data.getWeapons().getSecondary(), data.getArmour().getSecondary());
@@ -82,15 +88,6 @@ public class SurfaceShip implements Ship {
         return false;
     }
 
-    /**
-     * Get the ship's victory points if sunk.
-     *
-     * @return The ship's victory points.
-     */
-    @Override
-    public int getVictoryPoints() {
-        return 0;
-    }
 
     /**
      * Call this method to load a ship to its maximum cargoShips capacity.

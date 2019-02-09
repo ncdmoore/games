@@ -52,7 +52,6 @@ public class TaskForce  {
     private TaskForceMission mission;
 
     @Getter
-    @Setter
     private String location;
 
     @Getter
@@ -108,7 +107,6 @@ public class TaskForce  {
         name = data.getName();
         title = data.getTitle();
         mission = data.getMission();
-        location = gameMap.convertNameToReference(data.getLocation());
         targets = data.getTargets();
         state = data.getState();
 
@@ -116,6 +114,7 @@ public class TaskForce  {
         this.shipyard = shipyard;
         this.shipEventMatcherFactory = shipEventMatcherFactory;
 
+        setLocation(data.getLocation());
         buildShips(data.getShips());
         loadCargo(data.getCargoShips());
         getCarriers();
@@ -157,6 +156,14 @@ public class TaskForce  {
      */
     public boolean atFriendlyBase() {
         return gameMap.isLocationBase(side, location);
+    }
+
+    /**
+     * Set the task force's locaton.
+     * @param newLocation The new location of the task force.
+     */
+    public void setLocation(final String newLocation) {
+        location = gameMap.convertNameToReference(newLocation);
     }
 
     /**

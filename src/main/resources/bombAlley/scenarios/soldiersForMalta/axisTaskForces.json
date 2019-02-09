@@ -1,0 +1,56 @@
+[
+  {
+    "name": "TF1",
+    "title": "Taranto Force",
+    "location": "Taranto",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "BB01 Conte di Cavour",
+      "BB02 Giulio Cesare",
+      "BB03 Andrea Doria",
+      "BB05 Littorio",
+      "BB06 Vittorio Veneto",
+      "CA01 Trento",
+      "CA02 Trieste",
+      "CA03 Zara",
+      "CA04 Pola",
+      "CA05 Fiume",
+      "CA06 Gorizia",
+      "DD13 Freccia",
+      "DD14 Dardo",
+      "DD15 Saetta",
+      "DD24 Libecco",
+      "DD25 Oriani",
+      "DD26 Gioberti",
+      "DD27 Carducci",
+      "DD28 Alfieri",
+      "DD33 Granatiere",
+      "DD35 Bersagliere",
+      "DD38 Fuciliere",
+      "DD39 Alpino",
+      "DD36 Carabiniere",
+      "DD37 Ascari",
+      "DD40 Lanciere"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "Messina Force",
+    "location":  "Messina",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "CL11 Duca degli Abruzzi",
+      "CL12 Giuseppe Garibaldi",
+      "DD02 Da Noli",
+      "DD03 Da Recco",
+      "DD05 Da Malocello",
+      "DD06 Pancaldo",
+      "DD07 Pessagno",
+      "DD09 Tarigo",
+      "DD10 Usodimare",
+      "DD11 Vivaldi"
+    ]
+  }
+]

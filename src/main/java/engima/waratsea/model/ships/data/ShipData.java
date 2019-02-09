@@ -55,6 +55,10 @@ public class ShipData {
 
     @Getter
     @Setter
+    private int victoryPoints;
+
+    @Getter
+    @Setter
     private List<Integer> flightDeck;
 
 }

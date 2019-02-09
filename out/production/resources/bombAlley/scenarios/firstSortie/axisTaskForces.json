@@ -18,7 +18,7 @@
   {
     "name": "TF2",
     "title": "Messina Force",
-    "location":  "AJ17",
+    "location":  "Messina",
     "state": "ACTIVE",
     "mission": "PATROL",
     "ships": [
@@ -38,7 +38,7 @@
   {
     "name": "TF3",
     "title": "Reaction Force",
-    "location": "AL13",
+    "location": "Taranto",
     "state": "ACTIVE",
     "mission": "PATROL",
     "ships": [
@@ -59,7 +59,7 @@
   {
     "name": "TF4",
     "title": "Emergency Force",
-    "location": "AL13",
+    "location": "Taranto",
     "state": "RESERVE",
     "mission": "PATROL",
     "releaseShipEvents": [

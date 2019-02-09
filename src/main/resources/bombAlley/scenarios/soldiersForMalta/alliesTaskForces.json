@@ -1,0 +1,42 @@
+[
+  {
+    "name": "TF1",
+    "title": "Troop Convoy",
+    "location": "Alexandria",
+    "state": "ACTIVE",
+    "mission": "TRANSPORT",
+    "targets": [
+      {"location": "Malta"}
+    ],
+    "ships": [
+      "CL38 Gloucester",
+      "CL39 Liverpool"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "Escort Force",
+    "location": "Alexandria",
+    "state": "ACTIVE",
+    "mission": "ESCORT",
+    "ships": [
+      "BB02 Warspite",
+      "BB03 Valiant",
+      "CV05 Illustrious",
+      "CA12 York",
+      "CL28 Orion",
+      "CL03 Sydney",
+      "DD69 Hasty",
+      "DD70 Havock",
+      "DD71 Hereward",
+      "DD72 Hero",
+      "DD76 Hyperion",
+      "DD105 Mohawk",
+      "DD106 Nubian",
+      "DD114 Janus",
+      "DD117 Jervis",
+      "DD118 Juno",
+      "DD01 Stuart"
+    ]
+  }
+]

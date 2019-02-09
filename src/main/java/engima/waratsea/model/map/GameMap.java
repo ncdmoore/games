@@ -28,6 +28,7 @@ import java.util.stream.Stream;
 public final class GameMap {
 
     private static final String MAP_REFERENCE_FORMAT = "\\s*([a-zA-Z]{1,2})(\\d{1,2})\\s*";
+    private static final Pattern PATTERN = Pattern.compile(MAP_REFERENCE_FORMAT);
 
     private MapProps props;
     private RegionLoader regionLoader;
@@ -101,14 +102,22 @@ public final class GameMap {
     }
 
     /**
-     * Convert a location name to a map reference. For example, the name Gibraltar is converted to G23.
+     * Convert a location name to a map reference. For example, the name Gibraltar is converted to H22.
      * @param name A named location on the map.
      * @return The corresponding map reference of where the name is located.
      */
     public String convertNameToReference(final String name) {
-        Pattern pattern = Pattern.compile(MAP_REFERENCE_FORMAT);
-        Matcher matcher = pattern.matcher(name);
+        Matcher matcher = PATTERN.matcher(name);
         return  matcher.matches() ? name : props.getString(name);
+    }
+
+    /**
+     * Convert a map reference to a location name. For example, the reference H22 is converted to Gibraltar.
+     * @param reference A map reference.
+     * @return The corresponding location name.
+     */
+    public String convertReferenceToName(final String reference) {
+        return Optional.ofNullable(props.getString(reference)).orElse(reference);
     }
 
     /**

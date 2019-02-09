@@ -1,0 +1,11 @@
+{
+  "name": "soldiersForMalta",
+  "title": "Soldiers For Malta",
+  "id": 9,
+  "image": "soldiersForMalta.png",
+  "date": "09/28/1940",
+  "weather": "CLEAR",
+  "maxTurns": 72,
+  "description": "With the Italian fleet playing an active role in the central Mediterranean, the British command decided not to risk a slow convoy to reinforce the Malta garrison. Two cruisers loaded 1,200 troops aboard for a fast dash to the island fortress. Italian air patrols spotted the British fleet at sea, and five battleships set out in pursuit",
+  "map": "june1940"
+}

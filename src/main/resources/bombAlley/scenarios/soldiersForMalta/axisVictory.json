@@ -1,0 +1,21 @@
+{
+  "objectives": "Prevent British reinforcement of Malta.",
+  "ship": [
+    {
+      "event": {
+        "action": "SUNK",
+        "shipType": "CRUISER",
+        "name": "CL38 Gloucester"
+      },
+      "points": 12
+    },
+    {
+      "event": {
+        "action": "SUNK",
+        "shipType": "CRUISER",
+        "name": "CL39 Liverpool"
+      },
+      "points": 12
+    }
+  ]
+}

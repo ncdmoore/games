@@ -84,6 +84,13 @@ public class GameMapTest {
     }
 
     @Test
+    public void testMapPropReverseLookup() {
+        String mapReference = "AK24";
+        String name = gameMap.convertReferenceToName(mapReference);
+        Assert.assertEquals ("Malta", name);
+    }
+
+    @Test
     public void testMapLocation() throws Exception{
         Scenario scenario = new Scenario();
         scenario.setName("firstSortie");

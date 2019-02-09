@@ -64,7 +64,7 @@ public class VictoryTest {
         TaskForceData data = new TaskForceData();
         data.setLocation("Tobruk");
         data.setState(TaskForceState.ACTIVE);
-        data.setShips(new ArrayList<>(Arrays.asList("BB11 Nelson", "BB12 Rodney", "BB08 Royal Sovereign")));
+        data.setShips(new ArrayList<>(Arrays.asList("BB11 Nelson", "BB12 Rodney", "BB08 Royal Sovereign", "CL47 Dido")));
 
         taskForce = taskForceFactory.create(Side.ALLIES, data);
 
@@ -130,11 +130,142 @@ public class VictoryTest {
 
         Assert.assertEquals(0, victory.getTotalVictoryPoints());
 
+        taskForce.setLocation("Tobruk");
+
         Assert.assertTrue(taskForce.atEnemyBase());
 
         ShipEvent event = new ShipEvent();
         event.setAction(ShipEventAction.BOMBARDMENT);
         event.setShip(taskForce.getShip("BB11 Nelson"));
+
+        event.fire();
+
+        Assert.assertEquals(victoryPoints, victory.getTotalVictoryPoints());
+    }
+
+    @Test
+    public void testShipSunkEvent() {
+
+        int victoryPoints = 12;
+
+        ShipMatchData shipMatchData = new ShipMatchData();
+        shipMatchData.setAction("SUNK");
+
+        ShipVictoryData shipVictoryData = new ShipVictoryData();
+        shipVictoryData.setEvent(shipMatchData);
+
+        List<ShipVictoryData> shipData = new ArrayList<>();
+        shipData.add(shipVictoryData);
+
+        VictoryData victoryData = new VictoryData();
+        victoryData.setShip(shipData);
+
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+
+        Assert.assertEquals(0, victory.getTotalVictoryPoints());
+
+        ShipEvent event = new ShipEvent();
+        event.setAction(ShipEventAction.SUNK);
+        event.setShip(taskForce.getShip("CL47 Dido"));
+
+        event.fire();
+
+        Assert.assertEquals(victoryPoints, victory.getTotalVictoryPoints());
+    }
+
+    @Test
+    public void testShipSunkVictoryOverrideEvent() {
+
+        int victoryPoints = 44;
+
+        ShipMatchData shipMatchData = new ShipMatchData();
+        shipMatchData.setAction("SUNK");
+
+        ShipVictoryData shipVictoryData = new ShipVictoryData();
+        shipVictoryData.setEvent(shipMatchData);
+        shipVictoryData.setPoints(victoryPoints);
+
+        List<ShipVictoryData> shipData = new ArrayList<>();
+        shipData.add(shipVictoryData);
+
+        VictoryData victoryData = new VictoryData();
+        victoryData.setShip(shipData);
+
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+
+        Assert.assertEquals(0, victory.getTotalVictoryPoints());
+
+        ShipEvent event = new ShipEvent();
+        event.setAction(ShipEventAction.SUNK);
+        event.setShip(taskForce.getShip("CL47 Dido"));
+
+        event.fire();
+
+        Assert.assertEquals(victoryPoints, victory.getTotalVictoryPoints());
+    }
+
+    @Test
+    public void testShipUnloadEvent() {
+
+        int victoryPoints = 12;
+
+        ShipMatchData shipMatchData = new ShipMatchData();
+        shipMatchData.setAction("CARGO_UNLOADED");
+        shipMatchData.setShipType("CRUISER");
+        shipMatchData.setName("CL47 Dido");
+
+        ShipVictoryData shipVictoryData = new ShipVictoryData();
+        shipVictoryData.setEvent(shipMatchData);
+
+        List<ShipVictoryData> shipData = new ArrayList<>();
+        shipData.add(shipVictoryData);
+
+        VictoryData victoryData = new VictoryData();
+        victoryData.setShip(shipData);
+
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+
+        Assert.assertEquals(0, victory.getTotalVictoryPoints());
+
+        ShipEvent event = new ShipEvent();
+        event.setAction(ShipEventAction.CARGO_UNLOADED);
+        event.setShip(taskForce.getShip("CL47 Dido"));
+
+        event.fire();
+
+        Assert.assertEquals(victoryPoints, victory.getTotalVictoryPoints());
+    }
+
+    @Test
+    public void testShipUnloadVictoryOverrideEvent() {
+
+        int victoryPoints = 4;
+
+        ShipMatchData shipMatchData = new ShipMatchData();
+        shipMatchData.setAction("CARGO_UNLOADED");
+        shipMatchData.setShipType("CRUISER");
+        shipMatchData.setName("CL47 Dido");
+        shipMatchData.setLocation("Malta");
+
+        ShipVictoryData shipVictoryData = new ShipVictoryData();
+        shipVictoryData.setEvent(shipMatchData);
+        shipVictoryData.setPoints(victoryPoints);
+
+        List<ShipVictoryData> shipData = new ArrayList<>();
+        shipData.add(shipVictoryData);
+
+        VictoryData victoryData = new VictoryData();
+        victoryData.setShip(shipData);
+
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+
+        Assert.assertEquals(0, victory.getTotalVictoryPoints());
+
+        taskForce.setLocation("Malta");
+
+        ShipEvent event = new ShipEvent();
+        event.setAction(ShipEventAction.CARGO_UNLOADED);
+        event.setShip(taskForce.getShip("CL47 Dido"));
 
         event.fire();
 

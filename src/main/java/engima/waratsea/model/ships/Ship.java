@@ -61,4 +61,10 @@ public interface Ship {
      * Call this method to load a ship to its maximum cargoShips capacity.
      */
     void loadCargo();
+
+    /**
+     * Get the ship's cargo data.
+     * @return The ship's cargo data.
+     */
+    Cargo getCargo();
 }

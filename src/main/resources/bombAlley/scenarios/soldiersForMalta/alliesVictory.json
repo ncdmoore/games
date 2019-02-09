@@ -1,0 +1,23 @@
+{
+  "objectives": "Unload the troop convoy at Malta. At least one cruiser must unload at Malta in order to achieve victory.",
+  "ship": [
+    {
+      "event": {
+        "action": "CARGO_UNLOADED",
+        "shipType": "CRUISER",
+        "name": "CL38 Gloucester",
+        "location": "Malta"
+      },
+      "points": 4
+    },
+    {
+      "event": {
+        "action": "CARGO_UNLOADED",
+        "shipType": "CRUISER",
+        "name": "CL39 Liverpool",
+        "location": "Malta"
+      },
+      "points": 4
+    }
+  ]
+}

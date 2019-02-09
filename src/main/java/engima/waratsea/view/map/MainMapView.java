@@ -52,9 +52,13 @@ public class MainMapView {
         mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Malta")));
         mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Alexandria")));
         mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Gibraltar")));
+
         mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Rhodes")));
         mapView.highlight(gameMap.getGrid("BC25"));
         mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Tobruk")));
+        mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Taranto")));
+        mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Messina")));
+
 
         StackPane map = new StackPane(mapImageView, mapGrid);
         map.setAlignment(Pos.TOP_LEFT);

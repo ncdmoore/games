@@ -27,6 +27,9 @@ public class AircraftCarrier implements Ship, Airbase {
     private final Nation nationality;
 
     @Getter
+    private final int victoryPoints;
+
+    @Getter
     @Setter
     private TaskForce taskForce;
 
@@ -37,6 +40,8 @@ public class AircraftCarrier implements Ship, Airbase {
     private Movement movement;
     private Fuel fuel;
     private Hull hull;
+
+    @Getter
     private Cargo cargo;
 
     private FlightDeck flightDeck;
@@ -50,6 +55,7 @@ public class AircraftCarrier implements Ship, Airbase {
         type = data.getType();
         shipClass = data.getShipClass();
         nationality = data.getNationality();
+        victoryPoints = data.getVictoryPoints();
 
         secondary = new Gun(data.getWeapons().getSecondary(), data.getArmour().getSecondary());
         tertiary = new Gun(data.getWeapons().getTertiary(), data.getArmour().getTertiary());
@@ -95,21 +101,10 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
-     * Get the ship's victory points if sunk.
-     *
-     * @return The ship's victory points.
-     */
-    @Override
-    public int getVictoryPoints() {
-        return 0;
-    }
-
-    /**
      * Call this method to load a ship to its maximum cargoShips capacity.
      */
     @Override
     public void loadCargo() {
         cargo.load();
     }
-
 }
