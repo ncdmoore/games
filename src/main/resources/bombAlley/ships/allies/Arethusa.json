@@ -23,5 +23,6 @@
   },
   "hull": 3,
   "fuel": 216,
-  "cargo": 3
+  "cargo": 3,
+  "victoryPoints": 13
 }

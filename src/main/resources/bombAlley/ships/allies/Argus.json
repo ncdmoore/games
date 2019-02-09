@@ -23,5 +23,6 @@
   "hull": 5,
   "fuel": 312,
   "cargo": 0,
+  "victoryPoints": 24,
   "flightDeck": [0, 3]
 }
