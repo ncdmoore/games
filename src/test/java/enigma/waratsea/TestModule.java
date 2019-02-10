@@ -23,6 +23,8 @@ import engima.waratsea.model.ships.SurfaceShip;
 import engima.waratsea.model.ships.SurfaceShipFactory;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
+import engima.waratsea.model.victory.RequiredShipVictory;
+import engima.waratsea.model.victory.RequiredShipVictoryFactory;
 import engima.waratsea.model.victory.ShipVictory;
 import engima.waratsea.model.victory.ShipVictoryFactory;
 import engima.waratsea.model.victory.VictoryConditions;
@@ -42,6 +44,7 @@ public class TestModule extends AbstractModule {
 
         install(new FactoryModuleBuilder().implement(VictoryConditions.class, VictoryConditions.class).build(VictoryConditionsFactory.class));
         install(new FactoryModuleBuilder().implement(ShipVictory.class, ShipVictory.class).build(ShipVictoryFactory.class));
+        install(new FactoryModuleBuilder().implement(RequiredShipVictory.class, RequiredShipVictory.class).build(RequiredShipVictoryFactory.class));
 
         install(new FactoryModuleBuilder().implement(Airfield.class, Airfield.class).build(AirfieldFactory.class));
         install(new FactoryModuleBuilder().implement(Port.class, Port.class).build(PortFactory.class));

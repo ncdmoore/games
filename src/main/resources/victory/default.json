@@ -40,29 +40,63 @@
     },
     {
       "event": {
-        "action": "DAMAGED_PRIMARY",
-        "shipType": "BATTLESHIP"
+        "action": "DAMAGED_HULL",
+        "shipType": "CRUISER"
       },
-      "points": 3
+      "points": 1
     },
     {
       "event": {
-        "action": "DAMAGED_PRIMARY",
-        "shipType": "BATTLECRUISER"
+        "action": "DAMAGED_HULL",
+        "shipType": "DESTROYER"
       },
-      "points": 3
+      "points": 1
     },
     {
       "event": {
-        "action": "DAMAGED_PRIMARY",
-        "shipType": "AIRCRAFT_CARRIER"
+        "action": "DAMAGED_HULL",
+        "shipType": "DESTROYER_ESCORT"
       },
-      "points": 3
+      "points": 1
     },
     {
       "event": {
-        "action": "DAMAGED_PRIMARY",
-        "shipType": "SEAPLANE_CARRIER"
+        "action": "DAMAGED_HULL",
+        "shipType": "MINELAYER"
+      },
+      "points": 1
+    },
+    {
+      "event": {
+        "action": "DAMAGED_HULL",
+        "shipType": "MINESWEEPER"
+      },
+      "points": 1
+    },
+    {
+      "event": {
+        "action": "DAMAGED_HULL",
+        "shipType": "OILER"
+      },
+      "points": 1
+    },
+    {
+      "event": {
+        "action": "DAMAGED_HULL",
+        "shipType": "SLOOP"
+      },
+      "points": 1
+    },
+    {
+      "event": {
+        "action": "DAMAGED_HULL",
+        "shipType": "TRANSPORT"
+      },
+      "points": 1
+    },
+    {
+      "event": {
+        "action": "DAMAGED_PRIMARY"
       },
       "points": 3
     },

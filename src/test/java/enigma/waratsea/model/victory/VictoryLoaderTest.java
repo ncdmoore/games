@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
 import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.model.victory.RequiredShipVictory;
 import engima.waratsea.model.victory.ShipVictory;
 import engima.waratsea.model.victory.VictoryConditions;
 import engima.waratsea.model.victory.VictoryLoader;
@@ -25,6 +26,7 @@ public class VictoryLoaderTest {
     public static void setup() {
         Injector injector = Guice.createInjector(new TestModule());
         loader = injector.getInstance(VictoryLoader.class);
+
     }
 
     @Test
@@ -61,6 +63,21 @@ public class VictoryLoaderTest {
         Assert.assertNotNull(axisMatchers);
         Assert.assertFalse(axisMatchers.isEmpty());
         Assert.assertEquals(1, axisMatchers.size());
+    }
+
+    @Test
+    public void testScenarioVictoryLoading() throws Exception {
+        Scenario scenario = new Scenario();
+        scenario.setName("soldiersForMalta");
+        scenario.setTitle("Soldiers For Malta");
+        scenario.setMap("june1940");
+
+        VictoryConditions alliedVictory = loader.build(scenario, Side.ALLIES);
+
+        List<RequiredShipVictory> requiredAlliedShips = Deencapsulation.getField(alliedVictory, "requiredShips");
+
+        Assert.assertNotNull(requiredAlliedShips);
+        Assert.assertFalse(requiredAlliedShips.isEmpty());
     }
 
     private List<ShipEventMatcher> getMatchers(final List<ShipVictory> shipVictory) {

@@ -128,7 +128,7 @@ public class VictoryLoader {
                 Gson gson = new Gson();
                 VictoryData data = gson.fromJson(br, VictoryData.class);
 
-                log.info("load default victory '{}'", url.getPath());
+                log.info("load victory '{}'", url.getPath());
 
                 return data;
             } catch (Exception ex) {                                                                                        // Catch any Gson errors.

@@ -48,6 +48,8 @@ public class ShipEventMatcher {
     @Setter
     private Asset by;    // The game asset Ship, aircraft or sub that caused the event to fire. The asset that did the event.
 
+    private GameMap gameMap;
+
     /**
      * Constructor.
      * @param data Ship event matcher data read in from JSON.
@@ -66,6 +68,8 @@ public class ShipEventMatcher {
         location = Optional.ofNullable(data.getLocation())
                 .map(gameMap::convertNameToReference)
                 .orElse(null);
+
+        this.gameMap = gameMap;
     }
 
     /**
@@ -210,16 +214,26 @@ public class ShipEventMatcher {
         log.info("Match side {}", logValue(side));
         log.info("Match task force name {}", logValue(taskForceName));
         log.info("Match ship type {}", logValue(shipType));
-        log.info("Match location {}", logValue(location));
+        log.info("Match location {}", logLocation(location));
         log.info("Match by {}", logValue(by));
     }
 
     /**
-     * If not value is present output an "*".
+     * If a value is not present output an "*".
      * @param value The value to log.
      * @return The value that is actually logged.
      */
     private Object logValue(final Object value) {
         return (value == null) ? "*" : value;
+    }
+
+    /**
+     * The location is converted to a name if possible. If no location is specified then "*"
+     * is returned.
+     * @param value The location value to log.
+     * @return The value of the location. A name is returned if possible.
+     */
+    private String logLocation(final String value) {
+        return (value == null) ? "*" : gameMap.convertReferenceToName(value);
     }
 }

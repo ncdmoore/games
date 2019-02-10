@@ -16,4 +16,8 @@ public class ShipVictoryData {
     @Getter
     @Setter
     private int points;
+
+    @Getter
+    @Setter
+    private int requiredPoints;
 }

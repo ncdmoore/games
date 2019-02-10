@@ -1,12 +1,12 @@
 package engima.waratsea.model.victory;
 
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.victory.data.ShipVictoryData;
+import engima.waratsea.model.victory.data.RequiredShipVictoryData;
 
 /**
- * Factory used by guice to create ship victory conditions.
+ * Factory used by guice to create required ship victory conditions.
  */
-public interface ShipVictoryFactory {
+public interface RequiredShipVictoryFactory {
 
     /**
      * Create's the ship victory condition.
@@ -14,5 +14,5 @@ public interface ShipVictoryFactory {
      * @param side The side of the ship victory conditions. ALLIES or AXIS.
      * @return The ship victory object.
      */
-    ShipVictory create(ShipVictoryData data, Side side);
+    RequiredShipVictory create(RequiredShipVictoryData data, Side side);
 }

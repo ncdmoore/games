@@ -19,5 +19,23 @@
       },
       "points": 4
     }
+  ],
+  "requiredShip": [
+    {
+      "events": [
+        {
+          "action": "CARGO_UNLOADED",
+          "shipType": "CRUISER",
+          "name": "CL38 Gloucester",
+          "location": "Malta"
+        },
+        {
+          "action": "CARGO_UNLOADED",
+          "shipType": "CRUISER",
+          "name": "CL39 Liverpool",
+          "location": "Malta"
+        }
+      ]
+    }
   ]
 }

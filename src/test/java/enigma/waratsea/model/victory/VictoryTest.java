@@ -16,9 +16,11 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.taskForce.TaskForceState;
 import engima.waratsea.model.taskForce.data.TaskForceData;
+import engima.waratsea.model.victory.RequiredShipVictory;
 import engima.waratsea.model.victory.Victory;
 import engima.waratsea.model.victory.VictoryConditions;
 import engima.waratsea.model.victory.VictoryConditionsFactory;
+import engima.waratsea.model.victory.data.RequiredShipVictoryData;
 import engima.waratsea.model.victory.data.ShipVictoryData;
 import engima.waratsea.model.victory.data.VictoryData;
 import enigma.waratsea.TestModule;
@@ -270,6 +272,42 @@ public class VictoryTest {
         event.fire();
 
         Assert.assertEquals(victoryPoints, victory.getTotalVictoryPoints());
+    }
+
+    @Test
+    public void testShipRequiredVictory() {
+        ShipMatchData shipMatchData = new ShipMatchData();
+        shipMatchData.setAction("CARGO_UNLOADED");
+        shipMatchData.setShipType("CRUISER");
+        shipMatchData.setName("CL47 Dido");
+        shipMatchData.setLocation("Malta");
+
+        List<ShipMatchData> matchers = new ArrayList<>();
+        matchers.add(shipMatchData);
+
+        RequiredShipVictoryData shipRequiredVictoryData = new RequiredShipVictoryData();
+        shipRequiredVictoryData.setEvents(matchers);
+
+        List<RequiredShipVictoryData> required = new ArrayList<>();
+        required.add(shipRequiredVictoryData);
+
+        VictoryData victoryData = new VictoryData();
+        victoryData.setRequiredShip(required);
+
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+        victory.addScenarioConditions(victoryData);
+
+        Assert.assertFalse(victory.requirementsMet());
+
+        taskForce.setLocation("Malta");
+
+        ShipEvent event = new ShipEvent();
+        event.setAction(ShipEventAction.CARGO_UNLOADED);
+        event.setShip(taskForce.getShip("CL47 Dido"));
+
+        event.fire();
+
+        Assert.assertTrue(victory.requirementsMet());
 
     }
 }
