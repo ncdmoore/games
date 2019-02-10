@@ -14,12 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
 
 /**
  * Represents a ship victory condition.
  */
 @Slf4j
-public class ShipVictory implements VictoryCondition {
+public class ShipVictory implements ShipVictoryCondition {
 
     // The cargo capacity factor is 3 times the board game value to avoid fractions.
     // Thus the victory for unloading cargo is divided by 3 --> 4 instead of 12.
@@ -37,38 +38,23 @@ public class ShipVictory implements VictoryCondition {
     @Getter
     private boolean requirementMet;
 
-    /**
-     * Victory calculation function.
-     * @param <P1> Parameter one. The default victory points.
-     * @param <P2> Paramater two. The fired ship event.
-     * @param <R> The calculation result.
-     */
-    private interface CalculationFunction<P1, P2, R> {
-        /**
-         * Apply the victory function.
-         * @param p1 The default victory points.
-         * @param p2 The ship event.
-         * @return The calculated victory points.
-         */
-        R apply(P1 p1, P2 p2);
-    }
+    private static BiFunction<Integer, ShipEvent, Integer> getSunk = (p, e) -> p == 0 ? e.getShip().getVictoryPoints() : p;
+    private static BiFunction<Integer, ShipEvent, Integer> getOutOfFuel = (p, e) -> e.getShip().getVictoryPoints() / OUT_OF_FUEL_FACTOR;
+    private static BiFunction<Integer, ShipEvent, Integer> getCargoUnloaded = (p, e) -> p == 0 ? e.getShip().getCargo().getCapacity() * CARGO_CAPACITY_UNLOAD_FACTOR : p;
+    private static BiFunction<Integer, ShipEvent, Integer> getDefault = (p, e) -> p;
 
-    private static CalculationFunction<Integer, ShipEvent, Integer> getSunk = (p, e) -> p == 0 ? e.getShip().getVictoryPoints() : p;
-    private static CalculationFunction<Integer, ShipEvent, Integer> getOutOfFuel = (p, e) -> e.getShip().getVictoryPoints() / OUT_OF_FUEL_FACTOR;
-    private static CalculationFunction<Integer, ShipEvent, Integer> getCargoUnloaded = (p, e) -> p == 0 ? e.getShip().getCargo().getCapacity() * CARGO_CAPACITY_UNLOAD_FACTOR : p;
-    private static CalculationFunction<Integer, ShipEvent, Integer> getDefault = (p, e) -> p;
-
-    private static final Map<ShipEventAction, CalculationFunction<Integer, ShipEvent, Integer>> FUNCTION_MAP = new HashMap<>();
+    private static final Map<ShipEventAction, BiFunction<Integer, ShipEvent, Integer>> FUNCTION_MAP = new HashMap<>();
     static {
         FUNCTION_MAP.put(ShipEventAction.SUNK, getSunk);
         FUNCTION_MAP.put(ShipEventAction.OUT_OF_FUEL, getOutOfFuel);
         FUNCTION_MAP.put(ShipEventAction.CARGO_UNLOADED, getCargoUnloaded);
     }
 
-    private CalculationFunction<Integer, ShipEvent, Integer> calculation;
+    private BiFunction<Integer, ShipEvent, Integer> calculation;
 
     /**
      * Constructor.
+     *
      * @param data The victory condition data as read from a JSON file.
      * @param side The side ALLIES or AXIS.
      * @param factory Factory for creating ship event matchers.
@@ -102,6 +88,7 @@ public class ShipVictory implements VictoryCondition {
 
     /**
      * Determine if a ship event thrown results in a change in victory points.
+     *
      * @param event The fired ship event.
      * @return True if the fired ship event is one that resutls in a change in victory points.
      */
@@ -111,6 +98,7 @@ public class ShipVictory implements VictoryCondition {
 
     /**
      * Determine the victory points.
+     *
      * @param event The fired ship event.
      * @return The number of victory points award due to the fired ship event.
      */
@@ -128,9 +116,10 @@ public class ShipVictory implements VictoryCondition {
 
     /**
      * Determine the function to calculate victory points.
+     *
      * @return The victory point calculation function.
      */
-    private CalculationFunction<Integer, ShipEvent, Integer> setCalculationFunction() {
+    private BiFunction<Integer, ShipEvent, Integer> setCalculationFunction() {
         return  FUNCTION_MAP.getOrDefault(ShipEventAction.valueOf(matcher.getAction()), getDefault);
     }
 }

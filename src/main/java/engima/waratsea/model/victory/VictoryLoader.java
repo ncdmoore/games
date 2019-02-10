@@ -51,6 +51,7 @@ public class VictoryLoader {
 
     /**
      * Constructor called by guice.
+     *
      * @param gameTitle The game title.
      * @param factory The victory conditions factory.
      */
@@ -63,6 +64,7 @@ public class VictoryLoader {
     /**
      * Load the victory conditions. Load the default victory condition data and any scenario victory
      * condition data, if it exists. A scenario might not have any victory conditions.
+     *
      * @param scenario The selected scenario.
      * @param side The side ALLIES or AXIS.
      * @return The Victory
@@ -93,6 +95,7 @@ public class VictoryLoader {
 
     /**
      * Read the default victory data from the JSON file.
+     *
      * @throws VictoryException An error occurred while attempting to read the victory data.
      */
     private void loadDefaultVictoryData() throws VictoryException {
@@ -104,6 +107,7 @@ public class VictoryLoader {
 
     /**
      * Read the scenario specific data from the JSON file.
+     *
      * @param scenario The selected scenario.
      * @param side The side ALLIES or AXIS.
      * @throws VictoryException Indicates that an error occurred while attempting to read the scenario victory data.
@@ -117,6 +121,7 @@ public class VictoryLoader {
 
     /**
      * Read the victory data from the JSON file.
+     *
      * @param url The url of the JSON file.
      * @return The data read from the JSON file.
      */

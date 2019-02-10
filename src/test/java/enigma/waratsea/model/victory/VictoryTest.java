@@ -20,7 +20,6 @@ import engima.waratsea.model.victory.RequiredShipVictory;
 import engima.waratsea.model.victory.Victory;
 import engima.waratsea.model.victory.VictoryConditions;
 import engima.waratsea.model.victory.VictoryConditionsFactory;
-import engima.waratsea.model.victory.data.RequiredShipVictoryData;
 import engima.waratsea.model.victory.data.ShipVictoryData;
 import engima.waratsea.model.victory.data.VictoryData;
 import enigma.waratsea.TestModule;
@@ -285,10 +284,10 @@ public class VictoryTest {
         List<ShipMatchData> matchers = new ArrayList<>();
         matchers.add(shipMatchData);
 
-        RequiredShipVictoryData shipRequiredVictoryData = new RequiredShipVictoryData();
+        ShipVictoryData shipRequiredVictoryData = new ShipVictoryData();
         shipRequiredVictoryData.setEvents(matchers);
 
-        List<RequiredShipVictoryData> required = new ArrayList<>();
+        List<ShipVictoryData> required = new ArrayList<>();
         required.add(shipRequiredVictoryData);
 
         VictoryData victoryData = new VictoryData();

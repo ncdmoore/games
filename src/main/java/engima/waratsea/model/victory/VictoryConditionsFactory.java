@@ -10,6 +10,7 @@ public interface VictoryConditionsFactory {
 
     /**
      * Create's the victory.
+     *
      * @param data Victory data from a JSON file.
      * @param side The side of the victory conditions. ALLIES or AXIS.
      * @return The Victory object.

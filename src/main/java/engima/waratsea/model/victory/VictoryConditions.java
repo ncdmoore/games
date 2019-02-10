@@ -5,7 +5,6 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.GameEvent;
 import engima.waratsea.model.game.event.ship.ShipEvent;
-import engima.waratsea.model.victory.data.RequiredShipVictoryData;
 import engima.waratsea.model.victory.data.ShipVictoryData;
 import engima.waratsea.model.victory.data.VictoryData;
 import lombok.Getter;
@@ -15,10 +14,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 /**
  * Represents a side's victory conditions for the game.
+ * Thus, there are only two instances of this class constructed.
  */
 @Slf4j
 public class VictoryConditions {
@@ -31,12 +32,14 @@ public class VictoryConditions {
     @Getter
     private String objectives;
 
-    private List<ShipVictory> defaultShips;
-    private List<ShipVictory> scenarioShips;
-    private List<RequiredShipVictory> requiredShips;
+    private List<ShipVictoryCondition> defaultShips;    // The default victory conditions for ship.
+    private List<ShipVictoryCondition> scenarioShips;   // Scenario specific victory conditions for ships. These may override the default.
+    private List<ShipVictoryCondition> requiredShips;   // Scenario required victory conditions.
 
-    private ShipVictoryFactory shipVictoryFactory;
-    private RequiredShipVictoryFactory requiredShipVictoryFactory;
+    private static ShipVictoryFactory shipVictoryFactory;
+
+    private static BiFunction<ShipVictoryData, Side, ShipVictoryCondition> createShipVictory = (d, s) -> shipVictoryFactory.createShip(d, s);
+    private static BiFunction<ShipVictoryData, Side, ShipVictoryCondition> createRequiredShipVictory = (d, s) -> shipVictoryFactory.createRequired(d, s);
 
     /**
      * Stores the history of events that award victory points.
@@ -67,20 +70,17 @@ public class VictoryConditions {
      * Constructor of the a side's victory.
      * @param data The victory data read in from a JSON file.
      * @param side The side ALLIES or AXIS of the victory conditions.
-     * @param shipVictoryFactory Ship victory factory.
-     * @param requiredShipVictoryFactory Required ship victory factory.
+     * @param shipVF Ship victory factory.
      */
     @Inject
     public VictoryConditions(@Assisted final VictoryData data,
                              @Assisted final Side side,
-                                       final ShipVictoryFactory shipVictoryFactory,
-                                       final RequiredShipVictoryFactory requiredShipVictoryFactory) {
+                                       final ShipVictoryFactory shipVF) {
         this.side = side;
-        this.shipVictoryFactory = shipVictoryFactory;
-        this.requiredShipVictoryFactory = requiredShipVictoryFactory;
+        shipVictoryFactory = shipVF;
 
         log.info("Build default victory conditions.");
-        defaultShips = buildShipConditions(data.getShip());
+        defaultShips = buildShipConditions(data.getShip(), createShipVictory);
 
         if (!registered) {
             registerForEvents(defaultShips);
@@ -89,13 +89,14 @@ public class VictoryConditions {
 
     /**
      * Add the scenario specific victory conditions.
+     *
      * @param data The victory data for a specific scenario read in from a JSON file.
      */
     public void addScenarioConditions(final VictoryData data) {
         log.info("Add scenario specific victory conditions.");
         objectives = data.getObjectives();
-        scenarioShips = buildShipConditions(data.getShip());
-        requiredShips = buildRequiredShipConditions(data.getRequiredShip());
+        scenarioShips = buildShipConditions(data.getShip(), createShipVictory);
+        requiredShips = buildShipConditions(data.getRequiredShip(), createRequiredShipVictory);
 
         if (!registered) {
             registerForEvents(scenarioShips);
@@ -104,6 +105,7 @@ public class VictoryConditions {
 
     /**
      * Determine if the all the required victory conditions have be met.
+     *
      * @return True if all the required victory conditions have been met. False otherwise.
      */
     public boolean requirementsMet() {
@@ -113,36 +115,26 @@ public class VictoryConditions {
 
     /**
      * Build the ship victory conditions.
+     *
      * @param data Ship victory conditions read in from a JSON file.
+     * @param create The ship victory creation function.
      * @return A list of ship victory conditions.
      */
-    private List<ShipVictory> buildShipConditions(final List<ShipVictoryData> data) {
+    private  List<ShipVictoryCondition> buildShipConditions(final List<ShipVictoryData> data,
+                                                            final BiFunction<ShipVictoryData, Side, ShipVictoryCondition> create) {
         return Optional.ofNullable(data)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(victoryData -> shipVictoryFactory.create(victoryData, side))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Build the required ship victory conditions.
-     * @param data Required ship victory conditions read in from a JSON file.
-     * @return A list of required ship victory conditions.
-     */
-    private List<RequiredShipVictory> buildRequiredShipConditions(final List<RequiredShipVictoryData> data) {
-        return Optional.ofNullable(data)
-                .orElseGet(Collections::emptyList)
-                .stream()
-                .map(victoryData -> requiredShipVictoryFactory.create(victoryData, side))
+                .map(victoryData -> create.apply(victoryData, side))
                 .collect(Collectors.toList());
     }
 
     /**
      * Register for ship events.
+     *
      * @param victoryConditions List of victory conditions.
-     * @param <T> The type of the victory conditions.
      */
-    private <T> void registerForEvents(final List<T> victoryConditions) {
+    private  void registerForEvents(final List<ShipVictoryCondition> victoryConditions) {
         Optional.ofNullable(victoryConditions)
                 .ifPresent(conditions -> registerForShipEvents());
     }
@@ -157,6 +149,7 @@ public class VictoryConditions {
 
     /**
      * Handle ship events.
+     *
      * @param event The ship event.
      */
     private void handleShipEvent(final ShipEvent event) {
@@ -179,11 +172,12 @@ public class VictoryConditions {
 
     /**
      * Get the victory points for the given ship event.
+     *
      * @param victoryConditions List of victory conditions.
      * @param event The fired ship event.
      * @return True if the fired ship event award victory points.
      */
-    private int getPoints(final List<ShipVictory> victoryConditions, final ShipEvent event) {
+    private int getPoints(final List<ShipVictoryCondition> victoryConditions, final ShipEvent event) {
         int points = Optional.ofNullable(victoryConditions)
                 .orElseGet(Collections::emptyList)
                 .stream()
@@ -199,6 +193,7 @@ public class VictoryConditions {
 
     /**
      * Send the ship event to the list of required ship events if it exists.
+     *
      * @param event The fired ship event.
      */
     private void checkRequired(final ShipEvent event) {
@@ -209,6 +204,7 @@ public class VictoryConditions {
 
     /**
      * Save the event and the corresponding victory points awarded into the history.
+     *
      * @param event The game event
      * @param points The resulting victory points.
      */
@@ -218,15 +214,16 @@ public class VictoryConditions {
 
     /**
      * Determine if the victory conditions are all met for a given list of conditions.
+     *
      * @param conditions The list of victory conditions.
      * @param <T> The type of the victory conditions.
      * @return True if all of the victory conditions are met. False otherwise.
      */
-    private <T extends VictoryCondition> boolean conditionMet(final List<T> conditions) {
+    private <T extends ShipVictoryCondition> boolean conditionMet(final List<T> conditions) {
         // Ensure that the conditions is not null. It will at least be an empty list.
         return Optional.ofNullable(conditions)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .allMatch(VictoryCondition::isRequirementMet);
+                .allMatch(ShipVictoryCondition::isRequirementMet);
     }
 }

@@ -12,6 +12,7 @@ import java.util.Map;
 
 /**
  * Represents the game victory conditions and status.
+ * This class contains the victory conditions for both sides ALLIES and AXIS.
  */
 @Slf4j
 @Singleton
@@ -22,6 +23,7 @@ public class Victory {
 
     /**
      * Constructor called by guice.
+     *
      * @param loader The victory conditions loader.
      */
     @Inject
@@ -31,6 +33,7 @@ public class Victory {
 
     /**
      * Load the victory conditions for both sides.
+     *
      * @param scenario The selected scenario.
      * @throws VictoryException Indicates that the victory conditions could not be loaded.
      */
@@ -41,6 +44,7 @@ public class Victory {
 
     /**
      * Get the victory objectives for the given side.
+     *
      * @param side The side ALLIES or AXIS.
      * @return The sides victory objectives.
      */

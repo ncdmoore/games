@@ -19,5 +19,5 @@ public class VictoryData {
 
     @Getter
     @Setter
-    private List<RequiredShipVictoryData> requiredShip;
+    private List<ShipVictoryData> requiredShip;
 }
