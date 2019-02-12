@@ -13,84 +13,14 @@
     {
       "event": {
         "action": "DAMAGED_HULL",
-        "shipType": "BATTLESHIP"
+        "shipType": "BATTLESHIP, BATTLECRUISER, AIRCRAFT_CARRIER, SEAPLANE_CARRIER"
       },
       "points": 3
     },
     {
       "event": {
         "action": "DAMAGED_HULL",
-        "shipType": "BATTLECRUISER"
-      },
-      "points": 3
-    },
-    {
-      "event": {
-        "action": "DAMAGED_HULL",
-        "shipType": "AIRCRAFT_CARRIER"
-      },
-      "points": 3
-    },
-    {
-      "event": {
-        "action": "DAMAGED_HULL",
-        "shipType": "SEAPLANE_CARRIER"
-      },
-      "points": 3
-    },
-    {
-      "event": {
-        "action": "DAMAGED_HULL",
-        "shipType": "CRUISER"
-      },
-      "points": 1
-    },
-    {
-      "event": {
-        "action": "DAMAGED_HULL",
-        "shipType": "DESTROYER"
-      },
-      "points": 1
-    },
-    {
-      "event": {
-        "action": "DAMAGED_HULL",
-        "shipType": "DESTROYER_ESCORT"
-      },
-      "points": 1
-    },
-    {
-      "event": {
-        "action": "DAMAGED_HULL",
-        "shipType": "MINELAYER"
-      },
-      "points": 1
-    },
-    {
-      "event": {
-        "action": "DAMAGED_HULL",
-        "shipType": "MINESWEEPER"
-      },
-      "points": 1
-    },
-    {
-      "event": {
-        "action": "DAMAGED_HULL",
-        "shipType": "OILER"
-      },
-      "points": 1
-    },
-    {
-      "event": {
-        "action": "DAMAGED_HULL",
-        "shipType": "SLOOP"
-      },
-      "points": 1
-    },
-    {
-      "event": {
-        "action": "DAMAGED_HULL",
-        "shipType": "TRANSPORT"
+        "shipType": "CRUISER, DESTROYER, DESTROYER_ESCORT, MINELAYER, MINESWEEPER, OILER, SLOOP, TRANSPORT"
       },
       "points": 1
     },

@@ -79,7 +79,7 @@ public class VictoryTest {
 
         ShipMatchData shipMatchData = new ShipMatchData();
         shipMatchData.setAction("DAMAGED_PRIMARY");
-        shipMatchData.setShipType("BATTLESHIP");
+        shipMatchData.setShipType("BATTLESHIP, AIRCRAFT_CARRIER");
 
         ShipVictoryData shipVictoryData = new ShipVictoryData();
         shipVictoryData.setEvent(shipMatchData);
