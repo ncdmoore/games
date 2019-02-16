@@ -29,6 +29,10 @@ public final class GameMap {
 
     private static final String MAP_REFERENCE_FORMAT = "\\s*([a-zA-Z]{1,2})(\\d{1,2})\\s*";
     private static final Pattern PATTERN = Pattern.compile(MAP_REFERENCE_FORMAT);
+    private static final String ANY_ENEMY_BASE = "ANY_ENEMY_BASE";
+    private static final String ANY_FRIENDLY_BASE = "ANY_FRIENDLY_BASE";
+
+
 
     private MapProps props;
     private RegionLoader regionLoader;
@@ -107,6 +111,10 @@ public final class GameMap {
      * @return The corresponding map reference of where the name is located.
      */
     public String convertNameToReference(final String name) {
+        if (name.equalsIgnoreCase(ANY_ENEMY_BASE) || name.equalsIgnoreCase(ANY_FRIENDLY_BASE)) {
+            return name;
+        }
+
         Matcher matcher = PATTERN.matcher(name);
         return  matcher.matches() ? name : props.getString(name);
     }
@@ -117,6 +125,10 @@ public final class GameMap {
      * @return The corresponding location name.
      */
     public String convertReferenceToName(final String reference) {
+        if (reference.equalsIgnoreCase(ANY_ENEMY_BASE) || reference.equalsIgnoreCase(ANY_FRIENDLY_BASE)) {
+            return reference;
+        }
+
         return Optional.ofNullable(props.getString(reference)).orElse(reference);
     }
 

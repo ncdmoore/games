@@ -91,6 +91,7 @@ public class TaskForce  {
 
     /**
      * Constructor of Task Force called by guice.
+     *
      * @param side The side of the task force. ALLIES or AXIS.
      * @param data The task force data read from a JSON file.
      * @param gameMap The game map.
@@ -136,6 +137,7 @@ public class TaskForce  {
 
     /**
      * Determines if the task force is active.
+     *
      * @return True if the task force is active. False otherwise.
      */
     public boolean isActive() {
@@ -144,6 +146,7 @@ public class TaskForce  {
 
     /**
      * Determine if the task force is at an enemey port.
+     *
      * @return True if the task force is currently located at an enemy port. False otherwise.
      */
     public boolean atEnemyBase() {
@@ -152,6 +155,7 @@ public class TaskForce  {
 
     /**
      * Determine if the task force is at a friendly port.
+     *
      * @return True if the task force is currently located at a friendly port. False otherwise.
      */
     public boolean atFriendlyBase() {
@@ -160,6 +164,7 @@ public class TaskForce  {
 
     /**
      * Set the task force's locaton.
+     *
      * @param newLocation The new location of the task force.
      */
     public void setLocation(final String newLocation) {
@@ -167,7 +172,15 @@ public class TaskForce  {
     }
 
     /**
+     * Indicates the task force has left harbor: setting sail.
+     */
+    public void setSail() {
+        ships.forEach(Ship::setSail);
+    }
+
+    /**
      * Get the reasons a task force is activated.
+     *
      * @return A list of strings where each string is a separate reason the task force is activated.
      */
     public List<String> getActivatedByText() {
@@ -186,6 +199,7 @@ public class TaskForce  {
 
     /**
      * Get the specified ship.
+     *
      * @param shipName The name of the ship.
      * @return The ship identified by the given name.
      */
@@ -214,6 +228,7 @@ public class TaskForce  {
 
     /**
      * Set the cargoShips status of all cargoShips ships.
+     *
      * @param cargoShipNames List of ships carrying cargoShips.
      */
     private void loadCargo(final List<String> cargoShipNames) {
@@ -237,7 +252,8 @@ public class TaskForce  {
 
     /**
      * Build a given ship.
-     * @param shipId Uniquely indentifies a ship.
+     *
+     * @param shipId Uniquely identifies a ship.
      * @return The constructed ship.
      */
     private Ship buildShip(final ShipId shipId) {
@@ -273,6 +289,7 @@ public class TaskForce  {
 
     /**
      * Build the ship release events.
+     *
      * @param shipMatchData Release ship match data from the JSON file.
      */
     private void buildShipEvents(final List<ShipMatchData> shipMatchData) {
@@ -285,6 +302,7 @@ public class TaskForce  {
 
     /**
      * Build the turn release events.
+     *
      * @param data Release turn match data from the JSON file.
      */
     private void buildTurnEvents(final List<TurnMatchData> data) {
@@ -297,6 +315,7 @@ public class TaskForce  {
 
     /**
      * If the target location is a base name, update the target's map reference.
+     *
      * @param target One of the task force's targets.
      */
     private void convertTargetLocation(final Target target) {
@@ -306,6 +325,7 @@ public class TaskForce  {
 
     /**
      * This method is called to notify the event handler that an event has fired.
+     *
      * @param event The fired event.
      */
     private void handleShipEvent(final ShipEvent event) {
@@ -323,6 +343,7 @@ public class TaskForce  {
 
     /**
      * This method is called to notify the event.
+     *
      * @param event the fired event.
      */
     private void handleTurnEvent(final TurnEvent event) {
@@ -339,6 +360,7 @@ public class TaskForce  {
 
     /**
      * Load the specified ship with cargoShips.
+     *
      * @param shipName The name of the ship that is loaded with cargoShips.
      * @return The cargo ship.
      */

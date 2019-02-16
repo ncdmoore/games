@@ -17,10 +17,9 @@ import engima.waratsea.model.player.Player;
 import engima.waratsea.model.port.Port;
 import engima.waratsea.model.port.PortFactory;
 import engima.waratsea.model.ships.AircraftCarrier;
-import engima.waratsea.model.ships.AircraftCarrierFactory;
 import engima.waratsea.model.ships.Ship;
+import engima.waratsea.model.ships.ShipFactory;
 import engima.waratsea.model.ships.SurfaceShip;
-import engima.waratsea.model.ships.SurfaceShipFactory;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.victory.RequiredShipVictory;
@@ -37,8 +36,10 @@ public class TestModule extends AbstractModule {
         bind(Player.class).annotatedWith(Names.named("Computer")).to(ComputerPlayer.class);
 
         install(new FactoryModuleBuilder().implement(TaskForce.class, TaskForce.class).build(TaskForceFactory.class));
-        install(new FactoryModuleBuilder().implement(Ship.class, AircraftCarrier.class).build(AircraftCarrierFactory.class));
-        install(new FactoryModuleBuilder().implement(Ship.class, SurfaceShip.class).build(SurfaceShipFactory.class));
+        install(new FactoryModuleBuilder()
+                .implement(Ship.class, Names.named("aircraft"), AircraftCarrier.class)
+                .implement(Ship.class, Names.named("surface"), SurfaceShip.class)
+                .build(ShipFactory.class));
 
         install(new FactoryModuleBuilder().implement(Region.class, Region.class).build(RegionFactory.class));
 

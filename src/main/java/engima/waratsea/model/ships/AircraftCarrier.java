@@ -41,12 +41,14 @@ public class AircraftCarrier implements Ship, Airbase {
     private Fuel fuel;
     private Hull hull;
 
+
     @Getter
     private Cargo cargo;
 
     private FlightDeck flightDeck;
     /**
      * Constructor called by guice.
+     *
      * @param data Ship's data.
      */
     @Inject
@@ -70,9 +72,9 @@ public class AircraftCarrier implements Ship, Airbase {
         flightDeck = new FlightDeck(data.getArmour().getFlightDeck(), data.getFlightDeck());
     }
 
-
     /**
      * Get The aircraft carrier's current aircraft capacity.
+     *
      * @return The current aircraft capacity in steps.
      */
     @Override
@@ -91,6 +93,16 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
+     * Get the ship's origin port.
+     *
+     * @return The port the ship sailed from.
+     */
+    @Override
+    public String getOriginPort() {
+        return cargo.getOriginPort();
+    }
+
+    /**
      * Determines if this ship is an aircraft carrier.
      *
      * @return True if this ship is an aircraft carrier. False otherwise.
@@ -101,10 +113,19 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
+     * Call this method to inform the ship that it is sailing from port.
+     */
+    @Override
+    public void setSail() {
+        cargo.setOriginPort(taskForce.getLocation());
+    }
+
+
+    /**
      * Call this method to load a ship to its maximum cargoShips capacity.
      */
     @Override
     public void loadCargo() {
-        cargo.load();
+        cargo.load(taskForce.getLocation());
     }
 }

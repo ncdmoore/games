@@ -46,6 +46,7 @@ public class SurfaceShip implements Ship {
 
     /**
      * Constructor called by guice.
+     *
      * @param data Ship's data.
      */
     @Inject
@@ -79,6 +80,16 @@ public class SurfaceShip implements Ship {
     }
 
     /**
+     * Get the ship's origin port.
+     *
+     * @return The port the ship sailed from.
+     */
+    @Override
+    public String getOriginPort() {
+        return cargo.getOriginPort();
+    }
+
+    /**
      * Determines if this ship is an aircraft carrier.
      *
      * @return True if this ship is an aircraft carrier. False otherwise.
@@ -88,12 +99,20 @@ public class SurfaceShip implements Ship {
         return false;
     }
 
+    /**
+     * Call this method to inform the ship that it is sailing from port.
+     */
+    @Override
+    public void setSail() {
+        cargo.setOriginPort(taskForce.getLocation());
+    }
+
 
     /**
      * Call this method to load a ship to its maximum cargoShips capacity.
      */
     @Override
     public void loadCargo() {
-        cargo.load();
+        cargo.load(taskForce.getLocation());
     }
 }

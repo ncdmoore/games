@@ -35,5 +35,9 @@ public class ShipMatchData {
 
     @Getter
     @Setter
+    private String startingLocation;
+
+    @Getter
+    @Setter
     private Asset by;    // The game asset Ship, aircraft or sub that caused the event to fire. The asset that did the event.
 }

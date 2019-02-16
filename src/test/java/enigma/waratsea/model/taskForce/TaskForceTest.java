@@ -83,6 +83,27 @@ public class TaskForceTest {
     }
 
     @Test
+    public void testSetSail() {
+        TaskForceData data = new TaskForceData();
+
+        List<String> shipNames = new ArrayList<>(Arrays.asList("CL36 Sheffield", "DD53 Faulknor"));
+        List<String> cargoShipNames = new ArrayList<>(Collections.singletonList("DD53 Faulknor"));
+
+        String portOrigin = "Alexandria";
+
+        data.setShips(shipNames);
+        data.setCargoShips(cargoShipNames);
+        data.setLocation("Alexandria");
+
+        TaskForce taskForce = factory.create(Side.ALLIES, data);
+
+        taskForce.setSail();
+
+        Assert.assertEquals(gameMap.convertNameToReference(portOrigin), taskForce.getShip("CL36 Sheffield").getOriginPort());
+    }
+
+
+    @Test
     public void testNoCargoShips() {
         TaskForceData data = new TaskForceData();
 

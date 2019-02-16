@@ -41,7 +41,11 @@ public class RequiredShipVictory implements ShipVictoryCondition {
                                          final ShipEventMatcherFactory factory,
                                          final GameMap gameMap) {
 
-        matchers = data.getEvents().stream().map(factory::create).collect(Collectors.toList());
+        matchers = data.getEvents()
+                .stream()
+                .map(factory::create)
+                .collect(Collectors.toList());
+
         matchers.forEach(matcher -> matcher.setSide(side));
 
         log.info("Required victory condition match set:");
@@ -59,7 +63,10 @@ public class RequiredShipVictory implements ShipVictoryCondition {
     public boolean match(final ShipEvent event) {
         // Check all event matchers. If any one event matcher matches the fired event
         // then the victory condition is met.
-        requirementMet = matchers.stream().anyMatch(matcher -> matcher.match(event));
+        requirementMet = matchers
+                .stream()
+                .anyMatch(matcher -> matcher.match(event));
+
         String location = gameMap.convertReferenceToName(event.getShip().getTaskForce().getLocation());
         log.info("Ship '{}' '{}' at location '{}' results in requirement met: {}",
                 new Object[] {event.getShip().getName(), event.getAction(), location, requirementMet});

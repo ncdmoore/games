@@ -1,5 +1,6 @@
 package engima.waratsea.model.ships;
 
+import com.google.inject.name.Named;
 import engima.waratsea.model.ships.data.ShipData;
 
 /**
@@ -7,10 +8,21 @@ import engima.waratsea.model.ships.data.ShipData;
  */
 public interface ShipFactory {
     /**
-     * Creates a ship.
+     * Creates an aircraft carrier.
+     *
      * @param data The ship's data.
      * @return The ship.
      */
-    Ship create(ShipData data);
+    @Named("aircraft")
+    Ship createAircraftCarrier(ShipData data);
+
+    /**
+     * Creates a surface ship.
+     *
+     * @param data The ship's data.
+     * @return The ship.
+     */
+    @Named("surface")
+    Ship createSurfaceShip(ShipData data);
 
 }

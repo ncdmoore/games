@@ -26,27 +26,34 @@ import java.util.stream.Stream;
 public class ShipEventMatcher {
     @Getter
     @Setter
-    private String action;
+    private String action;  // The action to match.
 
     @Getter
     @Setter
-    private String name;
+    private List<String> names; // A list of ship names that match.
 
     @Getter
     @Setter
-    private Side side;
+    private Side side; // The side to match.
 
     @Getter
     @Setter
-    private String taskForceName;
+    private String taskForceName; // The task force name to match.
 
     @Getter
     @Setter
-    private List<ShipType> shipType;
+    private List<ShipType> shipTypes; // A list of ship types to match.
+
+    // A list of starting locations to match. This is the location where a ship started the event.
+    // The only event that uses this is the CARGO_UNLOADED event. The starting location is the location
+    // where the cargo was loaded.
+    @Getter
+    @Setter
+    private List<String> portOrigins;
 
     @Getter
     @Setter
-    private String location;
+    private List<String> locations; // A list of locations to match. This is the location where the event occurred.
 
     @Getter
     @Setter
@@ -63,18 +70,17 @@ public class ShipEventMatcher {
     @Inject
     public ShipEventMatcher(@Assisted final ShipMatchData data,
                                       final GameMap gameMap) {
+        this.gameMap = gameMap;
+
         action = data.getAction();
-        name = data.getName();
+        names = parseNames(data.getName());
         side = data.getSide();
         taskForceName = data.getTaskForceName();
-        shipType = parseShipType(data.getShipType());
+        shipTypes = parseShipType(data.getShipType());
+        locations = parseLocation(data.getLocation());
+        portOrigins = parseLocation(data.getStartingLocation());
         by = data.getBy();
 
-        location = Optional.ofNullable(data.getLocation())
-                .map(gameMap::convertNameToReference)
-                .orElse(null);
-
-        this.gameMap = gameMap;
     }
 
     /**
@@ -88,6 +94,7 @@ public class ShipEventMatcher {
         return side == firedEvent.getShip().getShipId().getSide()
                 && isActionEqual(firedEvent.getAction())
                 && isShipTypeEqual(firedEvent.getShip().getType())
+                && isNameEqual(firedEvent.getShip().getName())
                 && isTaskForceNameEqual(firedEvent.getShip().getTaskForce())
                 && isLocationEqual(firedEvent.getShip().getTaskForce())
                 && isByEqual(firedEvent.getBy());
@@ -103,11 +110,12 @@ public class ShipEventMatcher {
                 .map(tfn -> " in " + tfn)
                 .orElse("");
 
-        String ship = Optional.ofNullable(shipType)
+        String ship = Optional.ofNullable(shipTypes)
                 .map(this::getShipTypes)
                 .orElse("ship");
 
-        String place = Optional.ofNullable(location)
+        String place = Optional.ofNullable(locations)
+                .map(this::getLocations)
                 .map(l -> "at " + l)
                 .orElse("");
 
@@ -119,26 +127,64 @@ public class ShipEventMatcher {
      */
     public void log() {
         log.info("Match action {}", logValue(action));
-        log.info("Match name {}", logValue(name));
+        log.info("Match name {}", logName(names));
         log.info("Match side {}", logValue(side));
         log.info("Match task force name {}", logValue(taskForceName));
-        log.info("Match ship type {}", logShip(shipType));
-        log.info("Match location {}", logLocation(location));
+        log.info("Match ship type {}", logShip(shipTypes));
+        log.info("Match starting location {}", logLocation(portOrigins));
+        log.info("Match location {}", logLocation(locations));
         log.info("Match by {}", logValue(by));
     }
 
     /**
      * Parse the string version of ship types into a list of ShipTypes.
      *
-     * @param shipTypeString The ship types in string form.
+     * @param shipTypeString The ship types in string form. May be null.
      * @return A list of ship types.
      */
     private List<ShipType> parseShipType(final String shipTypeString) {
         return Optional.ofNullable(shipTypeString)
-                .map(shipTypes -> Stream.of(shipTypes.split("\\s*,\\s*"))
-                            .map(ShipType::valueOf)
-                            .collect(Collectors.toList()))
+                .map(types -> Stream.of(types.split("\\s*,\\s*"))
+                        .map(ShipType::valueOf)
+                        .collect(Collectors.toList()))
                 .orElse(null);
+    }
+
+    /**
+     * Parse the string version of the locations into a list of locations.
+     *
+     * @param locationString A comma separated list of locations. May be null.
+     * @return A list of locations.
+     */
+    private List<String> parseLocation(final String locationString) {
+        return Optional.ofNullable(locationString)
+                .map(shipLocations -> Stream.of(shipLocations.split("\\s*,\\s*"))
+                        .map(gameMap::convertNameToReference)
+                        .collect(Collectors.toList()))
+                .orElse(null);
+    }
+
+    /**
+     * Parse the string version of the ship names into a list of ship names.
+     *
+     * @param nameString A comma separated list of ship names. May be null.
+     * @return A list of ship names.
+     */
+    private List<String> parseNames(final String nameString) {
+        return Optional.ofNullable(nameString)
+                .map(shipNames -> Stream.of(shipNames.split("\\s*,\\s*"))
+                        .collect(Collectors.toList()))
+                .orElse(null);
+    }
+
+    /**
+     * Get the string version of the ship names.
+     *
+     * @param shipNames The list of ship names.
+     * @return The string version of the ship names.
+     */
+    private String getNames(@NotNull final List<String> shipNames) {
+        return String.join(", ", shipNames);
     }
 
     /**
@@ -154,15 +200,38 @@ public class ShipEventMatcher {
     }
 
     /**
+     * Get the string version of the locations.
+     *
+     * @param shipLocations The list of locations.
+     * @return The string version of the locations.
+     */
+    private String getLocations(@NotNull final List<String> shipLocations) {
+        return shipLocations.stream()
+                .map(gameMap::convertReferenceToName)
+                .collect(Collectors.joining(", "));
+    }
+
+    /**
      * Determine if the event fired matches the desired action.
      *
      * @param shipAction The action of the fired event.
      * @return True if the action of the fired event matches. False otherwise.
      */
     private boolean isActionEqual(final ShipEventAction shipAction) {
-        return action == null                                                                                          // Non specified action matches all.
+        return action == null                                                                                           // Non specified action matches all.
                 || matchActionWildcard(shipAction)
                 || matchAction(shipAction);
+    }
+
+    /**
+     * Determine if the event fired matches the desired ship name.
+     *
+     * @param shipName The ship name of the fired event.
+     * @return True if the ship name of the fired event matches. False otherwise.
+     */
+    private boolean isNameEqual(final String shipName) {
+        return names == null
+                || names.contains(shipName);
     }
 
     /**
@@ -183,8 +252,8 @@ public class ShipEventMatcher {
      * @return True if the two ship event's ship types are equal. False otherwise.
      */
     private boolean isShipTypeEqual(final ShipType firedShipType) {
-        return shipType == null                                                                                         // If wildcard then event ship type does not matter.
-                || shipType.contains(firedShipType);
+        return shipTypes == null                                                                                         // If wildcard then event ship type does not matter.
+                || shipTypes.contains(firedShipType);
     }
 
     /**
@@ -194,12 +263,22 @@ public class ShipEventMatcher {
      * @return True if the ship's location matched. False otherwise.
      */
     private boolean isLocationEqual(final TaskForce taskForce) {
-        return location == null                                                                                         // If the location is not specified then it does not matter.
+        return locations == null                                                                                         // If the location is not specified then it does not matter.
                 || matchAnyEnemyBase(taskForce)
                 || matchAnyFriendlyBase(taskForce)
-                || location.equalsIgnoreCase(taskForce.getLocation());
+                || locations.contains(taskForce.getLocation());
     }
 
+    /**
+     * Determine if the port origin of the event is matched.
+     *
+     * @param portOrigin The port origin of the ship event.
+     * @return True if the ship's port origin is matched. False otherwise.
+     */
+    private boolean isPortOriginEqual(final String portOrigin) {
+        return portOrigins == null
+                || portOrigins.contains(portOrigin);
+    }
     /**
      * Determine if the asset that caused the event to fire matches.
      *
@@ -238,7 +317,7 @@ public class ShipEventMatcher {
      * @return True if the ship is at an enemy base and any base will match. False otherwise.
      */
     private boolean matchAnyEnemyBase(final TaskForce taskForce) {
-        return location.equalsIgnoreCase("ANY_ENEMY_BASE")
+        return locations.contains("ANY_ENEMY_BASE")
                 && taskForce.atEnemyBase();
     }
 
@@ -250,7 +329,7 @@ public class ShipEventMatcher {
      * @return True if the location matches. False otherwise.
      */
     private boolean matchAnyFriendlyBase(final TaskForce taskForce) {
-        return location.equalsIgnoreCase("ANY_FRIENDLY_BASE")
+        return locations.contains("ANY_FRIENDLY_BASE")
                 && taskForce.atFriendlyBase();
     }
 
@@ -275,6 +354,20 @@ public class ShipEventMatcher {
         return Optional.ofNullable(value).orElse("*");
     }
 
+
+    /**
+     * The ship names are converted into a comma separated string if possible. If not ship names are specified then "*"
+     * is returned.
+     *
+     * @param value The list of ship names.
+     * @return A comma separated list of ship names.
+     */
+    private String logName(final List<String> value) {
+        return Optional.ofNullable(value)
+                .map(this::getNames)
+                .orElse("*");
+    }
+
     /**
      * The location is converted to a name if possible. If no location is specified then "*"
      * is returned.
@@ -282,9 +375,9 @@ public class ShipEventMatcher {
      * @param value The location value to log.
      * @return The value of the location. A name is returned if possible.
      */
-    private String logLocation(final String value) {
+    private String logLocation(final List<String> value) {
         return Optional.ofNullable(value)
-                .map(gameMap::convertReferenceToName)
+                .map(this::getLocations)
                 .orElse("*");
     }
 

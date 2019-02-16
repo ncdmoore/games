@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * The shipyard that creates ships given ship class names.
@@ -29,44 +30,33 @@ public class Shipyard {
 
     private static final String SHIP_DIRECTORY_NAME = "/ships";
 
-    private Map<ShipType, ShipFactory> factoryMap = new HashMap<>();
-    private ShipFactory defaultFactory;
+    // Ship type to ship factory map.
+    private Map<ShipType, Function<ShipData, Ship>> factoryMap = new HashMap<>();
 
-    //Each side has a map of ship class names to ship's data.
+    //Each side has a map of ship class names to ship's data. This acts as a cash for data read in from JSON files.
     private Map<Side, Map<String, ShipData>> shipDataMap = new HashMap<>();
 
     private GameTitle gameTitle;
     private ShipRegistry registry;
+    private ShipFactory shipFactory;
 
     /**
      * Constructor called by guice.
      * @param gameTitle The game title/name.
      * @param registry The ship registry. Maps ship names to ship classes.
-     * @param aircraftCarrierFactory A factory for creating aircraft carriers.
-     * @param surfaceShipFactory A factory for creating surface ships: battleships, cruisers, etc.
+     * @param shipFactory A factory for creating ships.
      */
     @Inject
     public Shipyard(final GameTitle gameTitle,
                     final ShipRegistry registry,
-                    final AircraftCarrierFactory aircraftCarrierFactory,
-                    final SurfaceShipFactory surfaceShipFactory) {
+                    final ShipFactory shipFactory) {
+
         this.gameTitle = gameTitle;
         this.registry = registry;
+        this.shipFactory = shipFactory;
 
-        factoryMap.put(ShipType.AIRCRAFT_CARRIER, aircraftCarrierFactory);
-        factoryMap.put(ShipType.BATTLECRUISER, surfaceShipFactory);
-        factoryMap.put(ShipType.BATTLESHIP, surfaceShipFactory);
-        factoryMap.put(ShipType.CRUISER, surfaceShipFactory);
-        factoryMap.put(ShipType.DESTROYER, surfaceShipFactory);
-        factoryMap.put(ShipType.DESTROYER_ESCORT, surfaceShipFactory);
-        factoryMap.put(ShipType.MINELAYER, surfaceShipFactory);
-        factoryMap.put(ShipType.MINESWEEPER, surfaceShipFactory);
-        factoryMap.put(ShipType.OILER, surfaceShipFactory);
-        factoryMap.put(ShipType.SEAPLANE_CARRIER, aircraftCarrierFactory);
-        factoryMap.put(ShipType.SLOOP, surfaceShipFactory);
-        factoryMap.put(ShipType.TRANSPORT, surfaceShipFactory);
-
-        defaultFactory = surfaceShipFactory;
+        factoryMap.put(ShipType.AIRCRAFT_CARRIER, shipFactory::createAircraftCarrier);
+        factoryMap.put(ShipType.SEAPLANE_CARRIER, shipFactory::createAircraftCarrier);
 
         shipDataMap.put(Side.ALLIES, new HashMap<>());
         shipDataMap.put(Side.AXIS, new HashMap<>());
@@ -84,7 +74,7 @@ public class Shipyard {
         ShipData shipData = getShipData(shipClassName, shipId.getSide());
         ShipType shipType = shipData.getType();
         shipData.setShipId(shipId);
-        return getFactory(shipType).create(shipData);
+        return getFactory(shipType).apply(shipData);
     }
 
     /**
@@ -155,17 +145,8 @@ public class Shipyard {
      * @param type The type of ship.
      * @return The corresponding factory to the ship's type.
      */
-    private ShipFactory getFactory(final ShipType type) {
-        return factoryMap.containsKey(type) ? factoryMap.get(type) : useDefaultFactory(type);
+    private Function<ShipData, Ship> getFactory(final ShipType type) {
+        return factoryMap.getOrDefault(type, shipFactory::createSurfaceShip);
     }
 
-    /**
-     * Use the default ship factory.
-     * @param type The type of ship that uses the default factory for ship construction.
-     * @return The default ship factory.
-     */
-    private ShipFactory useDefaultFactory(final ShipType type) {
-        log.warn("Using default factory for ship type {}", type);
-        return defaultFactory;
-    }
 }
