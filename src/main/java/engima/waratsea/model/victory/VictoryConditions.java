@@ -53,6 +53,7 @@ public class VictoryConditions {
 
         /**
          * Constructor.
+         *
          * @param event The game event.
          * @param points The corresponding points awarded.
          */

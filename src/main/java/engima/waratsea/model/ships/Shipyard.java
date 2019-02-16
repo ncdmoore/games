@@ -42,6 +42,7 @@ public class Shipyard {
 
     /**
      * Constructor called by guice.
+     *
      * @param gameTitle The game title/name.
      * @param registry The ship registry. Maps ship names to ship classes.
      * @param shipFactory A factory for creating ships.
@@ -64,6 +65,7 @@ public class Shipyard {
 
     /**
      * Build a ship.
+     *
      * @param shipId uniquely identifies a ship.
      * @return The built ship.
      * @throws ShipyardException Indicates that the ship could not be built.
@@ -79,6 +81,7 @@ public class Shipyard {
 
     /**
      * Get a ship given the ship's class.
+     *
      * @param shipClassName The ship's class.
      * @param side The side. ALLIES or AXIS.
      * @return The ship's data.
@@ -101,6 +104,7 @@ public class Shipyard {
 
     /**
      * Read the ship class data from the JSON file.
+     *
      * @param shipClassName The ship class to read.
      * @param side The side of the ship. ALLIES or AXIS.
      * @return The ship's class data.
@@ -115,6 +119,7 @@ public class Shipyard {
 
     /**
      * Read the ship class data from the JSON file.
+     *
      * @param url The url of the JSON file.
      * @param side The side: ALLIES or AXIS.
      * @return The data read from the JSON file.
@@ -142,6 +147,7 @@ public class Shipyard {
 
     /**
      * Get the ship's factory based on the ship type.
+     *
      * @param type The type of ship.
      * @return The corresponding factory to the ship's type.
      */

@@ -16,6 +16,7 @@ public class Torpedo {
 
     /**
      * Constructor.
+     *
      * @param maxHealth The maximum health of the torpedo rating.
      */
     public Torpedo(final int maxHealth) {

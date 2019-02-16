@@ -17,6 +17,7 @@ public class Fuel {
 
     /**
      * Constructor.
+     *
      * @param capacity The fuel capacity of the ship.
      */
     public Fuel(final int capacity) {

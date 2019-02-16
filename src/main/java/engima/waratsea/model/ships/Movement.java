@@ -15,6 +15,7 @@ public class Movement {
 
     /**
      * Constructor.
+     *
      * @param maxEven The initial even turn movement health.
      * @param maxOdd The initial odd turn movement health.
      */

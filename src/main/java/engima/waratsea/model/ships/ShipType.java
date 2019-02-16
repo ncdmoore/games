@@ -22,6 +22,7 @@ public enum ShipType {
 
     /**
      * Constructor.
+     *
      * @param value The string value of the enum.
      */
     ShipType(final String value) {
@@ -30,6 +31,7 @@ public enum ShipType {
 
     /**
      * Return the string representation of the enum.
+     *
      * @return The string value of the ShipType enum.
      */
     public String toString() {

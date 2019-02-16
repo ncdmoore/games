@@ -19,6 +19,7 @@ public class Hull {
 
     /**
      * Constructor.
+     *
      * @param maxHealth The initial health of the hull.
      * @param armour The armour rating of the hull.
      */

@@ -13,6 +13,7 @@ public class Gun {
 
     /**
      * Constructor.
+     *
      * @param maxHealth The initial health of the gun.
      * @param armour The armour rating of the gun.
      */

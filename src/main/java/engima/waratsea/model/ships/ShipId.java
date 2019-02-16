@@ -16,6 +16,7 @@ public class ShipId {
 
     /**
      * Constructor.
+     *
      * @param name The name of the ship.
      * @param side The side the ship is on: ALLIED or AXIS.
      */

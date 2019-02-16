@@ -23,6 +23,7 @@ public class ShipRegistry {
 
     /**
      * The constructor of the Ship registry.
+     *
      * @param gameTitle The game's title/name.
      * @param alliedShips Allied ships properties.
      * @param axisShips Axis ships properties.
@@ -42,6 +43,7 @@ public class ShipRegistry {
 
     /**
      * Get a ship's class given the ship's name.
+     *
      * @param shipId Uniquely identifies a ship.
      * @return The ship class.
      */

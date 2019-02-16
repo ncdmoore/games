@@ -26,6 +26,7 @@ public class FlightDeck {
 
     /**
      * Constructor.
+     *
      * @param armour The flight deck's armour rating.
      * @param capacityList The maximum flight deck maxCapacity list.
      */
@@ -38,6 +39,7 @@ public class FlightDeck {
 
     /**
      * Return the flight deck's current capacity.
+     *
      * @return The flight deck's current capacity.
      */
     public int getCapacity() {
