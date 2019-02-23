@@ -2,9 +2,9 @@ package engima.waratsea.model.player;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.airfield.Airfield;
-import engima.waratsea.model.airfield.AirfieldBuilder;
+import engima.waratsea.model.airfield.AirfieldLoader;
 import engima.waratsea.model.port.Port;
-import engima.waratsea.model.port.PortBuilder;
+import engima.waratsea.model.port.PortLoader;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.scenario.ScenarioLoader;
@@ -21,8 +21,8 @@ import java.util.List;
 public class ComputerPlayer implements Player {
 
     private ScenarioLoader scenarioLoader;
-    private AirfieldBuilder airfieldBuilder;
-    private PortBuilder portBuilder;
+    private AirfieldLoader airfieldBuilder;
+    private PortLoader portBuilder;
 
     @Getter
     @Setter
@@ -45,8 +45,8 @@ public class ComputerPlayer implements Player {
      */
     @Inject
     public ComputerPlayer(final ScenarioLoader scenarioLoader,
-                          final AirfieldBuilder airfieldBuilder,
-                          final PortBuilder portBuilder) {
+                          final AirfieldLoader airfieldBuilder,
+                          final PortLoader portBuilder) {
         this.scenarioLoader = scenarioLoader;
         this.airfieldBuilder = airfieldBuilder;
         this.portBuilder = portBuilder;
@@ -59,6 +59,8 @@ public class ComputerPlayer implements Player {
     @Override
     public void buildAssets(final Scenario scenario) throws ScenarioException {
         taskForces = scenarioLoader.loadTaskForce(scenario, side);
+
+        //Note the airfields and ports used depend upon the map which is set by the scenario.
         airfields = airfieldBuilder.build(side);
         ports = portBuilder.build(side);
     }

@@ -7,7 +7,7 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.model.victory.data.VictoryData;
+import engima.waratsea.model.victory.data.VictoryConditionsData;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -46,8 +46,8 @@ public class VictoryLoader {
 
     private GameTitle gameTitle;
     private VictoryConditionsFactory factory;
-    private VictoryData defaultVictoryData;
-    private VictoryData scenarioVictoryData;
+    private VictoryConditionsData defaultVictoryData;
+    private VictoryConditionsData scenarioVictoryData;
 
     /**
      * Constructor called by guice.
@@ -125,13 +125,13 @@ public class VictoryLoader {
      * @param url The url of the JSON file.
      * @return The data read from the JSON file.
      */
-    private VictoryData readVictory(final URL url) {
+    private VictoryConditionsData readVictory(final URL url) {
         try {
             Path path = Paths.get(URLDecoder.decode(url.getPath(), "UTF-8"));
             try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 
                 Gson gson = new Gson();
-                VictoryData data = gson.fromJson(br, VictoryData.class);
+                VictoryConditionsData data = gson.fromJson(br, VictoryConditionsData.class);
 
                 log.info("load victory '{}'", url.getPath());
 

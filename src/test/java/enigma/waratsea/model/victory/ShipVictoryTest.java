@@ -16,12 +16,10 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.taskForce.TaskForceState;
 import engima.waratsea.model.taskForce.data.TaskForceData;
-import engima.waratsea.model.victory.RequiredShipVictory;
-import engima.waratsea.model.victory.Victory;
 import engima.waratsea.model.victory.VictoryConditions;
 import engima.waratsea.model.victory.VictoryConditionsFactory;
 import engima.waratsea.model.victory.data.ShipVictoryData;
-import engima.waratsea.model.victory.data.VictoryData;
+import engima.waratsea.model.victory.data.VictoryConditionsData;
 import enigma.waratsea.TestModule;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -31,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class VictoryTest {
+public class ShipVictoryTest {
 
     private static Ship battleShip;
     private static TaskForce taskForce;
@@ -65,7 +63,7 @@ public class VictoryTest {
         TaskForceData data = new TaskForceData();
         data.setLocation("Tobruk");
         data.setState(TaskForceState.ACTIVE);
-        data.setShips(new ArrayList<>(Arrays.asList("BB11 Nelson", "BB12 Rodney", "BB08 Royal Sovereign", "CL47 Dido")));
+        data.setShips(new ArrayList<>(Arrays.asList("BB11 Nelson", "BB12 Rodney", "BB08 Royal Sovereign", "CL47 Dido", "CA12 York")));
 
         taskForce = taskForceFactory.create(Side.ALLIES, data);
 
@@ -89,7 +87,7 @@ public class VictoryTest {
         shipData.add(shipVictoryData);
 
 
-        VictoryData victoryData = new VictoryData();
+        VictoryConditionsData victoryData = new VictoryConditionsData();
         victoryData.setShip(shipData);
 
         VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
@@ -124,7 +122,7 @@ public class VictoryTest {
         List<ShipVictoryData> shipData = new ArrayList<>();
         shipData.add(shipVictoryData);
 
-        VictoryData victoryData = new VictoryData();
+        VictoryConditionsData victoryData = new VictoryConditionsData();
         victoryData.setShip(shipData);
 
         VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
@@ -158,7 +156,7 @@ public class VictoryTest {
         List<ShipVictoryData> shipData = new ArrayList<>();
         shipData.add(shipVictoryData);
 
-        VictoryData victoryData = new VictoryData();
+        VictoryConditionsData victoryData = new VictoryConditionsData();
         victoryData.setShip(shipData);
 
         VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
@@ -175,7 +173,7 @@ public class VictoryTest {
     }
 
     @Test
-    public void testShipSunkVictoryOverrideEvent() {
+    public void testShipSunkVictoryOverridePointsEvent() {
 
         int victoryPoints = 44;
 
@@ -189,7 +187,7 @@ public class VictoryTest {
         List<ShipVictoryData> shipData = new ArrayList<>();
         shipData.add(shipVictoryData);
 
-        VictoryData victoryData = new VictoryData();
+        VictoryConditionsData victoryData = new VictoryConditionsData();
         victoryData.setShip(shipData);
 
         VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
@@ -221,7 +219,7 @@ public class VictoryTest {
         List<ShipVictoryData> shipData = new ArrayList<>();
         shipData.add(shipVictoryData);
 
-        VictoryData victoryData = new VictoryData();
+        VictoryConditionsData victoryData = new VictoryConditionsData();
         victoryData.setShip(shipData);
 
         VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
@@ -238,7 +236,7 @@ public class VictoryTest {
     }
 
     @Test
-    public void testShipUnloadVictoryOverrideEvent() {
+    public void testShipUnloadVictoryOverridePointsEvent() {
 
         int victoryPoints = 4;
 
@@ -255,7 +253,7 @@ public class VictoryTest {
         List<ShipVictoryData> shipData = new ArrayList<>();
         shipData.add(shipVictoryData);
 
-        VictoryData victoryData = new VictoryData();
+        VictoryConditionsData victoryData = new VictoryConditionsData();
         victoryData.setShip(shipData);
 
         VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
@@ -290,7 +288,7 @@ public class VictoryTest {
         List<ShipVictoryData> required = new ArrayList<>();
         required.add(shipRequiredVictoryData);
 
-        VictoryData victoryData = new VictoryData();
+        VictoryConditionsData victoryData = new VictoryConditionsData();
         victoryData.setRequiredShip(required);
 
         VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
@@ -307,6 +305,193 @@ public class VictoryTest {
         event.fire();
 
         Assert.assertTrue(victory.requirementsMet());
+    }
 
+    /**
+     * This test a scenario specific event that overrides the default victory condition.
+     */
+    @Test
+    public void testShipScenarioOverride() {
+        int victoryPoints = 4;
+
+        ShipMatchData shipMatchData = new ShipMatchData();
+        shipMatchData.setAction("BOMBARDMENT");
+        shipMatchData.setName("CL47 Dido");
+
+        ShipVictoryData shipVictoryData = new ShipVictoryData();
+        shipVictoryData.setEvent(shipMatchData);
+        shipVictoryData.setPoints(victoryPoints);
+
+        List<ShipVictoryData> shipData = new ArrayList<>();
+        shipData.add(shipVictoryData);
+
+        VictoryConditionsData victoryData = new VictoryConditionsData();
+        victoryData.setShip(shipData);
+
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+
+        int scenarioVictoryPoints = 5;
+
+        ShipMatchData ScenarioShipMatchData = new ShipMatchData();
+        ScenarioShipMatchData.setAction("BOMBARDMENT");
+        ScenarioShipMatchData.setName("CL47 Dido");
+
+        ShipVictoryData scenarioShipVictoryData = new ShipVictoryData();
+        scenarioShipVictoryData.setEvent(ScenarioShipMatchData);
+        scenarioShipVictoryData.setPoints(scenarioVictoryPoints);
+
+        List<ShipVictoryData> scenarioShipData = new ArrayList<>();
+        scenarioShipData.add(scenarioShipVictoryData);
+
+        VictoryConditionsData scenarioVictoryData = new VictoryConditionsData();
+        scenarioVictoryData.setShip(scenarioShipData);
+
+        victory.addScenarioConditions(scenarioVictoryData);
+
+        Assert.assertEquals(0, victory.getTotalVictoryPoints());
+
+        taskForce.setLocation("Tobruk");
+
+        ShipEvent event = new ShipEvent();
+        event.setAction(ShipEventAction.BOMBARDMENT);
+        event.setShip(taskForce.getShip("CL47 Dido"));
+
+        event.fire();
+
+        Assert.assertEquals(scenarioVictoryPoints, victory.getTotalVictoryPoints());
+    }
+
+    /**
+     * This test a victory condition that requires multiple occerences for any
+     * victory points to be rewarded. A single occurence of the underlying event
+     * results in no victory points awarded.
+     */
+    @Test
+    public void testShipBombardmentMultipleOccurrencesRequired() {
+        int victoryPoints = 5;
+
+        ShipMatchData shipMatchData = new ShipMatchData();
+        shipMatchData.setAction("BOMBARDMENT");
+        shipMatchData.setSide(Side.ALLIES);
+        shipMatchData.setShipType("BATTLESHIP, CRUISER");
+        shipMatchData.setLocation("ANY_ENEMY_BASE");
+
+        ShipVictoryData shipVictoryData = new ShipVictoryData();
+        shipVictoryData.setEvent(shipMatchData);
+        shipVictoryData.setPoints(victoryPoints);
+        shipVictoryData.setRequiredOccurences(2);
+
+        List<ShipVictoryData> shipData = new ArrayList<>();
+        shipData.add(shipVictoryData);
+
+        VictoryConditionsData victoryData = new VictoryConditionsData();
+        victoryData.setShip(shipData);
+
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+
+        Assert.assertEquals(0, victory.getTotalVictoryPoints());
+
+        taskForce.setLocation("Tobruk");
+
+        Assert.assertTrue(taskForce.atEnemyBase());
+
+        ShipEvent event = new ShipEvent();
+        event.setAction(ShipEventAction.BOMBARDMENT);
+        event.setShip(taskForce.getShip("BB11 Nelson"));
+
+        event.fire();
+
+        Assert.assertEquals(0, victory.getTotalVictoryPoints());
+
+        event.fire();
+
+        Assert.assertEquals(victoryPoints, victory.getTotalVictoryPoints());
+
+        event.setShip(taskForce.getShip("CA12 York"));
+        event.fire();
+
+        Assert.assertEquals(victoryPoints, victory.getTotalVictoryPoints());
+
+        event.setShip(taskForce.getShip("BB08 Royal Sovereign"));
+        event.fire();
+
+        Assert.assertEquals(victoryPoints * 2, victory.getTotalVictoryPoints());
+    }
+
+    /**
+     * This test a multiple occurrence required condition that overrides a default condition.
+     */
+    @Test
+    public void testShipBombardmentMultipleOccurrencesRequiredOverride() {
+        //Build a default victory condition.
+        int victoryPoints = 5;
+
+        ShipMatchData shipMatchData = new ShipMatchData();
+        shipMatchData.setAction("BOMBARDMENT");
+        shipMatchData.setSide(Side.ALLIES);
+        shipMatchData.setShipType("BATTLESHIP, CRUISER");
+        shipMatchData.setLocation("ANY_ENEMY_BASE");
+
+        ShipVictoryData shipVictoryData = new ShipVictoryData();
+        shipVictoryData.setEvent(shipMatchData);
+        shipVictoryData.setPoints(victoryPoints);
+
+        List<ShipVictoryData> shipData = new ArrayList<>();
+        shipData.add(shipVictoryData);
+
+        VictoryConditionsData victoryData = new VictoryConditionsData();
+        victoryData.setShip(shipData);
+
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+
+        //Build a scenario specific victory condition.
+        int scenarioVictoryPoints = 4;
+
+        ShipMatchData scenarioShipMatchData = new ShipMatchData();
+        scenarioShipMatchData.setAction("BOMBARDMENT");
+        scenarioShipMatchData.setSide(Side.ALLIES);
+        scenarioShipMatchData.setShipType("BATTLESHIP, CRUISER");
+        scenarioShipMatchData.setLocation("Tobruk");
+
+        ShipVictoryData scenarioShipVictoryData = new ShipVictoryData();
+        scenarioShipVictoryData.setEvent(scenarioShipMatchData);
+        scenarioShipVictoryData.setPoints(scenarioVictoryPoints);
+        scenarioShipVictoryData.setRequiredOccurences(2);
+
+        List<ShipVictoryData> scenarioShipData = new ArrayList<>();
+        scenarioShipData.add(scenarioShipVictoryData);
+
+        VictoryConditionsData scenarioVictoryData = new VictoryConditionsData();
+        scenarioVictoryData.setShip(scenarioShipData);
+
+        victory.addScenarioConditions(scenarioVictoryData);
+
+        Assert.assertEquals(0, victory.getTotalVictoryPoints());
+
+        taskForce.setLocation("Tobruk");
+
+        Assert.assertTrue(taskForce.atEnemyBase());
+
+        ShipEvent event = new ShipEvent();
+        event.setAction(ShipEventAction.BOMBARDMENT);
+        event.setShip(taskForce.getShip("BB11 Nelson"));
+
+        event.fire();
+
+        Assert.assertEquals(0, victory.getTotalVictoryPoints());   // No points are awarded for the first event.
+
+        event.fire();
+
+        Assert.assertEquals(scenarioVictoryPoints, victory.getTotalVictoryPoints()); // Points are awarded on the second event.
+
+        event.setShip(taskForce.getShip("CA12 York"));
+        event.fire();
+
+        Assert.assertEquals(scenarioVictoryPoints, victory.getTotalVictoryPoints()); // No additional points awarded on the third event.
+
+        event.setShip(taskForce.getShip("BB08 Royal Sovereign"));
+        event.fire();
+
+        Assert.assertEquals(scenarioVictoryPoints * 2, victory.getTotalVictoryPoints()); // Points awarded on the 4th event.
     }
 }

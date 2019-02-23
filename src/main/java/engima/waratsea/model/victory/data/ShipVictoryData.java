@@ -25,5 +25,9 @@ public class ShipVictoryData {
 
     @Getter
     @Setter
+    private int requiredOccurences;
+
+    @Getter
+    @Setter
     private List<ShipMatchData> events;
 }

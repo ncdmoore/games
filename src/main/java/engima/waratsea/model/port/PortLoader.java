@@ -3,6 +3,7 @@ package engima.waratsea.model.port;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
@@ -27,9 +28,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Singleton
-public class PortBuilder {
-    private static final String PORT_DIRECTORY_NAME = "/ports";
-
+public class PortLoader {
     private GameTitle gameTitle;
     private GameMap gameMap;
     private PortFactory factory;
@@ -41,9 +40,9 @@ public class PortBuilder {
      * @param factory The port factory.
      */
     @Inject
-    public PortBuilder(final GameTitle gameTitle,
-                       final GameMap gameMap,
-                       final PortFactory factory) {
+    public PortLoader(final GameTitle gameTitle,
+                      final GameMap gameMap,
+                      final PortFactory factory) {
         this.gameTitle = gameTitle;
         this.gameMap = gameMap;
         this.factory = factory;
@@ -70,7 +69,7 @@ public class PortBuilder {
      * @return The airfield's cdata.
      */
     private PortData loadPortData(final String portName, final Side side)  {
-        String path = gameTitle.getValue() + PORT_DIRECTORY_NAME + "/" + side.toString().toLowerCase() + "/" + portName + ".json";
+        String path = gameTitle.getValue() + Config.PORT_DIRECTORY_NAME + "/" + side.toString().toLowerCase() + "/" + portName + ".json";
         Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(path));
         return url.map(u -> readPort(portName, u, side))
                 .orElseGet(() -> logError(portName));

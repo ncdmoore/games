@@ -30,11 +30,15 @@ public class ShipVictory implements ShipVictoryCondition {
 
     private ShipEventMatcher matcher;
 
-    private int points;         // The points awarded for each occurrence of this victory condition.
-    private int totalPoints;    // The total points awarded for all occurrences of this victory condition
-    private int requiredPoints; // The total points required for this victory condition to be met.
-                                // Note, not all victory conditions have a total point requirement.
-                                // In fact most do not have any total point requirement.
+    private int points;              // The points awarded for each occurrence of this victory condition.
+    private int totalPoints;         // The total points awarded for all occurrences of this victory condition
+    private int requiredPoints;      // The total points required for this victory condition to be met.
+                                     // Note, not all victory conditions have a total point requirement.
+                                     // In fact most do not have any total point requirement.
+    private int requiredOccurrences; // The number of times the underlying event must occur before any points are awarded.
+    private int occurrenceCount;     // The number of times the event has occurred before any points are awarded.
+                                     // This value is reset everytime the required number of occurrences are reached.
+
     @Getter
     private boolean requirementMet;
 
@@ -69,6 +73,8 @@ public class ShipVictory implements ShipVictoryCondition {
         matcher = factory.create(data.getEvent());
         points = data.getPoints();
         requiredPoints = data.getRequiredPoints();
+        requiredOccurrences = data.getRequiredOccurences();
+        occurrenceCount = 0;
 
         // If no required points are specified then this victory condition does not have to be satisfied.
         // Thus, just set the requirement to true. This is necessary as the event which triggers this
@@ -90,10 +96,17 @@ public class ShipVictory implements ShipVictoryCondition {
      * Determine if a ship event thrown results in a change in victory points.
      *
      * @param event The fired ship event.
-     * @return True if the fired ship event is one that resutls in a change in victory points.
+     * @return True if the fired ship event is one that results in a change in victory points.
      */
     public boolean match(final ShipEvent event) {
-         return matcher.match(event);
+        String location = gameMap.convertReferenceToName(event.getShip().getTaskForce().getLocation());
+
+        boolean matched = matcher.match(event);
+
+        log.info("Ship: '{}' '{}', location: '{}'. matched: {}", new Object[]{event.getShip().getName(),
+                event.getAction(), location, matched});
+
+        return matched;
     }
 
     /**
@@ -103,15 +116,37 @@ public class ShipVictory implements ShipVictoryCondition {
      * @return The number of victory points award due to the fired ship event.
      */
     public int getPoints(final ShipEvent event) {
-        int awardedPoints = calculation.apply(points, event);
-        totalPoints += awardedPoints;
-        requirementMet = totalPoints >= requiredPoints;
+        int awardedPoints = 0;
 
         String location = gameMap.convertReferenceToName(event.getShip().getTaskForce().getLocation());
-        log.info("Ship: '{}' '{}', location: '{}'. Victory points awarded: {}", new Object[] {event.getShip().getName(),
-                event.getAction(), location, awardedPoints});
+
+        if (occurrencesMet()) {
+            awardedPoints = calculation.apply(points, event);
+            totalPoints += awardedPoints;
+            requirementMet = totalPoints >= requiredPoints;
+        }
+
+        log.info("Ship: '{}' '{}', location: '{}'. Occurrence: {}, Required: {}. Victory points awarded: {}", new Object[]{event.getShip().getName(),
+                event.getAction(), location, occurrenceCount, requiredOccurrences, awardedPoints});
 
         return awardedPoints;
+    }
+
+    /**
+     * Determine if the required occurrences are satisfied. Some victory conditions require multiple occurrences of
+     * the underlying event to take place before any points are awarded.
+     *
+     * @return True if the required occurrences are satisfied. False otherwise.
+     */
+    private boolean occurrencesMet() {
+        boolean result = false;
+        occurrenceCount++;
+
+        if (requiredOccurrences == 0 || occurrenceCount % requiredOccurrences == 0) {
+            result = true;
+        }
+
+        return result;
     }
 
     /**

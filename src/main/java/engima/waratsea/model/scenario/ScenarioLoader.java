@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.taskForce.data.TaskForceData;
 import engima.waratsea.model.taskForce.TaskForceFactory;
@@ -42,8 +43,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Singleton
 public class ScenarioLoader {
-
-    private static final String SCENARIO_DIRECTORY_NAME = "/scenarios";
     private static final String SUMMARY_FILE_NAME = "summary.json";
 
     private static final String ALLIES_TASK_FORCE_FILE_NAME = "/alliesTaskForces.json";
@@ -100,7 +99,7 @@ public class ScenarioLoader {
      */
     public List<TaskForce> loadTaskForce(final Scenario scenario, final Side side) throws ScenarioException {
         String scenarioName = scenario.getName();
-        String path = gameTitle.getValue() + "/" + SCENARIO_DIRECTORY_NAME + "/" + scenarioName + FILE_NAME_MAP.get(side);
+        String path = gameTitle.getValue() + "/" + Config.SCENARIO_DIRECTORY_NAME + "/" + scenarioName + FILE_NAME_MAP.get(side);
         Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(path));
         return url.map(u -> readTaskForce(u, side))
                 .orElseThrow(() -> new ScenarioException("Unable to load task force for " + scenarioName + " for " + side));
@@ -113,7 +112,7 @@ public class ScenarioLoader {
      */
     private File[] getScenarioDirs() throws ScenarioException {
 
-        URL url = getClass().getClassLoader().getResource(gameTitle.getValue() + SCENARIO_DIRECTORY_NAME);
+        URL url = getClass().getClassLoader().getResource(gameTitle.getValue() + Config.SCENARIO_DIRECTORY_NAME);
 
         if (url == null) {
            throw new ScenarioException("Unable to find the scenario main directory");

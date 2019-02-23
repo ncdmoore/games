@@ -4,18 +4,20 @@
     {
       "event": {
         "action": "BOMBARDMENT",
-        "shipType": "BATTLESHIP",
+        "shipType": "BATTLESHIP, CRUISER",
         "location": "Tobruk"
       },
-      "points": 2
+      "points": 3,
+      "requiredOccurrences": 2
     },
     {
       "event": {
         "action": "BOMBARDMENT",
-        "shipType": "CRUISER",
-        "location": "Tobruk"
+        "shipType": "BATTLESHIP, CRUISER",
+        "location": "Rhodes"
       },
-      "points": 1
+      "points": 4,
+      "requiredOccurrences": 2
     }
   ]
 }

@@ -6,8 +6,9 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.GameEvent;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.victory.data.ShipVictoryData;
-import engima.waratsea.model.victory.data.VictoryData;
+import engima.waratsea.model.victory.data.VictoryConditionsData;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -42,6 +43,20 @@ public class VictoryConditions {
     private static BiFunction<ShipVictoryData, Side, ShipVictoryCondition> createRequiredShipVictory = (d, s) -> shipVictoryFactory.createRequired(d, s);
 
     /**
+     * Holds the result of a victory condition check.
+     */
+    private static class Result {
+        @Getter
+        @Setter
+        private boolean awarded;
+
+        @Getter
+        @Setter
+        private int points;
+    }
+
+
+    /**
      * Stores the history of events that award victory points.
      */
     private static class History {
@@ -74,7 +89,7 @@ public class VictoryConditions {
      * @param shipVF Ship victory factory.
      */
     @Inject
-    public VictoryConditions(@Assisted final VictoryData data,
+    public VictoryConditions(@Assisted final VictoryConditionsData data,
                              @Assisted final Side side,
                                        final ShipVictoryFactory shipVF) {
         this.side = side;
@@ -93,7 +108,7 @@ public class VictoryConditions {
      *
      * @param data The victory data for a specific scenario read in from a JSON file.
      */
-    public void addScenarioConditions(final VictoryData data) {
+    public void addScenarioConditions(final VictoryConditionsData data) {
         log.info("Add scenario specific victory conditions.");
         objectives = data.getObjectives();
         scenarioShips = buildShipConditions(data.getShip(), createShipVictory);
@@ -160,15 +175,17 @@ public class VictoryConditions {
         checkRequired(event);
 
         //Get the scenario specific event victory points that were awarded.
-        int points = getPoints(scenarioShips, event);
+        log.info("Check specific scenario victory conditions.");
+        Result result = getPoints(scenarioShips, event);
 
-        if (points == 0) {
+        if (!result.isAwarded()) {
+            log.info("No scenario specific victory condition matched. Check default victory conditions.");
             //The event did not trigger any scenario specific victory conditions. Thus,
             //get the points for the default victory conditions.
-            points = getPoints(defaultShips, event);
+            result = getPoints(defaultShips, event);
         }
 
-        saveHistory(event, points);
+        saveHistory(event, result.getPoints());
     }
 
     /**
@@ -178,18 +195,26 @@ public class VictoryConditions {
      * @param event The fired ship event.
      * @return True if the fired ship event award victory points.
      */
-    private int getPoints(final List<ShipVictoryCondition> victoryConditions, final ShipEvent event) {
-        int points = Optional.ofNullable(victoryConditions)
+    private Result getPoints(final List<ShipVictoryCondition> victoryConditions, final ShipEvent event) {
+        Result result = new Result();
+        List<ShipVictoryCondition> matched = Optional.ofNullable(victoryConditions)
                 .orElseGet(Collections::emptyList)
                 .stream()
                 .filter(shipVictory -> shipVictory.match(event))
+                .collect(Collectors.toList());
+
+        // Some victory conditions may match but not awarded any points.
+        result.setAwarded(!matched.isEmpty());
+
+        int points = matched.stream()
                 .findFirst()
                 .map(shipVictory -> shipVictory.getPoints(event))
                 .orElse(0);
 
         totalVictoryPoints += points;
 
-        return points;
+        result.setPoints(points);
+        return result;
     }
 
     /**

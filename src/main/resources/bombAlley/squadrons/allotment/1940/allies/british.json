@@ -1,0 +1,36 @@
+{
+  "nation" : "BRITISH",
+  "Bombers" : {
+    "dice"   : 1,
+    "factor" : 4,
+    "groups" : [{
+      "selectSize" : 2,
+      "aircraft"   : ["Blenheim"]
+    },
+      {
+        "selectSize" : 1,
+        "aircraft"   : ["Wellington"]
+      }]
+  },
+  "Fighters" : {
+    "dice"   : 1,
+    "factor" : 3,
+    "groups" : [{
+      "selectSize" : 2,
+      "aircraft"   : ["Gladiator"]
+    },
+      {
+        "selectSize" : 1,
+        "aircraft"   : ["Hurricane-1"]
+      }]
+  },
+  "Recon"    : {
+    "dice"   : 1,
+    "factor" : 1,
+    "groups" : [{
+      "selectSize" : 1,
+      "aircraft"   : ["Sunderland", "Hudson"]
+    }]
+  }
+}
+

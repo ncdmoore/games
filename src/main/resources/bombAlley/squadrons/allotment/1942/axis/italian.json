@@ -1,0 +1,40 @@
+{
+  "nation" : "ITALIAN",
+  "Bombers" : {
+    "dice"   : 4,
+    "factor" : 6,
+    "groups" : [{
+      "selectSize" : 2,
+      "aircraft"   : ["SM79-2"]
+    },
+      {
+        "selectSize" : 1,
+        "aircraft"   : ["SM79-3"]
+      },
+      {
+        "selectSize" : 1,
+        "aircraft"   : ["P108", "Z1007", "Ca313", "Ca309", "SM81"]
+      }]
+  },
+  "Fighters" : {
+    "dice"   : 2,
+    "factor" : 6,
+    "groups" : [{
+      "selectSize" : 2,
+      "aircraft"   : ["MC202"]
+    },
+      {
+        "selectSize" : 1,
+        "aircraft"   : ["MC200", "G50", "CR42", "MC205"]
+      }]
+  },
+  "Recon"    : {
+    "dice"   : 1,
+    "factor" : 2,
+    "groups" : [{
+      "selectSize" : 1,
+      "aircraft"   : ["Z501", "Z506", "RO37", "RO44"]
+    }]
+  }
+}
+

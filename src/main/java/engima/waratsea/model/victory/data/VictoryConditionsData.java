@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Represents the victory data used to determine which player wins the game.
  */
-public class VictoryData {
+public class VictoryConditionsData {
     @Getter
     @Setter
     private String objectives;

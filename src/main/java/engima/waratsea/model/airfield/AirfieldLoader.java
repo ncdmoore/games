@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.airfield.data.AirfieldData;
+import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
@@ -27,9 +28,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Singleton
-public class AirfieldBuilder {
-    private static final String AIRFIELD_DIRECTORY_NAME = "/airfields";
-
+public class AirfieldLoader {
     private GameTitle gameTitle;
     private GameMap gameMap;
     private AirfieldFactory factory;
@@ -41,9 +40,9 @@ public class AirfieldBuilder {
      * @param factory The airfield factory.
      */
     @Inject
-    public AirfieldBuilder(final GameTitle gameTitle,
-                           final GameMap gameMap,
-                           final AirfieldFactory factory) {
+    public AirfieldLoader(final GameTitle gameTitle,
+                          final GameMap gameMap,
+                          final AirfieldFactory factory) {
         this.gameTitle = gameTitle;
         this.gameMap = gameMap;
         this.factory = factory;
@@ -70,7 +69,7 @@ public class AirfieldBuilder {
      * @return The airfield's cdata.
      */
     private AirfieldData loadAirfieldData(final String airfieldName, final Side side)  {
-        String path = gameTitle.getValue() + AIRFIELD_DIRECTORY_NAME + "/" + side.toString().toLowerCase() + "/" + airfieldName + ".json";
+        String path = gameTitle.getValue() + Config.AIRFIELD_DIRECTORY_NAME + "/" + side.toString().toLowerCase() + "/" + airfieldName + ".json";
         Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(path));
         return url.map(u -> readAirfield(airfieldName, u, side))
                 .orElseGet(() -> logError(airfieldName));
