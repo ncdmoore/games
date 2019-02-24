@@ -88,20 +88,16 @@ public class VictoryConditions {
                              @Assisted final Side side,
                                        final ShipVictoryFactory shipVictoryFactory) {
         this.side = side;
-
-        BiFunction<ShipVictoryData, Side, ShipVictoryCondition> createShipVictory = shipVictoryFactory::createShip;
-        BiFunction<ShipVictoryData, Side, ShipVictoryCondition> createRequiredShipVictory = shipVictoryFactory::createRequired;
-
         objectives = data.getObjectives();
 
         log.info("Build default ship victory conditions for side: {}.", side);
-        defaultShips = buildShipConditions(data.getDefaultShip(), createShipVictory);
+        defaultShips = buildShipConditions(data.getDefaultShip(), shipVictoryFactory::createShip);
 
         log.info("Build scenario ship victory conditions for side: {}.", side);
-        scenarioShips = buildShipConditions(data.getScenarioShip(), createShipVictory);
+        scenarioShips = buildShipConditions(data.getScenarioShip(), shipVictoryFactory::createShip);
 
         log.info("Build scenario required ship victory conditions for side: {}.", side);
-        requiredShips = buildShipConditions(data.getRequiredShip(), createRequiredShipVictory);
+        requiredShips = buildShipConditions(data.getRequiredShip(), shipVictoryFactory::createRequired);
 
         if (!registered) {
             registerForEvents(defaultShips);
