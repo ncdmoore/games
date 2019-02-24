@@ -6,6 +6,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
 import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
+import engima.waratsea.model.game.event.ship.data.ShipMatchData;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.victory.data.ShipVictoryData;
 import lombok.Getter;
@@ -25,7 +26,7 @@ public class RequiredShipVictory implements ShipVictoryCondition {
     private List<ShipEventMatcher> matchers;
 
     @Getter
-    private boolean requirementMet = false;
+    private boolean requirementMet;
 
     /**
      * Constructor.
@@ -46,12 +47,27 @@ public class RequiredShipVictory implements ShipVictoryCondition {
                 .map(factory::create)
                 .collect(Collectors.toList());
 
+        requirementMet = data.isRequirementMet();
+
         matchers.forEach(matcher -> matcher.setSide(side));
 
         log.info("Required victory condition match set:");
         matchers.forEach(ShipEventMatcher::log);
 
         this.gameMap = gameMap;
+    }
+
+    /**
+     * Get the victory data that is read and written. This is all the data that needs to persist for this class.
+     *
+     * @return The corresponding persistent victory data.
+     */
+    @Override
+    public ShipVictoryData getData() {
+        ShipVictoryData data = new ShipVictoryData();
+        data.setEvents(getVictoryData());
+        data.setRequirementMet(requirementMet);
+        return data;
     }
 
     /**
@@ -82,5 +98,14 @@ public class RequiredShipVictory implements ShipVictoryCondition {
     @Override
     public int getPoints(final ShipEvent event) {
         return 0;
+    }
+
+    /**
+     * Get the victory data. This is the data that is read and written.
+     *
+     * @return The corresponding victory data
+     */
+    private List<ShipMatchData> getVictoryData() {
+        return matchers.stream().map(ShipEventMatcher::getData).collect(Collectors.toList());
     }
 }

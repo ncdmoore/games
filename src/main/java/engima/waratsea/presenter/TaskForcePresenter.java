@@ -103,7 +103,7 @@ public class TaskForcePresenter {
      */
     private void startGame() {
         try {
-            game.start();
+            game.startNew();
             view.setTaskForces(game.getHumanPlayer().getTaskForces());
             view.getTaskForces().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> taskForceSelected(newValue));
 

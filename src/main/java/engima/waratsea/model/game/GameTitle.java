@@ -14,10 +14,19 @@ import lombok.Setter;
 public class GameTitle {
 
     public static final String DEFAULT_GAME = "bombAlley";
+    private static final String DEFAULT_SAVED_GAME = "/defaultGame";
 
     @Getter
     @Setter
-    private String value;
+    private String value;            //This is the name of the game bombAlley, Coral Sea, etc.
+
+    @Getter
+    @Setter
+    private String savedGameName;    //This is the name of the saved game.
+
+    @Getter
+    @Setter
+    private GameType type;
 
     /**
      * Constructor called by guice.
@@ -25,5 +34,7 @@ public class GameTitle {
     @Inject
     public GameTitle() {
         value = DEFAULT_GAME;
+        savedGameName = DEFAULT_SAVED_GAME;
+        type = GameType.NEW;
     }
 }

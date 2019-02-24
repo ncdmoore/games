@@ -2,16 +2,22 @@ package engima.waratsea.model.victory;
 
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.GameTitle;
+import engima.waratsea.model.game.GameType;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.victory.data.VictoryConditionsData;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -34,7 +40,6 @@ import java.util.Optional;
 @Singleton
 public class VictoryLoader {
 
-    private static final String VICTORY_DIRECTORY_NAME = "victory";
     private static final String ALLIED_VICTORY_FILE_NAME = "/alliesVictory.json";
     private static final String AXIS_VICTORY_FILE_NAME = "/axisVictory.json";
 
@@ -46,8 +51,7 @@ public class VictoryLoader {
 
     private GameTitle gameTitle;
     private VictoryConditionsFactory factory;
-    private VictoryConditionsData defaultVictoryData;
-    private VictoryConditionsData scenarioVictoryData;
+    private VictoryConditionsData victoryConditionsData;
 
     /**
      * Constructor called by guice.
@@ -70,19 +74,35 @@ public class VictoryLoader {
      * @return The Victory
      * @throws VictoryException An error occurred while attempting to read the default victory data.
      */
-    public VictoryConditions build(final Scenario scenario, final Side side) throws VictoryException {
-
-        if (defaultVictoryData == null) {
-            loadDefaultVictoryData();
+    public VictoryConditions read(final Scenario scenario, final Side side) throws VictoryException {
+        if (gameTitle.getType() == GameType.NEW) {
+            return readNew(scenario, side);
+        } else {
+            return readExisting(scenario, side);
         }
+    }
 
-        // Create the side's victory conditions.
-        VictoryConditions conditions = factory.create(defaultVictoryData, side);
+    /**
+     * Load the victory conditions for a new game. Load the default victory condition data and any scenario victory
+     * condition data, if it exists. A scenario might not have any victory conditions.
+     *
+     * @param scenario The selected scenario.
+     * @param side The side ALLIES or AXIS.
+     * @return The Victory
+     * @throws VictoryException An error occurred while attempting to read the default victory data.
+     */
+    private VictoryConditions readNew(final Scenario scenario, final Side side) throws VictoryException {
+        victoryConditionsData = loadDefaultVictoryData();
 
         try {
             // Create the specific scenario's victory conditions.
-            loadScenarioVictoryData(scenario, side);
-            conditions.addScenarioConditions(scenarioVictoryData);
+            VictoryConditionsData scenarioVictoryData = loadScenarioVictoryData(scenario, side);
+
+            //Add the specific fields to the victory data.
+            victoryConditionsData.setObjectives(scenarioVictoryData.getObjectives());
+            victoryConditionsData.setScenarioShip(scenarioVictoryData.getScenarioShip());
+            victoryConditionsData.setRequiredShip(scenarioVictoryData.getRequiredShip());
+
         } catch (VictoryException ex) {
             //Unable to load the scenario victory conditions. If a scenario does not contain specific
             //victory conditions then this is normal. Thus, all this code can do is warn that no
@@ -90,18 +110,68 @@ public class VictoryLoader {
             log.warn("No scencario victory found for scenario '{}' for side {}", scenario.getTitle(), side);
         }
 
-        return conditions;
+        // Create the side's victory conditions.
+        return factory.create(victoryConditionsData, side);
+    }
+
+    /**
+     * Load the victory conditions for an existing(saved) game. All of the victory conditions (both the default and
+     * the scenario specific victory conditions are in the same file.
+     *
+     * @param scenario The selected scenario.
+     * @param side The side ALLIES or AXIS.
+     * @return The victory.
+     * @throws VictoryException An error occurred while attempting to read the saved game victory data.
+     */
+    private VictoryConditions readExisting(final Scenario scenario, final Side side) throws VictoryException {
+        VictoryConditionsData savedVictoryData = loadSavedGameVictoryData(scenario, side);
+        return factory.create(savedVictoryData, side);
+    }
+
+    /**
+     * Save the victory conditions. The allies and axis victory data is saved in separate files.
+     *
+     * @param scenario The selected scenario.
+     * @param side  The side AlLIES of AXIS.
+     * @param data The victory conditions data that is saved.
+     */
+    public void save(final Scenario scenario, final Side side, final VictoryConditionsData data) {
+
+        String fileName = Config.SAVED_GAME_DIRECTORY + scenario.getName() + gameTitle.getSavedGameName() + "/" + Config.VICTORY_DIRECTORY_NAME + "/" + side.toString() + "Victory.json";
+        log.info("Saving victory for side {} path: '{}'", side, fileName);
+
+        try {
+            Path path = Paths.get(fileName);
+            Files.createDirectories(path.getParent());
+
+            if (!Files.exists(path)) {
+                Files.createFile(path);
+            }
+
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String json = gson.toJson(data);
+
+            FileWriter writer = new FileWriter(fileName);
+            writer.write(json);
+            writer.close();
+
+        } catch (IOException ex) {
+            log.error("Unable to save victory '{}'", fileName, ex);
+        }
+
     }
 
     /**
      * Read the default victory data from the JSON file.
      *
+     * @return The default victory conditions for the game.
+     *
      * @throws VictoryException An error occurred while attempting to read the victory data.
      */
-    private void loadDefaultVictoryData() throws VictoryException {
-        String path = VICTORY_DIRECTORY_NAME + "/default.json";
+    private VictoryConditionsData loadDefaultVictoryData() throws VictoryException {
+        String path = Config.VICTORY_DIRECTORY_NAME + "/default.json";
         Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(path));
-        defaultVictoryData = url.map(this::readVictory)
+        return url.map(this::readVictory)
                 .orElseThrow(() -> new VictoryException("Unable to load default victory"));
     }
 
@@ -110,13 +180,33 @@ public class VictoryLoader {
      *
      * @param scenario The selected scenario.
      * @param side The side ALLIES or AXIS.
+     * @return The scenario specific victory data.
      * @throws VictoryException Indicates that an error occurred while attempting to read the scenario victory data.
      */
-    private void loadScenarioVictoryData(final Scenario scenario, final Side side) throws VictoryException {
+    private VictoryConditionsData loadScenarioVictoryData(final Scenario scenario, final Side side) throws VictoryException {
         String path = gameTitle.getValue() + "/scenarios/" + scenario.getName() + FILE_NAME_MAP.get(side);
         Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(path));
-        scenarioVictoryData = url.map(this::readVictory)
-                .orElseThrow(() -> new VictoryException("Unable to load scenario victory for side " + side, "warn"));
+        return url.map(this::readVictory)
+                .orElseThrow(() -> new VictoryException("Unable to load victory for side " + side, "warn"));
+    }
+
+    /**
+     * Read an existing/saved game data from the JSON file.
+     *
+     * @param scenario The selected scenario.
+     * @param side The side ALLIES or AXIS.
+     * @return The all the victory conditions for the given side.
+     * @throws VictoryException Indicates that an error occured while attempting to read the saved game victory data.
+     */
+    private VictoryConditionsData loadSavedGameVictoryData(final Scenario scenario, final Side side) throws VictoryException {
+        String fileName = Config.SAVED_GAME_DIRECTORY + scenario.getName()  + gameTitle.getSavedGameName() + "/" + Config.VICTORY_DIRECTORY_NAME + "/" + side.toString() + "Victory.json";
+        Path path = Paths.get(fileName);
+        try {
+            URL url = path.toUri().toURL();
+            return readVictory(url);
+        } catch (MalformedURLException ex) {
+            throw new VictoryException("Unable to load saved game victory for side " + side);
+        }
     }
 
     /**

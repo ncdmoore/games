@@ -26,13 +26,10 @@ import java.util.stream.Stream;
 @Slf4j
 @Singleton
 public final class GameMap {
-
     private static final String MAP_REFERENCE_FORMAT = "\\s*([a-zA-Z]{1,2})(\\d{1,2})\\s*";
     private static final Pattern PATTERN = Pattern.compile(MAP_REFERENCE_FORMAT);
     private static final String ANY_ENEMY_BASE = "ANY_ENEMY_BASE";
     private static final String ANY_FRIENDLY_BASE = "ANY_FRIENDLY_BASE";
-
-
 
     private MapProps props;
     private RegionLoader regionLoader;

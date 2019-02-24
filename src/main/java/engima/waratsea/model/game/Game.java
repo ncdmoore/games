@@ -26,8 +26,6 @@ import java.util.Map;
 @Slf4j
 @Singleton
 public class Game {
-
-
     @Getter
     @Setter
     private String name;
@@ -75,6 +73,7 @@ public class Game {
 
     /**
      * Initialize the scenario summary data.
+     *
      * @return List of scenarios.
      * @throws ScenarioException Indicates the scenario summary data could not be loaded.
      */
@@ -84,6 +83,7 @@ public class Game {
 
     /**
      * Sets the sides of the two players of the game.
+     *
      * @param side The human player humanSide.
      */
     public void setHumanSide(final Side side) {                                                                         // New Game Step 2.
@@ -98,6 +98,7 @@ public class Game {
 
     /**
      * Get a player given the player's side.
+     *
      * @param side The side ALLIES or AXIS.
      * @return The player that corresponds to the given side.
      */
@@ -106,21 +107,26 @@ public class Game {
     }
 
     /**
-     * Initialize the task force data for both players.
+     * Initialize the game data for both players for a new game.
+     *
      * @throws ScenarioException Indicates the scenario data could not be loaded.
      * @throws MapException Indicates the map data could not be loaded.
      * @throws VictoryException Indicates the victory data could not be loaded.
      */
-    public void start() throws ScenarioException, MapException, VictoryException {                                      // New Game Step 3.
+    public void startNew() throws ScenarioException, MapException, VictoryException {                                      // New Game Step 3.
         GameEvent.init();
 
         loadGameMap();
         loadGameVictory();
         buildAssets();
+
+        save();              //Save the default game.
     }
+
 
     /**
      * Load the game map.
+     *
      * @throws MapException Indicates the game map could not be loaded.
      */
     private void loadGameMap() throws MapException {
@@ -129,6 +135,7 @@ public class Game {
 
     /**
      * Load the game gameVictory. Also sets the scenario victory objective for the human player.
+     *
      * @throws VictoryException Indicates the game gameVictory could not be loaded.
      */
     private void loadGameVictory() throws VictoryException {
@@ -138,6 +145,7 @@ public class Game {
 
     /**
      * Load the task forces.
+     *
      * @throws ScenarioException Indicates the task forces could not be loaded.
      */
     private void buildAssets() throws ScenarioException {
@@ -145,4 +153,10 @@ public class Game {
         computerPlayer.buildAssets(scenario);
     }
 
+    /**
+     * Save the game.
+     */
+    private void save() {
+        gameVictory.save(scenario);
+    }
 }

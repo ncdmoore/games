@@ -1,5 +1,7 @@
 package engima.waratsea.model.taskForce;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Represents a task force state.
  * Active task forces are available for the player to control and use.
@@ -7,7 +9,10 @@ package engima.waratsea.model.taskForce;
  * Certain game events will trigger a task force to change states from reserve to active.
  */
 public enum TaskForceState {
+    @SerializedName(value = "ACTIVE", alternate = {"Active", "active"})
     ACTIVE("Active"),
+
+    @SerializedName(value = "RESERVE", alternate = {"Reserve", "reserve"})
     RESERVE("Reserve");
 
     private String value;

@@ -1,5 +1,5 @@
 {
-  "ship": [
+  "defaultShip": [
     {
       "event": {
         "action": "SUNK"

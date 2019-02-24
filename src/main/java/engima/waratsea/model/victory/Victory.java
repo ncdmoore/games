@@ -38,8 +38,8 @@ public class Victory {
      * @throws VictoryException Indicates that the victory conditions could not be loaded.
      */
     public void load(final Scenario scenario) throws VictoryException {
-        conditions.put(Side.ALLIES, loader.build(scenario, Side.ALLIES));
-        conditions.put(Side.AXIS, loader.build(scenario, Side.AXIS));
+        conditions.put(Side.ALLIES, loader.read(scenario, Side.ALLIES));
+        conditions.put(Side.AXIS, loader.read(scenario, Side.AXIS));
     }
 
     /**
@@ -50,5 +50,15 @@ public class Victory {
      */
     public String getObjectives(final Side side) {
         return conditions.get(side).getObjectives();
+    }
+
+    /**
+     *  Save the current victory data. The allied and axis data is saved separately.
+     *
+     * @param scenario The selected scenario.
+     */
+    public void save(final Scenario scenario) {
+       loader.save(scenario, Side.ALLIES, conditions.get(Side.ALLIES).getData());
+       loader.save(scenario, Side.AXIS, conditions.get(Side.AXIS).getData());
     }
 }

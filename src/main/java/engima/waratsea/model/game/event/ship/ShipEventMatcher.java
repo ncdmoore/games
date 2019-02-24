@@ -80,7 +80,23 @@ public class ShipEventMatcher {
         locations = parseLocation(data.getLocation());
         portOrigins = parseLocation(data.getStartingLocation());
         by = data.getBy();
+    }
 
+    /**
+     * Get the ship match data. This is the corresponding data that is read and written.
+     *
+     * @return The corresponding ship match data.
+     */
+    public ShipMatchData getData() {
+        ShipMatchData data = new ShipMatchData();
+        data.setAction(action);
+        data.setName(Optional.ofNullable(names).map(n -> String.join(",", n)).orElse(null));
+        data.setSide(side);
+        data.setTaskForceName(taskForceName);
+        data.setShipType(Optional.ofNullable(shipTypes).map(this::getShipTypes).orElse(null));
+        data.setLocation(Optional.ofNullable(locations).map(l -> String.join(",", l)).orElse(null));
+        data.setStartingLocation(Optional.ofNullable(portOrigins).map(p -> String.join(",", p)).orElse(null));
+        return data;
     }
 
     /**
@@ -145,7 +161,7 @@ public class ShipEventMatcher {
     private List<ShipType> parseShipType(final String shipTypeString) {
         return Optional.ofNullable(shipTypeString)
                 .map(types -> Stream.of(types.split("\\s*,\\s*"))
-                        .map(ShipType::valueOf)
+                        .map(shipType -> ShipType.valueOf(shipType.toUpperCase().replace(' ', '_')))
                         .collect(Collectors.toList()))
                 .orElse(null);
     }

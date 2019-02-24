@@ -21,11 +21,23 @@ public class ShipVictoryData {
 
     @Getter
     @Setter
+    private int totalPoints;
+
+    @Getter
+    @Setter
     private int requiredPoints;
 
     @Getter
     @Setter
     private int requiredOccurences;
+
+    @Getter
+    @Setter
+    private int occurrenceCount;
+
+    @Getter
+    @Setter
+    private boolean requirementMet;
 
     @Getter
     @Setter

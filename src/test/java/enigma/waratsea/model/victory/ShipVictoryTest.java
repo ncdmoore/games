@@ -88,7 +88,7 @@ public class ShipVictoryTest {
 
 
         VictoryConditionsData victoryData = new VictoryConditionsData();
-        victoryData.setShip(shipData);
+        victoryData.setDefaultShip(shipData);
 
         VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
 
@@ -123,7 +123,7 @@ public class ShipVictoryTest {
         shipData.add(shipVictoryData);
 
         VictoryConditionsData victoryData = new VictoryConditionsData();
-        victoryData.setShip(shipData);
+        victoryData.setDefaultShip(shipData);
 
         VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
 
@@ -157,7 +157,7 @@ public class ShipVictoryTest {
         shipData.add(shipVictoryData);
 
         VictoryConditionsData victoryData = new VictoryConditionsData();
-        victoryData.setShip(shipData);
+        victoryData.setDefaultShip(shipData);
 
         VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
 
@@ -188,7 +188,7 @@ public class ShipVictoryTest {
         shipData.add(shipVictoryData);
 
         VictoryConditionsData victoryData = new VictoryConditionsData();
-        victoryData.setShip(shipData);
+        victoryData.setDefaultShip(shipData);
 
         VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
 
@@ -220,7 +220,7 @@ public class ShipVictoryTest {
         shipData.add(shipVictoryData);
 
         VictoryConditionsData victoryData = new VictoryConditionsData();
-        victoryData.setShip(shipData);
+        victoryData.setDefaultShip(shipData);
 
         VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
 
@@ -254,7 +254,7 @@ public class ShipVictoryTest {
         shipData.add(shipVictoryData);
 
         VictoryConditionsData victoryData = new VictoryConditionsData();
-        victoryData.setShip(shipData);
+        victoryData.setDefaultShip(shipData);
 
         VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
 
@@ -292,7 +292,6 @@ public class ShipVictoryTest {
         victoryData.setRequiredShip(required);
 
         VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
-        victory.addScenarioConditions(victoryData);
 
         Assert.assertFalse(victory.requirementsMet());
 
@@ -326,9 +325,7 @@ public class ShipVictoryTest {
         shipData.add(shipVictoryData);
 
         VictoryConditionsData victoryData = new VictoryConditionsData();
-        victoryData.setShip(shipData);
-
-        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+        victoryData.setDefaultShip(shipData);
 
         int scenarioVictoryPoints = 5;
 
@@ -343,10 +340,9 @@ public class ShipVictoryTest {
         List<ShipVictoryData> scenarioShipData = new ArrayList<>();
         scenarioShipData.add(scenarioShipVictoryData);
 
-        VictoryConditionsData scenarioVictoryData = new VictoryConditionsData();
-        scenarioVictoryData.setShip(scenarioShipData);
+        victoryData.setScenarioShip(scenarioShipData);
 
-        victory.addScenarioConditions(scenarioVictoryData);
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
 
         Assert.assertEquals(0, victory.getTotalVictoryPoints());
 
@@ -385,7 +381,7 @@ public class ShipVictoryTest {
         shipData.add(shipVictoryData);
 
         VictoryConditionsData victoryData = new VictoryConditionsData();
-        victoryData.setShip(shipData);
+        victoryData.setDefaultShip(shipData);
 
         VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
 
@@ -440,9 +436,8 @@ public class ShipVictoryTest {
         shipData.add(shipVictoryData);
 
         VictoryConditionsData victoryData = new VictoryConditionsData();
-        victoryData.setShip(shipData);
+        victoryData.setDefaultShip(shipData);
 
-        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
 
         //Build a scenario specific victory condition.
         int scenarioVictoryPoints = 4;
@@ -461,10 +456,9 @@ public class ShipVictoryTest {
         List<ShipVictoryData> scenarioShipData = new ArrayList<>();
         scenarioShipData.add(scenarioShipVictoryData);
 
-        VictoryConditionsData scenarioVictoryData = new VictoryConditionsData();
-        scenarioVictoryData.setShip(scenarioShipData);
+        victoryData.setScenarioShip(scenarioShipData);
 
-        victory.addScenarioConditions(scenarioVictoryData);
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
 
         Assert.assertEquals(0, victory.getTotalVictoryPoints());
 

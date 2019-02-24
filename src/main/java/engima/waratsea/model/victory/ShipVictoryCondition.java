@@ -1,9 +1,10 @@
 package engima.waratsea.model.victory;
 
 import engima.waratsea.model.game.event.ship.ShipEvent;
+import engima.waratsea.model.victory.data.ShipVictoryData;
 
 /**
- * Victory condition.
+ * Represents a ship victory condition.
  */
 public interface ShipVictoryCondition {
     /**
@@ -28,4 +29,12 @@ public interface ShipVictoryCondition {
      * @return True if the fired ship event results in an award of victory points. False otherwise.
      */
     boolean match(ShipEvent event);
+
+    /**
+     * Get the corresponding ship victory data that is read and written. This is all the data that
+     * needs to persist for this class.
+     *
+     * @return The corresponding persistent ship victory data.
+     */
+    ShipVictoryData getData();
 }

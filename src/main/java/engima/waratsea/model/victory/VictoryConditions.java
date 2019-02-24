@@ -38,7 +38,6 @@ public class VictoryConditions {
     private List<ShipVictoryCondition> requiredShips;   // Scenario required victory conditions.
 
     private static ShipVictoryFactory shipVictoryFactory;
-
     private static BiFunction<ShipVictoryData, Side, ShipVictoryCondition> createShipVictory = (d, s) -> shipVictoryFactory.createShip(d, s);
     private static BiFunction<ShipVictoryData, Side, ShipVictoryCondition> createRequiredShipVictory = (d, s) -> shipVictoryFactory.createRequired(d, s);
 
@@ -54,7 +53,6 @@ public class VictoryConditions {
         @Setter
         private int points;
     }
-
 
     /**
      * Stores the history of events that award victory points.
@@ -84,6 +82,7 @@ public class VictoryConditions {
 
     /**
      * Constructor of the a side's victory.
+     *
      * @param data The victory data read in from a JSON file.
      * @param side The side ALLIES or AXIS of the victory conditions.
      * @param shipVF Ship victory factory.
@@ -95,28 +94,38 @@ public class VictoryConditions {
         this.side = side;
         shipVictoryFactory = shipVF;
 
-        log.info("Build default victory conditions.");
-        defaultShips = buildShipConditions(data.getShip(), createShipVictory);
+        objectives = data.getObjectives();
+
+        log.info("Build default ship victory conditions for side: {}.", side);
+        defaultShips = buildShipConditions(data.getDefaultShip(), createShipVictory);
+
+        log.info("Build scenario ship victory conditions for side: {}.", side);
+        scenarioShips = buildShipConditions(data.getScenarioShip(), createShipVictory);
+
+        log.info("Build scenario required ship victory conditions for side: {}.", side);
+        requiredShips = buildShipConditions(data.getRequiredShip(), createRequiredShipVictory);
 
         if (!registered) {
             registerForEvents(defaultShips);
         }
+
+        totalVictoryPoints = data.getTotalVictoryPoints();
     }
 
     /**
-     * Add the scenario specific victory conditions.
+     * Get the data that is read and saved. This is all the data that needs to persist for this class.
      *
-     * @param data The victory data for a specific scenario read in from a JSON file.
+     * @return The persistent victory conditions data.
      */
-    public void addScenarioConditions(final VictoryConditionsData data) {
-        log.info("Add scenario specific victory conditions.");
-        objectives = data.getObjectives();
-        scenarioShips = buildShipConditions(data.getShip(), createShipVictory);
-        requiredShips = buildShipConditions(data.getRequiredShip(), createRequiredShipVictory);
+    public VictoryConditionsData getData() {
+        VictoryConditionsData data = new VictoryConditionsData();
+        data.setObjectives(objectives);
+        data.setTotalVictoryPoints(totalVictoryPoints);
+        data.setDefaultShip(getVictoryData(defaultShips));
+        data.setScenarioShip(getVictoryData(scenarioShips));
+        data.setRequiredShip(getVictoryData(requiredShips));
 
-        if (!registered) {
-            registerForEvents(scenarioShips);
-        }
+        return data;
     }
 
     /**
@@ -127,6 +136,20 @@ public class VictoryConditions {
     public boolean requirementsMet() {
         return conditionMet(scenarioShips)
                 && conditionMet(requiredShips);
+    }
+
+    /**
+     * Get the ship victory data.
+     *
+     * @param shipVictoryConditions The ship victory conditions for which the data is returned.
+     * @return The corresponding data of the ship victory conditions is returned.
+     */
+    private List<ShipVictoryData> getVictoryData(final List<ShipVictoryCondition> shipVictoryConditions) {
+        return Optional.ofNullable(shipVictoryConditions)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(ShipVictoryCondition::getData)
+                .collect(Collectors.toList());
     }
 
     /**

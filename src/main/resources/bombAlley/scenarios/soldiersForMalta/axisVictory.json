@@ -1,6 +1,6 @@
 {
   "objectives": "Prevent British reinforcement of Malta.",
-  "ship": [
+  "scenarioShip": [
     {
       "event": {
         "action": "SUNK",

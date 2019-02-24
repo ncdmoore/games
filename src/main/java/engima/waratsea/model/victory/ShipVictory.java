@@ -72,14 +72,11 @@ public class ShipVictory implements ShipVictoryCondition {
 
         matcher = factory.create(data.getEvent());
         points = data.getPoints();
+        totalPoints = data.getTotalPoints();
         requiredPoints = data.getRequiredPoints();
         requiredOccurrences = data.getRequiredOccurences();
-        occurrenceCount = 0;
-
-        // If no required points are specified then this victory condition does not have to be satisfied.
-        // Thus, just set the requirement to true. This is necessary as the event which triggers this
-        // condition might never be thrown.
-        requirementMet = requiredPoints == 0;
+        occurrenceCount = data.getOccurrenceCount();
+        requirementMet = data.isRequirementMet();
 
         matcher.setSide(side);
 
@@ -90,6 +87,26 @@ public class ShipVictory implements ShipVictoryCondition {
         this.gameMap = gameMap;
 
         calculation = setCalculationFunction();
+    }
+
+    /**
+     * Get the corresponding ship victory data. This is the data that is read and written. This is all the data that
+     * needs to persist for this class.
+     *
+     * @return The corresponding persistent ship victory data.
+     */
+    @Override
+    public ShipVictoryData getData() {
+        ShipVictoryData data = new ShipVictoryData();
+        data.setEvent(matcher.getData());
+        data.setPoints(points);
+        data.setTotalPoints(totalPoints);
+        data.setRequiredPoints(requiredPoints);
+        data.setRequiredOccurences(requiredOccurrences);
+        data.setOccurrenceCount(occurrenceCount);
+        data.setRequirementMet(requirementMet);
+
+        return data;
     }
 
     /**

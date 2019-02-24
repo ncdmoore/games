@@ -15,7 +15,15 @@ public class VictoryConditionsData {
 
     @Getter
     @Setter
-    private List<ShipVictoryData> ship;
+    private int totalVictoryPoints;
+
+    @Getter
+    @Setter
+    private List<ShipVictoryData> defaultShip;
+
+    @Getter
+    @Setter
+    private List<ShipVictoryData> scenarioShip;
 
     @Getter
     @Setter

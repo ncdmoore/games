@@ -1,6 +1,6 @@
 {
   "objectives": "Unload the troop convoy at Malta. At least one cruiser must unload at Malta in order to achieve victory.",
-  "ship": [
+  "scenarioShip": [
     {
       "event": {
         "action": "CARGO_UNLOADED",
