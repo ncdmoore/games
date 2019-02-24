@@ -37,10 +37,6 @@ public class VictoryConditions {
     private List<ShipVictoryCondition> scenarioShips;   // Scenario specific victory conditions for ships. These may override the default.
     private List<ShipVictoryCondition> requiredShips;   // Scenario required victory conditions.
 
-    private static ShipVictoryFactory shipVictoryFactory;
-    private static BiFunction<ShipVictoryData, Side, ShipVictoryCondition> createShipVictory = (d, s) -> shipVictoryFactory.createShip(d, s);
-    private static BiFunction<ShipVictoryData, Side, ShipVictoryCondition> createRequiredShipVictory = (d, s) -> shipVictoryFactory.createRequired(d, s);
-
     /**
      * Holds the result of a victory condition check.
      */
@@ -85,14 +81,16 @@ public class VictoryConditions {
      *
      * @param data The victory data read in from a JSON file.
      * @param side The side ALLIES or AXIS of the victory conditions.
-     * @param shipVF Ship victory factory.
+     * @param shipVictoryFactory Ship victory factory.
      */
     @Inject
     public VictoryConditions(@Assisted final VictoryConditionsData data,
                              @Assisted final Side side,
-                                       final ShipVictoryFactory shipVF) {
+                                       final ShipVictoryFactory shipVictoryFactory) {
         this.side = side;
-        shipVictoryFactory = shipVF;
+
+        BiFunction<ShipVictoryData, Side, ShipVictoryCondition> createShipVictory = shipVictoryFactory::createShip;
+        BiFunction<ShipVictoryData, Side, ShipVictoryCondition> createRequiredShipVictory = shipVictoryFactory::createRequired;
 
         objectives = data.getObjectives();
 

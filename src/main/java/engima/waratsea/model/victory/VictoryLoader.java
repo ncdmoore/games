@@ -14,8 +14,10 @@ import engima.waratsea.model.victory.data.VictoryConditionsData;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
-import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -140,23 +142,30 @@ public class VictoryLoader {
         String fileName = Config.SAVED_GAME_DIRECTORY + scenario.getName() + gameTitle.getSavedGameName() + "/" + Config.VICTORY_DIRECTORY_NAME + "/" + side.toString() + "Victory.json";
         log.info("Saving victory for side {} path: '{}'", side, fileName);
 
-        try {
-            Path path = Paths.get(fileName);
-            Files.createDirectories(path.getParent());
+        Path path = Paths.get(fileName);
 
-            if (!Files.exists(path)) {
-                Files.createFile(path);
+        try {
+            FileOutputStream out = new FileOutputStream(path.toString());
+
+            try (OutputStreamWriter writer = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
+
+                Files.createDirectories(Optional.ofNullable(path.getParent()).orElseThrow(IOException::new));
+
+                if (!Files.exists(path)) {
+                    Files.createFile(path);
+                }
+
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                String json = gson.toJson(data);
+
+                writer.write(json);
+
+            } catch (IOException ex) {
+                log.error("Unable to save victory '{}'", fileName, ex);
             }
 
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String json = gson.toJson(data);
-
-            FileWriter writer = new FileWriter(fileName);
-            writer.write(json);
-            writer.close();
-
-        } catch (IOException ex) {
-            log.error("Unable to save victory '{}'", fileName, ex);
+        } catch (FileNotFoundException ex) {
+            log.error("Unable to save victory '{}' file not found.", fileName, ex);
         }
 
     }
