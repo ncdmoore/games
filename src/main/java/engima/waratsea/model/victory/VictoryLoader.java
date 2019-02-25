@@ -58,11 +58,7 @@ public class VictoryLoader {
      * @throws VictoryException An error occurred while attempting to read the default victory data.
      */
     public VictoryConditions load(final Scenario scenario, final Side side) throws VictoryException {
-        if (config.getType() == GameType.NEW) {
-            return readNew(scenario, side);
-        } else {
-            return readExisting(scenario, side);
-        }
+        return (config.getType() == GameType.NEW) ? readNew(scenario, side) : readExisting(scenario, side);
     }
 
     /**
