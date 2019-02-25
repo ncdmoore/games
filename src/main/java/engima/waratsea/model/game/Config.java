@@ -14,6 +14,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -40,9 +42,14 @@ public final class Config {
     private static final MultiKeyMap<String, String> FILE_NAME_MAP = new MultiKeyMap<>();
     static {
         FILE_NAME_MAP.put(Side.ALLIES.toString(), TaskForce.class.getSimpleName(), ALLIES_TASK_FORCE_FILE_NAME);
-        FILE_NAME_MAP.put(Side.AXIS.toString(), TaskForce.class.getSimpleName(), AXIS_TASK_FORCE_FILE_NAME);
-        FILE_NAME_MAP.put(Side.ALLIES.toString(), Victory.class.getSimpleName(), ALLIED_VICTORY_FILE_NAME);
-        FILE_NAME_MAP.put(Side.AXIS.toString(), Victory.class.getSimpleName(), AXIS_VICTORY_FILE_NAME);
+        FILE_NAME_MAP.put(Side.AXIS.toString(),   TaskForce.class.getSimpleName(), AXIS_TASK_FORCE_FILE_NAME);
+        FILE_NAME_MAP.put(Side.ALLIES.toString(), Victory.class.getSimpleName(),   ALLIED_VICTORY_FILE_NAME);
+        FILE_NAME_MAP.put(Side.AXIS.toString(),   Victory.class.getSimpleName(),   AXIS_VICTORY_FILE_NAME);
+    }
+
+    private static final Map<Class<?>, String> DEFAULT_FILE_NAME_MAP = new HashMap<>();
+    static {
+        DEFAULT_FILE_NAME_MAP.put(Victory.class, VICTORY_DIRECTORY_NAME);
     }
 
     private static final String DEFAULT_SAVED_GAME = "/defaultGame";
@@ -74,7 +81,6 @@ public final class Config {
         savedGameName = DEFAULT_SAVED_GAME;
     }
 
-
     /**
      * Get the task force URL.
      *
@@ -82,48 +88,37 @@ public final class Config {
      * @return The task force URL.
      */
     public Optional<URL> getTaskForceURL(final Side side) {
-        return (type == GameType.NEW) ? getNewTaskForceURL(side) : getSavedURL(side, TaskForce.class);
+        return (type == GameType.NEW) ? getScenarioURL(side, TaskForce.class) : getSavedURL(side, TaskForce.class);
     }
 
     /**
-     * Get the new task force URL. This URL maps to the task force files in the scenario directory.
+     * Get the scenario URL. This URL maps to a file in the scenario directory.
 
      * @param side The side ALLIES or AXIS.
+     * @param clazz The entity class.
      * @return The task force URL.
      */
-    private Optional<URL> getNewTaskForceURL(final Side side) {
-        String entityName = TaskForce.class.getSimpleName();
+    public Optional<URL> getScenarioURL(final Side side, final Class<?> clazz) {
+        String entityName = clazz.getSimpleName();
         String fileName = gameTitle.getValue() + SCENARIO_DIRECTORY_NAME + "/" + scenario.getName() + "/" + FILE_NAME_MAP.get(side.toString(), entityName);
-        log.info("Task force URL: '{}'", fileName);
+        log.info("'{}' URL: '{}'", entityName, fileName);
         return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
     }
 
     /**
-     * Get the default victory URL. This URL maps to the default victory folder for the game.
+     * Get the default URL. This URL maps to the default folder of the game for the given entity.
      *
+     * @param clazz The entity class.
      * @return The default victory URL.
      */
-    public Optional<URL> getDefaultVictoryURL() {
-        String fileName = VICTORY_DIRECTORY_NAME + "/default.json";
-        log.info("Default Victory URL: '{}", fileName);
+    public Optional<URL> getDefaultURL(final Class<?> clazz) {
+        String fileName = DEFAULT_FILE_NAME_MAP.get(clazz) + "/default.json";
+        log.info("Default '{}' URL: '{}'", clazz.getSimpleName(), fileName);
         return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
     }
 
     /**
-     * Get the scenario victory URL. This URL maps to the victory files in the scenario directory.
-     *
-     * @param side The side ALLIES or AXIS.
-     * @return The scenario victory URL.
-     */
-    public Optional<URL> getScenarioVictoryURL(final Side side) {
-        String entityName = Victory.class.getSimpleName();
-        String fileName = gameTitle.getValue() + "/scenarios/" + scenario.getName() + "/" + FILE_NAME_MAP.get(side.toString(), entityName);
-        log.info("Scenario Victory URL: '{}'", fileName);
-        return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
-    }
-
-    /**
-     * Get the saved URL of the given entity.
+     * Get the saved URL of the given entity. This URL maps to a file in the current saved game directory.
      *
      * @param side The side ALLIES or AXIS.
      * @param clazz The entity class.
@@ -135,13 +130,13 @@ public final class Config {
         try {
             return Optional.of(path.toUri().toURL());
         } catch (MalformedURLException ex) {
-            log.error("Bad url {}", path);
+            log.error("Bad url '{}'", path);
             return Optional.empty();
         }
     }
 
     /**
-     * Get the file path of the entity's saved file for the current game.
+     * Get the saved file path of the given entity. This path maps to a file in the current saved game directory.
      *
      * @param side The side ALLIES or AXIS.
      * @param clazz The entity class.
@@ -150,7 +145,7 @@ public final class Config {
     public String getSavedFileName(final Side side, final Class<?> clazz) {
         String entityName = clazz.getSimpleName();
         String fileName = SAVED_GAME_DIRECTORY + scenario.getName() + savedGameName + "/"  + FILE_NAME_MAP.get(side.toString(), entityName);
-        log.info("{} URL: '{}'", entityName, fileName);
+        log.info("'{}' URL: '{}'", entityName, fileName);
         return fileName;
     }
 

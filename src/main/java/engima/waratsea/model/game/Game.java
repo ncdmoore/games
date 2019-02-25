@@ -89,7 +89,7 @@ public class Game {
      *
      * @param selectedScenario The selected scenario.
      */
-    public void setScenario(final Scenario selectedScenario) {
+    public void setScenario(final Scenario selectedScenario) {                                                          // New Game Step 2.
         scenario = selectedScenario;
         config.setScenario(scenario);
     }
@@ -126,7 +126,7 @@ public class Game {
      * @throws MapException Indicates the map data could not be loaded.
      * @throws VictoryException Indicates the victory data could not be loaded.
      */
-    public void startNew() throws ScenarioException, MapException, VictoryException {                                      // New Game Step 3.
+    public void startNew() throws ScenarioException, MapException, VictoryException {                                   // New Game Step 3.
         GameEvent.init();
 
         loadGameMap();

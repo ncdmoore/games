@@ -134,7 +134,7 @@ public class VictoryLoader {
     private VictoryConditionsData loadDefaultVictoryData() throws VictoryException {
         log.info("Load default victory");
         return config
-                .getDefaultVictoryURL()
+                .getDefaultURL(Victory.class)
                 .map(this::readVictory)
                 .orElseThrow(() -> new VictoryException("Unable to load default victory"));
     }
@@ -150,7 +150,7 @@ public class VictoryLoader {
     private VictoryConditionsData loadScenarioVictoryData(final Scenario scenario, final Side side) throws VictoryException {
         log.info("Load scenario victory, scenario: '{}', side: '{}'", scenario.getTitle(), side);
         return config
-                .getScenarioVictoryURL(side)
+                .getScenarioURL(side, Victory.class)
                 .map(this::readVictory)
                 .orElseThrow(() -> new VictoryException("Unable to load victory for side " + side, "warn"));
     }
