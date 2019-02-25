@@ -41,12 +41,12 @@ public class Game {
 
     private final Map<Side, Player> players = new HashMap<>();
 
+    private final Config config;
     private final ScenarioLoader scenarioLoader;
     private final GameMap gameMap;
     private final Victory gameVictory;
 
     @Getter
-    @Setter
     private Scenario scenario;
 
     /**
@@ -54,6 +54,7 @@ public class Game {
      *
      * @param humanPlayer The human player.
      * @param computerPlayer The computer player.
+     * @param config The game config.
      * @param gameMap The game map.
      * @param gameVictory The game victory conditions and status.
      * @param scenarioLoader Loads player task forces.
@@ -61,9 +62,11 @@ public class Game {
     @Inject
     public Game(@Named("Human") final Player humanPlayer,
                 @Named("Computer") final Player computerPlayer,
+                final Config config,
                 final GameMap gameMap,
                 final Victory gameVictory,
                 final ScenarioLoader scenarioLoader) {
+        this.config = config;
         this.humanPlayer = humanPlayer;
         this.computerPlayer = computerPlayer;
         this.gameMap = gameMap;
@@ -78,7 +81,17 @@ public class Game {
      * @throws ScenarioException Indicates the scenario summary data could not be loaded.
      */
     public List<Scenario> initScenarios() throws ScenarioException {                                                    // New Game Step 1.
-        return scenarioLoader.loadSummaries();
+        return scenarioLoader.load();
+    }
+
+    /**
+     * Set the game's selected scenario.
+     *
+     * @param selectedScenario The selected scenario.
+     */
+    public void setScenario(final Scenario selectedScenario) {
+        scenario = selectedScenario;
+        config.setScenario(scenario);
     }
 
     /**
@@ -158,5 +171,7 @@ public class Game {
      */
     private void save() {
         gameVictory.save(scenario);
+        humanPlayer.saveAssets(scenario);
+        computerPlayer.saveAssets(scenario);
     }
 }

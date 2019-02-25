@@ -3,6 +3,7 @@ package engima.waratsea.model.game.event.ship;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.sun.istack.internal.NotNull;
+import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.Asset;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.data.ShipMatchData;
@@ -23,7 +24,7 @@ import java.util.stream.Stream;
  * class to detect if the wanted event has occurred.
  */
 @Slf4j
-public class ShipEventMatcher {
+public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     @Getter
     @Setter
     private String action;  // The action to match.
@@ -87,6 +88,7 @@ public class ShipEventMatcher {
      *
      * @return The corresponding ship match data.
      */
+    @Override
     public ShipMatchData getData() {
         ShipMatchData data = new ShipMatchData();
         data.setAction(action);

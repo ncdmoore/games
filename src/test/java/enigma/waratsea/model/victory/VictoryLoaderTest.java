@@ -2,7 +2,7 @@ package enigma.waratsea.model.victory;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import engima.waratsea.model.game.Game;
+import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.GameType;
 import engima.waratsea.model.game.Side;
@@ -24,12 +24,15 @@ import static java.util.stream.Collectors.toList;
 
 public class VictoryLoaderTest {
     private static VictoryLoader loader;
+    private static Config config;
     private static GameTitle gameTitle;
 
     @BeforeClass
     public static void setup() {
         Injector injector = Guice.createInjector(new TestModule());
+
         gameTitle = injector.getInstance(GameTitle.class);
+        config = injector.getInstance(Config.class);
         loader = injector.getInstance(VictoryLoader.class);
 
         gameTitle.setValue("bombAlley");
@@ -44,9 +47,10 @@ public class VictoryLoaderTest {
         scenario.setTitle("The first Sortie");
         scenario.setMap("june1940");
 
+        config.setScenario(scenario);
 
-        VictoryConditions alliedVictory = loader.read(scenario, Side.ALLIES);
-        VictoryConditions axisVictory = loader.read(scenario, Side.AXIS);
+        VictoryConditions alliedVictory = loader.load(scenario, Side.ALLIES);
+        VictoryConditions axisVictory = loader.load(scenario, Side.AXIS);
 
         List<ShipVictory> alliedShips = Deencapsulation.getField(alliedVictory, "defaultShips");
 
@@ -79,15 +83,14 @@ public class VictoryLoaderTest {
         scenario.setTitle("Soldiers For Malta");
         scenario.setMap("june1940");
 
-        VictoryConditions alliedVictory = loader.read(scenario, Side.ALLIES);
+        config.setScenario(scenario);
+        VictoryConditions alliedVictory = loader.load(scenario, Side.ALLIES);
 
         List<RequiredShipVictory> requiredAlliedShips = Deencapsulation.getField(alliedVictory, "requiredShips");
 
         Assert.assertNotNull(requiredAlliedShips);
         Assert.assertFalse(requiredAlliedShips.isEmpty());
     }
-
-
 
     @Test
     public void testSavedGameVictoryLoading() throws Exception {
@@ -96,12 +99,14 @@ public class VictoryLoaderTest {
         scenario.setTitle("The First Sortie");
         scenario.setMap("june1940");
 
-        VictoryConditions alliedVictory = loader.read(scenario, Side.ALLIES);
+        config.setScenario(scenario);
+
+        VictoryConditions alliedVictory = loader.load(scenario, Side.ALLIES);
         loader.save(scenario, Side.ALLIES, alliedVictory.getData());
 
-        gameTitle.setType(GameType.EXISTING);
+        config.setType(GameType.EXISTING);
 
-        alliedVictory = loader.read(scenario, Side.ALLIES);
+        alliedVictory = loader.load(scenario, Side.ALLIES);
 
         List<RequiredShipVictory> defaultShips = Deencapsulation.getField(alliedVictory, "defaultShips");
 

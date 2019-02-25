@@ -2,33 +2,24 @@ package engima.waratsea.model.victory;
 
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Config;
-import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.GameType;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.victory.data.VictoryConditionsData;
+import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * This class loads the victory data from the victory json files.
@@ -41,29 +32,19 @@ import java.util.Optional;
 @Slf4j
 @Singleton
 public class VictoryLoader {
-
-    private static final String ALLIED_VICTORY_FILE_NAME = "/alliesVictory.json";
-    private static final String AXIS_VICTORY_FILE_NAME = "/axisVictory.json";
-
-    private static final Map<Side, String> FILE_NAME_MAP = new HashMap<>();
-    static {
-        FILE_NAME_MAP.put(Side.ALLIES, ALLIED_VICTORY_FILE_NAME);
-        FILE_NAME_MAP.put(Side.AXIS, AXIS_VICTORY_FILE_NAME);
-    }
-
-    private GameTitle gameTitle;
+    private Config config;
     private VictoryConditionsFactory factory;
-    private VictoryConditionsData victoryConditionsData;
 
     /**
      * Constructor called by guice.
      *
-     * @param gameTitle The game title.
+     * @param config The game config
      * @param factory The victory conditions factory.
      */
     @Inject
-    public VictoryLoader(final GameTitle gameTitle, final VictoryConditionsFactory factory) {
-        this.gameTitle = gameTitle;
+    public VictoryLoader(final Config config,
+                         final VictoryConditionsFactory factory) {
+        this.config = config;
         this.factory = factory;
     }
 
@@ -76,8 +57,8 @@ public class VictoryLoader {
      * @return The Victory
      * @throws VictoryException An error occurred while attempting to read the default victory data.
      */
-    public VictoryConditions read(final Scenario scenario, final Side side) throws VictoryException {
-        if (gameTitle.getType() == GameType.NEW) {
+    public VictoryConditions load(final Scenario scenario, final Side side) throws VictoryException {
+        if (config.getType() == GameType.NEW) {
             return readNew(scenario, side);
         } else {
             return readExisting(scenario, side);
@@ -94,7 +75,7 @@ public class VictoryLoader {
      * @throws VictoryException An error occurred while attempting to read the default victory data.
      */
     private VictoryConditions readNew(final Scenario scenario, final Side side) throws VictoryException {
-        victoryConditionsData = loadDefaultVictoryData();
+        VictoryConditionsData victoryConditionsData = loadDefaultVictoryData();
 
         try {
             // Create the specific scenario's victory conditions.
@@ -138,36 +119,9 @@ public class VictoryLoader {
      * @param data The victory conditions data that is saved.
      */
     public void save(final Scenario scenario, final Side side, final VictoryConditionsData data) {
-
-        String fileName = Config.SAVED_GAME_DIRECTORY + scenario.getName() + gameTitle.getSavedGameName() + "/" + Config.VICTORY_DIRECTORY_NAME + "/" + side.toString() + "Victory.json";
-        log.info("Saving victory for side {} path: '{}'", side, fileName);
-
-        Path path = Paths.get(fileName);
-
-        try {
-            FileOutputStream out = new FileOutputStream(path.toString());
-
-            try (OutputStreamWriter writer = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
-
-                Files.createDirectories(Optional.ofNullable(path.getParent()).orElseThrow(IOException::new));
-
-                if (!Files.exists(path)) {
-                    Files.createFile(path);
-                }
-
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                String json = gson.toJson(data);
-
-                writer.write(json);
-
-            } catch (IOException ex) {
-                log.error("Unable to save victory '{}'", fileName, ex);
-            }
-
-        } catch (FileNotFoundException ex) {
-            log.error("Unable to save victory '{}' file not found.", fileName, ex);
-        }
-
+        log.info("Saving victory, scenario: {}, side: {}", scenario.getTitle(), side);
+        String fileName = config.getSavedFileName(side, Victory.class);
+        PersistentUtility.save(fileName, data);
     }
 
     /**
@@ -178,9 +132,10 @@ public class VictoryLoader {
      * @throws VictoryException An error occurred while attempting to read the victory data.
      */
     private VictoryConditionsData loadDefaultVictoryData() throws VictoryException {
-        String path = Config.VICTORY_DIRECTORY_NAME + "/default.json";
-        Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(path));
-        return url.map(this::readVictory)
+        log.info("Load default victory");
+        return config
+                .getDefaultVictoryURL()
+                .map(this::readVictory)
                 .orElseThrow(() -> new VictoryException("Unable to load default victory"));
     }
 
@@ -193,9 +148,10 @@ public class VictoryLoader {
      * @throws VictoryException Indicates that an error occurred while attempting to read the scenario victory data.
      */
     private VictoryConditionsData loadScenarioVictoryData(final Scenario scenario, final Side side) throws VictoryException {
-        String path = gameTitle.getValue() + "/scenarios/" + scenario.getName() + FILE_NAME_MAP.get(side);
-        Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(path));
-        return url.map(this::readVictory)
+        log.info("Load scenario victory, scenario: '{}', side: '{}'", scenario.getTitle(), side);
+        return config
+                .getScenarioVictoryURL(side)
+                .map(this::readVictory)
                 .orElseThrow(() -> new VictoryException("Unable to load victory for side " + side, "warn"));
     }
 
@@ -208,14 +164,11 @@ public class VictoryLoader {
      * @throws VictoryException Indicates that an error occured while attempting to read the saved game victory data.
      */
     private VictoryConditionsData loadSavedGameVictoryData(final Scenario scenario, final Side side) throws VictoryException {
-        String fileName = Config.SAVED_GAME_DIRECTORY + scenario.getName()  + gameTitle.getSavedGameName() + "/" + Config.VICTORY_DIRECTORY_NAME + "/" + side.toString() + "Victory.json";
-        Path path = Paths.get(fileName);
-        try {
-            URL url = path.toUri().toURL();
-            return readVictory(url);
-        } catch (MalformedURLException ex) {
-            throw new VictoryException("Unable to load saved game victory for side " + side);
-        }
+        log.info("Load victory, scenario: '{}', side: '{}'", scenario.getTitle(), side);
+        return config
+                .getSavedURL(side, Victory.class)
+                .map(this::readVictory)
+                .orElseThrow(() -> new VictoryException("Unable to load saved game victory for side " + side));
     }
 
     /**

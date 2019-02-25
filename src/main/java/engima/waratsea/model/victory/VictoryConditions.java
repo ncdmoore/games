@@ -7,6 +7,7 @@ import engima.waratsea.model.game.event.GameEvent;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.victory.data.ShipVictoryData;
 import engima.waratsea.model.victory.data.VictoryConditionsData;
+import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -115,9 +116,9 @@ public class VictoryConditions {
         VictoryConditionsData data = new VictoryConditionsData();
         data.setObjectives(objectives);
         data.setTotalVictoryPoints(totalVictoryPoints);
-        data.setDefaultShip(getVictoryData(defaultShips));
-        data.setScenarioShip(getVictoryData(scenarioShips));
-        data.setRequiredShip(getVictoryData(requiredShips));
+        data.setDefaultShip(PersistentUtility.getData(defaultShips));
+        data.setScenarioShip(PersistentUtility.getData(scenarioShips));
+        data.setRequiredShip(PersistentUtility.getData(requiredShips));
 
         return data;
     }
@@ -130,20 +131,6 @@ public class VictoryConditions {
     public boolean requirementsMet() {
         return conditionMet(scenarioShips)
                 && conditionMet(requiredShips);
-    }
-
-    /**
-     * Get the ship victory data.
-     *
-     * @param shipVictoryConditions The ship victory conditions for which the data is returned.
-     * @return The corresponding data of the ship victory conditions is returned.
-     */
-    private List<ShipVictoryData> getVictoryData(final List<ShipVictoryCondition> shipVictoryConditions) {
-        return Optional.ofNullable(shipVictoryConditions)
-                .orElseGet(Collections::emptyList)
-                .stream()
-                .map(ShipVictoryCondition::getData)
-                .collect(Collectors.toList());
     }
 
     /**

@@ -2,6 +2,7 @@ package engima.waratsea.model.taskForce;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
 import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
@@ -18,7 +19,10 @@ import engima.waratsea.model.ships.ShipType;
 import engima.waratsea.model.ships.Shipyard;
 import engima.waratsea.model.ships.ShipyardException;
 import engima.waratsea.model.target.Target;
+import engima.waratsea.model.target.TargetFactory;
+import engima.waratsea.model.target.data.TargetData;
 import engima.waratsea.model.taskForce.data.TaskForceData;
+import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -35,13 +39,12 @@ import java.util.stream.Stream;
  * This class represents a task force, which is a collection of ships.
  */
 @Slf4j
-public class TaskForce  {
+public class TaskForce implements PersistentData<TaskForceData> {
+    private final Side side;
 
     @Getter
     @Setter
     private String name;
-
-    private final Side side;
 
     @Getter
     @Setter
@@ -88,6 +91,7 @@ public class TaskForce  {
     private GameMap gameMap;
     private Shipyard shipyard;
     private ShipEventMatcherFactory shipEventMatcherFactory;
+    private TargetFactory targetFactory;
 
     /**
      * Constructor of Task Force called by guice.
@@ -97,23 +101,28 @@ public class TaskForce  {
      * @param gameMap The game map.
      * @param shipyard builds ships from ship names and side.
      * @param shipEventMatcherFactory Factory for creating ship event matchers.
+     * @param targetFactory Factory for creating ship targets.
      */
     @Inject
     public TaskForce(@Assisted final Side side,
                      @Assisted final TaskForceData data,
                                final GameMap gameMap,
                                final Shipyard shipyard,
-                               final ShipEventMatcherFactory shipEventMatcherFactory) {
+                               final ShipEventMatcherFactory shipEventMatcherFactory,
+                               final TargetFactory targetFactory) {
+
+        this.shipEventMatcherFactory = shipEventMatcherFactory;
+        this.targetFactory = targetFactory;
+
         this.side = side;
         name = data.getName();
         title = data.getTitle();
         mission = data.getMission();
-        targets = data.getTargets();
+        targets = createTargets(data.getTargets());
         state = data.getState();
 
         this.gameMap = gameMap;
         this.shipyard = shipyard;
-        this.shipEventMatcherFactory = shipEventMatcherFactory;
 
         setLocation(data.getLocation());
         buildShips(data.getShips());
@@ -124,6 +133,42 @@ public class TaskForce  {
         buildTurnEvents(data.getReleaseTurnEvents());
 
         finish();
+    }
+
+    /**
+     * Get the persistent task force data.
+     *
+     * @return The data of the task force that is persisted.
+     */
+    @Override
+    public TaskForceData getData() {
+        TaskForceData data = new TaskForceData();
+        data.setName(name);
+        data.setTitle(title);
+        data.setMission(mission);
+        data.setTargets(PersistentUtility.getData(targets));
+        data.setState(state);
+        data.setLocation(location);
+        data.setShips(getShipNames(ships));
+        data.setCargoShips(getShipNames(cargoShips));
+        data.setReleaseShipEvents(PersistentUtility.getData(releaseShipEvents));
+        data.setReleaseTurnEvents(PersistentUtility.getData(releaseTurnEvents));
+
+        return data;
+    }
+
+    /**
+     * Create the task force targets.
+     *
+     * @param targetData Task force target data read in from a JSON file.
+     * @return A list of Task force targets.
+     */
+    private List<Target> createTargets(final List<TargetData> targetData) {
+        return Optional.ofNullable(targetData)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(targetFactory::create)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -265,6 +310,18 @@ public class TaskForce  {
             log.error("Unable to build ship '{}' for side {}", shipId.getName(), shipId.getSide());
             return null;
         }
+    }
+
+    /**
+     * Get the ship names from the given list of ships.
+     *
+     * @param shipList A list of ships.
+     * @return List of ship names.
+     */
+    private List<String> getShipNames(final List<Ship> shipList) {
+        return shipList.stream()
+                .map(Ship::getName)
+                .collect(Collectors.toList());
     }
 
     /**

@@ -38,8 +38,8 @@ public class Victory {
      * @throws VictoryException Indicates that the victory conditions could not be loaded.
      */
     public void load(final Scenario scenario) throws VictoryException {
-        conditions.put(Side.ALLIES, loader.read(scenario, Side.ALLIES));
-        conditions.put(Side.AXIS, loader.read(scenario, Side.AXIS));
+        conditions.put(Side.ALLIES, loader.load(scenario, Side.ALLIES));
+        conditions.put(Side.AXIS, loader.load(scenario, Side.AXIS));
     }
 
     /**

@@ -1,12 +1,13 @@
 package engima.waratsea.model.victory;
 
+import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.victory.data.ShipVictoryData;
 
 /**
  * Represents a ship victory condition.
  */
-public interface ShipVictoryCondition {
+public interface ShipVictoryCondition extends PersistentData<ShipVictoryData> {
     /**
      * Indicates that the victory condition was satisfied.
      *
@@ -36,5 +37,6 @@ public interface ShipVictoryCondition {
      *
      * @return The corresponding persistent ship victory data.
      */
+    @Override
     ShipVictoryData getData();
 }

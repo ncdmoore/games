@@ -6,9 +6,9 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
 import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
-import engima.waratsea.model.game.event.ship.data.ShipMatchData;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.victory.data.ShipVictoryData;
+import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,7 +65,7 @@ public class RequiredShipVictory implements ShipVictoryCondition {
     @Override
     public ShipVictoryData getData() {
         ShipVictoryData data = new ShipVictoryData();
-        data.setEvents(getVictoryData());
+        data.setEvents(PersistentUtility.getData(matchers));
         data.setRequirementMet(requirementMet);
         return data;
     }
@@ -98,14 +98,5 @@ public class RequiredShipVictory implements ShipVictoryCondition {
     @Override
     public int getPoints(final ShipEvent event) {
         return 0;
-    }
-
-    /**
-     * Get the victory data. This is the data that is read and written.
-     *
-     * @return The corresponding victory data
-     */
-    private List<ShipMatchData> getVictoryData() {
-        return matchers.stream().map(ShipEventMatcher::getData).collect(Collectors.toList());
     }
 }

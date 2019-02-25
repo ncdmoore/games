@@ -7,8 +7,9 @@ import engima.waratsea.model.port.Port;
 import engima.waratsea.model.port.PortLoader;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
-import engima.waratsea.model.scenario.ScenarioLoader;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.model.taskForce.TaskForceLoader;
+import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
 import engima.waratsea.model.game.Side;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public class ComputerPlayer implements Player {
 
-    private ScenarioLoader scenarioLoader;
+    private TaskForceLoader taskForceLoader;
     private AirfieldLoader airfieldBuilder;
     private PortLoader portBuilder;
 
@@ -39,15 +40,15 @@ public class ComputerPlayer implements Player {
 
     /**
      * Constructor called by guice.
-     * @param scenarioLoader Loads scenario data.
+     * @param taskForceLoader Loads scenario data.
      * @param airfieldBuilder Loads airfield data.
      * @param portBuilder Loads port data.
      */
     @Inject
-    public ComputerPlayer(final ScenarioLoader scenarioLoader,
+    public ComputerPlayer(final TaskForceLoader taskForceLoader,
                           final AirfieldLoader airfieldBuilder,
                           final PortLoader portBuilder) {
-        this.scenarioLoader = scenarioLoader;
+        this.taskForceLoader = taskForceLoader;
         this.airfieldBuilder = airfieldBuilder;
         this.portBuilder = portBuilder;
     }
@@ -58,10 +59,20 @@ public class ComputerPlayer implements Player {
      */
     @Override
     public void buildAssets(final Scenario scenario) throws ScenarioException {
-        taskForces = scenarioLoader.loadTaskForce(scenario, side);
+        taskForces = taskForceLoader.load(scenario, side);
 
         //Note the airfields and ports used depend upon the map which is set by the scenario.
         airfields = airfieldBuilder.build(side);
         ports = portBuilder.build(side);
+    }
+
+    /**
+     * This saves the player's assets.
+     *
+     * @param scenario The selected scenario.
+     */
+    @Override
+    public void saveAssets(final Scenario scenario) {
+        taskForceLoader.save(scenario, side, PersistentUtility.getData(taskForces));
     }
 }

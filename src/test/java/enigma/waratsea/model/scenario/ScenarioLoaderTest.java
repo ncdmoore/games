@@ -2,16 +2,17 @@ package enigma.waratsea.model.scenario;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.GameTitle;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioLoader;
+import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.model.taskForce.TaskForceLoader;
+import engima.waratsea.model.weather.WeatherType;
 import enigma.waratsea.TestModule;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import engima.waratsea.model.AppProps;
-import engima.waratsea.model.game.Side;
-import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.model.weather.WeatherType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +22,7 @@ import java.util.List;
 public class ScenarioLoaderTest {
 
     private static GameTitle gameTitle;
+    private static Config config;
     private static Injector injector;
 
 
@@ -31,7 +33,9 @@ public class ScenarioLoaderTest {
     public static void setup() {
         injector = Guice.createInjector(new TestModule());
 
-        gameTitle = injector.getInstance(GameTitle.class);                                                              //The game instance must be injected first!
+        gameTitle = injector.getInstance(GameTitle.class);
+        config = injector.getInstance(Config.class);
+
     }
 
     @Test
@@ -51,10 +55,9 @@ public class ScenarioLoaderTest {
 
         try {
             gameTitle.setValue(gameName);
-            AppProps props = injector.getInstance(AppProps.class);                                                      // Load the main application properties.
-            ScenarioLoader scenarioLoader = injector.getInstance(ScenarioLoader.class);
+            ScenarioLoader loader = injector.getInstance(ScenarioLoader.class);
 
-            List<Scenario> scenarios = scenarioLoader.loadSummaries();
+            List<Scenario> scenarios = loader.load();
 
             assert (!scenarios.isEmpty());                                                                              // Ensure that at least one scenario was loaded.
 
@@ -71,17 +74,20 @@ public class ScenarioLoaderTest {
     private void taskForceLoading(String gameName, String scenarioName)  {
 
         try {
-            gameTitle.setValue(gameName);
-            ScenarioLoader scenarioLoader = injector.getInstance(ScenarioLoader.class);
-
             Scenario scenario = new Scenario();
             scenario.setName(scenarioName);
+            scenario.setTitle(scenarioName);
 
-            List<TaskForce> taskForces = scenarioLoader.loadTaskForce(scenario, Side.ALLIES);
+            gameTitle.setValue(gameName);
+            config.setScenario(scenario);
+
+            TaskForceLoader loader = injector.getInstance(TaskForceLoader.class);
+
+            List<TaskForce> taskForces = loader.load(scenario, Side.ALLIES);
 
             assert (!taskForces.isEmpty());
 
-            taskForces = scenarioLoader.loadTaskForce(scenario, Side.AXIS);
+            taskForces = loader.load(scenario, Side.AXIS);
 
             assert (!taskForces.isEmpty());
         } catch (Exception ex) {

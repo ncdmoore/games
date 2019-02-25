@@ -41,7 +41,7 @@ public class RegionTest {
 
         gameTitle.setValue(gameName);
 
-        List<Scenario> scenarios = scenarioLoader.loadSummaries();
+        List<Scenario> scenarios = scenarioLoader.load();
         scenarios.forEach(this::loadRegion);
     }
 

@@ -19,6 +19,8 @@ import engima.waratsea.model.ships.AircraftCarrier;
 import engima.waratsea.model.ships.Ship;
 import engima.waratsea.model.ships.ShipFactory;
 import engima.waratsea.model.ships.SurfaceShip;
+import engima.waratsea.model.target.Target;
+import engima.waratsea.model.target.TargetFactory;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.victory.RequiredShipVictory;
@@ -58,6 +60,7 @@ public class BasicModule extends AbstractModule {
 
         install(new FactoryModuleBuilder().implement(Airfield.class, Airfield.class).build(AirfieldFactory.class));
         install(new FactoryModuleBuilder().implement(Port.class, Port.class).build(PortFactory.class));
+        install(new FactoryModuleBuilder().implement(Target.class, Target.class).build(TargetFactory.class));
 
         install(new FactoryModuleBuilder().implement(ShipEventMatcher.class, ShipEventMatcher.class).build(ShipEventMatcherFactory.class));
         install(new FactoryModuleBuilder().implement(AirfieldEventMatcher.class, AirfieldEventMatcher.class).build(AirfieldEventMatcherFactory.class));
