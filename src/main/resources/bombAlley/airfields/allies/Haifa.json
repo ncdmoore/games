@@ -1,6 +1,6 @@
 {
   "name"     : "Haifa",
   "province" : "Palestine",
-  "capacity" : 10,
+  "maxCapacity" : 10,
   "antiAir"       : 4
 }

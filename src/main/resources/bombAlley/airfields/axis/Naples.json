@@ -1,6 +1,6 @@
 {
   "name"     : "Naples",
   "province" : "Italy",
-  "capacity" : 30,
+  "maxCapacity" : 30,
   "antiAir"       : 20
 }

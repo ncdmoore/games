@@ -1,6 +1,6 @@
 {
   "name"     : "Comiso",
   "province" : "Sicily",
-  "capacity" : 20,
+  "maxCapacity" : 20,
   "antiAir"       : 10
 }

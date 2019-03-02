@@ -1,6 +1,6 @@
 {
   "name"     : "Suda Bay",
   "province" : "Crete",
-  "capacity" : 10,
+  "maxCapacity" : 10,
   "antiAir"       : 3
 }

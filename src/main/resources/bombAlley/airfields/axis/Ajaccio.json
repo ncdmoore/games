@@ -1,6 +1,6 @@
 {
   "name"     : "Ajaccio",
   "province" : "Corsica",
-  "capacity" : 10,
+  "maxCapacity" : 10,
   "antiAir"       : 3
 }

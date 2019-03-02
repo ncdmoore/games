@@ -1,6 +1,6 @@
 {
   "name"     : "Bizerte",
   "province" : "Tunisia",
-  "capacity" : 20,
+  "maxCapacity" : 20,
   "antiAir"       : 5
 }

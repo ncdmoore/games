@@ -79,7 +79,7 @@ public class ScenarioLoaderTest {
             scenario.setTitle(scenarioName);
 
             gameTitle.setValue(gameName);
-            config.setScenario(scenario);
+            config.setScenario(scenario.getName());
 
             TaskForceLoader loader = injector.getInstance(TaskForceLoader.class);
 

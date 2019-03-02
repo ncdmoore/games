@@ -1,6 +1,6 @@
 {
   "name"     : "Benghazi",
   "province" : "Libya",
-  "capacity" : 20,
+  "maxCapacity" : 20,
   "antiAir"       : 6
 }

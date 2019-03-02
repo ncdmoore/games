@@ -64,8 +64,8 @@ public class HumanPlayer implements Player {
         taskForces = taskForceLoader.load(scenario, side);
 
         //Note the airfields and ports used depend upon the map which is set by the scenario.
-        airfields = airfieldBuilder.build(side);
-        ports = portBuilder.build(side);
+        airfields = airfieldBuilder.load(side);
+        ports = portBuilder.load(side);
     }
 
     /**
@@ -76,6 +76,8 @@ public class HumanPlayer implements Player {
     @Override
     public void saveAssets(final Scenario scenario) {
         taskForceLoader.save(scenario, side, PersistentUtility.getData(taskForces));
+        portBuilder.save(scenario, side, PersistentUtility.getData(ports));
+        airfieldBuilder.save(scenario, side, PersistentUtility.getData(airfields));
     }
 
 }

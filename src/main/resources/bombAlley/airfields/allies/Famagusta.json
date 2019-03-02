@@ -1,6 +1,6 @@
 {
   "name"     : "Famagusta",
   "province" : "Cyprus",
-  "capacity" : 8,
+  "maxCapacity" : 8,
   "antiAir"       : 3
 }

@@ -14,7 +14,12 @@ public class AirfieldData {
 
     @Getter
     @Setter
-    private int capacity;   //Capacity in steps.
+    private int maxCapacity;   //Capacity in steps.
+
+    @Getter
+    @Setter
+    private int capacity;
+
 
     @Getter
     @Setter

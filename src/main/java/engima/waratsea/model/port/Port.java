@@ -2,6 +2,7 @@ package engima.waratsea.model.port;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.port.data.PortData;
 import lombok.Getter;
@@ -9,13 +10,12 @@ import lombok.Getter;
 /**
  * Represents a port within the game.
  */
-public class Port {
+public class Port implements PersistentData<PortData> {
+    @Getter
+    private final Side side;
 
     @Getter
     private final String name;
-
-    @Getter
-    private final Side side;
 
     @Getter
     private final String size;
@@ -35,4 +35,17 @@ public class Port {
         size = data.getSize();
     }
 
+
+    /**
+     * Get the persistent data.
+     *
+     * @return The persistent data.
+     */
+    @Override
+    public PortData getData() {
+       PortData data = new PortData();
+       data.setName(name);
+       data.setSize(size);
+       return data;
+    }
 }

@@ -1,6 +1,6 @@
 {
   "name"     : "Scarpanto",
   "province" : "Dodecanese",
-  "capacity" : 24,
+  "maxCapacity" : 24,
   "antiAir"       : 5
 }

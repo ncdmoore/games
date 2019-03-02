@@ -5,7 +5,6 @@ import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Config;
-import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.MapException;
 import engima.waratsea.model.map.region.data.RegionData;
@@ -19,44 +18,32 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * This class loads the map region data from the region json files.
  *
  * Each scenario specifies a map that consists of several json files.
- * The alliesBases.json file contains the allied bases (airfields and ports) available for this scenario.
- * The axisBases.json file contains the axis bases (airfields and ports) available for this scenario.
+ * The maps/allies/{date}.json file contains the allied bases (airfields and ports) available for this scenario.
+ * The maps/axis/{date}.json file contains the axis bases (airfields and ports) available for this scenario.
  */
 @Slf4j
 @Singleton
 public class RegionLoader {
-    private static final String ALLIES_BASES_FILE_NAME = "/alliesBases.json";
-    private static final String AXIS_BASES_FILE_NAME = "/axisBases.json";
-
-    private static final Map<Side, String> FILE_NAME_MAP = new HashMap<>();
-    static {
-        FILE_NAME_MAP.put(Side.ALLIES, ALLIES_BASES_FILE_NAME);
-        FILE_NAME_MAP.put(Side.AXIS, AXIS_BASES_FILE_NAME);
-    }
-
-    private GameTitle gameTitle;
+    private Config confg;
     private RegionFactory factory;
 
     /**
      * Constructor called by guice.
      *
-     * @param gameTitle The title of the game. Used to locate the region json files.
+     * @param config The game config
      * @param factory Factory for creating region objects.
      */
     @Inject
-    public RegionLoader(final GameTitle gameTitle,
+    public RegionLoader(final Config config,
                         final RegionFactory factory) {
-        this.gameTitle = gameTitle;
+        this.confg = config;
         this.factory = factory;
     }
 
@@ -82,10 +69,12 @@ public class RegionLoader {
      * @return A list of regions.
      */
     private List<Region> loadScenarioSpecific(final Scenario scenario, final Side side)  {
-        String path = gameTitle.getValue() + Config.SCENARIO_DIRECTORY_NAME + "/" + scenario.getName() + "/" + FILE_NAME_MAP.get(side);
-        Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(path));
-        List<Region> regions = url.map(u -> readRegions(scenario, u, side)).orElse(null);
-        log.info("Scenario: '{}' load specific regions: '{}', success: {}", new Object[]{scenario.getTitle(), path, regions != null});
+        List<Region> regions = confg
+                .getScenarioURL(side, Region.class)
+                .map(url -> readRegions(scenario, url, side))
+                .orElse(null);
+
+        log.info("Scenario: '{}' load specific regions, success: {}", new Object[]{scenario.getTitle(), regions != null});
         return regions;
     }
 
@@ -98,10 +87,10 @@ public class RegionLoader {
      * @throws MapException if the regions cannot be loaded.
      */
     private List<Region> loadDefault(final Scenario scenario, final Side side) throws MapException {
-        String path = gameTitle.getValue() + Config.MAP_DIRECTORY_NAME + "/" + scenario.getMap() + FILE_NAME_MAP.get(side);
-        log.info("Scenario: '{}' load default regions: '{}'", scenario.getTitle(), path);
-        Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(path));
-        return url.map(u -> readRegions(scenario, u, side))
+        log.info("Load regions for scenario: {}, side: {}", scenario.getTitle(), side);
+        return confg
+                .getGameURL(side, Region.class, scenario.getMap() + ".json")
+                .map(url -> readRegions(scenario, url, side))
                 .orElseThrow(() -> new MapException("Unable to load map for '" + scenario.getTitle() + "' for " + side));
     }
 

@@ -4,10 +4,11 @@ import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Config;
-import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.port.data.PortData;
+import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -29,31 +30,33 @@ import java.util.stream.Collectors;
 @Slf4j
 @Singleton
 public class PortLoader {
-    private GameTitle gameTitle;
+    private Config config;
     private GameMap gameMap;
     private PortFactory factory;
 
     /**
      * Constructor called by guice.
-     * @param gameTitle The game title.
+     *
+     * @param config The game config.
      * @param gameMap The game map.
      * @param factory The port factory.
      */
     @Inject
-    public PortLoader(final GameTitle gameTitle,
+    public PortLoader(final Config config,
                       final GameMap gameMap,
                       final PortFactory factory) {
-        this.gameTitle = gameTitle;
+        this.config = config;
         this.gameMap = gameMap;
         this.factory = factory;
     }
 
     /**
      * Build the ports.
+     *
      * @param side The airfield side ALLIES or AXIS.
      * @return A list of airfield objects.
      */
-    public List<Port> build(final Side side) {
+    public List<Port> load(final Side side) {
         return gameMap.getPorts(side)
                 .stream()
                 .map(port -> loadPortData(port, side))
@@ -63,20 +66,48 @@ public class PortLoader {
     }
 
     /**
+     * Save the ports. The allies and axis port data are saved in separate files.
+     *
+     * @param scenario The selected scenario.
+     * @param side  The side ALLIES or AXIS.
+     * @param data The port data that is saved.
+     */
+    public void save(final Scenario scenario, final Side side, final List<PortData> data) {
+        log.info("Saving ports, scenario: '{}',side {}", scenario.getTitle(), side);
+        data.forEach(port -> {
+            String fileName = config.getSavedFileName(side, Port.class, port.getName() + ".json");
+            PersistentUtility.save(fileName, port);
+        });
+    }
+
+    /**
      * Read the airfield  data from the JSON file.
+     *
      * @param portName The airfield to read.
      * @param side The side of the airfield. ALLIES or AXIS.
      * @return The airfield's cdata.
      */
     private PortData loadPortData(final String portName, final Side side)  {
-        String path = gameTitle.getValue() + Config.PORT_DIRECTORY_NAME + "/" + side.toString().toLowerCase() + "/" + portName + ".json";
-        Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(path));
-        return url.map(u -> readPort(portName, u, side))
+        return getURL(side, portName)
+                .map(url -> readPort(portName, url, side))
                 .orElseGet(() -> logError(portName));
     }
 
     /**
+     * Get the port URL.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @param portName The name of the port for which the URL is obtained.
+     * @return The port URL.
+     */
+    private Optional<URL> getURL(final Side side, final String portName) {
+        return config.isNew() ? config.getGameURL(side, Port.class, portName + ".json")    // Get a new game port.
+                : config.getSavedURL(side, Port.class, portName + ".json");                // Get a saved game port.
+    }
+
+    /**
      * Read the airfield data from the JSON file.
+     *
      * @param portName The name of the airfield.
      * @param url The url of the JSON file.
      * @param side The side: ALLIES or AXIS.
@@ -93,7 +124,7 @@ public class PortLoader {
                 log.info("load port {} for side {}", portName, side);
 
                 return portData;
-            } catch (Exception ex) {                                                                                        // Catch any Gson errors.
+            } catch (Exception ex) {                                                                                    // Catch any Gson errors.
                 log.error("Unable to load port {} for side: {}. {}", new Object[]{url.getPath(), side, ex});
                 return null;
             }
@@ -105,6 +136,7 @@ public class PortLoader {
 
     /**
      * Log an error for ports that cannot be loaded.
+     *
      * @param portName The port that cannot be loaded.
      * @return null. The calling routine will filter this out.
      */

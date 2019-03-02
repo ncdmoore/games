@@ -1,6 +1,6 @@
 {
   "name"     : "Durazzo",
   "province" : "Albania",
-  "capacity" : 10,
+  "maxCapacity" : 10,
   "antiAir"       : 3
 }

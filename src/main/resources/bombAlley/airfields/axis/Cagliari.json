@@ -1,6 +1,6 @@
 {
   "name"     : "Cagliari",
   "province" : "Sardina",
-  "capacity" : 50,
+  "maxCapacity" : 50,
   "antiAir"       : 20
 }

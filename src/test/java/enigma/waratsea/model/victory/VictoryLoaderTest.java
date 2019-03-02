@@ -47,7 +47,7 @@ public class VictoryLoaderTest {
         scenario.setTitle("The first Sortie");
         scenario.setMap("june1940");
 
-        config.setScenario(scenario);
+        config.setScenario(scenario.getName());
 
         VictoryConditions alliedVictory = loader.load(scenario, Side.ALLIES);
         VictoryConditions axisVictory = loader.load(scenario, Side.AXIS);
@@ -83,7 +83,7 @@ public class VictoryLoaderTest {
         scenario.setTitle("Soldiers For Malta");
         scenario.setMap("june1940");
 
-        config.setScenario(scenario);
+        config.setScenario(scenario.getName());
         VictoryConditions alliedVictory = loader.load(scenario, Side.ALLIES);
 
         List<RequiredShipVictory> requiredAlliedShips = Deencapsulation.getField(alliedVictory, "requiredShips");
@@ -99,7 +99,7 @@ public class VictoryLoaderTest {
         scenario.setTitle("The First Sortie");
         scenario.setMap("june1940");
 
-        config.setScenario(scenario);
+        config.setScenario(scenario.getName());
 
         VictoryConditions alliedVictory = loader.load(scenario, Side.ALLIES);
         loader.save(scenario, Side.ALLIES, alliedVictory.getData());

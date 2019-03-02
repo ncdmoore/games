@@ -1,18 +1,18 @@
 package engima.waratsea.model.game;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.game.data.GameData;
 import engima.waratsea.model.game.event.GameEvent;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.MapException;
+import engima.waratsea.model.player.Player;
+import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.scenario.ScenarioLoader;
 import engima.waratsea.model.victory.Victory;
 import engima.waratsea.model.victory.VictoryException;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import engima.waratsea.model.player.Player;
-import engima.waratsea.model.scenario.Scenario;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -27,13 +27,6 @@ import java.util.Map;
 @Singleton
 public class Game {
     @Getter
-    @Setter
-    private String name;
-
-    @Getter
-    private Side humanSide;
-
-    @Getter
     private final Player computerPlayer;
 
     @Getter
@@ -43,8 +36,12 @@ public class Game {
 
     private final Config config;
     private final ScenarioLoader scenarioLoader;
+    private final GameLoader gameLoader;
     private final GameMap gameMap;
     private final Victory gameVictory;
+
+    @Getter
+    private Side humanSide;
 
     @Getter
     private Scenario scenario;
@@ -58,6 +55,7 @@ public class Game {
      * @param gameMap The game map.
      * @param gameVictory The game victory conditions and status.
      * @param scenarioLoader Loads player task forces.
+     * @param gameLoader Loads game data.
      */
     @Inject
     public Game(@Named("Human") final Player humanPlayer,
@@ -65,13 +63,15 @@ public class Game {
                 final Config config,
                 final GameMap gameMap,
                 final Victory gameVictory,
-                final ScenarioLoader scenarioLoader) {
+                final ScenarioLoader scenarioLoader,
+                final GameLoader gameLoader) {
         this.config = config;
         this.humanPlayer = humanPlayer;
         this.computerPlayer = computerPlayer;
         this.gameMap = gameMap;
         this.gameVictory = gameVictory;
         this.scenarioLoader = scenarioLoader;
+        this.gameLoader = gameLoader;
     }
 
     /**
@@ -91,7 +91,7 @@ public class Game {
      */
     public void setScenario(final Scenario selectedScenario) {                                                          // New Game Step 2.
         scenario = selectedScenario;
-        config.setScenario(scenario);
+        config.setScenario(scenario.getName());
     }
 
     /**
@@ -136,6 +136,52 @@ public class Game {
         save();              //Save the default game.
     }
 
+    /**
+     * Set the saved games scenario name. This is needed in order to load the saved game files.
+     *
+     * @param scenarioName The saved game's scenario name.
+     */
+    public void setScenarioName(final String scenarioName) {                                                            // Saved Game Step 1.
+        config.setScenario(scenarioName);
+    }
+
+    /**
+     * Set the saved game name. This is needed in order to load the saved game files.
+     *
+     * @param savedGameName The name of the saved game.
+     */
+    public void setSavedGameName(final String savedGameName) {                                                          // Saved Game Step 2.
+        config.setSavedGameName(savedGameName);
+    }
+
+    /**
+     * Load a save game.
+     *
+     * @throws GameException indicates the main game data could not be loaded.
+     * @throws MapException indicates that the map could not be loaded.
+     * @throws VictoryException indicates that the victory conditions could not be loaded.
+     * @throws ScenarioException indicates that the task forces could not be loaded.
+     */
+    public void startExisting() throws  GameException, MapException, VictoryException, ScenarioException {              // Saved Game Step 3.
+        GameEvent.init();
+
+        loadSavedGame();
+
+        loadGameMap();
+        loadGameVictory();
+        buildAssets();
+    }
+    
+    /**
+     * Load a saved game.
+     *
+     * @throws GameException indicates that the game could not be loaded.
+     */
+    private void loadSavedGame() throws GameException {
+        GameData data = gameLoader.load();
+        setHumanSide(data.getHumanSide());
+        setScenario(data.getScenario());
+    }
 
     /**
      * Load the game map.
@@ -170,8 +216,21 @@ public class Game {
      * Save the game.
      */
     private void save() {
+        gameLoader.save(getData());
         gameVictory.save(scenario);
         humanPlayer.saveAssets(scenario);
         computerPlayer.saveAssets(scenario);
+    }
+
+    /**
+     * Get all of the game persistent data.
+     *
+     * @return The game's persistent data.
+     */
+    private GameData getData() {
+        GameData data = new GameData();
+        data.setHumanSide(humanSide);
+        data.setScenario(scenario);
+        return data;
     }
 }

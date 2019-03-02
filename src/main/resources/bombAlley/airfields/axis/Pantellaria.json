@@ -1,6 +1,6 @@
 {
   "name"     : "Pantellaria",
   "province" : "Pantellaria",
-  "capacity" : 15,
+  "maxCapacity" : 15,
   "antiAir"       : 10
 }

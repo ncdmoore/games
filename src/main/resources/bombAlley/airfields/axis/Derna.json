@@ -1,6 +1,6 @@
 {
   "name"     : "Derna",
   "province" : "Libya",
-  "capacity" : 8,
+  "maxCapacity" : 8,
   "antiAir"       : 2
 }

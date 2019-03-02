@@ -1,6 +1,6 @@
 {
   "name"     : "Luqa",
   "province" : "Malta",
-  "capacity" : 20,
+  "maxCapacity" : 20,
   "antiAir"       : 12
 }

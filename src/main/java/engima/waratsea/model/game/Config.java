@@ -2,6 +2,9 @@ package engima.waratsea.model.game;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engima.waratsea.model.airfield.Airfield;
+import engima.waratsea.model.map.region.Region;
+import engima.waratsea.model.port.Port;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.victory.Victory;
@@ -24,46 +27,45 @@ import java.util.Optional;
 @Slf4j
 @Singleton
 public final class Config {
-    public static final String MAP_DIRECTORY_NAME = "/maps";
-    public static final String SCENARIO_DIRECTORY_NAME = "/scenarios";
-    public static final String AIRFIELD_DIRECTORY_NAME = "/airfields";
-    public static final String PORT_DIRECTORY_NAME = "/ports";
-
-    private static final String VICTORY_DIRECTORY_NAME = "victory";
-    private static final String TASK_FORCE_DIRECTORY_NAME = "taskforce";
-
+    private static final String SUMMARY_FILE_NAME = "summary.json";
+    private static final String SCENARIO_DIRECTORY_NAME = "/scenarios";
     private static final String SAVED_GAME_DIRECTORY = System.getProperty("user.home") + "/WW2atSea/SavedGames/";
 
-    private static final String ALLIES_TASK_FORCE_FILE_NAME = TASK_FORCE_DIRECTORY_NAME + "/alliesTaskForces.json";
-    private static final String AXIS_TASK_FORCE_FILE_NAME = TASK_FORCE_DIRECTORY_NAME + "/axisTaskForces.json";
-    private static final String ALLIED_VICTORY_FILE_NAME = VICTORY_DIRECTORY_NAME + "/alliesVictory.json";
-    private static final String AXIS_VICTORY_FILE_NAME = VICTORY_DIRECTORY_NAME + "/axisVictory.json";
-
-    private static final MultiKeyMap<String, String> FILE_NAME_MAP = new MultiKeyMap<>();
+    private static final MultiKeyMap<String, String> SIDE_FILE_MAP = new MultiKeyMap<>();
     static {
-        FILE_NAME_MAP.put(Side.ALLIES.toString(), TaskForce.class.getSimpleName(), ALLIES_TASK_FORCE_FILE_NAME);
-        FILE_NAME_MAP.put(Side.AXIS.toString(),   TaskForce.class.getSimpleName(), AXIS_TASK_FORCE_FILE_NAME);
-        FILE_NAME_MAP.put(Side.ALLIES.toString(), Victory.class.getSimpleName(),   ALLIED_VICTORY_FILE_NAME);
-        FILE_NAME_MAP.put(Side.AXIS.toString(),   Victory.class.getSimpleName(),   AXIS_VICTORY_FILE_NAME);
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     TaskForce.class.getSimpleName(),   "/taskforce/alliesTaskForces.json");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       TaskForce.class.getSimpleName(),   "/taskforce/axisTaskForces.json");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Victory.class.getSimpleName(),     "/victory/alliesVictory.json");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Victory.class.getSimpleName(),     "/victory/axisVictory.json");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Port.class.getSimpleName(),        "/ports/allies/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Port.class.getSimpleName(),        "/ports/axis/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Airfield.class.getSimpleName(),    "/airfields/allies/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Airfield.class.getSimpleName(),    "/airfields/axis/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Region.class.getSimpleName(),      "/maps/allies/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Region.class.getSimpleName(),      "/maps/axis/");
     }
 
-    private static final Map<Class<?>, String> DEFAULT_FILE_NAME_MAP = new HashMap<>();
+    private static final Map<Class<?>, String> FILE_MAP = new HashMap<>();
     static {
-        DEFAULT_FILE_NAME_MAP.put(Victory.class, VICTORY_DIRECTORY_NAME);
+        FILE_MAP.put(Game.class, "/game.json");
+        FILE_MAP.put(Scenario.class, "/summary.json");
+    }
+
+    private static final Map<Class<?>, String> DEFAULT_FILE_MAP = new HashMap<>();
+    static {
+        DEFAULT_FILE_MAP.put(Victory.class, "victory");
     }
 
     private static final String DEFAULT_SAVED_GAME = "/defaultGame";
 
     private GameTitle gameTitle;
 
-
     @Getter
     @Setter
     private GameType type;
 
     @Setter
-    private Scenario scenario;
-
+    private String scenario;
 
     @Getter
     @Setter
@@ -82,39 +84,93 @@ public final class Config {
     }
 
     /**
-     * Get the task force URL.
+     * Determine if this is a new game or an existing one.
      *
-     * @param side The side ALLIES or AXIS.
-     * @return The task force URL.
+     * @return True if the game is new. False otherwise.
      */
-    public Optional<URL> getTaskForceURL(final Side side) {
-        return (type == GameType.NEW) ? getScenarioURL(side, TaskForce.class) : getSavedURL(side, TaskForce.class);
+    public boolean isNew() {
+        return type == GameType.NEW;
     }
 
     /**
-     * Get the scenario URL. This URL maps to a file in the scenario directory.
+     * Get a URL in the game title's directory. This URL maps to a file in the game title's directory. BombAlley for
+     * example.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @param clazz The entity class.
+     * @param name The name of the entity instance.
+     * @return The entity URL.
+     */
+    public Optional<URL> getGameURL(final Side side, final Class<?> clazz, final String name) {
+        String entityName = clazz.getSimpleName();
+        String fileName = gameTitle.getValue() + SIDE_FILE_MAP.get(side.toString(), entityName) + name;
+        log.info("'{}' URL: '{}'", entityName, fileName);
+        return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
+    }
+
+    /**
+     * Get a URL in the scenario directory. This URL maps to a file in the scenario directory.
 
      * @param side The side ALLIES or AXIS.
      * @param clazz The entity class.
-     * @return The task force URL.
+     * @return The entity URL.
      */
     public Optional<URL> getScenarioURL(final Side side, final Class<?> clazz) {
         String entityName = clazz.getSimpleName();
-        String fileName = gameTitle.getValue() + SCENARIO_DIRECTORY_NAME + "/" + scenario.getName() + "/" + FILE_NAME_MAP.get(side.toString(), entityName);
+        String fileName = gameTitle.getValue() + SCENARIO_DIRECTORY_NAME + "/" + scenario + SIDE_FILE_MAP.get(side.toString(), entityName);
         log.info("'{}' URL: '{}'", entityName, fileName);
         return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
+    }
+
+    /**
+     * Get a URL in the scenario directory. This URL maps to a file in the scenario directory.
+     *
+     * @param clazz The entity class.
+     * @return The entity URL.
+     */
+    public Optional<URL> getScenarioURL(final Class<?> clazz) {
+        String fileName = gameTitle.getValue() + SCENARIO_DIRECTORY_NAME + "/" + scenario + FILE_MAP.get(clazz);
+        log.info("'{}' URL: '{}'", clazz.getSimpleName(), fileName);
+        return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
+    }
+
+    /**
+     * Get the URL of the current game's scenario directory.
+     * @return The game's scenario directory URL.
+     */
+    public Optional<URL> getScenarioDirectory() {
+        return Optional.ofNullable(getClass().getClassLoader().getResource(gameTitle.getValue() + Config.SCENARIO_DIRECTORY_NAME));
     }
 
     /**
      * Get the default URL. This URL maps to the default folder of the game for the given entity.
      *
      * @param clazz The entity class.
-     * @return The default victory URL.
+     * @return The default URL.
      */
     public Optional<URL> getDefaultURL(final Class<?> clazz) {
-        String fileName = DEFAULT_FILE_NAME_MAP.get(clazz) + "/default.json";
+        String fileName = DEFAULT_FILE_MAP.get(clazz) + "/default.json";
         log.info("Default '{}' URL: '{}'", clazz.getSimpleName(), fileName);
         return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
+    }
+
+    /**
+     * Get the saved URL of the given entity. This URL maps to a file in the current saved game directory.
+     *
+     * @param side The side ALLIES of AXIS.
+     * @param clazz The entity class.
+     * @param name The name of the entity instance.
+     * @return The entity URL.
+     */
+    public Optional<URL> getSavedURL(final Side side, final Class<?> clazz, final String name) {
+        String fileName = getSavedFileName(side, clazz, name);
+        Path path = Paths.get(fileName);
+        try {
+            return Optional.of(path.toUri().toURL());
+        } catch (MalformedURLException ex) {
+            log.error("Bad url '{}'", path);
+            return Optional.empty();
+        }
     }
 
     /**
@@ -135,6 +191,37 @@ public final class Config {
         }
     }
 
+     /** Get the saved URL of the given entity. This URL maps to a file in the current saved game directory.
+      *
+      * @param clazz The entity class.
+      * @return The URL of the entity.
+     */
+    public Optional<URL> getSavedURL(final Class<?> clazz) {
+        String fileName = getSavedFileName(clazz);
+        Path path = Paths.get(fileName);
+        try {
+            return Optional.of(path.toUri().toURL());
+        } catch (MalformedURLException ex) {
+            log.error("Bad url '{}'", path);
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Get the saved file path of the given entity. This path maps to a file in the current saved game directory.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @param clazz The entity class.
+     * @param name The name of the entity instance.
+     * @return The file path of the entity's saved game.
+     */
+    public String getSavedFileName(final Side side, final Class<?> clazz, final String name) {
+        String entityName = clazz.getSimpleName();
+        String fileName = SAVED_GAME_DIRECTORY + scenario + savedGameName + SIDE_FILE_MAP.get(side.toString(), entityName) + name;
+        log.info("'{}' URL: '{}'", entityName, fileName);
+        return fileName;
+    }
+
     /**
      * Get the saved file path of the given entity. This path maps to a file in the current saved game directory.
      *
@@ -144,9 +231,31 @@ public final class Config {
      */
     public String getSavedFileName(final Side side, final Class<?> clazz) {
         String entityName = clazz.getSimpleName();
-        String fileName = SAVED_GAME_DIRECTORY + scenario.getName() + savedGameName + "/"  + FILE_NAME_MAP.get(side.toString(), entityName);
+        String fileName = SAVED_GAME_DIRECTORY + scenario + savedGameName + SIDE_FILE_MAP.get(side.toString(), entityName);
         log.info("'{}' URL: '{}'", entityName, fileName);
         return fileName;
     }
 
+    /**
+     * Get the saved file path of the given entity. This path maps to a file in the current saved game directory.
+     *
+     * @param clazz The entity class.
+     * @return The file path of the entity's saved game.
+     */
+    public String getSavedFileName(final Class<?> clazz) {
+        String fileName = SAVED_GAME_DIRECTORY + scenario + savedGameName + FILE_MAP.get(clazz);
+        log.info("'{}' URL: '{}'", clazz.getSimpleName(), fileName);
+        return fileName;
+    }
+
+    /**
+     * Get the given scenario's summary file.
+     *
+     * @param scenarioDirectory The scenario directory.
+     * @return The path to the scenario summary file.
+     */
+    public Path getScenarioSummary(final String scenarioDirectory) {
+        return Paths.get(scenarioDirectory, SUMMARY_FILE_NAME);
+
+    }
 }

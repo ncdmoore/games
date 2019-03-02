@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -54,10 +55,20 @@ public class TaskForceLoader {
      */
     public List<TaskForce> load(final Scenario scenario, final Side side) throws ScenarioException {
         log.info("Load task forces, scenario: '{}', side: '{}'", scenario.getTitle(), side);
-        return config
-                .getTaskForceURL(side)
+        return getURL(side)
                 .map(u -> readTaskForce(u, side))
                 .orElseThrow(() -> new ScenarioException("Unable to load task force for " + scenario.getTitle() + " for " + side));
+    }
+
+    /**
+     * Get the task force URL.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @return The task force URL.
+     */
+    private Optional<URL> getURL(final Side side) {
+        return config.isNew() ? config.getScenarioURL(side, TaskForce.class) // Get the new game task forces.
+                : config.getSavedURL(side, TaskForce.class);                 // Get a saved game task forces.
     }
 
     /**

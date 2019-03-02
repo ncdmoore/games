@@ -1,6 +1,6 @@
 {
   "name"     : "Heraklion",
   "province" : "Crete",
-  "capacity" : 16,
+  "maxCapacity" : 16,
   "antiAir"       : 2
 }

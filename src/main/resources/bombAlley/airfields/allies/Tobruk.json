@@ -1,6 +1,6 @@
 {
   "name"     : "Tobruk",
   "province" : "Libya",
-  "capacity" : 10,
+  "maxCapacity" : 10,
   "antiAir"       : 6
 }

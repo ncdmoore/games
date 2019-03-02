@@ -1,6 +1,6 @@
 {
   "name"     : "Rome",
   "province" : "Italy",
-  "capacity" : 40,
+  "maxCapacity" : 40,
   "antiAir"       : 20
 }
