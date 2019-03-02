@@ -70,13 +70,13 @@ public class AirfieldLoader {
      *
      * @param scenario The selected scenario.
      * @param side  The side ALLIES or AXIS.
-     * @param data The port data that is saved.
+     * @param airfields The port data that is saved.
      */
-    public void save(final Scenario scenario, final Side side, final List<AirfieldData> data) {
+    public void save(final Scenario scenario, final Side side, final List<Airfield> airfields) {
         log.info("Saving airfields, scenario: '{}',side {}", scenario.getTitle(), side);
-        data.forEach(airfield -> {
+        airfields.forEach(airfield -> {
             String fileName = config.getSavedFileName(side, Airfield.class, airfield.getName() + ".json");
-            PersistentUtility.save(fileName, airfield);
+            PersistentUtility.save(fileName, airfield.getData());
         });
     }
 

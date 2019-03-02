@@ -70,13 +70,13 @@ public class PortLoader {
      *
      * @param scenario The selected scenario.
      * @param side  The side ALLIES or AXIS.
-     * @param data The port data that is saved.
+     * @param ports The port data that is saved.
      */
-    public void save(final Scenario scenario, final Side side, final List<PortData> data) {
+    public void save(final Scenario scenario, final Side side, final List<Port> ports) {
         log.info("Saving ports, scenario: '{}',side {}", scenario.getTitle(), side);
-        data.forEach(port -> {
+        ports.forEach(port -> {
             String fileName = config.getSavedFileName(side, Port.class, port.getName() + ".json");
-            PersistentUtility.save(fileName, port);
+            PersistentUtility.save(fileName, port.getData());
         });
     }
 

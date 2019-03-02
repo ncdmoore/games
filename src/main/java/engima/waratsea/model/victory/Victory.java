@@ -58,7 +58,7 @@ public class Victory {
      * @param scenario The selected scenario.
      */
     public void save(final Scenario scenario) {
-       loader.save(scenario, Side.ALLIES, conditions.get(Side.ALLIES).getData());
-       loader.save(scenario, Side.AXIS, conditions.get(Side.AXIS).getData());
+       loader.save(scenario, Side.ALLIES, conditions.get(Side.ALLIES));
+       loader.save(scenario, Side.AXIS, conditions.get(Side.AXIS));
     }
 }

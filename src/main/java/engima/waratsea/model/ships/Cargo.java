@@ -1,5 +1,6 @@
 package engima.waratsea.model.ships;
 
+import engima.waratsea.model.ships.data.CargoData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,11 +22,24 @@ public class Cargo {
     /**
      * Constructor.
      *
-     * @param capacity The cargo capacity of the ship.
+     * @param data The cargo capacity of the ship.
      */
-    public Cargo(final int capacity) {
-        this.capacity = capacity;
+    public Cargo(final CargoData data) {
+        this.capacity = data.getCapacity();
         this.level = 0;
+    }
+
+    /**
+     * Get the cargo's persistent data.
+     *
+     * @return The cargo's persistent data.
+     */
+    public CargoData getData() {
+        CargoData data = new CargoData();
+        data.setCapacity(capacity);
+        data.setLevel(level);
+        data.setOriginPort(originPort);
+        return data;
     }
 
     /**

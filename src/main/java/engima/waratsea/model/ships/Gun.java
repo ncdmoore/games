@@ -25,4 +25,17 @@ public class Gun {
 
         this.health = maxHealth;
     }
+
+    /**
+     * Get the gun persistent data.
+     *
+     * @return The gun's persistent data.
+     */
+    public GunData getData() {
+        GunData data = new GunData();
+        data.setMaxHealth(maxHealth);
+        data.setArmour(armour);
+        data.setHealth(health);
+        return data;
+    }
 }

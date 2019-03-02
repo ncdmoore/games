@@ -25,4 +25,16 @@ public class Fuel {
         this.capacity = data.getCapacity();
         this.level = data.getLevel();
     }
+
+    /**
+     * Get the fuel persistent data.
+     *
+     * @return The fuel's persistent data.
+     */
+    public FuelData getData() {
+        FuelData data = new FuelData();
+        data.setCapacity(capacity);
+        data.setLevel(level);
+        return data;
+    }
 }

@@ -6,6 +6,7 @@ import engima.waratsea.model.airfield.Airfield;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.port.Port;
 import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.model.ships.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.victory.Victory;
 import lombok.Getter;
@@ -43,6 +44,8 @@ public final class Config {
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Airfield.class.getSimpleName(),    "/airfields/axis/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Region.class.getSimpleName(),      "/maps/allies/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Region.class.getSimpleName(),      "/maps/axis/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Ship.class.getSimpleName(),        "/ships/allies/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Ship.class.getSimpleName(),        "/ships/axis/");
     }
 
     private static final Map<Class<?>, String> FILE_MAP = new HashMap<>();

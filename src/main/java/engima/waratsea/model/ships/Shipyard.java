@@ -3,9 +3,11 @@ package engima.waratsea.model.ships;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ships.data.ShipData;
+import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -36,6 +38,7 @@ public class Shipyard {
     //Each side has a map of ship class names to ship's data. This acts as a cash for data read in from JSON files.
     private Map<Side, Map<String, ShipData>> shipDataMap = new HashMap<>();
 
+    private Config config;
     private GameTitle gameTitle;
     private ShipRegistry registry;
     private ShipFactory shipFactory;
@@ -43,15 +46,18 @@ public class Shipyard {
     /**
      * Constructor called by guice.
      *
+     * @param config The game config.
      * @param gameTitle The game title/name.
      * @param registry The ship registry. Maps ship names to ship classes.
      * @param shipFactory A factory for creating ships.
      */
     @Inject
-    public Shipyard(final GameTitle gameTitle,
+    public Shipyard(final Config config,
+                    final GameTitle gameTitle,
                     final ShipRegistry registry,
                     final ShipFactory shipFactory) {
 
+        this.config = config;
         this.gameTitle = gameTitle;
         this.registry = registry;
         this.shipFactory = shipFactory;
@@ -77,6 +83,17 @@ public class Shipyard {
         ShipType shipType = shipData.getType();
         shipData.setShipId(shipId);
         return getFactory(shipType).apply(shipData);
+    }
+
+    /**
+     * Save a ship.
+     *
+     * @param ship The ship to save.
+     */
+    public void save(final Ship ship) {
+        log.info("Save ship: '{}' for side {}", ship.getName(), ship.getShipId().getSide());
+        String fileName = config.getSavedFileName(ship.getShipId().getSide(), Ship.class, ship.getName() + ".json");
+        PersistentUtility.save(fileName, ship.getData());
     }
 
     /**

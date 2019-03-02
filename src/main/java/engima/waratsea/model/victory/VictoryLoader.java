@@ -112,12 +112,12 @@ public class VictoryLoader {
      *
      * @param scenario The selected scenario.
      * @param side  The side AlLIES of AXIS.
-     * @param data The victory conditions data that is saved.
+     * @param conditions The victory conditions data that is saved.
      */
-    public void save(final Scenario scenario, final Side side, final VictoryConditionsData data) {
+    public void save(final Scenario scenario, final Side side, final VictoryConditions conditions) {
         log.info("Saving victory, scenario: {}, side: {}", scenario.getTitle(), side);
         String fileName = config.getSavedFileName(side, Victory.class);
-        PersistentUtility.save(fileName, data);
+        PersistentUtility.save(fileName, conditions.getData());
     }
 
     /**

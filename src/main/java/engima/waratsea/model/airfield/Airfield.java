@@ -26,6 +26,11 @@ public class Airfield implements PersistentData<AirfieldData> {
     @Setter
     private int capacity;            //Capacity in steps.
 
+
+    @Getter
+    @Setter
+    private int antiAir;
+
     @Getter
     private String location;
 
@@ -42,6 +47,7 @@ public class Airfield implements PersistentData<AirfieldData> {
         name = data.getName();
         maxCapacity = data.getMaxCapacity();
         capacity = maxCapacity;
+        antiAir = data.getAntiAir();
     }
 
     /**
@@ -55,6 +61,7 @@ public class Airfield implements PersistentData<AirfieldData> {
         data.setName(name);
         data.setMaxCapacity(maxCapacity);
         data.setCapacity(capacity);
+        data.setAntiAir(antiAir);
         return data;
     }
 }

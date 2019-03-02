@@ -2,5 +2,5 @@
   "name"     : "Alexandria",
   "province" : "Egypt",
   "maxCapacity" : 20,
-  "antiAir"       : 8
+  "antiAir"     : 8
 }

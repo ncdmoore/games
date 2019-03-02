@@ -102,7 +102,7 @@ public class VictoryLoaderTest {
         config.setScenario(scenario.getName());
 
         VictoryConditions alliedVictory = loader.load(scenario, Side.ALLIES);
-        loader.save(scenario, Side.ALLIES, alliedVictory.getData());
+        loader.save(scenario, Side.ALLIES, alliedVictory);
 
         config.setType(GameType.EXISTING);
 

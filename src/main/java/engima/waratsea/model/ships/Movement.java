@@ -27,4 +27,17 @@ public class Movement {
         this.odd = data.getOdd();
     }
 
+    /**
+     * Get the movement persistent data.
+     *
+     * @return The movement's persistent data.
+     */
+    public MovementData getData() {
+        MovementData data = new MovementData();
+        data.setMaxEven(maxEven);
+        data.setMaxOdd(maxOdd);
+        data.setEven(even);
+        data.setOdd(odd);
+        return data;
+    }
 }

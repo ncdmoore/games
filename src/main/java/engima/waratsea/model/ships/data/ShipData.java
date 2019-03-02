@@ -64,7 +64,7 @@ public class ShipData {
 
     @Getter
     @Setter
-    private int cargo;                                            //Cargo is 3 times the value in the board game. This is done to avoid fractions.
+    private CargoData cargo;                                            //Cargo is 3 times the value in the board game. This is done to avoid fractions.
 
     @Getter
     @Setter
@@ -79,5 +79,6 @@ public class ShipData {
         tertiary = new GunData();
         antiAir = new GunData();
         torpedo = new TorpedoData();
+        cargo = new CargoData();
     }
 }

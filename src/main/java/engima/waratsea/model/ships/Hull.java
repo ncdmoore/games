@@ -27,4 +27,17 @@ public class Hull {
         this.maxHealth = data.getMaxHealth();
         this.armour = data.getArmour();
     }
+
+    /**
+     * Get the hull's persistent data.
+     *
+     * @return The hull's persistent data.
+     */
+    public HullData getData() {
+        HullData data = new HullData();
+        data.setMaxHealth(maxHealth);
+        data.setArmour(armour);
+        data.setHealth(health);
+        return data;
+    }
 }

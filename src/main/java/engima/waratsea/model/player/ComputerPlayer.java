@@ -3,16 +3,15 @@ package engima.waratsea.model.player;
 import com.google.inject.Inject;
 import engima.waratsea.model.airfield.Airfield;
 import engima.waratsea.model.airfield.AirfieldLoader;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.port.Port;
 import engima.waratsea.model.port.PortLoader;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceLoader;
-import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
-import engima.waratsea.model.game.Side;
 
 import java.util.List;
 
@@ -73,8 +72,8 @@ public class ComputerPlayer implements Player {
      */
     @Override
     public void saveAssets(final Scenario scenario) {
-        taskForceLoader.save(scenario, side, PersistentUtility.getData(taskForces));
-        portBuilder.save(scenario, side, PersistentUtility.getData(ports));
-        airfieldBuilder.save(scenario, side, PersistentUtility.getData(airfields));
+        taskForceLoader.save(scenario, side, taskForces);
+        portBuilder.save(scenario, side, ports);
+        airfieldBuilder.save(scenario, side, airfields);
     }
 }

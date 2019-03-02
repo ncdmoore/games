@@ -24,4 +24,16 @@ public class Torpedo {
         this.maxHealth = data.getMaxHealth();
         health = maxHealth;
     }
+
+    /**
+     * Get the torpedo's persistent data.
+     *
+     * @return The torpedo's persistent data.
+     */
+    public TorpedoData getData() {
+        TorpedoData data = new TorpedoData();
+        data.setMaxHealth(maxHealth);
+        data.setHealth(health);
+        return data;
+    }
 }

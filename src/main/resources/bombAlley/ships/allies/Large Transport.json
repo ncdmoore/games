@@ -19,6 +19,8 @@
     "even": 2,
     "odd": 2
   },
-  "cargo": 9,
+  "cargo": {
+    "capacity": 9
+  },
   "victoryPoints": 0
 }

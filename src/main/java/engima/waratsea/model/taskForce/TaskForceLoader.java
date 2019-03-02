@@ -76,12 +76,13 @@ public class TaskForceLoader {
      *
      * @param scenario The selected scenario.
      * @param side  The side AlLIES of AXIS.
-     * @param data The task force data that is saved.
+     * @param taskForces The task force data that is saved.
      */
-    public void save(final Scenario scenario, final Side side, final List<TaskForceData> data) {
+    public void save(final Scenario scenario, final Side side, final List<TaskForce> taskForces) {
         log.info("Saving task forces, scenario: '{}',side {}", scenario.getTitle(), side);
         String fileName = config.getSavedFileName(side, TaskForce.class);
-        PersistentUtility.save(fileName, data);
+        PersistentUtility.save(fileName, PersistentUtility.getData(taskForces));
+        taskForces.forEach(TaskForce::saveShips);
     }
 
     /**

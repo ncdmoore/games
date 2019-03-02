@@ -1,12 +1,14 @@
 package engima.waratsea.model.ships;
 
+import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.ships.data.ShipData;
 import engima.waratsea.model.taskForce.TaskForce;
 
 /**
  * Represents a ship.
  */
-public interface Ship {
+public interface Ship extends PersistentData<ShipData> {
 
     /**
      * Get the ship's id.
@@ -87,4 +89,11 @@ public interface Ship {
      * @return The ship's cargo data.
      */
     Cargo getCargo();
+
+    /**
+     * Get the ship's persistent data.
+     *
+     * @return The ship's persistent data.
+     */
+    ShipData getData();
 }

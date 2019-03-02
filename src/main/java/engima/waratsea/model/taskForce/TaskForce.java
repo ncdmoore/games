@@ -158,6 +158,13 @@ public class TaskForce implements PersistentData<TaskForceData> {
     }
 
     /**
+     * Save the task force ships.
+     */
+    public void saveShips() {
+        ships.forEach(ship -> shipyard.save(ship));
+    }
+
+    /**
      * Create the task force targets.
      *
      * @param targetData Task force target data read in from a JSON file.

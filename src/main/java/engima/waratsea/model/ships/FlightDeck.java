@@ -38,6 +38,19 @@ public class FlightDeck {
     }
 
     /**
+     * Get the fight deck's persistent data.
+     *
+     * @return The flight deck's persistent data.
+     */
+    public FlightDeckData getData() {
+        FlightDeckData data = new FlightDeckData();
+        data.setArmour(armour);
+        data.setCapacityList(capacityList);
+        data.setHealth(health);
+        return data;
+    }
+
+    /**
      * Return the flight deck's current capacity.
      *
      * @return The flight deck's current capacity.

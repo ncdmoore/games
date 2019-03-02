@@ -73,6 +73,34 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
+     * Get the ship's persistent data.
+     *
+     * @return The ship's persistent data.
+     */
+    @Override
+    public ShipData getData() {
+        ShipData data = new ShipData();
+        data.setShipId(shipId);
+        data.setType(type);
+        data.setShipClass(shipClass);
+        data.setNationality(nationality);
+        data.setVictoryPoints(victoryPoints);
+
+        data.setSecondary(secondary.getData());
+        data.setTertiary(tertiary.getData());
+        data.setAntiAir(antiAir.getData());
+        data.setTorpedo(torpedo.getData());
+
+        data.setMovement(movement.getData());
+        data.setFuel(fuel.getData());
+        data.setHull(hull.getData());
+        data.setCargo(cargo.getData());
+
+        data.setFlightDeck(flightDeck.getData());
+        return data;
+    }
+
+    /**
      * Get The aircraft carrier's current aircraft capacity.
      *
      * @return The current aircraft capacity in steps.

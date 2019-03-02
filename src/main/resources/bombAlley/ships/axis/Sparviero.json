@@ -2,6 +2,10 @@
   "type": "AIRCRAFT CARRIER",
   "class": "Sparviero",
   "nationality": "ITALIAN",
+  "flightDeck": {
+    "armour": "NONE",
+    "capacityList": [0, 2, 4]
+  },
   "secondary":
   {
     "armour": "NONE",
@@ -22,7 +26,5 @@
     "even": 2,
     "odd": 1
   },
-  "cargo": 0,
-  "victoryPoints": 31,
-  "flightDeck": [0, 2, 4]
+  "victoryPoints": 31
 }
