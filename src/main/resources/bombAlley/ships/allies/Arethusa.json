@@ -2,27 +2,36 @@
   "type": "CRUISER",
   "class": "Arethusa",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 2,
-    "tertiary": 1,
-    "torpedo": 1,
-    "AA": 1
+  "secondary":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "LIGHT",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo": {
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 3,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 216
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 3,
-  "fuel": 216,
   "cargo": 3,
   "victoryPoints": 13
 }

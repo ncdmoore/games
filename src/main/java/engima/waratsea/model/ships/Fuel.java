@@ -1,5 +1,6 @@
 package engima.waratsea.model.ships;
 
+import engima.waratsea.model.ships.data.FuelData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,10 +19,10 @@ public class Fuel {
     /**
      * Constructor.
      *
-     * @param capacity The fuel capacity of the ship.
+     * @param data The fuel data that is persisted.
      */
-    public Fuel(final int capacity) {
-        this.capacity = capacity;
-        this.level = capacity;
+    public Fuel(final FuelData data) {
+        this.capacity = data.getCapacity();
+        this.level = data.getLevel();
     }
 }

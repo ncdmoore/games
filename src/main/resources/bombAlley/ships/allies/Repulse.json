@@ -2,27 +2,36 @@
   "type": "BATTLECRUISER",
   "class": "Repulse",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 7,
-    "secondary": 0,
-    "tertiary": 4,
-    "torpedo": 2,
-    "AA": 4
+  "primary": {
+    "armour": "LIGHT",
+    "maxHealth": 7
   },
-  "armour": {
-    "primary": "LIGHT",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "LIGHT",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 4
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 4
+  },
+  "torpedo":
+  {
+    "maxHealth": 2
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 12,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 336
   },
   "movement": {
     "even": 3,
     "odd": 2
   },
-  "hull": 12,
-  "fuel": 336,
   "cargo": 0,
   "victoryPoints": 57
 }

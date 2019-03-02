@@ -2,27 +2,33 @@
   "type": "BATTLESHIP",
   "class": "Conte di Cavour",
   "nationality": "ITALIAN",
-  "weapons": {
-    "primary": 7,
-    "secondary": 0,
-    "tertiary": 5,
-    "torpedo": 0,
-    "AA": 2
+  "primary":
+  {
+    "armour": "HEAVY",
+    "maxHealth": 7
   },
-  "armour": {
-    "primary": "HEAVY",
-    "secondary": "NONE",
-    "tertiary": "LIGHT",
-    "AA": "NONE",
-    "hull": "HEAVY",
+  "tertiary":
+  {
+    "armour": "LIGHT",
+    "maxHealth": 5
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "hull": {
+    "armour": "HEAVY",
+    "maxHealth" : 11,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 336
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 11,
-  "fuel": 336,
   "cargo": 0,
   "victoryPoints": 71
 }

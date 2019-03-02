@@ -2,27 +2,36 @@
   "type": "CRUISER",
   "class": "Crown Colony",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 4,
-    "tertiary": 1,
-    "torpedo": 1,
-    "AA": 2
+  "secondary":
+  {
+    "armour": "NONE",
+    "maxHealth": 4
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "LIGHT",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "torpedo": {
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 4,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 240
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 4,
-  "fuel": 240,
   "cargo": 3,
   "victoryPoints": 22
 }

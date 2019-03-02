@@ -2,27 +2,30 @@
   "type": "DESTROYER",
   "class": "Mirabello",
   "nationality": "ITALIAN",
-  "weapons": {
-    "primary": 0,
-    "secondary": 0,
-    "tertiary": 2,
-    "torpedo": 1,
-    "AA": 1
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE",
+  "antiAir":
+  {
+    "maxHealth": 1
+  },
+  "torpedo": {
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 2,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 144
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 2,
-  "fuel": 144,
   "cargo": 1,
   "victoryPoints": 6
 }

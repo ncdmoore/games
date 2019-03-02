@@ -2,27 +2,33 @@
   "type": "BATTLESHIP",
   "class": "Bretagne",
   "nationality": "FRENCH",
-  "weapons": {
-    "primary": 7,
-    "secondary": 0,
-    "tertiary": 3,
-    "torpedo": 0,
-    "AA": 3
+  "primary":
+  {
+    "armour": "HEAVY",
+    "maxHealth": 7
   },
-  "armour": {
-    "primary": "HEAVY",
-    "secondary": "NONE",
-    "tertiary": "LIGHT",
-    "AA": "NONE",
-    "hull": "HEAVY",
+  "tertiary":
+  {
+    "armour": "LIGHT",
+    "maxHealth": 3
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 3
+  },
+  "hull": {
+    "armour": "HEAVY",
+    "maxHealth" : 7,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 264
   },
   "movement": {
     "even": 2,
     "odd": 2
   },
-  "hull": 7,
-  "fuel": 264,
   "cargo": 0,
   "victoryPoints": 59
 }

@@ -2,27 +2,18 @@
   "type": "MINESWEEPER",
   "class": "Halcyon",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 0,
-    "tertiary": 0,
-    "torpedo": 0,
-    "AA": 0
-  },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE",
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 2,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 192
   },
   "movement": {
     "even": 1,
     "odd": 1
   },
-  "hull": 2,
-  "fuel": 192,
   "cargo": 0,
   "victoryPoints": 2
 }

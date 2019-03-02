@@ -2,27 +2,31 @@
   "type": "DESTROYER",
   "class": "Tribal",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 0,
-    "tertiary": 3,
-    "torpedo": 1,
-    "AA": 2
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 3
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE",
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "torpedo": {
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 2,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 144
   },
   "movement": {
     "even": 4,
     "odd": 3
   },
-  "hull": 2,
-  "fuel": 144,
   "cargo": 1,
   "victoryPoints": 9
 }

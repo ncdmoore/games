@@ -1,5 +1,6 @@
 package engima.waratsea.model.ships;
 
+import engima.waratsea.model.ships.data.TorpedoData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,10 +18,10 @@ public class Torpedo {
     /**
      * Constructor.
      *
-     * @param maxHealth The maximum health of the torpedo rating.
+     * @param data The persisted torpedo data.
      */
-    public Torpedo(final int maxHealth) {
-        this.maxHealth = maxHealth;
+    public Torpedo(final TorpedoData data) {
+        this.maxHealth = data.getMaxHealth();
         health = maxHealth;
     }
 }

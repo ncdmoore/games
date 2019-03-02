@@ -1,5 +1,7 @@
 package engima.waratsea.model.ships;
 
+import engima.waratsea.model.ships.data.GunData;
+
 /**
  * Ship's gun.
  */
@@ -11,15 +13,15 @@ public class Gun {
 
     private int health;
 
+
     /**
      * Constructor.
      *
-     * @param maxHealth The initial health of the gun.
-     * @param armour The armour rating of the gun.
+     * @param data The persisted gun data.
      */
-    public Gun(final int maxHealth, final ArmourType armour) {
-        this.maxHealth = maxHealth;
-        this.armour = armour;
+    public Gun(final GunData data) {
+        this.maxHealth = data.getMaxHealth();
+        this.armour = data.getArmour();
 
         this.health = maxHealth;
     }

@@ -2,27 +2,23 @@
   "type": "DESTROYER_ESCORT",
   "class": "Yarra",
   "nationality": "AUSTRALIAN",
-  "weapons": {
-    "primary": 0,
-    "secondary": 0,
-    "tertiary": 1,
-    "torpedo": 0,
-    "AA": 0
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE",
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 1,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 168
   },
   "movement": {
     "even": 1,
     "odd": 1
   },
-  "hull": 1,
-  "fuel": 168,
   "cargo": 0,
   "victoryPoints": 2
 }

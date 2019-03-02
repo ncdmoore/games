@@ -2,27 +2,36 @@
   "type": "CRUISER",
   "class": "York",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 4,
-    "tertiary": 1,
-    "torpedo": 1,
-    "AA": 1
+  "secondary":
+  {
+    "armour": "NONE",
+    "maxHealth": 4
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "LIGHT",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo": {
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 5,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 264
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 5,
-  "fuel": 264,
   "cargo": 3,
   "victoryPoints": 22
 }

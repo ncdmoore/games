@@ -1,5 +1,6 @@
 package engima.waratsea.model.ships;
 
+import engima.waratsea.model.ships.data.HullData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,11 +21,10 @@ public class Hull {
     /**
      * Constructor.
      *
-     * @param maxHealth The initial health of the hull.
-     * @param armour The armour rating of the hull.
+     * @param data The persisted hull data.
      */
-    public Hull(final int maxHealth, final ArmourType armour) {
-        this.maxHealth = maxHealth;
-        this.armour = armour;
+    public Hull(final HullData data) {
+        this.maxHealth = data.getMaxHealth();
+        this.armour = data.getArmour();
     }
 }

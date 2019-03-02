@@ -2,27 +2,36 @@
   "type": "CRUISER",
   "class": "San Giorgio",
   "nationality": "ITALIAN",
-  "weapons": {
-    "primary": 2,
-    "secondary": 2,
-    "tertiary": 2,
-    "torpedo": 0,
-    "AA": 3
+  "primary":
+  {
+    "armour": "LIGHT",
+    "maxHealth": 2
   },
-  "armour": {
-    "primary": "LIGHT",
-    "secondary": "LIGHT",
-    "tertiary": "LIGHT",
-    "AA": "NONE",
-    "hull": "LIGHT",
+  "secondary":
+  {
+    "armour": "LIGHT",
+    "maxHealth": 2
+  },
+  "tertiary":
+  {
+    "armour": "LIGHT",
+    "maxHealth": 6
+  },
+  "antiAir": {
+    "maxHealth": 3
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 4,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 192
   },
   "movement": {
     "even": 1,
     "odd": 1
   },
-  "hull": 4,
-  "fuel": 192,
   "cargo": 3,
   "victoryPoints": 20
 }

@@ -2,27 +2,32 @@
   "type": "CRUISER",
   "class": "Dido",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 0,
-    "tertiary": 4,
-    "torpedo": 1,
-    "AA": 3
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 4
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "LIGHT",
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 3
+  },
+  "torpedo":
+  {
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 3,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 216
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 3,
-  "fuel": 216,
   "cargo": 3,
   "victoryPoints": 13
 }

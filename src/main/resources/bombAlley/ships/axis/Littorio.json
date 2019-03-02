@@ -2,27 +2,33 @@
   "type": "BATTLESHIP",
   "class": "Littorio",
   "nationality": "ITALIAN",
-  "weapons": {
-    "primary": 11,
-    "secondary": 5,
-    "tertiary": 0,
-    "torpedo": 0,
-    "AA": 4
+  "primary":
+  {
+    "armour": "HEAVY",
+    "maxHealth": 11
   },
-  "armour": {
-    "primary": "HEAVY",
-    "secondary": "HEAVY",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "HEAVY",
+  "secondary":
+  {
+    "armour": "HEAVY",
+    "maxHealth": 5
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 4
+  },
+  "hull": {
+    "armour": "HEAVY",
+    "maxHealth" : 15,
     "deck": true
+  },
+  "fuel": {
+    "capacity": 336
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 15,
-  "fuel": 336,
   "cargo": 0,
   "victoryPoints": 114
 }

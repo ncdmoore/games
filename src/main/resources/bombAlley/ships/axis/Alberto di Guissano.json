@@ -2,27 +2,36 @@
   "type": "CRUISER",
   "class": "Alberto di Guissano",
   "nationality": "ITALIAN",
-  "weapons": {
-    "primary": 0,
-    "secondary": 3,
-    "tertiary": 1,
-    "torpedo": 1,
-    "AA": 2
+  "secondary":
+  {
+    "armour": "NONE",
+    "maxHealth": 3
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "torpedo": {
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 4,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 168
   },
   "movement": {
     "even": 4,
     "odd": 3
   },
-  "hull": 4,
-  "fuel": 168,
   "cargo": 3,
   "victoryPoints": 19
 }

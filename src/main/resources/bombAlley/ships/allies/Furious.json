@@ -2,27 +2,33 @@
   "type": "AIRCRAFT_CARRIER",
   "class": "Furious",
   "nationality": "BRITISH",
-  "weapons": {
-    "secondary": 0,
-    "tertiary": 2,
-    "torpedo": 0,
-    "AA": 2
+  "flightDeck":
+  {
+    "armour": "NONE",
+    "capacityList": [0, 3, 6]
   },
-  "armour": {
-    "flight deck": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "LIGHT",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 9,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 384
   },
   "movement": {
     "even": 3,
     "odd": 2
   },
-  "hull": 9,
-  "fuel": 384,
   "cargo": 0,
-  "victoryPoints": 61,
-  "flightDeck": [0, 3, 6]
+  "victoryPoints": 61
 }

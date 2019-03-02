@@ -2,26 +2,30 @@
   "type": "DESTROYER",
   "class": "Mogador",
   "nationality": "FRENCH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 0,
-    "tertiary": 4,
-    "torpedo": 2,
-    "AA": 1
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 4
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE",
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo": {
+    "maxHealth": 2
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 3,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 192
   },
   "movement": {
     "even": 4,
     "odd": 4
   },
-  "hull": 3,
-  "fuel": 192,
   "cargo": 1
 }

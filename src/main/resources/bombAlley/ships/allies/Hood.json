@@ -2,27 +2,35 @@
   "type": "BATTLECRUISER",
   "class": "Hood",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 10,
-    "secondary": 0,
-    "tertiary": 2,
-    "torpedo": 1,
-    "AA": 3
+  "primary": {
+    "armour": "HEAVY",
+    "maxHealth": 10
   },
-  "armour": {
-    "primary": "HEAVY",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "LIGHT",
-    "deck": false
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 3
+  },
+  "torpedo": {
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 18,
+    "deck": true
+  },
+  "fuel": {
+    "capacity": 360
   },
   "movement": {
     "even": 3,
     "odd": 2
   },
-  "hull": 18,
-  "fuel": 360,
   "cargo": 0,
   "victoryPoints": 74
 }

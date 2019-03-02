@@ -2,27 +2,31 @@
   "type": "CRUISER",
   "class": "C Class Cruiser",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 1,
-    "tertiary": 0,
-    "torpedo": 1,
-    "AA": 1
+  "secondary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "LIGHT",
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo": {
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 3,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 240
   },
   "movement": {
     "even": 3,
     "odd": 2
   },
-  "hull": 3,
-  "fuel": 240,
   "cargo": 3,
   "victoryPoints": 8
 }

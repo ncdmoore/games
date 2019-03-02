@@ -2,27 +2,40 @@
   "type": "BATTLESHIP",
   "class": "Queen Elizabeth",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 10,
-    "secondary": 2,
-    "tertiary": 1,
-    "torpedo": 0,
-    "AA": 4
+  "primary": {
+    "armour": "HEAVY",
+    "maxHealth": 10
   },
-  "armour": {
-    "primary": "HEAVY",
-    "secondary": "LIGHT",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "HEAVY",
+  "secondary":
+  {
+    "armour": "LIGHT",
+    "maxHealth": 2
+  },
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 4
+  },
+  "torpedo": {
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "HEAVY",
+    "maxHealth" : 14,
     "deck": true
+  },
+  "fuel": {
+    "capacity": 336
   },
   "movement": {
     "even": 2,
     "odd": 2
   },
-  "hull": 14,
-  "fuel": 336,
   "cargo": 0,
   "victoryPoints": 86
 }

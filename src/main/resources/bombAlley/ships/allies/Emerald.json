@@ -2,27 +2,31 @@
   "type": "CRUISER",
   "class": "Emerald",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 2,
-    "tertiary": 0,
-    "torpedo": 3,
-    "AA": 1
+  "secondary":
+  {
+    "armour": "LIGHT",
+    "maxHealth": 2
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "LIGHT",
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo": {
+    "maxHealth": 3
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 4,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 240
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 4,
-  "fuel": 240,
   "cargo": 3,
   "victoryPoints": 15
 }

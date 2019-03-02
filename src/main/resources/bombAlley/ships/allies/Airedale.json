@@ -2,27 +2,26 @@
   "type": "DESTROYER_ESCORT",
   "class": "Hunt",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 0,
-    "tertiary": 2,
-    "torpedo": 0,
-    "AA": 0
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE",
-    "deck": false
+  "torpedo": {
+    "maxHealth": 2
   },
   "movement": {
     "even": 2,
     "odd": 1
   },
-  "hull": 1,
-  "fuel": 144,
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 1,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 144
+  },
   "cargo": 0,
   "victoryPoints": 3
 }

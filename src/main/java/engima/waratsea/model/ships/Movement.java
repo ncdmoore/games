@@ -1,5 +1,7 @@
 package engima.waratsea.model.ships;
 
+import engima.waratsea.model.ships.data.MovementData;
+
 /**
  * Ship's movement.
  */
@@ -16,14 +18,13 @@ public class Movement {
     /**
      * Constructor.
      *
-     * @param maxEven The initial even turn movement health.
-     * @param maxOdd The initial odd turn movement health.
+     * @param data The persisted movement data.
      */
-    public Movement(final int maxEven, final int maxOdd) {
-        this.maxEven = maxEven;
-        this.maxOdd = maxOdd;
-        this.even = maxEven;
-        this.odd = maxOdd;
+    public Movement(final MovementData data) {
+        this.maxEven = data.getMaxEven();
+        this.maxOdd = data.getMaxOdd();
+        this.even = data.getEven();
+        this.odd = data.getOdd();
     }
 
 }

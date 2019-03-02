@@ -2,27 +2,33 @@
   "type": "AIRCRAFT_CARRIER",
   "class": "Ark Royal",
   "nationality": "BRITISH",
-  "weapons": {
-    "secondary": 0,
-    "tertiary": 2,
-    "torpedo": 0,
-    "AA": 5
+  "flightDeck":
+  {
+    "armour": "NONE",
+    "capacityList": [0, 3, 5, 9]
   },
-  "armour": {
-    "flight deck": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "LIGHT",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 5
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 10,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 384
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 10,
-  "fuel": 384,
   "cargo": 0,
-  "victoryPoints": 98,
-  "flightDeck": [0, 3, 5, 9]
+  "victoryPoints": 98
 }

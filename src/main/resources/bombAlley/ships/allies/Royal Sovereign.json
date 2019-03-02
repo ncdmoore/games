@@ -2,27 +2,37 @@
   "type": "BATTLESHIP",
   "class": "Royal Sovereign",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 10,
-    "secondary": 1,
-    "tertiary": 1,
-    "torpedo": 0,
-    "AA": 2
+  "primary": {
+    "armour": "HEAVY",
+    "maxHealth": 10
   },
-  "armour": {
-    "primary": "HEAVY",
-    "secondary": "LIGHT",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "HEAVY",
+  "secondary":
+  {
+    "armour": "LIGHT",
+    "maxHealth": 1
+  },
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "hull": {
+    "armour": "HEAVY",
+    "maxHealth" : 12,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 288
   },
   "movement": {
     "even": 2,
     "odd": 1
   },
-  "hull": 12,
-  "fuel": 288,
   "cargo": 0,
   "victoryPoints": 63
 }

@@ -2,27 +2,37 @@
   "type": "AIRCRAFT_CARRIER",
   "shipClass": "Eagle",
   "nationality": "BRITISH",
-  "weapons": {
-    "secondary": 1,
-    "tertiary": 0,
-    "torpedo": 1,
-    "AA": 1
+  "flightDeck":
+  {
+    "armour": "NONE",
+    "capacityList": [0, 2, 4]
   },
-  "armour": {
-    "flightDeck": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "LIGHT",
+  "secondary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo":
+  {
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 7,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 384
   },
   "movement": {
     "even": 2,
     "odd": 2
   },
-  "hull": 7,
-  "fuel": 384,
   "cargo": 0,
-  "victoryPoints": 44,
-  "flightDeck": [0, 2, 4]
+  "victoryPoints": 44
 }

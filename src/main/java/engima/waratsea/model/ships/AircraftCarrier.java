@@ -59,17 +59,17 @@ public class AircraftCarrier implements Ship, Airbase {
         nationality = data.getNationality();
         victoryPoints = data.getVictoryPoints();
 
-        secondary = new Gun(data.getWeapons().getSecondary(), data.getArmour().getSecondary());
-        tertiary = new Gun(data.getWeapons().getTertiary(), data.getArmour().getTertiary());
-        antiAir = new Gun(data.getWeapons().getAa(), data.getArmour().getAa());
-        torpedo = new Torpedo(data.getWeapons().getTorpedo());
+        secondary = new Gun(data.getSecondary());
+        tertiary = new Gun(data.getTertiary());
+        antiAir = new Gun(data.getAntiAir());
+        torpedo = new Torpedo(data.getTorpedo());
 
-        movement = new Movement(data.getMovement().getEven(), data.getMovement().getOdd());
+        movement = new Movement(data.getMovement());
         fuel = new Fuel(data.getFuel());
-        hull = new Hull(data.getHull(), data.getArmour().getHull());
+        hull = new Hull(data.getHull());
         cargo = new Cargo(data.getCargo());
 
-        flightDeck = new FlightDeck(data.getArmour().getFlightDeck(), data.getFlightDeck());
+        flightDeck = new FlightDeck(data.getFlightDeck());
     }
 
     /**

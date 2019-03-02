@@ -2,27 +2,31 @@
   "type": "DESTROYER",
   "class": "Scott Class",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 0,
-    "tertiary": 1,
-    "torpedo": 1,
-    "AA": 1
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE",
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo": {
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 1,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 144
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 1,
-  "fuel": 144,
   "cargo": 1,
   "victoryPoints": 5
 }

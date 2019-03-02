@@ -2,27 +2,33 @@
   "type": "BATTLESHIP",
   "class": "King George V",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 9,
-    "secondary": 0,
-    "tertiary": 5,
-    "torpedo": 0,
-    "AA": 4
+  "primary":
+  {
+    "armour": "HEAVY",
+    "maxHealth": 9
   },
-  "armour": {
-    "primary": "HEAVY",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "HEAVY",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 5
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 4
+  },
+  "hull": {
+    "armour": "HEAVY",
+    "maxHealth" : 15,
     "deck": true
+  },
+  "fuel": {
+    "capacity": 384
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 15,
-  "fuel": 384,
   "cargo": 0,
   "victoryPoints": 92
 }

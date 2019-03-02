@@ -2,27 +2,33 @@
   "type": "BATTLESHIP",
   "class": "Strasbourg",
   "nationality": "FRENCH",
-  "weapons": {
-    "primary": 6,
-    "secondary": 0,
-    "tertiary": 6,
-    "torpedo": 0,
-    "AA": 4
+  "primary":
+  {
+    "armour": "HEAVY",
+    "maxHealth": 6
   },
-  "armour": {
-    "primary": "HEAVY",
-    "secondary": "NONE",
-    "tertiary": "LIGHT",
-    "AA": "NONE",
-    "hull": "LIGHT",
+  "tertiary":
+  {
+    "armour": "LIGHT",
+    "maxHealth": 6
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 4
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 11,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 432
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 11,
-  "fuel": 432,
   "cargo": 0,
   "victoryPoints": 56
 }

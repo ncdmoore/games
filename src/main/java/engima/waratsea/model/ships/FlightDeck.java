@@ -1,5 +1,6 @@
 package engima.waratsea.model.ships;
 
+import engima.waratsea.model.ships.data.FlightDeckData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,12 +28,11 @@ public class FlightDeck {
     /**
      * Constructor.
      *
-     * @param armour The flight deck's armour rating.
-     * @param capacityList The maximum flight deck maxCapacity list.
+     * @param data The flight deck's persisted data.
      */
-    public FlightDeck(final ArmourType armour, final List<Integer> capacityList) {
-        this.armour = armour;
-        this.capacityList = capacityList;
+    public FlightDeck(final FlightDeckData data) {
+        this.armour = data.getArmour();
+        this.capacityList = data.getCapacityList();
 
         this.health = capacityList != null ? capacityList.size()  : 0;
     }

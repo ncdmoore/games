@@ -6,13 +6,10 @@ import engima.waratsea.model.ships.ShipType;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 /**
  * Represents the ship's data that is read and written to JSON files.
  */
 public class ShipData {
-
     @Getter
     @Setter
     private transient ShipId shipId;
@@ -31,23 +28,39 @@ public class ShipData {
 
     @Getter
     @Setter
-    private WeaponData weapons;
+    private FlightDeckData flightDeck;
 
     @Getter
     @Setter
-    private ArmourData armour;
+    private GunData primary;
+
+    @Getter
+    @Setter
+    private GunData secondary;
+
+    @Getter
+    @Setter
+    private GunData tertiary;
+
+    @Getter
+    @Setter
+    private GunData antiAir;
+
+    @Getter
+    @Setter
+    private TorpedoData torpedo;
+
+    @Getter
+    @Setter
+    private HullData hull;
+
+    @Getter
+    @Setter
+    private FuelData fuel;
 
     @Getter
     @Setter
     private MovementData movement;
-
-    @Getter
-    @Setter
-    private int hull;
-
-    @Getter
-    @Setter
-    private int fuel;                                             //Fuel is n times the value in the board game.
 
     @Getter
     @Setter
@@ -57,8 +70,14 @@ public class ShipData {
     @Setter
     private int victoryPoints;
 
-    @Getter
-    @Setter
-    private List<Integer> flightDeck;
-
+    /** The default ship data constructor.
+     *
+     */
+    public ShipData() {
+        primary = new GunData();
+        secondary = new GunData();
+        tertiary = new GunData();
+        antiAir = new GunData();
+        torpedo = new TorpedoData();
+    }
 }

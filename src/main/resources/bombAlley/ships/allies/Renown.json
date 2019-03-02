@@ -2,27 +2,36 @@
   "type": "BATTLECRUISER",
   "class": "Renown",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 7,
-    "secondary": 0,
-    "tertiary": 5,
-    "torpedo": 2,
-    "AA": 5
+  "primary": {
+    "armour": "LIGHT",
+    "maxHealth": 7
   },
-  "armour": {
-    "primary": "LIGHT",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "LIGHT",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 5
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 5
+  },
+  "torpedo":
+  {
+    "maxHealth": 2
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 14,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 432
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 14,
-  "fuel": 432,
   "cargo": 0,
   "victoryPoints": 67
 }

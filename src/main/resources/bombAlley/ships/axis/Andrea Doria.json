@@ -2,27 +2,38 @@
   "type": "BATTLESHIP",
   "class": "Andrea Doria",
   "nationality": "ITALIAN",
-  "weapons": {
-    "primary": 7,
-    "secondary": 4,
-    "tertiary": 1,
-    "torpedo": 0,
-    "AA": 4
+  "primary":
+  {
+    "armour": "HEAVY",
+    "maxHealth": 7
   },
-  "armour": {
-    "primary": "HEAVY",
-    "secondary": "LIGHT",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "HEAVY",
+  "secondary":
+  {
+    "armour": "LIGHT",
+    "maxHealth": 4
+  },
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 4
+  },
+  "hull": {
+    "armour": "HEAVY",
+    "maxHealth" : 11,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 336
   },
   "movement": {
     "even": 3,
     "odd": 2
   },
-  "hull": 11,
-  "fuel": 336,
   "cargo": 0,
   "victoryPoints": 74
 }

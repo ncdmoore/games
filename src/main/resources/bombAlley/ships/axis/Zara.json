@@ -2,27 +2,33 @@
   "type": "CRUISER",
   "class": "Zara",
   "nationality": "ITALIAN",
-  "weapons": {
-    "primary": 0,
-    "secondary": 5,
-    "tertiary": 1,
-    "torpedo": 0,
-    "AA": 3
+  "secondary":
+  {
+    "armour": "LIGHT",
+    "maxHealth": 5
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "LIGHT",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "LIGHT",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 3
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 6,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 336
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 6,
-  "fuel": 336,
   "cargo": 3,
   "victoryPoints": 26
 }

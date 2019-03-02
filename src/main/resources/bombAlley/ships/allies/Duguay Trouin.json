@@ -2,27 +2,32 @@
   "type": "CRUISER",
   "class": "Duguay Trouin",
   "nationality": "FRENCH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 3,
-    "tertiary": 0,
-    "torpedo": 2,
-    "AA": 1
+  "secondary":
+  {
+    "armour": "NONE",
+    "maxHealth": 3
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE",
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo":
+  {
+    "maxHealth": 2
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 4,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 288
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 4,
-  "fuel": 288,
   "cargo": 3,
   "victoryPoints": 18
 }

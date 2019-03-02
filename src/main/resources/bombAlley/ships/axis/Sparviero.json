@@ -2,25 +2,26 @@
   "type": "AIRCRAFT CARRIER",
   "class": "Sparviero",
   "nationality": "ITALIAN",
-  "weapons": {
-    "secondary": 1,
-    "tertiary": 0,
-    "torpedo": 0,
-    "AA": 3
+  "secondary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
   },
-  "armour": {
-    "flight deck": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE"
+  "antiAir": {
+    "maxHealth": 3
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 4,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 264
   },
   "movement": {
     "even": 2,
     "odd": 1
   },
-  "hull": 4,
-  "fuel": 264,
   "cargo": 0,
   "victoryPoints": 31,
   "flightDeck": [0, 2, 4]

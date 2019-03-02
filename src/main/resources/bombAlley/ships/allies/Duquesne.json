@@ -2,27 +2,31 @@
   "type": "CRUISER",
   "class": "Duquesne",
   "nationality": "FRENCH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 5,
-    "tertiary": 0,
-    "torpedo": 1,
-    "AA": 2
+  "secondary":
+  {
+    "armour": "NONE",
+    "maxHealth": 5
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE",
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "torpedo": {
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 6,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 336
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 6,
-  "fuel": 336,
   "cargo": 3,
   "victoryPoints": 27
 }

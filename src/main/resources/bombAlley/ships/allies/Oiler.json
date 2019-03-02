@@ -2,27 +2,23 @@
   "type": "OILER",
   "class": "Oiler",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 0,
-    "tertiary": 0,
-    "torpedo": 0,
-    "AA": 1
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE",
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 2,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 720
   },
   "movement": {
     "even": 2,
     "odd": 2
   },
-  "hull": 2,
-  "fuel": 720,
   "cargo": 0,
   "victoryPoints": 0
 }

@@ -2,26 +2,33 @@
   "type": "AIRCRAFT_CARRIER",
   "class": "Aquila",
   "nationality": "ITALIAN",
-  "weapons": {
-    "secondary": 0,
-    "tertiary": 1,
-    "torpedo": 0,
-    "AA": 9
+  "flightDeck":
+  {
+    "armour": "NONE",
+    "capacityList": [0, 3, 5, 9, 11]
   },
-  "armour": {
-    "flight deck": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE"
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 9
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 10,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 384
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 10,
-  "fuel": 384,
   "cargo": 0,
-  "victoryPoints": 118,
-  "flightDeck": [0, 3, 5, 9, 11]
+  "victoryPoints": 118
 }

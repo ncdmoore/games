@@ -1,27 +1,33 @@
 {
-  "type": "AIRCRAFT_CARRIER",
+  "type": "SEAPLANE_CARRIER",
   "class": "Commandant Teste",
   "nationality": "FRENCH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 0,
-    "tertiary": 1,
-    "torpedo": 1,
-    "AA": 0
+  "flightDeck":
+  {
+    "armour": "NONE",
+    "capacityList": [0, 3, 5]
   },
-  "armour": {
-    "flight deck": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE"
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo":
+  {
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 5,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 384
   },
   "movement": {
     "even": 2,
     "odd": 2
   },
-  "hull": 5,
-  "fuel": 384,
   "cargo": 0,
   "victoryPoints": 27
 }

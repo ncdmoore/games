@@ -2,27 +2,31 @@
   "type": "MINELAYER",
   "class": "Abdiel",
   "nationality": "BRITISH",
-  "weapons": {
-    "primary": 0,
-    "secondary": 0,
-    "tertiary": 2,
-    "torpedo": 0,
-    "AA": 1
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
   },
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE",
-    "deck": false
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo": {
+    "maxHealth": 2
   },
   "movement": {
     "even": 4,
     "odd": 4
   },
-  "hull": 2,
-  "fuel": 192,
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 2,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 192
+  },
   "cargo": 0,
   "victoryPoints": 6
 }

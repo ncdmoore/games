@@ -2,27 +2,33 @@
   "type": "AIRCRAFT_CARRIER",
   "class": "Illustrious",
   "nationality": "BRITISH",
-  "weapons": {
-    "secondary": 0,
-    "tertiary": 2,
-    "torpedo": 0,
-    "AA": 6
+  "flightDeck":
+  {
+    "armour": "LIGHT",
+    "capacityList": [0, 3, 4, 8]
   },
-  "armour": {
-    "flight deck": "LIGHT",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "LIGHT",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 6
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 10,
     "deck": false
+  },
+  "fuel": {
+    "capacity": 384
   },
   "movement": {
     "even": 3,
     "odd": 3
   },
-  "hull": 10,
-  "fuel": 384,
   "cargo": 0,
-  "victoryPoints": 90,
-  "flightDeck": [0, 4, 6, 8]
+  "victoryPoints": 90
 }
