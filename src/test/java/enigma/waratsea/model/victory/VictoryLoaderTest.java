@@ -25,13 +25,12 @@ import static java.util.stream.Collectors.toList;
 public class VictoryLoaderTest {
     private static VictoryLoader loader;
     private static Config config;
-    private static GameTitle gameTitle;
 
     @BeforeClass
     public static void setup() {
         Injector injector = Guice.createInjector(new TestModule());
 
-        gameTitle = injector.getInstance(GameTitle.class);
+        GameTitle gameTitle = injector.getInstance(GameTitle.class);
         config = injector.getInstance(Config.class);
         loader = injector.getInstance(VictoryLoader.class);
 

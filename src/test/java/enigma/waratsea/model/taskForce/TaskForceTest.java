@@ -9,7 +9,6 @@ import engima.waratsea.model.game.event.ship.data.ShipMatchData;
 import engima.waratsea.model.game.event.turn.TurnEvent;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.game.event.turn.TurnEventMatcher;
 import engima.waratsea.model.game.event.turn.data.TurnMatchData;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
@@ -134,7 +133,7 @@ public class TaskForceTest {
 
         String shipName = "CVL04 Eagle";
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
-        Ship ship = shipyard.build(shipId);
+        Ship ship = shipyard.load(shipId);
 
         ShipEvent event = new ShipEvent();
         event.setShip(ship);
@@ -171,7 +170,7 @@ public class TaskForceTest {
 
         String shipName = "CVL04 Eagle";
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
-        Ship ship = shipyard.build(shipId);
+        Ship ship = shipyard.load(shipId);
 
         ShipEvent event = new ShipEvent();
         event.setShip(ship);
@@ -192,7 +191,7 @@ public class TaskForceTest {
 
         shipName = "BB02 Warspite";
         shipId = new ShipId(shipName, Side.ALLIES);
-        ship = shipyard.build(shipId);
+        ship = shipyard.load(shipId);
         ship.setTaskForce(taskForce);
 
         event.setShip(ship);

@@ -34,16 +34,20 @@ public class ShipyardTest {
     @Test
     public void testShipClassLoadForAircraftCarrier() {
         String shipClass = "Eagle";
-        ShipData shipData = Deencapsulation.invoke(shipyard, "loadShipData", shipClass, Side.ALLIES);
+        ShipData shipData = Deencapsulation.invoke(shipyard, "loadNewShipData", shipClass, Side.ALLIES);
         assert (shipData.getType().equals(ShipType.AIRCRAFT_CARRIER));
     }
 
     @Test
     public void testShipClassLoadForDestroyer() {
         String shipClass = "A Class";
-        ShipData shipData = Deencapsulation.invoke(shipyard, "loadShipData", shipClass, Side.ALLIES);
+        ShipData shipData = Deencapsulation.invoke(shipyard, "loadNewShipData", shipClass, Side.ALLIES);
         assert (shipData.getType().equals(ShipType.DESTROYER));
     }
+
+
+
+
 
     @Test
     public void testBuildAircraftCarrier() throws Exception {
@@ -157,7 +161,7 @@ public class ShipyardTest {
         String shipName = "ML02 Abdiel";
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
 
-        Ship ship = shipyard.build(shipId);
+        Ship ship = shipyard.load(shipId);
 
 
         Assert.assertNotNull(ship);
@@ -170,7 +174,7 @@ public class ShipyardTest {
         String shipName = "MS01 Halcyon-1";
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
 
-        Ship ship = shipyard.build(shipId);
+        Ship ship = shipyard.load(shipId);
 
 
         Assert.assertNotNull(ship);
@@ -192,7 +196,7 @@ public class ShipyardTest {
     private void testBuildAircraftCarrier(final String shipName, final Nation nation, final int capacity) throws Exception {
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
 
-        Ship ship = shipyard.build(shipId);
+        Ship ship = shipyard.load(shipId);
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.AIRCRAFT_CARRIER, ship.getType());
@@ -205,7 +209,7 @@ public class ShipyardTest {
     private void testBuildSeaPlaneCarrier(final String shipName, final Nation nation, final int capacity) throws Exception {
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
 
-        Ship ship = shipyard.build(shipId);
+        Ship ship = shipyard.load(shipId);
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.SEAPLANE_CARRIER, ship.getType());
@@ -218,7 +222,7 @@ public class ShipyardTest {
     private void testBuildBattleship(final String shipName, final Nation nation) throws Exception {
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
 
-        Ship ship = shipyard.build(shipId);
+        Ship ship = shipyard.load(shipId);
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.BATTLESHIP, ship.getType());
@@ -228,7 +232,7 @@ public class ShipyardTest {
     private void testBuildBattleCruiser(final String shipName, final Nation nation) throws Exception {
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
 
-        Ship ship = shipyard.build(shipId);
+        Ship ship = shipyard.load(shipId);
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.BATTLECRUISER, ship.getType());
@@ -238,7 +242,7 @@ public class ShipyardTest {
     private void testBuildCruiser(final String shipName, final Nation nation) throws Exception {
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
 
-        Ship ship = shipyard.build(shipId);
+        Ship ship = shipyard.load(shipId);
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.CRUISER, ship.getType());
@@ -248,7 +252,7 @@ public class ShipyardTest {
     private void testBuildDestroyer(final String shipName, final Nation nation) throws Exception {
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
 
-        Ship ship = shipyard.build(shipId);
+        Ship ship = shipyard.load(shipId);
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.DESTROYER, ship.getType());
@@ -258,7 +262,7 @@ public class ShipyardTest {
     private void testBuildDestroyerEscort(final String shipName, final Nation nation) throws Exception {
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
 
-        Ship ship = shipyard.build(shipId);
+        Ship ship = shipyard.load(shipId);
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.DESTROYER_ESCORT, ship.getType());
@@ -268,7 +272,7 @@ public class ShipyardTest {
     private void testBuildTransport(final String shipName, final Nation nation) throws Exception {
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
 
-        Ship ship = shipyard.build(shipId);
+        Ship ship = shipyard.load(shipId);
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.TRANSPORT, ship.getType());
@@ -278,7 +282,7 @@ public class ShipyardTest {
     private void testBuildOiler(final String shipName, final Nation nation) throws Exception {
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
 
-        Ship ship = shipyard.build(shipId);
+        Ship ship = shipyard.load(shipId);
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.OILER, ship.getType());

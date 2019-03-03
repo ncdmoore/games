@@ -310,7 +310,7 @@ public class TaskForce implements PersistentData<TaskForceData> {
      */
     private Ship buildShip(final ShipId shipId) {
         try {
-            Ship ship = shipyard.build(shipId);
+            Ship ship = shipyard.load(shipId);
             ship.setTaskForce(this);
             return ship;
         } catch (ShipyardException ex) {

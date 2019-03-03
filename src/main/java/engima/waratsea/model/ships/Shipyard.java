@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Config;
-import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ships.data.ShipData;
 import engima.waratsea.utility.PersistentUtility;
@@ -20,7 +19,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -29,9 +27,6 @@ import java.util.function.Function;
 @Singleton
 @Slf4j
 public class Shipyard {
-
-    private static final String SHIP_DIRECTORY_NAME = "/ships";
-
     // Ship type to ship factory map.
     private Map<ShipType, Function<ShipData, Ship>> factoryMap = new HashMap<>();
 
@@ -39,7 +34,6 @@ public class Shipyard {
     private Map<Side, Map<String, ShipData>> shipDataMap = new HashMap<>();
 
     private Config config;
-    private GameTitle gameTitle;
     private ShipRegistry registry;
     private ShipFactory shipFactory;
 
@@ -47,18 +41,15 @@ public class Shipyard {
      * Constructor called by guice.
      *
      * @param config The game config.
-     * @param gameTitle The game title/name.
      * @param registry The ship registry. Maps ship names to ship classes.
      * @param shipFactory A factory for creating ships.
      */
     @Inject
     public Shipyard(final Config config,
-                    final GameTitle gameTitle,
                     final ShipRegistry registry,
                     final ShipFactory shipFactory) {
 
         this.config = config;
-        this.gameTitle = gameTitle;
         this.registry = registry;
         this.shipFactory = shipFactory;
 
@@ -76,13 +67,8 @@ public class Shipyard {
      * @return The built ship.
      * @throws ShipyardException Indicates that the ship could not be built.
      */
-    public Ship build(final ShipId shipId) throws ShipyardException {
-        log.info("Build ship: '{}' for side {}", shipId.getName(), shipId.getSide());
-        String shipClassName = registry.getClass(shipId);
-        ShipData shipData = getShipData(shipClassName, shipId.getSide());
-        ShipType shipType = shipData.getType();
-        shipData.setShipId(shipId);
-        return getFactory(shipType).apply(shipData);
+    public Ship load(final ShipId shipId) throws ShipyardException {
+        return config.isNew() ? buildNew(shipId) : buildExisting(shipId);
     }
 
     /**
@@ -94,6 +80,37 @@ public class Shipyard {
         log.info("Save ship: '{}' for side {}", ship.getName(), ship.getShipId().getSide());
         String fileName = config.getSavedFileName(ship.getShipId().getSide(), Ship.class, ship.getName() + ".json");
         PersistentUtility.save(fileName, ship.getData());
+    }
+
+    /**
+     * Build a new ship.
+     *
+     * @param shipId uniquely identifies a ship.
+     * @return The built ship.
+     * @throws ShipyardException Indicates that the ship could not be built.
+     */
+    private Ship buildNew(final ShipId shipId) throws ShipyardException {
+        log.info("Build new ship: '{}' for side {}", shipId.getName(), shipId.getSide());
+        String shipClassName = registry.getClass(shipId);
+        ShipData shipData = getShipData(shipClassName, shipId.getSide());
+        ShipType shipType = shipData.getType();
+        shipData.setShipId(shipId);
+        return getFactory(shipType).apply(shipData);
+    }
+
+    /**
+     * Build an existing ship.
+     *
+     * @param shipId uniquely identifies a ship.
+     * @return The build ship.
+     * @throws ShipyardException Indicates that the ship could not be built.
+     */
+    private Ship buildExisting(final ShipId shipId) throws ShipyardException {
+        log.info("Build existing ship: '{}' for side {}", shipId.getName(), shipId.getSide());
+        ShipData shipData = loadExistingShipData(shipId);
+        ShipType shipType = shipData.getType();
+        shipData.setShipId(shipId);
+        return getFactory(shipType).apply(shipData);
     }
 
     /**
@@ -112,7 +129,7 @@ public class Shipyard {
         if (dataMap.containsKey(shipClassName)) {
             data = dataMap.get(shipClassName);
         } else {
-            data = loadShipData(shipClassName, side);
+            data = loadNewShipData(shipClassName, side);
             dataMap.put(shipClassName, data);
         }
 
@@ -127,11 +144,28 @@ public class Shipyard {
      * @return The ship's class data.
      * @throws ShipyardException An error occurred while attempting to read the ship's class data.
      */
-    private ShipData loadShipData(final String shipClassName, final Side side) throws ShipyardException {
-        String path = gameTitle.getValue() + SHIP_DIRECTORY_NAME + "/" + side.toString().toLowerCase() + "/" + shipClassName + ".json";
-        Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(path));
-        return url.map(u -> readShipClass(u, side))
+    private ShipData loadNewShipData(final String shipClassName, final Side side) throws ShipyardException {
+        log.info("Load new ship class: '{}' for side {}", shipClassName, side);
+        return config
+                .getGameURL(side, Ship.class, shipClassName + ".json")
+                .map(url -> readShipClass(url, side))
                 .orElseThrow(() -> new ShipyardException("Unable to load ship class for '" + shipClassName + "' for " + side));
+    }
+
+    /**
+     * Read the ship data from a saved JSON file.
+     *
+     * @param shipId uniquely identifies a ship.
+     * @return The ship data.
+     * @throws ShipyardException An error occurred while attempting to read the ship's data.
+     */
+    private ShipData loadExistingShipData(final ShipId shipId) throws ShipyardException {
+        Side side = shipId.getSide();
+        log.info("Load existing ship name: '{}' for side {}", shipId.getName(), side);
+        return config
+                .getSavedURL(side, Ship.class, shipId.getName() + ".json")
+                .map(url -> readShipClass(url, side))
+                .orElseThrow(() -> new ShipyardException("Unable to load ship class for '" + shipId.getName() + "' for " + side));
     }
 
     /**

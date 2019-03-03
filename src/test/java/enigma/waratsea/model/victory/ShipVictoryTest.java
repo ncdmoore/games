@@ -56,7 +56,7 @@ public class ShipVictoryTest {
 
         String shipName = "BB08 Royal Sovereign";
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
-        battleShip = shipyard.build(shipId);
+        battleShip = shipyard.load(shipId);
 
         TaskForceFactory taskForceFactory = injector.getInstance(TaskForceFactory.class);
 
