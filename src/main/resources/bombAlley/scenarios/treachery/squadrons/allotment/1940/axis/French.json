@@ -1,0 +1,34 @@
+{
+  "nation": "FRENCH",
+  "bombers": {
+    "dice": 0,
+    "factor": 2,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "LEO451",
+            "number": 1
+          }
+        ]
+      }
+    ]
+  },
+  "fighters": {
+    "dice": 0,
+    "factor": 2,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "D520",
+            "number": 1
+          }
+        ]
+      }
+    ]
+  }
+}
+

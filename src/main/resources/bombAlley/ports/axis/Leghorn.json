@@ -1,4 +1,6 @@
 {
   "name": "Leghorn",
-  "size": "MAJOR"
+  "size": "MAJOR",
+  "antiAir": 15,
+  "location": "AB7"
 }

@@ -5,6 +5,8 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.airfield.data.AirfieldData;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.Location;
+import engima.waratsea.model.map.LocationFactory;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,31 +25,32 @@ public class Airfield implements PersistentData<AirfieldData> {
     private final int maxCapacity;   //Capacity in steps.
 
     @Getter
+    private final int antiAir;
+
+    @Getter
+    private final Location location;
+
+    @Getter
     @Setter
     private int capacity;            //Capacity in steps.
-
-
-    @Getter
-    @Setter
-    private int antiAir;
-
-    @Getter
-    private String location;
 
     /**
      * Constructor called by guice.
      *
      * @param side The side of the airfield ALLIES or AXIS.
      * @param data The airfield data read in from a JSON file.
+     * @param factory The location factory.
      */
     @Inject
     public Airfield(@Assisted final Side side,
-                    @Assisted final AirfieldData data) {
+                    @Assisted final AirfieldData data,
+                              final LocationFactory factory) {
         this.side = side;
         name = data.getName();
         maxCapacity = data.getMaxCapacity();
         capacity = maxCapacity;
         antiAir = data.getAntiAir();
+        location = factory.create(data.getLocation());
     }
 
     /**
@@ -62,6 +65,7 @@ public class Airfield implements PersistentData<AirfieldData> {
         data.setMaxCapacity(maxCapacity);
         data.setCapacity(capacity);
         data.setAntiAir(antiAir);
+        data.setLocation(location.getReference());
         return data;
     }
 }

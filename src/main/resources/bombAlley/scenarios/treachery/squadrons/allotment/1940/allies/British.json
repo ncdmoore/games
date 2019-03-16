@@ -1,0 +1,34 @@
+{
+  "nation": "BRITISH",
+  "bombers": {
+    "dice": 0,
+    "factor": 2,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Blenheim",
+            "number": 1
+          }
+        ]
+      }
+    ]
+  },
+  "recon": {
+    "dice": 0,
+    "factor": 2,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Sunderland",
+            "number": 1
+          }
+        ]
+      }
+    ]
+  }
+}
+

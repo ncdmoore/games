@@ -1,0 +1,35 @@
+{
+  "type": "DESTROYER",
+  "class": "Vauquelin",
+  "nationality": "FRENCH",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 3
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo": {
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 3,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 192
+  },
+
+  "movement": {
+    "even": 4,
+    "odd": 3
+  },
+  "cargo": {
+    "capacity": 1
+  },
+  "victoryPoints": 9
+}

@@ -2,5 +2,6 @@
   "name"     : "Algiers",
   "province" : "Algeria",
   "maxCapacity" : 20,
-  "antiAir"       : 5
+  "antiAir"       : 5,
+  "location": "R20"
 }

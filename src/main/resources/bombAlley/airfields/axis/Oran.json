@@ -1,6 +1,7 @@
 {
-  "name"     : "Oran",
-  "province" : "Algeria",
-  "maxCapacity" : 20,
-  "antiAir"       : 5
+  "name": "Oran",
+  "province": "Algeria",
+  "maxCapacity": 20,
+  "antiAir": 5,
+  "location": "O24"
 }

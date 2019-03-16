@@ -3,7 +3,7 @@ package engima.waratsea.model.game.event.ship;
 import engima.waratsea.model.game.Asset;
 import engima.waratsea.model.game.event.GameEvent;
 import engima.waratsea.model.game.event.GameEventHandler;
-import engima.waratsea.model.ships.Ship;
+import engima.waratsea.model.ship.Ship;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

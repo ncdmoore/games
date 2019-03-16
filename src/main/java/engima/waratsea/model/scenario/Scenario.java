@@ -7,6 +7,7 @@ import engima.waratsea.model.weather.WeatherType;
 
 import javax.annotation.Nonnull;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -51,10 +52,15 @@ public class Scenario implements Comparable<Scenario> {
 
     @Getter
     @Setter
+    private String squadron;
+
+    @Getter
+    @Setter
     private String objectives;
 
     /**
      * Get the scenario start date.
+     *
      * @return The scenario start date.
      */
     public String getDate() {
@@ -63,12 +69,39 @@ public class Scenario implements Comparable<Scenario> {
     }
 
     /**
-     * Set the scenaro start date.
+     * Set the scenario start date.
+     *
      * @param date The scenario start date.
      */
     @SuppressWarnings("unused") // Gson sets the date.
     public void setDate(final Date date) {
         this.date = new Date(date.getTime());
+    }
+
+    /**
+     * Get the scenario month.
+     *
+     * @param separator The string separator between the month and year.
+     *
+     * @return The month and year.
+     */
+    public String getMonthYear(final String separator) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+        return month + separator + year;
+    }
+
+    /**
+     * Get the scenario year.
+     *
+      * @return The scenario year.
+     */
+    public String getYear() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.YEAR) + "";
     }
 
     /**

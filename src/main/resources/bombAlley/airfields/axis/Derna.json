@@ -2,5 +2,6 @@
   "name"     : "Derna",
   "province" : "Libya",
   "maxCapacity" : 8,
-  "antiAir"       : 2
+  "antiAir"       : 2,
+  "location": "AT28"
 }

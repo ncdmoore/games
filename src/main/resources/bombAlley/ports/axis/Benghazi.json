@@ -1,4 +1,6 @@
 {
   "name": "Benghazi",
-  "size": "MINOR"
+  "size": "MINOR",
+  "antiAir": 10,
+  "location": "AS30"
 }

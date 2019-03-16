@@ -1,0 +1,21 @@
+{
+  "objectives": "Unload the cargo carried by the Dardanelles convoy at Alexandria. Unload the cargo carried by the Malta convoy at Malta.",
+  "scenarioShip": [
+    {
+      "event": {
+        "action": "CARGO_UNLOADED",
+        "shipType": "TRANSPORT",
+        "location": "Alexandria",
+        "startingLocation": "AY16"
+      }
+    },
+    {
+      "event": {
+        "action": "CARGO_UNLOADED",
+        "shipType": "TRANSPORT",
+        "location": "Malta",
+        "startingLocation": "BC29"
+      }
+    }
+  ]
+}

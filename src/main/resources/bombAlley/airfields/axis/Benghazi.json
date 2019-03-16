@@ -2,5 +2,6 @@
   "name"     : "Benghazi",
   "province" : "Libya",
   "maxCapacity" : 20,
-  "antiAir"       : 6
+  "antiAir"       : 6,
+  "location": "AS30"
 }

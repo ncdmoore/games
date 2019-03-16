@@ -3,21 +3,22 @@ package engima.waratsea.model.taskForce;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
+import engima.waratsea.model.aircraft.Airbase;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
 import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
 import engima.waratsea.model.game.event.ship.data.ShipMatchData;
 import engima.waratsea.model.game.event.turn.TurnEvent;
-import engima.waratsea.model.aircraft.Airbase;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.turn.TurnEventMatcher;
 import engima.waratsea.model.game.event.turn.data.TurnMatchData;
-import engima.waratsea.model.map.GameMap;
-import engima.waratsea.model.ships.Ship;
-import engima.waratsea.model.ships.ShipId;
-import engima.waratsea.model.ships.ShipType;
-import engima.waratsea.model.ships.Shipyard;
-import engima.waratsea.model.ships.ShipyardException;
+import engima.waratsea.model.map.Location;
+import engima.waratsea.model.map.LocationFactory;
+import engima.waratsea.model.ship.Ship;
+import engima.waratsea.model.ship.ShipId;
+import engima.waratsea.model.ship.ShipType;
+import engima.waratsea.model.ship.Shipyard;
+import engima.waratsea.model.ship.ShipyardException;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.target.TargetFactory;
 import engima.waratsea.model.target.data.TargetData;
@@ -55,7 +56,7 @@ public class TaskForce implements PersistentData<TaskForceData> {
     private TaskForceMission mission;
 
     @Getter
-    private String location;
+    private Location location;
 
     @Getter
     @Setter
@@ -88,31 +89,32 @@ public class TaskForce implements PersistentData<TaskForceData> {
     @Getter
     private Map<ShipType, List<Ship>> shipTypeMap;
 
-    private GameMap gameMap;
     private Shipyard shipyard;
     private ShipEventMatcherFactory shipEventMatcherFactory;
     private TargetFactory targetFactory;
+    private LocationFactory locationFactory;
 
     /**
      * Constructor of Task Force called by guice.
      *
      * @param side The side of the task force. ALLIES or AXIS.
      * @param data The task force data read from a JSON file.
-     * @param gameMap The game map.
      * @param shipyard builds ships from ship names and side.
      * @param shipEventMatcherFactory Factory for creating ship event matchers.
      * @param targetFactory Factory for creating ship targets.
+     * @param locationFactory Factory for creating locations.
      */
     @Inject
     public TaskForce(@Assisted final Side side,
                      @Assisted final TaskForceData data,
-                               final GameMap gameMap,
                                final Shipyard shipyard,
                                final ShipEventMatcherFactory shipEventMatcherFactory,
-                               final TargetFactory targetFactory) {
+                               final TargetFactory targetFactory,
+                               final LocationFactory locationFactory) {
 
         this.shipEventMatcherFactory = shipEventMatcherFactory;
         this.targetFactory = targetFactory;
+        this.locationFactory = locationFactory;
 
         this.side = side;
         name = data.getName();
@@ -121,7 +123,6 @@ public class TaskForce implements PersistentData<TaskForceData> {
         targets = createTargets(data.getTargets());
         state = data.getState();
 
-        this.gameMap = gameMap;
         this.shipyard = shipyard;
 
         setLocation(data.getLocation());
@@ -148,7 +149,7 @@ public class TaskForce implements PersistentData<TaskForceData> {
         data.setMission(mission);
         data.setTargets(PersistentUtility.getData(targets));
         data.setState(state);
-        data.setLocation(location);
+        data.setLocation(location.getReference());
         data.setShips(getShipNames(ships));
         data.setCargoShips(getShipNames(cargoShips));
         data.setReleaseShipEvents(PersistentUtility.getData(releaseShipEvents));
@@ -202,7 +203,7 @@ public class TaskForce implements PersistentData<TaskForceData> {
      * @return True if the task force is currently located at an enemy port. False otherwise.
      */
     public boolean atEnemyBase() {
-        return gameMap.isLocationBase(side.opposite(), location);
+        return location.isEnemyBase(side);
     }
 
     /**
@@ -211,7 +212,7 @@ public class TaskForce implements PersistentData<TaskForceData> {
      * @return True if the task force is currently located at a friendly port. False otherwise.
      */
     public boolean atFriendlyBase() {
-        return gameMap.isLocationBase(side, location);
+        return location.isFriendlyBase(side);
     }
 
     /**
@@ -219,8 +220,8 @@ public class TaskForce implements PersistentData<TaskForceData> {
      *
      * @param newLocation The new location of the task force.
      */
-    public void setLocation(final String newLocation) {
-        location = gameMap.convertNameToReference(newLocation);
+    public void setLocation(final String newLocation)  {
+        location = locationFactory.create(newLocation);
     }
 
     /**
@@ -336,12 +337,6 @@ public class TaskForce implements PersistentData<TaskForceData> {
      */
     private void finish() {
 
-        location = gameMap.convertNameToReference(location);
-
-        Optional.ofNullable(targets)
-                .orElseGet(Collections::emptyList)
-                .forEach(this::convertTargetLocation);
-
         Optional.ofNullable(releaseShipEvents)
                 .filter(matchers -> state == TaskForceState.RESERVE)
                 .ifPresent(matchers -> ShipEvent.register(this, this::handleShipEvent));
@@ -375,16 +370,6 @@ public class TaskForce implements PersistentData<TaskForceData> {
                 .stream()
                 .map(TurnEventMatcher::new)
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * If the target location is a base name, update the target's map reference.
-     *
-     * @param target One of the task force's targets.
-     */
-    private void convertTargetLocation(final Target target) {
-        String mapReference =  gameMap.convertNameToReference(target.getLocation());
-        target.setLocation(mapReference);
     }
 
     /**

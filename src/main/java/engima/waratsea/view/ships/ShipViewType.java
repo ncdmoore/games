@@ -1,6 +1,6 @@
 package engima.waratsea.view.ships;
 
-import engima.waratsea.model.ships.ShipType;
+import engima.waratsea.model.ship.ShipType;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -9,9 +9,9 @@ import java.util.Map;
 /**
  * How the GUI classifies ship types.
  */
-public enum ShipViewType {
+public enum ShipViewType  {
     AIRCRAFT_CARRIER("Aircraft Carrier"),
-    BATTLESHIP("Battle Ship"),
+    BATTLESHIP("Battleship"),
     CRUISER("Cruiser"),
     DESTROYER("Destroyer"),
     DESTROYER_ESCORT("Destroyer Escort"),

@@ -1,4 +1,6 @@
 {
   "name": "Suez",
-  "size": "MINOR"
+  "size": "MINOR",
+  "antiAir": 10,
+  "location": "BH33"
 }

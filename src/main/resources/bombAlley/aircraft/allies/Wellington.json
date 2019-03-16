@@ -1,0 +1,31 @@
+{
+  "name": "Wellington",
+  "type": "Bomber",
+  "nationality": "British",
+  "service": "AIRFORCE",
+  "altitude": "MEDIUM",
+  "landing": "LAND",
+  "naval": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "land": {
+    "modifier": 1,
+    "full": 3,
+    "half": 2
+  },
+  "air": {
+    "modifier": 0,
+    "full": 3,
+    "half": 2
+  },
+  "range": {
+    "range": 12,
+    "endurance": 2
+  },
+  "frame": {
+    "frame": 2,
+    "fragile": false
+  }
+}

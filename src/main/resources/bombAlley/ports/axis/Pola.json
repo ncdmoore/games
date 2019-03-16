@@ -1,4 +1,6 @@
 {
   "name": "Pola",
-  "size": "MINOR"
+  "size": "MINOR",
+  "antiAir": 10,
+  "location": "AG5"
 }

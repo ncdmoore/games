@@ -2,5 +2,6 @@
   "name"     : "Naples",
   "province" : "Italy",
   "maxCapacity" : 30,
-  "antiAir"       : 20
+  "antiAir"       : 20,
+  "location": "AJ14"
 }

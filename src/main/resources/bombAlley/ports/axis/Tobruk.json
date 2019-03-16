@@ -1,4 +1,6 @@
 {
   "name": "Tobruk",
-  "size": "MINOR"
+  "size": "MINOR",
+  "antiAir": 10,
+  "location": "AW29"
 }

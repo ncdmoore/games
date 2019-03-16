@@ -1,0 +1,32 @@
+[
+  {
+    "name": "TF1",
+    "title": "Oran Force",
+    "location": "Oran",
+    "state": "RESERVE",
+    "mission": "FERRY",
+    "targets": [
+      {"location": "Toulon"},
+      {"location": "Marseille"}
+    ],
+    "releaseShipEvents": [
+      {
+        "action": "ATTACKED",
+        "side": "AXIS"
+      }
+    ],
+    "ships": [
+      "BB03 Bretagne",
+      "BB04 Provence",
+      "BC01 Dunkerque",
+      "BC02 Strasbourg",
+      "CVS01 Commandant Teste",
+      "DD03 Lynx",
+      "DD04 Tigre",
+      "DD22 Kersaint",
+      "DD27 Le Terrible",
+      "DD31 Mogador",
+      "DD32 Volta"
+    ]
+  }
+]

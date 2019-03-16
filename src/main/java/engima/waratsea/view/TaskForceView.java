@@ -4,10 +4,13 @@ import com.google.inject.Inject;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.model.ships.Ship;
+import engima.waratsea.model.ship.Ship;
+import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceState;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.utility.CssResourceProvider;
+import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.map.TaskForcePreviewMapView;
 import engima.waratsea.view.ships.ShipViewType;
 import javafx.scene.Node;
@@ -32,9 +35,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.utility.CssResourceProvider;
-import engima.waratsea.utility.ImageResourceProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -393,12 +393,18 @@ public class TaskForceView {
         GridPane gridPane = new GridPane();
         gridPane.setId("taskforce-summary-grid");
 
+        //Get a sorted list of the ship view types.
+        List<ShipViewType> keys = shipViewTypeMap
+                .keySet()
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
+
         int i = 0;
-        for (Map.Entry<ShipViewType, List<Ship>> entry : shipViewTypeMap.entrySet()) {
-            ShipViewType viewType = entry.getKey();
-            int total = entry.getValue().size();
+        for (ShipViewType shipViewType : keys) {
+            int total = shipViewTypeMap.get(shipViewType).size();
             if (total > 0) {
-                gridPane.add(new Label(viewType.toString()), 0, i);
+                gridPane.add(new Label(shipViewType.toString()), 0, i);
                 gridPane.add(new Label(total + ""), 1, i);
                 i++;
             }

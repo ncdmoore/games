@@ -2,5 +2,6 @@
   "name"     : "Heraklion",
   "province" : "Crete",
   "maxCapacity" : 16,
-  "antiAir"       : 2
+  "antiAir"       : 2,
+  "location": "AZ23"
 }

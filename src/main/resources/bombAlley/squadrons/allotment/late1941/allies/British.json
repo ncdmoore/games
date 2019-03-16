@@ -1,0 +1,88 @@
+{
+  "nation": "BRITISH",
+  "bombers": {
+    "dice": 3,
+    "factor": 3,
+    "groups": [
+      {
+        "selectSize": 2,
+        "aircraft": [
+          {
+            "type": "Blenheim",
+            "number": 8
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Wellington",
+            "number": 8
+          },
+          {
+            "type": "Maryland",
+            "number": 4
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Baltimore",
+            "number": 4
+          }
+        ]
+      }
+    ]
+  },
+  "fighters": {
+    "dice": 4,
+    "factor": 6,
+    "groups": [
+      {
+        "selectSize": 2,
+        "aircraft": [
+          {
+            "type": "Hurricane-2",
+            "number": 10
+          },
+          {
+            "type": "Kittyhawk",
+            "number": 6
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Beaufighter",
+            "number": 2
+          }
+        ]
+      }
+    ]
+  },
+  "recon": {
+    "dice": 1,
+    "factor": 2,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Sunderland",
+            "number": 8
+          },
+          {
+            "type": "Hudson",
+            "number": 2
+          }
+        ]
+      }
+    ]
+  }
+}
+

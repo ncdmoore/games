@@ -1,6 +1,6 @@
 package engima.waratsea.model.map.region.data;
 
-import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.nation.Nation;
 import lombok.Getter;
 import lombok.Setter;
 

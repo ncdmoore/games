@@ -1,4 +1,6 @@
 {
   "name": "Brindisi",
-  "size": "MINOR"
+  "size": "MINOR",
+  "antiAir": 10,
+  "location": "AN13"
 }

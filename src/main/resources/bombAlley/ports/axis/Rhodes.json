@@ -1,4 +1,6 @@
 {
   "name": "Rhodes",
-  "size": "MINOR"
+  "size": "MINOR",
+  "antiAir": 10,
+  "location": "BE23"
 }

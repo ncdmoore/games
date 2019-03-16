@@ -1,0 +1,91 @@
+[
+  {
+    "name": "TF1",
+    "title": "Supply Force",
+    "location": "Taranto",
+    "state": "ACTIVE",
+    "mission": "TRANSPORT",
+    "targets": [
+      {"location": "Benghazi"}
+    ],
+    "ships": [
+      "DE88 Sella-1",
+      "DE89 Sella-2",
+      "DE90 Sella-3",
+      "DE91 Sella-4",
+      "DE92 Sella-5",
+      "DE93 Sella-6"
+    ],
+    "cargoShips": [
+      "DE88 Sella-1",
+      "DE89 Sella-2",
+      "DE90 Sella-3",
+      "DE91 Sella-4",
+      "DE92 Sella-5",
+      "DE93 Sella-6"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "Reaction Force",
+    "location":  "Naples",
+    "state": "RESERVE",
+    "mission": "INTERCEPT",
+    "releaseShipEvents": [
+      {
+        "action": "SPOTTED",
+        "side": "ALLIES"
+      }
+    ],
+    "ships": [
+      "BB01 Conte di Cavour",
+      "BB02 Giulio Cesare",
+      "CA01 Trento",
+      "CA03 Zara",
+      "CA04 Pola",
+      "CA05 Fiume",
+      "CA06 Gorizia",
+      "CA07 Bolzano",
+      "CL01 Alberto di Guissano",
+      "CL02 Alberico da Barbiano",
+      "CL05 Luigi Cadorna",
+      "CL06 Armando Diaz",
+      "CL07 Montecucccoli",
+      "CL08 Attendolo",
+      "CL09 Duca d Aosta",
+      "CL10 Eugenio di Savoia",
+      "DD11 Vivaldi",
+      "DD02 Da Noli",
+      "DD03 Da Recco",
+      "DD06 Pancaldo",
+      "DD07 Pessagno",
+      "DD08 Pigafetta",
+      "DD10 Usodimare",
+      "DD12 Zeno",
+      "DD13 Freccia",
+      "DD14 Dardo",
+      "DD15 Saetta",
+      "DD16 Strale",
+      "DD17 Baleno",
+      "DD18 Folgore",
+      "DD19 Lampo",
+      "DD20 Fulmine",
+      "DD25 Oriani",
+      "DD26 Gioberti",
+      "DD27 Carducci",
+      "DD28 Alfieri",
+      "DD29 Camicia Nere",
+      "DD30 Aviere",
+      "DD31 Artigliere",
+      "DD32 Geniere",
+      "DD33 Granatiere",
+      "DD34 Corazziere",
+      "DD35 Bersagliere",
+      "DD36 Carabiniere",
+      "DD37 Ascari",
+      "DD38 Fuciliere",
+      "DD39 Alpino",
+      "DD40 Lanciere"
+    ]
+  }
+]

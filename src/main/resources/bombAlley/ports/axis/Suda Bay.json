@@ -1,4 +1,6 @@
 {
   "name": "Suda Bay",
-  "size": "MINOR"
+  "size": "MINOR",
+  "antiAir": 10,
+  "location": "AW23"
 }

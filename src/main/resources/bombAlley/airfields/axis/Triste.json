@@ -2,5 +2,6 @@
   "name"     : "Triste",
   "province" : "Italy",
   "maxCapacity" : 20,
-  "antiAir"       : 12
+  "antiAir"       : 12,
+  "location": "AG3"
 }

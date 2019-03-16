@@ -1,0 +1,31 @@
+{
+  "name": "Ca313",
+  "type": "Poor_Naval_Bomber",
+  "nationality": "Italian",
+  "service": "AIRFORCE",
+  "altitude": "MEDIUM",
+  "landing": "LAND",
+  "naval": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "land": {
+    "modifier": 1,
+    "full": 1,
+    "half": 0
+  },
+  "air": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "range": {
+    "range": 13,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

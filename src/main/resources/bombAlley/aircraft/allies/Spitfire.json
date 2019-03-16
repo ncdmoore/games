@@ -1,0 +1,31 @@
+{
+  "name": "Spitfire",
+  "type": "Fighter",
+  "nationality": "British",
+  "service": "AIRFORCE",
+  "altitude": "LOW",
+  "landing": "LAND",
+  "naval": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "air": {
+    "modifier": 1,
+    "full": 4,
+    "half": 2
+  },
+  "range": {
+    "range": 4,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

@@ -3,6 +3,7 @@ package engima.waratsea.model.game;
 import com.google.inject.Inject;
 import engima.waratsea.model.game.data.GameData;
 import engima.waratsea.model.game.event.GameEvent;
+import engima.waratsea.model.game.nation.NationProps;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.MapException;
 import engima.waratsea.model.player.Player;
@@ -27,18 +28,40 @@ import java.util.Map;
 @Singleton
 public class Game {
     @Getter
-    private final Player computerPlayer;
+    @Inject
+    @Named("Human")
+    @SuppressWarnings("unused")
+    private Player computerPlayer;
 
     @Getter
-    private final Player humanPlayer;
+    @Inject
+    @Named("Computer")
+    @SuppressWarnings("unused")
+    private Player humanPlayer;
 
-    private final Map<Side, Player> players = new HashMap<>();
+    @Inject
+    @SuppressWarnings("unused")
+    private  Config config;
 
-    private final Config config;
-    private final ScenarioLoader scenarioLoader;
-    private final GameLoader gameLoader;
-    private final GameMap gameMap;
-    private final Victory gameVictory;
+    @Inject
+    @SuppressWarnings("unused")
+    private  NationProps nationProps;
+
+    @Inject
+    @SuppressWarnings("unused")
+    private  ScenarioLoader scenarioLoader;
+
+    @Inject
+    @SuppressWarnings("unused")
+    private  GameLoader gameLoader;
+
+    @Inject
+    @SuppressWarnings("unused")
+    private  GameMap gameMap;
+
+    @Inject
+    @SuppressWarnings("unused")
+    private  Victory gameVictory;
 
     @Getter
     private Side humanSide;
@@ -46,33 +69,7 @@ public class Game {
     @Getter
     private Scenario scenario;
 
-    /**
-     * The constructor for the game.
-     *
-     * @param humanPlayer The human player.
-     * @param computerPlayer The computer player.
-     * @param config The game config.
-     * @param gameMap The game map.
-     * @param gameVictory The game victory conditions and status.
-     * @param scenarioLoader Loads player task forces.
-     * @param gameLoader Loads game data.
-     */
-    @Inject
-    public Game(@Named("Human") final Player humanPlayer,
-                @Named("Computer") final Player computerPlayer,
-                final Config config,
-                final GameMap gameMap,
-                final Victory gameVictory,
-                final ScenarioLoader scenarioLoader,
-                final GameLoader gameLoader) {
-        this.config = config;
-        this.humanPlayer = humanPlayer;
-        this.computerPlayer = computerPlayer;
-        this.gameMap = gameMap;
-        this.gameVictory = gameVictory;
-        this.scenarioLoader = scenarioLoader;
-        this.gameLoader = gameLoader;
-    }
+    private  Map<Side, Player> players = new HashMap<>();
 
     /**
      * Initialize the scenario summary data.
@@ -92,6 +89,7 @@ public class Game {
     public void setScenario(final Scenario selectedScenario) {                                                          // New Game Step 2.
         scenario = selectedScenario;
         config.setScenario(scenario.getName());
+        nationProps.setScenario(scenario);
     }
 
     /**
@@ -171,7 +169,7 @@ public class Game {
         loadGameVictory();
         buildAssets();
     }
-    
+
     /**
      * Load a saved game.
      *

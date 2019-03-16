@@ -1,0 +1,34 @@
+{
+  "type": "DESTROYER",
+  "class": "Mogador",
+  "nationality": "FRENCH",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 4
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo": {
+    "maxHealth": 2
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 3,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 192
+  },
+  "movement": {
+    "even": 4,
+    "odd": 4
+  },
+  "cargo": {
+    "capacity": 1
+  },
+  "victoryPoints": 12
+}

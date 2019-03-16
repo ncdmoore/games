@@ -1,4 +1,6 @@
 {
   "name": "La Spezia",
-  "size": "MAJOR"
+  "size": "MAJOR",
+  "antiAir": 15,
+  "location": "AA6"
 }

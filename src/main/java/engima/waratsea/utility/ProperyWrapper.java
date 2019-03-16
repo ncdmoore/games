@@ -25,7 +25,7 @@ public class ProperyWrapper {
             properties.load(inputStream);
             log.info("Loaded properties: {}", name);
         } catch (IOException | RuntimeException ex) {
-            log.warn("Unable to open resource file {}", name);
+            log.warn("Unable to load properties file {}", name);
         }
     }
 

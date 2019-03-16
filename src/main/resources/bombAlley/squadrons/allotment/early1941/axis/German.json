@@ -1,0 +1,61 @@
+{
+  "nation": "GERMAN",
+  "bombers": {
+    "dice": 2,
+    "factor": 4,
+    "groups": [
+      {
+        "selectSize": 2,
+        "aircraft": [
+          {
+            "type": "JU88A",
+            "number": 10
+          },
+          {
+            "type": "JU87B",
+            "number": 14
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "HE111H",
+            "number": 6
+          }
+        ]
+      }
+    ]
+  },
+  "fighters": {
+    "dice": 2,
+    "factor": 3,
+    "groups": [
+      {
+        "selectSize": 2,
+        "aircraft": [
+          {
+            "type": "BF109E",
+            "number": 8
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "BF110D",
+            "number": 5
+          }
+        ]
+      }
+    ]
+  },
+  "recon": {
+    "dice": 0,
+    "factor": 0,
+    "groups": []
+  }
+}
+

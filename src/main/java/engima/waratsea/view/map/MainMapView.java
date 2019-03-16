@@ -55,9 +55,18 @@ public class MainMapView {
 
         mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Rhodes")));
         mapView.highlight(gameMap.getGrid("BC25"));
+
         mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Tobruk")));
+        mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Benghazi")));
+        mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Tripoli")));
+
         mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Taranto")));
         mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Messina")));
+        mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Naples")));
+
+        mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Marseille")));
+        mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Toulon")));
+        mapView.highlight(gameMap.getGrid(gameMap.convertNameToReference("Oran")));
 
 
         StackPane map = new StackPane(mapImageView, mapGrid);

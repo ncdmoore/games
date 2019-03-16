@@ -69,12 +69,13 @@ public class RegionLoader {
      * @return A list of regions.
      */
     private List<Region> loadScenarioSpecific(final Scenario scenario, final Side side)  {
+        log.info("load specific regions scenario: '{}', side: {}", scenario.getTitle(), side);
         List<Region> regions = confg
-                .getScenarioURL(side, Region.class)
+                .getScenarioURL(side, Region.class, scenario.getMap() + ".json")
                 .map(url -> readRegions(scenario, url, side))
                 .orElse(null);
 
-        log.info("Scenario: '{}' load specific regions, success: {}", new Object[]{scenario.getTitle(), regions != null});
+        log.info("load specific regions scenario: '{}', side: {} , success: {}", new Object[]{scenario.getTitle(), side, regions != null});
         return regions;
     }
 
@@ -87,7 +88,7 @@ public class RegionLoader {
      * @throws MapException if the regions cannot be loaded.
      */
     private List<Region> loadDefault(final Scenario scenario, final Side side) throws MapException {
-        log.info("Load regions for scenario: {}, side: {}", scenario.getTitle(), side);
+        log.info("Load default regions for scenario: {}, side: {}", scenario.getTitle(), side);
         return confg
                 .getGameURL(side, Region.class, scenario.getMap() + ".json")
                 .map(url -> readRegions(scenario, url, side))

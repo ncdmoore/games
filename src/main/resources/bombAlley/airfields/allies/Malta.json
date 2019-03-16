@@ -2,5 +2,7 @@
   "name"     : "Luqa",
   "province" : "Malta",
   "maxCapacity" : 20,
-  "antiAir"       : 12
+  "antiAir"       : 12,
+  "location": "AK24"
+
 }

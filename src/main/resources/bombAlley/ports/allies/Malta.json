@@ -1,4 +1,6 @@
 {
   "name": "Malta",
-  "size": "MAJOR"
+  "size": "MAJOR",
+  "antiAir": 10,
+  "location": "AK24"
 }

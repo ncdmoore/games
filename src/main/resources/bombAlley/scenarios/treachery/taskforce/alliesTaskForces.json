@@ -1,0 +1,37 @@
+[
+  {
+    "name": "TF1",
+    "title": "Gibraltar Force",
+    "location": "Gibraltar",
+    "state": "ACTIVE",
+    "mission": "BOMBARDMENT",
+    "targets": [
+      {"location": "Oran"}
+    ],
+    "ships": [
+      "BB03 Valiant",
+      "BB07 Resolution",
+      "BC03 Hood",
+      "CV04 Ark Royal",
+      "CL23 Enterprise",
+      "CL29 Arethusa",
+      "DD02 Keppel",
+      "DD15 Active",
+      "DD48 Escort",
+      "DD53 Faulknor",
+      "DD54 Fearless",
+      "DD56 Forester",
+      "DD57 Foresight",
+      "DD59 Foxhound",
+      "DE01 V&W-1",
+      "DE02 V&W-2",
+      "DE03 V&W-3",
+      "DE04 V&W-4",
+      "DE05 V&W-5",
+      "DE06 V&W-6",
+      "DE07 V&W-7",
+      "DE08 V&W-8",
+      "DE09 V&W-9"
+    ]
+  }
+]

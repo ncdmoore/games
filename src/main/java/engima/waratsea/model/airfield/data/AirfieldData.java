@@ -20,9 +20,12 @@ public class AirfieldData {
     @Setter
     private int capacity;
 
-
     @Getter
     @Setter
     private int antiAir;
+
+    @Getter
+    @Setter
+    private String location;
 
 }

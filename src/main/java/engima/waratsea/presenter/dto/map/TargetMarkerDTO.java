@@ -52,7 +52,7 @@ public class TargetMarkerDTO implements PopUpDTO {
      * @param target The targets.
      */
     public TargetMarkerDTO(final TaskForce taskForce, final Target target) {
-        this.mapReference = target.getLocation();
+        this.mapReference = target.getLocation().getReference();
         this.taskForceName = taskForce.getName();
         this.mission = taskForce.getMission().toString();
     }

@@ -1,0 +1,31 @@
+{
+  "name": "B-17 Fortress",
+  "type": "Bomber",
+  "nationality": "British",
+  "service": "AIRFORCE",
+  "altitude": "HIGH",
+  "landing": "LAND",
+  "naval": {
+    "modifier": 0,
+    "full": 3,
+    "half": 1
+  },
+  "land": {
+    "modifier": 1,
+    "full": 9,
+    "half": 5
+  },
+  "air": {
+    "modifier": 0,
+    "full": 3,
+    "half": 1
+  },
+  "range": {
+    "range": 12,
+    "endurance": 3
+  },
+  "frame": {
+    "frame": 3,
+    "fragile": false
+  }
+}

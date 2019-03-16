@@ -2,5 +2,6 @@
   "name"     : "Sarzana",
   "province" : "Italy",
   "maxCapacity" : 20,
-  "antiAir"       : 10
+  "antiAir"       : 10,
+  "location": "AB6"
 }

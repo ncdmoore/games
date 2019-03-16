@@ -2,5 +2,6 @@
   "name"     : "Famagusta",
   "province" : "Cyprus",
   "maxCapacity" : 8,
-  "antiAir"       : 3
+  "antiAir"       : 3,
+  "location": "BK24"
 }

@@ -9,6 +9,7 @@ import engima.waratsea.model.taskForce.data.TaskForceData;
 public interface TaskForceFactory {
     /**
      * Creates a Task Force.
+     *
      * @param side The side of the task force. ALLIES or AXIS.
      * @param data Task force data read from a JSON file.
      * @return A Task Force initialized with the data from the JSON file.

@@ -6,7 +6,6 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.airfield.data.AirfieldData;
 import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
@@ -31,22 +30,18 @@ import java.util.stream.Collectors;
 @Singleton
 public class AirfieldLoader {
     private Config config;
-    private GameMap gameMap;
     private AirfieldFactory factory;
 
     /**
      * Constructor called by guice.
      *
      * @param config The game config.
-     * @param gameMap The game map.
      * @param factory The airfield factory.
      */
     @Inject
     public AirfieldLoader(final Config config,
-                          final GameMap gameMap,
                           final AirfieldFactory factory) {
         this.config = config;
-        this.gameMap = gameMap;
         this.factory = factory;
     }
 
@@ -54,10 +49,11 @@ public class AirfieldLoader {
      * Build the airfields.
      *
      * @param side The airfield side ALLIES or AXIS.
+     * @param airfields The list of airfields to load.
      * @return A list of airfield objects.
      */
-    public List<Airfield> load(final Side side) {
-        return gameMap.getAirfields(side)
+    public List<Airfield> load(final Side side, final List<String> airfields) {
+        return airfields
                 .stream()
                 .map(airfield -> loadAirfieldData(airfield, side))
                 .filter(Objects::nonNull)

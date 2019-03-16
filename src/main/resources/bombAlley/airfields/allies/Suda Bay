@@ -2,5 +2,6 @@
   "name"     : "Suda Bay",
   "province" : "Crete",
   "maxCapacity" : 10,
-  "antiAir"       : 3
+  "antiAir"       : 3,
+  "location": "AW24"
 }

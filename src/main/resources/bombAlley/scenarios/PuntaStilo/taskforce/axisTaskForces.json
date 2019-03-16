@@ -1,0 +1,184 @@
+[
+  {
+    "name": "TF1",
+    "title": "Convoy",
+    "location": "Naples",
+    "state": "ACTIVE",
+    "mission": "TRANSPORT",
+    "targets": [
+      {"location": "Benghazi"},
+      {"location": "Tripoli"}
+    ],
+    "ships": [
+      "CL03 Barde Nere",
+      "CL04 Colleoni",
+      "DD21 Maestrale",
+      "DD22 Scirocco",
+      "DD23 Grecale",
+      "DD24 Libeccio",
+      "DE46 Spica-1",
+      "DE47 Spica-2",
+      "DE48 Spica-3",
+      "DE49 Spica-4",
+      "DE50 Spica-5",
+      "DE51 Spica-6",
+      "DE52 Spica-7",
+      "DE53 Spica-8",
+      "DE54 Spica-9",
+      "DE55 Spica-10",
+      "DE56 Spica-11",
+      "DE57 Spica-12",
+      "TR01",
+      "TR02",
+      "TR03",
+      "TR04"
+    ],
+    "cargoShips": [
+      "TR01",
+      "TR02",
+      "TR03",
+      "TR04"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "Distant Escort Group",
+    "location":  "Naples",
+    "state": "ACTIVE",
+    "mission": "ESCORT",
+    "ships": [
+      "CA01 Trento",
+      "CA02 Trieste",
+      "CA03 Zara",
+      "CA04 Pola",
+      "CA05 Fiume",
+      "CA06 Gorizia",
+      "CA07 Bolzano",
+      "DD25 Oriani",
+      "DD26 Gioberti",
+      "DD27 Carducci",
+      "DD28 Alfieri",
+      "DD29 Camicia Nere",
+      "DD30 Aviere",
+      "DD31 Artigliere",
+      "DD32 Geniere",
+      "DD34 Corazziere",
+      "DD36 Carabiniere",
+      "DD37 Ascari"
+    ]
+  },
+  {
+    "name": "TF3",
+    "title": "Augusta Force",
+    "location": "Augusta",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "TR05",
+      "DE01 Pilo-1",
+      "DE02 Pilo-2",
+      "DE03 Pilo-3",
+      "DE04 Pilo-4",
+      "DE05 Pilo-5",
+      "DE06 Pilo-6"
+    ],
+    "cargoShips": [
+      "TR05"
+    ]
+  },
+  {
+    "name": "TF4",
+    "title": "Battle Group",
+    "location": "Taranto",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "BB01 Conte di Cavour",
+      "BB02 Giulio Cesare",
+      "CL01 Alberto di Guissano",
+      "CL02 Alberico da Barbiano",
+      "CL05 Luigi Cadorna",
+      "CL06 Armando Diaz",
+      "CL11 Duca degli Abruzzi",
+      "CL12 Giuseppe Garibaldi",
+      "DD01 Da Mosto",
+      "DD03 Da Recco",
+      "DD04 Da Verrazzano",
+      "DD05 Da Malocello",
+      "DD07 Pessagno",
+      "DD08 Pigafetta",
+      "DD09 Tarigo",
+      "DD10 Usodimare",
+      "DD12 Zeno",
+      "DD13 Freccia",
+      "DD14 Dardo",
+      "DD15 Saetta",
+      "DD16 Strale",
+      "DD17 Baleno",
+      "DD18 Folgore",
+      "DD19 Lampo",
+      "DD20 Fulmine"
+    ]
+  },
+  {
+    "name": "TF5",
+    "title": "Response Group",
+    "location": "Taranto",
+    "state": "RESERVE",
+    "mission": "INTERCEPT",
+    "releaseShipEvents": [
+      {
+        "action": "SPOTTED",
+        "side": "ALLIES"
+      }
+    ],
+    "ships": [
+      "DD02 Da Noli",
+      "DD06 Pancaldo",
+      "DD11 Vivaldi",
+      "DD33 Granatiere",
+      "DD38 Fuciliere",
+      "DD35 Bersagliere",
+      "DD39 Alpino"
+    ]
+  },
+  {
+    "name": "TF6",
+    "title": "Emergency Group",
+    "location": "Taranto",
+    "state": "RESERVE",
+    "mission": "INTERCEPT",
+    "releaseShipEvents": [
+      {
+        "action": "SPOTTED",
+        "side": "ALLIES",
+        "shipType": "BATTLESHIP"
+      }
+    ],
+    "ships": [
+      "BB05 Littorio",
+      "BB06 Vittorio Veneto",
+      "CL07 Montecuccoli",
+      "CL08 Attendolo",
+      "CL09 Duca d Aosta",
+      "CL10 Eugenio di Savoia",
+      "DD40 Lanciere"
+    ]
+  },
+  {
+    "name": "TF7",
+    "title": "Tobruk Group",
+    "location": "Tobruk",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "CD01 San Giorgio",
+      "DE88 Sella-1",
+      "DE89 Sella-2",
+      "DE90 Sella-3",
+      "DE91 Sella-4",
+      "DE92 Sella-5",
+      "DE93 Sella-6"
+    ]
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "name": "G.55",
+  "type": "Fighter",
+  "nationality": "Italian",
+  "service": "AIRFORCE",
+  "altitude": "HIGH",
+  "landing": "LAND",
+  "naval": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "air": {
+    "modifier": 1,
+    "full": 6,
+    "half": 3
+  },
+  "range": {
+    "range": 9,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

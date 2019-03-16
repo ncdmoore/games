@@ -1,0 +1,163 @@
+[
+  {
+    "name": "TF1",
+    "title": "Gibraltar Force",
+    "location": "Gibraltar",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "BB03 Valiant",
+      "BB07 Resolution",
+      "BC03 Hood",
+      "CV04 Ark Royal",
+      "CL16a Delhi 39",
+      "CL23 Enterprise",
+      "CL29 Arethusa",
+      "DD02 Keppel",
+      "DD06 Douglas",
+      "DD53 Faulknor",
+      "DD54 Fearless",
+      "DD56 Forester",
+      "DD57 Foresight",
+      "DD59 Foxhound",
+      "DE01 V&W-1",
+      "DE02 V&W-2",
+      "DE03 V&W-3",
+      "DE04 V&W-4",
+      "DE05 V&W-5",
+      "DE06 V&W-6",
+      "DE07 V&W-7",
+      "DE08 V&W-8",
+      "DE09 V&W-9"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "MS Escort",
+    "location": "AG22",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "DD40 Diamond",
+      "DD70 Havock",
+      "DD117 Jervis",
+      "DD07 Garland"
+    ]
+  },
+  {
+    "name": "TF3",
+    "title": "MS Convoy",
+    "location": "AH21",
+    "state": "ACTIVE",
+    "mission": "TRANSPORT",
+    "targets": [
+      {"location": "Alexandria"}
+    ],
+    "ships": [
+      "DE10 V&W-10",
+      "DE11 V&W-11",
+      "DE12 V&W-12",
+      "DE13 V&W-13",
+      "DE14 V&W-14",
+      "DE15 V&W-15",
+      "DE16 V&W-16",
+      "DE17 V&W-17",
+      "DE18 V&W-18",
+      "TR13",
+      "TR14",
+      "TR15",
+      "TR16",
+      "TR17"
+    ],
+    "cargoShips": [
+      "TR13",
+      "TR14",
+      "TR15",
+      "TR16",
+      "TR17"
+    ]
+  },
+  {
+    "name": "TF4",
+    "title": "MF Convoy",
+    "location": "BC29",
+    "state": "ACTIVE",
+    "mission": "TRANSPORT",
+    "targets": [
+      {"location": "Malta"}
+    ],
+    "ships": [
+      "CL27 Neptune",
+      "CL28 Orion",
+      "CL38 Gloucester",
+      "CL39 Liverpool",
+      "CL03 Sydney",
+      "TR18",
+      "TR19",
+      "TR20",
+      "TR21",
+      "TR22",
+      "TR23"
+    ],
+    "cargoShips": [
+      "TR18",
+      "TR19",
+      "TR20",
+      "TR21",
+      "TR22",
+      "TR23"
+    ]
+  },
+  {
+    "name": "TF5",
+    "title": "MF Escort",
+    "location": "BE30",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "BB02 Warspite",
+      "DD37 Decoy",
+      "DD71 Hereward",
+      "DD72 Hero",
+      "DD105 Mohawk",
+      "DD106 Nubian"
+    ]
+  },
+  {
+    "name": "TF6",
+    "title": "y",
+    "location": "BD30",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "BB05 Malaya",
+      "BB08 Royal Sovereign",
+      "CVL04 Eagle",
+      "DD35 Dainty",
+      "DD38 Defender",
+      "DD69 Hasty",
+      "DD73 Hostile",
+      "DD76 Hyperion",
+      "DE19 V&W-19",
+      "DE20 V&W-20",
+      "DE21 V&W-21",
+      "DE22 V&W-22",
+      "DE23 V&W-23",
+      "DE24 V&W-24"
+    ]
+  },
+  {
+    "name": "TF7",
+    "title": "z",
+    "location": "AW28",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "CL12 Capetown",
+      "DD78 Ilex",
+      "DD80 Imperial",
+      "DD114 Janus",
+      "DD118 Juno"
+    ]
+  }
+]

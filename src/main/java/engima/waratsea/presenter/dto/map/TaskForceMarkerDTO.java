@@ -51,7 +51,7 @@ public class TaskForceMarkerDTO implements PopUpDTO {
      * @param taskForce The task force model.
      */
     public TaskForceMarkerDTO(final TaskForce taskForce) {
-        mapReference = taskForce.getLocation();
+        mapReference = taskForce.getLocation().getReference();
         name = taskForce.getName();
         active = taskForce.isActive();
     }

@@ -1,0 +1,31 @@
+{
+  "name": "Hurricane II",
+  "type": "Fighter",
+  "nationality": "British",
+  "service": "AIRFORCE",
+  "altitude": "MEDIUM",
+  "landing": "LAND",
+  "naval": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "land": {
+    "modifier": 1,
+    "full": 1,
+    "half": 1
+  },
+  "air": {
+    "modifier": 1,
+    "full": 3,
+    "half": 2
+  },
+  "range": {
+    "range": 6,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

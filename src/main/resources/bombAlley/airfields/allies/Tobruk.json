@@ -2,5 +2,6 @@
   "name"     : "Tobruk",
   "province" : "Libya",
   "maxCapacity" : 10,
-  "antiAir"       : 6
+  "antiAir"       : 6,
+  "location": "AW30"
 }

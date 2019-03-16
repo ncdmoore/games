@@ -12,9 +12,9 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.turn.data.TurnMatchData;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.model.ships.Ship;
-import engima.waratsea.model.ships.ShipId;
-import engima.waratsea.model.ships.Shipyard;
+import engima.waratsea.model.ship.Ship;
+import engima.waratsea.model.ship.ShipId;
+import engima.waratsea.model.ship.Shipyard;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.data.TaskForceData;
 import engima.waratsea.model.taskForce.TaskForceFactory;
@@ -98,7 +98,7 @@ public class TaskForceTest {
 
         taskForce.setSail();
 
-        Assert.assertEquals(gameMap.convertNameToReference(portOrigin), taskForce.getShip("CL36 Sheffield").getOriginPort());
+        Assert.assertEquals(gameMap.convertNameToReference(portOrigin), taskForce.getShip("CL36 Sheffield").getOriginPort().getReference());
     }
 
 

@@ -7,7 +7,7 @@ import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.GameType;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.model.ships.Ship;
+import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceLoader;
 import enigma.waratsea.TestModule;

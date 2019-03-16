@@ -2,5 +2,6 @@
   "name"     : "Athens",
   "province" : "Greece",
   "maxCapacity" : 20,
-  "antiAir"       : 8
+  "antiAir"       : 8,
+  "location": "AV18"
 }

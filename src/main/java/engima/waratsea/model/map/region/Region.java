@@ -2,7 +2,7 @@ package engima.waratsea.model.map.region;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.nation.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.data.RegionData;
 import lombok.Getter;

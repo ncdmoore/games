@@ -1,0 +1,117 @@
+{
+  "nation": "BRITISH",
+  "bombers": {
+    "dice": 4,
+    "factor": 8,
+    "groups": [
+      {
+        "selectSize": 2,
+        "aircraft": [
+          {
+            "type": "Blenheim",
+            "number": 8
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Wellington",
+            "number": 8
+          },
+          {
+            "type": "Baltimore",
+            "number": 4
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Fortress",
+            "number": 1
+          },
+          {
+            "type": "Beaufort",
+            "number": 2
+          },
+          {
+            "type": "Maryland",
+            "number": 4
+          },
+          {
+            "type": "Mitchell",
+            "number": 1
+          }
+        ]
+      }
+    ]
+  },
+  "fighters": {
+    "dice": 4,
+    "factor": 10,
+    "groups": [
+      {
+        "selectSize": 2,
+        "aircraft": [
+          {
+            "type": "Hurricane-2",
+            "number": 10
+          },
+          {
+            "type": "Tomahawk",
+            "number": 8
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Spitfire",
+            "number": 4
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Kittyhawk",
+            "number": 6
+          },
+          {
+            "type": "Beaufighter",
+            "number": 2
+          },
+          {
+            "type": "Spitfire-V",
+            "number": 2
+          }
+        ]
+      }
+    ]
+  },
+  "recon": {
+    "dice": 2,
+    "factor": 3,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Sunderland",
+            "number": 8
+          },
+          {
+            "type": "Catalina",
+            "number": 3
+          }
+        ]
+      }
+    ]
+  }
+}
+

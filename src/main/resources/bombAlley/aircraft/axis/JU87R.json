@@ -1,0 +1,31 @@
+{
+  "name": "Ju87r",
+  "type": "Dive_Bomber",
+  "nationality": "German",
+  "service": "AIRFORCE",
+  "altitude": "LOW",
+  "landing": "LAND",
+  "naval": {
+    "modifier": 2,
+    "full": 4,
+    "half": 2
+  },
+  "land": {
+    "modifier": 2,
+    "full": 3,
+    "half": 2
+  },
+  "air": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "range": {
+    "range": 12,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

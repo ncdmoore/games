@@ -2,5 +2,6 @@
   "name"     : "Durazzo",
   "province" : "Albania",
   "maxCapacity" : 10,
-  "antiAir"       : 3
+  "antiAir"       : 3,
+  "location": "AP12"
 }

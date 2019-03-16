@@ -1,17 +1,318 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="759a14ac-db4e-4a62-9f10-d187b35c6cea" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/taskForce/TaskForceLoaderTest.java" afterDir="false" />
+    <list default="true" id="759a14ac-db4e-4a62-9f10-d187b35c6cea" name="Default Changelist" comment="Initial squadron and location refactor.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Aircraft.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/AircraftFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/AircraftId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/AircraftImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/AircraftType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/AltitudeType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/AviationPlant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/AviationPlantException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/LandingType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/ServiceType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/data/AttackFactorData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/data/FrameData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/data/RangeData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/nation/NationProps.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/LocationFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/SquadronException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/SquadronFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/SquadronLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/SquadronProps.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/allotment/Allotment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/allotment/AllotmentAircraft.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/allotment/AllotmentFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/allotment/AllotmentGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/allotment/AllotmentLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/allotment/AllotmentTable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/allotment/AllotmentTableFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/allotment/data/AllotmentAircraftData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/data/SquadronData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/Dice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Baltimore.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Beaufighter.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Beaufort.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Blenheim.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Catalina.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Fortress.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Fulmar.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Gladiator.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Hudson.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Hurricane-1.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Hurricane-2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Kittyhawk.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Martlet-2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Maryland.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Mitchell.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Sea Gladiator.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Sea Hurricane.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Sea Spitfire.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Skua.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Spitfire-V.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Spitfire.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Sunderland.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Swordfish.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Tomahawk.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Wellington.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF109E.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF109F.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF109G.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF110D.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BR20.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CA309.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CA313.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CR32.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CR42.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/D520.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/FW190.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/G50.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/G55.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/HE111H.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/JU87B Italian.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/JU87B.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/JU87D.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/JU87R.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/JU88A.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/LEO451.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/MC200.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/MC202.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/MC205.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/P108.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RE2001.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RE2002.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RE2005.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RO37.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RO44.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/SM79-2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/SM79-3.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/SM81.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/SM85.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/Z1007.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/Z501.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/Z506.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Casablanca.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Port Lyautey.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Toulon.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Algiers.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Bastia.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Bizerte.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Casablanca.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Marseille.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Oran.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Port Lyautey.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Toulon.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Tunis.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/nation.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/puntaStilo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/summary.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/taskforce/alliesTaskForces.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/taskforce/axisTaskForces.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/taskforce/alliesTaskForces.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/taskforce/axisTaskForces.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/victory/alliesVictory.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/victory/axisVictory.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/maps/allies/june1940.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/maps/axis/june1940.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/nation.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/squadrons/allotment/1940/allies/British.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/squadrons/allotment/1940/axis/French.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/taskforce/alliesTaskForces.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/taskforce/axisTaskForces.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/victory/alliesVictory.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/victory/axisVictory.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Chacal.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Commandant Teste.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Dunkerque.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Large Transport.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Le Fantasque.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Mogador.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Small Transport.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Vauquelin.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/squadron.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/squadrons/AllotmentLoaderTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/utility/DiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/engima/waratsea/BasicModule.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/engima/waratsea/BasicModule.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/engima/waratsea/model/game/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/engima/waratsea/model/game/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/engima/waratsea/model/game/Side.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/engima/waratsea/model/game/Side.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/engima/waratsea/model/player/ComputerPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/engima/waratsea/model/player/ComputerPlayer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/engima/waratsea/model/player/HumanPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/engima/waratsea/model/player/HumanPlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/Shipyard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/Shipyard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/engima/waratsea/model/scenario/Scenario.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/engima/waratsea/model/scenario/Scenario.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/engima/waratsea/presenter/TaskForcePresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/engima/waratsea/presenter/TaskForcePresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/engima/waratsea/utility/ProperyWrapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/engima/waratsea/utility/ProperyWrapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/engima/waratsea/view/TaskForceView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/engima/waratsea/view/TaskForceView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/bombAlley/scenarios/easternConvoys/summary.json" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/resources/bombAlley/scenarios/easternConvoys/summary.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/bombAlley/scenarios/treachery/summary.json" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/resources/bombAlley/scenarios/treachery/summary.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/classes/enigma/waratsea/TestModule.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/classes/enigma/waratsea/TestModule.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/BasicModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/BasicModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/data/AircraftData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/data/AircraftData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/airfield/Airfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/airfield/Airfield.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/airfield/AirfieldLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/airfield/AirfieldLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/airfield/data/AirfieldData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/airfield/data/AirfieldData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Nation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/nation/Nation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Side.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Side.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventMatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventMatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEventAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEventAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEventMatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEventMatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/Region.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/Region.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/RegionLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/RegionLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/data/RegionData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/data/RegionData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/ComputerPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/ComputerPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/HumanPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/HumanPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/port/Port.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/port/Port.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/port/PortLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/port/PortLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/port/data/PortData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/port/data/PortData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/scenario/Scenario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/scenario/Scenario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/AircraftCarrier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/ArmourType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/ArmourType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/Cargo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Cargo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/FlightDeck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/FlightDeck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/Fuel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Fuel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/Gun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Gun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/Hull.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Hull.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/Movement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Movement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Ship.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/ShipFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/ShipFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/ShipId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/ShipId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/ShipRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/ShipRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/ShipType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/ShipType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/Shipyard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Shipyard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/ShipyardException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/ShipyardException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/SurfaceShip.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/SurfaceShip.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/Torpedo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Torpedo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/data/CargoData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/data/CargoData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/data/FlightDeckData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/data/FlightDeckData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/data/FuelData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/data/FuelData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/data/GunData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/data/GunData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/data/HullData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/data/HullData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/data/MovementData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/data/MovementData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/data/ShipData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/data/ShipData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/data/TorpedoData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/data/TorpedoData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/AllotmentLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/data/AllotmentAircraftClassData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/allotment/data/AllotmentTableData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/data/AllotmentData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/allotment/data/AllotmentData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/data/AllotmentGroupData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/allotment/data/AllotmentGroupData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/Target.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/Target.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/ships/ShipyardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/ships/ShipyardTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForceFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/RequiredShipVictory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/RequiredShipVictory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/TaskForcePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/TaskForcePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/TargetMarkerDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/TargetMarkerDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/TaskForceMarkerDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/TaskForceMarkerDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/ProperyWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/ProperyWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/TaskForceView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/TaskForceView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MainMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MainMapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ships/ShipViewType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ships/ShipViewType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Aboukir.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Aboukir.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Alexandria.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Alexandria.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Derna.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Derna.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Famagusta.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Famagusta.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Gibraltar.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Gibraltar.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Haifa.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Haifa.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Malta-1940.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Malta-1940.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Malta.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Malta.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Suda Bay" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Suda Bay" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Suez.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Suez.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Tobruk.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Tobruk.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Ajaccio.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Ajaccio.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Algiers.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Algiers.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Athens.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Athens.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Augusta.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Augusta.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Bastia.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Bastia.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Benghazi.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Benghazi.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Bizerte.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Bizerte.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Borizzo.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Borizzo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Cagliari.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Cagliari.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Comiso.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Comiso.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Derna.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Derna.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Durazzo.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Durazzo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Foggia.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Foggia.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Grottaglie.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Grottaglie.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Heraklion.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Heraklion.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Kalamata.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Kalamata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Kavala.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Kavala.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Lecce.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Lecce.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Marseille.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Marseille.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Naples.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Naples.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Oran.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Oran.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Pantellaria.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Pantellaria.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Rhodes.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Rhodes.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Rome.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Rome.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Sarzana.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Sarzana.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Scarpanto.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Scarpanto.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Suda Bay.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Suda Bay.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Tobruk.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Tobruk.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Tripoli.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Tripoli.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Triste.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Triste.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Tunis.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Tunis.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Alexandria.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Alexandria.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Famagusta.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Famagusta.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Gibraltar.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Gibraltar.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Haifa.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Haifa.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Malta.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Malta.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Port Said.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Port Said.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Suda Bay.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Suda Bay.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Suez.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Suez.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Tobruk.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Tobruk.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Athens.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Athens.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Augusta.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Augusta.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Benghazi.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Benghazi.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Brindisi.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Brindisi.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Cagliari.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Cagliari.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Durazzo.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Durazzo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Genoa.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Genoa.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/La Spezia.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/La Spezia.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Leghorn.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Leghorn.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Messina.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Messina.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Naples.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Naples.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Palermo.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Palermo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Pantellaria.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Pantellaria.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Pola.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Pola.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Rhodes.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Rhodes.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Suda Bay.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Suda Bay.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Taranto.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Taranto.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Tobruk.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Tobruk.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Trieste.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Trieste.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Tripoli.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Tripoli.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/summary.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/summary.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/taskforce/axisTaskForces.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/taskforce/axisTaskForces.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/summary.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/summary.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/alliedShip.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/alliedShip.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Sella.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Sella.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/axisShip.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/axisShip.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/1940/allies/british.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/1940/allies/British.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/1940/axis/italian.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/1940/axis/Italian.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/1942/allies/british.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/1942/allies/British.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/1942/axis/german.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/1942/axis/German.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/1942/axis/italian.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/1942/axis/Italian.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/early1941/allies/british.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/early1941/allies/British.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/early1941/axis/german.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/early1941/axis/German.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/early1941/axis/italian.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/early1941/axis/Italian.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/late1941/allies/british.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/late1941/allies/British.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/late1941/axis/german.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/late1941/axis/German.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/late1941/axis/italian.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/late1941/axis/Italian.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/TestModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/TestModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/AirfieldEventTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/AirfieldEventTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/ShipEventTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/ShipEventTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/ships/ShipRegistryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/ship/ShipRegistryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/ships/ShipyardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/ship/ShipyardTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/taskForce/TaskForceLoaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/taskForce/TaskForceLoaderTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/taskForce/TaskForceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/taskForce/TaskForceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/ShipVictoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/ShipVictoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/VictoryLoaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/VictoryLoaderTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -63,153 +364,49 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForceLoader.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="688">
-              <caret line="121" column="58" selection-start-line="121" selection-start-column="55" selection-end-line="121" selection-end-column="61" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="312" column="34" selection-start-line="312" selection-start-column="33" selection-end-line="312" selection-end-column="37" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/Shipyard.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="427">
-              <caret line="111" column="33" selection-start-line="111" selection-start-column="33" selection-end-line="111" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/ships/ShipyardTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/taskForce/TaskForceTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-175">
-              <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/VictoryLoaderTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="105" column="25" lean-forward="true" selection-start-line="105" selection-end-line="106" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/ShipVictoryTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/taskForce/TaskForceLoaderTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
-              <caret line="31" column="40" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/SurfaceShip.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1014">
-              <caret line="105" column="18" selection-start-line="105" selection-start-column="18" selection-end-line="105" selection-end-column="18" />
-              <folding>
-                <element signature="e#2676#2677#0" expanded="true" />
-                <element signature="e#2715#2716#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/ComputerPlayer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="496">
-              <caret line="60" column="40" selection-start-line="60" selection-start-column="37" selection-end-line="60" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
   </component>
-  <component name="FindBugs-IDEA-Workspace">
-    <toolWindowEditorPreview>false</toolWindowEditorPreview>
-  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>shipType</find>
-      <find>ship type</find>
-      <find>matchAction</find>
-      <find>matchActionWildcard</find>
-      <find>ENEMY</find>
-      <find>by</find>
-      <find>shipDataMap</find>
-      <find>addScenarioConditions</find>
-      <find>totalVictoryPoints</find>
-      <find>getShipTypes</find>
-      <find>Saving</find>
-      <find>Collections::</find>
-      <find>scenarioVictoryData</find>
-      <find>defaultVictoryData</find>
-      <find>createShipVictory</find>
-      <find>getData</find>
-      <find>extends</find>
-      <find>multimap</find>
-      <find>AXIS_TASK_FORCE_FILE_NAME</find>
-      <find>VICTORY_DIRECTORY_NAME</find>
-      <find>name</find>
-      <find>scenario</find>
+      <find>squadron</find>
+      <find>squadron</find>
+      <find>Squadron</find>
+      <find>Squadron:</find>
+      <find>Squadron:</find>
+      <find>load specific squadron</find>
+      <find>specific squadron</find>
+      <find>built for side</find>
+      <find>targets</find>
+      <find>Error</find>
       <find>port</find>
-      <find>maps</find>
-      <find>abdiel</find>
-      <find>aire</find>
-      <find>are</find>
-      <find>cape</find>
-      <find>N C</find>
-      <find>scott</find>
+      <find>airfield</find>
+      <find>DESTROYER_ESCORT</find>
+      <find>Unknown location</find>
+      <find>finish</find>
+      <find>libecco</find>
+      <find>map.p</find>
+      <find>Verrazzano</find>
+      <find>DD24</find>
+      <find>ERROR</find>
+      <find>Verranzano</find>
+      <find>Libeccio</find>
+      <find>location</find>
+      <find>getLocations</find>
+      <find>logLocation</find>
+      <find>locations</find>
+      <find>airfields</find>
+      <find>getAirfields</find>
+      <find>locaiton</find>
+      <find>locationToBaseMap</find>
     </findStrings>
     <replaceStrings>
       <replace>bombardmentEventHandler</replace>
@@ -234,64 +431,64 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/L Adroit.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/L Class.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/La Galissonniere.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Large Transport.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Le Fantasque.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Leander.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Leander Australian.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/M Class.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Malaya.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Mogador.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/N Class.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/N Class Australian.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Nelson.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Nigeria.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/O Class.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Oiler.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/P Class.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Q Class.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Queen Elizabeth.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Renown.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Repulse.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Royal Sovereign.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Scott Class.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Scott Class Australian.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Small Transport.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Southampton.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Suffren.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Thornycroft.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Tribal.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/V&amp;W.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/V&amp;W Australian.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Vauquelin.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Warspite.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Yarra.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/York.json" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/SurfaceShip.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Config.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForceLoader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/port/PortLoader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/airfield/AirfieldLoader.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Borizzo.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Cagliari.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Casablanca.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Comiso.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Derna.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Foggia.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Grottaglie.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Heraklion.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Kalamata.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Kavala.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Lecce.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Pantellaria.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Port Lyautey.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Sarzana.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Suda Bay.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Triste.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Tunis.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Famagusta.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Haifa.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Port Said.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Suda Bay.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Tobruk.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Algiers.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Athens.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Bastia.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Bizerte.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Brindisi.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Cagliari.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Casablanca.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Durazzo.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Genoa.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/La Spezia.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Leghorn.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Palermo.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Pantellaria.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Pola.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Port Lyautey.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Suda Bay.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Tunis.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Tobruk.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Durazzo.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Suez.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Tobruk.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Tripoli.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Trieste.json" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/HumanPlayer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/ComputerPlayer.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Alexandria.json" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/airfield/Airfield.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/Victory.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryLoader.java" />
-        <option value="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/ships/ShipyardTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/VictoryLoaderTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/Shipyard.java" />
-        <option value="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/taskForce/TaskForceLoaderTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/port/Port.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Oran.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Marseille.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Bizerte.json" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="562" />
-    <option name="y" value="32" />
-    <option name="width" value="1803" />
+    <option name="x" value="455" />
+    <option name="y" value="50" />
+    <option name="width" value="2049" />
     <option name="height" value="1339" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -361,7 +558,7 @@
               <item name="engima" type="462c0819:PsiDirectoryNode" />
               <item name="waratsea" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="ships" type="462c0819:PsiDirectoryNode" />
+              <item name="airfield" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
@@ -372,7 +569,134 @@
               <item name="engima" type="462c0819:PsiDirectoryNode" />
               <item name="waratsea" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="ships" type="462c0819:PsiDirectoryNode" />
+              <item name="airfield" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
+              <item name="event" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
+              <item name="event" type="462c0819:PsiDirectoryNode" />
+              <item name="ship" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="map" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="player" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="port" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="port" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="ship" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="ship" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -394,7 +718,18 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="engima" type="462c0819:PsiDirectoryNode" />
               <item name="waratsea" type="462c0819:PsiDirectoryNode" />
-              <item name="utility" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="map" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
@@ -415,6 +750,103 @@
               <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
               <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+              <item name="airfields" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+              <item name="airfields" type="462c0819:PsiDirectoryNode" />
+              <item name="axis" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+              <item name="properties" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+              <item name="scenarios" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+              <item name="scenarios" type="462c0819:PsiDirectoryNode" />
+              <item name="capeTeulada" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+              <item name="scenarios" type="462c0819:PsiDirectoryNode" />
+              <item name="capeTeulada" type="462c0819:PsiDirectoryNode" />
+              <item name="taskforce" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+              <item name="scenarios" type="462c0819:PsiDirectoryNode" />
+              <item name="firstSortie" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+              <item name="scenarios" type="462c0819:PsiDirectoryNode" />
+              <item name="firstSortie" type="462c0819:PsiDirectoryNode" />
+              <item name="taskforce" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+              <item name="scenarios" type="462c0819:PsiDirectoryNode" />
+              <item name="PuntaStilo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="victory" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
@@ -450,6 +882,51 @@
               <item name="enigma" type="462c0819:PsiDirectoryNode" />
               <item name="waratsea" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="enigma" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="enigma" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
+              <item name="event" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="enigma" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="ship" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="enigma" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="squadrons" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
@@ -462,27 +939,16 @@
               <item name="model" type="462c0819:PsiDirectoryNode" />
               <item name="taskForce" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="enigma" type="462c0819:PsiDirectoryNode" />
-              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="victory" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551578992392" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552773086152" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -491,26 +957,26 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.import" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/maps/axis" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/maps/allies" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/firstSortie" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/DemonDunlop" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="engima.waratsea.model.game" />
-      <recent name="engima.waratsea.model.target" />
-      <recent name="engima.waratsea.model.victory" />
-      <recent name="engima.waratsea.model.game.event.airfield" />
-      <recent name="engima.waratsea.model.game.event.ship" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/properties" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/victory" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/taskforce" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/capeTeulada/taskforce" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/firstSortie/victory" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/firstSortie/taskforce" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="engima.waratsea.model.map" />
+      <recent name="engima.waratsea.model.aircraft" />
+      <recent name="engima.waratsea.model.squadron" />
+      <recent name="engima.waratsea.model.game" />
+      <recent name="engima.waratsea.model.target" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/taskforce" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/victory" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/taskforce" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -525,7 +991,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.TaskForceLoaderTest.testSavedTaskForce">
+  <component name="RunManager" selected="Application.Main">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -552,10 +1018,44 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="AirfieldEventTest.testAirfieldDamagedEvent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.game.event.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.event" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.event.AirfieldEventTest" />
+      <option name="METHOD_NAME" value="testAirfieldDamagedEvent" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="All in enigma.worldWarTwoAtSea.test" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DiceTest.testRoll6" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.utility.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.utility" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.utility.DiceTest" />
+      <option name="METHOD_NAME" value="testRoll6" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -571,6 +1071,40 @@
       </extension>
       <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.event" />
       <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.event.GameEventTest" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameMapTest.testMapLocation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.map.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.map" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.map.GameMapTest" />
+      <option name="METHOD_NAME" value="testMapLocation" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameTest.testTaskForces" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.game.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.GameTest" />
+      <option name="METHOD_NAME" value="testTaskForces" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -593,85 +1127,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ShipyardTest.testBuildBattleship" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ShipEventTest.testShipEventArrival" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.ships.*" />
+          <option name="PATTERN" value="enigma.waratsea.model.game.event.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.ships" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.ships.ShipyardTest" />
-      <option name="METHOD_NAME" value="testBuildBattleship" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ShipyardTest.testBuildCruiser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.ships.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.ships" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.ships.ShipyardTest" />
-      <option name="METHOD_NAME" value="testBuildCruiser" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ShipyardTest.testBuildDestroyer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.ships.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.ships" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.ships.ShipyardTest" />
-      <option name="METHOD_NAME" value="testBuildDestroyer" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ShipyardTest.testBuildDestroyerEscort" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.ships.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.ships" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.ships.ShipyardTest" />
-      <option name="METHOD_NAME" value="testBuildDestroyerEscort" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TaskForceLoaderTest.testSavedTaskForce" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.taskForce.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.taskForce" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.taskForce.TaskForceLoaderTest" />
-      <option name="METHOD_NAME" value="testSavedTaskForce" />
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.event" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.event.ShipEventTest" />
+      <option name="METHOD_NAME" value="testShipEventArrival" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
@@ -706,19 +1172,19 @@
       <item itemvalue="JUnit.GameEventTest" />
       <item itemvalue="JUnit.ScenarioLoaderTest.testScenarioSummaryLoading" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
-      <item itemvalue="JUnit.ShipyardTest.testBuildDestroyer" />
-      <item itemvalue="JUnit.ShipyardTest.testBuildBattleship" />
-      <item itemvalue="JUnit.ShipyardTest.testBuildCruiser" />
-      <item itemvalue="JUnit.ShipyardTest.testBuildDestroyerEscort" />
-      <item itemvalue="JUnit.TaskForceLoaderTest.testSavedTaskForce" />
+      <item itemvalue="JUnit.GameTest.testTaskForces" />
+      <item itemvalue="JUnit.ShipEventTest.testShipEventArrival" />
+      <item itemvalue="JUnit.DiceTest.testRoll6" />
+      <item itemvalue="JUnit.AirfieldEventTest.testAirfieldDamagedEvent" />
+      <item itemvalue="JUnit.GameMapTest.testMapLocation" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.TaskForceLoaderTest.testSavedTaskForce" />
-        <item itemvalue="JUnit.ShipyardTest.testBuildCruiser" />
-        <item itemvalue="JUnit.ShipyardTest.testBuildBattleship" />
-        <item itemvalue="JUnit.ShipyardTest.testBuildDestroyer" />
-        <item itemvalue="JUnit.ShipyardTest.testBuildDestroyerEscort" />
+        <item itemvalue="JUnit.GameMapTest.testMapLocation" />
+        <item itemvalue="JUnit.GameTest.testTaskForces" />
+        <item itemvalue="JUnit.AirfieldEventTest.testAirfieldDamagedEvent" />
+        <item itemvalue="JUnit.DiceTest.testRoll6" />
+        <item itemvalue="JUnit.ShipEventTest.testShipEventArrival" />
       </list>
     </recent_temporary>
   </component>
@@ -1048,51 +1514,57 @@
       <option name="project" value="LOCAL" />
       <updated>1551566708992</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Ships are now saved.">
+      <created>1551579166627</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1551579166627</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_enigma_worldWarTwoAtSea_test - 2019.03.02 at 17h 46m 58s.xml">
+    <history-entry file="GameTest_testTaskForces - 2019.03.16 at 17h 27m 38s.xml">
+      <configuration name="GameTest.testTaskForces" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameTest_testTaskForces - 2019.03.16 at 17h 28m 56s.xml">
+      <configuration name="GameTest.testTaskForces" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameTest_testTaskForces - 2019.03.16 at 17h 29m 49s.xml">
+      <configuration name="GameTest.testTaskForces" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameTest_testTaskForces - 2019.03.16 at 17h 29m 50s.xml">
+      <configuration name="GameTest.testTaskForces" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameTest_testTaskForces - 2019.03.16 at 17h 30m 18s.xml">
+      <configuration name="GameTest.testTaskForces" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameTest_testTaskForces - 2019.03.16 at 17h 30m 55s.xml">
+      <configuration name="GameTest.testTaskForces" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameTest_testTaskForces - 2019.03.16 at 17h 32m 22s.xml">
+      <configuration name="GameTest.testTaskForces" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_enigma_worldWarTwoAtSea_test - 2019.03.16 at 17h 32m 36s.xml">
       <configuration name="All in enigma.worldWarTwoAtSea.test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_enigma_worldWarTwoAtSea_test - 2019.03.02 at 17h 50m 46s.xml">
+    <history-entry file="GameMapTest_testMapLocation - 2019.03.16 at 17h 41m 40s.xml">
+      <configuration name="GameMapTest.testMapLocation" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_enigma_worldWarTwoAtSea_test - 2019.03.16 at 17h 41m 54s.xml">
       <configuration name="All in enigma.worldWarTwoAtSea.test" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_enigma_worldWarTwoAtSea_test - 2019.03.02 at 17h 54m 02s.xml">
-      <configuration name="All in enigma.worldWarTwoAtSea.test" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_enigma_worldWarTwoAtSea_test - 2019.03.02 at 18h 05m 14s.xml">
-      <configuration name="All in enigma.worldWarTwoAtSea.test" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_enigma_worldWarTwoAtSea_test - 2019.03.02 at 18h 05m 39s.xml">
-      <configuration name="All in enigma.worldWarTwoAtSea.test" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_enigma_worldWarTwoAtSea_test - 2019.03.02 at 18h 05m 48s.xml">
-      <configuration name="All in enigma.worldWarTwoAtSea.test" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TaskForceLoaderTest_testSavedTaskForce - 2019.03.02 at 20h 52m 59s.xml">
-      <configuration name="TaskForceLoaderTest.testSavedTaskForce" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TaskForceLoaderTest_testSavedTaskForce - 2019.03.02 at 20h 56m 25s.xml">
-      <configuration name="TaskForceLoaderTest.testSavedTaskForce" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TaskForceLoaderTest_testSavedTaskForce - 2019.03.02 at 21h 03m 48s.xml">
-      <configuration name="TaskForceLoaderTest.testSavedTaskForce" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TaskForceLoaderTest_testSavedTaskForce - 2019.03.02 at 21h 06m 33s.xml">
-      <configuration name="TaskForceLoaderTest.testSavedTaskForce" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="562" y="32" width="1803" height="1339" extended-state="0" />
-    <editor active="true" />
+    <frame x="455" y="50" width="2049" height="1339" extended-state="0" />
     <layout>
       <window_info id="Image Layers" order="0" />
       <window_info id="UI Designer" order="1" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Designer" order="4" />
-      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.2475866" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.25909317" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Build" order="0" weight="0.32979664" />
       <window_info anchor="bottom" id="Terminal" order="1" weight="0.32924837" />
@@ -1103,8 +1575,8 @@
       <window_info anchor="bottom" id="SonarQube" order="6" />
       <window_info anchor="bottom" id="FindBugs-IDEA" order="7" weight="0.25408497" />
       <window_info anchor="bottom" id="Message" order="8" />
-      <window_info anchor="bottom" id="Find" order="9" weight="0.28104576" />
-      <window_info active="true" anchor="bottom" id="Run" order="10" visible="true" weight="0.49754903" />
+      <window_info anchor="bottom" id="Find" order="9" weight="0.45833334" />
+      <window_info anchor="bottom" id="Run" order="10" visible="true" weight="0.37173203" />
       <window_info anchor="bottom" id="Debug" order="11" weight="0.3970588" />
       <window_info anchor="bottom" id="Cvs" order="12" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="13" weight="0.4" />
@@ -1132,7 +1604,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Moved game event registry to inside game event abstract class." />
     <MESSAGE value="Reworked game events so that a class can register for multiple events." />
     <MESSAGE value="added markers and popups to game preview map." />
     <MESSAGE value="Fix event handlers to use generic event handler." />
@@ -1157,379 +1628,251 @@
     <MESSAGE value="Regions now use Config to load map data." />
     <MESSAGE value="Refactor ship data." />
     <MESSAGE value="Ships are now saved." />
-    <option name="LAST_COMMIT_MESSAGE" value="Ships are now saved." />
+    <MESSAGE value="Initial squadron and location refactor." />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial squadron and location refactor." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/scenario/Scenario.java</url>
+          <line>77</line>
+          <properties />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/port/Port.java</url>
+          <line>43</line>
+          <properties />
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/airfield/Airfield.java</url>
+          <line>51</line>
+          <properties />
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/N Class Australian.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="2" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="2" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Foggia.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Nelson.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="38" selection-start-line="38" selection-end-line="38" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Grottaglie.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Nigeria.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="17" selection-start-line="35" selection-start-column="17" selection-end-line="35" selection-end-column="17" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Heraklion.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/O Class.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="2" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="2" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Kalamata.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Oiler.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Kavala.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/P Class.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="40" column="2" selection-start-line="40" selection-start-column="2" selection-end-line="40" selection-end-column="2" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Lecce.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Q Class.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="2" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="2" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Pantellaria.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Queen Elizabeth.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" selection-start-line="30" selection-end-line="30" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Port Lyautey.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Renown.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Rhodes.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Repulse.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Rome.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Royal Sovereign.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Sarzana.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Scott Class.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="2" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="2" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Scarpanto.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Scott Class Australian.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="2" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="2" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Suda Bay.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Small Transport.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="17" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Southampton.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="17" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Suffren.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="17" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Thornycroft.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="2" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Tribal.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="2" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/V&amp;W.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/V&amp;W Australian.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Vauquelin.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="2" selection-start-line="33" selection-start-column="2" selection-end-line="33" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Warspite.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Yarra.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/York.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="17" selection-start-line="35" selection-start-column="17" selection-end-line="35" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/ShipFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForceFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/Ship.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="220" column="18" selection-start-line="220" selection-start-column="18" selection-end-line="220" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/port/Port.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Aboukir.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Alexandria.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Derna.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Famagusta.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Gibraltar.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Haifa.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Malta.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Malta-1940.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Suda Bay">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Suez.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Tobruk.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Durazzo.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Tobruk.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Suez.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
-          <caret line="4" column="16" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
+          <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/airfield/data/AirfieldData.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Tobruk.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        <state relative-caret-position="60">
+          <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/airfield/Airfield.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Tripoli.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+        <state relative-caret-position="60">
+          <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryLoader.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Trieste.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="114" column="24" selection-start-line="114" selection-start-column="24" selection-end-line="114" selection-end-column="24" />
+        <state relative-caret-position="75">
+          <caret line="5" column="1" lean-forward="true" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/Victory.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/GameTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
-          <caret line="59" column="16" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/port/PortLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="78" column="32" selection-start-line="78" selection-start-column="30" selection-end-line="78" selection-end-column="34" />
+        <state relative-caret-position="345">
+          <caret line="42" column="20" lean-forward="true" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/HumanPlayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="721">
-          <caret line="77" column="26" lean-forward="true" selection-start-line="77" selection-start-column="24" selection-end-line="77" selection-end-column="28" />
+        <state relative-caret-position="450">
+          <caret line="73" column="31" selection-start-line="73" selection-start-column="31" selection-end-line="73" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/airfield/AirfieldLoader.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Alexandria.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/map/GameMapTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="74" column="16" selection-start-line="74" selection-start-column="16" selection-end-line="74" selection-end-column="16" />
+        <state relative-caret-position="569">
+          <caret line="101" selection-start-line="101" selection-end-line="101" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryConditions.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/port/Port.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="118" column="46" selection-start-line="118" selection-start-column="46" selection-end-line="118" selection-end-column="46" />
+        <state relative-caret-position="300">
+          <caret line="27" column="11" selection-start-line="27" selection-start-column="11" selection-end-line="27" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/RequiredShipVictory.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="67" column="41" selection-start-line="67" selection-start-column="41" selection-end-line="67" selection-end-column="41" />
+        <state relative-caret-position="660">
+          <caret line="277" column="40" lean-forward="true" selection-start-line="277" selection-start-column="40" selection-end-line="277" selection-end-column="40" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/utility/PersistentUtility.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Marseille.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="49" column="73" selection-start-line="49" selection-start-column="69" selection-end-line="49" selection-end-column="73" />
+        <state relative-caret-position="90">
+          <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Game.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Naples.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Oran.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="211" column="26" selection-start-line="211" selection-start-column="23" selection-end-line="211" selection-end-column="34" />
+        <state relative-caret-position="105">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Tobruk.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Toulon.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Tripoli.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Triste.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Tunis.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Ajaccio.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Algiers.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Casablanca.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/LocationFactory.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/Location.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/ComputerPlayer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/airfield/Airfield.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="60" column="40" selection-start-line="60" selection-start-column="37" selection-end-line="60" selection-end-column="41" />
+        <state relative-caret-position="645">
+          <caret line="51" selection-start-line="51" selection-end-line="51" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForceLoader.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Bizerte.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="688">
-          <caret line="121" column="58" selection-start-line="121" selection-start-column="55" selection-end-line="121" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/ShipVictoryTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/VictoryLoaderTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="105" column="25" lean-forward="true" selection-start-line="105" selection-end-line="106" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/SurfaceShip.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1014">
-          <caret line="105" column="18" selection-start-line="105" selection-start-column="18" selection-end-line="105" selection-end-column="18" />
-          <folding>
-            <element signature="e#2676#2677#0" expanded="true" />
-            <element signature="e#2715#2716#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="312" column="34" selection-start-line="312" selection-start-column="33" selection-end-line="312" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ships/Shipyard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="427">
-          <caret line="111" column="33" selection-start-line="111" selection-start-column="33" selection-end-line="111" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/ships/ShipyardTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/taskForce/TaskForceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-175">
-          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/taskForce/TaskForceLoaderTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="31" column="40" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="75">
+          <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
         </state>
       </provider>
     </entry>

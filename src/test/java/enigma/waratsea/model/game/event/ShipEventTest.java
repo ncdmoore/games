@@ -10,8 +10,7 @@ import engima.waratsea.model.game.event.ship.ShipEventAction;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
 import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
 import engima.waratsea.model.game.event.ship.data.ShipMatchData;
-import engima.waratsea.model.ships.Ship;
-import engima.waratsea.model.ships.ShipType;
+import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.taskForce.data.TaskForceData;
@@ -112,27 +111,29 @@ public class ShipEventTest {
         data.setLocation("Tobruk");
 
         ShipEventMatcher matcher = shipEventMatcherFactory.create(data);
+        matcher.log();
 
         Assert.assertTrue(matcher.match(event));
     }
 
     @Test
-    public void testShipEventArival() {
+    public void testShipEventArrival() {
 
         Ship ship = taskForce.getShip(cruiserName);
 
         ShipEvent event = new ShipEvent();
         event.setShip(ship);
-        event.setAction(ShipEventAction.ARIVAL);
+        event.setAction(ShipEventAction.ARRIVAL);
 
         ShipMatchData data = new ShipMatchData();
-        data.setAction(ShipEventAction.ARIVAL.toString());
+        data.setAction(ShipEventAction.ARRIVAL.toString());
         data.setName(cruiserName);
         data.setShipType("CRUISER");
         data.setSide(Side.ALLIES);
         data.setLocation("Tobruk");
 
         ShipEventMatcher matcher = shipEventMatcherFactory.create(data);
+        matcher.log();
 
         Assert.assertTrue(matcher.match(event));
     }

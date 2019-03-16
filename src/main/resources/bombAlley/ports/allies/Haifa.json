@@ -1,4 +1,6 @@
 {
   "name": "Haifa",
-  "size": "MINOR"
+  "size": "MINOR",
+  "antiAir": 10,
+  "location": "BL27"
 }

@@ -2,5 +2,6 @@
   "name"     : "Borizzo",
   "province" : "Sicily",
   "maxCapacity" : 40,
-  "antiAir"       : 18
+  "antiAir"       : 18,
+  "location": "AE18"
 }

@@ -2,5 +2,6 @@
   "name"     : "Aboukir",
   "province" : "Egypt",
   "maxCapacity" : 20,
-  "antiAir"  : 5
+  "antiAir"  : 5,
+  "location": "BG31"
 }

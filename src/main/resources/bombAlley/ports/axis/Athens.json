@@ -1,4 +1,6 @@
 {
   "name": "Athens",
-  "size": "MAJOR"
+  "size": "MAJOR",
+  "antiAir": 15,
+  "location": "AV18"
 }

@@ -17,6 +17,7 @@ public enum Side {
 
     /**
      * Constructs a Side.
+     *
      * @param value The string representation of the side.
      * @param possesive The possesive form of the word.
      */
@@ -27,6 +28,7 @@ public enum Side {
 
     /**
      * Given a side this method returns the opposing side.
+     *
      * @return The opposing side is returned.
      */
     public Side opposite() {
@@ -35,10 +37,20 @@ public enum Side {
 
     /**
      * The string representation of this enum.
+     *
      * @return The string health of the enum.
      */
     @Override
     public String toString() {
         return value;
+    }
+
+    /**
+     * The lower case string representation of this enum.
+     *
+     * @return The lower case string representation of this enum.
+     */
+    public String toLower() {
+        return value.toLowerCase();
     }
 }

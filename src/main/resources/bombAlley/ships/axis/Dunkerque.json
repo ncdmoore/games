@@ -1,0 +1,30 @@
+{
+  "type": "BATTLECRUISER",
+  "class": "Dunkerque",
+  "nationality": "FRENCH",
+  "primary": {
+    "armour": "HEAVY",
+    "maxHealth": 6
+  },
+  "tertiary": {
+    "armour": "LIGHT",
+    "maxHealth": 6
+  },
+  "antiAir": {
+    "armour": "NONE",
+    "maxHealth": 4
+  },
+  "hull": {
+    "armour": "HEAVY",
+    "maxHealth": 11,
+    "deck": true
+  },
+  "fuel": {
+    "capacity": 432
+  },
+  "movement": {
+    "even": 3,
+    "odd": 3
+  },
+  "victoryPoints": 56
+}

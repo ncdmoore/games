@@ -1,4 +1,6 @@
 {
   "name": "Genoa",
-  "size": "MAJOR"
+  "size": "MAJOR",
+  "antiAir": 15,
+  "location": "Z5"
 }

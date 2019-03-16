@@ -1,0 +1,31 @@
+{
+  "name": "Skua",
+  "type": "Dive Bomber",
+  "nationality": "British",
+  "service": "NAVY",
+  "altitude": "LOW",
+  "landing": "CARRIER",
+  "naval": {
+    "modifier": 1,
+    "full": 2,
+    "half": 1
+  },
+  "land": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "air": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "range": {
+    "range": 9,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

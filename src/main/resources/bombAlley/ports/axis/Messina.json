@@ -1,4 +1,6 @@
 {
   "name": "Messina",
-  "size": "MINOR"
+  "size": "MINOR",
+  "antiAir": 10,
+  "location": "AL19"
 }

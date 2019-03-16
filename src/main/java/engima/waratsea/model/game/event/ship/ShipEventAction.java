@@ -4,7 +4,7 @@ package engima.waratsea.model.game.event.ship;
  * Represents the type of ship event actions. A ship may be attacked, spotted, damaged, sunk, etc.
  */
 public enum ShipEventAction {
-    ARIVAL("arival"),
+    ARRIVAL("arrival"),
     ATTACKED("attacked"),
     BOMBARDMENT("bombardment"),
     CARGO_LOADED("cargo loaded"),

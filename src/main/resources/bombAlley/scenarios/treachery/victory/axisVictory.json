@@ -1,0 +1,17 @@
+{
+  "objectives": "Ferry all ships to either Marseille or Toulon.",
+  "scenarioShip": [
+    {
+      "event": {
+        "action": "ARRIVAL",
+        "location": "Marseille"
+      }
+    },
+    {
+      "event": {
+        "action": "ARRIVAL",
+        "location": "Toulon"
+      }
+    }
+  ]
+}

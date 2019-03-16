@@ -1,0 +1,31 @@
+{
+  "name": "SwordFish",
+  "type": "Torpedo_Bomber",
+  "nationality": "British",
+  "service": "NAVY",
+  "altitude": "LOW",
+  "landing": "CARRIER",
+  "naval": {
+    "modifier": 1,
+    "full": 3,
+    "half": 2
+  },
+  "land": {
+    "modifier": 0,
+    "full": 1,
+    "half": 1
+  },
+  "air": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "range": {
+    "range": 6,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": true
+  }
+}

@@ -1,0 +1,70 @@
+[
+  {
+    "name": "Algeria",
+    "nation": "FRENCH",
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Algiers",
+      "Oran"
+    ],
+    "ports": [
+      "Algiers",
+      "Oran"
+    ]
+  },
+  {
+    "name": "France",
+    "nation": "FRENCH",
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Marseille",
+      "Toulon"
+    ],
+    "ports": [
+      "Marseille",
+      "Toulon"
+    ]
+  },
+  {
+    "name": "Tunisia",
+    "nation": "FRENCH",
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Bizerte",
+      "Tunis"
+    ],
+    "ports": [
+      "Bizerte",
+      "Tunis"
+    ]
+  },
+  {
+    "name": "Corsica",
+    "nation": "FRENCH",
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Bastia"
+    ],
+    "ports": [
+      "Bastia"
+    ]
+  },
+  {
+    "name": "Morocco",
+    "nation": "FRENCH",
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Port Lyautey",
+      "Casablanca"
+    ],
+    "ports": [
+      "Port Lyautey",
+      "Casablanca"
+    ]
+  }
+]

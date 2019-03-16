@@ -2,5 +2,6 @@
   "name"     : "Haifa",
   "province" : "Palestine",
   "maxCapacity" : 10,
-  "antiAir"       : 4
+  "antiAir"       : 4,
+  "location": "BL27"
 }

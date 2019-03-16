@@ -1,0 +1,26 @@
+{
+  "type": "TRANSPORT",
+  "class": "Large Transport",
+  "nationality": "ITALIAN",
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 3,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 240
+  },
+  "movement": {
+    "even": 2,
+    "odd": 2
+  },
+  "cargo": {
+    "capacity": 9
+  },
+  "victoryPoints": 0
+}

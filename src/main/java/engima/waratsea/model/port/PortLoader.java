@@ -5,7 +5,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.port.data.PortData;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.utility.PersistentUtility;
@@ -31,22 +30,18 @@ import java.util.stream.Collectors;
 @Singleton
 public class PortLoader {
     private Config config;
-    private GameMap gameMap;
     private PortFactory factory;
 
     /**
      * Constructor called by guice.
      *
      * @param config The game config.
-     * @param gameMap The game map.
      * @param factory The port factory.
      */
     @Inject
     public PortLoader(final Config config,
-                      final GameMap gameMap,
                       final PortFactory factory) {
         this.config = config;
-        this.gameMap = gameMap;
         this.factory = factory;
     }
 
@@ -54,10 +49,11 @@ public class PortLoader {
      * Build the ports.
      *
      * @param side The airfield side ALLIES or AXIS.
+     * @param ports The ports to load.
      * @return A list of airfield objects.
      */
-    public List<Port> load(final Side side) {
-        return gameMap.getPorts(side)
+    public List<Port> load(final Side side, final List<String> ports) {
+        return ports
                 .stream()
                 .map(port -> loadPortData(port, side))
                 .filter(Objects::nonNull)

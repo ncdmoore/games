@@ -1,0 +1,11 @@
+{
+  "name": "puntaStilo",
+  "title": "Punta Stilo",
+  "id": 4,
+  "image": "puntaStilo.png",
+  "date": "07/05/1940",
+  "weather": "CLEAR",
+  "maxTurns": 80,
+  "description": "Italy's declaration of war came well before her North African armies had been brought up to strength and fully supplied for operations. Large convoys had to be escorted across the Mediterranean subject to British Attack. Meanwhile, the British also tried to move supply convoys from Egypt to Malta. Italian floatplanes spotted British battleships from Alexandria and Admiral Inigo Campioni placed his fleet across their path. Off Punta Stilo, the Italian and British battle fleets met in their first clash of the war, exchanging fire for 105 minutes. Guilio Cesare suffered one fifteen-inch hit; Italian and British accounts sharply differ over the extent of damage to British ships. Whatever the result, the Regia Marina had proved it would yield none of the \"moral ascendency\" claimed by the Royal Navy.",
+  "map": "june1940"
+}

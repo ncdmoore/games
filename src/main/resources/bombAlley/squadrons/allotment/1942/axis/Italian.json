@@ -1,0 +1,116 @@
+{
+  "nation": "ITALIAN",
+  "bombers": {
+    "dice": 4,
+    "factor": 6,
+    "groups": [
+      {
+        "selectSize": 2,
+        "aircraft": [
+          {
+            "type": "SM79-2",
+            "number": 18
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "SM79-3",
+            "number": 12
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "P108",
+            "number": 2
+          },
+          {
+            "type": "Z1007",
+            "number": 6
+          },
+          {
+            "type": "CA313",
+            "number": 2
+          },
+          {
+            "type": "CA309",
+            "number": 2
+          },
+          {
+            "type": "SM81",
+            "number": 8
+          }
+        ]
+      }
+    ]
+  },
+  "fighters": {
+    "dice": 2,
+    "factor": 6,
+    "groups": [
+      {
+        "selectSize": 2,
+        "aircraft": [
+          {
+            "type": "MC202",
+            "number": 12
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "MC200",
+            "number": 6
+          },
+          {
+            "type": "G50",
+            "number": 8
+          },
+          {
+            "type": "CR42",
+            "number": 12
+          },
+          {
+            "type": "MC205",
+            "number": 6
+          }
+        ]
+      }
+    ]
+  },
+  "recon": {
+    "dice": 1,
+    "factor": 2,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Z501",
+            "number": 8
+          },
+          {
+            "type": "Z506",
+            "number": 8
+          },
+          {
+            "type": "RO37",
+            "number": 2
+          },
+          {
+            "type": "RO44",
+            "number": 2
+          }
+        ]
+      }
+    ]
+  }
+}
+

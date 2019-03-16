@@ -2,5 +2,6 @@
   "name"     : "Pantellaria",
   "province" : "Pantellaria",
   "maxCapacity" : 15,
-  "antiAir"       : 10
+  "antiAir"       : 10,
+  "location": "AE20"
 }

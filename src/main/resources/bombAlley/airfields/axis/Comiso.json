@@ -2,5 +2,6 @@
   "name"     : "Comiso",
   "province" : "Sicily",
   "maxCapacity" : 20,
-  "antiAir"       : 10
+  "antiAir"       : 10,
+  "location": "AH19"
 }

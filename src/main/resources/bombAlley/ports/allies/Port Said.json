@@ -1,4 +1,6 @@
 {
   "name": "Port Said",
-  "size": "MINOR"
+  "size": "MINOR",
+  "antiAir": 10,
+  "location": "BH30"
 }

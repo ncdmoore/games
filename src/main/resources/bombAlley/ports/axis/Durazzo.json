@@ -1,4 +1,6 @@
 {
   "name": "Durazzo",
-  "size": "MINOR"
+  "size": "MINOR",
+  "antiAir": 10,
+  "location": "AO12"
 }

@@ -1,4 +1,6 @@
 {
   "name": "Famagusta",
-  "size": "MINOR"
+  "size": "MINOR",
+  "antiAir": 10,
+  "location": "BK24"
 }

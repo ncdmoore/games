@@ -2,5 +2,6 @@
   "name"     : "Bastia",
   "province" : "Corsica",
   "maxCapacity" : 10,
-  "antiAir"       : 3
+  "antiAir"       : 3,
+  "location": "AA9"
 }

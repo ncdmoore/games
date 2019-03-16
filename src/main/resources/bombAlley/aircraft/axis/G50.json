@@ -1,0 +1,31 @@
+{
+  "name": "G.50",
+  "type": "Fighter",
+  "nationality": "Italian",
+  "service": "AIRFORCE",
+  "altitude": "MEDIUM",
+  "landing": "LAND",
+  "naval": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "air": {
+    "modifier": 1,
+    "full": 2,
+    "half": 1
+  },
+  "range": {
+    "range": 5,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

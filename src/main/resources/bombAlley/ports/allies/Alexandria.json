@@ -1,4 +1,6 @@
 {
   "name": "Alexandria",
-  "size": "MAJOR"
+  "size": "MAJOR",
+  "antiAir": 15,
+  "location": "BG32"
 }

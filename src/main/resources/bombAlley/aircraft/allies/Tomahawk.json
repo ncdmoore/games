@@ -1,0 +1,31 @@
+{
+  "name": "Tomahawk",
+  "type": "Fighter",
+  "nationality": "British",
+  "service": "AIRFORCE",
+  "altitude": "MEDIUM",
+  "landing": "LAND",
+  "naval": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "air": {
+    "modifier": 1,
+    "full": 3,
+    "half": 1
+  },
+  "range": {
+    "range": 8,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

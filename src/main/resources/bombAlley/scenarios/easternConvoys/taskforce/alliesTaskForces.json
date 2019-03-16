@@ -1,0 +1,97 @@
+[
+  {
+    "name": "TF1",
+    "title": "Dardanelles Convoy",
+    "location": "AY16",
+    "state": "ACTIVE",
+    "mission": "TRANSPORT",
+    "targets": [
+      {"location": "Alexandria"}
+    ],
+    "ships": [
+      "CL01a Caledon 39",
+      "CL12 Capetown",
+      "DD105 Mohawk",
+      "DD106 Nubian",
+      "DD07 Garland",
+      "DE01 V&W-1",
+      "DE02 V&W-2",
+      "DE03 V&W-3",
+      "TR13",
+      "TR14",
+      "TR15",
+      "TR16",
+      "TR17",
+      "TR18"
+    ],
+    "cargoShips": [
+      "TR13",
+      "TR14",
+      "TR15",
+      "TR16",
+      "TR17",
+      "TR18"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "Escort",
+    "location": "AX25",
+    "state": "ACTIVE",
+    "mission": "ESCORT",
+    "ships": [
+      "DD35 Dainty",
+      "DD37 Decoy",
+      "DD38 Defender",
+      "DD78 Ilex",
+      "DE04 V&W-4",
+      "DE05 V&W-5",
+      "DE06 V&W-6"
+    ]
+  },
+  {
+    "name": "TF3",
+    "title": "Malta Convoy",
+    "location": "BC29",
+    "state": "ACTIVE",
+    "mission": "TRANSPORT",
+    "targets": [
+      {"location": "Malta"}
+    ],
+    "ships": [
+      "CL28 Orion",
+      "CL27 Neptune",
+      "CL39 Liverpool",
+      "CL38 Gloucester",
+      "TR01",
+      "TR02",
+      "TR03",
+      "CL03 Sydney"
+    ],
+    "cargoShips": [
+      "TR01",
+      "TR02",
+      "TR03"
+    ]
+  },
+  {
+    "name": "TF4",
+    "title": "Malta Convoy Escort",
+    "location": "BE30",
+    "state": "ACTIVE",
+    "mission": "ESCORT",
+    "ships": [
+      "BB08 Royal Sovereign",
+      "BB10 Ramillies",
+      "CVL04 Eagle",
+      "DD69 Hasty",
+      "DD71 Hereward",
+      "DD72 Hero",
+      "DD73 Hostile",
+      "DD76 Hyperion",
+      "DD80 Imperial",
+      "DD114 Janus",
+      "DD118 Juno"
+    ]
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "name": "SM79-3",
+  "type": "Torpedo_Bomber",
+  "nationality": "Italian",
+  "service": "AIRFORCE",
+  "altitude": "MEDIUM",
+  "landing": "LAND",
+  "naval": {
+    "modifier": 1,
+    "full": 6,
+    "half": 3
+  },
+  "land": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "air": {
+    "modifier": 0,
+    "full": 2,
+    "half": 1
+  },
+  "range": {
+    "range": 14,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

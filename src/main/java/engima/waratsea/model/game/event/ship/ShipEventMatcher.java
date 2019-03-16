@@ -8,13 +8,15 @@ import engima.waratsea.model.game.Asset;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.data.ShipMatchData;
 import engima.waratsea.model.map.GameMap;
-import engima.waratsea.model.ships.ShipType;
+import engima.waratsea.model.map.Location;
+import engima.waratsea.model.ship.ShipType;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -45,15 +47,13 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     @Setter
     private List<ShipType> shipTypes; // A list of ship types to match.
 
-    // A list of starting locations to match. This is the location where a ship started the event.
+    // A list of starting locations to match. This is the location where a ship started.
     // The only event that uses this is the CARGO_UNLOADED event. The starting location is the location
     // where the cargo was loaded.
     @Getter
     @Setter
     private List<String> portOrigins;
 
-    @Getter
-    @Setter
     private List<String> locations; // A list of locations to match. This is the location where the event occurred.
 
     @Getter
@@ -115,6 +115,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
                 && isNameEqual(firedEvent.getShip().getName())
                 && isTaskForceNameEqual(firedEvent.getShip().getTaskForce())
                 && isLocationEqual(firedEvent.getShip().getTaskForce())
+                && isPortOriginEqual(firedEvent.getShip().getOriginPort())
                 && isByEqual(firedEvent.getBy());
     }
 
@@ -225,6 +226,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
      */
     private String getLocations(@NotNull final List<String> shipLocations) {
         return shipLocations.stream()
+                .filter(Objects::nonNull)
                 .map(gameMap::convertReferenceToName)
                 .collect(Collectors.joining(", "));
     }
@@ -284,7 +286,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
         return locations == null                                                                                         // If the location is not specified then it does not matter.
                 || matchAnyEnemyBase(taskForce)
                 || matchAnyFriendlyBase(taskForce)
-                || locations.contains(taskForce.getLocation());
+                || locations.contains(taskForce.getLocation().getReference());
     }
 
     /**
@@ -293,9 +295,10 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
      * @param portOrigin The port origin of the ship event.
      * @return True if the ship's port origin is matched. False otherwise.
      */
-    private boolean isPortOriginEqual(final String portOrigin) {
+    private boolean isPortOriginEqual(final Location portOrigin) {
         return portOrigins == null
-                || portOrigins.contains(portOrigin);
+                || portOrigin == null
+                || portOrigins.contains(portOrigin.getReference());
     }
     /**
      * Determine if the asset that caused the event to fire matches.

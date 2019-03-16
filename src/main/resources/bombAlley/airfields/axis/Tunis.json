@@ -2,5 +2,6 @@
   "name"     : "Tunis",
   "province" : "Tunisia",
   "maxCapacity" : 20,
-  "antiAir"  : 5
+  "antiAir"  : 5,
+  "location": "AC20"
 }

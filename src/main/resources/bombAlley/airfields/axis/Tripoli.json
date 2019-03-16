@@ -2,5 +2,6 @@
   "name"     : "Tripoli",
   "province" : "Libya",
   "maxCapacity" : 20,
-  "antiAir"       : 12
+  "antiAir"       : 12,
+  "location": "AE27"
 }

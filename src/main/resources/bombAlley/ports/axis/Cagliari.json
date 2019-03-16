@@ -1,4 +1,6 @@
 {
   "name": "Cagliari",
-  "size": "MINOR"
+  "size": "MINOR",
+  "antiAir": 10,
+  "location": "AA16"
 }

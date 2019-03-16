@@ -83,7 +83,7 @@ public class RequiredShipVictory implements ShipVictoryCondition {
                 .stream()
                 .anyMatch(matcher -> matcher.match(event));
 
-        String location = gameMap.convertReferenceToName(event.getShip().getTaskForce().getLocation());
+        String location = event.getShip().getTaskForce().getName();
         log.info("Ship '{}' '{}' at location '{}' results in requirement met: {}",
                 new Object[] {event.getShip().getName(), event.getAction(), location, requirementMet});
 

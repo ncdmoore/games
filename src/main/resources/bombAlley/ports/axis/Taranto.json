@@ -1,4 +1,6 @@
 {
   "name": "Taranto",
-  "size": "MAJOR"
+  "size": "MAJOR",
+  "antiAir": 15,
+  "location": "AO15"
 }

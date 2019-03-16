@@ -14,4 +14,12 @@ public class PortData {
     @Getter
     @Setter
     private String size;
+
+    @Getter
+    @Setter
+    private int antiAir;
+
+    @Getter
+    @Setter
+    private String location;
 }

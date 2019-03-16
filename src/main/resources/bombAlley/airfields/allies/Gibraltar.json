@@ -2,5 +2,6 @@
   "name"     : "Gibraltar",
   "province" : "Iberian Peninsula",
   "maxCapacity" : 20,
-  "antiAir"       : 15
+  "antiAir"       : 15,
+  "location": "H22"
 }

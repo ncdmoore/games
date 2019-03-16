@@ -24,6 +24,7 @@ public class ShipVictory implements ShipVictoryCondition {
 
     // The cargo capacity factor is 3 times the board game value to avoid fractions.
     // Thus the victory for unloading cargo is divided by 3 --> 4 instead of 12.
+    // The factor 12 is specified in the game manual under Victory Points.
     private static final int CARGO_CAPACITY_UNLOAD_FACTOR = 4;
     private static final int OUT_OF_FUEL_FACTOR = 2;
     private GameMap gameMap;
@@ -42,16 +43,17 @@ public class ShipVictory implements ShipVictoryCondition {
     @Getter
     private boolean requirementMet;
 
-    private static BiFunction<Integer, ShipEvent, Integer> getSunk = (p, e) -> p == 0 ? e.getShip().getVictoryPoints() : p;
+    private static BiFunction<Integer, ShipEvent, Integer> getShip = (p, e) -> p == 0 ? e.getShip().getVictoryPoints() : p;
     private static BiFunction<Integer, ShipEvent, Integer> getOutOfFuel = (p, e) -> e.getShip().getVictoryPoints() / OUT_OF_FUEL_FACTOR;
     private static BiFunction<Integer, ShipEvent, Integer> getCargoUnloaded = (p, e) -> p == 0 ? e.getShip().getCargo().getCapacity() * CARGO_CAPACITY_UNLOAD_FACTOR : p;
     private static BiFunction<Integer, ShipEvent, Integer> getDefault = (p, e) -> p;
 
     private static final Map<ShipEventAction, BiFunction<Integer, ShipEvent, Integer>> FUNCTION_MAP = new HashMap<>();
     static {
-        FUNCTION_MAP.put(ShipEventAction.SUNK, getSunk);
+        FUNCTION_MAP.put(ShipEventAction.SUNK, getShip);
         FUNCTION_MAP.put(ShipEventAction.OUT_OF_FUEL, getOutOfFuel);
         FUNCTION_MAP.put(ShipEventAction.CARGO_UNLOADED, getCargoUnloaded);
+        FUNCTION_MAP.put(ShipEventAction.ARRIVAL, getShip);
     }
 
     private BiFunction<Integer, ShipEvent, Integer> calculation;
@@ -116,7 +118,7 @@ public class ShipVictory implements ShipVictoryCondition {
      * @return True if the fired ship event is one that results in a change in victory points.
      */
     public boolean match(final ShipEvent event) {
-        String location = gameMap.convertReferenceToName(event.getShip().getTaskForce().getLocation());
+        String location = event.getShip().getTaskForce().getLocation().getName();
 
         boolean matched = matcher.match(event);
 
@@ -135,7 +137,7 @@ public class ShipVictory implements ShipVictoryCondition {
     public int getPoints(final ShipEvent event) {
         int awardedPoints = 0;
 
-        String location = gameMap.convertReferenceToName(event.getShip().getTaskForce().getLocation());
+        String location = event.getShip().getTaskForce().getLocation().getName();
 
         if (occurrencesMet()) {
             awardedPoints = calculation.apply(points, event);

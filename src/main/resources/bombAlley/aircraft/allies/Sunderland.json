@@ -1,0 +1,31 @@
+{
+  "name": "Sunderland",
+  "type": "Reconnaissance",
+  "nationality": "British",
+  "service": "NAVY",
+  "altitude": "LOW",
+  "landing": "SEAPLANE",
+  "naval": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 2,
+    "half": 1
+  },
+  "air": {
+    "modifier": 0,
+    "full": 5,
+    "half": 3
+  },
+  "range": {
+    "range": 8,
+    "endurance": 3
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

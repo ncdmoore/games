@@ -1,6 +1,7 @@
 {
-  "name"     : "Marseille",
-  "province" : "France",
-  "maxCapacity" : 20,
-  "antiAir"       : 10
+  "name": "Marseille",
+  "province": "France",
+  "maxCapacity": 20,
+  "antiAir": 10,
+  "location": "W10"
 }

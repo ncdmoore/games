@@ -3,8 +3,9 @@
   "title": "Eastern Convoys",
   "id": 3,
   "image": "easternConvoys.png",
-  "date": "06/26/940",
+  "date": "06/26/1940",
   "weather": "CLEAR",
   "maxTurns": 42,
-  "description": "Both military and trade goods continued to move through the Mediterranean despite the outbreak of war. While British convoys moved from Egypt to Malta and from the Black Sea to Egypt, the Italians tried to slip a handful of destroyers across with vital supplies."
+  "description": "Both military and trade goods continued to move through the Mediterranean despite the outbreak of war. While British convoys moved from Egypt to Malta and from the Black Sea to Egypt, the Italians tried to slip a handful of destroyers across with vital supplies.",
+  "map": "june1940"
 }

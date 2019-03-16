@@ -2,5 +2,6 @@
   "name"     : "Rhodes",
   "province" : "Dodecanese",
   "maxCapacity" : 20,
-  "antiAir"       : 8
+  "antiAir"       : 8,
+  "location": "BE23"
 }

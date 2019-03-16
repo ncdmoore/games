@@ -1,0 +1,13 @@
+{
+  "objectives": "Unload the cargo carried by the supply force in Benghazi.",
+  "scenarioShip": [
+    {
+      "event": {
+        "action": "CARGO_UNLOADED",
+        "shipType": "DESTROYER_ESCORT",
+        "location": "Benghazi"
+      },
+      "points": 8
+    }
+  ]
+}

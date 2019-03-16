@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Malta",
+    "nation": "BRITISH",
+    "min": "0",
+    "max": "4",
+    "airfields": [
+      "Malta-1940"
+    ],
+    "ports": [
+      "Malta"
+    ]
+  },
+  {
+    "name": "Gibraltar",
+    "nation": "BRITISH",
+    "min": "0",
+    "max": "8",
+    "airfields": [
+      "Gibraltar"
+    ],
+    "ports": [
+      "Gibraltar"
+    ]
+  }
+]

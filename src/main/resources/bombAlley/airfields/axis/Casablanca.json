@@ -1,0 +1,7 @@
+{
+  "name"     : "Casablanca",
+  "province" : "Morocco",
+  "maxCapacity" : 10,
+  "antiAir"       : 3,
+  "location": "B24"
+}
