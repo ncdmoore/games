@@ -1,4 +1,4 @@
-package engima.waratsea.model.airfield;
+package engima.waratsea.model.base.airfield;
 
 import lombok.extern.slf4j.Slf4j;
 

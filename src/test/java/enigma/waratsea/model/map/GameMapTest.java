@@ -4,9 +4,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.GameGrid;
-import engima.waratsea.model.map.MapProps;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
 import enigma.waratsea.TestModule;
 import org.junit.Assert;
@@ -14,21 +13,25 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class GameMapTest {
-    private static GameTitle gameTitle;
-    private static MapProps props;
     private static GameMap gameMap;
 
     @BeforeClass
-    public static void setup() {
+    public static void setup() throws Exception{
         Injector injector = Guice.createInjector(new TestModule());
-        gameTitle = injector.getInstance(GameTitle.class);                                                              //The game instance must be injected first!
+        GameTitle gameTitle = injector.getInstance(GameTitle.class);                                                              //The game instance must be injected first!
         final String gameName = "bombAlley";
         gameTitle.setValue(gameName);
 
-        props = injector.getInstance(MapProps.class);
         gameMap = injector.getInstance(GameMap.class);
 
+        Scenario scenario = new Scenario();
+        scenario.setName("firstSortie");
+        scenario.setTitle("The first Sortie");
+        scenario.setMap("june1940");
 
+        GameMap gameMap = injector.getInstance(GameMap.class);
+
+        gameMap.load(scenario);
     }
 
     @Test

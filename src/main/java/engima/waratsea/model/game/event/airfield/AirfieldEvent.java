@@ -1,6 +1,6 @@
 package engima.waratsea.model.game.event.airfield;
 
-import engima.waratsea.model.airfield.Airfield;
+import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Asset;
 import engima.waratsea.model.game.event.GameEvent;
 import engima.waratsea.model.game.event.GameEventHandler;

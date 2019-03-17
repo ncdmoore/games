@@ -1,8 +1,8 @@
 package engima.waratsea.model.player;
 
-import engima.waratsea.model.airfield.Airfield;
+import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.port.Port;
+import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.taskForce.TaskForce;

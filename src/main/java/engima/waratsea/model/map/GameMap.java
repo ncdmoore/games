@@ -2,13 +2,14 @@ package engima.waratsea.model.map;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.airfield.Airfield;
-import engima.waratsea.model.airfield.AirfieldLoader;
+import engima.waratsea.model.base.Base;
+import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.airfield.AirfieldLoader;
+import engima.waratsea.model.base.port.Port;
+import engima.waratsea.model.base.port.PortLoader;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.map.region.RegionLoader;
-import engima.waratsea.model.port.Port;
-import engima.waratsea.model.port.PortLoader;
 import engima.waratsea.model.scenario.Scenario;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -35,7 +35,6 @@ public final class GameMap {
     private static final String ANY_ENEMY_BASE = "ANY_ENEMY_BASE";
     private static final String ANY_FRIENDLY_BASE = "ANY_FRIENDLY_BASE";
 
-    private MapProps props;
     private RegionLoader regionLoader;
 
     @Getter
@@ -50,7 +49,8 @@ public final class GameMap {
     private Map<Side, List<Region>> regions = new HashMap<>();
     private Map<Side, List<Airfield>> airfields = new HashMap<>();
     private Map<Side, List<Port>> ports = new HashMap<>();
-    private Map<Side, Set<String>> locationToBaseMap = new HashMap<>();
+    private Map<Side, Map<String, String>> baseRefToName = new HashMap<>();
+    private Map<Side, Map<String, String>> baseNameToRef = new HashMap<>();
 
     /**
      * The constructor of the GameMap. Called by guice.
@@ -65,7 +65,6 @@ public final class GameMap {
                    final RegionLoader regionLoader,
                    final AirfieldLoader airfieldLoader,
                    final PortLoader portLoader) {
-        this.props = props;
         this.regionLoader = regionLoader;
         this.airfieldLoader = airfieldLoader;
         this.portLoader = portLoader;
@@ -93,7 +92,6 @@ public final class GameMap {
         buildLocationToBaseMap();
     }
 
-
     /**
      * Get a side's airfields.
      *
@@ -114,6 +112,18 @@ public final class GameMap {
         return ports.get(side);
     }
 
+
+    /**
+     * Get all of the bases on this map.
+     *
+     * @return A list of all the game bases.
+     */
+    public List<Base> getBases() {
+        return Stream.concat(getBases(Side.ALLIES), getBases(Side.AXIS))
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
     /**
      * Determine if the given location is a base for the given side.
      *
@@ -122,7 +132,7 @@ public final class GameMap {
      * @return True if the given location is a base for the given side.
      */
     public boolean isLocationBase(final Side side, final String location) {
-        return locationToBaseMap.get(side).contains(convertNameToReference(location));
+        return baseRefToName.get(side).containsKey(convertNameToReference(location));
     }
 
     /**
@@ -143,7 +153,7 @@ public final class GameMap {
         }
 
         Matcher matcher = PATTERN.matcher(name);
-        String reference =  matcher.matches() ? name : props.getString(name);
+        String reference =  matcher.matches() ? name : getBaseReference(name);
 
         if (reference == null) {
             log.error("Unknown location " + name);
@@ -163,7 +173,7 @@ public final class GameMap {
             return reference;
         }
 
-        return Optional.ofNullable(props.getString(reference)).orElse(reference);
+        return Optional.ofNullable(getBaseName(reference)).orElse(reference);
     }
 
     /**
@@ -240,35 +250,60 @@ public final class GameMap {
      * @param side The side ALLIES or AXIS.
      */
     private void buildLocationToBaseMap(final Side side) {
-         Set<String> bases = Stream
-                 .concat(getAirfieldNames(side), getPortNames(side))
-                 .collect(Collectors.toSet());
+        Map<String, String> refToNameMap = getBases(side)
+                .distinct()
+                .collect(Collectors.toMap(Base::getReference,
+                                          Base::getName,
+                                          (oldValue, newValue) -> newValue));
 
-         locationToBaseMap.put(side, bases);
+        Map<String, String> nameToRefMap = getBases(side)
+                .distinct()
+                .collect(Collectors.toMap(Base::getName,
+                                          Base::getReference,
+                                          (oldValue, newValue) -> newValue));
+
+        baseRefToName.put(side, refToNameMap);
+        baseNameToRef.put(side, nameToRefMap);
     }
 
     /**
-     * Get the airfield names for the given side.
+     * Get a stream of all the bases both airfields and ports.
      *
      * @param side The side ALLIES or AXIS.
-     * @return A stream of all the airfield names.
+     * @return A stream of bases.
      */
-    private Stream<String> getAirfieldNames(final Side side) {
-        return Stream.concat(
-                airfields.get(side).stream().map(Airfield::getName),
-                airfields.get(side).stream().map(airfield -> airfield.getLocation().getReference()));
+    private Stream<Base> getBases(final Side side) {
+        return Stream.concat(airfields.get(side).stream(), ports.get(side).stream());
     }
 
     /**
-     * Get the port names for the given side.
+     * Get the base map reference given the base name.
      *
-     * @param side The side ALLIES or AXIS.
-     * @return A stream of all the port names.
+     * @param name The name of the base.
+     * @return The map reference of the base.
      */
-    private Stream<String> getPortNames(final Side side) {
-        return Stream.concat(
-                ports.get(side).stream().map(Port::getName),
-                ports.get(side).stream().map(port -> port.getLocation().getReference()));
+    private String getBaseReference(final String name) {
+        String ref = baseNameToRef.get(Side.ALLIES).get(name);
+        if (ref == null) {
+            ref = baseNameToRef.get(Side.AXIS).get(name);
+        }
+
+        return ref;
+    }
+
+    /**
+     * Get the base name given the base reference.
+     *
+     * @param reference The base's map reference.
+     * @return The name of the base.
+     */
+    private String getBaseName(final String reference) {
+        String name = baseRefToName.get(Side.ALLIES).get(reference);
+        if (name == null) {
+            name = baseRefToName.get(Side.AXIS).get(reference);
+        }
+
+        return name;
     }
 
     /**

@@ -10,6 +10,8 @@ import engima.waratsea.model.game.event.ship.ShipEventAction;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
 import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
 import engima.waratsea.model.game.event.ship.data.ShipMatchData;
+import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
@@ -34,11 +36,19 @@ public class ShipEventTest {
     private static String battleshipName = "BB02 Warspite";
 
     @BeforeClass
-    public static void setup() {
+    public static void setup() throws Exception {
         Injector injector = Guice.createInjector(new TestModule());
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
         gameTitle.setValue("bombAlley");
+
+        Scenario scenario = new Scenario();
+        scenario.setName("firstSortie");
+        scenario.setTitle("The first Sortie");
+        scenario.setMap("june1940");
+
+        GameMap gameMap = injector.getInstance(GameMap.class);
+        gameMap.load(scenario);
 
         shipEventMatcherFactory = injector.getInstance(ShipEventMatcherFactory.class);
 

@@ -7,6 +7,7 @@ import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.GameType;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.victory.RequiredShipVictory;
 import engima.waratsea.model.victory.ShipVictory;
@@ -27,7 +28,7 @@ public class VictoryLoaderTest {
     private static Config config;
 
     @BeforeClass
-    public static void setup() {
+    public static void setup() throws Exception {
         Injector injector = Guice.createInjector(new TestModule());
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
@@ -35,6 +36,15 @@ public class VictoryLoaderTest {
         loader = injector.getInstance(VictoryLoader.class);
 
         gameTitle.setValue("bombAlley");
+
+        Scenario scenario = new Scenario();
+        scenario.setName("firstSortie");
+        scenario.setTitle("The first Sortie");
+        scenario.setMap("june1940");
+
+        GameMap gameMap = injector.getInstance(GameMap.class);
+
+        gameMap.load(scenario);
 
     }
 

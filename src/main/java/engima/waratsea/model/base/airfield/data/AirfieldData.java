@@ -1,4 +1,4 @@
-package engima.waratsea.model.airfield.data;
+package engima.waratsea.model.base.airfield.data;
 
 import lombok.Getter;
 import lombok.Setter;

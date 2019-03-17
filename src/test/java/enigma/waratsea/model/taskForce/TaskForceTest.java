@@ -36,7 +36,7 @@ public class TaskForceTest {
     private static GameMap gameMap;
 
     @BeforeClass
-    public static void setup() {
+    public static void setup() throws Exception {
         Injector injector = Guice.createInjector(new TestModule());
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
@@ -47,6 +47,13 @@ public class TaskForceTest {
         shipyard = injector.getInstance(Shipyard.class);
 
         factory = injector.getInstance(TaskForceFactory.class);
+
+        Scenario scenario = new Scenario();
+        scenario.setName("firstSortie");
+        scenario.setTitle("The first Sortie");
+        scenario.setMap("june1940");
+
+        gameMap.load(scenario);
     }
 
     @Test

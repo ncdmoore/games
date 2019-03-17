@@ -6,6 +6,7 @@ import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.GameType;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
@@ -20,6 +21,7 @@ import java.util.List;
 public class TaskForceLoaderTest {
     private static TaskForceLoader loader;
     private static Config config;
+    private static GameMap gameMap;
 
     @BeforeClass
     public static void setup() {
@@ -27,6 +29,7 @@ public class TaskForceLoaderTest {
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
         config = injector.getInstance(Config.class);
+        gameMap = injector.getInstance(GameMap.class);
         loader = injector.getInstance(TaskForceLoader.class);
 
         gameTitle.setValue("bombAlley");
@@ -40,6 +43,8 @@ public class TaskForceLoaderTest {
         scenario.setMap("june1940");
 
         config.setScenario(scenario.getName());
+
+        gameMap.load(scenario);
 
         List<TaskForce> alliedTaskForces = loader.load(scenario, Side.ALLIES);
 

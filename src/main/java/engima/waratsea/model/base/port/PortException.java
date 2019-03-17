@@ -1,4 +1,4 @@
-package engima.waratsea.model.port;
+package engima.waratsea.model.base.port;
 
 import lombok.extern.slf4j.Slf4j;
 

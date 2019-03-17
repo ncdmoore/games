@@ -1,9 +1,9 @@
-package engima.waratsea.model.airfield;
+package engima.waratsea.model.base.airfield;
 
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.airfield.data.AirfieldData;
+import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;

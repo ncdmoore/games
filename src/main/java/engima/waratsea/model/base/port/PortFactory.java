@@ -1,8 +1,7 @@
-package engima.waratsea.model.port;
+package engima.waratsea.model.base.port;
 
-import engima.waratsea.model.airfield.Airfield;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.port.data.PortData;
+import engima.waratsea.model.base.port.data.PortData;
 
 /**
  * Factory used by guice to create ports.

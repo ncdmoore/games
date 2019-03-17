@@ -1,7 +1,7 @@
 {
-  "name"     : "Suez",
-  "province" : "Egypt",
-  "maxCapacity" : 1,
-  "antiAir"       : 5,
-  "location": "BH33"
+  "name": "Suez",
+  "province": "Egypt",
+  "maxCapacity": 1,
+  "antiAir": 5,
+  "location": "BK34"
 }

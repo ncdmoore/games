@@ -1,18 +1,19 @@
-package engima.waratsea.model.port;
+package engima.waratsea.model.base.port;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
+import engima.waratsea.model.base.Base;
+import engima.waratsea.model.base.port.data.PortData;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.Location;
 import engima.waratsea.model.map.LocationFactory;
-import engima.waratsea.model.port.data.PortData;
 import lombok.Getter;
 
 /**
  * Represents a port within the game.
  */
-public class Port implements PersistentData<PortData> {
+public class Port implements Base, PersistentData<PortData> {
     @Getter
     private final Side side;
 
@@ -57,5 +58,15 @@ public class Port implements PersistentData<PortData> {
        data.setSize(size);
        data.setLocation(location.getReference());
        return data;
+    }
+
+    /**
+     * Get the port's map reference.
+     *
+     * @return The port's map reference.
+     */
+    @Override
+    public String getReference() {
+        return location.getReference();
     }
 }

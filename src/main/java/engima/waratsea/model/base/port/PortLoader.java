@@ -1,11 +1,11 @@
-package engima.waratsea.model.port;
+package engima.waratsea.model.base.port;
 
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.port.data.PortData;
+import engima.waratsea.model.base.port.data.PortData;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;

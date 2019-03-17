@@ -1,14 +1,14 @@
 package engima.waratsea.model.player;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.airfield.Airfield;
-import engima.waratsea.model.airfield.AirfieldLoader;
+import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.airfield.AirfieldLoader;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.nation.Nation;
 import engima.waratsea.model.game.nation.NationProps;
 import engima.waratsea.model.map.GameMap;
-import engima.waratsea.model.port.Port;
-import engima.waratsea.model.port.PortLoader;
+import engima.waratsea.model.base.port.Port;
+import engima.waratsea.model.base.port.PortLoader;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.squadron.Squadron;

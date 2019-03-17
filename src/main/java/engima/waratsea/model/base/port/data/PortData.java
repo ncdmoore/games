@@ -1,4 +1,4 @@
-package engima.waratsea.model.port.data;
+package engima.waratsea.model.base.port.data;
 
 import lombok.Getter;
 import lombok.Setter;

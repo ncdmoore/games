@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioLoader;
 import engima.waratsea.model.taskForce.TaskForce;
@@ -23,6 +24,7 @@ public class ScenarioLoaderTest {
 
     private static GameTitle gameTitle;
     private static Config config;
+    private static GameMap gameMap;
     private static Injector injector;
 
 
@@ -36,6 +38,7 @@ public class ScenarioLoaderTest {
         gameTitle = injector.getInstance(GameTitle.class);
         config = injector.getInstance(Config.class);
 
+        gameMap = injector.getInstance(GameMap.class);
     }
 
     @Test
@@ -46,8 +49,8 @@ public class ScenarioLoaderTest {
     //todo consider all scenarios.
     @Test
     public void testTaskForceLoading() {
-        taskForceLoading("bombAlley", "firstSortie");
-        taskForceLoading("bombAlley", "capeTeulada");
+        taskForceLoading("bombAlley", "firstSortie", "june1940");
+        taskForceLoading("bombAlley", "capeTeulada", "june1940");
         //taskForceLoading("coralSea", "coralSea");
     }
 
@@ -71,15 +74,19 @@ public class ScenarioLoaderTest {
 
     }
 
-    private void taskForceLoading(String gameName, String scenarioName)  {
+    private void taskForceLoading(String gameName, String scenarioName, String mapName)  {
 
         try {
+            gameTitle.setValue(gameName);
+
             Scenario scenario = new Scenario();
             scenario.setName(scenarioName);
             scenario.setTitle(scenarioName);
+            scenario.setMap(mapName);
 
-            gameTitle.setValue(gameName);
             config.setScenario(scenario.getName());
+
+            gameMap.load(scenario);
 
             TaskForceLoader loader = injector.getInstance(TaskForceLoader.class);
 

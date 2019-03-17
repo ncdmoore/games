@@ -96,10 +96,17 @@ public class MapView {
 
     /**
      * Highlight a single grid on the map.
+     *
      * @param gameGrid The corresponding game grid.
      */
     public void highlight(final GameGrid gameGrid) {
+
         Rectangle r = grid.get(gameGrid.getRow(), gameGrid.getColumn());
+
+        if (r == null) {
+            log.error("highlight row: {}, column: {}", gameGrid.getRow(), gameGrid.getColumn());
+            return;
+        }
 
         r.setOpacity(1.0);
         r.setStroke(Color.RED);

@@ -1,6 +1,6 @@
-package engima.waratsea.model.airfield;
+package engima.waratsea.model.base.airfield;
 
-import engima.waratsea.model.airfield.data.AirfieldData;
+import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.game.Side;
 
 /**

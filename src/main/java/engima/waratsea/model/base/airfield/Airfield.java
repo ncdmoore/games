@@ -1,9 +1,10 @@
-package engima.waratsea.model.airfield;
+package engima.waratsea.model.base.airfield;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
-import engima.waratsea.model.airfield.data.AirfieldData;
+import engima.waratsea.model.base.Base;
+import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.Location;
 import engima.waratsea.model.map.LocationFactory;
@@ -13,7 +14,7 @@ import lombok.Setter;
 /**
  * Represents airfield's in the game.
  */
-public class Airfield implements PersistentData<AirfieldData> {
+public class Airfield implements Base, PersistentData<AirfieldData> {
 
     @Getter
     private final Side side;
@@ -67,5 +68,15 @@ public class Airfield implements PersistentData<AirfieldData> {
         data.setAntiAir(antiAir);
         data.setLocation(location.getReference());
         return data;
+    }
+
+    /**
+     * Get the airfield's location map reference.
+     *
+     * @return The airfield's map reference.
+     */
+    @Override
+    public String getReference() {
+        return location.getReference();
     }
 }
