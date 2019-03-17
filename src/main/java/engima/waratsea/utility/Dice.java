@@ -12,13 +12,15 @@ public class Dice {
 
     private static final int DICE_SIX_SIDED = 6;
 
+    private static final Random DICE = new Random();
+
     /**
      * Roll a six sided dice.
      *
      * @return  A value between 1 and 6.
      */
     public int roll6() {
-        return roll(DICE_SIX_SIDED);
+        return DICE.nextInt(DICE_SIX_SIDED) + 1;
     }
 
     /**
@@ -28,19 +30,9 @@ public class Dice {
      * @return                  The sum of all the dice rolls.
      */
     public int sumDiceRoll(final int numberDiceToRoll) {
-        return new Random()
+        return DICE
                 .ints(numberDiceToRoll, 1, DICE_SIX_SIDED + 1)
                 .sum();
     }
 
-    /**
-     * Roll a dice that has the given number of sides.
-     *
-     * @param max   The potential maximum value of the random number that is generated.
-     * @return      A random number between min and max
-     */
-    private int roll(final int max) {
-        return new Random()
-                .nextInt(max) + 1;
-    }
 }

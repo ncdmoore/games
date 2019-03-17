@@ -26,7 +26,7 @@ public class Airfield implements Base, PersistentData<AirfieldData> {
     @Getter
     private final int antiAir;
 
-    private final String location;
+    private final String location; // A simple string is used to prevent circular logic on mapping names and references.
 
     @Getter
     @Setter

@@ -24,7 +24,7 @@ public class Port implements Base, PersistentData<PortData> {
     @Getter
     private final int antiAir;
 
-    private final String location;
+    private final String location; // A simple string is used to prevent circular logic on mapping names and references.
 
     /**
      * Constructor called by guice.
