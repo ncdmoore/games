@@ -118,7 +118,7 @@ public class ShipVictory implements ShipVictoryCondition {
      * @return True if the fired ship event is one that results in a change in victory points.
      */
     public boolean match(final ShipEvent event) {
-        String location = event.getShip().getTaskForce().getLocation().getName();
+        String location = gameMap.convertReferenceToName(event.getShip().getTaskForce().getLocation());
 
         boolean matched = matcher.match(event);
 
@@ -137,7 +137,7 @@ public class ShipVictory implements ShipVictoryCondition {
     public int getPoints(final ShipEvent event) {
         int awardedPoints = 0;
 
-        String location = event.getShip().getTaskForce().getLocation().getName();
+        String location = gameMap.convertReferenceToName(event.getShip().getTaskForce().getLocation());
 
         if (occurrencesMet()) {
             awardedPoints = calculation.apply(points, event);

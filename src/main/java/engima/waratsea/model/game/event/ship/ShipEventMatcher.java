@@ -8,7 +8,6 @@ import engima.waratsea.model.game.Asset;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.data.ShipMatchData;
 import engima.waratsea.model.map.GameMap;
-import engima.waratsea.model.map.Location;
 import engima.waratsea.model.ship.ShipType;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
@@ -286,7 +285,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
         return locations == null                                                                                         // If the location is not specified then it does not matter.
                 || matchAnyEnemyBase(taskForce)
                 || matchAnyFriendlyBase(taskForce)
-                || locations.contains(taskForce.getReference());
+                || locations.contains(taskForce.getLocation());
     }
 
     /**
@@ -295,10 +294,10 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
      * @param portOrigin The port origin of the ship event.
      * @return True if the ship's port origin is matched. False otherwise.
      */
-    private boolean isPortOriginEqual(final Location portOrigin) {
+    private boolean isPortOriginEqual(final String portOrigin) {
         return portOrigins == null
                 || portOrigin == null
-                || portOrigins.contains(portOrigin.getReference());
+                || portOrigins.contains(portOrigin);
     }
     /**
      * Determine if the asset that caused the event to fire matches.

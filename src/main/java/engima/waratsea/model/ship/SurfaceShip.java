@@ -3,8 +3,6 @@ package engima.waratsea.model.ship;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.game.nation.Nation;
-import engima.waratsea.model.map.Location;
-import engima.waratsea.model.map.LocationFactory;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
@@ -47,17 +45,15 @@ public class SurfaceShip implements Ship {
     private Cargo cargo;
 
     @Getter
-    private Location originPort;
+    private String originPort;
 
     /**
      * Constructor called by guice.
      *
      * @param data Ship's data.
-     * @param factory The location factory.
      */
     @Inject
-    public SurfaceShip(@Assisted final ShipData data,
-                       final LocationFactory factory) {
+    public SurfaceShip(@Assisted final ShipData data) {
         shipId = data.getShipId();
         type = data.getType();
         shipClass = data.getShipClass();
@@ -75,9 +71,7 @@ public class SurfaceShip implements Ship {
         hull = new Hull(data.getHull());
         cargo = new Cargo((data.getCargo()));
 
-        if (data.getOriginPort() != null) {
-            originPort = factory.create(data.getOriginPort());
-        }
+        originPort = data.getOriginPort();
     }
 
     /**
@@ -105,9 +99,7 @@ public class SurfaceShip implements Ship {
         data.setHull(hull.getData());
         data.setCargo(cargo.getData());
 
-        if (originPort != null) {
-            data.setOriginPort(originPort.getReference());
-        }
+        data.setOriginPort(originPort);
 
         return data;
     }

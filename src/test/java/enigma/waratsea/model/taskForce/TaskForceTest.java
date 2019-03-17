@@ -105,7 +105,7 @@ public class TaskForceTest {
 
         taskForce.setSail();
 
-        Assert.assertEquals(gameMap.convertNameToReference(portOrigin), taskForce.getShip("CL36 Sheffield").getOriginPort().getReference());
+        Assert.assertEquals(gameMap.convertNameToReference(portOrigin), taskForce.getShip("CL36 Sheffield").getOriginPort());
     }
 
 

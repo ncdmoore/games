@@ -4,8 +4,7 @@ package engima.waratsea.model.target;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
-import engima.waratsea.model.map.Location;
-import engima.waratsea.model.map.LocationFactory;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.target.data.TargetData;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +16,7 @@ public class Target implements PersistentData<TargetData> {
 
     @Getter
     @Setter
-    private Location location;
+    private String location;
 
     //private int priority;
 
@@ -25,12 +24,12 @@ public class Target implements PersistentData<TargetData> {
      * Constructor called by guice.
      *
      * @param data The target data read in from a JSON file.
-     * @param locationFactory Factory for creating locations.
+     * @param gameMap Game's map.
      */
     @Inject
     public Target(@Assisted final TargetData data,
-                            final LocationFactory locationFactory) {
-        location = locationFactory.create(data.getLocation());
+                            final GameMap gameMap) {
+        location = gameMap.convertNameToReference(data.getLocation());
     }
 
     /**
@@ -41,7 +40,7 @@ public class Target implements PersistentData<TargetData> {
     @Override
     public TargetData getData() {
         TargetData data = new TargetData();
-        data.setLocation(location.getReference());
+        data.setLocation(location);
         return data;
     }
 }

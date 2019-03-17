@@ -142,24 +142,13 @@ public final class GameMap {
      * @return The corresponding map reference of where the name is located.
      */
     public String convertNameToReference(final String name) {
-
         if (name == null) {
             log.error("Location is null");
             return null;
         }
 
-        if (ANY_ENEMY_BASE.equalsIgnoreCase(name) || ANY_FRIENDLY_BASE.equalsIgnoreCase(name)) {
-            return name;
-        }
-
         Matcher matcher = PATTERN.matcher(name);
-        String reference =  matcher.matches() ? name : getBaseReference(name);
-
-        if (reference == null) {
-            log.error("Unknown location " + name);
-        }
-
-        return reference;
+        return   matcher.matches() ? name : Optional.ofNullable(getBaseReference(name)).orElse(name);
     }
 
     /**
@@ -169,10 +158,6 @@ public final class GameMap {
      * @return The corresponding location name.
      */
     public String convertReferenceToName(final String reference) {
-        if (reference.equalsIgnoreCase(ANY_ENEMY_BASE) || reference.equalsIgnoreCase(ANY_FRIENDLY_BASE)) {
-            return reference;
-        }
-
         return Optional.ofNullable(getBaseName(reference)).orElse(reference);
     }
 

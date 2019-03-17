@@ -2,7 +2,6 @@ package engima.waratsea.model.ship;
 
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.nation.Nation;
-import engima.waratsea.model.map.Location;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.taskForce.TaskForce;
 
@@ -31,7 +30,7 @@ public interface Ship extends PersistentData<ShipData> {
      *
      * @return The port the ship sailed from.
      */
-    Location getOriginPort();
+    String getOriginPort();
 
     /**
      * Get the ship's task force.

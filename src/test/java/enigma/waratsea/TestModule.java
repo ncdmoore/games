@@ -9,27 +9,25 @@ import engima.waratsea.model.aircraft.AircraftImpl;
 import engima.waratsea.model.aircraft.PoorNavalBomber;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
+import engima.waratsea.model.base.port.Port;
+import engima.waratsea.model.base.port.PortFactory;
 import engima.waratsea.model.game.event.airfield.AirfieldEventMatcher;
 import engima.waratsea.model.game.event.airfield.AirfieldEventMatcherFactory;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
 import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
-import engima.waratsea.model.map.Location;
-import engima.waratsea.model.map.LocationFactory;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.map.region.RegionFactory;
 import engima.waratsea.model.player.ComputerPlayer;
 import engima.waratsea.model.player.HumanPlayer;
 import engima.waratsea.model.player.Player;
-import engima.waratsea.model.base.port.Port;
-import engima.waratsea.model.base.port.PortFactory;
 import engima.waratsea.model.ship.AircraftCarrier;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.ship.ShipFactory;
 import engima.waratsea.model.ship.SurfaceShip;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
-import engima.waratsea.model.squadron.allotment.AllotmentFactory;
 import engima.waratsea.model.squadron.allotment.Allotment;
+import engima.waratsea.model.squadron.allotment.AllotmentFactory;
 import engima.waratsea.model.squadron.allotment.AllotmentTable;
 import engima.waratsea.model.squadron.allotment.AllotmentTableFactory;
 import engima.waratsea.model.target.Target;
@@ -38,8 +36,8 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.victory.RequiredShipVictory;
 import engima.waratsea.model.victory.ShipVictory;
-import engima.waratsea.model.victory.ShipVictoryFactory;
 import engima.waratsea.model.victory.ShipVictoryCondition;
+import engima.waratsea.model.victory.ShipVictoryFactory;
 import engima.waratsea.model.victory.VictoryConditions;
 import engima.waratsea.model.victory.VictoryConditionsFactory;
 
@@ -79,8 +77,5 @@ public class TestModule extends AbstractModule {
 
         install(new FactoryModuleBuilder().implement(ShipEventMatcher.class, ShipEventMatcher.class).build(ShipEventMatcherFactory.class));
         install(new FactoryModuleBuilder().implement(AirfieldEventMatcher.class, AirfieldEventMatcher.class).build(AirfieldEventMatcherFactory.class));
-
-        install(new FactoryModuleBuilder().implement(Location.class, Location.class).build(LocationFactory.class));
-
     }
 }

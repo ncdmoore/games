@@ -12,8 +12,7 @@ import engima.waratsea.model.game.event.ship.data.ShipMatchData;
 import engima.waratsea.model.game.event.turn.TurnEvent;
 import engima.waratsea.model.game.event.turn.TurnEventMatcher;
 import engima.waratsea.model.game.event.turn.data.TurnMatchData;
-import engima.waratsea.model.map.Location;
-import engima.waratsea.model.map.LocationFactory;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.ship.ShipId;
 import engima.waratsea.model.ship.ShipType;
@@ -56,7 +55,7 @@ public class TaskForce implements PersistentData<TaskForceData> {
     private TaskForceMission mission;
 
     @Getter
-    private Location location;
+    private String location;
 
     @Getter
     @Setter
@@ -92,7 +91,7 @@ public class TaskForce implements PersistentData<TaskForceData> {
     private Shipyard shipyard;
     private ShipEventMatcherFactory shipEventMatcherFactory;
     private TargetFactory targetFactory;
-    private LocationFactory locationFactory;
+    private GameMap gameMap;
 
     /**
      * Constructor of Task Force called by guice.
@@ -102,7 +101,7 @@ public class TaskForce implements PersistentData<TaskForceData> {
      * @param shipyard builds ships from ship names and side.
      * @param shipEventMatcherFactory Factory for creating ship event matchers.
      * @param targetFactory Factory for creating ship targets.
-     * @param locationFactory Factory for creating locations.
+     * @param gameMap The game's map.
      */
     @Inject
     public TaskForce(@Assisted final Side side,
@@ -110,11 +109,11 @@ public class TaskForce implements PersistentData<TaskForceData> {
                                final Shipyard shipyard,
                                final ShipEventMatcherFactory shipEventMatcherFactory,
                                final TargetFactory targetFactory,
-                               final LocationFactory locationFactory) {
+                               final GameMap gameMap) {
 
         this.shipEventMatcherFactory = shipEventMatcherFactory;
         this.targetFactory = targetFactory;
-        this.locationFactory = locationFactory;
+        this.gameMap = gameMap;
 
         this.side = side;
         name = data.getName();
@@ -149,7 +148,7 @@ public class TaskForce implements PersistentData<TaskForceData> {
         data.setMission(mission);
         data.setTargets(PersistentUtility.getData(targets));
         data.setState(state);
-        data.setLocation(location.getReference());
+        data.setLocation(location);
         data.setShips(getShipNames(ships));
         data.setCargoShips(getShipNames(cargoShips));
         data.setReleaseShipEvents(PersistentUtility.getData(releaseShipEvents));
@@ -203,7 +202,7 @@ public class TaskForce implements PersistentData<TaskForceData> {
      * @return True if the task force is currently located at an enemy port. False otherwise.
      */
     public boolean atEnemyBase() {
-        return location.isEnemyBase(side);
+        return gameMap.isLocationBase(side.opposite(), location);
     }
 
     /**
@@ -212,25 +211,17 @@ public class TaskForce implements PersistentData<TaskForceData> {
      * @return True if the task force is currently located at a friendly port. False otherwise.
      */
     public boolean atFriendlyBase() {
-        return location.isFriendlyBase(side);
+        return gameMap.isLocationBase(side, location);
     }
 
-    /**
-     * Set the task force's locaton.
-     *
-     * @param newLocation The new location of the task force.
-     */
-    public void setLocation(final String newLocation)  {
-        location = locationFactory.create(newLocation);
-    }
 
     /**
      * Get the task force's map reference.
      *
-     * @return The task force's map reference.
+     * @param newLocation The task force's new location.
      */
-    public String getReference() {
-        return location.getReference();
+    public void setLocation(final String newLocation) {
+        location = gameMap.convertNameToReference(newLocation);
     }
 
     /**

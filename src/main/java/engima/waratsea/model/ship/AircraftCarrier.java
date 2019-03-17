@@ -4,8 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.Airbase;
 import engima.waratsea.model.game.nation.Nation;
-import engima.waratsea.model.map.Location;
-import engima.waratsea.model.map.LocationFactory;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
@@ -47,18 +45,16 @@ public class AircraftCarrier implements Ship, Airbase {
     private Cargo cargo;
 
     @Getter
-    private Location originPort;
+    private String originPort;
 
     private FlightDeck flightDeck;
     /**
      * Constructor called by guice.
      *
      * @param data Ship's data.
-     * @param factory The location factory.
      */
     @Inject
-    public AircraftCarrier(@Assisted final ShipData data,
-                                     final LocationFactory factory) {
+    public AircraftCarrier(@Assisted final ShipData data) {
 
         shipId = data.getShipId();
         type = data.getType();
@@ -76,9 +72,7 @@ public class AircraftCarrier implements Ship, Airbase {
         hull = new Hull(data.getHull());
         cargo = new Cargo(data.getCargo());
 
-        if (data.getOriginPort() != null) {
-            originPort = factory.create(data.getOriginPort());
-        }
+        originPort = data.getOriginPort();
 
         flightDeck = new FlightDeck(data.getFlightDeck());
     }
@@ -107,9 +101,7 @@ public class AircraftCarrier implements Ship, Airbase {
         data.setHull(hull.getData());
         data.setCargo(cargo.getData());
 
-        if (originPort != null) {
-            data.setOriginPort(originPort.getReference());
-        }
+        data.setOriginPort(originPort);
 
         data.setFlightDeck(flightDeck.getData());
         return data;
