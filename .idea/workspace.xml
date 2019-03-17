@@ -5,7 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/port/Port.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/port/Port.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/Dice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/Dice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventMatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventMatcher.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -62,31 +62,23 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2295">
-              <caret line="162" column="21" selection-start-line="162" selection-start-column="21" selection-end-line="162" selection-end-column="21" />
-              <folding>
-                <element signature="e#3282#3283#0" expanded="true" />
-                <element signature="e#3329#3330#0" expanded="true" />
-                <element signature="e#3457#3458#0" expanded="true" />
-                <element signature="e#3496#3497#0" expanded="true" />
-                <element signature="e#3697#3698#0" expanded="true" />
-                <element signature="e#3724#3725#0" expanded="true" />
-                <element signature="e#3856#3857#0" expanded="true" />
-                <element signature="e#3908#3909#0" expanded="true" />
-                <element signature="e#4045#4046#0" expanded="true" />
-                <element signature="e#4073#4074#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="516">
+              <caret line="316" column="25" lean-forward="true" selection-start-line="316" selection-start-column="25" selection-end-line="316" selection-end-column="25" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Ship.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-696">
-              <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+            <state relative-caret-position="243">
+              <caret line="222" column="16" selection-start-line="222" selection-start-column="16" selection-end-line="222" selection-end-column="16" />
+              <folding>
+                <element signature="e#6690#6691#0" expanded="true" />
+                <element signature="e#6752#6753#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -94,7 +86,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/SurfaceShip.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
+            <state relative-caret-position="1402">
               <caret line="123" selection-start-line="123" selection-end-line="123" />
               <folding>
                 <element signature="e#3140#3141#0" expanded="true" />
@@ -105,68 +97,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/ArmourType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/ShipType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Torpedo.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/utility/Dice.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/port/Port.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
-              <caret line="26" column="120" lean-forward="true" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="120" />
-              <folding>
-                <element signature="e#1620#1621#0" expanded="true" />
-                <element signature="e#1652#1653#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="28" column="120" selection-start-line="28" selection-start-column="120" selection-end-line="28" selection-end-column="120" />
+            <state relative-caret-position="189">
+              <caret line="28" column="125" lean-forward="true" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="125" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="316" column="25" lean-forward="true" selection-start-line="316" selection-start-column="25" selection-end-line="316" selection-end-column="25" />
+            <state relative-caret-position="69">
+              <caret line="30" column="73" selection-start-line="30" selection-start-column="73" selection-end-line="30" selection-end-column="73" />
             </state>
           </provider>
         </entry>
@@ -277,7 +220,6 @@
         <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Casablanca.json" />
         <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Port Lyautey.json" />
         <option value="$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Port Lyautey.json" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventMatcher.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/TaskForceMarkerDTO.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEventMatcher.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java" />
@@ -288,6 +230,7 @@
         <option value="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/scenario/ScenarioLoaderTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/Location.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/Dice.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventMatcher.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/port/Port.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" />
       </list>
@@ -401,7 +344,19 @@
               <item name="engima" type="462c0819:PsiDirectoryNode" />
               <item name="waratsea" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="map" type="462c0819:PsiDirectoryNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
+              <item name="event" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
@@ -425,6 +380,17 @@
               <item name="model" type="462c0819:PsiDirectoryNode" />
               <item name="ship" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="taskForce" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
@@ -584,7 +550,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552795286819" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552795879596" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -627,7 +593,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.All in enigma.worldWarTwoAtSea.test">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -830,13 +796,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1543891408596</updated>
-    </task>
-    <task id="LOCAL-00001" summary="Added game unit tests.">
-      <created>1543896424270</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1543896424270</updated>
     </task>
     <task id="LOCAL-00002" summary="Added events">
       <created>1543978429791</created>
@@ -1174,13 +1133,17 @@
       <option name="project" value="LOCAL" />
       <updated>1552794873160</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Location for airfields and ports should be a string to prevent circular logic.">
+      <created>1552795442744</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1552795442745</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="ScenarioLoaderTest_testTaskForceLoading - 2019.03.16 at 23h 04m 44s.xml">
-      <configuration name="ScenarioLoaderTest.testTaskForceLoading" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="ScenarioLoaderTest_testTaskForceLoading - 2019.03.16 at 23h 05m 43s.xml">
       <configuration name="ScenarioLoaderTest.testTaskForceLoading" configurationId="JUnit" />
     </history-entry>
@@ -1206,6 +1169,9 @@
       <configuration name="All in enigma.worldWarTwoAtSea.test" configurationId="JUnit" />
     </history-entry>
     <history-entry file="All_in_enigma_worldWarTwoAtSea_test - 2019.03.16 at 23h 59m 36s.xml">
+      <configuration name="All in enigma.worldWarTwoAtSea.test" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_enigma_worldWarTwoAtSea_test - 2019.03.17 at 00h 08m 41s.xml">
       <configuration name="All in enigma.worldWarTwoAtSea.test" configurationId="JUnit" />
     </history-entry>
   </component>
@@ -1303,20 +1269,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Comiso.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Borizzo.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ports/axis/Palermo.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -1477,13 +1429,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventMatcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="47" column="7" lean-forward="true" selection-start-line="47" selection-start-column="7" selection-end-line="47" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/TaskForceMarkerDTO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="412">
@@ -1495,17 +1440,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="675">
           <caret line="81" column="110" selection-start-line="81" selection-start-column="110" selection-end-line="81" selection-end-column="110" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="240" column="5" lean-forward="true" selection-start-line="240" selection-start-column="5" selection-end-line="240" selection-end-column="5" />
-          <folding>
-            <element signature="e#6780#6781#0" expanded="true" />
-            <element signature="e#6826#6827#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1618,17 +1552,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/SurfaceShip.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="123" selection-start-line="123" selection-end-line="123" />
-          <folding>
-            <element signature="e#3140#3141#0" expanded="true" />
-            <element signature="e#3179#3180#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/ArmourType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -1657,28 +1580,67 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/port/Port.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="26" column="120" lean-forward="true" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="120" />
-          <folding>
-            <element signature="e#1620#1621#0" expanded="true" />
-            <element signature="e#1652#1653#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-246">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="28" column="120" selection-start-line="28" selection-start-column="120" selection-end-line="28" selection-end-column="120" />
+        <state relative-caret-position="75">
+          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventMatcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="79">
+          <caret line="24" column="69" selection-start-line="24" selection-start-column="69" selection-end-line="24" selection-end-column="69" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
+        <state relative-caret-position="516">
           <caret line="316" column="25" lean-forward="true" selection-start-line="316" selection-start-column="25" selection-end-line="316" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="222" column="16" selection-start-line="222" selection-start-column="16" selection-end-line="222" selection-end-column="16" />
+          <folding>
+            <element signature="e#6690#6691#0" expanded="true" />
+            <element signature="e#6752#6753#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/SurfaceShip.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1402">
+          <caret line="123" selection-start-line="123" selection-end-line="123" />
+          <folding>
+            <element signature="e#3140#3141#0" expanded="true" />
+            <element signature="e#3179#3180#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/port/Port.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="28" column="125" lean-forward="true" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="125" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="30" column="73" selection-start-line="30" selection-start-column="73" selection-end-line="30" selection-end-column="73" />
         </state>
       </provider>
     </entry>

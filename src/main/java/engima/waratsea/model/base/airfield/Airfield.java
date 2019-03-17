@@ -26,8 +26,9 @@ public class Airfield implements Base, PersistentData<AirfieldData> {
     @Getter
     private final int antiAir;
 
-    private final String location; // A simple string is used to prevent circular logic on mapping names and references.
-
+    @Getter
+    private final String reference; // A simple string is used to prevent circular logic on mapping names and references.
+                                    // Airfields are used to map airfield names to map references. Thus, we just need a map reference
     @Getter
     @Setter
     private int capacity;            //Capacity in steps.
@@ -46,7 +47,7 @@ public class Airfield implements Base, PersistentData<AirfieldData> {
         maxCapacity = data.getMaxCapacity();
         capacity = maxCapacity;
         antiAir = data.getAntiAir();
-        location = data.getLocation();
+        reference = data.getLocation();
     }
 
     /**
@@ -61,17 +62,7 @@ public class Airfield implements Base, PersistentData<AirfieldData> {
         data.setMaxCapacity(maxCapacity);
         data.setCapacity(capacity);
         data.setAntiAir(antiAir);
-        data.setLocation(location);
+        data.setLocation(reference);
         return data;
-    }
-
-    /**
-     * Get the airfield's location map reference.
-     *
-     * @return The airfield's map reference.
-     */
-    @Override
-    public String getReference() {
-        return location;
     }
 }

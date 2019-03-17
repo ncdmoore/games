@@ -14,23 +14,23 @@ public class AirfieldEventMatcher {
 
     @Getter
     @Setter
-    private String name;
+    private String name;  // The name to match of the airfield that experienced the event.
 
     @Getter
     @Setter
-    private Side side;
+    private Side side; // The side to match of the airfield that experienced the event.
 
     @Getter
     @Setter
-    private AirfieldEventAction action;
+    private AirfieldEventAction action; // The event action to match.
 
     @Getter
     @Setter
-    private String location;
+    private String location; // The location to match of the airfield that experienced the event.
 
     @Getter
     @Setter
-    private Asset by;
+    private Asset by;  // The asset Ship, Aircraft, etc to match that performed the event.
 
     /**
      * Determines if two ship events are equal.
@@ -41,6 +41,7 @@ public class AirfieldEventMatcher {
     public boolean match(final AirfieldEvent firedEvent) {
 
         return side == firedEvent.getAirfield().getSide()
+                && firedEvent.getAirfield().getName().equalsIgnoreCase(name)
                 && action == firedEvent.getAction()
                 && isLocationEqual(firedEvent.getAirfield())
                 && isByEqual(firedEvent.getBy());

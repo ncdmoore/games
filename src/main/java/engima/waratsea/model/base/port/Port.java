@@ -24,8 +24,9 @@ public class Port implements Base, PersistentData<PortData> {
     @Getter
     private final int antiAir;
 
-    private final String location; // A simple string is used to prevent circular logic on mapping names and references.
-
+    @Getter
+    private final String reference; // A simple string is used to prevent circular logic on mapping names and references.
+                                    // Ports are used to map port names to map references. Thus, we just need a map reference.
     /**
      * Constructor called by guice.
      * @param side The side of the port ALLIES or AXIS.
@@ -38,7 +39,7 @@ public class Port implements Base, PersistentData<PortData> {
         name = data.getName();
         size = data.getSize();
         antiAir = data.getAntiAir();
-        location = data.getLocation();
+        reference = data.getLocation();
     }
 
     /**
@@ -51,17 +52,7 @@ public class Port implements Base, PersistentData<PortData> {
        PortData data = new PortData();
        data.setName(name);
        data.setSize(size);
-       data.setLocation(location);
+       data.setLocation(reference);
        return data;
-    }
-
-    /**
-     * Get the port's map reference.
-     *
-     * @return The port's map reference.
-     */
-    @Override
-    public String getReference() {
-        return location;
     }
 }
