@@ -225,6 +225,15 @@ public class TaskForce implements PersistentData<TaskForceData> {
     }
 
     /**
+     * Get the task force's map reference.
+     *
+     * @return The task force's map reference.
+     */
+    public String getReference() {
+        return location.getReference();
+    }
+
+    /**
      * Indicates the task force has left harbor: setting sail.
      */
     public void setSail() {
@@ -336,7 +345,6 @@ public class TaskForce implements PersistentData<TaskForceData> {
      * Register the task force for game events.
      */
     private void finish() {
-
         Optional.ofNullable(releaseShipEvents)
                 .filter(matchers -> state == TaskForceState.RESERVE)
                 .ifPresent(matchers -> ShipEvent.register(this, this::handleShipEvent));

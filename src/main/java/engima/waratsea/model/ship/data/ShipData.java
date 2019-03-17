@@ -70,6 +70,10 @@ public class ShipData {
     @Setter
     private int victoryPoints;
 
+    @Getter
+    @Setter
+    private String originPort;
+
     /** The default ship data constructor.
      *
      */

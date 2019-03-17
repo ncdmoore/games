@@ -5,6 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.Airbase;
 import engima.waratsea.model.game.nation.Nation;
 import engima.waratsea.model.map.Location;
+import engima.waratsea.model.map.LocationFactory;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
@@ -42,18 +43,23 @@ public class AircraftCarrier implements Ship, Airbase {
     private Fuel fuel;
     private Hull hull;
 
-
     @Getter
     private Cargo cargo;
+
+    @Getter
+    private Location originPort;
 
     private FlightDeck flightDeck;
     /**
      * Constructor called by guice.
      *
      * @param data Ship's data.
+     * @param factory The location factory.
      */
     @Inject
-    public AircraftCarrier(@Assisted final ShipData data) {
+    public AircraftCarrier(@Assisted final ShipData data,
+                                     final LocationFactory factory) {
+
         shipId = data.getShipId();
         type = data.getType();
         shipClass = data.getShipClass();
@@ -69,6 +75,10 @@ public class AircraftCarrier implements Ship, Airbase {
         fuel = new Fuel(data.getFuel());
         hull = new Hull(data.getHull());
         cargo = new Cargo(data.getCargo());
+
+        if (data.getOriginPort() != null) {
+            originPort = factory.create(data.getOriginPort());
+        }
 
         flightDeck = new FlightDeck(data.getFlightDeck());
     }
@@ -97,6 +107,10 @@ public class AircraftCarrier implements Ship, Airbase {
         data.setHull(hull.getData());
         data.setCargo(cargo.getData());
 
+        if (originPort != null) {
+            data.setOriginPort(originPort.getReference());
+        }
+
         data.setFlightDeck(flightDeck.getData());
         return data;
     }
@@ -121,15 +135,6 @@ public class AircraftCarrier implements Ship, Airbase {
         return shipId.getName();
     }
 
-    /**
-     * Get the ship's origin port.
-     *
-     * @return The port the ship sailed from.
-     */
-    @Override
-    public Location getOriginPort() {
-        return cargo.getOriginPort();
-    }
 
     /**
      * Determines if this ship is an aircraft carrier.
@@ -146,7 +151,7 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public void setSail() {
-        cargo.setOriginPort(taskForce.getLocation());
+        originPort = taskForce.getLocation();
     }
 
 
@@ -155,6 +160,6 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public void loadCargo() {
-        cargo.load(taskForce.getLocation());
+        cargo.load();
     }
 }

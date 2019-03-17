@@ -52,7 +52,7 @@ public class AirfieldEventMatcher {
      */
     private boolean isLocationEqual(final Airfield airfield) {
         return location == null                                                                                         // If the location is not specified then it does not matter.
-                || location.equalsIgnoreCase(airfield.getLocation().getReference());
+                || location.equalsIgnoreCase(airfield.getReference());
     }
 
     /**

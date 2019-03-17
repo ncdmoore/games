@@ -286,7 +286,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
         return locations == null                                                                                         // If the location is not specified then it does not matter.
                 || matchAnyEnemyBase(taskForce)
                 || matchAnyFriendlyBase(taskForce)
-                || locations.contains(taskForce.getLocation().getReference());
+                || locations.contains(taskForce.getReference());
     }
 
     /**

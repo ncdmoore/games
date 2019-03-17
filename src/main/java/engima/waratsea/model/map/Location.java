@@ -30,8 +30,8 @@ public class Location {
     @Inject
     public Location(@Assisted final String name,
                               final GameMap gameMap) {
-        this.name = name;
         this.gameMap = gameMap;
+        this.name = gameMap.convertReferenceToName(name); // For saved games the location is always a map reference. Convert it to a name if possible.
         this.reference = gameMap.convertNameToReference(name);
     }
 

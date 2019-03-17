@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.game.nation.Nation;
 import engima.waratsea.model.map.Location;
+import engima.waratsea.model.map.LocationFactory;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
@@ -45,13 +46,18 @@ public class SurfaceShip implements Ship {
     @Getter
     private Cargo cargo;
 
+    @Getter
+    private Location originPort;
+
     /**
      * Constructor called by guice.
      *
      * @param data Ship's data.
+     * @param factory The location factory.
      */
     @Inject
-    public SurfaceShip(@Assisted final ShipData data) {
+    public SurfaceShip(@Assisted final ShipData data,
+                       final LocationFactory factory) {
         shipId = data.getShipId();
         type = data.getType();
         shipClass = data.getShipClass();
@@ -68,6 +74,10 @@ public class SurfaceShip implements Ship {
         fuel = new Fuel(data.getFuel());
         hull = new Hull(data.getHull());
         cargo = new Cargo((data.getCargo()));
+
+        if (data.getOriginPort() != null) {
+            originPort = factory.create(data.getOriginPort());
+        }
     }
 
     /**
@@ -95,6 +105,10 @@ public class SurfaceShip implements Ship {
         data.setHull(hull.getData());
         data.setCargo(cargo.getData());
 
+        if (originPort != null) {
+            data.setOriginPort(originPort.getReference());
+        }
+
         return data;
     }
 
@@ -106,16 +120,6 @@ public class SurfaceShip implements Ship {
     @Override
     public String getName() {
         return shipId.getName();
-    }
-
-    /**
-     * Get the ship's origin port.
-     *
-     * @return The port the ship sailed from.
-     */
-    @Override
-    public Location getOriginPort() {
-        return cargo.getOriginPort();
     }
 
     /**
@@ -133,16 +137,15 @@ public class SurfaceShip implements Ship {
      */
     @Override
     public void setSail() {
-        cargo.setOriginPort(taskForce.getLocation());
+        originPort = taskForce.getLocation();
     }
-
 
     /**
      * Call this method to load a ship to its maximum cargoShips capacity.
      */
     @Override
     public void loadCargo() {
-        cargo.load(taskForce.getLocation());
+        cargo.load();
     }
 
 

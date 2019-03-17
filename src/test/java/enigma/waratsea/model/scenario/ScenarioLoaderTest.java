@@ -12,6 +12,7 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceLoader;
 import engima.waratsea.model.weather.WeatherType;
 import enigma.waratsea.TestModule;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -20,6 +21,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 
+@Slf4j
 public class ScenarioLoaderTest {
 
     private static GameTitle gameTitle;
@@ -98,6 +100,7 @@ public class ScenarioLoaderTest {
 
             assert (!taskForces.isEmpty());
         } catch (Exception ex) {
+            log.error("Task force loading failed", ex);
             assert (false);
         }
     }
