@@ -2,7 +2,7 @@
   {
     "name": "TF1",
     "title": "Dardanelles Convoy",
-    "location": "AY16",
+    "location": "BB15",
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
@@ -35,8 +35,8 @@
   },
   {
     "name": "TF2",
-    "title": "Escort",
-    "location": "AX25",
+    "title": "Patrol Force",
+    "location": "AZ26",
     "state": "ACTIVE",
     "mission": "ESCORT",
     "ships": [
@@ -52,7 +52,7 @@
   {
     "name": "TF3",
     "title": "Malta Convoy",
-    "location": "BC29",
+    "location": "BE30",
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
@@ -77,7 +77,7 @@
   {
     "name": "TF4",
     "title": "Malta Convoy Escort",
-    "location": "BE30",
+    "location": "BG31",
     "state": "ACTIVE",
     "mission": "ESCORT",
     "ships": [

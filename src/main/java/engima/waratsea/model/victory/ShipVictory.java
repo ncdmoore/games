@@ -38,7 +38,7 @@ public class ShipVictory implements ShipVictoryCondition {
                                      // In fact most do not have any total point requirement.
     private int requiredOccurrences; // The number of times the underlying event must occur before any points are awarded.
     private int occurrenceCount;     // The number of times the event has occurred before any points are awarded.
-                                     // This value is reset everytime the required number of occurrences are reached.
+                                     // This value is reset every time the required number of occurrences are reached.
 
     @Getter
     private boolean requirementMet;

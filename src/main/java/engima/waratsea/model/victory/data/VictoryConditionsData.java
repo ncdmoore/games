@@ -28,4 +28,8 @@ public class VictoryConditionsData {
     @Getter
     @Setter
     private List<ShipVictoryData> requiredShip;
+
+    @Getter
+    @Setter
+    private List<AirfieldVictoryData> scenarioAirfield;
 }

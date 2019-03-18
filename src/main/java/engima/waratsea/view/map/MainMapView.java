@@ -53,6 +53,8 @@ public class MainMapView {
         gameMap.getBases().forEach(base -> mapView.highlight(gameMap.getGrid(base.getReference())));
 
 
+        mapView.highlight(gameMap.getGrid("AJ24"));
+
         StackPane map = new StackPane(mapImageView, mapGrid);
         map.setAlignment(Pos.TOP_LEFT);
 

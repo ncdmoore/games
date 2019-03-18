@@ -5,7 +5,8 @@
       "event": {
         "action": "CARGO_UNLOADED",
         "shipType": "DESTROYER_ESCORT",
-        "location": "Benghazi"
+        "location": "Benghazi",
+        "startingLocation": "Taranto"
       },
       "points": 8
     }

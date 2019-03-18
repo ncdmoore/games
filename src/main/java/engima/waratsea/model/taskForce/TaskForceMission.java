@@ -15,6 +15,9 @@ public enum TaskForceMission {
     @SerializedName(value = "FERRY", alternate = {"Ferry", "ferry"})
     FERRY("Ferry"),
 
+    @SerializedName(value = "FERRY_AIRCRAFT", alternate = {"Ferry_Aircraft", "ferry_aircraft"})
+    FERRY_AIRCRAFT("Ferry Aircraft"),
+
     @SerializedName(value = "INTERCEPT", alternate = {"Intercept", "intercept"})
     INTERCEPT("Intercept"),
 

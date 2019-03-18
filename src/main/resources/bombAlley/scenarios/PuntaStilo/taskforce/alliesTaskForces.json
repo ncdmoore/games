@@ -34,7 +34,7 @@
   {
     "name": "TF2",
     "title": "MS Escort",
-    "location": "AG22",
+    "location": "AJ24",
     "state": "ACTIVE",
     "mission": "PATROL",
     "ships": [
@@ -47,7 +47,7 @@
   {
     "name": "TF3",
     "title": "MS Convoy",
-    "location": "AH21",
+    "location": "Malta",
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
@@ -80,7 +80,7 @@
   {
     "name": "TF4",
     "title": "MF Convoy",
-    "location": "BC29",
+    "location": "BE30",
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
@@ -111,7 +111,7 @@
   {
     "name": "TF5",
     "title": "MF Escort",
-    "location": "BE30",
+    "location": "BG31",
     "state": "ACTIVE",
     "mission": "PATROL",
     "ships": [
@@ -125,8 +125,8 @@
   },
   {
     "name": "TF6",
-    "title": "y",
-    "location": "BD30",
+    "title": "Distant Escort",
+    "location": "BF31",
     "state": "ACTIVE",
     "mission": "PATROL",
     "ships": [
@@ -148,8 +148,8 @@
   },
   {
     "name": "TF7",
-    "title": "z",
-    "location": "AW28",
+    "title": "Tobruk Patrol",
+    "location": "AY29",
     "state": "ACTIVE",
     "mission": "PATROL",
     "ships": [

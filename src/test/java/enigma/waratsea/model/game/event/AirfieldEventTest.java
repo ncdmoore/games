@@ -9,6 +9,8 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.airfield.AirfieldEvent;
 import engima.waratsea.model.game.event.airfield.AirfieldEventAction;
 import engima.waratsea.model.game.event.airfield.AirfieldEventMatcher;
+import engima.waratsea.model.game.event.airfield.AirfieldEventMatcherFactory;
+import engima.waratsea.model.game.event.airfield.data.AirfieldMatchData;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
 import enigma.waratsea.TestModule;
@@ -18,7 +20,8 @@ import org.junit.Test;
 
 public class AirfieldEventTest {
 
-    private static AirfieldFactory factory;
+    private static AirfieldFactory airfieldFactory;
+    private static AirfieldEventMatcherFactory matcherFactory;
 
     @BeforeClass
     public static void setup() throws Exception {
@@ -34,26 +37,29 @@ public class AirfieldEventTest {
 
         gameMap.load(scenario);
 
-        factory = injector.getInstance(AirfieldFactory.class);
+        airfieldFactory = injector.getInstance(AirfieldFactory.class);
+        matcherFactory = injector.getInstance(AirfieldEventMatcherFactory.class);
     }
 
-        @Test
+    @Test
     public void testAirfieldDamagedEvent() {
 
-        AirfieldData data = new AirfieldData();
-        data.setName("Rome");
-        data.setLocation("Rome");
+        AirfieldData airfieldData = new AirfieldData();
+        airfieldData.setName("Rome");
 
-        Airfield airfield = factory.create(Side.ALLIES, data);
+        Airfield airfield = airfieldFactory.create(Side.ALLIES, airfieldData);
 
         AirfieldEvent event = new AirfieldEvent();
         event.setAirfield(airfield);
         event.setAction(AirfieldEventAction.DAMAGE);
 
-        AirfieldEventMatcher matcher = new AirfieldEventMatcher();
-        matcher.setSide(Side.ALLIES);
-        matcher.setAction(AirfieldEventAction.DAMAGE);
-        matcher.setName("Rome");
+        AirfieldMatchData matchData = new AirfieldMatchData();
+        matchData.setAction(AirfieldEventAction.DAMAGE);
+        matchData.setSide(Side.ALLIES);
+        matchData.setName("Rome");
+
+        AirfieldEventMatcher matcher = matcherFactory.create(matchData);
+
 
         Assert.assertTrue(matcher.match(event));
     }

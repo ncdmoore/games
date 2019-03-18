@@ -1,0 +1,25 @@
+{
+  "objectives": "Unload the cargo carried by the convoy at Tripoli or Benghazi.",
+  "scenarioShip": [
+    {
+      "event": {
+        "action": "CARGO_UNLOADED",
+        "shipType": "DESTROYER_ESCORT",
+        "location": "Tripoli, Benghazi",
+        "startingLocation": "Naples"
+      }
+    }
+  ],
+  "requiredShip": [
+    {
+      "events": [
+        {
+          "action": "SPOTTED",
+          "side": "ALLIES",
+          "shipType": "BATTLESHIP, BATTLECRUISER",
+          "by": "SHIP"
+        }
+      ]
+    }
+  ]
+}

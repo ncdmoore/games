@@ -1,0 +1,44 @@
+[
+  {
+    "name": "TF1",
+    "title": "Force H",
+    "location": "Gibraltar",
+    "state": "ACTIVE",
+    "mission": "ESCORT",
+    "ships": [
+      "BB03 Valiant",
+      "BC03 Hood",
+      "CV04 Ark Royal",
+      "CL16a Delhi",
+      "CL23 Enterprise",
+      "CL29 Arethusa",
+      "DD15 Active",
+      "DD47 Escapade",
+      "DD53 Faulknor",
+      "DD54 Fearless",
+      "DD56 Forester",
+      "DD57 Foresight",
+      "DD59 Foxhound",
+      "DE01 V&W-1",
+      "DE02 V&W-2",
+      "DE03 V&W-3"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "Replenishment Force",
+    "location": "Gibraltar",
+    "state": "ACTIVE",
+    "mission": "FERRY_AIRCRAFT",
+    "targets": [
+      {"location": "Malta"}
+    ],
+    "ships": [
+      "CVL01 Argus",
+      "DD46 Encounter",
+      "DD61 Gallant",
+      "DD67 Greyhound",
+      "DD74 Hotspur"
+    ]
+  }
+]

@@ -1,0 +1,93 @@
+[
+  {
+    "name": "TF1",
+    "title": "Naples Force",
+    "location": "Naples",
+    "state": "RESERVE",
+    "mission": "INTERCEPT",
+    "releaseShipEvents": [
+      {
+        "action": "SPOTTED",
+        "side": "ALLIES"
+      }
+    ],
+    "ships": [
+      "CA01 Trento",
+      "CA02 Trieste",
+      "CA03 Zara",
+      "CA04 Pola",
+      "CA05 Fiume",
+      "CA06 Gorizia",
+      "DD25 Oriani",
+      "DD26 Gioberti",
+      "DD27 Carducci",
+      "DD28 Alfieri",
+      "DD29 Camicia Nere",
+      "DD30 Aviere",
+      "DD31 Artigliere",
+      "DD32 Geniere",
+      "DD34 Corazziere",
+      "DD36 Carabiniere",
+      "DD37 Ascari"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "Taranto Force",
+    "location":  "Taranto",
+    "state": "RESERVE",
+    "mission": "INTERCEPT",
+    "releaseShipEvents": [
+      {
+        "action": "SPOTTED",
+        "side": "ALLIES",
+        "shipType": "BATTLESHIP"
+      },
+      {
+        "action": "SPOTTED",
+        "side": "ALLIES",
+        "shipType": "AIRCRAFT_CARRIER"
+      }
+    ],
+    "ships": [
+      "BB01 Conte di Cavour",
+      "BB05 Littorio",
+      "BB06 Vittorio Veneto",
+      "CL01 Alberto di Guissano",
+      "CL02 Alberico da Barbiano",
+      "CL05 Luigi Cadorna",
+      "CL06 Armando Diaz",
+      "CL07 Montecuccoli",
+      "CL08 Attendolo",
+      "CL09 Duca d Aosta",
+      "CL10 Eugenio di Savoia",
+      "CL11 Duca degli Abruzzi",
+      "CL12 Giuseppe Garibaldi",
+      "DD01 Da Mosto",
+      "DD02 Da Noli",
+      "DD03 Da Recco",
+      "DD04 Da Verrazzano",
+      "DD05 Da Malocello",
+      "DD06 Pancaldo",
+      "DD07 Pessagno",
+      "DD08 Pigafetta",
+      "DD09 Tarigo",
+      "DD10 Usodimare",
+      "DD11 Vivaldi",
+      "DD12 Zeno",
+      "DD13 Freccia",
+      "DD14 Dardo",
+      "DD15 Saetta",
+      "DD16 Strale",
+      "DD17 Baleno",
+      "DD18 Folgore",
+      "DD19 Lampo",
+      "DD20 Fulmine",
+      "DD33 Granatiere",
+      "DD38 Fuciliere",
+      "DD35 Bersagliere",
+      "DD39 Alpino",
+      "DD40 Lanciere"
+    ]
+  }
+]

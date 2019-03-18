@@ -1,0 +1,33 @@
+{
+  "objectives": "Ferry the MS convoy transports (they have no cargo) to Alexandria. Unload the cargo carried by the MF convoy at Malta.",
+  "scenarioShip": [
+    {
+      "event": {
+        "action": "ARRIVAL",
+        "shipType": "TRANSPORT",
+        "location": "Alexandria",
+        "startingLocation": "Malta"
+      }
+    },
+    {
+      "event": {
+        "action": "CARGO_UNLOADED",
+        "shipType": "TRANSPORT",
+        "location": "Malta",
+        "startingLocation": "BE30"
+      }
+    }
+  ],
+  "requiredShip": [
+    {
+      "events": [
+        {
+          "action": "SPOTTED",
+          "side": "AXIS",
+          "shipType": "BATTLESHIP, BATTLECRUISER",
+          "by": "SHIP"
+        }
+      ]
+    }
+  ]
+}

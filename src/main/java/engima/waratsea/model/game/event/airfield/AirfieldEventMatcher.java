@@ -1,20 +1,31 @@
 package engima.waratsea.model.game.event.airfield;
 
-import engima.waratsea.model.base.airfield.Airfield;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.sun.istack.internal.NotNull;
+import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.Asset;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.game.event.airfield.data.AirfieldMatchData;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * This class is used to match airfield events. An entity that is looking for a particular airfield event can use this
  * class to detect if the wanted event has occurred.
  */
-public class AirfieldEventMatcher {
+@Slf4j
+public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
 
     @Getter
     @Setter
-    private String name;  // The name to match of the airfield that experienced the event.
+    private List<String> names;  // The name to match of the airfield that experienced the event.
 
     @Getter
     @Setter
@@ -24,13 +35,38 @@ public class AirfieldEventMatcher {
     @Setter
     private AirfieldEventAction action; // The event action to match.
 
-    @Getter
-    @Setter
-    private String location; // The location to match of the airfield that experienced the event.
 
     @Getter
     @Setter
     private Asset by;  // The asset Ship, Aircraft, etc to match that performed the event.
+
+
+    /**
+     * Constructor called by guice.
+     *
+     * @param data airfield event matcher data read in from JSON.
+     */
+    @Inject
+    public AirfieldEventMatcher(@Assisted final AirfieldMatchData data) {
+        action = data.getAction();
+        names = parseNames(data.getName());
+        side = data.getSide();
+        by = data.getBy();
+    }
+
+    /**
+     * Get the airfield match data. This is the corresponding data that is read and written.
+     *
+     * @return The corresponding airfield match data.
+     */
+    @Override
+    public AirfieldMatchData getData() {
+        AirfieldMatchData data = new AirfieldMatchData();
+        data.setAction(action);
+        data.setName(Optional.ofNullable(names).map(n -> String.join(",", n)).orElse(null));
+        data.setSide(side);
+        return data;
+    }
 
     /**
      * Determines if two ship events are equal.
@@ -41,20 +77,33 @@ public class AirfieldEventMatcher {
     public boolean match(final AirfieldEvent firedEvent) {
 
         return side == firedEvent.getAirfield().getSide()
-                && firedEvent.getAirfield().getName().equalsIgnoreCase(name)
+                && isNameEqual(firedEvent.getAirfield().getName())
                 && action == firedEvent.getAction()
-                && isLocationEqual(firedEvent.getAirfield())
                 && isByEqual(firedEvent.getBy());
     }
+
     /**
-     * Determine if the location of the event is matched.
-     * @param airfield The airfield that experienced the event.
-     * @return True if the ship's location matched. False otherwise.
+     * Log the ship event match criteria.
      */
-    private boolean isLocationEqual(final Airfield airfield) {
-        return location == null                                                                                         // If the location is not specified then it does not matter.
-                || location.equalsIgnoreCase(airfield.getReference());
+    public void log() {
+        log.info("Match action {}", logValue(action));
+        log.info("Match name {}", logName(names));
+        log.info("Match side {}", logValue(side));
+        log.info("Match by {}", logValue(by));
     }
+
+    /**
+     * Determine if the event fired matches the desired airfield name.
+     *
+     * @param airfieldName The airfield name of the fired event.
+     * @return True if the airfield name of the fired event matches. False otherwise.
+     */
+    private boolean isNameEqual(final String airfieldName) {
+        return names == null
+                || names.contains(airfieldName);
+    }
+
+
 
     /**
      * Determine if the asset that caused the event to fire matches.
@@ -64,5 +113,52 @@ public class AirfieldEventMatcher {
     private boolean isByEqual(final Asset eventBy) {
         return by == null                                                                                               // If the by asset is not specified then it does not matter.
                 || by.equals(eventBy);
+    }
+
+    /**
+     * Parse the string version of the airfield names into a list of airfield names.
+     *
+     * @param nameString A comma separated list of airfield names. May be null.
+     * @return A list of airfield names.
+     */
+    private List<String> parseNames(final String nameString) {
+        return Optional.ofNullable(nameString)
+                .map(airfieldNames -> Stream.of(airfieldNames.split("\\s*,\\s*"))
+                        .collect(Collectors.toList()))
+                .orElse(null);
+    }
+
+    /**
+     * Get the string version of the airfield names.
+     *
+     * @param airfieldNames The list of airfield names.
+     * @return The string version of the airfield names.
+     */
+    private String getNames(@NotNull final List<String> airfieldNames) {
+        return String.join(", ", airfieldNames);
+    }
+
+    /**
+     * If a value is not present output an "*".
+     *
+     * @param value The value to log.
+     * @return The value that is actually logged.
+     */
+    private Object logValue(final Object value) {
+        return Optional.ofNullable(value).orElse("*");
+    }
+
+
+    /**
+     * The ship names are converted into a comma separated string if possible. If not ship names are specified then "*"
+     * is returned.
+     *
+     * @param value The list of ship names.
+     * @return A comma separated list of ship names.
+     */
+    private String logName(final List<String> value) {
+        return Optional.ofNullable(value)
+                .map(this::getNames)
+                .orElse("*");
     }
 }

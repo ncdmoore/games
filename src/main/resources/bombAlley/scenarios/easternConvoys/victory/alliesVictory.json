@@ -6,7 +6,7 @@
         "action": "CARGO_UNLOADED",
         "shipType": "TRANSPORT",
         "location": "Alexandria",
-        "startingLocation": "AY16"
+        "startingLocation": "BB15"
       }
     },
     {
@@ -14,7 +14,7 @@
         "action": "CARGO_UNLOADED",
         "shipType": "TRANSPORT",
         "location": "Malta",
-        "startingLocation": "BC29"
+        "startingLocation": "BE30"
       }
     }
   ]

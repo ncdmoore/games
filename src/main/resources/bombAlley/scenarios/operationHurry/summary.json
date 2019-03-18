@@ -1,0 +1,11 @@
+{
+  "name": "operationHurry",
+  "title": "Operation Hurry",
+  "id": 6,
+  "image": "operationHurry.png",
+  "date": "07/30/1940",
+  "weather": "CLEAR",
+  "maxTurns": 80,
+  "description": "While Italy did a poor job preparing for the war, despite the advantage of starting it, the British didn't do much better. Malta began the conflict guarded by only a handful of outdated Gladiator fighters. To increase this protection, the Royal Navy staged an operation to reinforce the island's air defenses with Hurricane fighters (thus the name, \"Operation Hurry\"). The Italian command received word of the British departure, but could not determine their mission.",
+  "map": "june1940"
+}

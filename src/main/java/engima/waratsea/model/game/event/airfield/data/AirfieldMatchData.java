@@ -1,7 +1,7 @@
 package engima.waratsea.model.game.event.airfield.data;
 
-import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Asset;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.airfield.AirfieldEventAction;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,11 +12,15 @@ import lombok.Setter;
 public class AirfieldMatchData {
     @Getter
     @Setter
-    private Airfield airfield;              // The airfield that experienced the event.
+    private AirfieldEventAction action;     // The action that the airfield experienced.
 
     @Getter
     @Setter
-    private AirfieldEventAction action;     // The action that the airfield experienced.
+    private String name;                  // The airfield that experienced the event.
+
+    @Getter
+    @Setter
+    private Side side;
 
     @Getter
     @Setter
