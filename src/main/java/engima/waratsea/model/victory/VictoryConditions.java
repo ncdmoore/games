@@ -4,7 +4,9 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.GameEvent;
+import engima.waratsea.model.game.event.airfield.AirfieldEvent;
 import engima.waratsea.model.game.event.ship.ShipEvent;
+import engima.waratsea.model.victory.data.AirfieldVictoryData;
 import engima.waratsea.model.victory.data.ShipVictoryData;
 import engima.waratsea.model.victory.data.VictoryConditionsData;
 import engima.waratsea.utility.PersistentUtility;
@@ -34,9 +36,11 @@ public class VictoryConditions {
     @Getter
     private String objectives;
 
-    private List<ShipVictoryCondition> defaultShips;    // The default victory conditions for ship.
-    private List<ShipVictoryCondition> scenarioShips;   // Scenario specific victory conditions for ships. These may override the default.
-    private List<ShipVictoryCondition> requiredShips;   // Scenario required victory conditions.
+    private List<VictoryCondition<ShipEvent, ShipVictoryData>> defaultShips;              // The default victory conditions for ship.
+    private List<VictoryCondition<ShipEvent, ShipVictoryData>> scenarioShips;             // Scenario specific victory conditions for ships. These may override the default.
+    private List<VictoryCondition<ShipEvent, ShipVictoryData>> requiredShips;             // Scenario required victory conditions.
+
+    private List<VictoryCondition<AirfieldEvent, AirfieldVictoryData>> scenarioAirfields; // Scenario specific victory condition for airfields.
 
     /**
      * Holds the result of a victory condition check.
@@ -75,19 +79,19 @@ public class VictoryConditions {
 
     private List<History> history = new ArrayList<>();
 
-    private boolean registered = false;
-
     /**
      * Constructor of the a side's victory.
      *
      * @param data The victory data read in from a JSON file.
      * @param side The side ALLIES or AXIS of the victory conditions.
      * @param shipVictoryFactory Ship victory factory.
+     * @param airfieldVictoryFactory Airfield victory factory.
      */
     @Inject
     public VictoryConditions(@Assisted final VictoryConditionsData data,
                              @Assisted final Side side,
-                                       final ShipVictoryFactory shipVictoryFactory) {
+                             final ShipVictoryFactory<ShipEvent, ShipVictoryData> shipVictoryFactory,
+                             final AirfieldVictoryFactory<AirfieldEvent, AirfieldVictoryData> airfieldVictoryFactory) {
         this.side = side;
         objectives = data.getObjectives();
 
@@ -100,9 +104,10 @@ public class VictoryConditions {
         log.info("Build scenario required ship victory conditions for side: {}.", side);
         requiredShips = buildShipConditions(data.getRequiredShip(), shipVictoryFactory::createRequired);
 
-        if (!registered) {
-            registerForEvents(defaultShips);
-        }
+        log.info("Build scenario airfield victory conditions for side: {}.", side);
+        scenarioAirfields = buildShipConditions(data.getScenarioAirfield(), airfieldVictoryFactory::createAirfield);
+
+        registerForEvents();
 
         totalVictoryPoints = data.getTotalVictoryPoints();
     }
@@ -119,6 +124,7 @@ public class VictoryConditions {
         data.setDefaultShip(PersistentUtility.getData(defaultShips));
         data.setScenarioShip(PersistentUtility.getData(scenarioShips));
         data.setRequiredShip(PersistentUtility.getData(requiredShips));
+        data.setScenarioAirfield(PersistentUtility.getData(scenarioAirfields));
 
         return data;
     }
@@ -136,12 +142,14 @@ public class VictoryConditions {
     /**
      * Build the ship victory conditions.
      *
+     * @param <E> The event type.
+     * @param <D> The victory condition data type.
      * @param data Ship victory conditions read in from a JSON file.
      * @param create The ship victory creation function.
      * @return A list of ship victory conditions.
      */
-    private  List<ShipVictoryCondition> buildShipConditions(final List<ShipVictoryData> data,
-                                                            final BiFunction<ShipVictoryData, Side, ShipVictoryCondition> create) {
+    private  <E, D> List<VictoryCondition<E, D>> buildShipConditions(final List<D> data,
+                                                                     final BiFunction<D, Side, VictoryCondition<E, D>> create) {
         return Optional.ofNullable(data)
                 .orElseGet(Collections::emptyList)
                 .stream()
@@ -151,20 +159,10 @@ public class VictoryConditions {
 
     /**
      * Register for ship events.
-     *
-     * @param victoryConditions List of victory conditions.
      */
-    private  void registerForEvents(final List<ShipVictoryCondition> victoryConditions) {
-        Optional.ofNullable(victoryConditions)
-                .ifPresent(conditions -> registerForShipEvents());
-    }
-
-    /**
-     * Register for ship events.
-     */
-    private void registerForShipEvents() {
+    private void registerForEvents() {
         ShipEvent.register(this, this::handleShipEvent);
-        registered = true;
+        AirfieldEvent.register(this, this::handleAirfieldEvent);
     }
 
     /**
@@ -176,7 +174,7 @@ public class VictoryConditions {
         log.info("Handle ship event for ship '{}' {}", event.getShip().getName(), event.getAction());
 
         //Send the ship event to the required victory conditions.
-        checkRequired(event);
+        checkRequired(requiredShips, event);
 
         //Get the scenario specific event victory points that were awarded.
         log.info("Check specific scenario victory conditions.");
@@ -193,26 +191,45 @@ public class VictoryConditions {
     }
 
     /**
-     * Get the victory points for the given ship event.
+     * Handle airfield events.
      *
-     * @param victoryConditions List of victory conditions.
-     * @param event The fired ship event.
-     * @return True if the fired ship event award victory points.
+     * @param event The airfield event.
      */
-    private Result getPoints(final List<ShipVictoryCondition> victoryConditions, final ShipEvent event) {
+    private void handleAirfieldEvent(final AirfieldEvent event) {
+        log.info("Handle airfield event for airfield '{}' {}", event.getAirfield().getName(), event.getAction());
+
+
+
+        Result result = getPoints(scenarioAirfields, event);
+
+        saveHistory(event, result.getPoints());
+    }
+
+    /**
+     * Get the victory points for the given event.
+     *
+     * @param <E> The corresponding event type.
+     * @param <D> The JSON data type.
+     * @param victoryConditions List of victory conditions.
+     * @param event The fired event.
+     * @return True if the fired event award victory points.
+     */
+    private <E, D> Result getPoints(final List<VictoryCondition<E, D>> victoryConditions, final E event) {
         Result result = new Result();
-        List<ShipVictoryCondition> matched = Optional.ofNullable(victoryConditions)
+        List<VictoryCondition<E, D>> matched = Optional.ofNullable(victoryConditions)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .filter(shipVictory -> shipVictory.match(event))
+                .filter(condition -> condition.match(event))
                 .collect(Collectors.toList());
 
         // Some victory conditions may match but not awarded any points.
+        // This happens when multiple occurrences of an event is needed before points are awarded.
+        // The event will match, but no points are awarded.
         result.setAwarded(!matched.isEmpty());
 
         int points = matched.stream()
                 .findFirst()
-                .map(shipVictory -> shipVictory.getPoints(event))
+                .map(condition -> condition.getPoints(event))
                 .orElse(0);
 
         totalVictoryPoints += points;
@@ -222,14 +239,17 @@ public class VictoryConditions {
     }
 
     /**
-     * Send the ship event to the list of required ship events if it exists.
+     * Send the event to the list of required events if it exists.
      *
-     * @param event The fired ship event.
+     * @param <E> The corresponding event type.
+     * @param <D> The JSON data type.
+     * @param victoryConditions  List of victory conditions.
+     * @param event The fired event.
      */
-    private void checkRequired(final ShipEvent event) {
-        Optional.ofNullable(requiredShips)
+    private <E, D> void checkRequired(final List<VictoryCondition<E, D>> victoryConditions, final E event) {
+        Optional.ofNullable(victoryConditions)
                 .orElseGet(Collections::emptyList)
-                .forEach(requiredShipVictory -> requiredShipVictory.match(event));
+                .forEach(condition -> condition.match(event));
     }
 
     /**
@@ -249,11 +269,11 @@ public class VictoryConditions {
      * @param <T> The type of the victory conditions.
      * @return True if all of the victory conditions are met. False otherwise.
      */
-    private <T extends ShipVictoryCondition> boolean conditionMet(final List<T> conditions) {
+    private <T extends VictoryCondition> boolean conditionMet(final List<T> conditions) {
         // Ensure that the conditions is not null. It will at least be an empty list.
         return Optional.ofNullable(conditions)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .allMatch(ShipVictoryCondition::isRequirementMet);
+                .allMatch(VictoryCondition::isRequirementMet);
     }
 }

@@ -54,7 +54,7 @@ public class AirfieldEventTest {
         event.setAction(AirfieldEventAction.DAMAGE);
 
         AirfieldMatchData matchData = new AirfieldMatchData();
-        matchData.setAction(AirfieldEventAction.DAMAGE);
+        matchData.setAction(AirfieldEventAction.DAMAGE.toString().toUpperCase());
         matchData.setSide(Side.ALLIES);
         matchData.setName("Rome");
 

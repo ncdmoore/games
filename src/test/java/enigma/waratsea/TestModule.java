@@ -1,6 +1,7 @@
 package enigma.waratsea;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 import engima.waratsea.model.aircraft.Aircraft;
@@ -11,8 +12,10 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.base.port.PortFactory;
+import engima.waratsea.model.game.event.airfield.AirfieldEvent;
 import engima.waratsea.model.game.event.airfield.AirfieldEventMatcher;
 import engima.waratsea.model.game.event.airfield.AirfieldEventMatcherFactory;
+import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
 import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
 import engima.waratsea.model.map.region.Region;
@@ -34,12 +37,16 @@ import engima.waratsea.model.target.Target;
 import engima.waratsea.model.target.TargetFactory;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
+import engima.waratsea.model.victory.AirfieldVictory;
+import engima.waratsea.model.victory.AirfieldVictoryFactory;
 import engima.waratsea.model.victory.RequiredShipVictory;
 import engima.waratsea.model.victory.ShipVictory;
-import engima.waratsea.model.victory.ShipVictoryCondition;
-import engima.waratsea.model.victory.ShipVictoryFactory;
+import engima.waratsea.model.victory.VictoryCondition;
 import engima.waratsea.model.victory.VictoryConditions;
 import engima.waratsea.model.victory.VictoryConditionsFactory;
+import engima.waratsea.model.victory.ShipVictoryFactory;
+import engima.waratsea.model.victory.data.AirfieldVictoryData;
+import engima.waratsea.model.victory.data.ShipVictoryData;
 
 public class TestModule extends AbstractModule {
     @Override
@@ -65,11 +72,15 @@ public class TestModule extends AbstractModule {
         install(new FactoryModuleBuilder().implement(Region.class, Region.class).build(RegionFactory.class));
 
         install(new FactoryModuleBuilder().implement(VictoryConditions.class, VictoryConditions.class).build(VictoryConditionsFactory.class));
-        install(new FactoryModuleBuilder().
-                implement(ShipVictoryCondition.class, Names.named("ship"), ShipVictory.class)
-                .implement(ShipVictoryCondition.class, Names.named("required"), RequiredShipVictory.class)
-                .build(ShipVictoryFactory.class));
 
+        install(new FactoryModuleBuilder()
+              .implement(new TypeLiteral<VictoryCondition<ShipEvent, ShipVictoryData>>(){}, Names.named("ship"), ShipVictory.class)
+              .implement(new TypeLiteral<VictoryCondition<ShipEvent, ShipVictoryData>>(){}, Names.named("required"), RequiredShipVictory.class)
+              .build(new TypeLiteral<ShipVictoryFactory<ShipEvent, ShipVictoryData>>(){}));
+
+        install(new FactoryModuleBuilder()
+                .implement(new TypeLiteral<VictoryCondition<AirfieldEvent, AirfieldVictoryData>>() { }, Names.named("airfield"), AirfieldVictory.class)
+                .build(new TypeLiteral<AirfieldVictoryFactory<AirfieldEvent, AirfieldVictoryData>>() { }));
 
         install(new FactoryModuleBuilder().implement(Airfield.class, Airfield.class).build(AirfieldFactory.class));
         install(new FactoryModuleBuilder().implement(Port.class, Port.class).build(PortFactory.class));

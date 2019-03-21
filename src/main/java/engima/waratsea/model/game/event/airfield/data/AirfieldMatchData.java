@@ -2,7 +2,6 @@ package engima.waratsea.model.game.event.airfield.data;
 
 import engima.waratsea.model.game.Asset;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.game.event.airfield.AirfieldEventAction;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,11 +11,11 @@ import lombok.Setter;
 public class AirfieldMatchData {
     @Getter
     @Setter
-    private AirfieldEventAction action;     // The action that the airfield experienced.
+    private String action;     // The action that the airfield experienced.
 
     @Getter
     @Setter
-    private String name;                  // The airfield that experienced the event.
+    private String name;       // The airfield that experienced the event.
 
     @Getter
     @Setter
@@ -24,9 +23,5 @@ public class AirfieldMatchData {
 
     @Getter
     @Setter
-    private int data;
-
-    @Getter
-    @Setter
-    private Asset by;                       // The game asset ship, sub or aircraft that caused the event. The asset that did the event. Not all events have a by.
+    private Asset by;          // The game asset ship, sub or aircraft that caused the event. The asset that did the event. Not all events have a by.
 }

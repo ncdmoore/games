@@ -22,6 +22,9 @@ import java.util.stream.Stream;
  */
 @Slf4j
 public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
+    @Getter
+    @Setter
+    private String action; // The event action to match.
 
     @Getter
     @Setter
@@ -30,11 +33,6 @@ public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
     @Getter
     @Setter
     private Side side; // The side to match of the airfield that experienced the event.
-
-    @Getter
-    @Setter
-    private AirfieldEventAction action; // The event action to match.
-
 
     @Getter
     @Setter
@@ -75,10 +73,9 @@ public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
      * @return True if the airfield event matches. False otherwise.
      */
     public boolean match(final AirfieldEvent firedEvent) {
-
         return side == firedEvent.getAirfield().getSide()
+                && isActionEqual(firedEvent.getAction())
                 && isNameEqual(firedEvent.getAirfield().getName())
-                && action == firedEvent.getAction()
                 && isByEqual(firedEvent.getBy());
     }
 
@@ -86,10 +83,21 @@ public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
      * Log the ship event match criteria.
      */
     public void log() {
+        log.info("Match side {}", logValue(side));
         log.info("Match action {}", logValue(action));
         log.info("Match name {}", logName(names));
-        log.info("Match side {}", logValue(side));
         log.info("Match by {}", logValue(by));
+    }
+
+    /**
+     * Determine if the event fired matches the desired action.
+     *
+     * @param airfieldAction The action of the fired event.
+     * @return True if the action of the fired event matches. False otherwise.
+     */
+    private boolean isActionEqual(final AirfieldEventAction airfieldAction) {
+        return action == null                                                                                           // Non specified action matches all.
+                || matchAction(airfieldAction);
     }
 
     /**
@@ -103,8 +111,6 @@ public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
                 || names.contains(airfieldName);
     }
 
-
-
     /**
      * Determine if the asset that caused the event to fire matches.
      * @param eventBy The asset that caused the event to fire.
@@ -113,6 +119,25 @@ public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
     private boolean isByEqual(final Asset eventBy) {
         return by == null                                                                                               // If the by asset is not specified then it does not matter.
                 || by.equals(eventBy);
+    }
+
+    /**
+     * Determine if the action matches.
+     *
+     * @param airfieldAction The event airfield action.
+     * @return True if the airfield event action matches the desired action. False otherwise.
+     */
+    private boolean matchAction(final AirfieldEventAction airfieldAction) {
+        boolean result;
+
+        try {
+            result = AirfieldEventAction.valueOf(action) == airfieldAction;
+        } catch (IllegalArgumentException ex) {
+            log.error("Unable to convert airfield action: '{}'", action);
+            result = false;
+        }
+
+        return result;
     }
 
     /**
@@ -150,11 +175,11 @@ public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
 
 
     /**
-     * The ship names are converted into a comma separated string if possible. If not ship names are specified then "*"
+     * The airfield names are converted into a comma separated string if possible. If no airfield names are specified then "*"
      * is returned.
      *
-     * @param value The list of ship names.
-     * @return A comma separated list of ship names.
+     * @param value The list of airfield names.
+     * @return A comma separated list of airfield names.
      */
     private String logName(final List<String> value) {
         return Optional.ofNullable(value)

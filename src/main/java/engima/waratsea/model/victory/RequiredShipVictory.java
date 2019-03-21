@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * This class represents a victory condition that must be matched in order for the player to win the game.
  */
 @Slf4j
-public class RequiredShipVictory implements ShipVictoryCondition {
+public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData> {
 
     private GameMap gameMap;
 

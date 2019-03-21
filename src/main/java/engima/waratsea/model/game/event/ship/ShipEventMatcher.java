@@ -402,7 +402,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     }
 
     /**
-     * The ship types are converted into a comma separated string if possible. If not ship types are specified then "*"
+     * The ship types are converted into a comma separated string if possible. If no ship types are specified then "*"
      * is returned.
      *
      * @param value A list of ship types.

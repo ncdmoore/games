@@ -81,6 +81,7 @@ public class VictoryLoader {
             victoryConditionsData.setObjectives(scenarioVictoryData.getObjectives());
             victoryConditionsData.setScenarioShip(scenarioVictoryData.getScenarioShip());
             victoryConditionsData.setRequiredShip(scenarioVictoryData.getRequiredShip());
+            victoryConditionsData.setScenarioAirfield(scenarioVictoryData.getScenarioAirfield());
 
         } catch (VictoryException ex) {
             //Unable to load the scenario victory conditions. If a scenario does not contain specific

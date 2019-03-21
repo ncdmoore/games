@@ -1,3 +1,19 @@
 {
-  "objectives": "Ferry the Hurricanes to Malta. Reduce the aircraft capacity of any Italian airfield."
+  "objectives": "Ferry the Hurricanes to Malta. Reduce the aircraft capacity of any Italian airfield.",
+  "scenarioAirfield": [
+    {
+      "event": {
+        "action": "DAMAGE",
+        "side": "AXIS"
+      },
+      "points": 5
+    },
+    {
+      "event": {
+        "action": "REPAIR",
+        "side": "AXIS"
+      },
+      "points": -5
+    }
+  ]
 }

@@ -2,12 +2,14 @@ package engima.waratsea.model.victory;
 
 import com.google.inject.name.Named;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.victory.data.ShipVictoryData;
 
 /**
  * Factory used by guice to create ship victory conditions.
+ *
+ * @param <E> The type of game event.
+ * @param <D> The type of victory data.
  */
-public interface ShipVictoryFactory {
+public interface ShipVictoryFactory<E, D> {
 
     /**
      * Create's the ship victory condition.
@@ -17,7 +19,7 @@ public interface ShipVictoryFactory {
      * @return The ship victory object.
      */
     @Named("ship")
-    ShipVictoryCondition createShip(ShipVictoryData data, Side side);
+    VictoryCondition<E, D> createShip(D data, Side side);
 
 
     /**
@@ -28,5 +30,6 @@ public interface ShipVictoryFactory {
      * @return The ship victory object.
      */
     @Named("required")
-    ShipVictoryCondition createRequired(ShipVictoryData data, Side side);
+    VictoryCondition<E, D> createRequired(D data, Side side);
+
 }

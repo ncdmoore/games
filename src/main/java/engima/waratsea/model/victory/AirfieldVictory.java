@@ -3,9 +3,9 @@ package engima.waratsea.model.victory;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.game.event.airfield.AirfieldEvent;
 import engima.waratsea.model.game.event.airfield.AirfieldEventMatcher;
 import engima.waratsea.model.game.event.airfield.AirfieldEventMatcherFactory;
-import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.victory.data.AirfieldVictoryData;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -14,10 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  * Represents an ship victory condition.
  */
 @Slf4j
-public class AirfieldVictory {
-
-    private GameMap gameMap;
-
+public class AirfieldVictory implements VictoryCondition<AirfieldEvent, AirfieldVictoryData> {
     private AirfieldEventMatcher matcher;
 
     private int points;              // The points awarded for each occurrence of this victory condition.
@@ -38,13 +35,11 @@ public class AirfieldVictory {
      * @param data The victory condition data as read from a JSON file.
      * @param side The side ALLIES or AXIS.
      * @param factory Factory for creating airfield event matchers.
-     * @param gameMap The game map.
      */
     @Inject
     public AirfieldVictory(@Assisted final AirfieldVictoryData data,
-                       @Assisted final Side side,
-                       final AirfieldEventMatcherFactory factory,
-                       final GameMap gameMap) {
+                           @Assisted final Side side,
+                           final AirfieldEventMatcherFactory factory) {
 
         matcher = factory.create(data.getEvent());
         points = data.getPoints();
@@ -56,12 +51,82 @@ public class AirfieldVictory {
 
         matcher.setSide(side);
 
-
-        log.info("Victory condition match:");
+        log.info("Airfield victory condition match:");
         matcher.log();
         log.info("Points: {}", points);
-
-        this.gameMap = gameMap;
     }
 
+    /**
+     * Get the points awarded for this condition.
+     *
+     * @param event The fired event that triggers the victory award.
+     * @return The awarded victory points.
+     */
+    @Override
+    public int getPoints(final AirfieldEvent event) {
+        int awardedPoints = 0;
+
+        if (occurrencesMet()) {
+            awardedPoints = event.getData() * points;
+            totalPoints += awardedPoints;
+            requirementMet = totalPoints >= requiredPoints;
+        }
+
+        log.info("Ship: '{}' '{}'. Occurrence: {}, Required: {}. Victory points awarded: {}",
+                new Object[]{event.getAirfield().getName(), event.getAction(), occurrenceCount, requiredOccurrences, awardedPoints});
+
+        return awardedPoints;
+    }
+
+    /**
+     * Determine if the required occurrences are satisfied. Some victory conditions require multiple occurrences of
+     * the underlying event to take place before any points are awarded.
+     *
+     * @return True if the required occurrences are satisfied. False otherwise.
+     */
+    private boolean occurrencesMet() {
+        boolean result = false;
+        occurrenceCount++;
+
+        if (requiredOccurrences == 0 || occurrenceCount % requiredOccurrences == 0) {
+            result = true;
+        }
+
+        return result;
+    }
+
+    /**
+     * Determine if the fired event matches this victory condition trigger.
+     *
+     * @param event The fired event.
+     * @return True if the event matches. False otherwise.
+     */
+    @Override
+    public boolean match(final AirfieldEvent event) {
+        boolean matched = matcher.match(event);
+
+        log.info("Airfield: '{}' '{}'. matched: {}", new Object[]{event.getAirfield().getName(),
+                event.getAction(), matched});
+
+        return matched;
+    }
+
+    /**
+     * Get the victory condition data that is read and written to a JSON file.
+     *
+     * @return The persistent victory condition data.
+     */
+    @Override
+    public AirfieldVictoryData getData() {
+        AirfieldVictoryData data = new AirfieldVictoryData();
+        data.setEvent(matcher.getData());
+        data.setPoints(points);
+        data.setTotalPoints(totalPoints);
+        data.setRequiredPoints(requiredPoints);
+        data.setRequiredOccurences(requiredOccurrences);
+        data.setOccurrenceCount(occurrenceCount);
+        data.setRequirementMet(requirementMet);
+
+        return data;
+    }
 }

@@ -20,8 +20,7 @@ import java.util.function.BiFunction;
  * Represents a ship victory condition.
  */
 @Slf4j
-public class ShipVictory implements ShipVictoryCondition {
-
+public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData> {
     // The cargo capacity factor is 3 times the board game value to avoid fractions.
     // Thus the victory for unloading cargo is divided by 3 --> 4 instead of 12.
     // The factor 12 is specified in the game manual under Victory Points.
@@ -82,7 +81,7 @@ public class ShipVictory implements ShipVictoryCondition {
 
         matcher.setSide(side);
 
-        log.info("Victory condition match:");
+        log.info("Ship victory condition match:");
         matcher.log();
         log.info("Points: {}", points);
 
