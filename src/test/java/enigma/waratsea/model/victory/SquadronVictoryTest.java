@@ -123,4 +123,51 @@ public class SquadronVictoryTest {
 
         Assert.assertEquals(victoryPoints, victory.getTotalVictoryPoints());
     }
+
+    @Test
+    public void testSquadronScenarioOverride() {
+        int victoryPoints = 4;
+
+        SquadronMatchData squadronMatchData = new SquadronMatchData();
+        squadronMatchData.setAction("DESTROYED");
+        squadronMatchData.setSide(Side.ALLIES);
+
+        SquadronVictoryData squadronVictoryData = new SquadronVictoryData();
+        squadronVictoryData.setEvent(squadronMatchData);
+        squadronVictoryData.setPoints(victoryPoints);
+
+        List<SquadronVictoryData> squadronData = new ArrayList<>();
+        squadronData.add(squadronVictoryData);
+
+        VictoryConditionsData victoryData = new VictoryConditionsData();
+        victoryData.setDefaultSquadron(squadronData);
+
+        int scenarioVictoryPoints = 5;
+
+        SquadronMatchData ScenarioSquadronMatchData = new SquadronMatchData();
+        ScenarioSquadronMatchData.setAction("DESTROYED");
+        ScenarioSquadronMatchData.setSide(Side.ALLIES);
+
+        SquadronVictoryData scenarioSquadronVictoryData = new SquadronVictoryData();
+        scenarioSquadronVictoryData.setEvent(ScenarioSquadronMatchData);
+        scenarioSquadronVictoryData.setPoints(scenarioVictoryPoints);
+
+        List<SquadronVictoryData> scenarioSquadronData = new ArrayList<>();
+        scenarioSquadronData.add(scenarioSquadronVictoryData);
+
+        victoryData.setScenarioSquadron(scenarioSquadronData);
+
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+
+        Assert.assertEquals(0, victory.getTotalVictoryPoints());
+
+
+        SquadronEvent event = new SquadronEvent();
+        event.setAction(SquadronEventAction.DESTROYED);
+        event.setSquadron(alliedSquadron);
+
+        event.fire();
+
+        Assert.assertEquals(scenarioVictoryPoints, victory.getTotalVictoryPoints());
+    }
 }
