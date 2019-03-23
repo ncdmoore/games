@@ -47,19 +47,19 @@ public class Allotment {
 
         nation = data.getNation();
 
-        log.info("Nation allotment: '{}'", nation);
+        log.debug("Nation allotment: '{}'", nation);
 
-        log.info("Bombers:");
+        log.debug("Bombers:");
         bombers = Optional.ofNullable(data.getBombers())
                 .map(this::getSquadrons)
                 .orElse(Collections.emptyList());
 
-        log.info("Fighters:");
+        log.debug("Fighters:");
         fighters = Optional.ofNullable(data.getFighters())
                 .map(this::getSquadrons)
                 .orElse(Collections.emptyList());
 
-        log.info("Recon:");
+        log.debug("Recon:");
         recon = Optional.ofNullable(data.getRecon())
                 .map(this::getSquadrons)
                 .orElse(Collections.emptyList());

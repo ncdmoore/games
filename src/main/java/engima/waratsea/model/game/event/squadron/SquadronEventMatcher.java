@@ -114,14 +114,14 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
      * Log the ship event match criteria.
      */
     public void log() {
-        log.info("Match action {}", logValue(action));
-        log.info("Match squadron name {}", logName(names));
-        log.info("Match side {}", logValue(side));
-        log.info("Match aircraft model {}", logName(aircraftModels));
-        log.info("Match aircraft type {}", logAircraft(aircraftTypes));
-        log.info("Match starting location {}", logLocation(airfieldOrigins));
-        log.info("Match location {}", logLocation(locations));
-        log.info("Match by {}", logValue(by));
+        log.debug("Match action {}", logValue(action));
+        log.debug("Match squadron name {}", logName(names));
+        log.debug("Match side {}", logValue(side));
+        log.debug("Match aircraft model {}", logName(aircraftModels));
+        log.debug("Match aircraft type {}", logAircraft(aircraftTypes));
+        log.debug("Match starting location {}", logLocation(airfieldOrigins));
+        log.debug("Match location {}", logLocation(locations));
+        log.debug("Match by {}", logValue(by));
     }
 
     /**

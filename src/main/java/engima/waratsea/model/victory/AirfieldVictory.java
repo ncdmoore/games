@@ -46,9 +46,9 @@ public class AirfieldVictory implements VictoryCondition<AirfieldEvent, Airfield
         occurrenceCount = data.getOccurrenceCount();
         requirementMet = data.isRequirementMet();
 
-        log.info("Airfield victory condition match:");
+        log.debug("Airfield victory condition match:");
         matcher.log();
-        log.info("Points: {}", points);
+        log.debug("Points: {}", points);
 
         // This is needed if no events that trigger this condition are thrown.
         // We must initialize the requirementMet.

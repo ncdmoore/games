@@ -41,7 +41,7 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
 
         requirementMet = data.isRequirementMet();
 
-        log.info("Required victory condition match set:");
+        log.debug("Required victory condition match set:");
         matchers.forEach(ShipEventMatcher::log);
 
     }

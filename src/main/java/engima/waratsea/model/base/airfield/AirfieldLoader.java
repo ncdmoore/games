@@ -69,7 +69,7 @@ public class AirfieldLoader {
      * @param airfields The port data that is saved.
      */
     public void save(final Scenario scenario, final Side side, final List<Airfield> airfields) {
-        log.info("Saving airfields, scenario: '{}',side {}", scenario.getTitle(), side);
+        log.debug("Saving airfields, scenario: '{}',side {}", scenario.getTitle(), side);
         airfields.forEach(airfield -> {
             String fileName = config.getSavedFileName(side, Airfield.class, airfield.getName() + ".json");
             PersistentUtility.save(fileName, airfield.getData());
@@ -117,7 +117,7 @@ public class AirfieldLoader {
                 Gson gson = new Gson();
                 AirfieldData airfieldData = gson.fromJson(br, AirfieldData.class);
 
-                log.info("load airfield {} for side {}", airfieldName, side);
+                log.debug("load airfield {} for side {}", airfieldName, side);
 
                 return airfieldData;
             } catch (Exception ex) {                                                                                        // Catch any Gson errors.

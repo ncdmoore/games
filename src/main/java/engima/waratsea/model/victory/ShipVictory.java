@@ -76,9 +76,9 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
         occurrenceCount = data.getOccurrenceCount();
         requirementMet = data.isRequirementMet();
 
-        log.info("Ship victory condition match:");
+        log.debug("Ship victory condition match:");
         matcher.log();
-        log.info("Points: {}", points);
+        log.debug("Points: {}", points);
 
         this.gameMap = gameMap;
 

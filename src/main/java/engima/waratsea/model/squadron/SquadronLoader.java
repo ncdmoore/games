@@ -62,7 +62,7 @@ public class SquadronLoader {
      * @param nation The nation.
      */
     private void loadNationAllotment(final Scenario scenario, final Side side, final Nation nation) {
-        log.info("Load squadrons for scenario '{}', side: {}, nation: {}", new Object[]{scenario.getTitle(), side, nation});
+        log.debug("Load squadrons for scenario '{}', side: {}, nation: {}", new Object[]{scenario.getTitle(), side, nation});
         try {
             Allotment allotment = allotmentLoader.load(scenario, side, nation);
             allotmentMap.put(nation, allotment);

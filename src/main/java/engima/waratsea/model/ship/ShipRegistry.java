@@ -51,7 +51,7 @@ public class ShipRegistry {
         String shipName = shipId.getName();
         Side side = shipId.getSide();
         String shipClassName = shipMap.get(side).getString(shipName.trim());
-        log.info("For ship '{}' and side {} get class '{}'", new Object[]{shipName, side, shipClassName});
+        log.debug("For ship '{}' and side {} get class '{}'", new Object[]{shipName, side, shipClassName});
         return shipClassName;
     }
 }

@@ -37,7 +37,7 @@ public class AllotmentAircraft {
             squadrons.add(type);
         }
 
-        log.info("Allotment for '{}' is '{}'", type, number);
+        log.debug("Allotment for '{}' is '{}'", type, number);
 
         return squadrons;
     }

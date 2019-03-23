@@ -69,7 +69,7 @@ public class PortLoader {
      * @param ports The port data that is saved.
      */
     public void save(final Scenario scenario, final Side side, final List<Port> ports) {
-        log.info("Saving ports, scenario: '{}',side {}", scenario.getTitle(), side);
+        log.debug("Saving ports, scenario: '{}',side {}", scenario.getTitle(), side);
         ports.forEach(port -> {
             String fileName = config.getSavedFileName(side, Port.class, port.getName() + ".json");
             PersistentUtility.save(fileName, port.getData());
@@ -117,7 +117,7 @@ public class PortLoader {
                 Gson gson = new Gson();
                 PortData portData = gson.fromJson(br, PortData.class);
 
-                log.info("load port {} for side {}", portName, side);
+                log.debug("load port {} for side {}", portName, side);
 
                 return portData;
             } catch (Exception ex) {                                                                                    // Catch any Gson errors.

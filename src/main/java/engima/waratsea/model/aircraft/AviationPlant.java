@@ -61,7 +61,7 @@ public class AviationPlant {
      * @throws AviationPlantException Indicates that the aircraft model could not be built.
      */
     public Aircraft load(final AircraftId aircraftId) throws AviationPlantException {
-        log.info("Build aircraft model: '{}' for side {}", aircraftId.getModel(), aircraftId.getSide());
+        log.debug("Build aircraft model: '{}' for side {}", aircraftId.getModel(), aircraftId.getSide());
         AircraftData aircraftData = getData(aircraftId.getModel(), aircraftId.getSide());
         AircraftType aircraftType = aircraftData.getType();
         return getFactory(aircraftType).apply(aircraftData);
@@ -99,7 +99,7 @@ public class AviationPlant {
      * @throws AviationPlantException An error occurred while attempting to read the aircraft's model data.
      */
     private AircraftData loadData(final String model, final Side side) throws AviationPlantException {
-        log.info("Load aircraft model: '{}' for side {}", model, side);
+        log.debug("Load aircraft model: '{}' for side {}", model, side);
         return config
                 .getGameURL(side, Aircraft.class, model + ".json")
                 .map(url -> readAircraftModel(url, side))
@@ -118,7 +118,7 @@ public class AviationPlant {
             Path path = Paths.get(URLDecoder.decode(url.getPath(), "UTF-8"));
             try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 
-                log.info("load aircraft model {} for side {}", url.getPath(), side);
+                log.debug("load aircraft model {} for side {}", url.getPath(), side);
 
                 Gson gson = new Gson();
                 return gson.fromJson(br, AircraftData.class);

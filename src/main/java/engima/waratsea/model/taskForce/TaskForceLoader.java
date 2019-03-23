@@ -101,7 +101,7 @@ public class TaskForceLoader {
             Gson gson = new Gson();
             List<TaskForceData> taskForces = gson.fromJson(br, collectionType);
 
-            log.info("load task forces for side: {}, number of task forces: {}", side, taskForces.size());
+            log.debug("load task forces for side: {}, number of task forces: {}", side, taskForces.size());
 
             return seedTaskForces(side, taskForces);
         } catch (Exception ex) {                                                                                        // Catch any Gson errors.

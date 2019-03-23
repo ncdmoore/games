@@ -82,10 +82,10 @@ public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
      * Log the ship event match criteria.
      */
     public void log() {
-        log.info("Match side {}", logValue(side));
-        log.info("Match action {}", logValue(action));
-        log.info("Match name {}", logName(names));
-        log.info("Match by {}", logValue(by));
+        log.debug("Match side {}", logValue(side));
+        log.debug("Match action {}", logValue(action));
+        log.debug("Match name {}", logName(names));
+        log.debug("Match by {}", logValue(by));
     }
 
     /**

@@ -77,7 +77,7 @@ public class Shipyard {
      * @param ship The ship to save.
      */
     public void save(final Ship ship) {
-        log.info("Save ship: '{}' for side {}", ship.getName(), ship.getShipId().getSide());
+        log.debug("Save ship: '{}' for side {}", ship.getName(), ship.getShipId().getSide());
         String fileName = config.getSavedFileName(ship.getShipId().getSide(), Ship.class, ship.getName() + ".json");
         PersistentUtility.save(fileName, ship.getData());
     }
@@ -90,7 +90,7 @@ public class Shipyard {
      * @throws ShipyardException Indicates that the ship could not be built.
      */
     private Ship buildNew(final ShipId shipId) throws ShipyardException {
-        log.info("Build new ship: '{}' for side {}", shipId.getName(), shipId.getSide());
+        log.debug("Build new ship: '{}' for side {}", shipId.getName(), shipId.getSide());
         String shipClassName = registry.getClass(shipId);
         ShipData shipData = getShipData(shipClassName, shipId);
         ShipType shipType = shipData.getType();
@@ -106,7 +106,7 @@ public class Shipyard {
      * @throws ShipyardException Indicates that the ship could not be built.
      */
     private Ship buildExisting(final ShipId shipId) throws ShipyardException {
-        log.info("Build existing ship: '{}' for side {}", shipId.getName(), shipId.getSide());
+        log.debug("Build existing ship: '{}' for side {}", shipId.getName(), shipId.getSide());
         ShipData shipData = loadExistingShipData(shipId);
         ShipType shipType = shipData.getType();
         shipData.setShipId(shipId);
@@ -148,7 +148,7 @@ public class Shipyard {
     private ShipData loadNewShipData(final String shipClassName, final ShipId shipId) throws ShipyardException {
         String shipName = shipId.getName();
         Side side = shipId.getSide();
-        log.info("Load new ship class: '{}' for ship: '{}', side {}", new Object[]{shipClassName, shipName, side});
+        log.debug("Load new ship class: '{}' for ship: '{}', side {}", new Object[]{shipClassName, shipName, side});
         return config
                 .getGameURL(side, Ship.class, shipClassName + ".json")
                 .map(url -> readShipClass(url, shipId))
@@ -165,7 +165,7 @@ public class Shipyard {
     private ShipData loadExistingShipData(final ShipId shipId) throws ShipyardException {
         String shipName = shipId.getName();
         Side side = shipId.getSide();
-        log.info("Load existing ship name: '{}' for side {}", shipName, side);
+        log.debug("Load existing ship name: '{}' for side {}", shipName, side);
         return config
                 .getSavedURL(side, Ship.class, shipId.getName() + ".json")
                 .map(url -> readShipClass(url, shipId))
@@ -187,7 +187,7 @@ public class Shipyard {
             Path path = Paths.get(URLDecoder.decode(url.getPath(), "UTF-8"));
             try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 
-                log.info("load ship class '{}' for ship '{}' and side '{}'", new Object[]{url.getPath(), shipName, side});
+                log.debug("load ship class '{}' for ship '{}' and side '{}'", new Object[]{url.getPath(), shipName, side});
 
                 Gson gson = new Gson();
                 return gson.fromJson(br, ShipData.class);

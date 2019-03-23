@@ -46,9 +46,9 @@ public class SquadronVictory implements VictoryCondition<SquadronEvent, Squadron
         occurrenceCount = data.getOccurrenceCount();
         requirementMet = data.isRequirementMet();
 
-        log.info("Squadron victory condition match:");
+        log.debug("Squadron victory condition match:");
         matcher.log();
-        log.info("Points: {}", points);
+        log.debug("Points: {}", points);
 
         // This is needed if no events that trigger this condition are thrown.
         // We must initialize the requirementMet.

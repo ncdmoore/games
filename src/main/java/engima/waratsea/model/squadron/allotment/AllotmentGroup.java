@@ -40,7 +40,7 @@ public class AllotmentGroup {
                 .flatMap(allotment -> allotment.get().stream())
                 .collect(Collectors.toList());
 
-        log.info("The select size for is: '{}', aircraft: '{}'", selectSize, aircraft.stream().distinct().collect(Collectors.joining(", ")));
+        log.debug("The select size for is: '{}', aircraft: '{}'", selectSize, aircraft.stream().distinct().collect(Collectors.joining(", ")));
     }
 
     /**

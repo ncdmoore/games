@@ -136,14 +136,14 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
      * Log the ship event match criteria.
      */
     public void log() {
-        log.info("Match action {}", logValue(action));
-        log.info("Match name {}", logName(names));
-        log.info("Match side {}", logValue(side));
-        log.info("Match task force name {}", logValue(taskForceName));
-        log.info("Match ship type {}", logShip(shipTypes));
-        log.info("Match starting location {}", logLocation(portOrigins));
-        log.info("Match location {}", logLocation(locations));
-        log.info("Match by {}", logValue(by));
+        log.debug("Match action {}", logValue(action));
+        log.debug("Match name {}", logName(names));
+        log.debug("Match side {}", logValue(side));
+        log.debug("Match task force name {}", logValue(taskForceName));
+        log.debug("Match ship type {}", logShip(shipTypes));
+        log.debug("Match starting location {}", logLocation(portOrigins));
+        log.debug("Match location {}", logLocation(locations));
+        log.debug("Match by {}", logValue(by));
     }
 
     /**

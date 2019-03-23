@@ -115,7 +115,7 @@ public final class Config {
     public Optional<URL> getGameURL(final Side side, final Class<?> clazz, final String name) {
         String entityName = clazz.getSimpleName();
         String fileName = gameTitle.getValue() + SIDE_FILE_MAP.get(side.toString(), entityName) + name;
-        log.info("'{}' URL: '{}'", entityName, fileName);
+        log.debug("'{}' URL: '{}'", entityName, fileName);
         return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
     }
 
@@ -130,7 +130,7 @@ public final class Config {
     public Optional<URL> getScenarioURL(final Side side, final Class<?> clazz, final String name) {
         String entityName = clazz.getSimpleName();
         String fileName = gameTitle.getValue() + SCENARIO_DIRECTORY_NAME + "/" + scenario + SIDE_FILE_MAP.get(side.toString(), entityName) + name;
-        log.info("'{}' URL: '{}'", entityName, fileName);
+        log.debug("'{}' URL: '{}'", entityName, fileName);
         return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
     }
 
@@ -144,7 +144,7 @@ public final class Config {
     public Optional<URL> getScenarioURL(final Side side, final Class<?> clazz) {
         String entityName = clazz.getSimpleName();
         String fileName = gameTitle.getValue() + SCENARIO_DIRECTORY_NAME + "/" + scenario + SIDE_FILE_MAP.get(side.toString(), entityName);
-        log.info("'{}' URL: '{}'", entityName, fileName);
+        log.debug("'{}' URL: '{}'", entityName, fileName);
         return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
     }
 
@@ -156,7 +156,7 @@ public final class Config {
      */
     public Optional<URL> getScenarioURL(final Class<?> clazz) {
         String fileName = gameTitle.getValue() + SCENARIO_DIRECTORY_NAME + "/" + scenario + FILE_MAP.get(clazz);
-        log.info("'{}' URL: '{}'", clazz.getSimpleName(), fileName);
+        log.debug("'{}' URL: '{}'", clazz.getSimpleName(), fileName);
         return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
     }
 
@@ -176,7 +176,7 @@ public final class Config {
      */
     public String getScenarioDirectoryNameName() {
         String fileName = gameTitle.getValue() + SCENARIO_DIRECTORY_NAME + "/" + scenario;
-        log.info("Scenario URL: '{}'", fileName);
+        log.debug("Scenario URL: '{}'", fileName);
         return fileName;
     }
 
@@ -190,7 +190,7 @@ public final class Config {
     public Optional<URL> getDefaultURL(final Side side, final Class<?> clazz) {
         String entityName = clazz.getSimpleName();
         String fileName = DEFAULT_FILE_MAP.get(side.toString(), entityName) + "/default.json";
-        log.info("Default '{}' URL: '{}'", entityName, fileName);
+        log.debug("Default '{}' URL: '{}'", entityName, fileName);
         return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
     }
 
@@ -258,7 +258,7 @@ public final class Config {
     public String getSavedFileName(final Side side, final Class<?> clazz, final String name) {
         String entityName = clazz.getSimpleName();
         String fileName = SAVED_GAME_DIRECTORY + scenario + savedGameName + SIDE_FILE_MAP.get(side.toString(), entityName) + name;
-        log.info("'{}' URL: '{}'", entityName, fileName);
+        log.debug("'{}' URL: '{}'", entityName, fileName);
         return fileName;
     }
 
@@ -272,7 +272,7 @@ public final class Config {
     public String getSavedFileName(final Side side, final Class<?> clazz) {
         String entityName = clazz.getSimpleName();
         String fileName = SAVED_GAME_DIRECTORY + scenario + savedGameName + SIDE_FILE_MAP.get(side.toString(), entityName);
-        log.info("'{}' URL: '{}'", entityName, fileName);
+        log.debug("'{}' URL: '{}'", entityName, fileName);
         return fileName;
     }
 
@@ -284,7 +284,7 @@ public final class Config {
      */
     public String getSavedFileName(final Class<?> clazz) {
         String fileName = SAVED_GAME_DIRECTORY + scenario + savedGameName + FILE_MAP.get(clazz);
-        log.info("'{}' URL: '{}'", clazz.getSimpleName(), fileName);
+        log.debug("'{}' URL: '{}'", clazz.getSimpleName(), fileName);
         return fileName;
     }
 

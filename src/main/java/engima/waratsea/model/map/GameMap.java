@@ -188,8 +188,8 @@ public final class GameMap {
         }
 
 
-        log.info("Map reference: {}", mapReference);
-        log.info("Grid row: {}, column: {}", row, column);
+        log.debug("Map reference: {}", mapReference);
+        log.debug("Grid row: {}, column: {}", row, column);
 
         return new GameGrid(row, column);
     }
