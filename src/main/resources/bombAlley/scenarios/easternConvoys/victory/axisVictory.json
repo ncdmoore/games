@@ -3,6 +3,7 @@
   "scenarioShip": [
     {
       "event": {
+        "side": "AXIS",
         "action": "CARGO_UNLOADED",
         "shipType": "DESTROYER_ESCORT",
         "location": "Benghazi",

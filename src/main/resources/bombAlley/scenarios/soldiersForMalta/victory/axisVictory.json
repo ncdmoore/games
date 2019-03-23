@@ -3,6 +3,7 @@
   "scenarioShip": [
     {
       "event": {
+        "side": "ALLIES",
         "action": "SUNK",
         "shipType": "CRUISER",
         "name": "CL38 Gloucester"
@@ -11,6 +12,7 @@
     },
     {
       "event": {
+        "side": "ALLIES",
         "action": "SUNK",
         "shipType": "CRUISER",
         "name": "CL39 Liverpool"

@@ -72,7 +72,7 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
         points = data.getPoints();
         totalPoints = data.getTotalPoints();
         requiredPoints = data.getRequiredPoints();
-        requiredOccurrences = data.getRequiredOccurences();
+        requiredOccurrences = data.getRequiredOccurrences();
         occurrenceCount = data.getOccurrenceCount();
         requirementMet = data.isRequirementMet();
 
@@ -102,7 +102,7 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
         data.setPoints(points);
         data.setTotalPoints(totalPoints);
         data.setRequiredPoints(requiredPoints);
-        data.setRequiredOccurences(requiredOccurrences);
+        data.setRequiredOccurrences(requiredOccurrences);
         data.setOccurrenceCount(occurrenceCount);
         data.setRequirementMet(requirementMet);
 

@@ -12,7 +12,6 @@ import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.ship.ShipType;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -28,39 +27,32 @@ import java.util.stream.Stream;
 @Slf4j
 public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     @Getter
-    @Setter
-    private String action;  // The action to match.
+    private final String action;  // The action to match.
 
     @Getter
-    @Setter
-    private List<String> names; // A list of ship names that match.
+    private final List<String> names; // A list of ship names that match.
 
     @Getter
-    @Setter
-    private Side side; // The side to match.
+    private final Side side; // The side to match.
 
     @Getter
-    @Setter
-    private String taskForceName; // The task force name to match.
+    private final String taskForceName; // The task force name to match.
 
     @Getter
-    @Setter
-    private List<ShipType> shipTypes; // A list of ship types to match.
+    private final List<ShipType> shipTypes; // A list of ship types to match.
 
     // A list of starting locations to match. This is the location where a ship started.
     // The only event that uses this is the CARGO_UNLOADED event. The starting location is the location
     // where the cargo was loaded.
     @Getter
-    @Setter
-    private List<String> portOrigins;
+    private final List<String> portOrigins;
 
-    private List<String> locations; // A list of locations to match. This is the location where the event occurred.
+    private final List<String> locations; // A list of locations to match. This is the location where the event occurred.
 
     @Getter
-    @Setter
-    private Asset by;    // The game asset Ship, aircraft or sub that caused the event to fire. The asset that did the event.
+    private final Asset by;    // The game asset Ship, aircraft or sub that caused the event to fire. The asset that did the event.
 
-    private GameMap gameMap;
+    private final GameMap gameMap;
 
     /**
      * Constructor called by guice.

@@ -5,39 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="759a14ac-db4e-4a62-9f10-d187b35c6cea" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEventAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEventMatcher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEventMatcherFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/data/SquadronMatchData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/SquadronVictory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/SquadronVictoryFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/data/SquadronVictoryData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/victory/axis/default.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/SquadronEventTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/SquadronVictoryTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/engima/waratsea/BasicModule.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/engima/waratsea/BasicModule.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/enigma/waratsea/TestModule.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/classes/enigma/waratsea/TestModule.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/BasicModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/BasicModule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Aircraft.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Aircraft.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/AircraftImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/AircraftImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/GameEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/GameEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventMatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventMatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/data/AirfieldMatchData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/data/AirfieldMatchData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEventMatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEventMatcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEventMatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEventMatcher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/AirfieldVictory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/AirfieldVictory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/AirfieldVictoryFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/AirfieldVictoryFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/RequiredShipVictory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/RequiredShipVictory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictoryFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictoryFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryCondition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryCondition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryConditions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryConditions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/data/VictoryConditionsData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/data/VictoryConditionsData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/victory/default.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/victory/allies/default.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/TestModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/TestModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/data/ShipVictoryData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/data/ShipVictoryData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/victory/alliesVictory.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/victory/alliesVictory.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/victory/axisVictory.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/victory/axisVictory.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/victory/alliesVictory.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/victory/alliesVictory.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/victory/axisVictory.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/victory/axisVictory.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/firstSortie/victory/alliesVictory.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/firstSortie/victory/alliesVictory.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/victory/alliesVictory.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/victory/alliesVictory.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/victory/alliesVictory.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/victory/alliesVictory.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/victory/axisVictory.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/victory/axisVictory.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/victory/axisVictory.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/victory/axisVictory.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/AirfieldVictoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/AirfieldVictoryTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/ShipVictoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/ShipVictoryTest.java" afterDir="false" />
     </list>
@@ -95,98 +81,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryConditions.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="172" column="5" lean-forward="true" selection-start-line="172" selection-start-column="5" selection-end-line="172" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/ShipVictoryTest.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/SquadronVictoryTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="427" column="31" lean-forward="true" selection-start-line="427" selection-start-column="16" selection-end-line="427" selection-end-column="70" />
+            <state relative-caret-position="525">
+              <caret line="120" lean-forward="true" selection-start-line="120" selection-end-line="120" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/AirfieldVictoryTest.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEventAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="134">
-              <caret line="87" column="26" selection-start-line="87" selection-start-column="16" selection-end-line="87" selection-end-column="34" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryConditionsFactory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryCondition.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/SquadronVictory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="43" column="50" lean-forward="true" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/SquadronVictoryFactory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="62" selection-start-line="62" selection-end-line="62" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictoryFactory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" selection-start-line="26" selection-end-line="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/RequiredShipVictory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="415">
-              <caret line="39" column="46" lean-forward="true" selection-start-line="39" selection-start-column="46" selection-end-line="39" selection-end-column="46" />
+            <state relative-caret-position="75">
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
             </state>
           </provider>
         </entry>
@@ -259,22 +167,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MainMapView.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/taskforce/alliesTaskForces.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/victory/alliesVictory.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/victory/axisVictory.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/summary.json" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForceMission.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/taskforce/alliesTaskForces.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/victory/axisVictory.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/taskforce/axisTaskForces.json" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/data/AirfieldVictoryData.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/AirfieldVictoryCondition.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventAction.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/victory/alliesVictory.json" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/data/AirfieldMatchData.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventMatcher.java" />
         <option value="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/AirfieldEventTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryCondition.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/AircraftEventAction.java" />
@@ -288,9 +182,7 @@
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/GameEvent.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/data/SquadronMatchData.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEventMatcher.java" />
         <option value="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/SquadronEventTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEventMatcher.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/data/SquadronVictoryData.java" />
         <option value="$PROJECT_DIR$/src/test/java/enigma/waratsea/TestModule.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/BasicModule.java" />
@@ -302,20 +194,36 @@
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryLoader.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/SquadronVictory.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/SquadronVictoryFactory.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictory.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/RequiredShipVictory.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/AirfieldVictory.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/AirfieldVictoryFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictoryFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryConditions.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/victory/alliesVictory.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/victory/axisVictory.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/firstSortie/victory/alliesVictory.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/victory/alliesVictory.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/victory/axisVictory.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/victory/alliesVictory.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/victory/axisVictory.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/victory/axisVictory.json" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/data/AirfieldMatchData.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventMatcher.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEventMatcher.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEventMatcher.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/AirfieldVictory.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/victory/alliesVictory.json" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEvent.java" />
         <option value="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/AirfieldVictoryTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/data/ShipVictoryData.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictory.java" />
         <option value="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/ShipVictoryTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/SquadronVictoryTest.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="549" />
-    <option name="y" value="23" />
+    <option name="x" value="557" />
+    <option name="y" value="133" />
     <option name="width" value="1915" />
     <option name="height" value="1349" />
   </component>
@@ -325,6 +233,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -386,42 +296,6 @@
               <item name="engima" type="462c0819:PsiDirectoryNode" />
               <item name="waratsea" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="base" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="engima" type="462c0819:PsiDirectoryNode" />
-              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="base" type="462c0819:PsiDirectoryNode" />
-              <item name="airfield" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="engima" type="462c0819:PsiDirectoryNode" />
-              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="base" type="462c0819:PsiDirectoryNode" />
-              <item name="airfield" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="engima" type="462c0819:PsiDirectoryNode" />
-              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
               <item name="game" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -435,6 +309,33 @@
               <item name="model" type="462c0819:PsiDirectoryNode" />
               <item name="game" type="462c0819:PsiDirectoryNode" />
               <item name="event" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
+              <item name="event" type="462c0819:PsiDirectoryNode" />
+              <item name="airfield" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
+              <item name="event" type="462c0819:PsiDirectoryNode" />
+              <item name="airfield" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
@@ -471,8 +372,17 @@
               <item name="engima" type="462c0819:PsiDirectoryNode" />
               <item name="waratsea" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="game" type="462c0819:PsiDirectoryNode" />
-              <item name="event" type="462c0819:PsiDirectoryNode" />
+              <item name="squadron" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
               <item name="squadron" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -500,6 +410,65 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+              <item name="scenarios" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+              <item name="scenarios" type="462c0819:PsiDirectoryNode" />
+              <item name="firstSortie" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+              <item name="scenarios" type="462c0819:PsiDirectoryNode" />
+              <item name="firstSortie" type="462c0819:PsiDirectoryNode" />
+              <item name="victory" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+              <item name="scenarios" type="462c0819:PsiDirectoryNode" />
+              <item name="operationHurry" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+              <item name="scenarios" type="462c0819:PsiDirectoryNode" />
+              <item name="operationHurry" type="462c0819:PsiDirectoryNode" />
+              <item name="victory" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="victory" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -510,15 +479,6 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="victory" type="462c0819:PsiDirectoryNode" />
               <item name="allies" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="victory" type="462c0819:PsiDirectoryNode" />
-              <item name="axis" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
@@ -598,12 +558,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553313972318" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553357600078" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -612,26 +570,26 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.import" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/properties" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/victory" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/taskforce" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="engima.waratsea.model.victory" />
-      <recent name="engima.waratsea.model.game.event.squadron" />
-      <recent name="engima.waratsea.model.game.event.squadron.data" />
-      <recent name="engima.waratsea.model.map" />
-      <recent name="engima.waratsea.model.aircraft" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/victory/axis" />
       <recent name="$PROJECT_DIR$/src/main/resources/victory/allies" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/victory" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/taskforce" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/OperationHurry" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="enigma.waratsea.model.victory" />
+      <recent name="engima.waratsea.model.victory" />
+      <recent name="engima.waratsea.model.game.event.squadron" />
+      <recent name="engima.waratsea.model.game.event.squadron.data" />
+      <recent name="engima.waratsea.model.map" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/properties" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/victory" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/taskforce" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -646,7 +604,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.All in enigma.worldWarTwoAtSea.test">
+  <component name="RunManager" selected="Application.Main">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -669,6 +627,40 @@
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AirfieldVictoryTest.testAirfieldDamage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.victory.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.victory" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.victory.AirfieldVictoryTest" />
+      <option name="METHOD_NAME" value="testAirfieldDamage" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AirfieldVictoryTest.testAirfieldRepair" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.victory.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.victory" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.victory.AirfieldVictoryTest" />
+      <option name="METHOD_NAME" value="testAirfieldRepair" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -714,72 +706,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ShipVictoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.victory.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.victory" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.victory.ShipVictoryTest" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ShipVictoryTest.testShipBombardmentMultipleOccurrencesRequired" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.victory.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.victory" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.victory.ShipVictoryTest" />
-      <option name="METHOD_NAME" value="testShipBombardmentMultipleOccurrencesRequired" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ShipVictoryTest.testShipBombardmentMultipleOccurrencesRequiredOverride" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.victory.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.victory" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.victory.ShipVictoryTest" />
-      <option name="METHOD_NAME" value="testShipBombardmentMultipleOccurrencesRequiredOverride" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ShipVictoryTest.testShipEvent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.victory.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.victory" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.victory.ShipVictoryTest" />
-      <option name="METHOD_NAME" value="testShipEvent" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ShipVictoryTest.testShipSunkVictoryOverridePointsEvent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <extension name="coverage">
@@ -791,6 +717,40 @@
       <option name="PACKAGE_NAME" value="enigma.waratsea.model.victory" />
       <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.victory.ShipVictoryTest" />
       <option name="METHOD_NAME" value="testShipSunkVictoryOverridePointsEvent" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SquadronVictoryTest.testSquadronArrival" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.victory.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.victory" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.victory.SquadronVictoryTest" />
+      <option name="METHOD_NAME" value="testSquadronArrival" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SquadronVictoryTest.testSquadronDamage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.victory.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.victory" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.victory.SquadronVictoryTest" />
+      <option name="METHOD_NAME" value="testSquadronDamage" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
@@ -825,19 +785,19 @@
       <item itemvalue="JUnit.GameEventTest" />
       <item itemvalue="JUnit.ScenarioLoaderTest.testScenarioSummaryLoading" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
-      <item itemvalue="JUnit.ShipVictoryTest.testShipBombardmentMultipleOccurrencesRequired" />
-      <item itemvalue="JUnit.ShipVictoryTest.testShipBombardmentMultipleOccurrencesRequiredOverride" />
-      <item itemvalue="JUnit.ShipVictoryTest" />
-      <item itemvalue="JUnit.ShipVictoryTest.testShipEvent" />
       <item itemvalue="JUnit.ShipVictoryTest.testShipSunkVictoryOverridePointsEvent" />
+      <item itemvalue="JUnit.AirfieldVictoryTest.testAirfieldDamage" />
+      <item itemvalue="JUnit.AirfieldVictoryTest.testAirfieldRepair" />
+      <item itemvalue="JUnit.SquadronVictoryTest.testSquadronArrival" />
+      <item itemvalue="JUnit.SquadronVictoryTest.testSquadronDamage" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SquadronVictoryTest.testSquadronDamage" />
+        <item itemvalue="JUnit.SquadronVictoryTest.testSquadronArrival" />
+        <item itemvalue="JUnit.AirfieldVictoryTest.testAirfieldRepair" />
+        <item itemvalue="JUnit.AirfieldVictoryTest.testAirfieldDamage" />
         <item itemvalue="JUnit.ShipVictoryTest.testShipSunkVictoryOverridePointsEvent" />
-        <item itemvalue="JUnit.ShipVictoryTest" />
-        <item itemvalue="JUnit.ShipVictoryTest.testShipEvent" />
-        <item itemvalue="JUnit.ShipVictoryTest.testShipBombardmentMultipleOccurrencesRequiredOverride" />
-        <item itemvalue="JUnit.ShipVictoryTest.testShipBombardmentMultipleOccurrencesRequired" />
       </list>
     </recent_temporary>
   </component>
@@ -851,13 +811,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1543891408596</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Reworked game events so that a class can register for multiple events.">
-      <created>1544243715186</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1544243715186</updated>
     </task>
     <task id="LOCAL-00007" summary="added markers and popups to game preview map.">
       <created>1544755438199</created>
@@ -1195,51 +1148,57 @@
       <option name="project" value="LOCAL" />
       <updated>1553134037515</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Squadron event victory.">
+      <created>1553314006592</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1553314006593</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="ShipVictoryTest_testShipRequiredVictory - 2019.03.22 at 23h 57m 17s.xml">
-      <configuration name="ShipVictoryTest.testShipRequiredVictory" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_enigma_worldWarTwoAtSea_test - 2019.03.22 at 23h 57m 41s.xml">
-      <configuration name="All in enigma.worldWarTwoAtSea.test" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="AirfieldVictoryTest_testAirfieldDamage - 2019.03.22 at 23h 58m 54s.xml">
-      <configuration name="AirfieldVictoryTest.testAirfieldDamage" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="AirfieldVictoryTest_testAirfieldRepair - 2019.03.22 at 23h 59m 30s.xml">
+    <history-entry file="AirfieldVictoryTest_testAirfieldRepair - 2019.03.23 at 11h 06m 13s.xml">
       <configuration name="AirfieldVictoryTest.testAirfieldRepair" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_enigma_worldWarTwoAtSea_test - 2019.03.22 at 23h 59m 42s.xml">
+    <history-entry file="AirfieldVictoryTest_testAirfieldRepair - 2019.03.23 at 11h 10m 32s.xml">
+      <configuration name="AirfieldVictoryTest.testAirfieldRepair" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AirfieldVictoryTest_testAirfieldRepair - 2019.03.23 at 11h 23m 06s.xml">
+      <configuration name="AirfieldVictoryTest.testAirfieldRepair" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AirfieldVictoryTest_testAirfieldRepair - 2019.03.23 at 11h 24m 36s.xml">
+      <configuration name="AirfieldVictoryTest.testAirfieldRepair" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AirfieldVictoryTest_testAirfieldRepair - 2019.03.23 at 11h 25m 12s.xml">
+      <configuration name="AirfieldVictoryTest.testAirfieldRepair" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AirfieldVictoryTest_testAirfieldRepair - 2019.03.23 at 11h 27m 51s.xml">
+      <configuration name="AirfieldVictoryTest.testAirfieldRepair" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_enigma_worldWarTwoAtSea_test - 2019.03.23 at 11h 47m 34s.xml">
       <configuration name="All in enigma.worldWarTwoAtSea.test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ShipVictoryTest_testShipUnloadEvent - 2019.03.23 at 00h 01m 10s.xml">
-      <configuration name="ShipVictoryTest.testShipUnloadEvent" configurationId="JUnit" />
+    <history-entry file="SquadronVictoryTest_testSquadronArrival - 2019.03.23 at 12h 02m 37s.xml">
+      <configuration name="SquadronVictoryTest.testSquadronArrival" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ShipVictoryTest_testShipUnloadVictoryOverridePointsEvent - 2019.03.23 at 00h 01m 35s.xml">
-      <configuration name="ShipVictoryTest.testShipUnloadVictoryOverridePointsEvent" configurationId="JUnit" />
+    <history-entry file="SquadronVictoryTest_testSquadronDamage - 2019.03.23 at 12h 05m 29s.xml">
+      <configuration name="SquadronVictoryTest.testSquadronDamage" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ShipVictoryTest_testShipScenarioOverride - 2019.03.23 at 00h 02m 07s.xml">
-      <configuration name="ShipVictoryTest.testShipScenarioOverride" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ShipVictoryTest_testShipScenarioOverride - 2019.03.23 at 00h 02m 30s.xml">
-      <configuration name="ShipVictoryTest.testShipScenarioOverride" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ShipVictoryTest_testShipBombardmentMultipleOccurrencesRequired - 2019.03.23 at 00h 03m 08s.xml">
-      <configuration name="ShipVictoryTest.testShipBombardmentMultipleOccurrencesRequired" configurationId="JUnit" />
+    <history-entry file="SquadronVictoryTest_testSquadronDamage - 2019.03.23 at 12h 06m 05s.xml">
+      <configuration name="SquadronVictoryTest.testSquadronDamage" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="549" y="23" width="1915" height="1349" extended-state="0" />
-    <editor active="true" />
+    <frame x="557" y="133" width="1915" height="1349" extended-state="0" />
     <layout>
       <window_info id="Image Layers" order="0" />
       <window_info id="UI Designer" order="1" />
       <window_info id="Favorites" order="2" sideWeight="0.5006418" side_tool="true" weight="0.2486298" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Designer" order="4" />
-      <window_info content_ui="combo" id="Project" order="5" sideWeight="0.49935815" visible="true" weight="0.2658836" />
+      <window_info content_ui="combo" id="Project" order="5" sideWeight="0.49935815" visible="true" weight="0.26855314" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Build" order="0" weight="0.32979664" />
       <window_info anchor="bottom" id="Terminal" order="1" weight="0.32924837" />
@@ -1279,7 +1238,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Clean up the TaskForcePresenter a little." />
     <MESSAGE value="Clean up the comments." />
     <MESSAGE value="Moved marker styles to css." />
     <MESSAGE value="Add ship registry." />
@@ -1304,7 +1262,8 @@
     <MESSAGE value="Location refactor again." />
     <MESSAGE value="Initial airfield event matcher work." />
     <MESSAGE value="Airfield event victory." />
-    <option name="LAST_COMMIT_MESSAGE" value="Airfield event victory." />
+    <MESSAGE value="Squadron event victory." />
+    <option name="LAST_COMMIT_MESSAGE" value="Squadron event victory." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1323,7 +1282,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEventMatcher.java</url>
-          <line>111</line>
+          <line>103</line>
           <properties />
           <option name="timeStamp" value="23" />
         </line-breakpoint>
@@ -1331,113 +1290,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/AircraftImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF109F.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF109G.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF110D.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BR20.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CA309.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CA313.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CR32.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CR42.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/D520.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/FW190.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF109E.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/data/SquadronData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/1940/axis/Italian.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-775" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/allotment/data/AllotmentAircraftData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/data/AircraftData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="83">
-          <caret line="16" column="23" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/1940/allies/British.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="29" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/AirfieldEventTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="47" column="37" lean-forward="true" selection-start-line="46" selection-start-column="8" selection-end-line="47" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/data/SquadronMatchData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="37" column="19" selection-start-line="37" selection-start-column="19" selection-end-line="37" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEventMatcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="176" column="25" selection-start-line="176" selection-start-column="25" selection-end-line="176" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEventAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -1466,23 +1318,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/data/AirfieldMatchData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEventMatcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="54" column="131" selection-start-line="54" selection-start-column="131" selection-end-line="54" selection-end-column="131" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1520,13 +1355,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/victory/default.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="55" column="5" lean-forward="true" selection-start-line="55" selection-start-column="5" selection-end-line="55" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/victory/default.json" />
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/data/AirfieldVictoryData.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -1541,13 +1370,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/victory/allies/default.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="825">
-          <caret line="55" column="4" selection-start-line="55" selection-start-column="4" selection-end-line="55" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -1579,47 +1401,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/AirfieldVictory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/RequiredShipVictory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="415">
-          <caret line="39" column="46" lean-forward="true" selection-start-line="39" selection-start-column="46" selection-end-line="39" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictoryFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/SquadronVictory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="43" column="50" lean-forward="true" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/SquadronVictoryFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryConditionsFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -1634,34 +1415,237 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryConditions.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/SquadronVictory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="172" column="5" lean-forward="true" selection-start-line="172" selection-start-column="5" selection-end-line="172" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="62" selection-start-line="62" selection-end-line="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/AirfieldVictoryTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="87" column="26" selection-start-line="87" selection-start-column="16" selection-end-line="87" selection-end-column="34" />
+        <state relative-caret-position="540">
+          <caret line="43" column="50" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/SquadronVictoryFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictoryFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/RequiredShipVictory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="39" column="46" selection-start-line="39" selection-start-column="46" selection-end-line="39" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryConditions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="670">
+          <caret line="203" column="9" lean-forward="true" selection-start-line="203" selection-start-column="9" selection-end-line="203" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/victory/alliesVictory.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="1" lean-forward="true" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/victory/axisVictory.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/firstSortie/victory/axisVictory.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/victory/axisVictory.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/victory/alliesVictory.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="17" lean-forward="true" selection-start-line="24" selection-start-column="17" selection-end-line="24" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/PuntaStilo/victory/axisVictory.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/victory/alliesVictory.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="27" lean-forward="true" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/victory/axisVictory.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="1" lean-forward="true" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/victory/alliesVictory.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/victory/axisVictory.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="1" lean-forward="true" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/victory/allies/default.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="960">
+          <caret line="64" column="3" lean-forward="true" selection-start-line="56" selection-start-column="2" selection-end-line="64" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/alliedShip.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="10" selection-start-line="10" selection-end-line="10" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/data/SquadronMatchData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="37" column="19" selection-start-line="37" selection-start-column="19" selection-end-line="37" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEventMatcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="780">
+          <caret line="52" column="18" selection-start-line="52" selection-start-column="18" selection-end-line="52" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEventMatcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="534">
+          <caret line="56" column="7" selection-start-line="56" selection-start-column="7" selection-end-line="56" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/AirfieldVictory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="62" column="7" selection-start-line="62" selection-start-column="7" selection-end-line="62" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="507">
+          <caret line="76" column="36" selection-start-line="76" selection-start-column="36" selection-end-line="76" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEventMatcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-151">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/data/ShipVictoryData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="31" column="35" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="105" column="49" lean-forward="true" selection-start-line="105" selection-start-column="49" selection-end-line="105" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEventAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/ShipVictoryTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="427" column="31" lean-forward="true" selection-start-line="427" selection-start-column="16" selection-end-line="427" selection-end-column="70" />
+        <state relative-caret-position="299">
+          <caret line="448" column="45" lean-forward="true" selection-start-line="448" selection-start-column="45" selection-end-line="448" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/victory/alliesVictory.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" column="1" lean-forward="true" selection-start-line="32" selection-start-column="1" selection-end-line="32" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/firstSortie/victory/alliesVictory.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="26" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/AirfieldVictoryTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="505">
+          <caret line="114" lean-forward="true" selection-start-line="114" selection-end-line="114" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/data/AirfieldMatchData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="25" column="21" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/SquadronVictoryTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="120" lean-forward="true" selection-start-line="120" selection-end-line="120" />
         </state>
       </provider>
     </entry>

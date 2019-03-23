@@ -29,7 +29,7 @@ public class ShipVictoryData {
 
     @Getter
     @Setter
-    private int requiredOccurences;
+    private int requiredOccurrences;
 
     @Getter
     @Setter

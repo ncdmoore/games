@@ -8,7 +8,6 @@ import engima.waratsea.model.game.Asset;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.airfield.data.AirfieldMatchData;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -23,20 +22,19 @@ import java.util.stream.Stream;
 @Slf4j
 public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
     @Getter
-    @Setter
-    private String action; // The event action to match.
+    private final String action; // The event action to match.
 
     @Getter
-    @Setter
-    private List<String> names;  // The name to match of the airfield that experienced the event.
+    private final List<String> names;  // The name to match of the airfield that experienced the event.
 
     @Getter
-    @Setter
-    private Side side; // The side to match of the airfield that experienced the event.
+    private final Side side; // The side to match of the airfield that experienced the event.
 
     @Getter
-    @Setter
-    private Asset by;  // The asset Ship, Aircraft, etc to match that performed the event.
+    private final int value;
+
+    @Getter
+    private final Asset by;  // The asset Ship, Aircraft, etc to match that performed the event.
 
 
     /**
@@ -49,6 +47,7 @@ public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
         action = data.getAction();
         names = parseNames(data.getName());
         side = data.getSide();
+        value = data.getValue();
         by = data.getBy();
     }
 
@@ -166,11 +165,11 @@ public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
     /**
      * If a value is not present output an "*".
      *
-     * @param value The value to log.
+     * @param matchValue The value to log.
      * @return The value that is actually logged.
      */
-    private Object logValue(final Object value) {
-        return Optional.ofNullable(value).orElse("*");
+    private Object logValue(final Object matchValue) {
+        return Optional.ofNullable(matchValue).orElse("*");
     }
 
 
@@ -178,11 +177,11 @@ public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
      * The airfield names are converted into a comma separated string if possible. If no airfield names are specified then "*"
      * is returned.
      *
-     * @param value The list of airfield names.
+     * @param matchValue The list of airfield names.
      * @return A comma separated list of airfield names.
      */
-    private String logName(final List<String> value) {
-        return Optional.ofNullable(value)
+    private String logName(final List<String> matchValue) {
+        return Optional.ofNullable(matchValue)
                 .map(this::getNames)
                 .orElse("*");
     }

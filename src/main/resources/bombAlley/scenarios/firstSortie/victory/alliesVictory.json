@@ -3,6 +3,7 @@
   "scenarioShip": [
     {
       "event": {
+        "side": "ALLIES",
         "action": "BOMBARDMENT",
         "shipType": "BATTLESHIP, CRUISER",
         "location": "Tobruk"
@@ -12,6 +13,7 @@
     },
     {
       "event": {
+        "side": "ALLIES",
         "action": "BOMBARDMENT",
         "shipType": "BATTLESHIP, CRUISER",
         "location": "Rhodes"

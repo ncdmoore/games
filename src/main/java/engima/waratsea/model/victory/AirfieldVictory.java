@@ -66,7 +66,7 @@ public class AirfieldVictory implements VictoryCondition<AirfieldEvent, Airfield
         int awardedPoints = 0;
 
         if (occurrencesMet()) {
-            awardedPoints = event.getData() * points;
+            awardedPoints = event.getValue() * points;
             totalPoints += awardedPoints;
             requirementMet = totalPoints >= requiredPoints;
         }

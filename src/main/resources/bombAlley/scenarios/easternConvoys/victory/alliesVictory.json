@@ -3,6 +3,7 @@
   "scenarioShip": [
     {
       "event": {
+        "side": "ALLIES",
         "action": "CARGO_UNLOADED",
         "shipType": "TRANSPORT",
         "location": "Alexandria",
@@ -11,6 +12,7 @@
     },
     {
       "event": {
+        "side": "ALLIES",
         "action": "CARGO_UNLOADED",
         "shipType": "TRANSPORT",
         "location": "Malta",

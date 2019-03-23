@@ -21,11 +21,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 public class AirfieldVictoryTest {
-    private static List<Airfield> airfields;
+    private static List<Airfield> alliedAirfields;
+    private static List<Airfield> axisAirfields;
     private static VictoryConditionsFactory victoryConditionsFactory;
 
     @BeforeClass
@@ -47,8 +48,11 @@ public class AirfieldVictoryTest {
 
         AirfieldLoader airfieldLoader = injector.getInstance(AirfieldLoader.class);
 
-        List<String> airfieldNames = new ArrayList<>(Collections.singletonList("Malta"));
-        airfields = airfieldLoader.load(Side.ALLIES, airfieldNames);
+        List<String> alliedAirfieldNames = new ArrayList<>(Arrays.asList("Malta", "Alexandria"));
+        alliedAirfields = airfieldLoader.load(Side.ALLIES, alliedAirfieldNames);
+
+        List<String> axisAirfieldNames = new ArrayList<>(Arrays.asList("Ajaccio", "Cagliari"));
+        axisAirfields = airfieldLoader.load(Side.AXIS, axisAirfieldNames);
     }
 
     @Test
@@ -57,7 +61,8 @@ public class AirfieldVictoryTest {
 
         AirfieldMatchData airfieldMatchData = new AirfieldMatchData();
         airfieldMatchData.setAction("DAMAGE");
-        airfieldMatchData.setSide(Side.ALLIES);
+        airfieldMatchData.setSide(Side.AXIS);
+        airfieldMatchData.setName("Cagliari");
 
         AirfieldVictoryData airfieldVictoryData = new AirfieldVictoryData();
         airfieldVictoryData.setEvent(airfieldMatchData);
@@ -70,14 +75,14 @@ public class AirfieldVictoryTest {
         VictoryConditionsData victoryData = new VictoryConditionsData();
         victoryData.setScenarioAirfield(airfieldData);
 
-        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.AXIS);
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
 
         Assert.assertEquals(0, victory.getTotalVictoryPoints());
 
         AirfieldEvent event = new AirfieldEvent();
         event.setAction(AirfieldEventAction.DAMAGE);
-        event.setAirfield(airfields.get(0));
-        event.setData(1);
+        event.setAirfield(axisAirfields.get(1));
+        event.setValue(1);
 
         event.fire();
 
@@ -91,6 +96,7 @@ public class AirfieldVictoryTest {
         AirfieldMatchData airfieldMatchData = new AirfieldMatchData();
         airfieldMatchData.setAction("REPAIR");
         airfieldMatchData.setSide(Side.ALLIES);
+        airfieldMatchData.setName("Luqa");
 
         AirfieldVictoryData airfieldVictoryData = new AirfieldVictoryData();
         airfieldVictoryData.setEvent(airfieldMatchData);
@@ -109,8 +115,8 @@ public class AirfieldVictoryTest {
 
         AirfieldEvent event = new AirfieldEvent();
         event.setAction(AirfieldEventAction.REPAIR);
-        event.setAirfield(airfields.get(0));
-        event.setData(1);
+        event.setAirfield(alliedAirfields.get(0));
+        event.setValue(1);
 
         event.fire();
 

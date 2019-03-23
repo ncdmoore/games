@@ -384,7 +384,7 @@ public class ShipVictoryTest {
         ShipVictoryData shipVictoryData = new ShipVictoryData();
         shipVictoryData.setEvent(shipMatchData);
         shipVictoryData.setPoints(victoryPoints);
-        shipVictoryData.setRequiredOccurences(2);
+        shipVictoryData.setRequiredOccurrences(2);
 
         List<ShipVictoryData> shipData = new ArrayList<>();
         shipData.add(shipVictoryData);
@@ -461,7 +461,7 @@ public class ShipVictoryTest {
         ShipVictoryData scenarioShipVictoryData = new ShipVictoryData();
         scenarioShipVictoryData.setEvent(scenarioShipMatchData);
         scenarioShipVictoryData.setPoints(scenarioVictoryPoints);
-        scenarioShipVictoryData.setRequiredOccurences(2);
+        scenarioShipVictoryData.setRequiredOccurrences(2);
 
         List<ShipVictoryData> scenarioShipData = new ArrayList<>();
         scenarioShipData.add(scenarioShipVictoryData);

@@ -3,6 +3,7 @@
   "scenarioShip": [
     {
       "event": {
+        "side": "ALLIES",
         "action": "CARGO_UNLOADED",
         "shipType": "CRUISER",
         "name": "CL38 Gloucester",
@@ -12,6 +13,7 @@
     },
     {
       "event": {
+        "side": "ALLIES",
         "action": "CARGO_UNLOADED",
         "shipType": "CRUISER",
         "name": "CL39 Liverpool",
@@ -24,12 +26,14 @@
     {
       "events": [
         {
+          "side": "ALLIES",
           "action": "CARGO_UNLOADED",
           "shipType": "CRUISER",
           "name": "CL38 Gloucester",
           "location": "Malta"
         },
         {
+          "side": "ALLIES",
           "action": "CARGO_UNLOADED",
           "shipType": "CRUISER",
           "name": "CL39 Liverpool",

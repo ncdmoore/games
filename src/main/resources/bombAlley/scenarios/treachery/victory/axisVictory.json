@@ -3,12 +3,14 @@
   "scenarioShip": [
     {
       "event": {
+        "side": "AXIS",
         "action": "ARRIVAL",
         "location": "Marseille"
       }
     },
     {
       "event": {
+        "side": "AXIS",
         "action": "ARRIVAL",
         "location": "Toulon"
       }

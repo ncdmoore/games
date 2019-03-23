@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Indicates an airfield event has occurred in the game.
@@ -61,7 +62,7 @@ public class AirfieldEvent extends GameEvent {
 
     @Getter
     @Setter
-    private int data;
+    private int value;
 
     @Getter
     @Setter
@@ -72,7 +73,8 @@ public class AirfieldEvent extends GameEvent {
      * notification of the event.
      */
     public void fire() {
-        log.info("Fire event: {} {} by {}", new Object[]{airfield.getName(), action, by});
+        String asset = Optional.ofNullable(by).map(a -> "by" + a.toString()).orElse("");
+        log.info("Fire event: {} {} {}", new Object[]{airfield.getName(), action, asset});
         handlers.forEach(h -> h.notify(this));
     }
 }

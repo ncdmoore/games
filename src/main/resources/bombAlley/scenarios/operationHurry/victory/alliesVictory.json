@@ -1,17 +1,31 @@
 {
-  "objectives": "Ferry the Hurricanes to Malta. Reduce the aircraft capacity of any Italian airfield.",
+  "objectives": "Ferry the Hurricanes to Malta. Reduce the aircraft capacity of Cagliari airfield.",
+  "scenarioSquadron": [
+    {
+      "event": {
+        "side": "ALLIES",
+        "action": "ARRIVAL",
+        "aircraftModel": "Hurricane-1",
+        "startingLocation": "CVL01 Argus",
+        "location": "Malta"
+      },
+      "points": 6
+    }
+  ],
   "scenarioAirfield": [
     {
       "event": {
         "action": "DAMAGE",
-        "side": "AXIS"
+        "side": "AXIS",
+        "name": "Cagliari"
       },
       "points": 5
     },
     {
       "event": {
         "action": "REPAIR",
-        "side": "AXIS"
+        "side": "AXIS",
+        "name": "Cagliari"
       },
       "points": -5
     }

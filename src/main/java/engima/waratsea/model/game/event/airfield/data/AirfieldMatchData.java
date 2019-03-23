@@ -23,5 +23,9 @@ public class AirfieldMatchData {
 
     @Getter
     @Setter
+    private int value;
+
+    @Getter
+    @Setter
     private Asset by;          // The game asset ship, sub or aircraft that caused the event. The asset that did the event. Not all events have a by.
 }

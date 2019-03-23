@@ -11,7 +11,6 @@ import engima.waratsea.model.game.event.squadron.data.SquadronMatchData;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.Squadron;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -27,38 +26,31 @@ import java.util.stream.Stream;
 @Slf4j
 public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
     @Getter
-    @Setter
-    private String action;  // The action to match.
+    private final String action;  // The action to match.
 
     @Getter
-    @Setter
-    private List<String> names; // A list of squadron names that match.
+    private final List<String> names; // A list of squadron names that match.
 
     @Getter
-    @Setter
-    private Side side; // The side to match.
+    private final Side side; // The side to match.
 
     @Getter
-    @Setter
-    private List<String> aircraftModels; // aircraft name to match.
+    private final List<String> aircraftModels; // aircraft name to match.
 
     @Getter
-    @Setter
-    private List<AircraftType> aircraftTypes; // A list of aircraft types to match.
+    private final List<AircraftType> aircraftTypes; // A list of aircraft types to match.
 
     // A list of starting locations to match. This is the location where a squadron took off.
     // The only event that uses this is the ARRIVAL event. The starting location is the location
     // where the squadron took off. This may be an aircraft carrier or a transport ship if
     // the squadron is launched from catapult.
     @Getter
-    @Setter
-    private List<String> airfieldOrigins;  // The airfield names should be stored in the airfield origins. Not airfield references.
+    private final List<String> airfieldOrigins;  // The airfield names should be stored in the airfield origins. Not airfield references.
 
-    private List<String> locations; // A list of locations to match. This is the location where the event occurred.
+    private final List<String> locations; // A list of locations to match. This is the location where the event occurred.
 
     @Getter
-    @Setter
-    private Asset by;    // The game asset Ship, aircraft or sub that caused the event to fire. The asset that did the event.
+    private final Asset by;    // The game asset Ship, aircraft or sub that caused the event to fire. The asset that did the event.
 
     private GameMap gameMap;
 
