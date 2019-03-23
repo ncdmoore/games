@@ -10,6 +10,9 @@ import lombok.Getter;
  */
 public class PoorNavalBomber implements Aircraft {
     @Getter
+    private final String name;
+
+    @Getter
     private final AircraftType type;
 
     /**
@@ -19,6 +22,7 @@ public class PoorNavalBomber implements Aircraft {
      */
     @Inject
     public PoorNavalBomber(@Assisted final AircraftData data) {
+        this.name = data.getName();
         this.type = AircraftType.POOR_NAVAL_BOMBER;
     }
 }

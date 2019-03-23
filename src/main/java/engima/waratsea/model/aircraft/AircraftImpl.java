@@ -11,6 +11,9 @@ import lombok.Getter;
 public class AircraftImpl implements Aircraft {
 
     @Getter
+    private final String name;
+
+    @Getter
     private final AircraftType type;
 
     /**
@@ -20,6 +23,7 @@ public class AircraftImpl implements Aircraft {
      */
     @Inject
     public AircraftImpl(@Assisted final AircraftData data) {
+        this.name = data.getName();
         this.type = data.getType();
     }
 }

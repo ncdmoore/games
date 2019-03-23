@@ -2,7 +2,6 @@ package engima.waratsea.model.victory;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventAction;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
@@ -61,13 +60,11 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
      * Constructor.
      *
      * @param data The victory condition data as read from a JSON file.
-     * @param side The side ALLIES or AXIS.
      * @param factory Factory for creating ship event matchers.
      * @param gameMap The game map.
      */
     @Inject
     public ShipVictory(@Assisted final ShipVictoryData data,
-                       @Assisted final Side side,
                        final ShipEventMatcherFactory factory,
                        final GameMap gameMap) {
 
@@ -79,8 +76,6 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
         occurrenceCount = data.getOccurrenceCount();
         requirementMet = data.isRequirementMet();
 
-        matcher.setSide(side);
-
         log.info("Ship victory condition match:");
         matcher.log();
         log.info("Points: {}", points);
@@ -88,6 +83,10 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
         this.gameMap = gameMap;
 
         calculation = setCalculationFunction();
+
+        // This is needed if no events that trigger this condition are thrown.
+        // We must initialize the requirementMet.
+        requirementMet = totalPoints >= requiredPoints;
     }
 
     /**

@@ -60,9 +60,11 @@ public final class Config {
         FILE_MAP.put(Scenario.class, "/summary.json");
     }
 
-    private static final Map<Class<?>, String> DEFAULT_FILE_MAP = new HashMap<>();
+    private static final MultiKeyMap<String, String> DEFAULT_FILE_MAP = new MultiKeyMap<>();
     static {
-        DEFAULT_FILE_MAP.put(Victory.class, "victory");
+        DEFAULT_FILE_MAP.put(Side.ALLIES.toString(), Victory.class.getSimpleName(), "victory/allies");
+        DEFAULT_FILE_MAP.put(Side.AXIS.toString(),   Victory.class.getSimpleName(), "victory/axis");
+
     }
 
     private static final String DEFAULT_SAVED_GAME = "/defaultGame";
@@ -181,12 +183,14 @@ public final class Config {
     /**
      * Get the default URL. This URL maps to the default folder of the game for the given entity.
      *
+     * @param side The side ALLIES or AXIS.
      * @param clazz The entity class.
      * @return The default URL.
      */
-    public Optional<URL> getDefaultURL(final Class<?> clazz) {
-        String fileName = DEFAULT_FILE_MAP.get(clazz) + "/default.json";
-        log.info("Default '{}' URL: '{}'", clazz.getSimpleName(), fileName);
+    public Optional<URL> getDefaultURL(final Side side, final Class<?> clazz) {
+        String entityName = clazz.getSimpleName();
+        String fileName = DEFAULT_FILE_MAP.get(side.toString(), entityName) + "/default.json";
+        log.info("Default '{}' URL: '{}'", entityName, fileName);
         return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
     }
 

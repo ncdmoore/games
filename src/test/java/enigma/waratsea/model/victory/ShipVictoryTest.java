@@ -78,6 +78,7 @@ public class ShipVictoryTest {
         ShipMatchData shipMatchData = new ShipMatchData();
         shipMatchData.setAction("DAMAGED_PRIMARY");
         shipMatchData.setShipType("BATTLESHIP, AIRCRAFT_CARRIER");
+        shipMatchData.setSide(Side.ALLIES);
 
         ShipVictoryData shipVictoryData = new ShipVictoryData();
         shipVictoryData.setEvent(shipMatchData);
@@ -90,7 +91,7 @@ public class ShipVictoryTest {
         VictoryConditionsData victoryData = new VictoryConditionsData();
         victoryData.setDefaultShip(shipData);
 
-        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.AXIS);
 
         Assert.assertEquals(0, victory.getTotalVictoryPoints());
 
@@ -149,6 +150,7 @@ public class ShipVictoryTest {
 
         ShipMatchData shipMatchData = new ShipMatchData();
         shipMatchData.setAction("SUNK");
+        shipMatchData.setSide(Side.ALLIES);
 
         ShipVictoryData shipVictoryData = new ShipVictoryData();
         shipVictoryData.setEvent(shipMatchData);
@@ -159,7 +161,7 @@ public class ShipVictoryTest {
         VictoryConditionsData victoryData = new VictoryConditionsData();
         victoryData.setDefaultShip(shipData);
 
-        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.AXIS);
 
         Assert.assertEquals(0, victory.getTotalVictoryPoints());
 
@@ -179,6 +181,7 @@ public class ShipVictoryTest {
 
         ShipMatchData shipMatchData = new ShipMatchData();
         shipMatchData.setAction("SUNK");
+        shipMatchData.setSide(Side.ALLIES);
 
         ShipVictoryData shipVictoryData = new ShipVictoryData();
         shipVictoryData.setEvent(shipMatchData);
@@ -190,7 +193,7 @@ public class ShipVictoryTest {
         VictoryConditionsData victoryData = new VictoryConditionsData();
         victoryData.setDefaultShip(shipData);
 
-        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.AXIS);
 
         Assert.assertEquals(0, victory.getTotalVictoryPoints());
 
@@ -212,6 +215,7 @@ public class ShipVictoryTest {
         shipMatchData.setAction("CARGO_UNLOADED");
         shipMatchData.setShipType("CRUISER");
         shipMatchData.setName("CL47 Dido");
+        shipMatchData.setSide(Side.ALLIES);
 
         ShipVictoryData shipVictoryData = new ShipVictoryData();
         shipVictoryData.setEvent(shipMatchData);
@@ -245,6 +249,7 @@ public class ShipVictoryTest {
         shipMatchData.setShipType("CRUISER");
         shipMatchData.setName("CL47 Dido");
         shipMatchData.setLocation("Malta");
+        shipMatchData.setSide(Side.ALLIES);
 
         ShipVictoryData shipVictoryData = new ShipVictoryData();
         shipVictoryData.setEvent(shipMatchData);
@@ -278,6 +283,7 @@ public class ShipVictoryTest {
         shipMatchData.setShipType("CRUISER");
         shipMatchData.setName("CL47 Dido");
         shipMatchData.setLocation("Malta");
+        shipMatchData.setSide(Side.ALLIES);
 
         List<ShipMatchData> matchers = new ArrayList<>();
         matchers.add(shipMatchData);
@@ -316,6 +322,7 @@ public class ShipVictoryTest {
         ShipMatchData shipMatchData = new ShipMatchData();
         shipMatchData.setAction("BOMBARDMENT");
         shipMatchData.setName("CL47 Dido");
+        shipMatchData.setSide(Side.ALLIES);
 
         ShipVictoryData shipVictoryData = new ShipVictoryData();
         shipVictoryData.setEvent(shipMatchData);
@@ -332,6 +339,7 @@ public class ShipVictoryTest {
         ShipMatchData ScenarioShipMatchData = new ShipMatchData();
         ScenarioShipMatchData.setAction("BOMBARDMENT");
         ScenarioShipMatchData.setName("CL47 Dido");
+        ScenarioShipMatchData.setSide(Side.ALLIES);
 
         ShipVictoryData scenarioShipVictoryData = new ShipVictoryData();
         scenarioShipVictoryData.setEvent(ScenarioShipMatchData);
@@ -371,6 +379,7 @@ public class ShipVictoryTest {
         shipMatchData.setSide(Side.ALLIES);
         shipMatchData.setShipType("BATTLESHIP, CRUISER");
         shipMatchData.setLocation("ANY_ENEMY_BASE");
+        shipMatchData.setSide(Side.ALLIES);
 
         ShipVictoryData shipVictoryData = new ShipVictoryData();
         shipVictoryData.setEvent(shipMatchData);
@@ -427,6 +436,7 @@ public class ShipVictoryTest {
         shipMatchData.setSide(Side.ALLIES);
         shipMatchData.setShipType("BATTLESHIP, CRUISER");
         shipMatchData.setLocation("ANY_ENEMY_BASE");
+        shipMatchData.setSide(Side.ALLIES);
 
         ShipVictoryData shipVictoryData = new ShipVictoryData();
         shipVictoryData.setEvent(shipMatchData);

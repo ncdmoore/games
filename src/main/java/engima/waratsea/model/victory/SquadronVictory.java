@@ -2,19 +2,19 @@ package engima.waratsea.model.victory;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import engima.waratsea.model.game.event.airfield.AirfieldEvent;
-import engima.waratsea.model.game.event.airfield.AirfieldEventMatcher;
-import engima.waratsea.model.game.event.airfield.AirfieldEventMatcherFactory;
-import engima.waratsea.model.victory.data.AirfieldVictoryData;
+import engima.waratsea.model.game.event.squadron.SquadronEvent;
+import engima.waratsea.model.game.event.squadron.SquadronEventMatcher;
+import engima.waratsea.model.game.event.squadron.SquadronEventMatcherFactory;
+import engima.waratsea.model.victory.data.SquadronVictoryData;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Represents an ship victory condition.
+ * Represents a squadron victory condition.
  */
 @Slf4j
-public class AirfieldVictory implements VictoryCondition<AirfieldEvent, AirfieldVictoryData> {
-    private AirfieldEventMatcher matcher;
+public class SquadronVictory implements VictoryCondition<SquadronEvent, SquadronVictoryData> {
+    private SquadronEventMatcher matcher;
 
     private int points;              // The points awarded for each occurrence of this victory condition.
     private int totalPoints;         // The total points awarded for all occurrences of this victory condition
@@ -29,14 +29,14 @@ public class AirfieldVictory implements VictoryCondition<AirfieldEvent, Airfield
     private boolean requirementMet;
 
     /**
-     * Constructor.
+     * The consturctor called by guice.
      *
-     * @param data The victory condition data as read from a JSON file.
-     * @param factory Factory for creating airfield event matchers.
+     * @param data The squadron victory condition data read in from a JSON file.
+     * @param factory The squadron event matcher factory.
      */
     @Inject
-    public AirfieldVictory(@Assisted final AirfieldVictoryData data,
-                           final AirfieldEventMatcherFactory factory) {
+    public SquadronVictory(@Assisted final SquadronVictoryData data,
+                                     final SquadronEventMatcherFactory factory) {
 
         matcher = factory.create(data.getEvent());
         points = data.getPoints();
@@ -46,7 +46,7 @@ public class AirfieldVictory implements VictoryCondition<AirfieldEvent, Airfield
         occurrenceCount = data.getOccurrenceCount();
         requirementMet = data.isRequirementMet();
 
-        log.info("Airfield victory condition match:");
+        log.info("Squadron victory condition match:");
         matcher.log();
         log.info("Points: {}", points);
 
@@ -55,6 +55,7 @@ public class AirfieldVictory implements VictoryCondition<AirfieldEvent, Airfield
         requirementMet = totalPoints >= requiredPoints;
     }
 
+
     /**
      * Get the points awarded for this condition.
      *
@@ -62,36 +63,8 @@ public class AirfieldVictory implements VictoryCondition<AirfieldEvent, Airfield
      * @return The awarded victory points.
      */
     @Override
-    public int getPoints(final AirfieldEvent event) {
-        int awardedPoints = 0;
-
-        if (occurrencesMet()) {
-            awardedPoints = event.getData() * points;
-            totalPoints += awardedPoints;
-            requirementMet = totalPoints >= requiredPoints;
-        }
-
-        log.info("Ship: '{}' '{}'. Occurrence: {}, Required: {}. Victory points awarded: {}",
-                new Object[]{event.getAirfield().getName(), event.getAction(), occurrenceCount, requiredOccurrences, awardedPoints});
-
-        return awardedPoints;
-    }
-
-    /**
-     * Determine if the required occurrences are satisfied. Some victory conditions require multiple occurrences of
-     * the underlying event to take place before any points are awarded.
-     *
-     * @return True if the required occurrences are satisfied. False otherwise.
-     */
-    private boolean occurrencesMet() {
-        boolean result = false;
-        occurrenceCount++;
-
-        if (requiredOccurrences == 0 || occurrenceCount % requiredOccurrences == 0) {
-            result = true;
-        }
-
-        return result;
+    public int getPoints(final SquadronEvent event) {
+        return points;
     }
 
     /**
@@ -101,10 +74,10 @@ public class AirfieldVictory implements VictoryCondition<AirfieldEvent, Airfield
      * @return True if the event matches. False otherwise.
      */
     @Override
-    public boolean match(final AirfieldEvent event) {
+    public boolean match(final SquadronEvent event) {
         boolean matched = matcher.match(event);
 
-        log.info("Airfield: '{}' '{}'. matched: {}", new Object[]{event.getAirfield().getName(),
+        log.info("Squadron: '{}' '{}'. matched: {}", new Object[]{event.getSquadron().getName(),
                 event.getAction(), matched});
 
         return matched;
@@ -116,8 +89,8 @@ public class AirfieldVictory implements VictoryCondition<AirfieldEvent, Airfield
      * @return The persistent victory condition data.
      */
     @Override
-    public AirfieldVictoryData getData() {
-        AirfieldVictoryData data = new AirfieldVictoryData();
+    public SquadronVictoryData getData() {
+        SquadronVictoryData data = new SquadronVictoryData();
         data.setEvent(matcher.getData());
         data.setPoints(points);
         data.setTotalPoints(totalPoints);

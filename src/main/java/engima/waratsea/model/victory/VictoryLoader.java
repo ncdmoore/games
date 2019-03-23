@@ -71,7 +71,7 @@ public class VictoryLoader {
      * @throws VictoryException An error occurred while attempting to read the default victory data.
      */
     private VictoryConditions readNew(final Scenario scenario, final Side side) throws VictoryException {
-        VictoryConditionsData victoryConditionsData = loadDefaultVictoryData();
+        VictoryConditionsData victoryConditionsData = loadDefaultVictoryData(side);
 
         try {
             // Create the specific scenario's victory conditions.
@@ -81,6 +81,7 @@ public class VictoryLoader {
             victoryConditionsData.setObjectives(scenarioVictoryData.getObjectives());
             victoryConditionsData.setScenarioShip(scenarioVictoryData.getScenarioShip());
             victoryConditionsData.setRequiredShip(scenarioVictoryData.getRequiredShip());
+            victoryConditionsData.setScenarioSquadron(scenarioVictoryData.getScenarioSquadron());
             victoryConditionsData.setScenarioAirfield(scenarioVictoryData.getScenarioAirfield());
 
         } catch (VictoryException ex) {
@@ -124,14 +125,15 @@ public class VictoryLoader {
     /**
      * Read the default victory data from the JSON file.
      *
+     * @param side The side ALLIES or AXIS.
      * @return The default victory conditions for the game.
      *
      * @throws VictoryException An error occurred while attempting to read the victory data.
      */
-    private VictoryConditionsData loadDefaultVictoryData() throws VictoryException {
+    private VictoryConditionsData loadDefaultVictoryData(final Side side) throws VictoryException {
         log.info("Load default victory");
         return config
-                .getDefaultURL(Victory.class)
+                .getDefaultURL(side, Victory.class)
                 .map(this::readVictory)
                 .orElseThrow(() -> new VictoryException("Unable to load default victory"));
     }

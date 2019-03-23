@@ -5,8 +5,8 @@ import engima.waratsea.model.PersistentData;
 /**
  * A victory condition.
  *
- * @param <E> The corresponding event type.
- * @param <D> The JSON data type.
+ * @param <E> The corresponding event type. This is the type of event that triggers the victory condition.
+ * @param <D> The JSON data type. This is the data class that is used to persist the victory condition.
  */
 public interface VictoryCondition<E, D> extends PersistentData<D> {
 

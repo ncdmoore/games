@@ -57,6 +57,7 @@ public class AirfieldVictoryTest {
 
         AirfieldMatchData airfieldMatchData = new AirfieldMatchData();
         airfieldMatchData.setAction("DAMAGE");
+        airfieldMatchData.setSide(Side.ALLIES);
 
         AirfieldVictoryData airfieldVictoryData = new AirfieldVictoryData();
         airfieldVictoryData.setEvent(airfieldMatchData);
@@ -69,7 +70,7 @@ public class AirfieldVictoryTest {
         VictoryConditionsData victoryData = new VictoryConditionsData();
         victoryData.setScenarioAirfield(airfieldData);
 
-        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.AXIS);
 
         Assert.assertEquals(0, victory.getTotalVictoryPoints());
 
@@ -89,6 +90,7 @@ public class AirfieldVictoryTest {
 
         AirfieldMatchData airfieldMatchData = new AirfieldMatchData();
         airfieldMatchData.setAction("REPAIR");
+        airfieldMatchData.setSide(Side.ALLIES);
 
         AirfieldVictoryData airfieldVictoryData = new AirfieldVictoryData();
         airfieldVictoryData.setEvent(airfieldMatchData);
@@ -101,7 +103,7 @@ public class AirfieldVictoryTest {
         VictoryConditionsData victoryData = new VictoryConditionsData();
         victoryData.setScenarioAirfield(airfieldData);
 
-        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.AXIS);
 
         Assert.assertEquals(0, victory.getTotalVictoryPoints());
 

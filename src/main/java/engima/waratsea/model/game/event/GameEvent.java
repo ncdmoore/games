@@ -2,6 +2,7 @@ package engima.waratsea.model.game.event;
 
 import engima.waratsea.model.game.event.airfield.AirfieldEvent;
 import engima.waratsea.model.game.event.ship.ShipEvent;
+import engima.waratsea.model.game.event.squadron.SquadronEvent;
 import engima.waratsea.model.game.event.turn.TurnEvent;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +20,7 @@ public abstract class GameEvent {
      */
     public static void init() {
         ShipEvent.init();
+        SquadronEvent.init();
         AirfieldEvent.init();
         TurnEvent.init();
     }

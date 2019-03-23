@@ -31,5 +31,13 @@ public class VictoryConditionsData {
 
     @Getter
     @Setter
+    private List<SquadronVictoryData> defaultSquadron;
+
+    @Getter
+    @Setter
+    private List<SquadronVictoryData> scenarioSquadron;
+
+    @Getter
+    @Setter
     private List<AirfieldVictoryData> scenarioAirfield;
 }

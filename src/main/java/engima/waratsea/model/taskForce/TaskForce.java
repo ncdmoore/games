@@ -216,7 +216,7 @@ public class TaskForce implements PersistentData<TaskForceData> {
 
 
     /**
-     * Get the task force's map reference.
+     * Get the task force's new location.
      *
      * @param newLocation The task force's new location.
      */

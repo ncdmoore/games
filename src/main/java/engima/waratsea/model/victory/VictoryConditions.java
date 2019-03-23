@@ -6,8 +6,10 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.GameEvent;
 import engima.waratsea.model.game.event.airfield.AirfieldEvent;
 import engima.waratsea.model.game.event.ship.ShipEvent;
+import engima.waratsea.model.game.event.squadron.SquadronEvent;
 import engima.waratsea.model.victory.data.AirfieldVictoryData;
 import engima.waratsea.model.victory.data.ShipVictoryData;
+import engima.waratsea.model.victory.data.SquadronVictoryData;
 import engima.waratsea.model.victory.data.VictoryConditionsData;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
@@ -18,17 +20,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
  * Represents a side's victory conditions for the game.
  * Thus, there are only two instances of this class constructed.
+ * One for the ALLIES and one for the AXIS.
  */
 @Slf4j
 public class VictoryConditions {
-
-    private Side side;
 
     @Getter
     private int totalVictoryPoints;
@@ -38,7 +39,10 @@ public class VictoryConditions {
 
     private List<VictoryCondition<ShipEvent, ShipVictoryData>> defaultShips;              // The default victory conditions for ship.
     private List<VictoryCondition<ShipEvent, ShipVictoryData>> scenarioShips;             // Scenario specific victory conditions for ships. These may override the default.
-    private List<VictoryCondition<ShipEvent, ShipVictoryData>> requiredShips;             // Scenario required victory conditions.
+    private List<VictoryCondition<ShipEvent, ShipVictoryData>> requiredShips;             // Scenario required ship victory conditions.
+
+    private List<VictoryCondition<SquadronEvent, SquadronVictoryData>> defaultSquadron;   // The default victory condition for squadrons.
+    private List<VictoryCondition<SquadronEvent, SquadronVictoryData>> scenarioSquadron;  // Scenario specific victory condition for squadrons.
 
     private List<VictoryCondition<AirfieldEvent, AirfieldVictoryData>> scenarioAirfields; // Scenario specific victory condition for airfields.
 
@@ -77,6 +81,7 @@ public class VictoryConditions {
         }
     }
 
+    @Getter
     private List<History> history = new ArrayList<>();
 
     /**
@@ -86,26 +91,33 @@ public class VictoryConditions {
      * @param side The side ALLIES or AXIS of the victory conditions.
      * @param shipVictoryFactory Ship victory factory.
      * @param airfieldVictoryFactory Airfield victory factory.
+     * @param squadronVictoryFactory Squadron victory factory.
      */
     @Inject
     public VictoryConditions(@Assisted final VictoryConditionsData data,
                              @Assisted final Side side,
                              final ShipVictoryFactory<ShipEvent, ShipVictoryData> shipVictoryFactory,
-                             final AirfieldVictoryFactory<AirfieldEvent, AirfieldVictoryData> airfieldVictoryFactory) {
-        this.side = side;
+                             final AirfieldVictoryFactory<AirfieldEvent, AirfieldVictoryData> airfieldVictoryFactory,
+                             final SquadronVictoryFactory<SquadronEvent, SquadronVictoryData> squadronVictoryFactory) {
         objectives = data.getObjectives();
 
         log.info("Build default ship victory conditions for side: {}.", side);
-        defaultShips = buildShipConditions(data.getDefaultShip(), shipVictoryFactory::createShip);
+        defaultShips = buildConditions(data.getDefaultShip(), shipVictoryFactory::createShip);
 
         log.info("Build scenario ship victory conditions for side: {}.", side);
-        scenarioShips = buildShipConditions(data.getScenarioShip(), shipVictoryFactory::createShip);
+        scenarioShips = buildConditions(data.getScenarioShip(), shipVictoryFactory::createShip);
 
         log.info("Build scenario required ship victory conditions for side: {}.", side);
-        requiredShips = buildShipConditions(data.getRequiredShip(), shipVictoryFactory::createRequired);
+        requiredShips = buildConditions(data.getRequiredShip(), shipVictoryFactory::createRequired);
+
+        log.info("Build default squadron victory conditions for side: {}.", side);
+        defaultSquadron = buildConditions(data.getDefaultSquadron(), squadronVictoryFactory::create);
+
+        log.info("Build scenario squadron victory conditions for side: {}.", side);
+        scenarioSquadron = buildConditions(data.getScenarioSquadron(), squadronVictoryFactory::create);
 
         log.info("Build scenario airfield victory conditions for side: {}.", side);
-        scenarioAirfields = buildShipConditions(data.getScenarioAirfield(), airfieldVictoryFactory::createAirfield);
+        scenarioAirfields = buildConditions(data.getScenarioAirfield(), airfieldVictoryFactory::createAirfield);
 
         registerForEvents();
 
@@ -124,6 +136,8 @@ public class VictoryConditions {
         data.setDefaultShip(PersistentUtility.getData(defaultShips));
         data.setScenarioShip(PersistentUtility.getData(scenarioShips));
         data.setRequiredShip(PersistentUtility.getData(requiredShips));
+        data.setDefaultSquadron(PersistentUtility.getData(defaultSquadron));
+        data.setScenarioSquadron(PersistentUtility.getData(scenarioSquadron));
         data.setScenarioAirfield(PersistentUtility.getData(scenarioAirfields));
 
         return data;
@@ -136,7 +150,8 @@ public class VictoryConditions {
      */
     public boolean requirementsMet() {
         return conditionMet(scenarioShips)
-                && conditionMet(requiredShips);
+                && conditionMet(requiredShips)
+                && conditionMet(scenarioAirfields);
     }
 
     /**
@@ -144,24 +159,25 @@ public class VictoryConditions {
      *
      * @param <E> The event type.
      * @param <D> The victory condition data type.
-     * @param data Ship victory conditions read in from a JSON file.
-     * @param create The ship victory creation function.
-     * @return A list of ship victory conditions.
+     * @param data Victory conditions read in from a JSON file.
+     * @param create The victory creation function.
+     * @return A list of victory conditions.
      */
-    private  <E, D> List<VictoryCondition<E, D>> buildShipConditions(final List<D> data,
-                                                                     final BiFunction<D, Side, VictoryCondition<E, D>> create) {
+    private  <E, D> List<VictoryCondition<E, D>> buildConditions(final List<D> data,
+                                                                 final Function<D, VictoryCondition<E, D>> create) {
         return Optional.ofNullable(data)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(victoryData -> create.apply(victoryData, side))
+                .map(create)
                 .collect(Collectors.toList());
     }
 
     /**
-     * Register for ship events.
+     * Register for events.
      */
     private void registerForEvents() {
         ShipEvent.register(this, this::handleShipEvent);
+        SquadronEvent.register(this, this::handleSquadronEvent);
         AirfieldEvent.register(this, this::handleAirfieldEvent);
     }
 
@@ -191,17 +207,35 @@ public class VictoryConditions {
     }
 
     /**
+     * Handle squadron events.
+     *
+     * @param event The squadron event.
+     */
+    private void handleSquadronEvent(final SquadronEvent event) {
+        log.info("Handle airfield event for airfield '{}' {}", event.getSquadron().getName(), event.getAction());
+
+        //Get the scenario specific event victory points that were awarded.
+        log.info("Check specific scenario victory conditions.");
+        Result result = getPoints(scenarioSquadron, event);
+
+        if (!result.isAwarded()) {
+            log.info("No scenario specific victory condition matched. Check default victory conditions.");
+            //The event did not trigger any scenario specific victory conditions. Thus,
+            //get the points for the default victory conditions.
+            result = getPoints(defaultSquadron, event);
+        }
+
+        saveHistory(event, result.getPoints());
+    }
+
+    /**
      * Handle airfield events.
      *
      * @param event The airfield event.
      */
     private void handleAirfieldEvent(final AirfieldEvent event) {
         log.info("Handle airfield event for airfield '{}' {}", event.getAirfield().getName(), event.getAction());
-
-
-
         Result result = getPoints(scenarioAirfields, event);
-
         saveHistory(event, result.getPoints());
     }
 

@@ -8,6 +8,7 @@ import engima.waratsea.model.game.Asset;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.data.ShipMatchData;
 import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.ship.ShipType;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
@@ -64,7 +65,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     /**
      * Constructor called by guice.
      *
-     * @param data Ship event matcher data read in from JSON.
+     * @param data Ship event matcher data read in from a JSON file.
      * @param gameMap The game map.
      */
     @Inject
@@ -85,7 +86,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     /**
      * Get the ship match data. This is the corresponding data that is read and written.
      *
-     * @return The corresponding ship match data.
+     * @return The persistent ship match data.
      */
     @Override
     public ShipMatchData getData() {
@@ -101,20 +102,19 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     }
 
     /**
-     * Determines if two ship events are equal.
+     * Determines if the fired event matches the desired event.
      *
      * @param firedEvent The ship event to test for matching.
      * @return True if the ship event matches. False otherwise.
      */
     public boolean match(final ShipEvent firedEvent) {
-
         return side == firedEvent.getShip().getShipId().getSide()
                 && isActionEqual(firedEvent.getAction())
-                && isShipTypeEqual(firedEvent.getShip().getType())
-                && isNameEqual(firedEvent.getShip().getName())
-                && isTaskForceNameEqual(firedEvent.getShip().getTaskForce())
-                && isLocationEqual(firedEvent.getShip().getTaskForce())
-                && isPortOriginEqual(firedEvent.getShip().getOriginPort())
+                && isShipTypeEqual(firedEvent.getShip())
+                && isNameEqual(firedEvent.getShip())
+                && isTaskForceNameEqual(firedEvent.getShip())
+                && isLocationEqual(firedEvent.getShip())
+                && isPortOriginEqual(firedEvent.getShip())
                 && isByEqual(firedEvent.getBy());
     }
 
@@ -231,7 +231,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     }
 
     /**
-     * Determine if the event fired matches the desired action.
+     * Determine if the fired event action matches the desired action.
      *
      * @param shipAction The action of the fired event.
      * @return True if the action of the fired event matches. False otherwise.
@@ -243,45 +243,47 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     }
 
     /**
-     * Determine if the event fired matches the desired ship name.
+     * Determine if the fired event ship name matches the desired ship name.
      *
-     * @param shipName The ship name of the fired event.
+     * @param ship The ship of the fired event.
      * @return True if the ship name of the fired event matches. False otherwise.
      */
-    private boolean isNameEqual(final String shipName) {
+    private boolean isNameEqual(final Ship ship) {
         return names == null
-                || names.contains(shipName);
+                || names.contains(ship.getName());
     }
 
     /**
-     * Determine if the task force names between the two ship events are equal.
+     * Determine if the fired event task force name matches the desired task force name.
      *
-     * @param taskForce The event task force.
-     * @return True if the two task force names are equal. False otherwise.
+     * @param ship The fired event ship.
+     * @return True if the task force name matches. False otherwise.
      */
-    private boolean isTaskForceNameEqual(final TaskForce taskForce) {
+    private boolean isTaskForceNameEqual(final Ship ship) {
         return taskForceName == null                                                                                    // Non specified task force name matches all.
-                || taskForceName.equalsIgnoreCase(taskForce.getName());
+                || taskForceName.equalsIgnoreCase(ship.getTaskForce().getName());
     }
 
     /**
-     * Determine if the ship types between two ship events are equal.
+     * Determine if the fired event ship type matches the desired ship type.
      *
-     * @param firedShipType The other ship event's ship type.
+     * @param ship The fired event ship.
      * @return True if the two ship event's ship types are equal. False otherwise.
      */
-    private boolean isShipTypeEqual(final ShipType firedShipType) {
+    private boolean isShipTypeEqual(final Ship ship) {
         return shipTypes == null                                                                                         // If wildcard then event ship type does not matter.
-                || shipTypes.contains(firedShipType);
+                || shipTypes.contains(ship.getType());
     }
 
     /**
-     * Determine if the location of the event is matched.
+     * Determine if the fired event location mathces the desired location.
      *
-     * @param taskForce The task force of the ship that experienced the event.
+     * @param ship The fired event ship.
      * @return True if the ship's location matched. False otherwise.
      */
-    private boolean isLocationEqual(final TaskForce taskForce) {
+    private boolean isLocationEqual(final Ship ship) {
+        TaskForce taskForce = ship.getTaskForce();
+
         return locations == null                                                                                         // If the location is not specified then it does not matter.
                 || matchAnyEnemyBase(taskForce)
                 || matchAnyFriendlyBase(taskForce)
@@ -289,18 +291,20 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     }
 
     /**
-     * Determine if the port origin of the event is matched.
+     * Determine if the fired event port origin matches the desired port origin.
      *
-     * @param portOrigin The port origin of the ship event.
+     * @param ship The fired event ship.
      * @return True if the ship's port origin is matched. False otherwise.
      */
-    private boolean isPortOriginEqual(final String portOrigin) {
+    private boolean isPortOriginEqual(final Ship ship) {
+        String portOrigin = ship.getOriginPort();
+
         return portOrigins == null
                 || portOrigin == null
                 || portOrigins.contains(portOrigin);
     }
     /**
-     * Determine if the asset that caused the event to fire matches.
+     * Determine if the fired event asset that caused the event to fire matches the desired asset.
      *
      * @param eventBy The asset that caused the event to fire.
      * @return True if the asset that caused the event to fire is matched. False otherwise.

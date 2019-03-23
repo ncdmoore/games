@@ -2,11 +2,9 @@ package engima.waratsea.model.victory;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
 import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
-import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.victory.data.ShipVictoryData;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
@@ -21,8 +19,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData> {
 
-    private GameMap gameMap;
-
     private List<ShipEventMatcher> matchers;
 
     @Getter
@@ -32,15 +28,11 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
      * Constructor.
      *
      * @param data The victory condition data as read from a JSON file.
-     * @param side The side ALLIES or AXIS.
      * @param factory Factory for creating ship event matchers.
-     * @param gameMap The game map.
      */
     @Inject
     public RequiredShipVictory(@Assisted final ShipVictoryData data,
-                               @Assisted final Side side,
-                                         final ShipEventMatcherFactory factory,
-                                         final GameMap gameMap) {
+                                         final ShipEventMatcherFactory factory) {
 
         matchers = data.getEvents()
                 .stream()
@@ -49,12 +41,9 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
 
         requirementMet = data.isRequirementMet();
 
-        matchers.forEach(matcher -> matcher.setSide(side));
-
         log.info("Required victory condition match set:");
         matchers.forEach(ShipEventMatcher::log);
 
-        this.gameMap = gameMap;
     }
 
     /**

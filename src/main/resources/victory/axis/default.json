@@ -1,0 +1,69 @@
+{
+  "defaultShip": [
+    {
+      "event": {
+        "side": "ALLIES",
+        "action": "SUNK"
+      }
+    },
+    {
+      "event": {
+        "side": "ALLIES",
+        "action": "OUT_OF_FUEL"
+      }
+    },
+    {
+      "event": {
+        "side": "ALLIES",
+        "action": "DAMAGED_HULL",
+        "shipType": "BATTLESHIP, BATTLECRUISER, AIRCRAFT_CARRIER, SEAPLANE_CARRIER"
+      },
+      "points": 3
+    },
+    {
+      "event": {
+        "side": "ALLIES",
+        "action": "DAMAGED_HULL",
+        "shipType": "CRUISER, DESTROYER, DESTROYER_ESCORT, MINELAYER, MINESWEEPER, OILER, SLOOP, TRANSPORT"
+      },
+      "points": 1
+    },
+    {
+      "event": {
+        "side": "ALLIES",
+        "action": "DAMAGED_PRIMARY"
+      },
+      "points": 3
+    },
+    {
+      "event": {
+        "side": "AXIS",
+        "action": "BOMBARDMENT",
+        "shipType": "BATTLESHIP",
+        "location": "ANY_ENEMY_BASE"
+      },
+      "points": 5
+    },
+    {
+      "event": {
+        "side": "AXIS",
+        "action": "BOMBARDMENT",
+        "shipType": "CRUISER",
+        "location": "ANY_ENEMY_BASE"
+      },
+      "points": 1
+    }
+  ],
+  "defaultSquadron": [
+    {
+      "event": {
+        "side": "ALLIES",
+        "action": "DAMAGED"
+      },
+      "points": 6
+    }
+  ]
+}
+
+
+

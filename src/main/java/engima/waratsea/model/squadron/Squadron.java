@@ -7,7 +7,9 @@ import engima.waratsea.model.aircraft.AircraftId;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.AviationPlant;
 import engima.waratsea.model.aircraft.AviationPlantException;
+import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.data.SquadronData;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +24,9 @@ import java.util.Map;
 @Slf4j
 public class Squadron {
     @Getter
+    private Side side;
+
+    @Getter
     private final String model;
 
     @Getter
@@ -34,6 +39,16 @@ public class Squadron {
     @Getter
     @Setter
     private int strength;
+
+    @Getter
+    private String location;
+
+    @Getter
+    @Setter
+    private Airfield airfield;
+
+
+    private GameMap gameMap;
 
     private static Map<Side, Map<AircraftType, Integer>> designationMap = new HashMap<>();
 
@@ -57,11 +72,15 @@ public class Squadron {
      * @param side The side ALLIES or AXIS.
      * @param data The data of the squadron read in from a JSON file.
      * @param aviationPlant The aviation plant that creates aircraft for squadrons.
+     * @param gameMap The game map.
      */
     @Inject
     public Squadron(@Assisted final Side side,
                     @Assisted final SquadronData data,
-                              final AviationPlant aviationPlant) {
+                              final AviationPlant aviationPlant,
+                              final GameMap gameMap) {
+        this.side = side;
+        this.gameMap = gameMap;
         this.model = data.getModel();
         this.strength = data.getStrength();
 
@@ -83,4 +102,32 @@ public class Squadron {
             log.error("Unable to build aircraft model: '{}' for side: {}", model, side);
         }
     }
+
+    /**
+     * Set the squadron's location..
+     *
+     * @param newLocation The squadron's new location.
+     */
+    public void setLocation(final String newLocation) {
+        location = gameMap.convertNameToReference(newLocation);
+    }
+
+    /**
+     * Determine if the squadron is at an enemey base.
+     *
+     * @return True if the squadron is currently located at an enemy base. False otherwise.
+     */
+    public boolean atEnemyBase() {
+        return gameMap.isLocationBase(side.opposite(), location);
+    }
+
+    /**
+     * Determine if the squadron is at a friendly base.
+     *
+     * @return True if the squadron is currently located at a friendly base. False otherwise.
+     */
+    public boolean atFriendlyBase() {
+        return gameMap.isLocationBase(side, location);
+    }
+
 }
