@@ -1,0 +1,57 @@
+
+#title-pane-axis {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, green, white, red);
+    -fx-alignment: top-center;
+}
+
+#title-pane-allied {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
+    -fx-alignment: top-center;
+}
+
+#main-pane {
+    -fx-padding: /* top */ 10 /* right */ 10 /* bottom */ 0 /* left */ 10;
+    -fx-spacing: 5;
+}
+
+#main-hbox {
+    -fx-padding: /* top */ 5 /* right */ 0 /* bottom */ 0 /* left */ 0;
+    -fx-spacing: 5;
+}
+
+#details-pane {
+    -fx-spacing: 5;
+}
+
+#components-pane {
+    -fx-spacing: 6;
+}
+
+#ship-image {
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}
+
+#ship-details-grid {
+    -fx-hgap: 10;
+}
+
+.bold-label {
+    -fx-font: bold 9pt "Lucida Grande";
+    -fx-font-weight: bold;
+}
+
+.detail-pane {
+    -fx-hgap: 15;
+    -fx-vgap: 5;
+    -fx-background-color: lightblue
+}
+
+.detail-pane .label {
+ //   -fx-background-color: lightblue;
+
+}
