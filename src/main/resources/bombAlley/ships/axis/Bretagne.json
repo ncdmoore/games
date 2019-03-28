@@ -1,6 +1,6 @@
 {
   "type": "BATTLESHIP",
-  "class": "Bretagne",
+  "shipClass": "Bretagne",
   "nationality": "FRENCH",
   "primary":
   {

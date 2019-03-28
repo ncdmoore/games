@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Luigi Cadorna",
+  "shipClass": "Luigi Cadorna",
   "nationality": "ITALIAN",
   "secondary":
   {

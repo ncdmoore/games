@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "L Adroit",
+  "shipClass": "L Adroit",
   "nationality": "FRENCH",
   "tertiary":
   {

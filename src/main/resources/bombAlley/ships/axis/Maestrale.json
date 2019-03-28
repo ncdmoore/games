@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "Maestrale",
+  "shipClass": "Maestrale",
   "nationality": "ITALIAN",
   "tertiary":
   {

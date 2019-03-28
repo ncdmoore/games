@@ -1,6 +1,6 @@
 {
   "type": "OILER",
-  "class": "Oiler",
+  "shipClass": "Oiler",
   "nationality": "BRITISH",
   "antiAir":
   {

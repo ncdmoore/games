@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Capitani Romani",
+  "shipClass": "Capitani Romani",
   "nationality": "ITALIAN",
   "tertiary":
   {

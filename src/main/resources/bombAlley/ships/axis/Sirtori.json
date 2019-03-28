@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER_ESCORT",
-  "class": "Sirtori",
+  "shipClass": "Sirtori",
   "nationality": "ITALIAN",
   "tertiary":
   {

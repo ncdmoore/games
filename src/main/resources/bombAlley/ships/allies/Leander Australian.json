@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Leander",
+  "shipClass": "Leander",
   "nationality": "AUSTRALIAN",
   "secondary":
   {

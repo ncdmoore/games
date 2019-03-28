@@ -1,6 +1,6 @@
 {
   "type": "AIRCRAFT_CARRIER",
-  "class": "Argus",
+  "shipClass": "Argus",
   "nationality": "BRITISH",
   "flightDeck":
   {

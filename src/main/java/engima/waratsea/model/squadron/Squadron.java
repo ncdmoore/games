@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.aircraft.AircraftId;
-import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.AviationPlant;
 import engima.waratsea.model.aircraft.AviationPlantException;
 import engima.waratsea.model.base.airfield.Airfield;
@@ -50,7 +49,7 @@ public class Squadron {
 
     private GameMap gameMap;
 
-    private static Map<Side, Map<AircraftType, Integer>> designationMap = new HashMap<>();
+    private static Map<Side, Map<String, Integer>> designationMap = new HashMap<>();
 
     static {
         designationMap.put(Side.ALLIES, new HashMap<>());
@@ -88,11 +87,10 @@ public class Squadron {
             AircraftId aircraftId = new AircraftId(model, side);
             aircraft = aviationPlant.load(aircraftId);
 
-            AircraftType aircraftType = aircraft.getType();
-            String designation = aircraftType.getDesignation();
+            String designation = aircraft.getDesignation();
 
-            int index = designationMap.get(side).getOrDefault(aircraftType, 0);
-            designationMap.get(side).put(aircraftType, ++index);
+            int index = designationMap.get(side).getOrDefault(designation, 0);
+            designationMap.get(side).put(designation, ++index);
 
             name = designation + index + "-" + model;
 

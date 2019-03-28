@@ -1,6 +1,6 @@
 {
   "type": "TRANSPORT",
-  "class": "Large Transport",
+  "shipClass": "Large Transport",
   "nationality": "BRITISH",
   "antiAir":
   {

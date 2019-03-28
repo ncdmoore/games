@@ -22,6 +22,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -63,6 +64,9 @@ public class TaskForceView {
     @Getter
     private Button backButton = new Button("Back");
 
+    @Getter
+    private List<Button> shipButtons;
+
     private Game game;
     private TaskForcePreviewMapView taskForceMap;
 
@@ -75,6 +79,7 @@ public class TaskForceView {
     private Map<ShipViewType, Tab> taskForceTabs = new HashMap<>();
 
     private Map<Side, String> flags = new HashMap<>();
+
 
 
     /**
@@ -216,12 +221,18 @@ public class TaskForceView {
         gridPane.add(stateLabel, 0, 1);
         gridPane.add(stateValue, 1, 1);
 
-        gridPane.setMaxWidth(props.getInt("taskForce.details.width"));
-        gridPane.setMinWidth(props.getInt("taskForce.details.width"));
-
         VBox vBox = new VBox(gridPane, reasonsValue);
         vBox.setId("taskforce-details-vbox");
-        return vBox;
+
+        TitledPane titledPane = new TitledPane();
+        titledPane.setText("Task Force Details");
+        titledPane.setContent(vBox);
+
+        titledPane.setMaxWidth(props.getInt("taskForce.details.width"));
+        titledPane.setMinWidth(props.getInt("taskForce.details.width"));
+        titledPane.setId("taskforce-details-pane");
+
+        return titledPane;
     }
 
     /**
@@ -376,12 +387,13 @@ public class TaskForceView {
 
         Map<ShipViewType, List<Ship>> shipViewTypeMap = getShipViewTypeMap(taskForce);
 
+        shipButtons = new ArrayList<>();
+
         setSummaryTab(shipViewTypeMap);
         taskForceTabs.values().forEach(tab -> tab.setDisable(true));
         shipViewTypeMap.forEach(this::setTabContents);
         taskForceTabPane.getSelectionModel().selectLast();   // Don't remove this. This is to work around some javafx bug. If this is not here then the summary tab is not drawn correct.
         taskForceTabPane.getSelectionModel().selectFirst();
-
     }
 
     /**
@@ -453,10 +465,11 @@ public class TaskForceView {
         tab.setContent(tilePane);
 
         ships.forEach(ship -> {
-            Label label = new Label(ship.getName());
-            label.setMinWidth(props.getInt("taskForce.ship.label.width"));
-            label.setMaxWidth(props.getInt("taskForce.ship.label.width"));
-            tilePane.getChildren().add(label);
+            Button button = new Button(ship.getName());
+            button.setMinWidth(props.getInt("taskForce.ship.label.width"));
+            button.setMaxWidth(props.getInt("taskForce.ship.label.width"));
+            tilePane.getChildren().add(button);
+            shipButtons.add(button);
         });
 
         ScrollPane sp = new ScrollPane();

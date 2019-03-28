@@ -1,6 +1,6 @@
 {
   "type": "SEAPLANE_CARRIER",
-  "class": "Commandant Teste",
+  "shipClass": "Commandant Teste",
   "nationality": "FRENCH",
   "flightDeck":
   {

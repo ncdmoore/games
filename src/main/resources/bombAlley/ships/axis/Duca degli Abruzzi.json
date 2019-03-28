@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Duca degli Abruzzi",
+  "shipClass": "Duca degli Abruzzi",
   "nationality": "ITALIAN",
   "secondary":
   {

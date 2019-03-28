@@ -1,6 +1,6 @@
 {
   "type": "AIRCRAFT CARRIER",
-  "class": "Sparviero",
+  "shipClass": "Sparviero",
   "nationality": "ITALIAN",
   "flightDeck": {
     "armour": "NONE",

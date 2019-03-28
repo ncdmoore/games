@@ -1,6 +1,6 @@
 {
   "type": "BATTLESHIP",
-  "class": "Conte di Cavour",
+  "shipClass": "Conte di Cavour",
   "nationality": "ITALIAN",
   "primary":
   {

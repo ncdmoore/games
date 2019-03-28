@@ -1,6 +1,6 @@
 {
   "type": "BATTLESHIP",
-  "class": "King George V",
+  "shipClass": "King George V",
   "nationality": "BRITISH",
   "primary":
   {

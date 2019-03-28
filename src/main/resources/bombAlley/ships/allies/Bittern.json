@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER_ESCORT",
-  "class": "Bittern",
+  "shipClass": "Bittern",
   "nationality": "BRITISH",
   "tertiary":
   {

@@ -3,6 +3,7 @@
   "type": "Bomber",
   "nationality": "German",
   "service": "AIRFORCE",
+  "designation": "KG-",
   "altitude": "MEDIUM",
   "landing": "LAND",
   "naval": {

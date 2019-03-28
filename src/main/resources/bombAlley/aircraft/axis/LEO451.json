@@ -3,6 +3,7 @@
   "type": "Bomber",
   "nationality": "French",
   "service": "AIRFORCE",
+  "designation": "AA-",
   "altitude": "MEDIUM",
   "landing": "LAND",
   "naval": {

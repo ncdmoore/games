@@ -1,6 +1,6 @@
 {
   "type": "BATTLESHIP",
-  "class": "Littorio",
+  "shipClass": "Littorio",
   "nationality": "ITALIAN",
   "primary":
   {

@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "Lubiana",
+  "shipClass": "Lubiana",
   "nationality": "ITALIAN",
   "tertiary":
   {

@@ -1,6 +1,6 @@
 {
   "type": "BATTLECRUISER",
-  "class": "Hood",
+  "shipClass": "Hood",
   "nationality": "BRITISH",
   "primary": {
     "armour": "HEAVY",

@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER_ESCORT",
-  "class": "Spica",
+  "shipClass": "Spica",
   "nationality": "ITALIAN",
   "tertiary":
   {

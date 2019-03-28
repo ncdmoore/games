@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "C Class",
+  "shipClass": "C Class",
   "nationality": "BRITISH",
   "tertiary":
   {

@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "Chacal",
+  "shipClass": "Chacal",
   "nationality": "FRENCH",
   "tertiary":
   {

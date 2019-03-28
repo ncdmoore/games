@@ -3,6 +3,7 @@
   "type": "TORPEDO_BOMBER",
   "nationality": "BRITISH",
   "service": "NAVY",
+  "designation": "NAS-",
   "altitude": "LOW",
   "landing": "CARRIER",
   "naval": {

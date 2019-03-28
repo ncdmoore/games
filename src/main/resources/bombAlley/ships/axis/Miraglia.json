@@ -1,6 +1,6 @@
 {
   "type": "AIRCRAFT_CARRIER",
-  "class": "Miraglia",
+  "shipClass": "Miraglia",
   "nationality": "ITALIAN",
   "flightDeck":
   {

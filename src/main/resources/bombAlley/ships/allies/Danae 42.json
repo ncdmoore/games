@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Danae",
+  "shipClass": "Danae",
   "nationality": "BRITISH",
   "tertiary":
   {

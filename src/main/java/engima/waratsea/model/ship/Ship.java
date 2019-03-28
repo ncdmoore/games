@@ -1,9 +1,12 @@
 package engima.waratsea.model.ship;
 
 import engima.waratsea.model.PersistentData;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.nation.Nation;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.taskForce.TaskForce;
+
+import java.util.Map;
 
 /**
  * Represents a ship.
@@ -16,6 +19,13 @@ public interface Ship extends PersistentData<ShipData> {
      * @return The ship's id.
      */
     ShipId getShipId();
+
+    /**
+     * Get the ship's side: ALLIES or AXIS.
+     *
+     * @return The ship's side.
+     */
+    Side getSide();
 
     /**
      * Get the ship's name.
@@ -45,6 +55,13 @@ public interface Ship extends PersistentData<ShipData> {
      * @return The ship's type.
      */
     ShipType getType();
+
+    /**
+     * Get the ship's class. Not the java class, but the class of ship.
+     *
+     * @return The ship's class.
+     */
+    String getShipClass();
 
     /**
      * Determines if this ship is an aircraft carrier.
@@ -89,6 +106,41 @@ public interface Ship extends PersistentData<ShipData> {
      * @return The ship's cargo data.
      */
     Cargo getCargo();
+
+    /**
+     * Get the ship's surface weapon data.
+     *
+     * @return A map of surface weapon data.
+     */
+    Map<String, String> getSurfaceWeaponData();
+
+    /**
+     * Get the ship's anti air weapon data.
+     *
+     * @return A map of the anti air weapon data.
+     */
+    Map<String, String> getAntiAirWeaponData();
+
+    /**
+     * Get the ship's torpedo data.
+     *
+     * @return The ship's torpedo data.
+     */
+    Map<String, String> getTorpedoData();
+
+    /**
+     * Get the ship's armour data.
+     *
+     * @return A map of the armour type to armour value.
+     */
+    Map<String, String> getArmourData();
+
+    /**
+     * Get the ship's movement data.
+     *
+     * @return A map of the movement per turn type.
+     */
+    Map<String, String> getMovementData();
 
     /**
      * Get the ship's persistent data.

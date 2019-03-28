@@ -3,29 +3,27 @@ package engima.waratsea.presenter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import engima.waratsea.model.game.Game;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.MapException;
+import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.ship.Ship;
-import engima.waratsea.model.ship.ShipType;
+import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
-import engima.waratsea.view.ships.ShipViewType;
+import engima.waratsea.presenter.ship.ShipDetailsDialog;
+import engima.waratsea.view.FatalErrorDialog;
+import engima.waratsea.view.TaskForceView;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import engima.waratsea.model.game.Game;
-import engima.waratsea.model.scenario.ScenarioException;
-import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.view.FatalErrorDialog;
-import engima.waratsea.view.TaskForceView;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 /**
@@ -43,15 +41,18 @@ public class TaskForcePresenter {
     private TaskForce selectedTaskForce;
 
     private Provider<TaskForceView> viewProvider;
+    private Provider<ShipDetailsDialog> shipDetailsDialogProvider;
     private Provider<ScenarioPresenter> scenarioPresenterProvider;
     private Provider<MainPresenter> mainPresenterProvider;
     private Provider<FatalErrorDialog> fatalErrorDialogProvider;
 
     /**
      * This is the constructor.
+     *
      * @param game The game object.
      * @param gameMap The preview game map.
      * @param viewProvider The corresponding view,
+     * @param shipDetailsDialogProvider The ship details dialog provider.
      * @param scenarioPresenterProvider Provides the scenario presenter.
      * @param mainPresenterProvider Provides the main presenter.
      * @param fatalErrorDialogProvider Provides the fatal error dialog.
@@ -60,12 +61,14 @@ public class TaskForcePresenter {
     public TaskForcePresenter(final Game game,
                               final GameMap gameMap,
                               final Provider<TaskForceView> viewProvider,
+                              final Provider<ShipDetailsDialog> shipDetailsDialogProvider,
                               final Provider<ScenarioPresenter> scenarioPresenterProvider,
                               final Provider<MainPresenter> mainPresenterProvider,
                               final Provider<FatalErrorDialog> fatalErrorDialogProvider) {
         this.game = game;
         this.gameMap = gameMap;
         this.viewProvider = viewProvider;
+        this.shipDetailsDialogProvider = shipDetailsDialogProvider;
         this.scenarioPresenterProvider = scenarioPresenterProvider;
         this.mainPresenterProvider = mainPresenterProvider;
         this.fatalErrorDialogProvider = fatalErrorDialogProvider;
@@ -139,6 +142,7 @@ public class TaskForcePresenter {
 
     /**
      * Mark the given task force's targets.
+     *
      * @param taskForce The task force whose targets are marked.
      */
     private void markTaskForceTargets(final TaskForce taskForce) {
@@ -155,6 +159,7 @@ public class TaskForcePresenter {
 
     /**
      * Call back when a task force is selected.
+     *
      * @param taskForce the selected task force.
      */
     private void taskForceSelected(final TaskForce taskForce) {
@@ -163,9 +168,9 @@ public class TaskForcePresenter {
         clearAllTaskForces();
         this.selectedTaskForce = taskForce;
 
-        getTaskForceShips();
-
         view.setSelectedTaskForce(selectedTaskForce);
+        view.getShipButtons()
+                .forEach(button -> button.setOnAction(this::displayShipDialog));
     }
 
     /**
@@ -174,29 +179,7 @@ public class TaskForcePresenter {
     private void clearAllTaskForces() {
         game.getHumanPlayer().getTaskForces()
                 .forEach(taskForce -> view.clearTaskForce(taskForce));
-
     }
-
-    /**
-     *
-     */
-    private void getTaskForceShips() {
-        // This is a map of maps. The outer key is the ship classification used by the task force summary tabs.
-        // The innter map key is the actual ship type.
-        Map<ShipViewType, Map<ShipType, List<Ship>>> ships = new HashMap<>();
-
-        // Create the ship type sub maps. These are the inner maps.
-        Stream.of(ShipViewType.values()).forEach(shipViewType -> ships.put(shipViewType, new HashMap<>()));
-
-        Map<ShipType, List<Ship>> shipMap = selectedTaskForce.getShipTypeMap();
-
-        shipMap.forEach((shipType, shipsOfThatType) -> {
-            ShipViewType viewType = ShipViewType.get(shipType);
-            Map<ShipType, List<Ship>> subMap = ships.get(viewType);
-            subMap.put(shipType, shipsOfThatType);
-        });
-    }
-
 
     /**
      * Call back for the continue button.
@@ -204,7 +187,6 @@ public class TaskForcePresenter {
     private void continueButton() {
         log.info("continue button");
         mainPresenterProvider.get().show(stage);
-
     }
 
     /**
@@ -216,6 +198,7 @@ public class TaskForcePresenter {
 
     /**
      * Task force map grid clicked. Show the task force's corresponding popup.
+     *
      * @param event Mouse event.
      */
     private void showTaskForcePopup(final MouseEvent event) {
@@ -244,6 +227,7 @@ public class TaskForcePresenter {
 
     /**
      * A task force marker has been clicked. Select the next task force that resides in the marker's grid.
+     *
      * @param selected The list of task forces residing in the marker's grid.
      * @return The index of the now selected task force.
      */
@@ -260,6 +244,7 @@ public class TaskForcePresenter {
 
     /**
      * Show the target popup upon target clicks.
+     *
      * @param event The mouse event.
      */
     private void showTargetPopup(final MouseEvent event) {
@@ -276,10 +261,16 @@ public class TaskForcePresenter {
     }
 
     /**
-     * A fatal error has occurred.
-     * @param errorText The text to display on the GUI.
+     * Display the ship details dialog.
+     *
+     * @param event The mouse click event.
      */
-    private void fatalError(final String errorText) {
-        fatalErrorDialogProvider.get().show(errorText + game.getScenario().getTitle() + "'.");
+    private void displayShipDialog(final ActionEvent event) {
+        Button button = (Button) event.getSource();
+        log.info("button label: '{}'", button.getText());
+
+        Ship ship = selectedTaskForce.getShip(button.getText());
+
+        shipDetailsDialogProvider.get().show(ship);
     }
 }

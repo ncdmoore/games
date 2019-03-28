@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "Camicia Nere",
+  "shipClass": "Camicia Nere",
   "nationality": "ITALIAN",
   "tertiary":
   {

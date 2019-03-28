@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "Vauquelin",
+  "shipClass": "Vauquelin",
   "nationality": "FRENCH",
   "tertiary":
   {

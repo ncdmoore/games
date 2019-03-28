@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER_ESCORT",
-  "class": "Hunt Class",
+  "shipClass": "Hunt Class",
   "nationality": "BRITISH",
   "tertiary":
   {

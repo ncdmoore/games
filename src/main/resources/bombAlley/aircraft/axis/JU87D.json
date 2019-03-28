@@ -3,6 +3,7 @@
   "type": "Dive_Bomber",
   "nationality": "German",
   "service": "AIRFORCE",
+  "designation": "StG-",
   "altitude": "LOW",
   "landing": "LAND",
   "naval": {

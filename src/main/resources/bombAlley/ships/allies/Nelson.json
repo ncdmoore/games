@@ -1,6 +1,6 @@
 {
   "type": "BATTLESHIP",
-  "class": "Nelson",
+  "shipClass": "Nelson",
   "nationality": "BRITISH",
   "primary": {
     "armour": "HEAVY",

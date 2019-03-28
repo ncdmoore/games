@@ -16,6 +16,9 @@ public class AircraftImpl implements Aircraft {
     @Getter
     private final AircraftType type;
 
+    @Getter
+    private final String designation;
+
     /**
      * The constructor called by guice.
      *
@@ -25,5 +28,6 @@ public class AircraftImpl implements Aircraft {
     public AircraftImpl(@Assisted final AircraftData data) {
         this.name = data.getName();
         this.type = data.getType();
+        this.designation = data.getDesignation();
     }
 }

@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER_ESCORT",
-  "class": "Flower",
+  "shipClass": "Flower",
   "nationality": "BRITISH",
   "tertiary":
   {

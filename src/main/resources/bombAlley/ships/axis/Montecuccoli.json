@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Montecuccoli",
+  "shipClass": "Montecuccoli",
   "nationality": "ITALIAN",
   "secondary":
   {

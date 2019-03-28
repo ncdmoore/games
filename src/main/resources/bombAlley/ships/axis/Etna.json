@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Etna",
+  "shipClass": "Etna",
   "nationality": "ITALIAN",
   "tertiary":
   {

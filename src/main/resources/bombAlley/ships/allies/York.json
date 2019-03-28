@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "York",
+  "shipClass": "York",
   "nationality": "BRITISH",
   "secondary":
   {

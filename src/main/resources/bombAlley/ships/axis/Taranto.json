@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Taranto",
+  "shipClass": "Taranto",
   "nationality": "ITALIAN",
   "secondary":
   {

@@ -3,6 +3,7 @@
   "type": "Fighter",
   "nationality": "Italian",
   "service": "AIRFORCE",
+  "designation": "RA-",
   "altitude": "LOW",
   "landing": "LAND",
   "naval": {

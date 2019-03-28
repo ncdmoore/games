@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Zara",
+  "shipClass": "Zara",
   "nationality": "ITALIAN",
   "secondary":
   {

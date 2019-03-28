@@ -19,4 +19,11 @@ public interface Aircraft {
      */
     AircraftType getType();
 
+    /**
+     * Get the aircraft's designation.
+     *
+     * @return The aircraft's designation.
+     */
+    String getDesignation();
+
 }

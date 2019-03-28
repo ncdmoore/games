@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Condottieri",
+  "shipClass": "Condottieri",
   "nationality": "ITALIAN",
   "secondary":
   {

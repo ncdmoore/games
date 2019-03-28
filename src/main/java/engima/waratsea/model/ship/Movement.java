@@ -1,6 +1,7 @@
 package engima.waratsea.model.ship;
 
 import engima.waratsea.model.ship.data.MovementData;
+import lombok.Getter;
 
 /**
  * Ship's movement.
@@ -11,8 +12,10 @@ public class Movement {
 
     private final int maxOdd;
 
+    @Getter
     private int even;
 
+    @Getter
     private int odd;
 
     /**

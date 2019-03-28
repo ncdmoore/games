@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Emerald",
+  "shipClass": "Emerald",
   "nationality": "BRITISH",
   "secondary":
   {

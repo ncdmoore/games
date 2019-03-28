@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "San Giorgio",
+  "shipClass": "San Giorgio",
   "nationality": "ITALIAN",
   "primary":
   {

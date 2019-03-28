@@ -1,6 +1,6 @@
 {
   "type": "AIRCRAFT_CARRIER",
-  "class": "Aquila",
+  "shipClass": "Aquila",
   "nationality": "ITALIAN",
   "flightDeck":
   {

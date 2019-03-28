@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "Tribal",
+  "shipClass": "Tribal",
   "nationality": "BRITISH",
   "tertiary":
   {

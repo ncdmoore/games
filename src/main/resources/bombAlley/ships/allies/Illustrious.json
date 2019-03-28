@@ -1,6 +1,6 @@
 {
   "type": "AIRCRAFT_CARRIER",
-  "class": "Illustrious",
+  "shipClass": "Illustrious",
   "nationality": "BRITISH",
   "flightDeck":
   {

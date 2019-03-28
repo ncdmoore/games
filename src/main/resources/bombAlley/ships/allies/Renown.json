@@ -1,6 +1,6 @@
 {
   "type": "BATTLECRUISER",
-  "class": "Renown",
+  "shipClass": "Renown",
   "nationality": "BRITISH",
   "primary": {
     "armour": "LIGHT",

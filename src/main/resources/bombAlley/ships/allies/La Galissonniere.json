@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "La Galissonniere",
+  "shipClass": "La Galissonniere",
   "nationality": "FRENCH",
   "secondary":
   {

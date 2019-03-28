@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Crown Colony",
+  "shipClass": "Crown Colony",
   "nationality": "BRITISH",
   "secondary":
   {

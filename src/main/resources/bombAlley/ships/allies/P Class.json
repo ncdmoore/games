@@ -1,15 +1,7 @@
 {
   "type": "DESTROYER",
-  "class": "P Class",
+  "shipClass": "P Class",
   "nationality": "BRITISH",
-  "armour": {
-    "primary": "NONE",
-    "secondary": "NONE",
-    "tertiary": "NONE",
-    "AA": "NONE",
-    "hull": "NONE",
-    "deck": false
-  },
   "tertiary":
   {
     "armour": "NONE",

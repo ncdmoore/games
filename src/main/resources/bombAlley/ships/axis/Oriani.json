@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "Oriani",
+  "shipClass": "Oriani",
   "nationality": "ITALIAN",
   "tertiary":
   {

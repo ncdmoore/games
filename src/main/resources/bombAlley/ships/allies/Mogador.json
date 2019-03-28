@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "Mogador",
+  "shipClass": "Mogador",
   "nationality": "FRENCH",
   "tertiary":
   {

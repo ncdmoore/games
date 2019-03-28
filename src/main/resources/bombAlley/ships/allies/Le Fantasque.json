@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "Le Fantasque",
+  "shipClass": "Le Fantasque",
   "nationality": "FRENCH",
   "tertiary":
   {

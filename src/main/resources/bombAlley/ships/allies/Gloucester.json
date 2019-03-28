@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Gloucester",
+  "shipClass": "Gloucester",
   "nationality": "BRITISH",
   "secondary":
   {

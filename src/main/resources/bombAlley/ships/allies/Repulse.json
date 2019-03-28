@@ -1,6 +1,6 @@
 {
   "type": "BATTLECRUISER",
-  "class": "Repulse",
+  "shipClass": "Repulse",
   "nationality": "BRITISH",
   "primary": {
     "armour": "LIGHT",

@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER_ESCORT",
-  "class": "Sella",
+  "shipClass": "Sella",
   "nationality": "ITALIAN",
   "tertiary":
   {

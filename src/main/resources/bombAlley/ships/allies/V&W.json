@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER_ESCORT",
-  "class": "V & W Class",
+  "shipClass": "V & W Class",
   "nationality": "BRITISH",
   "tertiary":
   {

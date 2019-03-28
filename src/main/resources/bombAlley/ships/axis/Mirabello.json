@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "Mirabello",
+  "shipClass": "Mirabello",
   "nationality": "ITALIAN",
   "tertiary":
   {

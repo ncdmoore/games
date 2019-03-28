@@ -1,6 +1,6 @@
 {
   "type": "BATTLESHIP",
-  "class": "Strasbourg",
+  "shipClass": "Strasbourg",
   "nationality": "FRENCH",
   "primary":
   {

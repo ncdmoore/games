@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "N Class",
+  "shipClass": "N Class",
   "nationality": "AUSTRALIAN",
   "tertiary":
   {

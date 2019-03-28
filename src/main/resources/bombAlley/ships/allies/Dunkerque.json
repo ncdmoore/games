@@ -1,6 +1,6 @@
 {
   "type": "BATTLECRUISER",
-  "class": "Dunkerque",
+  "shipClass": "Dunkerque",
   "nationality": "FRENCH",
   "primary": {
     "armour": "HEAVY",

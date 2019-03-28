@@ -18,7 +18,8 @@ public class FatalErrorDialog {
     private CssResourceProvider cssResourceProvider;
 
     /**
-     * Constructor.
+     * Constructor called by guice.
+     *
      * @param cssResourceProvider provides css files.
      */
     @Inject

@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "Premuda",
+  "shipClass": "Premuda",
   "nationality": "ITALIAN",
   "tertiary":
   {

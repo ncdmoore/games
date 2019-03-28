@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Duquesne",
+  "shipClass": "Duquesne",
   "nationality": "FRENCH",
   "secondary":
   {

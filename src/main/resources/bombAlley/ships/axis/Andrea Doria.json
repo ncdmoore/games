@@ -1,6 +1,6 @@
 {
   "type": "BATTLESHIP",
-  "class": "Andrea Doria",
+  "shipClass": "Andrea Doria",
   "nationality": "ITALIAN",
   "primary":
   {

@@ -1,6 +1,6 @@
 {
   "type": "BATTLESHIP",
-  "class": "Queen Elizabeth",
+  "shipClass": "Queen Elizabeth",
   "nationality": "BRITISH",
   "primary": {
     "armour": "HEAVY",

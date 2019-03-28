@@ -26,6 +26,11 @@
 
     </appender>
 
+
+    <logger name="engima.waratsea.model.squadron" level="debug" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
     <!-- Send logs to both the console and file -->
     <root level="info">
         <appender-ref ref="FILE" />

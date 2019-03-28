@@ -3,11 +3,15 @@ package engima.waratsea.model.ship;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.Airbase;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.nation.Nation;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Represents an aircraft carrier.
@@ -118,6 +122,16 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
+     * Get the ship's side: ALLIES or AXIS.
+     *
+     * @return The ship's side.
+     */
+    @Override
+    public Side getSide() {
+        return shipId.getSide();
+    }
+
+    /**
      * Get the ship's name.
      *
      * @return The ship's name.
@@ -153,5 +167,72 @@ public class AircraftCarrier implements Ship, Airbase {
     @Override
     public void loadCargo() {
         cargo.load();
+    }
+
+    /**
+     * Get the ship's surface weapon data.
+     *
+     * @return A map of surface weapon data.
+     */
+    @Override
+    public Map<String, String> getSurfaceWeaponData() {
+        Map<String, String> weapons = new LinkedHashMap<>();
+        weapons.put("Secondary:", secondary.getHealth() + "");
+        weapons.put("Tertiary:", tertiary.getHealth() + "");
+        return weapons;
+    }
+
+    /**
+     * Get the ship's anti air weapon data.
+     *
+     * @return A map of the anti air weapon data.
+     */
+    @Override
+    public Map<String, String> getAntiAirWeaponData() {
+        Map<String, String> weapons = new LinkedHashMap<>();
+        weapons.put("Anti Air:", antiAir.getHealth() + "");
+        return weapons;
+    }
+
+    /**
+     * Get the ship's torpedo data.
+     *
+     * @return The ship's torpedo data.
+     */
+    @Override
+    public Map<String, String> getTorpedoData() {
+        Map<String, String> weapons = new LinkedHashMap<>();
+        weapons.put("Torpedo:", torpedo.getHealth() + "");
+        return weapons;
+    }
+
+    /**
+     * Get the ship's armour data.
+     *
+     * @return A map of the armour type to armour value.
+     */
+    @Override
+    public Map<String, String> getArmourData() {
+        Map<String, String> armour = new LinkedHashMap<>();
+        armour.put("FlightDeck:", flightDeck.getArmour().toString());
+        armour.put("Secondary:", secondary.getArmour().toString());
+        armour.put("Tertiary:", tertiary.getArmour().toString());
+        armour.put("Anti Air:", antiAir.getArmour().toString());
+        armour.put("Hull:", hull.getArmour().toString());
+
+        return armour;
+    }
+
+    /**
+     * Get the ship's movement data.
+     *
+     * @return A map of the movement per turn type.
+     */
+    @Override
+    public Map<String, String> getMovementData() {
+        Map<String, String> speed = new LinkedHashMap<>();
+        speed.put("Even turns:", movement.getEven() + "");
+        speed.put("Odd turns:", movement.getOdd() + "");
+        return speed;
     }
 }

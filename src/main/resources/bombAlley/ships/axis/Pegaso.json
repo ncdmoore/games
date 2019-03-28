@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER_ESCORT",
-  "class": "Pegaso",
+  "shipClass": "Pegaso",
   "nationality": "ITALIAN",
   "tertiary":
   {

@@ -1,6 +1,6 @@
 {
   "type": "MINESWEEPER",
-  "class": "Halcyon",
+  "shipClass": "Halcyon",
   "nationality": "BRITISH",
   "hull": {
     "armour": "NONE",

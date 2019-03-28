@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "O Class",
+  "shipClass": "O Class",
   "nationality": "BRITISH",
   "tertiary":
   {

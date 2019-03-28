@@ -3,6 +3,7 @@
   "type": "Fighter",
   "nationality": "French",
   "service": "AIRFORCE",
+  "designation": "AA-",
   "altitude": "MEDIUM",
   "landing": "LAND",
   "naval": {

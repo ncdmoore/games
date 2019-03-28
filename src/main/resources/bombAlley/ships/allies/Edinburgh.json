@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Edinburgh",
+  "shipClass": "Edinburgh",
   "nationality": "BRITISH",
   "secondary":
   {

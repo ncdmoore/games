@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "Arethusa",
+  "shipClass": "Arethusa",
   "nationality": "BRITISH",
   "secondary":
   {

@@ -3,6 +3,7 @@
   "type": "Bomber",
   "nationality": "British",
   "service": "AIRFORCE",
+  "designation": "RAF-",
   "altitude": "HIGH",
   "landing": "LAND",
   "naval": {

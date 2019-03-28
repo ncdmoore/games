@@ -1,6 +1,6 @@
 {
   "type": "AIRCRAFT_CARRIER",
-  "class": "Ark Royal",
+  "shipClass": "Ark Royal",
   "nationality": "BRITISH",
   "flightDeck":
   {

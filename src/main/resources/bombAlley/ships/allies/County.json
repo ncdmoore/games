@@ -1,6 +1,6 @@
 {
   "type": "CRUISER",
-  "class": "County",
+  "shipClass": "County",
   "nationality": "BRITISH",
   "secondary":
   {

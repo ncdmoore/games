@@ -30,6 +30,10 @@ public class AircraftData {
 
     @Getter
     @Setter
+    private String designation;
+
+    @Getter
+    @Setter
     private AltitudeType altitude;
 
     @Getter

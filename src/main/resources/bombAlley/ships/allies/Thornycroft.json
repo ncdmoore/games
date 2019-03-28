@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "Thornycroft Class",
+  "shipClass": "Thornycroft Class",
   "nationality": "BRITISH",
   "tertiary":
   {

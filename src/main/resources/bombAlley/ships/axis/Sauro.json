@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER_ESCORT",
-  "class": "Sauro",
+  "shipClass": "Sauro",
   "nationality": "ITALIAN",
   "weapons": {
     "primary": 0,

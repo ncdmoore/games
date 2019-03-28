@@ -3,6 +3,7 @@
   "type": "Poor_Naval_Bomber",
   "nationality": "Italian",
   "service": "AIRFORCE",
+  "designation": "RA-",
   "altitude": "MEDIUM",
   "landing": "LAND",
   "naval": {

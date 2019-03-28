@@ -15,6 +15,8 @@ public class PoorNavalBomber implements Aircraft {
     @Getter
     private final AircraftType type;
 
+    @Getter
+    private final String designation;
     /**
      * The constructor called by guice.
      *
@@ -24,5 +26,6 @@ public class PoorNavalBomber implements Aircraft {
     public PoorNavalBomber(@Assisted final AircraftData data) {
         this.name = data.getName();
         this.type = AircraftType.POOR_NAVAL_BOMBER;
+        this.designation = data.getDesignation();
     }
 }

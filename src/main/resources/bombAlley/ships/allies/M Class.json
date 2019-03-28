@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "class": "M Class",
+  "shipClass": "M Class",
   "nationality": "BRITISH",
   "tertiary":
   {

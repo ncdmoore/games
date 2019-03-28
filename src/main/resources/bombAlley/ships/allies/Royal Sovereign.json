@@ -1,6 +1,6 @@
 {
   "type": "BATTLESHIP",
-  "class": "Royal Sovereign",
+  "shipClass": "Royal Sovereign",
   "nationality": "BRITISH",
   "primary": {
     "armour": "HEAVY",
