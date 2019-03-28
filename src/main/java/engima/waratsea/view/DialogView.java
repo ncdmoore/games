@@ -33,7 +33,7 @@ public class DialogView {
         borderPane.setCenter(contents);
         borderPane.setBottom(buildControlButtons());
 
-        Scene scene = new Scene(borderPane, 727, 550);
+        Scene scene = new Scene(borderPane, 727, 580);
 
         scene.getStylesheets().add(css);
 

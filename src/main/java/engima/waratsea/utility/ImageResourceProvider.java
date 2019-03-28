@@ -107,7 +107,7 @@ public class ImageResourceProvider {
 
         return url.map(u -> {
             File file = new File(u.getPath());
-            log.debug("Loaded image: {}", path);
+            log.info("Loaded image: {}", path);
             return new Image(file.toURI().toString());
         });
 

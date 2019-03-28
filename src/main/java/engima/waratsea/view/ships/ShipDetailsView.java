@@ -41,7 +41,7 @@ public class ShipDetailsView {
      */
     public Node show(final Ship ship) {
 
-        Label title = new Label("RN " + ship.getName());
+        Label title = new Label(getPrefix(ship) + ship.getName());
 
         title.setId("title");
 
@@ -65,14 +65,9 @@ public class ShipDetailsView {
      * @return The ship tab.
      */
     private Tab buildShipTab(final Ship ship) {
-        ImageView shipImage = imageResourceProvider.getImageView(ship.getName() + EXTENSION);
-
-        if (shipImage.getImage() == null) {
-             shipImage = imageResourceProvider.getImageView(ship.getShipClass() + EXTENSION);
-        }
 
 
-        VBox shipVBox = new VBox(shipImage);
+        VBox shipVBox = new VBox(getImage(ship));
         shipVBox.setId("ship-image");
 
         VBox detailsVBox = new VBox(shipVBox, buildShipDetails(ship));
@@ -181,5 +176,38 @@ public class ShipDetailsView {
         }
 
         return gridPane;
+    }
+
+    private String getPrefix(final Ship ship) {
+        switch (ship.getNationality()) {
+            case BRITISH:
+                return "HMS ";
+            case ITALIAN:
+                return "RM ";
+            case AUSTRALIAN:
+                return "HMAS ";
+            default:
+                return "Unknown ";
+        }
+    }
+
+    /**
+     * Get the ship's image.
+     *
+     * @param ship The ship.
+     * @return The ship's image view.
+     */
+    private ImageView getImage(final Ship ship) {
+        //Look for an image for this specific ship.
+        String name = ship.getName().replace(" ", "_");
+        ImageView shipImage = imageResourceProvider.getImageView(name + EXTENSION);
+
+        //If the specific ship image is not found use the ship's class image.
+        if (shipImage.getImage() == null) {
+            String shipClassName = ship.getShipClass().replace(" ", "_");
+            shipImage = imageResourceProvider.getImageView(shipClassName + EXTENSION);
+        }
+
+        return shipImage;
     }
 }
