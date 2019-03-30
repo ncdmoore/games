@@ -1,10 +1,13 @@
 package engima.waratsea.view.ships;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.ship.Component;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
@@ -14,23 +17,30 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The ship details view.
  */
 public class ShipDetailsView {
-    private static final String EXTENSION = ".png";
     private final ImageResourceProvider imageResourceProvider;
+    private final ViewProps props;
 
     /**
      * Constructor called by guice.
      *
      * @param imageResourceProvider Provides images.
+     * @param props View properites.
      */
     @Inject
-    public ShipDetailsView(final ImageResourceProvider imageResourceProvider) {
+    public ShipDetailsView(final ImageResourceProvider imageResourceProvider,
+                           final ViewProps props) {
         this.imageResourceProvider = imageResourceProvider;
+        this.props = props;
     }
 
     /**
@@ -40,9 +50,7 @@ public class ShipDetailsView {
      * @return A node that contains the ship details.
      */
     public Node show(final Ship ship) {
-
         Label title = new Label(getPrefix(ship) + ship.getName());
-
         title.setId("title");
 
         StackPane titlePane = new StackPane(title);
@@ -50,6 +58,7 @@ public class ShipDetailsView {
 
         TabPane tabPane = new TabPane();
         tabPane.getTabs().add(buildShipTab(ship));
+        tabPane.getTabs().add(buildStatusTab(ship));
         tabPane.getTabs().add(buildAircraftTab(ship));
 
         VBox mainPane = new VBox(titlePane, tabPane);
@@ -61,16 +70,19 @@ public class ShipDetailsView {
     /**
      * Build the ship tab.
      *
-     * @param ship The ship whose information is shown in the tab.
+     * @param ship The ship whose specification is shown in the tab.
      * @return The ship tab.
      */
     private Tab buildShipTab(final Ship ship) {
-
-
         VBox shipVBox = new VBox(getImage(ship));
         shipVBox.setId("ship-image");
 
-        VBox detailsVBox = new VBox(shipVBox, buildShipDetails(ship));
+        TitledPane cargoPane = buildPane("Cargo", ship.getCargoData());
+        cargoPane.setMinWidth(props.getInt("ship.dialog.detailsPane.width"));
+        cargoPane.setMaxWidth(props.getInt("ship.dialog.detailsPane.width"));
+        cargoPane.setExpanded(false);
+
+        VBox detailsVBox = new VBox(shipVBox, buildShipDetails(ship), cargoPane);
         detailsVBox.setId("details-pane");
 
         Node componentsVBox = buildShipComponents(ship);
@@ -79,11 +91,62 @@ public class ShipDetailsView {
         HBox hBox = new HBox(detailsVBox, componentsVBox);
         hBox.setId("main-hbox");
 
-        Tab shipTab = new Tab("Ship Information");
+        Tab shipTab = new Tab("Specifications");
         shipTab.setClosable(false);
         shipTab.setContent(hBox);
 
         return shipTab;
+    }
+
+    /**
+     * Build the ship's status.
+     *
+     * @param ship THe ship whose status is shown in the tab.
+     * @return The ship's status tab.
+     */
+    private Tab buildStatusTab(final Ship ship) {
+
+        GridPane gridPane = new GridPane();
+
+        List<List<Node>> progressBars = ship
+                .getComponents()
+                .stream()
+                .map(this::buildProgressBar)
+                .collect(Collectors.toList());
+
+        for (int row = 0; row < progressBars.size(); row++) {
+            for (int column = 0; column < progressBars.get(row).size(); column++) {
+                gridPane.add(progressBars.get(row).get(column), column, row);
+            }
+        }
+
+        gridPane.setId("status-pane");
+
+        Tab statusTab = new Tab("Status");
+        statusTab.setClosable(false);
+        statusTab.setContent(gridPane);
+        return statusTab;
+    }
+
+    /**
+     * Build the progress bar for a ship component.
+     *
+     * @param component The ship's component.
+     * @return The node that contains the progress bar.
+     */
+    private ArrayList<Node> buildProgressBar(final Component component) {
+        int maxHealth = component.getMaxHealth();
+
+        Label titleLabel = new Label(component.getName() + ":");
+
+        double percent = component.getHealth() * 1.0 / maxHealth;
+        Label values = new Label(component.getHealth() + "/" + maxHealth);
+        ProgressBar progressBar = new ProgressBar(percent);
+        progressBar.setMaxWidth(300);
+        progressBar.setMinWidth(300);
+        progressBar.getStyleClass().add("green-bar");
+
+        return new ArrayList<>(Arrays.asList(titleLabel, progressBar, values));
     }
 
     /**
@@ -93,7 +156,6 @@ public class ShipDetailsView {
      * @return The aircraft tab.
      */
     private Tab buildAircraftTab(final Ship ship) {
-
         HBox hBox = new HBox(new Label("aircraft stuff"));
 
         Tab aircraftTab = new Tab("Aircraft");
@@ -103,7 +165,6 @@ public class ShipDetailsView {
         return aircraftTab;
     }
 
-
     /**
      * Build the ship details pane.
      *
@@ -111,6 +172,8 @@ public class ShipDetailsView {
      * @return The node that contains the ship's details.
      */
     private TitledPane buildShipDetails(final Ship ship) {
+        final int row3 = 3;
+        final int row4 = 4;
 
         GridPane gridPane = new GridPane();
         gridPane.add(new Label("Name:"), 0, 0);
@@ -119,8 +182,10 @@ public class ShipDetailsView {
         gridPane.add(new Label(ship.getType().toString()), 1, 1);
         gridPane.add(new Label("Class:"), 0, 2);
         gridPane.add(new Label(ship.getShipClass()), 1, 2);
-        gridPane.add(new Label("Nationality:"), 0, 3);
-        gridPane.add(new Label(ship.getNationality().toString()), 1, 3);
+        gridPane.add(new Label("Nationality:"), 0, row3);
+        gridPane.add(new Label(ship.getNationality().toString()), 1, row3);
+        gridPane.add(new Label("Victory Points:"), 0, row4);
+        gridPane.add(new Label(ship.getVictoryPoints() + ""), 1, row4);
         gridPane.setId("ship-details-grid");
 
         TitledPane titledPane = new TitledPane();
@@ -128,8 +193,8 @@ public class ShipDetailsView {
         titledPane.setContent(gridPane);
         titledPane.setCollapsible(false);
 
-        titledPane.setMinWidth(302);
-        titledPane.setMaxWidth(302);
+        titledPane.setMinWidth(props.getInt("ship.dialog.detailsPane.width"));
+        titledPane.setMaxWidth(props.getInt("ship.dialog.detailsPane.width"));
 
         return titledPane;
     }
@@ -141,22 +206,29 @@ public class ShipDetailsView {
      * @return The node that contains the ship component's.
      */
     private Node buildShipComponents(final Ship ship) {
-
         TitledPane surfaceWeaponsPane = buildPane("Surface Weapons", ship.getSurfaceWeaponData());
         TitledPane antiAirWeaponsPane = buildPane("Anti-Air Weapons", ship.getAntiAirWeaponData());
         TitledPane torpedoPane = buildPane("Torpedos", ship.getTorpedoData());
         TitledPane armourPane = buildPane("Armour", ship.getArmourData());
         TitledPane speedPane = buildPane("Movement", ship.getMovementData());
-
-        return new VBox(surfaceWeaponsPane, antiAirWeaponsPane, torpedoPane, armourPane, speedPane);
+        TitledPane fuelPane = buildPane("Fuel", ship.getFuelData());
+        return new VBox(surfaceWeaponsPane, antiAirWeaponsPane, torpedoPane, armourPane, speedPane, fuelPane);
     }
 
+    /**
+     * Build the component titled pane.
+     *
+     * @param title The title of the pane.
+     * @param data The data contained within the pane.
+     * @return The titled pane.
+     */
     private TitledPane buildPane(final String title, final Map<String, String> data) {
         TitledPane pane = new TitledPane();
         pane.setText(title);
         pane.setContent(buildStats(data));
-        pane.setMinWidth(400);
-        pane.setMaxWidth(400);
+        pane.setMinWidth(props.getInt("ship.dialog.componentPane.width"));
+        pane.setMaxWidth(props.getInt("ship.dialog.componentPane.width"));
+        pane.setCollapsible(true);
         return pane;
     }
 
@@ -175,20 +247,18 @@ public class ShipDetailsView {
             i++;
         }
 
+        gridPane.getStyleClass().add("component-grid");
         return gridPane;
     }
 
+    /**
+     * Get the ship prefix.
+     *
+     * @param ship The ship.
+     * @return The ship's prefix.
+     */
     private String getPrefix(final Ship ship) {
-        switch (ship.getNationality()) {
-            case BRITISH:
-                return "HMS ";
-            case ITALIAN:
-                return "RM ";
-            case AUSTRALIAN:
-                return "HMAS ";
-            default:
-                return "Unknown ";
-        }
+        return ship.getNationality().getShipPrefix() + " ";
     }
 
     /**
@@ -198,16 +268,6 @@ public class ShipDetailsView {
      * @return The ship's image view.
      */
     private ImageView getImage(final Ship ship) {
-        //Look for an image for this specific ship.
-        String name = ship.getName().replace(" ", "_");
-        ImageView shipImage = imageResourceProvider.getImageView(name + EXTENSION);
-
-        //If the specific ship image is not found use the ship's class image.
-        if (shipImage.getImage() == null) {
-            String shipClassName = ship.getShipClass().replace(" ", "_");
-            shipImage = imageResourceProvider.getImageView(shipClassName + EXTENSION);
-        }
-
-        return shipImage;
+        return imageResourceProvider.getShipImageView(ship);
     }
 }

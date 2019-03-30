@@ -16,8 +16,8 @@
     "maxHealth": 2
   },
   "movement": {
-    "even": 4,
-    "odd": 4
+    "maxEven": 4,
+    "maxOdd": 4
   },
   "hull": {
     "armour": "NONE",

@@ -2,12 +2,14 @@ package engima.waratsea.utility;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.game.GameTitle;
+import engima.waratsea.model.ship.Ship;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Singleton;
 import java.io.File;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Optional;
 
@@ -39,6 +41,48 @@ public class ImageResourceProvider {
      */
     public ImageView getImageView(final String resourceName)  {
         return new ImageView(getImage(resourceName));
+    }
+
+    /**
+     * Get a ship image. Attempt to get an image for the ship name. If that fails get the image for the ship's
+     * class.
+     *
+     * @param ship The ship whose image is retrieved.
+     * @return The ship's image view.
+     */
+    public ImageView getShipImageView(final Ship ship) {
+        Image image = getShipNameImage(ship)
+                .orElseGet(() -> getShipClassImage(ship)
+                        .orElse(null));
+
+        if (image == null) {
+            log.error("Unable to load ship image for {}", ship.getName());
+        }
+
+        return new ImageView(image);
+
+    }
+
+    /**
+     * Load the image that corresponds to the ship name.
+     *
+     * @param ship The ship whose image is loaded.
+     * @return An optional ship image.
+     */
+    private Optional<Image> getShipNameImage(final Ship ship) {
+        String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getName() + ".png";
+        return  loadImage(path);
+    }
+
+    /**
+     * Load the image that corresponds to the ship's class.
+     *
+     * @param ship The ship whose image is loaded.
+     * @return An optional ship image.
+     */
+    private Optional<Image> getShipClassImage(final Ship ship) {
+        String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getShipClass() + ".png";
+        return loadImage(path);
     }
 
     /**
@@ -103,15 +147,27 @@ public class ImageResourceProvider {
      * @return The image if it exists.
      */
     private Optional<Image> loadImage(final String path) {
-        Optional<URL> url = Optional.ofNullable(getClass().getClassLoader().getResource(path));
+        return Optional.ofNullable(getClass()
+                .getClassLoader()
+                .getResource(path))
+                .map(this::getFile);
+    }
 
-        return url.map(u -> {
-            File file = new File(u.getPath());
-            log.info("Loaded image: {}", path);
-            return new Image(file.toURI().toString());
-        });
-
-
+    /**
+     * Get the image file.
+     *
+     * @param url The image file url.
+     * @return The image from the file.
+     */
+    private Image getFile(final URL url) {
+       try {
+           File file =  new File(url.toURI().getPath());
+           log.debug("Loaded image: {}", url.toURI().getPath());
+           return new Image(file.toURI().toString());
+       } catch (URISyntaxException ex) {
+           log.error("Unable to get URI from URL.", ex);
+           return null;
+       }
     }
 
 }

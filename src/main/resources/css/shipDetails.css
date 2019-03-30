@@ -40,6 +40,11 @@
     -fx-hgap: 10;
 }
 
+
+.component-grid {
+    -fx-hgap: 10;
+}
+
 .bold-label {
     -fx-font: bold 9pt "Lucida Grande";
     -fx-font-weight: bold;
@@ -54,4 +59,14 @@
 .detail-pane .label {
  //   -fx-background-color: lightblue;
 
+}
+
+#status-pane {
+    -fx-padding: /* top */ 15 /* right */ 0 /* bottom */ 0 /* left */ 15;
+    -fx-hgap: 15;
+    -fx-vgap: 20;
+}
+
+.green-bar {
+    -fx-accent: green;
 }

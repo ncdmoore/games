@@ -10,6 +10,10 @@ import lombok.Setter;
 public class GunData {
     @Getter
     @Setter
+    private String name;
+
+    @Getter
+    @Setter
     private int maxHealth;
 
     @Getter

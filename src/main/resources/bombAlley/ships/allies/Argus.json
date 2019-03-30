@@ -21,8 +21,8 @@
     "capacity": 312
   },
   "movement": {
-    "even": 2,
-    "odd": 1
+    "maxEven": 2,
+    "maxOdd": 1
   },
   "victoryPoints": 24
 }

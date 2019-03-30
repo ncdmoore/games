@@ -29,8 +29,8 @@
     "capacity": 192
   },
   "movement": {
-    "even": 1,
-    "odd": 1
+    "maxEven": 1,
+    "maxOdd": 1
   },
   "cargo": {
     "capacity": 3

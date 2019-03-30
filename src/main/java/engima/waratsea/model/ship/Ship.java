@@ -6,6 +6,7 @@ import engima.waratsea.model.game.nation.Nation;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.taskForce.TaskForce;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -83,6 +84,14 @@ public interface Ship extends PersistentData<ShipData> {
      */
     int getVictoryPoints();
 
+
+    /**
+     * Get a list of all the ship components.
+     *
+     * @return A list of ship components.
+     */
+    List<Component> getComponents();
+
     /**
      * Set the ship's task force.
      *
@@ -110,14 +119,14 @@ public interface Ship extends PersistentData<ShipData> {
     /**
      * Get the ship's surface weapon data.
      *
-     * @return A map of surface weapon data.
+     * @return The ship's surface weapons data.
      */
     Map<String, String> getSurfaceWeaponData();
 
     /**
      * Get the ship's anti air weapon data.
      *
-     * @return A map of the anti air weapon data.
+     * @return The ship's anti-air weapons data.
      */
     Map<String, String> getAntiAirWeaponData();
 
@@ -131,16 +140,30 @@ public interface Ship extends PersistentData<ShipData> {
     /**
      * Get the ship's armour data.
      *
-     * @return A map of the armour type to armour value.
+     * @return The ship's armour data.
      */
     Map<String, String> getArmourData();
 
     /**
      * Get the ship's movement data.
      *
-     * @return A map of the movement per turn type.
+     * @return The ship's movement data.
      */
     Map<String, String> getMovementData();
+
+    /**
+     * Get the ship's fuel data.
+     *
+     * @return The ship's fuel data.
+     */
+    Map<String, String> getFuelData();
+
+    /**
+     * Get the ship's cargo data.
+     *
+     * @return The ship's cargo data.
+     */
+    Map<String, String> getCargoData();
 
     /**
      * Get the ship's persistent data.

@@ -6,7 +6,9 @@ import lombok.Getter;
 /**
  * Ship's movement.
  */
-public class Movement {
+public class Movement implements Component {
+    @Getter
+    private final String name;
 
     private final int maxEven;
 
@@ -24,10 +26,23 @@ public class Movement {
      * @param data The persisted movement data.
      */
     public Movement(final MovementData data) {
+        this.name = "Movement";
         this.maxEven = data.getMaxEven();
         this.maxOdd = data.getMaxOdd();
         this.even = data.getEven();
         this.odd = data.getOdd();
+
+        // An even movement that is knocked out will have a health of -1.
+        // Thus a value of 0 for health indicates this is a newly
+        // created movement and the health is set to max health.
+        if (even == 0) {
+            even = maxEven;
+        }
+
+        if (odd == 0) {
+            odd = maxOdd;
+        }
+
     }
 
     /**
@@ -42,5 +57,33 @@ public class Movement {
         data.setEven(even);
         data.setOdd(odd);
         return data;
+    }
+
+    /**
+     * Get the movement's health.
+     *
+     * @return The movement's health.
+     */
+    public int getHealth() {
+        return even + odd;
+    }
+
+    /**
+     * Determine if the component is present.
+     *
+     * @return True if the component is present. False otherwise.
+     */
+    @Override
+    public boolean isPresent() {
+        return true;
+    }
+
+    /**
+     * Get the movement's max health.
+     *
+     * @return The movement's max health.
+     */
+    public int getMaxHealth() {
+        return maxEven + maxOdd;
     }
 }

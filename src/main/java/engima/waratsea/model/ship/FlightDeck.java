@@ -9,7 +9,10 @@ import java.util.List;
 /**
  * Aircraft carrier flight deck.
  */
-public class FlightDeck {
+public class FlightDeck implements Component {
+
+    @Getter
+    private String name;
 
     private static final int MAX = 0;
 
@@ -25,16 +28,27 @@ public class FlightDeck {
     @Setter
     private int health;
 
+    @Getter
+    private final int maxHealth;
+
     /**
      * Constructor.
      *
      * @param data The flight deck's persisted data.
      */
     public FlightDeck(final FlightDeckData data) {
+        this.name = "FlightDeck";
         this.armour = data.getArmour();
         this.capacityList = data.getCapacityList();
+        this.health =  data.getHealth();
+        this.maxHealth = capacityList.size();
 
-        this.health = capacityList != null ? capacityList.size()  : 0;
+        // The only time the health is zero is on initial creation of the flight deck.
+        // Note, when a flight deck is knocked out it's value is set to -1.
+        if (health == 0) {
+            health = maxHealth;
+        }
+
     }
 
     /**
@@ -58,5 +72,15 @@ public class FlightDeck {
     public int getCapacity() {
         // The capacity list is zero based, so minus one from the health.
         return capacityList.get(health - 1);
+    }
+
+    /**
+     * Determine if the component is present.
+     *
+     * @return True if the component is present. False otherwise.
+     */
+    @Override
+    public boolean isPresent() {
+        return true;
     }
 }

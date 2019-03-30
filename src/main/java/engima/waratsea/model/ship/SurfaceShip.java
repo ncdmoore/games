@@ -4,13 +4,17 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.nation.Nation;
+import engima.waratsea.model.ship.data.GunData;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Represents a surface ship: Battleship, cruisers, etc.
@@ -37,12 +41,14 @@ public class SurfaceShip implements Ship {
     private TaskForce taskForce;
 
     private Gun primary;
+
     private Gun secondary;
     private Gun tertiary;
     private Gun antiAir;
     private Torpedo torpedo;
     private Movement movement;
     private Fuel fuel;
+
     private Hull hull;
 
     @Getter
@@ -64,10 +70,10 @@ public class SurfaceShip implements Ship {
         nationality = data.getNationality();
         victoryPoints = data.getVictoryPoints();
 
-        primary = new Gun(data.getPrimary());
-        secondary = new Gun(data.getSecondary());
-        tertiary = new Gun(data.getTertiary());
-        antiAir = new Gun(data.getAntiAir());
+        primary = buildGun("Primary", data.getPrimary());
+        secondary = buildGun("Secondary", data.getSecondary());
+        tertiary = buildGun("Tertiary", data.getTertiary());
+        antiAir = buildGun("Anti-Air", data.getAntiAir());
         torpedo = new Torpedo(data.getTorpedo());
 
         movement = new Movement(data.getMovement());
@@ -76,6 +82,18 @@ public class SurfaceShip implements Ship {
         cargo = new Cargo((data.getCargo()));
 
         originPort = data.getOriginPort();
+    }
+
+    /**
+     * Build a gun.
+     *
+     * @param name The name of the gun.
+     * @param data The gun's data.
+     * @return The gun.
+     */
+    private Gun buildGun(final String name, final GunData data) {
+        data.setName(name);
+        return new Gun(data);
     }
 
     /**
@@ -136,6 +154,18 @@ public class SurfaceShip implements Ship {
     @Override
     public boolean isCarrier() {
         return false;
+    }
+
+    /**
+     * Get a list of all the ship components.
+     *
+     * @return A list of ship components.
+     */
+    @Override
+    public List<Component> getComponents() {
+        return Stream.of(hull, primary, secondary, tertiary, antiAir, torpedo, movement, fuel, cargo)
+                .filter(Component::isPresent)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -206,6 +236,7 @@ public class SurfaceShip implements Ship {
         armour.put("Tertiary:", tertiary.getArmour().toString());
         armour.put("Anti Air:", antiAir.getArmour().toString());
         armour.put("Hull:", hull.getArmour().toString());
+        armour.put("Deck:", hull.isDeck() + "");
 
         return armour;
     }
@@ -223,4 +254,27 @@ public class SurfaceShip implements Ship {
         return speed;
     }
 
+    /**
+     * Get the ship's fuel data.
+     *
+     * @return The ship's fuel data.
+     */
+    @Override
+    public Map<String, String> getFuelData() {
+        Map<String, String> fueldata = new LinkedHashMap<>();
+        fueldata.put("Remaing Fuel:", fuel.getLevel() + "");
+        return fueldata;
+    }
+
+    /**
+     * Get the ship's cargo data.
+     *
+     * @return The ship's cargo data.
+     */
+    @Override
+    public Map<String, String> getCargoData() {
+        Map<String, String> cargoData = new LinkedHashMap<>();
+        cargoData.put("Current Cargo:", cargo.getLevel() + "");
+        return cargoData;
+    }
 }

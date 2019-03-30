@@ -3,20 +3,12 @@ package engima.waratsea.model.aircraft;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.data.AircraftData;
-import lombok.Getter;
 
 /**
  * Represents an Italian level bomber.
  */
-public class PoorNavalBomber implements Aircraft {
-    @Getter
-    private final String name;
+public class PoorNavalBomber extends AircraftImpl {
 
-    @Getter
-    private final AircraftType type;
-
-    @Getter
-    private final String designation;
     /**
      * The constructor called by guice.
      *
@@ -24,8 +16,6 @@ public class PoorNavalBomber implements Aircraft {
      */
     @Inject
     public PoorNavalBomber(@Assisted final AircraftData data) {
-        this.name = data.getName();
-        this.type = AircraftType.POOR_NAVAL_BOMBER;
-        this.designation = data.getDesignation();
+        super(data);
     }
 }
