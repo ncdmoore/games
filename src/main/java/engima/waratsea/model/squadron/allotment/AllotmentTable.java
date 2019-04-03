@@ -3,6 +3,7 @@ package engima.waratsea.model.squadron.allotment;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.squadron.allotment.data.AllotmentTableData;
+import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.utility.Dice;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +24,7 @@ public class AllotmentTable {
     private List<AllotmentGroup> groups;
 
     @Getter
-    private final List<String> squadrons = new ArrayList<>(); // The total number of squadrons for this type of aircraft: bombers, fighters or recon.
+    private final List<SquadronData> squadrons = new ArrayList<>(); // The total number of squadrons for this type of aircraft: bombers, fighters or recon.
 
     /**
      * The constructor called by guice.
@@ -55,7 +56,7 @@ public class AllotmentTable {
         int neededSquadrons = numberOfSquadrons;
         while (neededSquadrons > 0) {
             for (AllotmentGroup group : groups) {
-                List<String> selected = group.select(neededSquadrons);
+                List<SquadronData> selected = group.select(neededSquadrons);
                 neededSquadrons -= selected.size();
                 squadrons.addAll(selected);
             }

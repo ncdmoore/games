@@ -5,6 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.game.nation.Nation;
 import engima.waratsea.model.squadron.allotment.data.AllotmentData;
 import engima.waratsea.model.squadron.allotment.data.AllotmentTableData;
+import engima.waratsea.model.squadron.data.SquadronData;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,13 +27,13 @@ public class Allotment {
     private final Nation nation;
 
     @Getter
-    private final List<String> bombers;
+    private final List<SquadronData> bombers;
 
     @Getter
-    private final List<String> fighters;
+    private final List<SquadronData> fighters;
 
     @Getter
-    private final List<String> recon;
+    private final List<SquadronData> recon;
 
     /**
      * Constructor called by guice.
@@ -70,7 +71,7 @@ public class Allotment {
      *
      * @return A stream of all the squadron types.
      */
-    public Stream<String> get() {
+    public Stream<SquadronData> get() {
         return Stream.of(bombers, fighters, recon).flatMap(Collection::stream);
     }
 
@@ -80,7 +81,7 @@ public class Allotment {
      * @param data The allotment table data.
      * @return A list of squadron models.
      */
-    private List<String> getSquadrons(final AllotmentTableData data) {
+    private List<SquadronData> getSquadrons(final AllotmentTableData data) {
         return factory.create(data).getSquadrons();
     }
 }

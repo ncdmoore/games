@@ -1,6 +1,7 @@
 package engima.waratsea.model.squadron.allotment;
 
 import engima.waratsea.model.squadron.allotment.data.AllotmentAircraftData;
+import engima.waratsea.model.squadron.data.SquadronData;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 public class AllotmentAircraft {
     private String type;  // The type of aircraft. BF109E for example.
     private int number; // The number of squadrons of this type of aircraft.
+    private int strength; // The strength of this type of squadron.
 
     /**
      * The constructor.
@@ -22,6 +24,11 @@ public class AllotmentAircraft {
     public AllotmentAircraft(final AllotmentAircraftData data) {
         type = data.getType();
         number = data.getNumber();
+        strength = data.getStrength();
+
+        if (strength == 0) { // The default squadron strength is 2.
+            strength = 2;
+        }
     }
 
     /**
@@ -30,11 +37,14 @@ public class AllotmentAircraft {
      *
      * @return A list of aircraft type names.
      */
-    public List<String> get() {
-        List<String> squadrons = new ArrayList<>();
+    public List<SquadronData> get() {
+        List<SquadronData> squadrons = new ArrayList<>();
 
         for (int i = 0; i < number; i++) {
-            squadrons.add(type);
+            SquadronData data = new SquadronData();
+            data.setModel(type);
+            data.setStrength(strength);
+            squadrons.add(data);
         }
 
         log.debug("Allotment for '{}' is '{}'", type, number);

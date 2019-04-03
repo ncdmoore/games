@@ -1,6 +1,7 @@
 package engima.waratsea.model.squadron.allotment;
 
 import engima.waratsea.model.squadron.allotment.data.AllotmentGroupData;
+import engima.waratsea.model.squadron.data.SquadronData;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ public class AllotmentGroup {
     @Setter
     private int selectSize;
 
-    private List<String> aircraft;    // A list of "all" available squadron types for this grouping.
+    private List<SquadronData> aircraft;    // A list of "all" available squadron types for this grouping.
 
     /**
      * Constructor.
@@ -40,7 +41,11 @@ public class AllotmentGroup {
                 .flatMap(allotment -> allotment.get().stream())
                 .collect(Collectors.toList());
 
-        log.debug("The select size for is: '{}', aircraft: '{}'", selectSize, aircraft.stream().distinct().collect(Collectors.joining(", ")));
+        log.debug("The select size for is: '{}', aircraft: '{}'", selectSize, aircraft
+                .stream()
+                .map(SquadronData::getModel)
+                .distinct()
+                .collect(Collectors.joining(", ")));
     }
 
     /**
@@ -49,16 +54,16 @@ public class AllotmentGroup {
      * @param numberNeeded The number of squadrons to select from this group. This may be 0.
      * @return A list of selected squadron aircraft types.
      */
-    public List<String> select(final int numberNeeded) {
+    public List<SquadronData> select(final int numberNeeded) {
 
         // If the number needed is less that the select size, then only select what is needed.
         int numberToSelect = numberNeeded < selectSize ? numberNeeded : selectSize;
 
-        List<String> selected = new ArrayList<>();
+        List<SquadronData> selected = new ArrayList<>();
 
         for (int i = 0; i < numberToSelect; i++) {
             int index = new Random().nextInt(aircraft.size());   // Get an index to remove from the squadron list.
-            String squadron = aircraft.remove(index);            // The selected squadron.
+            SquadronData squadron = aircraft.remove(index);            // The selected squadron.
             selected.add(squadron);                              // Add the selected squadron to the selected list.
         }
 

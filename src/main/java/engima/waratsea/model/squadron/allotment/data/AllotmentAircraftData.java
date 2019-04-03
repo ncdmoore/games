@@ -14,4 +14,8 @@ public class AllotmentAircraftData {
     @Getter
     @Setter
     private int number; // The maximum number of squadrons of this type of aircraft.
+
+    @Getter
+    @Setter
+    private int strength; // The strength of squadrons of this type.
 }

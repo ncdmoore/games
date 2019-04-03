@@ -7,7 +7,6 @@ import engima.waratsea.model.game.nation.Nation;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.squadron.allotment.Allotment;
 import engima.waratsea.model.squadron.allotment.AllotmentLoader;
-import engima.waratsea.model.squadron.data.SquadronData;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -83,7 +82,6 @@ public class SquadronLoader {
         return allotmentMap
                 .get(nation)
                 .get()
-                .map(SquadronData::new)
                 .map(data -> factory.create(side, data))
                 .collect(Collectors.toList());
     }

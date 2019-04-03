@@ -94,7 +94,7 @@ public class Squadron {
 
             name = designation + index + "-" + model;
 
-            log.debug("Squadron: '{}' built for side: {}", name, side);
+            log.info("Squadron: '{}' with strength: '{}' built for side: {}", new Object[]{name, strength, side});
 
         } catch (AviationPlantException ex) {
             log.error("Unable to build aircraft model: '{}' for side: {}", model, side);
