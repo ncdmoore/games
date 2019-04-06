@@ -33,8 +33,8 @@ public class ShipyardTest {
 
     @Test
     public void testShipClassLoadForAircraftCarrier() {
-        String shipClass = "Eagle";
-        ShipData shipData = Deencapsulation.invoke(shipyard, "loadNewShipData", shipClass, new ShipId("CVL04 Eagle", Side.ALLIES));
+        String shipClass = "Eagle-1";
+        ShipData shipData = Deencapsulation.invoke(shipyard, "loadNewShipData", shipClass, new ShipId("CVL04 Eagle-1", Side.ALLIES));
         assert (shipData.getType().equals(ShipType.AIRCRAFT_CARRIER));
     }
 
@@ -49,7 +49,7 @@ public class ShipyardTest {
     public void testBuildAircraftCarrier() throws Exception {
         testBuildAircraftCarrier("CVL01 Argus", Nation.BRITISH, 3);
         testBuildAircraftCarrier("CV04 Ark Royal", Nation.BRITISH, 9);
-        testBuildAircraftCarrier("CVL04 Eagle", Nation.BRITISH, 4);
+        testBuildAircraftCarrier("CVL04 Eagle-1", Nation.BRITISH, 4);
         testBuildAircraftCarrier("CV01 Furious", Nation.BRITISH, 6);
         testBuildAircraftCarrier("CV05 Illustrious", Nation.BRITISH, 6);
         testBuildAircraftCarrier("CV08 Indomitable", Nation.BRITISH, 8);

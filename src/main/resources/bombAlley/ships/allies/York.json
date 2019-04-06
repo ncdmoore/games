@@ -35,5 +35,10 @@
   "cargo": {
     "capacity": 3
   },
+  "aircraft": [
+    {
+      "model": "Seafox"
+    }
+  ],
   "victoryPoints": 22
 }

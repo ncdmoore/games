@@ -1,0 +1,35 @@
+{
+  "name": "Ro.43",
+  "type": "Reconnaissance",
+  "nationality": "Italian",
+  "service": "NAVY",
+  "designation": "RN-",
+  "altitude": "LOW",
+  "landing": "LAND",
+  "naval": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0,
+    "sixth": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0,
+    "sixth": 0
+  },
+  "air": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0,
+    "sixth": 0
+  },
+  "range": {
+    "range": 6,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

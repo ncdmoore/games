@@ -1,0 +1,35 @@
+{
+  "name": "GL 832",
+  "type": "Reconnaissance",
+  "nationality": "FRENCH",
+  "service": "NAVY",
+  "designation": "AA-",
+  "altitude": "LOW",
+  "landing": "SEAPLANE",
+  "naval": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0,
+    "sixth": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0,
+    "sixth": 0
+  },
+  "air": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0,
+    "sixth": 0
+  },
+  "range": {
+    "range": 6,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

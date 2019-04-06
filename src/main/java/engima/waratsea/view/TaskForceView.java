@@ -465,7 +465,8 @@ public class TaskForceView {
         tab.setContent(tilePane);
 
         ships.forEach(ship -> {
-            Button button = new Button(ship.getName());
+            Button button = new Button(ship.getTitle());
+            button.setUserData(ship);
             button.setMinWidth(props.getInt("taskForce.ship.label.width"));
             button.setMaxWidth(props.getInt("taskForce.ship.label.width"));
             tilePane.getChildren().add(button);

@@ -34,5 +34,10 @@
   "cargo": {
     "capacity": 3
   },
+  "aircraft": [
+    {
+      "model": "RO43"
+    }
+  ],
   "victoryPoints": 19
 }

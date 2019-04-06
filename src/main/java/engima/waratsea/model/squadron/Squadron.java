@@ -37,7 +37,7 @@ public class Squadron {
 
     @Getter
     @Setter
-    private int strength;
+    private SquadronStrength strength;
 
     @Getter
     private String location;
@@ -94,7 +94,7 @@ public class Squadron {
 
             name = designation + index + "-" + model;
 
-            log.info("Squadron: '{}' with strength: '{}' built for side: {}", new Object[]{name, strength, side});
+            log.debug("Squadron: '{}' with strength: '{}' built for side: {}", new Object[]{name, strength, side});
 
         } catch (AviationPlantException ex) {
             log.error("Unable to build aircraft model: '{}' for side: {}", model, side);

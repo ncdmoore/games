@@ -33,5 +33,15 @@
     "maxEven": 2,
     "maxOdd": 2
   },
+  "aircraft": [
+    {
+      "model": "Swordfish",
+      "steps": 3
+    },
+    {
+      "model": "Sea Gladiator",
+      "steps": 1
+    }
+  ],
   "victoryPoints": 44
 }

@@ -28,5 +28,10 @@
     "maxEven": 3,
     "maxOdd": 3
   },
+  "aircraft": [
+    {
+      "model": "Loire 130"
+    }
+  ],
   "victoryPoints": 56
 }

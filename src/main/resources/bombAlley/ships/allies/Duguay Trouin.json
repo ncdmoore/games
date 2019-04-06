@@ -31,5 +31,10 @@
   "cargo": {
     "capacity": 3
   },
+  "aircraft": [
+    {
+      "model": "GL832"
+    }
+  ],
   "victoryPoints": 18
 }

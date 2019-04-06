@@ -30,5 +30,10 @@
   "cargo": {
     "capacity": 3
   },
+  "aircraft": [
+    {
+      "model": "Loire 130"
+    }
+  ],
   "victoryPoints": 19
 }

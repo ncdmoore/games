@@ -88,9 +88,8 @@ public class HumanPlayer implements Player {
         airfields = gameMap.getAirfields(side);
         ports = gameMap.gerPorts(side);
 
-        taskForces = taskForceLoader.load(scenario, side);
-
         loadSquadrons(scenario);
+        loadTaskForces(scenario);
     }
 
     /**
@@ -113,6 +112,16 @@ public class HumanPlayer implements Player {
     private void loadSquadrons(final Scenario scenario) {
         nations = nationProps.getNations(scenario, side);
         nations.forEach(nation -> loadNationSquadrons(scenario, nation));
+    }
+
+    /**
+     * Load the task forces.
+     *
+     * @param scenario The selected scenario.
+     * @throws ScenarioException Indicates the task forces could not be loaded.
+     */
+    private void loadTaskForces(final Scenario scenario) throws ScenarioException {
+        taskForces = taskForceLoader.load(scenario, side);
     }
 
     /**

@@ -30,5 +30,10 @@
   "cargo": {
     "capacity": 3
   },
+  "aircraft": [
+    {
+      "model": "Walrus"
+    }
+  ],
   "victoryPoints": 22
 }

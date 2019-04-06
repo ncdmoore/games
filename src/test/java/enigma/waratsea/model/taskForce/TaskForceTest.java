@@ -138,7 +138,7 @@ public class TaskForceTest {
         List<ShipMatchData> releaseEvents = new ArrayList<>();
         releaseEvents.add(releaseEvent);
 
-        String shipName = "CVL04 Eagle";
+        String shipName = "CVL04 Eagle-1";
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
         Ship ship = shipyard.load(shipId);
 
@@ -175,7 +175,7 @@ public class TaskForceTest {
         List<ShipMatchData> releaseEvents = new ArrayList<>();
         releaseEvents.add(releaseEvent);
 
-        String shipName = "CVL04 Eagle";
+        String shipName = "CVL04 Eagle-1";
         ShipId shipId = new ShipId(shipName, Side.ALLIES);
         Ship ship = shipyard.load(shipId);
 

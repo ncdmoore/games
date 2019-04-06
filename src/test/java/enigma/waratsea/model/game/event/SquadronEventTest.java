@@ -16,6 +16,7 @@ import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
+import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.squadron.data.SquadronData;
 import enigma.waratsea.TestModule;
 import org.junit.Assert;
@@ -53,7 +54,7 @@ public class SquadronEventTest {
     public void testSquadronDestroyedEvent() {
         SquadronData squadronData = new SquadronData();
         squadronData.setModel("BF109E");
-        squadronData.setStrength(2);
+        squadronData.setStrength(SquadronStrength.FULL);
 
         Squadron squadron = squadronFactory.create(Side.AXIS, squadronData);
 
@@ -85,7 +86,7 @@ public class SquadronEventTest {
 
         SquadronData squadronData = new SquadronData();
         squadronData.setModel("Blenheim");
-        squadronData.setStrength(2);
+        squadronData.setStrength(SquadronStrength.FULL);
 
 
         Squadron squadron = squadronFactory.create(Side.ALLIES, squadronData);

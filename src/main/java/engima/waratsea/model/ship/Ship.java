@@ -36,6 +36,15 @@ public interface Ship extends PersistentData<ShipData> {
     String getName();
 
     /**
+     * Get the ship's title. Some ships have revisions or configurations in their name.
+     * The getName routine returns this extra information. The get title routine only
+     * returns the ship's name/title.
+     *
+     * @return The ship's title.
+     */
+    String getTitle();
+
+    /**
      * Get the ship's origin port. This is tracked at the ship level because a ship may be moved from one task
      * force to another. Thus, the ship must keep track of its origin port itself.
      *

@@ -1,5 +1,6 @@
 package engima.waratsea.model.squadron.allotment.data;
 
+import engima.waratsea.model.squadron.SquadronStrength;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,5 +18,5 @@ public class AllotmentAircraftData {
 
     @Getter
     @Setter
-    private int strength; // The strength of squadrons of this type.
+    private SquadronStrength strength; // The strength of squadrons of this type.
 }

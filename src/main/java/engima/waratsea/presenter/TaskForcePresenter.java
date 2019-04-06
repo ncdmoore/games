@@ -267,10 +267,7 @@ public class TaskForcePresenter {
      */
     private void displayShipDialog(final ActionEvent event) {
         Button button = (Button) event.getSource();
-        log.info("button label: '{}'", button.getText());
-
-        Ship ship = selectedTaskForce.getShip(button.getText());
-
+        Ship ship = (Ship) button.getUserData();
         shipDetailsDialogProvider.get().show(ship);
     }
 }

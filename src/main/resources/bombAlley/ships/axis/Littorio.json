@@ -29,5 +29,10 @@
     "maxEven": 3,
     "maxOdd": 3
   },
+  "aircraft": [
+    {
+      "model": "RO43"
+    }
+  ],
   "victoryPoints": 114
 }

@@ -30,7 +30,7 @@ public class ShipEventTest {
 
     private static TaskForce taskForce;
 
-    private static String carrierName = "CVL04 Eagle";
+    private static String carrierName = "CVL04 Eagle-1";
     private static String destroyerName = "DD110 Tartar";
     private static String cruiserName = "CA05 Kent";
     private static String battleshipName = "BB02 Warspite";

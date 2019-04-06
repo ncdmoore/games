@@ -67,7 +67,7 @@ public class Game {
     private Side humanSide;
 
     @Getter
-    private Scenario scenario;
+    private Scenario scenario; // The selected scenario.
 
     private  Map<Side, Player> players = new HashMap<>();
 

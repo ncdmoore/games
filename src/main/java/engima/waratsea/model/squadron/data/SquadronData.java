@@ -1,5 +1,6 @@
 package engima.waratsea.model.squadron.data;
 
+import engima.waratsea.model.squadron.SquadronStrength;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,22 +14,5 @@ public class SquadronData {
 
     @Getter
     @Setter
-    private int strength;
-
-    /**
-     * Default constructor called by gson.
-     */
-    public SquadronData() {
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param model The aircraft model in which the squadron is composed.
-     */
-    public SquadronData(final String model) {
-        this.model = model;
-        this.strength = 2;
-    }
-
+    private SquadronStrength strength;
 }

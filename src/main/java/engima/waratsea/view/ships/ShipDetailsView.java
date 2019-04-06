@@ -50,7 +50,7 @@ public class ShipDetailsView {
      * @return A node that contains the ship details.
      */
     public Node show(final Ship ship) {
-        Label title = new Label(getPrefix(ship) + ship.getName());
+        Label title = new Label(getPrefix(ship) + ship.getTitle());
         title.setId("title");
 
         StackPane titlePane = new StackPane(title);
@@ -142,8 +142,8 @@ public class ShipDetailsView {
         double percent = component.getHealth() * 1.0 / maxHealth;
         Label values = new Label(component.getHealth() + "/" + maxHealth);
         ProgressBar progressBar = new ProgressBar(percent);
-        progressBar.setMaxWidth(300);
-        progressBar.setMinWidth(300);
+        progressBar.setMaxWidth(props.getInt("ship.dialog.status.progressBar.width"));
+        progressBar.setMinWidth(props.getInt("ship.dialog.status.progressBar.width"));
         progressBar.getStyleClass().add("green-bar");
 
         return new ArrayList<>(Arrays.asList(titleLabel, progressBar, values));
@@ -177,7 +177,7 @@ public class ShipDetailsView {
 
         GridPane gridPane = new GridPane();
         gridPane.add(new Label("Name:"), 0, 0);
-        gridPane.add(new Label(ship.getName()), 1, 0);
+        gridPane.add(new Label(ship.getTitle()), 1, 0);
         gridPane.add(new Label("Type:"), 0, 1);
         gridPane.add(new Label(ship.getType().toString()), 1, 1);
         gridPane.add(new Label("Class:"), 0, 2);

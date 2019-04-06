@@ -6,6 +6,8 @@ import engima.waratsea.model.ship.ShipType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * Represents the ship's data that is read and written to JSON files.
  */
@@ -73,6 +75,10 @@ public class ShipData {
     @Getter
     @Setter
     private String originPort;
+
+    @Getter
+    @Setter
+    private List<AircraftData> aircraft;
 
     /** The default ship data constructor.
      *
