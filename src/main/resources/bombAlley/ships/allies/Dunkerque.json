@@ -30,7 +30,8 @@
   },
   "aircraft": [
     {
-      "model": "Loire 130"
+      "model": "Loire 130",
+      "strength": "sixth"
     }
   ],
   "victoryPoints": 56

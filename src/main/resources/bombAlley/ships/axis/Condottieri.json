@@ -38,7 +38,8 @@
   },
   "aircraft": [
     {
-      "model": "RO43"
+      "model": "RO43",
+      "strength": "sixth"
     }
   ],
   "victoryPoints": 19

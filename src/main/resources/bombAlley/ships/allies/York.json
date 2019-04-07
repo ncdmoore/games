@@ -37,7 +37,8 @@
   },
   "aircraft": [
     {
-      "model": "Seafox"
+      "model": "Seafox",
+      "strength": "sixth"
     }
   ],
   "victoryPoints": 22

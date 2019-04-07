@@ -3,6 +3,7 @@ package engima.waratsea.presenter.ship;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.ship.Ship;
+import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ships.ShipDetailsView;
@@ -57,7 +58,11 @@ public class ShipDetailsDialog {
 
         dialog.getOkButton().setOnAction(event -> close());
 
+        selectSquadron(view);
+
         dialog.show(stage);
+
+        // No code can go here. The dialog blocks until closed.
     }
 
     /**
@@ -65,5 +70,25 @@ public class ShipDetailsDialog {
      */
     private void close() {
         stage.close();
+    }
+
+    /**
+     * Select the first squadron.
+     *
+     * @param view The dialog view.
+     */
+    private void selectSquadron(final ShipDetailsView view) {
+        view.getSquadrons().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> squadronSelected(newValue));
+        view.getSquadrons().getSelectionModel().selectFirst();
+    }
+
+    /**
+     * Callback for when a ship squadron is selected.
+     *
+     * @param squadron The selected squadron.
+     */
+    private void squadronSelected(final Squadron squadron) {
+        log.info("Select squadron {}", squadron);
+
     }
 }

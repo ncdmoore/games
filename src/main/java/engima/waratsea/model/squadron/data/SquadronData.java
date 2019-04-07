@@ -10,6 +10,10 @@ import lombok.Setter;
 public class SquadronData {
     @Getter
     @Setter
+    private String name;
+
+    @Getter
+    @Setter
     private String model;
 
     @Getter

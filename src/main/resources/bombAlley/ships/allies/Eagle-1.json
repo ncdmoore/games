@@ -36,11 +36,15 @@
   "aircraft": [
     {
       "model": "Swordfish",
-      "steps": 3
+      "strength": "full"
+    },
+    {
+      "model": "Swordfish",
+      "strength": "half"
     },
     {
       "model": "Sea Gladiator",
-      "steps": 1
+      "strength": "half"
     }
   ],
   "victoryPoints": 44

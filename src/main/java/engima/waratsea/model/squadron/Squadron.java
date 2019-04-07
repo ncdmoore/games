@@ -2,6 +2,7 @@ package engima.waratsea.model.squadron;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.aircraft.AircraftId;
 import engima.waratsea.model.aircraft.AviationPlant;
@@ -13,6 +14,7 @@ import engima.waratsea.model.squadron.data.SquadronData;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +23,7 @@ import java.util.Map;
  * Represents an aircraft squadron of a particular class of aircraft.
  */
 @Slf4j
-public class Squadron {
+public class Squadron implements PersistentData<SquadronData> {
     @Getter
     private Side side;
 
@@ -82,6 +84,7 @@ public class Squadron {
         this.gameMap = gameMap;
         this.model = data.getModel();
         this.strength = data.getStrength();
+        this.name = data.getName();
 
         try {
             AircraftId aircraftId = new AircraftId(model, side);
@@ -92,13 +95,31 @@ public class Squadron {
             int index = designationMap.get(side).getOrDefault(designation, 0);
             designationMap.get(side).put(designation, ++index);
 
-            name = designation + index + "-" + model;
+            // Squadrons that have been saved will already have a name.
+            // Only newly created squadrons at game start will not have a name.
+            if (StringUtils.isBlank(name)) {
+                name = designation + index + "-" + model;
+            }
 
             log.debug("Squadron: '{}' with strength: '{}' built for side: {}", new Object[]{name, strength, side});
 
         } catch (AviationPlantException ex) {
             log.error("Unable to build aircraft model: '{}' for side: {}", model, side);
         }
+    }
+
+    /**
+     * Get the persistent data.
+     *
+     * @return The persistent data.
+     */
+    @Override
+    public SquadronData getData() {
+        SquadronData data = new SquadronData();
+        data.setModel(model);
+        data.setStrength(strength);
+        data.setName(name);
+        return data;
     }
 
     /**
@@ -128,4 +149,13 @@ public class Squadron {
         return gameMap.isLocationBase(side, location);
     }
 
+    /**
+     * The String representation of a squadron.
+     *
+     * @return The String representation of a squadron.
+     */
+    @Override
+    public String toString() {
+        return name;
+    }
 }

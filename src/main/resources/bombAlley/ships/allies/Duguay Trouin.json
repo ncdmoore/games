@@ -33,7 +33,8 @@
   },
   "aircraft": [
     {
-      "model": "GL832"
+      "model": "GL832",
+      "strength": "sixth"
     }
   ],
   "victoryPoints": 18

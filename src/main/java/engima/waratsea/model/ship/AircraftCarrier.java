@@ -5,22 +5,18 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.Airbase;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.nation.Nation;
-import engima.waratsea.model.ship.data.AircraftData;
 import engima.waratsea.model.ship.data.GunData;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
-import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -49,13 +45,28 @@ public class AircraftCarrier implements Ship, Airbase {
     @Setter
     private TaskForce taskForce;
 
+    @Getter
+    private Gun primary;
+
+    @Getter
     private Gun secondary;
+
+    @Getter
     private Gun tertiary;
+
+    @Getter
     private Gun antiAir;
+
+    @Getter
     private Torpedo torpedo;
+
+    @Getter
     private Movement movement;
+
+    @Getter
     private Fuel fuel;
 
+    @Getter
     private Hull hull;
 
     @Getter
@@ -64,9 +75,10 @@ public class AircraftCarrier implements Ship, Airbase {
     @Getter
     private String originPort;
 
+    @Getter
     private FlightDeck flightDeck;
 
-
+    @Getter
     private List<Squadron> aircraft;
 
     /**
@@ -85,6 +97,7 @@ public class AircraftCarrier implements Ship, Airbase {
         nationality = data.getNationality();
         victoryPoints = data.getVictoryPoints();
 
+        primary = buildGun("Primary", data.getPrimary());
         secondary = buildGun("Secondary", data.getSecondary());
         tertiary = buildGun("Tertiary", data.getTertiary());
         antiAir = buildGun("Anti-Air", data.getAntiAir());
@@ -142,6 +155,9 @@ public class AircraftCarrier implements Ship, Airbase {
         data.setOriginPort(originPort);
 
         data.setFlightDeck(flightDeck.getData());
+
+        data.setAircraft(PersistentUtility.getData(aircraft));
+
         return data;
     }
 
@@ -210,13 +226,22 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
+     * Determines if this ship has any aircraft carrier based or float planes.
+     *
+     * @return True if this ship has aircraft. False otherwise.
+     */
+    @Override
+    public boolean hasAircraft() {
+        return true;
+    }
+
+    /**
      * Call this method to inform the ship that it is sailing from port.
      */
     @Override
     public void setSail() {
         originPort = taskForce.getLocation();
     }
-
 
     /**
      * Call this method to load a ship to its maximum cargoShips capacity.
@@ -226,96 +251,6 @@ public class AircraftCarrier implements Ship, Airbase {
         cargo.load();
     }
 
-    /**
-     * Get the ship's surface weapon data.
-     *
-     * @return A map of surface weapon data.
-     */
-    @Override
-    public Map<String, String> getSurfaceWeaponData() {
-        Map<String, String> weapons = new LinkedHashMap<>();
-        weapons.put("Secondary:", secondary.getHealth() + "");
-        weapons.put("Tertiary:", tertiary.getHealth() + "");
-        return weapons;
-    }
-
-    /**
-     * Get the ship's anti air weapon data.
-     *
-     * @return A map of the anti air weapon data.
-     */
-    @Override
-    public Map<String, String> getAntiAirWeaponData() {
-        Map<String, String> weapons = new LinkedHashMap<>();
-        weapons.put("Anti Air:", antiAir.getHealth() + "");
-        return weapons;
-    }
-
-    /**
-     * Get the ship's torpedo data.
-     *
-     * @return The ship's torpedo data.
-     */
-    @Override
-    public Map<String, String> getTorpedoData() {
-        Map<String, String> weapons = new LinkedHashMap<>();
-        weapons.put("Torpedo:", torpedo.getHealth() + "");
-        return weapons;
-    }
-
-    /**
-     * Get the ship's armour data.
-     *
-     * @return A map of the armour type to armour value.
-     */
-    @Override
-    public Map<String, String> getArmourData() {
-        Map<String, String> armour = new LinkedHashMap<>();
-        armour.put("FlightDeck:", flightDeck.getArmour().toString());
-        armour.put("Secondary:", secondary.getArmour().toString());
-        armour.put("Tertiary:", tertiary.getArmour().toString());
-        armour.put("Anti Air:", antiAir.getArmour().toString());
-        armour.put("Hull:", hull.getArmour().toString());
-
-        return armour;
-    }
-
-    /**
-     * Get the ship's movement data.
-     *
-     * @return A map of the movement per turn type.
-     */
-    @Override
-    public Map<String, String> getMovementData() {
-        Map<String, String> speed = new LinkedHashMap<>();
-        speed.put("Even turns:", movement.getEven() + "");
-        speed.put("Odd turns:", movement.getOdd() + "");
-        return speed;
-    }
-
-    /**
-     * Get the ship's fuel data.
-     *
-     * @return The ship's fuel data.
-     */
-    @Override
-    public Map<String, String> getFuelData() {
-        Map<String, String> fueldata = new LinkedHashMap<>();
-        fueldata.put("Remaing Fuel:", fuel.getLevel() + "");
-        return fueldata;
-    }
-
-    /**
-     * Get the ship's cargo data.
-     *
-     * @return The ship's cargo data.
-     */
-    @Override
-    public Map<String, String> getCargoData() {
-        Map<String, String> cargoData = new LinkedHashMap<>();
-        cargoData.put("Current Cargo:", cargo.getLevel() + "");
-        return cargoData;
-    }
 
     /**
      * Build the ship squadrons.
@@ -324,40 +259,11 @@ public class AircraftCarrier implements Ship, Airbase {
      * @param factory The squadron factory that builds the actual squadron.
      * @return A list of squadrons.
      */
-    private List<Squadron> buildSquadrons(final List<AircraftData> data, final SquadronFactory factory) {
+    private List<Squadron> buildSquadrons(final List<SquadronData> data, final SquadronFactory factory) {
         return Optional.ofNullable(data)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .flatMap(this::getSquadronData)
                 .map(squadronData -> factory.create(shipId.getSide(), squadronData))
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * Convert the ship aircraft data into squadron data.
-     *
-     * @param data The ship aircraft data.
-     * @return A stream of squadron data.
-     */
-    private Stream<SquadronData> getSquadronData(final AircraftData data) {
-        int numberOfSquadrons = data.getSteps() / 2;
-        boolean oneHalfStrength = data.getSteps() % 2 != 0;
-
-        List<SquadronData> squadrons = new ArrayList<>();
-        for (int i = 0; i < numberOfSquadrons; i++) {
-            SquadronData squadronData = new SquadronData();
-            squadronData.setModel(data.getModel());
-            squadronData.setStrength(SquadronStrength.FULL);
-            squadrons.add(squadronData);
-        }
-
-        if (oneHalfStrength) {
-            SquadronData squadronData = new SquadronData();
-            squadronData.setModel(data.getModel());
-            squadronData.setStrength(SquadronStrength.HALF);
-            squadrons.add(squadronData);
-        }
-
-        return squadrons.stream();
     }
 }

@@ -59,8 +59,4 @@ public class AircraftData {
     @Getter
     @Setter
     private FrameData frame;
-
-    @Getter
-    @Setter
-    private int step;
 }

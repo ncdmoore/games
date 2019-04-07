@@ -4,10 +4,10 @@ import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.nation.Nation;
 import engima.waratsea.model.ship.data.ShipData;
+import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.TaskForce;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents a ship.
@@ -81,6 +81,20 @@ public interface Ship extends PersistentData<ShipData> {
     boolean isCarrier();
 
     /**
+     * Determines if this ship has any aircraft carrier based or float planes.
+     *
+     * @return True if this ship has aircraft. False otherwise.
+     */
+    boolean hasAircraft();
+
+    /**
+     * Get the ship's aircraft squadrons.
+     *
+     * @return A list of aircraft squadrons.
+     */
+    List<Squadron> getAircraft();
+
+    /**
      * Get the ship's nationality.
      *
      * @return The ship's nationality.
@@ -93,6 +107,68 @@ public interface Ship extends PersistentData<ShipData> {
      */
     int getVictoryPoints();
 
+    /**
+     * Get the ship's primary gun.
+     *
+     * @return The ship's primary gun.
+     */
+    Gun getPrimary();
+
+    /**
+     * Get the ship's secondary gun.
+     *
+     * @return The ship's secondary gun.
+     */
+    Gun getSecondary();
+
+    /**
+     * Get the ship's tertiary gun.
+     *
+     * @return The ship's tertiary gun.
+     */
+    Gun getTertiary();
+
+    /**
+     * Get the ship's anti-air gun.
+     *
+     * @return The ship's anti-air gun.
+     */
+    Gun getAntiAir();
+
+    /**
+     * Get the ship's torpedo.
+     *
+     * @return The ship's torpedo.
+     */
+    Torpedo getTorpedo();
+
+    /**
+     * Get the ship's hull.
+     *
+     * @return The ship's hull.
+     */
+    Hull getHull();
+
+    /**
+     * Get the ship's movement.
+     *
+     * @return The ship's movement.
+     */
+    Movement getMovement();
+
+    /**
+     * Get the ship's cargo.
+     *
+     * @return The ship's cargo.
+     */
+    Cargo getCargo();
+
+    /**
+     * Get the ship's fuel.
+     *
+     * @return The ship's fuel.
+     */
+    Fuel getFuel();
 
     /**
      * Get a list of all the ship components.
@@ -117,62 +193,6 @@ public interface Ship extends PersistentData<ShipData> {
      * Call this method to load a ship to its maximum cargoShips capacity.
      */
     void loadCargo();
-
-    /**
-     * Get the ship's cargo data.
-     *
-     * @return The ship's cargo data.
-     */
-    Cargo getCargo();
-
-    /**
-     * Get the ship's surface weapon data.
-     *
-     * @return The ship's surface weapons data.
-     */
-    Map<String, String> getSurfaceWeaponData();
-
-    /**
-     * Get the ship's anti air weapon data.
-     *
-     * @return The ship's anti-air weapons data.
-     */
-    Map<String, String> getAntiAirWeaponData();
-
-    /**
-     * Get the ship's torpedo data.
-     *
-     * @return The ship's torpedo data.
-     */
-    Map<String, String> getTorpedoData();
-
-    /**
-     * Get the ship's armour data.
-     *
-     * @return The ship's armour data.
-     */
-    Map<String, String> getArmourData();
-
-    /**
-     * Get the ship's movement data.
-     *
-     * @return The ship's movement data.
-     */
-    Map<String, String> getMovementData();
-
-    /**
-     * Get the ship's fuel data.
-     *
-     * @return The ship's fuel data.
-     */
-    Map<String, String> getFuelData();
-
-    /**
-     * Get the ship's cargo data.
-     *
-     * @return The ship's cargo data.
-     */
-    Map<String, String> getCargoData();
 
     /**
      * Get the ship's persistent data.

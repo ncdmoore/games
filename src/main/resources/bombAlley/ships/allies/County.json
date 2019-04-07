@@ -37,7 +37,8 @@
   },
   "aircraft": [
     {
-      "model": "Walrus"
+      "model": "Walrus",
+      "strength": "sixth"
     }
   ],
   "victoryPoints": 29

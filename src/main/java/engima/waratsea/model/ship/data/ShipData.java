@@ -3,6 +3,7 @@ package engima.waratsea.model.ship.data;
 import engima.waratsea.model.game.nation.Nation;
 import engima.waratsea.model.ship.ShipId;
 import engima.waratsea.model.ship.ShipType;
+import engima.waratsea.model.squadron.data.SquadronData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -78,7 +79,7 @@ public class ShipData {
 
     @Getter
     @Setter
-    private List<AircraftData> aircraft;
+    private List<SquadronData> aircraft;
 
     /** The default ship data constructor.
      *
