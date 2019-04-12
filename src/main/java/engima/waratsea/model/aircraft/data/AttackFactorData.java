@@ -19,4 +19,8 @@ public class AttackFactorData {
     @Getter
     @Setter
     private int half;
+
+    @Getter
+    @Setter
+    private int sixth;
 }

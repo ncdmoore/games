@@ -1,5 +1,6 @@
 package engima.waratsea.model.aircraft.data;
 
+import engima.waratsea.model.aircraft.AircraftId;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.AltitudeType;
 import engima.waratsea.model.aircraft.LandingType;
@@ -14,6 +15,10 @@ import lombok.Setter;
 public class AircraftData {
     @Getter
     @Setter
+    private AircraftId aircraftId;
+
+    @Getter
+    @Setter
     private String name;
 
     @Getter
@@ -22,7 +27,7 @@ public class AircraftData {
 
     @Getter
     @Setter
-    private Nation nation;
+    private Nation nationality;
 
     @Getter
     @Setter

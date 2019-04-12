@@ -232,7 +232,7 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public boolean hasAircraft() {
-        return true;
+        return !aircraft.isEmpty();
     }
 
     /**

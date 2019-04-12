@@ -63,6 +63,7 @@ public class AviationPlant {
     public Aircraft load(final AircraftId aircraftId) throws AviationPlantException {
         log.debug("Build aircraft model: '{}' for side {}", aircraftId.getModel(), aircraftId.getSide());
         AircraftData aircraftData = getData(aircraftId.getModel(), aircraftId.getSide());
+        aircraftData.setAircraftId(aircraftId);
         AircraftType aircraftType = aircraftData.getType();
         return getFactory(aircraftType).apply(aircraftData);
     }

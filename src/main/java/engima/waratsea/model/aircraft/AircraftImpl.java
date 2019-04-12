@@ -3,9 +3,7 @@ package engima.waratsea.model.aircraft;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.data.AircraftData;
-import engima.waratsea.model.aircraft.data.AttackFactorData;
-import engima.waratsea.model.aircraft.data.FrameData;
-import engima.waratsea.model.aircraft.data.RangeData;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.nation.Nation;
 import lombok.Getter;
 
@@ -15,7 +13,7 @@ import lombok.Getter;
 public class AircraftImpl implements Aircraft {
 
     @Getter
-    private final String name;
+    private final AircraftId aircraftId;
 
     @Getter
     private final AircraftType type;
@@ -24,7 +22,7 @@ public class AircraftImpl implements Aircraft {
     private final String designation;
 
     @Getter
-    private final Nation nation;
+    private final Nation nationality;
 
     @Getter
     private final ServiceType service;
@@ -36,19 +34,19 @@ public class AircraftImpl implements Aircraft {
     private final LandingType landing;
 
     @Getter
-    private final AttackFactorData naval;
+    private final AttackFactor naval;
 
     @Getter
-    private final AttackFactorData land;
+    private final AttackFactor land;
 
     @Getter
-    private final AttackFactorData air;
+    private final AttackFactor air;
 
     @Getter
-    private final RangeData range;
+    private final Range range;
 
     @Getter
-    private final FrameData frame;
+    private final Frame frame;
 
     /**
      * The constructor called by guice.
@@ -57,17 +55,37 @@ public class AircraftImpl implements Aircraft {
      */
     @Inject
     public AircraftImpl(@Assisted final AircraftData data) {
-        this.name = data.getName();
+        this.aircraftId = data.getAircraftId();
         this.type = data.getType();
         this.designation = data.getDesignation();
-        this.nation = data.getNation();
+        this.nationality = data.getNationality();
         this.service = data.getService();
         this.altitude = data.getAltitude();
         this.landing = data.getLanding();
-        this.naval = data.getNaval();
-        this.land = data.getLand();
-        this.air = data.getAir();
-        this.range = data.getRange();
-        this.frame = data.getFrame();
+        this.naval = new AttackFactor(data.getNaval());
+        this.land = new AttackFactor(data.getLand());
+        this.air = new AttackFactor(data.getAir());
+        this.range = new Range(data.getRange());
+        this.frame = new Frame(data.getFrame());
+    }
+
+    /**
+     * Get the aircraft's model.
+     *
+     * @return
+     */
+    @Override
+    public String getModel() {
+        return aircraftId.getModel();
+    }
+
+    /**
+     * Get the aircraft's side.
+     *
+     * @return The aircraft's side.
+     */
+    @Override
+    public Side getSide() {
+        return aircraftId.getSide();
     }
 }

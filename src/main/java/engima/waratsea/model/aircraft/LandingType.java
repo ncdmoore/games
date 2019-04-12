@@ -31,4 +31,14 @@ public enum LandingType {
     LandingType(final String value) {
         this.value = value;
     }
+
+    /**
+     * Get the String representation.
+     *
+     * @return The String representation.
+     */
+    @Override
+    public String toString() {
+        return value;
+    }
 }

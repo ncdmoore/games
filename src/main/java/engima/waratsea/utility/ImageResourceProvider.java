@@ -1,6 +1,7 @@
 package engima.waratsea.utility;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.ship.Ship;
 import javafx.scene.image.Image;
@@ -64,6 +65,23 @@ public class ImageResourceProvider {
     }
 
     /**
+     * Get the aircraft image.
+     *
+     * @param aircraft The aircraft whose image is retrieved.
+     * @return The aircraft's image view.
+     */
+    public Image getAircraftImageView(final Aircraft aircraft) {
+        Image image = getAircraftImage(aircraft)
+                .orElse(null);
+
+        if (image == null) {
+            log.error("Unable to load aircraft image for {}", aircraft.getModel());
+        }
+
+        return image;
+    }
+
+    /**
      * Load the image that corresponds to the ship name.
      *
      * @param ship The ship whose image is loaded.
@@ -82,6 +100,17 @@ public class ImageResourceProvider {
      */
     private Optional<Image> getShipClassImage(final Ship ship) {
         String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getShipClass() + ".png";
+        return loadImage(path);
+    }
+
+    /**
+     * Load the image that corresponds to the aircraft's model.
+     *
+     * @param aircraft The aircraft whose image is laoded.
+     * @return An optional aircraft image.
+     */
+    private Optional<Image> getAircraftImage(final Aircraft aircraft) {
+        String path = gameTitle.getValue() + "/aircraft/" + aircraft.getSide() + "/images/" + aircraft.getModel() + ".png";
         return loadImage(path);
     }
 

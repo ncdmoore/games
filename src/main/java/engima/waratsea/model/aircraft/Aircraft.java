@@ -1,16 +1,27 @@
 package engima.waratsea.model.aircraft;
 
+import engima.waratsea.model.game.Side;
+import engima.waratsea.model.game.nation.Nation;
+
 /**
  * Represents an aircraft.
  */
 public interface Aircraft {
 
     /**
-     * Get the aircraft's name.
+     * Get the aircraft's model.
      *
-     * @return The aircraft's name.
+     * @return The aircraft's model.
      */
-    String getName();
+    String getModel();
+
+
+    /**
+     * Get the aircraft's side.
+     *
+     * @return The aircraft's side.
+     */
+    Side getSide();
 
     /**
      * Get the aircraft's type.
@@ -26,4 +37,59 @@ public interface Aircraft {
      */
     String getDesignation();
 
+    /**
+     * Get the aircraft's nation.
+     *
+     * @return The nation.
+     */
+    Nation getNationality();
+
+    /**
+     * Get the aircraft's air to air attack factor.
+     *
+     * @return The aircraft's air to air attack factor.
+     */
+    AttackFactor getAir();
+
+    /**
+     * Get the aircraft's land attack factor.
+     *
+     * @return The aircraft's land attack factor.
+     */
+    AttackFactor getLand();
+
+    /**
+     * Get the aircraft's naval attack factor.
+     *
+     * @return The aircraft's naval attack factor.
+     */
+    AttackFactor getNaval();
+
+    /**
+     * Get the aircraft's range.
+     *
+     * @return The aircraft's range.
+     */
+    Range getRange();
+
+    /**
+     * Get the aircraft's altitude rating.
+     *
+     * @return The aircraft's altitude rating.
+     */
+    AltitudeType getAltitude();
+
+    /**
+     * Get the aircraft's landing type. This will be Carrier, land or seaplane.
+     *
+     * @return The aircraft's landing type.
+     */
+    LandingType getLanding();
+
+    /**
+     * Get the aircraft's frame.
+     *
+     * @return The aircraft's frame.
+     */
+    Frame getFrame();
 }

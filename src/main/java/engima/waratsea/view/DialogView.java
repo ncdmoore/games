@@ -23,6 +23,13 @@ public class DialogView {
     @Setter
     private String css;
 
+    @Setter
+    private int width;
+
+    @Setter
+    private int height;
+
+
     /**
      * Show the dialog.
      *
@@ -33,7 +40,7 @@ public class DialogView {
         borderPane.setCenter(contents);
         borderPane.setBottom(buildControlButtons());
 
-        Scene scene = new Scene(borderPane, 727, 680);
+        Scene scene = new Scene(borderPane, width, height);
 
         scene.getStylesheets().add(css);
 
