@@ -143,6 +143,13 @@ public interface Ship extends PersistentData<ShipData> {
     Torpedo getTorpedo();
 
     /**
+     * Get the ship's ASW capability.
+     *
+     * @return The ship's ASW capability.
+     */
+    Asw getAsw();
+
+    /**
      * Get the ship's hull.
      *
      * @return The ship's hull.

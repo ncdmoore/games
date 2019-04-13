@@ -55,6 +55,10 @@ public class ShipData {
 
     @Getter
     @Setter
+    private AswData asw;
+
+    @Getter
+    @Setter
     private HullData hull;
 
     @Getter
@@ -90,6 +94,7 @@ public class ShipData {
         tertiary = new GunData();
         antiAir = new GunData();
         torpedo = new TorpedoData();
+        asw = new AswData();
         cargo = new CargoData();
     }
 }

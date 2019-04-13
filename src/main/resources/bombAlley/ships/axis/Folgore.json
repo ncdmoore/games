@@ -12,6 +12,9 @@
     "armour": "NONE",
     "maxHealth": 1
   },
+  "asw": {
+    "capable": true
+  },
   "torpedo":
   {
     "maxHealth": 1

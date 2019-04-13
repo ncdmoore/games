@@ -15,6 +15,9 @@
   "torpedo": {
     "maxHealth": 2
   },
+  "asw": {
+    "capable": true
+  },
   "hull": {
     "armour": "NONE",
     "maxHealth" : 1,

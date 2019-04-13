@@ -60,6 +60,9 @@ public class SurfaceShip implements Ship {
     private Torpedo torpedo;
 
     @Getter
+    private Asw asw;
+
+    @Getter
     private Movement movement;
 
     @Getter
@@ -97,6 +100,7 @@ public class SurfaceShip implements Ship {
         tertiary = buildGun("Tertiary", data.getTertiary());
         antiAir = buildGun("Anti-Air", data.getAntiAir());
         torpedo = new Torpedo(data.getTorpedo());
+        asw = new Asw(data.getAsw());
 
         movement = new Movement(data.getMovement());
         fuel = new Fuel(data.getFuel());
@@ -139,6 +143,7 @@ public class SurfaceShip implements Ship {
         data.setTertiary(tertiary.getData());
         data.setAntiAir(antiAir.getData());
         data.setTorpedo(torpedo.getData());
+        data.setAsw(asw.getData());
 
         data.setMovement(movement.getData());
         data.setFuel(fuel.getData());

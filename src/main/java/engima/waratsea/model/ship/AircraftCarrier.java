@@ -61,6 +61,9 @@ public class AircraftCarrier implements Ship, Airbase {
     private Torpedo torpedo;
 
     @Getter
+    private Asw asw;
+
+    @Getter
     private Movement movement;
 
     @Getter
@@ -102,6 +105,7 @@ public class AircraftCarrier implements Ship, Airbase {
         tertiary = buildGun("Tertiary", data.getTertiary());
         antiAir = buildGun("Anti-Air", data.getAntiAir());
         torpedo = new Torpedo(data.getTorpedo());
+        asw = new Asw(data.getAsw());
 
         movement = new Movement(data.getMovement());
         fuel = new Fuel(data.getFuel());
@@ -113,7 +117,6 @@ public class AircraftCarrier implements Ship, Airbase {
         flightDeck = new FlightDeck(data.getFlightDeck());
 
         aircraft = buildSquadrons(data.getAircraft(), factory);
-
     }
 
     /**
@@ -146,6 +149,7 @@ public class AircraftCarrier implements Ship, Airbase {
         data.setTertiary(tertiary.getData());
         data.setAntiAir(antiAir.getData());
         data.setTorpedo(torpedo.getData());
+        data.setAsw(asw.getData());
 
         data.setMovement(movement.getData());
         data.setFuel(fuel.getData());

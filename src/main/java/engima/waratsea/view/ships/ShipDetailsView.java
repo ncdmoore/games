@@ -261,9 +261,10 @@ public class ShipDetailsView {
      */
     private Node buildShipPerformanceComponents(final Ship ship) {
         TitledPane speedPane = buildPane("Movement", getMovementData(ship));
+        TitledPane aswPane = buildPane("ASW", getAswData(ship));
         TitledPane fuelPane = buildPane("Fuel", getFuelData(ship));
         TitledPane cargoPane = buildPane("Cargo", getCargoData(ship));
-        return new VBox(speedPane, fuelPane, cargoPane);
+        return new VBox(speedPane, aswPane, fuelPane, cargoPane);
     }
 
     /**
@@ -401,6 +402,17 @@ public class ShipDetailsView {
         return armour;
     }
 
+    /**
+     * Get the ship's ASW data.
+     *
+     * @param ship The ship's whose ASW data is retrieved.
+     * @return A map of the ASW data.
+     */
+    private Map<String, String> getAswData(final Ship ship) {
+        Map<String, String> asw = new LinkedHashMap<>();
+        asw.put("ASW Capable:", ship.getAsw().isAsw() + "");
+        return asw;
+    }
     /**
      * Get the ship's movement data.
      *
