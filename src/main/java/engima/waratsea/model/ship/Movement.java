@@ -69,6 +69,16 @@ public class Movement implements Component {
     }
 
     /**
+     * Get the component's units.
+     *
+     * @return The component's units.
+     */
+    @Override
+    public String getUnits() {
+        return "Even and Odd Total";
+    }
+
+    /**
      * Determine if the component is present.
      *
      * @return True if the component is present. False otherwise.

@@ -57,4 +57,14 @@ public class Torpedo implements Component {
     public boolean isPresent() {
         return maxHealth != 0;
     }
+
+    /**
+     * Get the component's units.
+     *
+     * @return The component's units.
+     */
+    @Override
+    public String getUnits() {
+        return "";
+    }
 }

@@ -22,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 /**
  * The ship details view.
  */
+@Slf4j
 public class ShipDetailsView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
@@ -144,6 +146,7 @@ public class ShipDetailsView {
     private Tab buildStatusTab(final Ship ship) {
 
         GridPane gridPane = new GridPane();
+        gridPane.setId("status-grid");
 
         List<List<Node>> progressBars = ship
                 .getComponents()
@@ -157,14 +160,12 @@ public class ShipDetailsView {
             }
         }
 
-        gridPane.setId("status-pane");
-
-
         TitledPane titledPane = new TitledPane();
         titledPane.setText("Ship Status");
         titledPane.setContent(gridPane);
         titledPane.setExpanded(true);
         titledPane.setCollapsible(false);
+        titledPane.setId("status-pane");
 
         Tab statusTab = new Tab("Status");
         statusTab.setClosable(false);
@@ -184,7 +185,7 @@ public class ShipDetailsView {
         Label titleLabel = new Label(component.getName() + ":");
 
         double percent = component.getHealth() * 1.0 / maxHealth;
-        Label values = new Label(component.getHealth() + "/" + maxHealth);
+        Label values = new Label(component.getHealth() + "/" + maxHealth + " " + component.getUnits());
         ProgressBar progressBar = new ProgressBar(percent);
         progressBar.setMaxWidth(props.getInt("ship.dialog.status.progressBar.width"));
         progressBar.setMinWidth(props.getInt("ship.dialog.status.progressBar.width"));
@@ -206,6 +207,9 @@ public class ShipDetailsView {
         squadrons.setMinHeight(props.getInt("ship.dialog.aircraft.list.height"));
         squadrons.setMaxHeight(props.getInt("ship.dialog.aircraft.list.height"));
 
+        VBox aircraftListBox = new VBox(new Label("Select Squadron:"), squadrons);
+        aircraftListBox.setId("aircraft-list");
+
         Squadron squadron = squadrons.getItems().get(0);
 
         aircraftImage.setImage(getImage(squadron));
@@ -216,9 +220,8 @@ public class ShipDetailsView {
 
         TitledPane titledPane = new TitledPane();
         titledPane.setText("Ship Squadrons");
-        titledPane.setContent(squadrons);
+        titledPane.setContent(aircraftListBox);
         titledPane.setCollapsible(false);
-
 
         VBox listBox = new VBox(imageBox, titledPane);
         listBox.setId("details-pane");

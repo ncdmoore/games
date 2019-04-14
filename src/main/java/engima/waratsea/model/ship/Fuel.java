@@ -70,6 +70,16 @@ public class Fuel implements Component {
     }
 
     /**
+     * Get the component's units.
+     *
+     * @return The component's units.
+     */
+    @Override
+    public String getUnits() {
+        return "tons";
+    }
+
+    /**
      * The fuel is always present.
      *
      * @return True.

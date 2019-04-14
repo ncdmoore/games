@@ -48,7 +48,6 @@ public class FlightDeck implements Component {
         if (health == 0) {
             health = maxHealth;
         }
-
     }
 
     /**
@@ -65,13 +64,23 @@ public class FlightDeck implements Component {
     }
 
     /**
-     * Return the flight deck's current capacity.
+     * Return the flight deck's current aircraft capacity.
      *
-     * @return The flight deck's current capacity.
+     * @return The flight deck's current aircraft capacity.
      */
     public int getCapacity() {
         // The capacity list is zero based, so minus one from the health.
         return capacityList.get(health - 1);
+    }
+
+    /**
+     * Retrun the flight deck's maximum aircraft capacity.
+     *
+     * @return The flight deck's macimum aircraft capacity.
+     */
+    public int getMaxCapacity() {
+        // The capacity list is zero based, so minus one from the max health.
+        return capacityList.get(maxHealth - 1);
     }
 
     /**
@@ -82,5 +91,15 @@ public class FlightDeck implements Component {
     @Override
     public boolean isPresent() {
         return true;
+    }
+
+    /**
+     * Get the component's units.
+     *
+     * @return The component's units.
+     */
+    @Override
+    public String getUnits() {
+        return "";
     }
 }

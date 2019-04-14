@@ -80,8 +80,6 @@ public class TaskForceView {
 
     private Map<Side, String> flags = new HashMap<>();
 
-
-
     /**
      * Constructor called by guice.
      * @param props view properties.

@@ -56,6 +56,7 @@ public class DialogView {
     private Node buildControlButtons() {
         HBox hBox = new HBox(okButton);
         hBox.setAlignment(Pos.TOP_CENTER);
+        hBox.setId("controls-pane");
         return hBox;
     }
 }

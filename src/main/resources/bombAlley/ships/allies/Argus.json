@@ -24,5 +24,11 @@
     "maxEven": 2,
     "maxOdd": 1
   },
+  "aircraft": [
+    {
+      "model": "Hurricane-1",
+      "strength": "full"
+    }
+  ],
   "victoryPoints": 24
 }

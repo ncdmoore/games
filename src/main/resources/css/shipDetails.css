@@ -62,11 +62,27 @@
 }
 
 #status-pane {
-    -fx-padding: /* top */ 15 /* right */ 0 /* bottom */ 0 /* left */ 15;
+    -fx-padding: /* top */ 15 /* right */ 15 /* bottom */ 0 /* left */ 15;
+
+}
+
+#status-grid {
     -fx-hgap: 15;
     -fx-vgap: 20;
 }
 
 .green-bar {
     -fx-accent: green;
+}
+
+#controls-pane {
+    -fx-padding: /* top */ 15 /* right */ 0 /* bottom */ 15 /* left */ 0;
+}
+
+
+#aircraft-list {
+    -fx-border-color: grey;
+    -fx-border-width: 0px;
+    -fx-border-insets: /* top */ 15 /* right */ 30 /* bottom */ 15 /* left */ 30;
+    -fx-padding: 0px;
 }

@@ -8,7 +8,7 @@
     "ships": [
       "BB03 Valiant",
       "BC03 Hood",
-      "CV04 Ark Royal",
+      "CV04 Ark Royal-1",
       "CL16a Delhi",
       "CL23 Enterprise",
       "CL29 Arethusa",
@@ -34,7 +34,7 @@
       {"location": "Malta"}
     ],
     "ships": [
-      "CVL01 Argus",
+      "CVL01 Argus-1",
       "DD46 Encounter",
       "DD61 Gallant",
       "DD67 Greyhound",

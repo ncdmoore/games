@@ -29,5 +29,27 @@
     "maxEven": 3,
     "maxOdd": 3
   },
+  "aircraft": [
+    {
+      "model": "Fulmar",
+      "strength": "full"
+    },
+    {
+      "model": "Swordfish",
+      "strength": "full"
+    },
+    {
+      "model": "Swordfish",
+      "strength": "full"
+    },
+    {
+      "model": "Swordfish",
+      "strength": "half"
+    },
+    {
+      "model": "Skua",
+      "strength": "full"
+    }
+  ],
   "victoryPoints": 98
 }

@@ -31,4 +31,11 @@ public interface Component {
      * @return The component health.
      */
     int getHealth();
+
+    /**
+     * Get the component's units.
+     *
+     * @return The component's units.
+     */
+    String getUnits();
 }

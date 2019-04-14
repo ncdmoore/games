@@ -79,4 +79,14 @@ public class Cargo implements Component {
     public int getHealth() {
         return level;
     }
+
+    /**
+     * The cargo's units.
+     *
+     * @return The cargo's units.
+     */
+    @Override
+    public String getUnits() {
+        return "tons";
+    }
 }

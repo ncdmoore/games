@@ -3,7 +3,7 @@ package engima.waratsea.model.taskForce;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
-import engima.waratsea.model.aircraft.Airbase;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
@@ -55,7 +55,7 @@ public class TaskForce implements PersistentData<TaskForceData> {
     private TaskForceMission mission;
 
     @Getter
-    private String location;
+    private String location; //This is always a map reference and never a name.
 
     @Getter
     @Setter

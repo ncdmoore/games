@@ -3,7 +3,7 @@ package engima.waratsea.model.base.airfield;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
-import engima.waratsea.model.base.Base;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.game.Side;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import lombok.Setter;
 /**
  * Represents airfield's in the game.
  */
-public class Airfield implements Base, PersistentData<AirfieldData> {
+public class Airfield implements Airbase, PersistentData<AirfieldData> {
 
     @Getter
     private final Side side;

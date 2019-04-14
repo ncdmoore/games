@@ -60,7 +60,7 @@ public class TaskForceTest {
     public void testTaskForceCarrierGrouping() {
         TaskForceData data = new TaskForceData();
 
-        List<String> shipNames = new ArrayList<>(Arrays.asList("BC01 Renown", "CV04 Ark Royal", "CL17 Despatch","CL36 Sheffield", "DD53 Faulknor"));
+        List<String> shipNames = new ArrayList<>(Arrays.asList("BC01 Renown", "CV04 Ark Royal-1", "CL17 Despatch","CL36 Sheffield", "DD53 Faulknor"));
 
         data.setShips(shipNames);
         data.setLocation("Alexandria");

@@ -2,7 +2,7 @@ package enigma.waratsea.model.ship;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import engima.waratsea.model.aircraft.Airbase;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.nation.Nation;
 import engima.waratsea.model.game.Side;
@@ -47,8 +47,8 @@ public class ShipyardTest {
 
     @Test
     public void testBuildAircraftCarrier() throws Exception {
-        testBuildAircraftCarrier("CVL01 Argus", Nation.BRITISH, 3);
-        testBuildAircraftCarrier("CV04 Ark Royal", Nation.BRITISH, 9);
+        testBuildAircraftCarrier("CVL01 Argus-1", Nation.BRITISH, 3);
+        testBuildAircraftCarrier("CV04 Ark Royal-1", Nation.BRITISH, 9);
         testBuildAircraftCarrier("CVL04 Eagle-1", Nation.BRITISH, 4);
         testBuildAircraftCarrier("CV01 Furious", Nation.BRITISH, 6);
         testBuildAircraftCarrier("CV05 Illustrious", Nation.BRITISH, 6);

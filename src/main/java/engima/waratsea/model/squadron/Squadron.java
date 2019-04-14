@@ -7,7 +7,7 @@ import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.aircraft.AircraftId;
 import engima.waratsea.model.aircraft.AviationPlant;
 import engima.waratsea.model.aircraft.AviationPlantException;
-import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.data.SquadronData;
@@ -46,8 +46,7 @@ public class Squadron implements PersistentData<SquadronData> {
 
     @Getter
     @Setter
-    private Airfield airfield;
-
+    private Airbase airfield;
 
     private GameMap gameMap;
 

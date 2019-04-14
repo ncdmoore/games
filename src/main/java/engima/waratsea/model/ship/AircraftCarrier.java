@@ -2,7 +2,7 @@ package engima.waratsea.model.ship;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import engima.waratsea.model.aircraft.Airbase;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.nation.Nation;
 import engima.waratsea.model.ship.data.GunData;
@@ -82,6 +82,9 @@ public class AircraftCarrier implements Ship, Airbase {
     private FlightDeck flightDeck;
 
     @Getter
+    private AircraftCapacity aircraftCapacity;
+
+    @Getter
     private List<Squadron> aircraft;
 
     /**
@@ -115,6 +118,7 @@ public class AircraftCarrier implements Ship, Airbase {
         originPort = data.getOriginPort();
 
         flightDeck = new FlightDeck(data.getFlightDeck());
+        aircraftCapacity = buildAircraftCapacity(flightDeck);
 
         aircraft = buildSquadrons(data.getAircraft(), factory);
     }
@@ -172,9 +176,19 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public List<Component> getComponents() {
-        return Stream.of(hull, flightDeck, secondary, tertiary, antiAir, torpedo, movement, fuel, cargo)
+        return Stream.of(hull, flightDeck, aircraftCapacity, secondary, tertiary, antiAir, torpedo, movement, fuel, cargo)
                 .filter(Component::isPresent)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Get the aircraft carriers maximum squadron capacity in steps.
+     *
+     * @return The carrier's maximum squadron capacity in steps.
+     */
+    @Override
+    public int getMaxCapacity() {
+        return aircraftCapacity.getMaxHealth();
     }
 
     /**
@@ -184,7 +198,7 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public int getCapacity() {
-        return flightDeck.getCapacity();
+        return aircraftCapacity.getHealth();
     }
 
     /**
@@ -205,6 +219,16 @@ public class AircraftCarrier implements Ship, Airbase {
     @Override
     public String getName() {
         return shipId.getName();
+    }
+
+    /**
+     * Get the map reference of the base.
+     *
+     * @return The map reference of the base.
+     */
+    @Override
+    public String getReference() {
+        return taskForce.getLocation();
     }
 
     /**
@@ -255,6 +279,18 @@ public class AircraftCarrier implements Ship, Airbase {
         cargo.load();
     }
 
+    /**
+     * Build the aircraft capacity.
+     *
+     * @param deck The aircraft carrier's flight deck.
+     * @return The ship's aircraft carrier capacity.
+     */
+    private AircraftCapacity buildAircraftCapacity(final FlightDeck deck) {
+        AircraftCapacity capacity = new AircraftCapacity();
+        capacity.setHealth(deck.getCapacity());
+        capacity.setMaxHealth(deck.getMaxCapacity());
+        return capacity;
+    }
 
     /**
      * Build the ship squadrons.

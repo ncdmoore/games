@@ -66,4 +66,14 @@ public class Hull implements Component {
     public boolean isPresent() {
         return true;
     }
+
+    /**
+     * Get the component's units.
+     *
+     * @return The component's units.
+     */
+    @Override
+    public String getUnits() {
+        return "";
+    }
 }
