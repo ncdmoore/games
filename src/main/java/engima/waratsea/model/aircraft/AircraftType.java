@@ -16,10 +16,10 @@ public enum AircraftType {
     @SerializedName(value = "POOR_NAVAL_BOMBER", alternate = {"Poor_Naval_Bomber", "poor_naval_bomber"})
     POOR_NAVAL_BOMBER("Bomber", "B"),
 
-    @SerializedName(value = "DIVE_BOMBER", alternate = {"Dive_Bomber", "dive_bomber"})
+    @SerializedName(value = "DIVE_BOMBER", alternate = {"Dive_Bomber", "dive_bomber", "Dive Bomber", "dive bomber"})
     DIVE_BOMBER("Dive Bomber", "DB"),
 
-    @SerializedName(value = "TORPEDO_BOMBER", alternate = {"Torpedo_Bomber", "torpedo_bomber"})
+    @SerializedName(value = "TORPEDO_BOMBER", alternate = {"Torpedo_Bomber", "torpedo_bomber", "Torpedo Bomber", "torpedo bomber"})
     TORPEDO_BOMBER("Torpedo Bomber", "TB"),
 
     @SerializedName(value = "RECONNAISSANCE", alternate = {"Reconnaissance", "reconnaissance"})

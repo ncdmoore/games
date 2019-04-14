@@ -206,6 +206,9 @@ public class ShipDetailsView {
         squadrons.getItems().addAll(ship.getAircraft());
         squadrons.setMinHeight(props.getInt("ship.dialog.aircraft.list.height"));
         squadrons.setMaxHeight(props.getInt("ship.dialog.aircraft.list.height"));
+        squadrons.setMaxWidth(props.getInt("ship.dialog.aircraft.list.width"));
+        squadrons.setMaxWidth(props.getInt("ship.dialog.aircraft.list.width"));
+
 
         VBox aircraftListBox = new VBox(new Label("Select Squadron:"), squadrons);
         aircraftListBox.setId("aircraft-list");
@@ -479,7 +482,7 @@ public class ShipDetailsView {
         details.put("Model:", aircraft.getModel());
         details.put("Type:", aircraft.getType() + "");
         details.put("Nationality:", aircraft.getNationality().toString());
-        details.put("", "");
+        details.put("Service", aircraft.getService().toString());
         return details;
     }
 

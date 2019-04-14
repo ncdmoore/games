@@ -45,6 +45,13 @@ public interface Aircraft {
     Nation getNationality();
 
     /**
+     * Get the aircraft's service.
+     *
+     * @return The aircraft's service: the branch of the armed forces.
+     */
+    ServiceType getService();
+
+    /**
      * Get the aircraft's air to air attack factor.
      *
      * @return The aircraft's air to air attack factor.
