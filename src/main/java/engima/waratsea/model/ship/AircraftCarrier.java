@@ -2,6 +2,7 @@ package engima.waratsea.model.ship;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.nation.Nation;
@@ -17,6 +18,7 @@ import lombok.Setter;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -87,6 +89,9 @@ public class AircraftCarrier implements Ship, Airbase {
     @Getter
     private List<Squadron> aircraft;
 
+    @Getter
+    private Map<AircraftType, List<Squadron>> aircraftTypeMap;
+
     /**
      * Constructor called by guice.
      *
@@ -120,7 +125,7 @@ public class AircraftCarrier implements Ship, Airbase {
         flightDeck = new FlightDeck(data.getFlightDeck());
         aircraftCapacity = buildAircraftCapacity(flightDeck);
 
-        aircraft = buildSquadrons(data.getAircraft(), factory);
+        buildSquadrons(data.getAircraft(), factory);
     }
 
     /**
@@ -280,6 +285,31 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
+     * Get a summary map of aircraft type to number of steps of that type.
+     *
+     * @return A map of aircraft types to number of steps of that type.
+     */
+    @Override
+    public Map<AircraftType, Double> getSquadronSummary() {
+        return aircraftTypeMap
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey,
+                                          e -> sumSteps(e.getValue()),
+                                          Double::sum));
+    }
+
+    /**
+     * Get the strength in steps of the given list of squadrons.
+     *
+     * @param squadrons A list of squadrons of a given aircraft type.
+     * @return The total strength of the list of squadrons.
+     */
+    private Double sumSteps(final List<Squadron> squadrons) {
+        return squadrons.stream().map(Squadron::getSteps).mapToDouble(d -> d).sum();
+    }
+
+    /**
      * Build the aircraft capacity.
      *
      * @param deck The aircraft carrier's flight deck.
@@ -297,13 +327,16 @@ public class AircraftCarrier implements Ship, Airbase {
      *
      * @param data The aircraft data read in from a JSON file.
      * @param factory The squadron factory that builds the actual squadron.
-     * @return A list of squadrons.
      */
-    private List<Squadron> buildSquadrons(final List<SquadronData> data, final SquadronFactory factory) {
-        return Optional.ofNullable(data)
+    private void buildSquadrons(final List<SquadronData> data, final SquadronFactory factory) {
+        aircraft = Optional.ofNullable(data)
                 .orElseGet(Collections::emptyList)
                 .stream()
                 .map(squadronData -> factory.create(shipId.getSide(), squadronData))
                 .collect(Collectors.toList());
+
+        aircraftTypeMap = aircraft
+                .stream()
+                .collect(Collectors.groupingBy(Squadron::getType));
     }
 }

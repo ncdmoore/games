@@ -1,6 +1,7 @@
 package engima.waratsea.view;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
@@ -13,6 +14,9 @@ import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.map.TaskForcePreviewMapView;
 import engima.waratsea.view.ships.ShipViewType;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,7 +26,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -35,10 +42,12 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +59,30 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TaskForceView {
     private static final String CSS_FILE = "taskForceView.css";
+
+    /**
+     * Utility class used in conjuction with table view.
+     */
+    public class Row {
+        @Getter
+        @Setter
+        private String type;
+
+        @Getter
+        @Setter
+        private String number;
+
+        /**
+         * Constructor.
+         *
+         * @param type The entity type.
+         * @param number The number of the entity type.
+         */
+        public Row(final String type, final String number) {
+            this.type = type;
+            this.number = number;
+        }
+    }
 
     private ViewProps props;
     private CssResourceProvider cssResourceProvider;
@@ -82,6 +115,7 @@ public class TaskForceView {
 
     /**
      * Constructor called by guice.
+     *
      * @param props view properties.
      * @param cssResourceProvider CSS file provider.
      * @param imageResourceProvider Image file provider.
@@ -107,6 +141,7 @@ public class TaskForceView {
 
     /**
      * Show the task forces summary view.
+     *
      * @param stage The stage on which the task force scene is set.
      * @param scenario The selected scenario.
      */
@@ -149,6 +184,7 @@ public class TaskForceView {
 
     /**
      * Build the selected scenario objective's text.
+     *
      * @param objectives The objective's text.
      * @return The node that contains the selected scenario objective information.
      */
@@ -165,6 +201,7 @@ public class TaskForceView {
 
     /**
      * build the task force list.
+     *
      * @return Node containing the task force list.
      */
     private Node buildTaskForceList() {
@@ -194,6 +231,7 @@ public class TaskForceView {
 
     /**
      * Build the detailed information about the task force.
+     *
      * @return A node that contains the task force details.
      */
     private Node buildTaskForceDetails() {
@@ -204,6 +242,7 @@ public class TaskForceView {
 
     /**
      * Build the task force state and mission details.
+     *
      * @return A node containing the task foce state and mission details.
      */
     private Node buildTaskForceStateDetails() {
@@ -235,6 +274,7 @@ public class TaskForceView {
 
     /**
      * Build the ship details. This the ships within a task force.
+     *
      * @return A node that contains the ship detailed information of the task force.
      */
     private Node buildShipDetails() {
@@ -270,6 +310,7 @@ public class TaskForceView {
 
     /**
      * build the task force push buttons.
+     *
      * @return Node containing the push buttons.
      */
     private Node buildPushButtons() {
@@ -290,6 +331,7 @@ public class TaskForceView {
 
     /**
      * Set the selected task force. Show this task force's map marker.
+     *
      * @param taskForce the selected task force.
      */
     public void setSelectedTaskForce(final TaskForce taskForce) {
@@ -310,6 +352,7 @@ public class TaskForceView {
 
     /**
      * Clear the selected task force marker.
+     *
      * @param taskForce the task force whose marker is cleared.
      */
     public void clearTaskForce(final TaskForce taskForce) {
@@ -319,6 +362,7 @@ public class TaskForceView {
 
     /**
      * Place a task force marker on the preview map.
+     *
      * @param dto Task force data transfer object.
      */
     public void markTaskForceOnMap(final TaskForceMarkerDTO dto) {
@@ -328,6 +372,7 @@ public class TaskForceView {
 
     /**
      * Place a target marker on the preview map.
+     *
      * @param dto Target data transfer object.
      */
     public void markTargetOnMap(final TargetMarkerDTO dto) {
@@ -354,6 +399,7 @@ public class TaskForceView {
 
     /**
      * Select a target. Show the corresponding popup.
+     *
      * @param clickedMarker The target's marker.
      */
     public void selectTarget(final Object clickedMarker) {
@@ -379,15 +425,17 @@ public class TaskForceView {
 
     /**
      * Determine which task force details tabs are active for the selected task force.
+     *
      * @param taskForce The selected task force.
      */
     private void setTabs(final TaskForce taskForce) {
 
         Map<ShipViewType, List<Ship>> shipViewTypeMap = getShipViewTypeMap(taskForce);
+        Map<AircraftType, Double> squadronTypeMap = getAircraftTypeMap(taskForce);
 
         shipButtons = new ArrayList<>();
 
-        setSummaryTab(shipViewTypeMap);
+        setSummaryTab(shipViewTypeMap, squadronTypeMap);
         taskForceTabs.values().forEach(tab -> tab.setDisable(true));
         shipViewTypeMap.forEach(this::setTabContents);
         taskForceTabPane.getSelectionModel().selectLast();   // Don't remove this. This is to work around some javafx bug. If this is not here then the summary tab is not drawn correct.
@@ -396,36 +444,43 @@ public class TaskForceView {
 
     /**
      * Set the information in the task force summary tab.
+     *
      * @param shipViewTypeMap The selected task force map of view type's to ships.
+     * @param squadronTypeMap The selected task force map of aircraft type to number of steps.
      */
-    private void setSummaryTab(final Map<ShipViewType, List<Ship>> shipViewTypeMap) {
-
-        GridPane gridPane = new GridPane();
-        gridPane.setId("taskforce-summary-grid");
-
-        //Get a sorted list of the ship view types.
-        List<ShipViewType> keys = shipViewTypeMap
-                .keySet()
+    private void setSummaryTab(final Map<ShipViewType, List<Ship>> shipViewTypeMap,
+                               final Map<AircraftType, Double> squadronTypeMap) {
+        List<Row> shipRows = shipViewTypeMap
+                .entrySet()
                 .stream()
-                .sorted()
+                .filter(entry -> !entry.getValue().isEmpty())
+                .map(entry -> new Row(entry.getKey().toString(), entry.getValue().size() + ""))
                 .collect(Collectors.toList());
+        ObservableList<Row> shipData = FXCollections.observableArrayList(shipRows);
 
-        int i = 0;
-        for (ShipViewType shipViewType : keys) {
-            int total = shipViewTypeMap.get(shipViewType).size();
-            if (total > 0) {
-                gridPane.add(new Label(shipViewType.toString()), 0, i);
-                gridPane.add(new Label(total + ""), 1, i);
-                i++;
-            }
+        List<Row> squadronRows = squadronTypeMap
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue() > 0)
+                .map(entry -> new Row(entry.getKey().toString(), entry.getValue() + ""))
+                .collect(Collectors.toList());
+        ObservableList<Row> squadronData = FXCollections.observableArrayList(squadronRows);
+
+
+        HBox hBox = new HBox(buildTable("Ships", shipData));
+        hBox.setId("taskforce-summary-hbox");
+
+        if (!squadronTypeMap.isEmpty()) {
+            hBox.getChildren().add(buildTable("Squadrons", squadronData));
         }
 
-        taskForceSummaryTab.setContent(gridPane);
+        taskForceSummaryTab.setContent(hBox);
     }
 
     /**
      * Map the ship type data into ship view type data. There are many types of ships. But to keep the GUI simple
      * there is a limited number of ship view types. This method maps all the game ship types into ship view types.
+     *
      * @param taskForce The selected task force.
      * @return A map keyed by ship view type that contains the a list of ships.
      * Map[shipViewType] -> list of ships of that type.
@@ -433,7 +488,9 @@ public class TaskForceView {
     private Map<ShipViewType, List<Ship>> getShipViewTypeMap(final TaskForce taskForce) {
 
         Map<ShipViewType, List<Ship>> shipViewTypeMap = new HashMap<>();
-        Arrays.stream(ShipViewType.values()).forEach(viewType -> shipViewTypeMap.put(viewType, new ArrayList<>()));
+
+        Arrays.stream(ShipViewType.values())
+                .forEach(viewType -> shipViewTypeMap.put(viewType, new ArrayList<>()));
 
         taskForce.getShipTypeMap()
                 .forEach((type, ships) -> {
@@ -445,7 +502,55 @@ public class TaskForceView {
     }
 
     /**
+     * Get a map of aircraft types within the given task force to the number of steps of the types.
+     *
+     * @param taskForce The selected task force.
+     * @return A map of aircraft type to number of steps of the type.
+     */
+    private Map<AircraftType, Double> getAircraftTypeMap(final TaskForce taskForce) {
+        return taskForce.getShips()
+                .stream()
+                .map(Ship::getSquadronSummary)
+                .map(Map::entrySet)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Double::sum));
+    }
+
+    /**
+     * Build a table of summary data.
+     *
+     * @param main The main column's text.
+     * @param data The summary data.
+     * @return A node containing the summary table.
+     */
+    private Node buildTable(final String main, final ObservableList<Row> data) {
+        TableView<Row> table = new TableView<>();
+
+        TableColumn<Row, String> mainColumn = new TableColumn<>(main);
+
+        TableColumn<Row, String> typeColumn = new TableColumn<>("Type");
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+
+        TableColumn<Row, String> numberColumn = new TableColumn<>("Number");
+        numberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
+
+        mainColumn.getColumns().add(typeColumn);
+        mainColumn.getColumns().add(numberColumn);
+        table.getColumns().add(mainColumn);
+        table.setItems(data);
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);   // Needed to keep extra space from being seen after the last column.
+        table.setFixedCellSize(props.getInt("taskForce.summary.table.cell.size"));
+        table.prefHeightProperty()
+                .bind(Bindings.size(table.getItems())
+                        .multiply(table.getFixedCellSize())
+                        .add(props.getInt("taskForce.summary.table.cell.header.size")));
+
+        return new VBox(table);
+    }
+
+    /**
      * Set a task force tab contents.
+     *
      * @param viewType The type of ship that is contained within the tab.
      * @param ships A list of ships of the given type.
      */

@@ -29,5 +29,23 @@
     "maxEven": 3,
     "maxOdd": 3
   },
+  "aircraft": [
+    {
+      "model": "Fulmar",
+      "strength": "half"
+    },
+    {
+      "model": "Swordfish",
+      "strength": "full"
+    },
+    {
+      "model": "Swordfish",
+      "strength": "full"
+    },
+    {
+      "model": "Swordfish",
+      "strength": "half"
+    }
+  ],
   "victoryPoints": 73
 }

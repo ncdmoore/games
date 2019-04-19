@@ -1,3 +1,14 @@
+////////////////////////////////////////////////////////////////////
+// Define variables that may be used in this file.
+// Currently only colors variables can be defined.
+////////////////////////////////////////////////////////////////////
+* {
+    -fx-var-background-color: rgb(224, 228, 203);
+}
+
+.root {
+    -fx-background: -fx-var-background-color;
+}
 
 #title-pane-axis {
     -fx-border-width: 1px;
@@ -36,12 +47,15 @@
     -fx-border-width: 1px;
 }
 
+
+
 #ship-details-grid {
     -fx-hgap: 10;
 }
 
 
 .component-grid {
+    -fx-background-color: whitesmoke;
     -fx-hgap: 10;
 }
 
@@ -67,6 +81,7 @@
 }
 
 #status-grid {
+    -fx-background-color: whitesmoke;
     -fx-hgap: 15;
     -fx-vgap: 20;
 }
@@ -81,6 +96,7 @@
 
 
 #aircraft-list {
+    -fx-background-color: whitesmoke;
     -fx-border-color: grey;
     -fx-border-width: 0px;
     -fx-border-insets: /* top */ 15 /* right */ 30 /* bottom */ 15 /* left */ 30;

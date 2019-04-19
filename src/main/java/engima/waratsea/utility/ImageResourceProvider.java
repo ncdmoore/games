@@ -88,8 +88,9 @@ public class ImageResourceProvider {
      * @return An optional ship image.
      */
     private Optional<Image> getShipNameImage(final Ship ship) {
+        log.debug("look for ship name '{}'", ship.getName());
         String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getName() + ".png";
-        return  loadImage(path);
+        return loadImage(path);
     }
 
     /**
@@ -99,6 +100,7 @@ public class ImageResourceProvider {
      * @return An optional ship image.
      */
     private Optional<Image> getShipClassImage(final Ship ship) {
+        log.debug("look for ship class '{}'", ship.getShipClass());
         String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getShipClass() + ".png";
         return loadImage(path);
     }

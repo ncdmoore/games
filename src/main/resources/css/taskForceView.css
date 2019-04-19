@@ -127,23 +127,32 @@
     -fx-hgap: 10;
 }
 
-
 #taskforce-pane .button {
     -fx-text-fill: navy;
     -fx-base: whitesmoke;
     -fx-background-radius: 0;
 }
 
-#taskforce-summary-grid {
+#taskforce-summary-hbox {
     -fx-padding: /* top */ 10 /* right */ 0 /* bottom */ 0 /* left */ 10;
-    -fx-hgap: 10;
-}
-
-#taskforce-summary-grid .label {
-    -fx-text-fill: blue;
+    -fx-spacing: 30px;
 }
 
 #push-buttons  {
     -fx-spacing: 180;
     -fx-padding: /* top: */ 40 /* right: */ 0 /* bottom: */ 20 /* left: */ 450;
+}
+
+
+////////////////////////////////////////////////////////////////////
+// Configure the tables to look like a row cannot be selected.
+////////////////////////////////////////////////////////////////////
+.table-row-cell:filled:selected {
+  -fx-background: -fx-control-inner-background ;
+  -fx-background-color: -fx-table-cell-border-color, -fx-background ;
+  -fx-background-insets: 0, 0 0 1 0 ;
+  -fx-table-cell-border-color: derive(-fx-color, 5%);
+}
+.table-row-cell:odd:filled:selected {
+  -fx-background: -fx-control-inner-background-alt ;
 }

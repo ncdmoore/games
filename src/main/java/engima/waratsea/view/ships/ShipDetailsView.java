@@ -269,8 +269,9 @@ public class ShipDetailsView {
         TitledPane speedPane = buildPane("Movement", getMovementData(ship));
         TitledPane aswPane = buildPane("ASW", getAswData(ship));
         TitledPane fuelPane = buildPane("Fuel", getFuelData(ship));
+        TitledPane squadronPane = buildPane("Aircraft", getSquadronSummary(ship));
         TitledPane cargoPane = buildPane("Cargo", getCargoData(ship));
-        return new VBox(speedPane, aswPane, fuelPane, cargoPane);
+        return new VBox(speedPane, aswPane, fuelPane, squadronPane, cargoPane);
     }
 
     /**
@@ -458,6 +459,26 @@ public class ShipDetailsView {
     }
 
     /**
+     * Get a summary of the ship's squadrons by type of aircraft.
+     *
+     * @param ship The ship whose squadrons are retrieved.
+     * @return A map of aircraft type to number of steps of that type.
+     */
+    private Map<String, String> getSquadronSummary(final Ship ship) {
+         Map<String, String> summary = ship.getSquadronSummary()
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(e -> e.getKey().toString() + ":",
+                                          e -> formatSteps(e.getValue())));
+
+         if (summary.isEmpty()) {
+             summary.put("No aircraft", "");
+         }
+
+         return summary;
+    }
+
+    /**
      * Get the squadron details.
      *
      * @param squadron The selected squadron.
@@ -559,5 +580,24 @@ public class ShipDetailsView {
     private Image getImage(final Squadron squadron) {
         Aircraft aircraft = squadron.getAircraft();
         return imageResourceProvider.getAircraftImageView(aircraft);
+    }
+
+    /**
+     * Format the aircraft type steps.
+     *
+     * @param steps The number of steps of a given aircraft type.
+     * @return A string value that represents the total number of steps of the aircraft type.
+     */
+    private String formatSteps(final double steps) {
+
+        String stepString = steps + "";
+
+        if (steps < 1) {
+            return stepString + " of a step";
+        } else if (steps == 1) {
+            return (stepString).substring(0, stepString.indexOf('.')) + " step";
+        } else {
+            return (stepString).substring(0, stepString.indexOf('.')) + " steps";
+        }
     }
 }

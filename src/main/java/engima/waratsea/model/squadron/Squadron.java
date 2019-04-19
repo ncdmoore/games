@@ -5,6 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.aircraft.AircraftId;
+import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.AviationPlant;
 import engima.waratsea.model.aircraft.AviationPlantException;
 import engima.waratsea.model.base.Airbase;
@@ -119,6 +120,25 @@ public class Squadron implements PersistentData<SquadronData> {
         data.setStrength(strength);
         data.setName(name);
         return data;
+    }
+
+    /**
+     * Get the type of squadron.
+     *
+     * @return The type of squadron: FIGHTER, BOMBER, etc.
+     */
+    public AircraftType getType() {
+        return aircraft.getType();
+    }
+
+    /**
+     * Get the number of steps that the squadron contains. Full strength squadrons contain two steps. Half strength
+     * squadrons contain one step. Battleship and cruiser float planes are equal to 1/3 of a step.
+     *
+     * @return Number of steps in the squadron.
+     */
+    public double getSteps() {
+        return strength.getSteps();
     }
 
     /**

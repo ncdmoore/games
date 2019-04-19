@@ -1,6 +1,7 @@
 package engima.waratsea.model.ship;
 
 import engima.waratsea.model.PersistentData;
+import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.nation.Nation;
 import engima.waratsea.model.ship.data.ShipData;
@@ -8,6 +9,7 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.TaskForce;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a ship.
@@ -93,6 +95,21 @@ public interface Ship extends PersistentData<ShipData> {
      * @return A list of aircraft squadrons.
      */
     List<Squadron> getAircraft();
+
+
+    /**
+     * Get the ship's aircraft type map.
+     *
+     * @return A map of squadron types to list of squadrons of that type.
+     */
+    Map<AircraftType, List<Squadron>> getAircraftTypeMap();
+
+    /**
+     * Get a summary map of aircraft type to number of steps of that type.
+     *
+     * @return A map of aircraft types to number of steps of that type.
+     */
+    Map<AircraftType, Double> getSquadronSummary();
 
     /**
      * Get the ship's nationality.
