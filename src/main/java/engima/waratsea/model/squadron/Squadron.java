@@ -17,6 +17,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -137,7 +138,7 @@ public class Squadron implements PersistentData<SquadronData> {
      *
      * @return Number of steps in the squadron.
      */
-    public double getSteps() {
+    public BigDecimal getSteps() {
         return strength.getSteps();
     }
 

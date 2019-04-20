@@ -45,6 +45,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -81,6 +83,12 @@ public class TaskForceView {
         public Row(final String type, final String number) {
             this.type = type;
             this.number = number;
+
+            String decimal = number.substring(number.indexOf('.') + 1);
+
+            if (Integer.valueOf(decimal) == 0) {
+                this.number = number.substring(0, number.indexOf('.'));
+            }
         }
     }
 
@@ -431,7 +439,7 @@ public class TaskForceView {
     private void setTabs(final TaskForce taskForce) {
 
         Map<ShipViewType, List<Ship>> shipViewTypeMap = getShipViewTypeMap(taskForce);
-        Map<AircraftType, Double> squadronTypeMap = getAircraftTypeMap(taskForce);
+        Map<AircraftType, BigDecimal> squadronTypeMap = getAircraftTypeMap(taskForce);
 
         shipButtons = new ArrayList<>();
 
@@ -449,7 +457,7 @@ public class TaskForceView {
      * @param squadronTypeMap The selected task force map of aircraft type to number of steps.
      */
     private void setSummaryTab(final Map<ShipViewType, List<Ship>> shipViewTypeMap,
-                               final Map<AircraftType, Double> squadronTypeMap) {
+                               final Map<AircraftType, BigDecimal> squadronTypeMap) {
         List<Row> shipRows = shipViewTypeMap
                 .entrySet()
                 .stream()
@@ -461,17 +469,16 @@ public class TaskForceView {
         List<Row> squadronRows = squadronTypeMap
                 .entrySet()
                 .stream()
-                .filter(entry -> entry.getValue() > 0)
-                .map(entry -> new Row(entry.getKey().toString(), entry.getValue() + ""))
+                .filter(entry -> !(entry.getValue().compareTo(BigDecimal.ZERO) == 0))
+                .map(entry -> new Row(entry.getKey().toString(), entry.getValue().setScale(2, RoundingMode.HALF_UP) + ""))
                 .collect(Collectors.toList());
         ObservableList<Row> squadronData = FXCollections.observableArrayList(squadronRows);
 
-
-        HBox hBox = new HBox(buildTable("Ships", shipData));
+        HBox hBox = new HBox(buildTable("Ships", "Number", shipData));
         hBox.setId("taskforce-summary-hbox");
 
         if (!squadronTypeMap.isEmpty()) {
-            hBox.getChildren().add(buildTable("Squadrons", squadronData));
+            hBox.getChildren().add(buildTable("Squadrons", "Steps", squadronData));
         }
 
         taskForceSummaryTab.setContent(hBox);
@@ -507,31 +514,33 @@ public class TaskForceView {
      * @param taskForce The selected task force.
      * @return A map of aircraft type to number of steps of the type.
      */
-    private Map<AircraftType, Double> getAircraftTypeMap(final TaskForce taskForce) {
+    private Map<AircraftType, BigDecimal> getAircraftTypeMap(final TaskForce taskForce) {
         return taskForce.getShips()
                 .stream()
                 .map(Ship::getSquadronSummary)
                 .map(Map::entrySet)
                 .flatMap(Collection::stream)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Double::sum));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, BigDecimal::add));
     }
+
 
     /**
      * Build a table of summary data.
      *
-     * @param main The main column's text.
+     * @param mainLabel The main column's text.
+     * @param numberLabel The number column's text.
      * @param data The summary data.
      * @return A node containing the summary table.
      */
-    private Node buildTable(final String main, final ObservableList<Row> data) {
+    private Node buildTable(final String mainLabel, final String numberLabel, final ObservableList<Row> data) {
         TableView<Row> table = new TableView<>();
 
-        TableColumn<Row, String> mainColumn = new TableColumn<>(main);
+        TableColumn<Row, String> mainColumn = new TableColumn<>(mainLabel);
 
         TableColumn<Row, String> typeColumn = new TableColumn<>("Type");
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 
-        TableColumn<Row, String> numberColumn = new TableColumn<>("Number");
+        TableColumn<Row, String> numberColumn = new TableColumn<>(numberLabel);
         numberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
 
         mainColumn.getColumns().add(typeColumn);

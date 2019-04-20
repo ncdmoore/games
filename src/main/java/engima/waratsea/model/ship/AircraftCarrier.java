@@ -16,6 +16,7 @@ import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -290,13 +291,13 @@ public class AircraftCarrier implements Ship, Airbase {
      * @return A map of aircraft types to number of steps of that type.
      */
     @Override
-    public Map<AircraftType, Double> getSquadronSummary() {
+    public Map<AircraftType, BigDecimal> getSquadronSummary() {
         return aircraftTypeMap
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
                                           e -> sumSteps(e.getValue()),
-                                          Double::sum));
+                                          BigDecimal::add));
     }
 
     /**
@@ -305,8 +306,11 @@ public class AircraftCarrier implements Ship, Airbase {
      * @param squadrons A list of squadrons of a given aircraft type.
      * @return The total strength of the list of squadrons.
      */
-    private Double sumSteps(final List<Squadron> squadrons) {
-        return squadrons.stream().map(Squadron::getSteps).mapToDouble(d -> d).sum();
+    private BigDecimal sumSteps(final List<Squadron> squadrons) {
+        return squadrons
+                .stream()
+                .map(Squadron::getSteps)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     /**

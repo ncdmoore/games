@@ -24,12 +24,16 @@ import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static engima.waratsea.model.squadron.StepSize.ONE_THIRD;
+import static engima.waratsea.model.squadron.StepSize.TWO_THIRDS;
 
 /**
  * The ship details view.
@@ -588,16 +592,23 @@ public class ShipDetailsView {
      * @param steps The number of steps of a given aircraft type.
      * @return A string value that represents the total number of steps of the aircraft type.
      */
-    private String formatSteps(final double steps) {
+    private String formatSteps(final BigDecimal steps) {
 
         String stepString = steps + "";
 
-        if (steps < 1) {
-            return stepString + " of a step";
-        } else if (steps == 1) {
-            return (stepString).substring(0, stepString.indexOf('.')) + " step";
+        log.info(stepString);
+
+        BigDecimal oneThird = new BigDecimal(ONE_THIRD);
+        BigDecimal twoThirds = new BigDecimal(TWO_THIRDS);
+
+        if (steps.compareTo(BigDecimal.ZERO) > 0 && steps.compareTo(oneThird) <= 0) {
+            return "1/3 of a step";
+        } else if (steps.compareTo(oneThird) > 0 && steps.compareTo(twoThirds) <= 0) {
+            return "2/3 of a step";
+        } else if (steps.compareTo(BigDecimal.ONE) == 0) {
+            return stepString + " step";
         } else {
-            return (stepString).substring(0, stepString.indexOf('.')) + " steps";
+            return stepString + " steps";
         }
     }
 }

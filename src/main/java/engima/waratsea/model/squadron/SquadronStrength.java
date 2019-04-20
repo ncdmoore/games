@@ -3,6 +3,10 @@ package engima.waratsea.model.squadron;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 
+import java.math.BigDecimal;
+
+import static engima.waratsea.model.squadron.StepSize.ONE_THIRD;
+
 /**
  * Represents the strength of a squadron.
  *
@@ -13,18 +17,18 @@ import lombok.Getter;
  */
 public enum SquadronStrength {
     @SerializedName(value = "FULL", alternate = {"Full", "full"})
-    FULL("Full", 2),
+    FULL("Full", "2"),
 
     @SerializedName(value = "HALF", alternate = {"Half", "half"})
-    HALF("Half", 1),
+    HALF("Half", "1"),
 
     @SerializedName(value = "SIXTH", alternate = {"Sixth", "sixth"})
-    SIXTH("1/6", 0.33); // Sixth is for battleship and cruiser float planes.
+    SIXTH("1/6", ONE_THIRD); // Sixth is for battleship and cruiser float planes.
 
     private String value;
 
     @Getter
-    private double steps;
+    private BigDecimal steps;
 
     /**
      * The constructor.
@@ -32,9 +36,9 @@ public enum SquadronStrength {
      * @param value The String value of the squadron strength.
      * @param steps The number of steps that squadron strength maps to.
      */
-    SquadronStrength(final String value, final double steps) {
+    SquadronStrength(final String value, final String steps) {
         this.value = value;
-        this.steps = steps;
+        this.steps = new BigDecimal(steps);
     }
 
     /**
