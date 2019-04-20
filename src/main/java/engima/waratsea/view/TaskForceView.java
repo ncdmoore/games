@@ -65,7 +65,7 @@ public class TaskForceView {
     /**
      * Utility class used in conjuction with table view.
      */
-    public class Row {
+    public static class Row {
         @Getter
         @Setter
         private String type;
@@ -86,7 +86,7 @@ public class TaskForceView {
 
             String decimal = number.substring(number.indexOf('.') + 1);
 
-            if (Integer.valueOf(decimal) == 0) {
+            if (Integer.parseInt(decimal) == 0) {
                 this.number = number.substring(0, number.indexOf('.'));
             }
         }
