@@ -2,7 +2,7 @@
   {
     "name": "TF1",
     "title": "Support Force",
-    "location": "A15",
+    "location": "O1",
     "state": "ACTIVE",
     "mission": "SUPPORT",
     "ships": [
@@ -17,7 +17,7 @@
   {
     "name": "TF2",
     "title": "Tulagi Invasion Force",
-    "location": "A7",
+    "location": "G1",
     "state": "ACTIVE",
     "mission": "INVASION",
     "ships": [
@@ -63,7 +63,7 @@
   {
     "name": "TF4",
     "title": "Scout Force",
-    "location": "Q19",
+    "location": "V19",
     "state": "ACTIVE",
     "mission": "SUPPORT",
     "ships": [
@@ -75,7 +75,7 @@
   {
     "name": "TF5",
     "title": "Reserve Force",
-    "location": "A13",
+    "location": "M1",
     "state": "RESERVE",
     "mission": "INTERCEPT",
     "releaseTurnEvents" : [
