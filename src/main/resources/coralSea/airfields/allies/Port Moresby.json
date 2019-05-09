@@ -1,0 +1,7 @@
+{
+  "name"     : "Port Moresby",
+  "province" : "New Guinea",
+  "maxCapacity" : 20,
+  "antiAir"  : 5,
+  "location": "L5"
+}

@@ -1,0 +1,21 @@
+{
+  "type": "OILER",
+  "shipClass": "Toho Maru",
+  "nationality": "JAPANESE",
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 1,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 720
+  },
+  "movement": {
+    "maxEven": 2,
+    "maxOdd": 1
+  },
+  "cargo": {
+    "capacity": 1
+  },
+  "victoryPoints": 20
+}

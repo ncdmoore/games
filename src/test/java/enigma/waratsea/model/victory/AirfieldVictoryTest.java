@@ -3,7 +3,6 @@ package enigma.waratsea.model.victory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.base.airfield.Airfield;
-import engima.waratsea.model.base.airfield.AirfieldLoader;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.airfield.AirfieldEvent;
@@ -21,7 +20,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AirfieldVictoryTest {
@@ -44,15 +42,10 @@ public class AirfieldVictoryTest {
         GameMap gameMap = injector.getInstance(GameMap.class);
         gameMap.load(scenario);
 
+        alliedAirfields = gameMap.getAirfields(Side.ALLIES);
+        axisAirfields = gameMap.getAirfields(Side.AXIS);
+
         victoryConditionsFactory = injector.getInstance(VictoryConditionsFactory.class);
-
-        AirfieldLoader airfieldLoader = injector.getInstance(AirfieldLoader.class);
-
-        List<String> alliedAirfieldNames = new ArrayList<>(Arrays.asList("Malta", "Alexandria"));
-        alliedAirfields = airfieldLoader.load(Side.ALLIES, alliedAirfieldNames);
-
-        List<String> axisAirfieldNames = new ArrayList<>(Arrays.asList("Ajaccio", "Cagliari"));
-        axisAirfields = airfieldLoader.load(Side.AXIS, axisAirfieldNames);
     }
 
     @Test
@@ -62,7 +55,7 @@ public class AirfieldVictoryTest {
         AirfieldMatchData airfieldMatchData = new AirfieldMatchData();
         airfieldMatchData.setAction("DAMAGE");
         airfieldMatchData.setSide(Side.AXIS);
-        airfieldMatchData.setName("Cagliari");
+        airfieldMatchData.setName(axisAirfields.get(1).getName());
 
         AirfieldVictoryData airfieldVictoryData = new AirfieldVictoryData();
         airfieldVictoryData.setEvent(airfieldMatchData);
@@ -96,7 +89,7 @@ public class AirfieldVictoryTest {
         AirfieldMatchData airfieldMatchData = new AirfieldMatchData();
         airfieldMatchData.setAction("REPAIR");
         airfieldMatchData.setSide(Side.ALLIES);
-        airfieldMatchData.setName("Luqa");
+        airfieldMatchData.setName(alliedAirfields.get(0).getName());
 
         AirfieldVictoryData airfieldVictoryData = new AirfieldVictoryData();
         airfieldVictoryData.setEvent(airfieldMatchData);

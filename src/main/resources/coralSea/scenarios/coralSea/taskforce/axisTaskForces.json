@@ -1,0 +1,100 @@
+[
+  {
+    "name": "TF1",
+    "title": "Support Force",
+    "location": "A15",
+    "state": "ACTIVE",
+    "mission": "SUPPORT",
+    "ships": [
+      "CVL01 Shoho-1",
+      "CA01 Kako",
+      "CA02 Furutaka",
+      "CA03 Kinugasa",
+      "CA04 Aoba",
+      "DD53 Sazanami"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "Tulagi Invasion Force",
+    "location": "A7",
+    "state": "ACTIVE",
+    "mission": "INVASION",
+    "ships": [
+      "DD31 Kikutzuki",
+      "DD34 Yuzuki",
+      "ML09 Okinoshima",
+      "MS01 W-1",
+      "MS02 W-2",
+      "MS03 W-3",
+      "MS04 W-4",
+      "MS05 W-5",
+      "MS06 W-6",
+      "TR01",
+      "TR02"
+    ]
+  },
+  {
+    "name": "TF3",
+    "title": "Moresby Invasion Force",
+    "location": "Rabaul",
+    "state": "ACTIVE",
+    "mission": "INVASION",
+    "ships": [
+      "CL17 Yubari",
+      "DD11 Oite",
+      "DD15 Asanagi",
+      "DD19 Mutsuki",
+      "DD23 Yayoi",
+      "DD33 Mochizuki",
+      "ML10 Tsugaru",
+      "TR03",
+      "TR04",
+      "TR05",
+      "TR06",
+      "TR07",
+      "TR08",
+      "TR09",
+      "TR10",
+      "TR11",
+      "TR12"
+    ]
+  },
+  {
+    "name": "TF4",
+    "title": "Scout Force",
+    "location": "Q19",
+    "state": "ACTIVE",
+    "mission": "SUPPORT",
+    "ships": [
+      "CL01 Tenryu",
+      "CL02 Tatsuta",
+      "CVS01 Kamikawa Maru-1"
+    ]
+  },
+  {
+    "name": "TF5",
+    "title": "Reserve Force",
+    "location": "A13",
+    "state": "RESERVE",
+    "mission": "INTERCEPT",
+    "releaseTurnEvents" : [
+      {
+        "turn": 20
+      }
+    ],
+    "ships": [
+      "CV09 Shokaku-1",
+      "CV10 Zuikaku-1",
+      "CA05 Myoko",
+      "CA06 Haguro",
+      "DD52 Akebono",
+      "DD54 Ushio",
+      "DD62 Ariake",
+      "DD64 Yugure",
+      "DD65 Shiratsuyu",
+      "DD66 Shigure",
+      "AO01 Toho Maru"
+    ]
+  }
+]

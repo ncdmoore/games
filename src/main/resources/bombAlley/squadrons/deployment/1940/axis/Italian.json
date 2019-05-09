@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Rhodes",
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 2
+  },
+  {
+    "name": "Scarpanto",
+    "recon": 3,
+    "fighter": 4
+  },
+  {
+    "name": "Derna",
+    "recon": 4,
+    "fighter": 4
+  },
+  {
+    "name": "Tobruk",
+    "recon": 4,
+    "fighter": 4,
+    "bomber": 4
+  },
+  {
+    "name": "Augusta",
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 1
+  },
+  {
+    "name": "Lecce",
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 1
+  },
+  {
+    "name": "Borizzo",
+    "recon": 3,
+    "fighter": 1,
+    "bomber": 3
+  },
+  {
+    "name": "Tripoli",
+    "recon": 2,
+    "fighter": 2,
+    "bomber": 2
+  },
+  {
+    "name": "Benghazi",
+    "recon": 3,
+    "fighter": 3,
+    "bomber": 3
+  }
+]

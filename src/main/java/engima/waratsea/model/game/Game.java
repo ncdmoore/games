@@ -3,13 +3,12 @@ package engima.waratsea.model.game;
 import com.google.inject.Inject;
 import engima.waratsea.model.game.data.GameData;
 import engima.waratsea.model.game.event.GameEvent;
-import engima.waratsea.model.game.nation.NationProps;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.MapException;
 import engima.waratsea.model.player.Player;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
-import engima.waratsea.model.scenario.ScenarioLoader;
+import engima.waratsea.model.scenario.ScenarioDAO;
 import engima.waratsea.model.victory.Victory;
 import engima.waratsea.model.victory.VictoryException;
 import lombok.Getter;
@@ -29,13 +28,13 @@ import java.util.Map;
 public class Game {
     @Getter
     @Inject
-    @Named("Human")
+    @Named("Computer")
     @SuppressWarnings("unused")
     private Player computerPlayer;
 
     @Getter
     @Inject
-    @Named("Computer")
+    @Named("Human")
     @SuppressWarnings("unused")
     private Player humanPlayer;
 
@@ -45,15 +44,11 @@ public class Game {
 
     @Inject
     @SuppressWarnings("unused")
-    private  NationProps nationProps;
+    private ScenarioDAO scenarioDAO;
 
     @Inject
     @SuppressWarnings("unused")
-    private  ScenarioLoader scenarioLoader;
-
-    @Inject
-    @SuppressWarnings("unused")
-    private  GameLoader gameLoader;
+    private GameDAO gameDAO;
 
     @Inject
     @SuppressWarnings("unused")
@@ -71,6 +66,7 @@ public class Game {
 
     private  Map<Side, Player> players = new HashMap<>();
 
+
     /**
      * Initialize the scenario summary data.
      *
@@ -78,7 +74,7 @@ public class Game {
      * @throws ScenarioException Indicates the scenario summary data could not be loaded.
      */
     public List<Scenario> initScenarios() throws ScenarioException {                                                    // New Game Step 1.
-        return scenarioLoader.load();
+        return scenarioDAO.load();
     }
 
     /**
@@ -89,7 +85,6 @@ public class Game {
     public void setScenario(final Scenario selectedScenario) {                                                          // New Game Step 2.
         scenario = selectedScenario;
         config.setScenario(scenario.getName());
-        nationProps.setScenario(scenario);
     }
 
     /**
@@ -130,6 +125,7 @@ public class Game {
         loadGameMap();
         loadGameVictory();
         buildAssets();
+        deployAssets();
 
         save();              //Save the default game.
     }
@@ -176,7 +172,7 @@ public class Game {
      * @throws GameException indicates that the game could not be loaded.
      */
     private void loadSavedGame() throws GameException {
-        GameData data = gameLoader.load();
+        GameData data = gameDAO.load();
         setHumanSide(data.getHumanSide());
         setScenario(data.getScenario());
     }
@@ -211,10 +207,17 @@ public class Game {
     }
 
     /**
+     * Deploy the computer player's assets.
+     */
+    private void deployAssets() {
+        computerPlayer.deployAssets(scenario);
+    }
+
+    /**
      * Save the game.
      */
     private void save() {
-        gameLoader.save(getData());
+        gameDAO.save(getData());
         gameVictory.save(scenario);
         humanPlayer.saveAssets(scenario);
         computerPlayer.saveAssets(scenario);

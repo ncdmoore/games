@@ -1,0 +1,37 @@
+{
+  "type": "MINELAYER",
+  "shipClass": "Okinoshima",
+  "nationality": "JAPANESE",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 3,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 264
+  },
+  "movement": {
+    "maxEven": 2,
+    "maxOdd": 2
+  },
+  "cargo": {
+    "capacity": 1
+  },
+  "aircraft": [
+    {
+      "model": "E7K",
+      "strength": "sixth"
+    }
+  ],
+  "victoryPoints": 6
+}

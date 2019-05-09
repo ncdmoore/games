@@ -8,24 +8,27 @@ import lombok.Getter;
  */
 public enum AircraftType {
     @SerializedName(value = "FIGHTER", alternate = {"Fighter", "fighter"})
-    FIGHTER("Fighter", "F"),
+    FIGHTER("Fighter", AircraftBaseType.FIGHTER, "F"),
 
     @SerializedName(value = "BOMBER", alternate = {"Bomber", "bomber"})
-    BOMBER("Bomber", "B"),
+    BOMBER("Bomber", AircraftBaseType.BOMBER, "B"),
 
     @SerializedName(value = "POOR_NAVAL_BOMBER", alternate = {"Poor_Naval_Bomber", "poor_naval_bomber"})
-    POOR_NAVAL_BOMBER("Bomber", "B"),
+    POOR_NAVAL_BOMBER("Bomber", AircraftBaseType.BOMBER, "B"),
 
     @SerializedName(value = "DIVE_BOMBER", alternate = {"Dive_Bomber", "dive_bomber", "Dive Bomber", "dive bomber"})
-    DIVE_BOMBER("Dive Bomber", "DB"),
+    DIVE_BOMBER("Dive Bomber", AircraftBaseType.BOMBER, "DB"),
 
     @SerializedName(value = "TORPEDO_BOMBER", alternate = {"Torpedo_Bomber", "torpedo_bomber", "Torpedo Bomber", "torpedo bomber"})
-    TORPEDO_BOMBER("Torpedo Bomber", "TB"),
+    TORPEDO_BOMBER("Torpedo Bomber", AircraftBaseType.BOMBER, "TB"),
 
     @SerializedName(value = "RECONNAISSANCE", alternate = {"Reconnaissance", "reconnaissance"})
-    RECONNAISSANCE("Reconnaissance", "R");
+    RECONNAISSANCE("Reconnaissance", AircraftBaseType.RECON, "R");
 
     private String value;
+
+    @Getter
+    private AircraftBaseType baseType;
 
     @Getter
     private String designation;
@@ -34,10 +37,12 @@ public enum AircraftType {
      * Constructor.
      *
      * @param value The string value of the enum.
+     * @param baseType The base aircraft baseType.
      * @param designation The aircraft designation. F for fighter, B for bomber, etc.
      */
-    AircraftType(final String value, final String designation) {
+    AircraftType(final String value, final AircraftBaseType baseType, final String designation) {
         this.value = value;
+        this.baseType = baseType;
         this.designation = designation;
     }
 

@@ -1,0 +1,32 @@
+{
+  "name": "B17E",
+  "type": "Bomber",
+  "nationality": "United States",
+  "service": "AIRFORCE",
+  "designation": "B-",
+  "altitude": "HIGH",
+  "landing": "LAND",
+  "naval": {
+    "modifier": 0,
+    "full": 5,
+    "half": 3
+  },
+  "land": {
+    "modifier": 1,
+    "full": 9,
+    "half": 5
+  },
+  "air": {
+    "modifier": 0,
+    "full": 3,
+    "half": 2
+  },
+  "range": {
+    "range": 15,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 3,
+    "fragile": false
+  }
+}

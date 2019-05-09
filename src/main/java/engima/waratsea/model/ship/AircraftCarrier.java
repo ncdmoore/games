@@ -5,7 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.game.nation.Nation;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.ship.data.GunData;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.squadron.Squadron;
@@ -301,6 +301,33 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
+     * Base a squadron from this airfield.
+     *
+     * @param squadron The squadron which is now based at this airfield.
+     */
+    @Override
+    public boolean addSquadron(final Squadron squadron) {
+        Optional.ofNullable(squadron.getAirfield())
+                .ifPresent(airfield -> airfield.removeSquadron(squadron));
+
+        if (hasRoom(squadron)) {
+            aircraft.add(squadron);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Remove a squadron from this airfield.
+     *
+     * @param squadron The squadron which is removed from this airfield.
+     */
+    @Override
+    public void removeSquadron(final Squadron squadron) {
+        aircraft.remove(squadron);
+    }
+    /**
      * Get the strength in steps of the given list of squadrons.
      *
      * @param squadrons A list of squadrons of a given aircraft type.
@@ -342,5 +369,29 @@ public class AircraftCarrier implements Ship, Airbase {
         aircraftTypeMap = aircraft
                 .stream()
                 .collect(Collectors.groupingBy(Squadron::getType));
+    }
+
+    /**
+     * Determine if this airfield has room for another squadron.
+     *
+     * @param squadron The new squadron.
+     * @return True if this airfield can house the new squadron; false otherwise.
+     */
+    private boolean hasRoom(final Squadron squadron) {
+        int steps = squadron.getSteps().intValue();
+        return steps + deployedSteps() <= getMaxCapacity();
+    }
+
+    /**
+     * Determine the current number of steps deployed at this airfield.
+     *
+     * @return The current number of steps deployed at this airfield.
+     */
+    private int deployedSteps() {
+        return aircraft
+                .stream()
+                .map(Squadron::getSteps)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .intValue();
     }
 }

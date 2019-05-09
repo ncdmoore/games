@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.aircraft.Aircraft;
+import engima.waratsea.model.aircraft.AircraftBaseType;
 import engima.waratsea.model.aircraft.AircraftId;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.AviationPlant;
@@ -20,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Represents an aircraft squadron of a particular class of aircraft.
@@ -86,6 +88,8 @@ public class Squadron implements PersistentData<SquadronData> {
         this.model = data.getModel();
         this.strength = data.getStrength();
         this.name = data.getName();
+        Optional.ofNullable(data.getAirfield())
+                .ifPresent(field -> airfield = gameMap.getAirfield(side, field));
 
         try {
             AircraftId aircraftId = new AircraftId(model, side);
@@ -120,6 +124,8 @@ public class Squadron implements PersistentData<SquadronData> {
         data.setModel(model);
         data.setStrength(strength);
         data.setName(name);
+        Optional.ofNullable(airfield)
+                .ifPresent(field -> data.setAirfield(field.getName()));
         return data;
     }
 
@@ -130,6 +136,15 @@ public class Squadron implements PersistentData<SquadronData> {
      */
     public AircraftType getType() {
         return aircraft.getType();
+    }
+
+    /**
+     * Get the aircraft base type.
+     *
+     * @return The aircraft base type.
+     */
+    public AircraftBaseType getBaseType() {
+        return getType().getBaseType();
     }
 
     /**

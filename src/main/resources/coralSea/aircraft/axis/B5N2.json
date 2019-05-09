@@ -1,0 +1,32 @@
+{
+  "name": "B5N2",
+  "type": "Torpedo Bomber",
+  "nationality": "Japanese",
+  "service": "NAVY",
+  "designation": "NAS-",
+  "altitude": "MEDIUM",
+  "landing": "CARRIER",
+  "naval": {
+    "modifier": 1,
+    "full": 5,
+    "half": 3
+  },
+  "land": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "air": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "range": {
+    "range": 19,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

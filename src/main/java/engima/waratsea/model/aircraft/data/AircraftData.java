@@ -5,7 +5,7 @@ import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.AltitudeType;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.aircraft.ServiceType;
-import engima.waratsea.model.game.nation.Nation;
+import engima.waratsea.model.game.Nation;
 import lombok.Getter;
 import lombok.Setter;
 

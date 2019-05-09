@@ -154,11 +154,8 @@ public class TaskForceView {
      * @param scenario The selected scenario.
      */
     public void show(final Stage stage, final Scenario scenario) {
-
         Label title = new Label("Task Forces: " + scenario.getTitle());
-
         title.setId("title");
-
         StackPane titlePane = new StackPane(title);
         titlePane.setId("title-pane");
 

@@ -10,7 +10,7 @@ import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.model.taskForce.TaskForceLoader;
+import engima.waratsea.model.taskForce.TaskForceDAO;
 import enigma.waratsea.TestModule;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -19,7 +19,7 @@ import org.junit.Test;
 import java.util.List;
 
 public class TaskForceLoaderTest {
-    private static TaskForceLoader loader;
+    private static TaskForceDAO taskForceDAO;
     private static Config config;
     private static GameMap gameMap;
 
@@ -30,7 +30,7 @@ public class TaskForceLoaderTest {
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
         config = injector.getInstance(Config.class);
         gameMap = injector.getInstance(GameMap.class);
-        loader = injector.getInstance(TaskForceLoader.class);
+        taskForceDAO = injector.getInstance(TaskForceDAO.class);
 
         gameTitle.setValue("bombAlley");
     }
@@ -46,13 +46,13 @@ public class TaskForceLoaderTest {
 
         gameMap.load(scenario);
 
-        List<TaskForce> alliedTaskForces = loader.load(scenario, Side.ALLIES);
+        List<TaskForce> alliedTaskForces = taskForceDAO.load(scenario, Side.ALLIES);
 
-        loader.save(scenario, Side.ALLIES, alliedTaskForces);
+        taskForceDAO.save(scenario, Side.ALLIES, alliedTaskForces);
 
         config.setType(GameType.EXISTING);
 
-        alliedTaskForces = loader.load(scenario, Side.ALLIES);
+        alliedTaskForces = taskForceDAO.load(scenario, Side.ALLIES);
 
         Assert.assertNotNull(alliedTaskForces);
 

@@ -2,49 +2,48 @@ package engima.waratsea.model.player;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.base.airfield.Airfield;
-import engima.waratsea.model.base.airfield.AirfieldLoader;
-import engima.waratsea.model.game.Side;
-import engima.waratsea.model.game.nation.Nation;
-import engima.waratsea.model.game.nation.NationProps;
-import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.base.airfield.AirfieldDAO;
 import engima.waratsea.model.base.port.Port;
-import engima.waratsea.model.base.port.PortLoader;
+import engima.waratsea.model.base.port.PortDAO;
+import engima.waratsea.model.game.Side;
+import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.SquadronLoader;
+import engima.waratsea.model.squadron.SquadronDAO;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.model.taskForce.TaskForceLoader;
+import engima.waratsea.model.taskForce.TaskForceDAO;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * This is the human player in the game.
  */
 public class HumanPlayer implements Player {
 
-    private NationProps nationProps;
     private GameMap gameMap;
-    private TaskForceLoader taskForceLoader;
-    private AirfieldLoader airfieldBuilder;
-    private PortLoader portBuilder;
-    private SquadronLoader aviationPlant;
+    private TaskForceDAO taskForceDAO;
+    private AirfieldDAO airfieldDAO;
+    private PortDAO portDAO;
+    private SquadronDAO aviationPlant;
 
     @Getter
     @Setter
     private Side side;
 
     @Getter
-    private List<Nation> nations;
+    private Set<Nation> nations;
 
     @Getter
     private List<TaskForce> taskForces;
 
-    @Getter
     private Map<Nation, List<Squadron>> squadrons = new HashMap<>();
 
     @Getter
@@ -56,25 +55,22 @@ public class HumanPlayer implements Player {
     /**
      * Constructor called by guice.
      *
-     * @param nationProps The nation properties.
      * @param gameMap The game map.
-     * @param taskForceLoader Loads scenario data.
-     * @param airfieldBuilder Loads airfield data.
-     * @param portBuilder Loads port data.
+     * @param taskForceDAO Loads scenario data.
+     * @param airfieldDAO Loads airfield data.
+     * @param portDAO Loads port data.
      * @param aviationPlant Loads squadron data.
      */
     @Inject
-    public HumanPlayer(final NationProps nationProps,
-                       final GameMap gameMap,
-                       final TaskForceLoader taskForceLoader,
-                       final AirfieldLoader airfieldBuilder,
-                       final PortLoader portBuilder,
-                       final SquadronLoader aviationPlant) {
-        this.nationProps = nationProps;
+    public HumanPlayer(final GameMap gameMap,
+                       final TaskForceDAO taskForceDAO,
+                       final AirfieldDAO airfieldDAO,
+                       final PortDAO portDAO,
+                       final SquadronDAO aviationPlant) {
         this.gameMap = gameMap;
-        this.taskForceLoader = taskForceLoader;
-        this.airfieldBuilder = airfieldBuilder;
-        this.portBuilder = portBuilder;
+        this.taskForceDAO = taskForceDAO;
+        this.airfieldDAO = airfieldDAO;
+        this.portDAO = portDAO;
         this.aviationPlant = aviationPlant;
     }
 
@@ -85,11 +81,22 @@ public class HumanPlayer implements Player {
     @Override
     public void buildAssets(final Scenario scenario) throws ScenarioException {
         //Note the airfields and ports used depend upon the map which is set by the scenario.
+        nations = gameMap.getNations(side);
         airfields = gameMap.getAirfields(side);
         ports = gameMap.gerPorts(side);
 
         loadSquadrons(scenario);
         loadTaskForces(scenario);
+    }
+
+    /**
+     * Deploy assets. This is only called for new games.
+     *
+     * @param scenario The selected scenario.
+     */
+    @Override
+    public void deployAssets(final Scenario scenario) {
+
     }
 
     /**
@@ -99,19 +106,48 @@ public class HumanPlayer implements Player {
      */
     @Override
     public void saveAssets(final Scenario scenario) {
-        taskForceLoader.save(scenario, side, taskForces);
-        portBuilder.save(scenario, side, ports);
-        airfieldBuilder.save(scenario, side, airfields);
+        taskForceDAO.save(scenario, side, taskForces);
+        portDAO.save(scenario, side, ports);
+        airfieldDAO.save(scenario, side, airfields);
+
+        nations.forEach(nation -> aviationPlant.save(scenario, side, nation, squadrons.get(nation)));
+
+    }
+
+    /**
+     * This gets all of the player's squadrons for all nations.
+     *
+     * @return All of the player's squadrons.
+     */
+    public List<Squadron> getSquadrons() {
+        return squadrons
+                .entrySet()
+                .stream()
+                .flatMap(entry -> entry.getValue().stream())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * This gets the player's squadrons for the given nation.
+     *
+     * @param nation A nation BRITISH, ITALIAN, etc...
+     * @return A list of squadrons for the given nation.
+     */
+    @Override
+    public List<Squadron> getSquadrons(final Nation nation) {
+        return squadrons.get(nation);
     }
 
     /**
      * Determine the nations for this scenario and side.
      *
      * @param scenario The selected scenario.
+     * @throws ScenarioException Indicates the squadrons could not be loaded.
      */
-    private void loadSquadrons(final Scenario scenario) {
-        nations = nationProps.getNations(scenario, side);
-        nations.forEach(nation -> loadNationSquadrons(scenario, nation));
+    private void loadSquadrons(final Scenario scenario) throws ScenarioException {
+        for (Nation nation: nations) {
+            loadNationSquadrons(scenario, nation);
+        }
     }
 
     /**
@@ -121,7 +157,7 @@ public class HumanPlayer implements Player {
      * @throws ScenarioException Indicates the task forces could not be loaded.
      */
     private void loadTaskForces(final Scenario scenario) throws ScenarioException {
-        taskForces = taskForceLoader.load(scenario, side);
+        taskForces = taskForceDAO.load(scenario, side);
     }
 
     /**
@@ -129,8 +165,9 @@ public class HumanPlayer implements Player {
      *
      * @param scenario The selected scenario.
      * @param nation The nation.
+     * @throws ScenarioException Indicates the squadrons could not be loaded.
      */
-    private void loadNationSquadrons(final Scenario scenario, final Nation nation) {
+    private void loadNationSquadrons(final Scenario scenario, final Nation nation) throws ScenarioException {
         squadrons.put(nation, aviationPlant.load(scenario, side, nation));
     }
 }

@@ -1,0 +1,59 @@
+{
+  "type": "AIRCRAFT_CARRIER",
+  "shipClass": "Lexington",
+  "nationality": "UNITED STATES",
+  "flightDeck":
+  {
+    "armour": "NONE",
+    "capacityList": [0, 0, 3, 7, 10, 13]
+  },
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 4
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 10,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 312
+  },
+  "movement": {
+    "maxEven": 4,
+    "maxOdd": 3
+  },
+  "aircraft": [
+    {
+      "model": "F4F3",
+      "strength": "full"
+    },
+    {
+      "model": "F4F3",
+      "strength": "full"
+    },
+    {
+      "model": "SBD3",
+      "strength": "full"
+    },
+    {
+      "model": "SBD3",
+      "strength": "full"
+    },
+    {
+      "model": "SBD3",
+      "strength": "full"
+    },
+    {
+      "model": "TBD",
+      "strength": "full"
+    }
+  ],
+  "victoryPoints": 130
+}

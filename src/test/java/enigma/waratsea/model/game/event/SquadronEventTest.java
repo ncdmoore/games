@@ -79,10 +79,11 @@ public class SquadronEventTest {
     public void testSquadronFerryEvent() {
         AirfieldData airfieldData = new AirfieldData();
         airfieldData.setName("Malta");
+        airfieldData.setSide(Side.ALLIES);
         airfieldData.setLocation(gameMap.convertNameToReference("Malta"));
 
 
-        Airfield airfield = airfieldFactory.create(Side.ALLIES, airfieldData);
+        Airfield airfield = airfieldFactory.create(airfieldData);
 
         SquadronData squadronData = new SquadronData();
         squadronData.setModel("Blenheim");

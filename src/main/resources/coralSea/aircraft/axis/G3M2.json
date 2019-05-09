@@ -1,0 +1,35 @@
+{
+  "name": "G3M2",
+  "type": "Torpedo Bomber",
+  "nationality": "Japanese",
+  "service": "NAVY",
+  "designation": "NAS-",
+  "altitude": "MEDIUM",
+  "landing": "LAND",
+  "naval": {
+    "modifier": 1,
+    "full": 4,
+    "half": 2,
+    "sixth": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 2,
+    "half": 1,
+    "sixth": 0
+  },
+  "air": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0,
+    "sixth": 0
+  },
+  "range": {
+    "range": 19,
+    "endurance": 2
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

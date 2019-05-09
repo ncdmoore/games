@@ -4,11 +4,13 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.base.airfield.Airfield;
-import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.base.port.Port;
+import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.ship.Ship;
+import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.allotment.Allotment;
+import engima.waratsea.model.squadron.deployment.Deployment;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.victory.Victory;
 import lombok.Getter;
@@ -50,8 +52,12 @@ public final class Config {
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Region.class.getSimpleName(),      "/maps/axis/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Ship.class.getSimpleName(),        "/ships/allies/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Ship.class.getSimpleName(),        "/ships/axis/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Squadron.class.getSimpleName(),    "/squadrons/allies/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Squadron.class.getSimpleName(),    "/squadrons/axis/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Allotment.class.getSimpleName(),   "/squadrons/allotment/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Allotment.class.getSimpleName(),   "/squadrons/allotment/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Deployment.class.getSimpleName(),  "/squadrons/deployment/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Deployment.class.getSimpleName(),  "/squadrons/deployment/");
     }
 
     private static final Map<Class<?>, String> FILE_MAP = new HashMap<>();

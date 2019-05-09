@@ -4,12 +4,11 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.base.Base;
 import engima.waratsea.model.base.airfield.Airfield;
-import engima.waratsea.model.base.airfield.AirfieldLoader;
 import engima.waratsea.model.base.port.Port;
-import engima.waratsea.model.base.port.PortLoader;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
-import engima.waratsea.model.map.region.RegionLoader;
+import engima.waratsea.model.map.region.RegionDAO;
 import engima.waratsea.model.scenario.Scenario;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Represents the game map. This is essentially the game board. It is not a GUI component.
@@ -32,10 +34,10 @@ import java.util.stream.Stream;
 public final class GameMap {
     private static final String MAP_REFERENCE_FORMAT = "\\s*([a-zA-Z]{1,2})(\\d{1,2})\\s*";
     private static final Pattern PATTERN = Pattern.compile(MAP_REFERENCE_FORMAT);
-    private static final String ANY_ENEMY_BASE = "ANY_ENEMY_BASE";
-    private static final String ANY_FRIENDLY_BASE = "ANY_FRIENDLY_BASE";
+    public static final String ANY_ENEMY_BASE = "ANY_ENEMY_BASE";
+    public static final String ANY_FRIENDLY_BASE = "ANY_FRIENDLY_BASE";
 
-    private RegionLoader regionLoader;
+    private RegionDAO regionDAO;
 
     @Getter
     private final int rows;
@@ -43,31 +45,26 @@ public final class GameMap {
     @Getter
     private final int columns;
 
-    private final AirfieldLoader airfieldLoader;
-    private final PortLoader portLoader;
-
+    private Map<Side, Set<Nation>> nations = new HashMap<>();
     private Map<Side, List<Region>> regions = new HashMap<>();
     private Map<Side, List<Airfield>> airfields = new HashMap<>();
+    private Map<Side, Map<String, Airfield>> airfieldMap = new HashMap<>();   //Side to Map of Airfield name to Airfield.
     private Map<Side, List<Port>> ports = new HashMap<>();
     private Map<Side, Map<String, String>> baseRefToName = new HashMap<>();
     private Map<Side, Map<String, String>> baseNameToRef = new HashMap<>();
+
+    private Map<Side, Map<Nation, List<Airfield>>> nationAirfieldMap = new HashMap<>();
 
     /**
      * The constructor of the GameMap. Called by guice.
      *
      * @param props Map properties.
-     * @param regionLoader loads the region data.
-     * @param airfieldLoader loads the airfields.
-     * @param portLoader laods the ports.
+     * @param regionDAO loads the region data.
      */
     @Inject
     public GameMap(final MapProps props,
-                   final RegionLoader regionLoader,
-                   final AirfieldLoader airfieldLoader,
-                   final PortLoader portLoader) {
-        this.regionLoader = regionLoader;
-        this.airfieldLoader = airfieldLoader;
-        this.portLoader = portLoader;
+                   final RegionDAO regionDAO) {
+        this.regionDAO = regionDAO;
 
         rows = props.getInt("rows");
         columns = props.getInt("columns");
@@ -80,8 +77,8 @@ public final class GameMap {
      * @throws MapException An error occured attempting to load the map data.
      */
     public void load(final Scenario scenario) throws MapException {
-        regions.put(Side.ALLIES, regionLoader.loadRegions(scenario, Side.ALLIES));
-        regions.put(Side.AXIS, regionLoader.loadRegions(scenario, Side.AXIS));
+        regions.put(Side.ALLIES, regionDAO.loadRegions(scenario, Side.ALLIES));
+        regions.put(Side.AXIS, regionDAO.loadRegions(scenario, Side.AXIS));
 
         airfields.put(Side.ALLIES, buildAirfields(Side.ALLIES));
         airfields.put(Side.AXIS, buildAirfields(Side.AXIS));
@@ -89,7 +86,27 @@ public final class GameMap {
         ports.put(Side.ALLIES, buildPorts(Side.ALLIES));
         ports.put(Side.AXIS, buildPorts(Side.AXIS));
 
-        buildLocationToBaseMap();
+        airfieldMap.put(Side.ALLIES, buildAirfieldMap(airfields.get(Side.ALLIES)));
+        airfieldMap.put(Side.AXIS, buildAirfieldMap(airfields.get(Side.AXIS)));
+
+        buildNationsMap(Side.ALLIES);
+        buildNationsMap(Side.AXIS);
+
+        buildNationAirfieldMap(Side.ALLIES);
+        buildNationAirfieldMap(Side.AXIS);
+
+        buildLocationToBaseMap(Side.ALLIES);
+        buildLocationToBaseMap(Side.AXIS);
+    }
+
+    /**
+     * Get the nations for the given side.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @return A set of nations for the given side.
+     */
+    public Set<Nation> getNations(final Side side) {
+        return nations.get(side);
     }
 
     /**
@@ -103,6 +120,17 @@ public final class GameMap {
     }
 
     /**
+     * Get the an airfield by name.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @param airfieldName The name of the airfield to retrieve.
+     * @return The airfield that corresponds to the given name.
+     */
+    public Airfield getAirfield(final Side side, final String airfieldName) {
+        return airfieldMap.get(side).get(airfieldName);
+    }
+
+    /**
      * Get a side's ports.
      *
      * @param side The side ALLIES or AXIS.
@@ -112,7 +140,6 @@ public final class GameMap {
         return ports.get(side);
     }
 
-
     /**
      * Get all of the bases on this map.
      *
@@ -121,7 +148,18 @@ public final class GameMap {
     public List<Base> getBases() {
         return Stream.concat(getBases(Side.ALLIES), getBases(Side.AXIS))
                 .distinct()
-                .collect(Collectors.toList());
+                .collect(toList());
+    }
+
+    /**
+     * Get the given side's and nation's airfields.
+     *
+     * @param side The side ALLIES of AXIS.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return A list of the given nation's airfields.
+     */
+    public List<Airfield> getNationAirfields(final Side side, final Nation nation) {
+        return  nationAirfieldMap.get(side).get(nation);
     }
 
     /**
@@ -220,15 +258,6 @@ public final class GameMap {
     }
 
     /**
-     * Build a location map reference to base name map. This allows the game map to quickly determine if a
-     * given location corresponds to a base.
-     */
-    private void buildLocationToBaseMap() {
-        buildLocationToBaseMap(Side.ALLIES);
-        buildLocationToBaseMap(Side.AXIS);
-    }
-
-    /**
      * Build a location map reference to base name map for the given side. Both ports and airfields are
      * included in this map.
      *
@@ -262,6 +291,34 @@ public final class GameMap {
     }
 
     /**
+     * Build or get a list of all of the given side's airfields.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @return A list of the given side's airfields.
+     */
+    private List<Airfield> buildAirfields(final Side side) {
+        return regions
+                .get(side)
+                .stream()
+                .flatMap(region -> region.getAirfields().stream())
+                .collect(toList());
+    }
+
+    /**
+     * Build or get a list of all of the given side's ports.
+     *
+     * @param side the side ALLIES or AXIS.
+     * @return A list of the given side's ports.
+     */
+    private List<Port> buildPorts(final Side side) {
+        return regions
+                .get(side)
+                .stream()
+                .flatMap(region -> region.getPorts().stream())
+                .collect(toList());
+    }
+
+    /**
      * Get the base map reference given the base name.
      *
      * @param name The name of the base.
@@ -291,33 +348,61 @@ public final class GameMap {
         return name;
     }
 
-    /**
-     * Get a list of airfield names for the given side from the region data.
-     *
-     * @param side The airfields' side ALLIES or AXIS.
-     * @return A list of airfield names.
-     */
-    private List<Airfield> buildAirfields(final Side side) {
-        List<String> airfieldNames =  regions.get(side)
-                .stream()
-                .flatMap(region -> region.getAirfields().stream())
-                .collect(Collectors.toList());
 
-        return airfieldLoader.load(side, airfieldNames);
+    /**
+     * Build the airfield name to airfield map.
+     *
+     * @param fields A list of airfields for the given side.
+     * @return A map of airfield names to airfields.
+     */
+    private Map<String, Airfield> buildAirfieldMap(final List<Airfield> fields) {
+        return fields
+                .stream()
+                .collect(Collectors.toMap(Airfield::getName, airfield -> airfield));
     }
 
     /**
-     * Get a list of port names for the given side from the region data.
+     * Get the side's nations. These are the nations that have bases on the map.
      *
-     * @param side The port's side ALLIES or AXIS.
-     * @return A list of port names.
+     * @param side The side ALLIES or AXIS.
      */
-    private List<Port> buildPorts(final Side side) {
-        List<String> portNames = regions.get(side)
+    private void buildNationsMap(final Side side) {
+        Set<Nation> nationSet = regions.get(side)
                 .stream()
-                .flatMap(region -> region.getPorts().stream())
-                .collect(Collectors.toList());
+                .flatMap(region -> region.getNations().stream())
+                .collect(Collectors.toSet());
 
-        return portLoader.load(side, portNames);
+        nations.put(side, nationSet);
+
     }
+
+    /**
+     * Build a map of a nation to airfield list.
+     *
+     * @param side The side ALLIES or AXIS.
+     */
+    private void buildNationAirfieldMap(final Side side) {
+        Map<Nation, List<Airfield>> map = new HashMap<>();
+
+        nations
+                .get(side)
+                .forEach(nation -> map.put(nation, buildNationAirfields(side, nation)));
+
+        nationAirfieldMap.put(side, map);
+    }
+
+    /**
+     * Get the given nation's airfields.
+     *
+     * @param side The side ALLIES or AXIS that the nation is on.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return A list of the given nation's airfields.
+     */
+    private List<Airfield> buildNationAirfields(final Side side, final Nation nation) {
+        return airfields.get(side)
+                .stream()
+                .filter(airfield -> airfield.getNations().contains(nation))
+                .collect(Collectors.toList());
+    }
+
 }

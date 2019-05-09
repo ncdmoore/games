@@ -1,0 +1,42 @@
+{
+  "type": "CRUISER",
+  "shipClass": "New Orleans",
+  "nationality": "UNITED STATES",
+  "secondary":
+  {
+    "armour": "LIGHT",
+    "maxHealth": 6
+  },
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 6,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 336
+  },
+  "movement": {
+    "maxEven": 3,
+    "maxOdd": 3
+  },
+  "cargo": {
+    "capacity": 3
+  },
+  "aircraft": [
+    {
+      "model": "OS2U",
+      "strength": "sixth"
+    }
+  ],
+  "victoryPoints": 28
+}

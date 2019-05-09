@@ -1,0 +1,20 @@
+{
+  "nation": "AUSTRALIAN",
+  "recon": {
+    "dice": 0,
+    "factor": 1,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Hudson",
+            "number": 1,
+            "strength": "half"
+          }
+        ]
+      }
+    ]
+  }
+}
+

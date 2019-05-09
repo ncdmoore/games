@@ -1,0 +1,35 @@
+{
+  "name": "E7K",
+  "type": "Reconnaissance",
+  "nationality": "Japanese",
+  "service": "NAVY",
+  "designation": "NAS-",
+  "altitude": "LOW",
+  "landing": "SEAPLANE",
+  "naval": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0,
+    "sixth": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0,
+    "sixth": 0
+  },
+  "air": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0,
+    "sixth": 0
+  },
+  "range": {
+    "range": 6,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

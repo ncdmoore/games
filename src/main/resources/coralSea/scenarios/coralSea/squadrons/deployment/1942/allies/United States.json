@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Tulagi",
+    "mandatory": ["Catalina"],
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 1
+  },
+  {
+    "name": "Port Moresby",
+    "mandatory": ["A24", "Catalina", "P39D"],
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 1
+  },
+  {
+    "name": "Townsville",
+    "mandatory": ["P39D", "B25A", "B25A", "B26B", "B17E", "B17E", "B17E"],
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 1
+  },
+  {
+    "name": "Cairns",
+    "mandatory": ["P39D"],
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 1
+  }
+]

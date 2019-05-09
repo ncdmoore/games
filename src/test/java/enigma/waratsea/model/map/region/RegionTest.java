@@ -5,9 +5,9 @@ import com.google.inject.Injector;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
-import engima.waratsea.model.map.region.RegionLoader;
+import engima.waratsea.model.map.region.RegionDAO;
 import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.model.scenario.ScenarioLoader;
+import engima.waratsea.model.scenario.ScenarioDAO;
 import enigma.waratsea.TestModule;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -19,16 +19,16 @@ import java.util.List;
 @Slf4j
 public class RegionTest {
     private static GameTitle gameTitle;
-    private static ScenarioLoader scenarioLoader;
-    private static RegionLoader regionLoader;
+    private static ScenarioDAO scenarioDAO;
+    private static RegionDAO regionDAO;
 
     @BeforeClass
     public static void setup() {
         Injector injector = Guice.createInjector(new TestModule());
 
         gameTitle = injector.getInstance(GameTitle.class);                                                              //The game instance must be injected first!
-        scenarioLoader = injector.getInstance(ScenarioLoader.class);
-        regionLoader = injector.getInstance(RegionLoader.class);
+        scenarioDAO = injector.getInstance(ScenarioDAO.class);
+        regionDAO = injector.getInstance(RegionDAO.class);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class RegionTest {
 
         gameTitle.setValue(gameName);
 
-        List<Scenario> scenarios = scenarioLoader.load();
+        List<Scenario> scenarios = scenarioDAO.load();
         scenarios.forEach(this::loadRegion);
     }
 
@@ -54,11 +54,11 @@ public class RegionTest {
         }
 
         try {
-            List<Region> regions = regionLoader.loadRegions(scenario, Side.ALLIES);
+            List<Region> regions = regionDAO.loadRegions(scenario, Side.ALLIES);
 
             Assert.assertFalse(regions.isEmpty());
 
-            regions = regionLoader.loadRegions(scenario, Side.AXIS);
+            regions = regionDAO.loadRegions(scenario, Side.AXIS);
 
             Assert.assertFalse(regions.isEmpty());
         } catch (Exception ex) {

@@ -1,0 +1,78 @@
+[
+  {
+    "name": "TF1",
+    "title": "Yorktown Force",
+    "location": "Espiritu Santo",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "CV05 Yorktown-1",
+      "CA27 Chester",
+      "CA33 Portland",
+      "CA34 Astoria",
+      "DD411 Anderson",
+      "DD412 Hammann",
+      "DD414 Russell",
+      "DD417 Morris"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "Lexington Force",
+    "location": "T25",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "CV02 Lexington-1",
+      "CA32 New Orleans",
+      "CA36 Minneapolis",
+      "DD348 Farragut",
+      "DD349 Dewey",
+      "DD354 Monaghan",
+      "DD355 Aylwin",
+      "DD360 Phelps"
+    ]
+  },
+  {
+    "name": "TF3",
+    "title": "Support Force",
+    "location": "V28",
+    "state": "ACTIVE",
+    "mission": "SUPPORT",
+    "ships": [
+      "DD352 Worden",
+      "DD409 Sims",
+      "AO21 Tippecanoe",
+      "AO23 Neosho"
+    ]
+  },
+  {
+    "name": "TF4",
+    "title": "Scout Force",
+    "location": "BB31",
+    "state": "ACTIVE",
+    "mission": "SUPPORT",
+    "ships": [
+      "CVS08 Tangier-1"
+    ]
+  },
+  {
+    "name": "TF5",
+    "title": "Reserve Force",
+    "location": "BB20",
+    "state": "RESERVE",
+    "mission": "INTERCEPT",
+    "releaseTurnEvents" : [
+      {
+        "turn": 15
+      }
+    ],
+    "ships": [
+      "CA29 Chicago",
+      "CA01 Australia",
+      "CL02 Hobart",
+      "DD377 Perkins",
+      "DD416 Walke"
+    ]
+  }
+]

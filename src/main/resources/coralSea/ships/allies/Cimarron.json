@@ -1,0 +1,26 @@
+{
+  "type": "OILER",
+  "shipClass": "Cimarron",
+  "nationality": "UNITED STATES",
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 1,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 720
+  },
+  "movement": {
+    "maxEven": 2,
+    "maxOdd": 1
+  },
+  "cargo": {
+    "capacity": 1
+  },
+  "victoryPoints": 20
+}

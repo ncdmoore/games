@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Ship's fuel.
+ * Ship's fuel. The ship's fuel capacity is determined from the board game by multiplying 24 to the board game value.
  */
 public class Fuel implements Component {
     @Getter

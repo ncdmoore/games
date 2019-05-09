@@ -1,0 +1,33 @@
+{
+  "type": "DESTROYER",
+  "shipClass": "Kamikaze",
+  "nationality": "JAPANESE",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo":
+  {
+    "maxHealth": 1
+  },
+  "asw": {
+    "capable": true
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 1,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 120
+  },
+  "movement": {
+    "maxEven": 4,
+    "maxOdd": 3
+  },
+  "cargo": {
+    "capacity": 1
+  },
+  "victoryPoints": 4
+}

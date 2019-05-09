@@ -1,0 +1,46 @@
+{
+  "type": "CRUISER",
+  "shipClass": "Myoko",
+  "nationality": "JAPANESE",
+  "secondary":
+  {
+    "armour": "NONE",
+    "maxHealth": 7
+  },
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "torpedo":
+  {
+    "maxHealth": 4
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 7,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 264
+  },
+  "movement": {
+    "maxEven": 4,
+    "maxOdd": 3
+  },
+  "cargo": {
+    "capacity": 3
+  },
+  "aircraft": [
+    {
+      "model": "E13A",
+      "strength": "sixth"
+    }
+  ],
+  "victoryPoints": 39
+}

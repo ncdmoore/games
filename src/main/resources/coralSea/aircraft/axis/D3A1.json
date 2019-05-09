@@ -1,0 +1,32 @@
+{
+  "name": "D3A1",
+  "type": "Dive Bomber",
+  "nationality": "Japanese",
+  "service": "NAVY",
+  "designation": "NAS-",
+  "altitude": "MEDIUM",
+  "landing": "CARRIER",
+  "naval": {
+    "modifier": 2,
+    "full": 4,
+    "half": 2
+  },
+  "land": {
+    "modifier": 2,
+    "full": 1,
+    "half": 0
+  },
+  "air": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "range": {
+    "range": 13,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

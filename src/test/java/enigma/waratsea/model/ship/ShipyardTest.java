@@ -4,7 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.GameTitle;
-import engima.waratsea.model.game.nation.Nation;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.ship.ShipId;
@@ -50,9 +50,9 @@ public class ShipyardTest {
         testBuildAircraftCarrier("CVL01 Argus-1", Nation.BRITISH, 3);
         testBuildAircraftCarrier("CV04 Ark Royal-1", Nation.BRITISH, 9);
         testBuildAircraftCarrier("CVL04 Eagle-1", Nation.BRITISH, 4);
-        testBuildAircraftCarrier("CV01 Furious", Nation.BRITISH, 6);
-        testBuildAircraftCarrier("CV05 Illustrious", Nation.BRITISH, 6);
-        testBuildAircraftCarrier("CV08 Indomitable", Nation.BRITISH, 8);
+        testBuildAircraftCarrier("CV01 Furious-1", Nation.BRITISH, 6);
+        testBuildAircraftCarrier("CV05 Illustrious-1", Nation.BRITISH, 6);
+        testBuildAircraftCarrier("CV08 Indomitable-1", Nation.BRITISH, 8);
     }
 
     @Test

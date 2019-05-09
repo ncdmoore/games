@@ -1,0 +1,32 @@
+{
+  "name": "B26B",
+  "type": "Bomber",
+  "nationality": "United States",
+  "service": "AIRFORCE",
+  "designation": "B-",
+  "altitude": "MEDIUM",
+  "landing": "LAND",
+  "naval": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "land": {
+    "modifier": 2,
+    "full": 2,
+    "half": 1
+  },
+  "air": {
+    "modifier": 1,
+    "full": 3,
+    "half": 2
+  },
+  "range": {
+    "range": 15,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 2,
+    "fragile": false
+  }
+}

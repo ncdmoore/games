@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Gasmata",
+    "mandatory": ["G3M2", "G3M2", "A6M2"],
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 1
+  },
+  {
+    "name": "Kavieng",
+    "mandatory": ["A6M2", "G4M1"],
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 1
+  },
+  {
+    "name": "Rabaul",
+    "mandatory": ["G4M1", "H6K4", "A6M2N"],
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 1
+  },
+  {
+    "name": "Lae",
+    "mandatory": ["G4M1", "A6M2"],
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 1
+  }
+]

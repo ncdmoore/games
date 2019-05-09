@@ -5,10 +5,10 @@ import com.google.inject.Injector;
 import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.game.nation.Nation;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.squadron.allotment.Allotment;
-import engima.waratsea.model.squadron.allotment.AllotmentLoader;
+import engima.waratsea.model.squadron.allotment.AllotmentDAO;
 import enigma.waratsea.TestModule;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -17,7 +17,7 @@ import org.junit.Test;
 import java.util.Calendar;
 
 public class AllotmentLoaderTest {
-    private static AllotmentLoader loader;
+    private static AllotmentDAO allotmentDAO;
     private static Config config;
 
     @BeforeClass
@@ -26,7 +26,7 @@ public class AllotmentLoaderTest {
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
         config = injector.getInstance(Config.class);
-        loader = injector.getInstance(AllotmentLoader.class);
+        allotmentDAO = injector.getInstance(AllotmentDAO.class);
 
         gameTitle.setValue("bombAlley");
     }
@@ -43,14 +43,14 @@ public class AllotmentLoaderTest {
 
         config.setScenario(scenario.getName());
 
-        Allotment alliedAllotment = loader.load(scenario, Side.ALLIES, Nation.BRITISH);
+        Allotment alliedAllotment = allotmentDAO.load(scenario, Side.ALLIES, Nation.BRITISH);
 
         Assert.assertNotNull(alliedAllotment);
         Assert.assertFalse(alliedAllotment.getBombers().isEmpty());
         Assert.assertFalse(alliedAllotment.getFighters().isEmpty());
         Assert.assertFalse(alliedAllotment.getRecon().isEmpty());
 
-        Allotment axisAllotment = loader.load(scenario, Side.AXIS, Nation.ITALIAN);
+        Allotment axisAllotment = allotmentDAO.load(scenario, Side.AXIS, Nation.ITALIAN);
 
         Assert.assertNotNull(axisAllotment);
         Assert.assertFalse(axisAllotment.getBombers().isEmpty());

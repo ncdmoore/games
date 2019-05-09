@@ -46,8 +46,9 @@ public class AirfieldEventTest {
 
         AirfieldData airfieldData = new AirfieldData();
         airfieldData.setName("Rome");
+        airfieldData.setSide(Side.ALLIES);
 
-        Airfield airfield = airfieldFactory.create(Side.ALLIES, airfieldData);
+        Airfield airfield = airfieldFactory.create(airfieldData);
 
         AirfieldEvent event = new AirfieldEvent();
         event.setAirfield(airfield);

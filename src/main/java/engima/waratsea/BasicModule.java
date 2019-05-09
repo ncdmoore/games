@@ -36,6 +36,8 @@ import engima.waratsea.model.squadron.allotment.Allotment;
 import engima.waratsea.model.squadron.allotment.AllotmentFactory;
 import engima.waratsea.model.squadron.allotment.AllotmentTable;
 import engima.waratsea.model.squadron.allotment.AllotmentTableFactory;
+import engima.waratsea.model.squadron.deployment.Deployment;
+import engima.waratsea.model.squadron.deployment.DeploymentFactory;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.target.TargetFactory;
 import engima.waratsea.model.taskForce.TaskForce;
@@ -75,6 +77,9 @@ public class BasicModule extends AbstractModule {
 
         install(new FactoryModuleBuilder().implement(Allotment.class, Allotment.class).build(AllotmentFactory.class));
         install(new FactoryModuleBuilder().implement(AllotmentTable.class, AllotmentTable.class).build(AllotmentTableFactory.class));
+
+        install(new FactoryModuleBuilder().implement(Deployment.class, Deployment.class).build(DeploymentFactory.class));
+
 
         install(new FactoryModuleBuilder().implement(Squadron.class, Squadron.class).build(SquadronFactory.class));
         install(new FactoryModuleBuilder()

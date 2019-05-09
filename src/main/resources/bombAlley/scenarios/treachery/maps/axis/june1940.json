@@ -1,7 +1,7 @@
 [
   {
     "name": "Algeria",
-    "nation": "FRENCH",
+    "nation": ["FRENCH"],
     "min": "0",
     "max": "0",
     "airfields": [
@@ -15,7 +15,7 @@
   },
   {
     "name": "France",
-    "nation": "FRENCH",
+    "nation": ["FRENCH"],
     "min": "0",
     "max": "0",
     "airfields": [
@@ -29,7 +29,7 @@
   },
   {
     "name": "Tunisia",
-    "nation": "FRENCH",
+    "nation": ["FRENCH"],
     "min": "0",
     "max": "0",
     "airfields": [
@@ -43,7 +43,7 @@
   },
   {
     "name": "Corsica",
-    "nation": "FRENCH",
+    "nation": ["FRENCH"],
     "min": "0",
     "max": "0",
     "airfields": [
@@ -55,7 +55,7 @@
   },
   {
     "name": "Morocco",
-    "nation": "FRENCH",
+    "nation": ["FRENCH"],
     "min": "0",
     "max": "0",
     "airfields": [

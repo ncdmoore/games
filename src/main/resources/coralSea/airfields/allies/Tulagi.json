@@ -1,0 +1,7 @@
+{
+  "name"     : "Tulagi",
+  "province" : "Solomon Islands",
+  "maxCapacity" : 4,
+  "antiAir"  : 1,
+  "location": "L25"
+}

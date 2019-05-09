@@ -1,6 +1,7 @@
 package engima.waratsea.model.base;
 
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.squadron.Squadron;
 
 /**
  * Represents air bases.
@@ -34,4 +35,19 @@ public interface Airbase extends Base {
      * @return The current capacity of the air base in steps.
      */
     int getCapacity();
+
+    /**
+     * Add a squadron to this air base.
+     *
+     * @param squadron The squadron that is now based at this airbase.
+     * @return True if the squadron was added. False otherwise.
+     */
+    boolean addSquadron(Squadron squadron);
+
+    /**
+     * Remove a squadron from this air base.
+     *
+     * @param squadron The squadron that is removed from this airbase.
+     */
+    void removeSquadron(Squadron squadron);
 }

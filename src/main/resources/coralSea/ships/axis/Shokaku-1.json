@@ -1,0 +1,59 @@
+{
+  "type": "AIRCRAFT_CARRIER",
+  "shipClass": "Shokaku",
+  "nationality": "JAPANESE",
+  "flightDeck":
+  {
+    "armour": "NONE",
+    "capacityList": [0, 0, 4, 8, 12]
+  },
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 6
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 8,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 432
+  },
+  "movement": {
+    "maxEven": 4,
+    "maxOdd": 3
+  },
+  "aircraft": [
+    {
+      "model": "A6M2",
+      "strength": "full"
+    },
+    {
+      "model": "A6M2",
+      "strength": "half"
+    },
+    {
+      "model": "B5N2",
+      "strength": "full"
+    },
+    {
+      "model": "B5N2",
+      "strength": "half"
+    },
+    {
+      "model": "D3A1",
+      "strength": "full"
+    },
+    {
+      "model": "D3A1",
+      "strength": "full"
+    }
+  ],
+  "victoryPoints": 120
+}

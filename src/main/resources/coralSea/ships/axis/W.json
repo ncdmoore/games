@@ -1,0 +1,26 @@
+{
+  "type": "MINESWEEPER",
+  "shipClass": "W-1 Class",
+  "nationality": "JAPANESE",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 1,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 72
+  },
+  "movement": {
+    "maxEven": 2,
+    "maxOdd": 2
+  },
+  "cargo": {
+    "capacity": 1
+  },
+  "victoryPoints": 2
+}

@@ -12,7 +12,7 @@ import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.victory.RequiredShipVictory;
 import engima.waratsea.model.victory.ShipVictory;
 import engima.waratsea.model.victory.VictoryConditions;
-import engima.waratsea.model.victory.VictoryLoader;
+import engima.waratsea.model.victory.VictoryDAO;
 import enigma.waratsea.TestModule;
 import mockit.Deencapsulation;
 import org.junit.Assert;
@@ -24,7 +24,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 public class VictoryLoaderTest {
-    private static VictoryLoader loader;
+    private static VictoryDAO victoryDAO;
     private static Config config;
 
     @BeforeClass
@@ -33,7 +33,7 @@ public class VictoryLoaderTest {
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
         config = injector.getInstance(Config.class);
-        loader = injector.getInstance(VictoryLoader.class);
+        victoryDAO = injector.getInstance(VictoryDAO.class);
 
         gameTitle.setValue("bombAlley");
 
@@ -58,8 +58,8 @@ public class VictoryLoaderTest {
 
         config.setScenario(scenario.getName());
 
-        VictoryConditions alliedVictory = loader.load(scenario, Side.ALLIES);
-        VictoryConditions axisVictory = loader.load(scenario, Side.AXIS);
+        VictoryConditions alliedVictory = victoryDAO.load(scenario, Side.ALLIES);
+        VictoryConditions axisVictory = victoryDAO.load(scenario, Side.AXIS);
 
         List<ShipVictory> alliedShips = Deencapsulation.getField(alliedVictory, "defaultShips");
 
@@ -93,7 +93,7 @@ public class VictoryLoaderTest {
         scenario.setMap("june1940");
 
         config.setScenario(scenario.getName());
-        VictoryConditions alliedVictory = loader.load(scenario, Side.ALLIES);
+        VictoryConditions alliedVictory = victoryDAO.load(scenario, Side.ALLIES);
 
         List<RequiredShipVictory> requiredAlliedShips = Deencapsulation.getField(alliedVictory, "requiredShips");
 
@@ -110,12 +110,12 @@ public class VictoryLoaderTest {
 
         config.setScenario(scenario.getName());
 
-        VictoryConditions alliedVictory = loader.load(scenario, Side.ALLIES);
-        loader.save(scenario, Side.ALLIES, alliedVictory);
+        VictoryConditions alliedVictory = victoryDAO.load(scenario, Side.ALLIES);
+        victoryDAO.save(scenario, Side.ALLIES, alliedVictory);
 
         config.setType(GameType.EXISTING);
 
-        alliedVictory = loader.load(scenario, Side.ALLIES);
+        alliedVictory = victoryDAO.load(scenario, Side.ALLIES);
 
         List<RequiredShipVictory> defaultShips = Deencapsulation.getField(alliedVictory, "defaultShips");
 

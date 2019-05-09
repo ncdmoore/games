@@ -21,6 +21,9 @@ public enum TaskForceMission {
     @SerializedName(value = "INTERCEPT", alternate = {"Intercept", "intercept"})
     INTERCEPT("Intercept"),
 
+    @SerializedName(value = "INVASION", alternate = {"Invasion", "invasion"})
+    INVASION("Invasion"),
+
     @SerializedName(value = "PATROL", alternate = {"Patrol", "patrol"})
     PATROL("Patrol"),
 
@@ -29,6 +32,9 @@ public enum TaskForceMission {
 
     @SerializedName(value = "RETREAT", alternate = {"Retreat", "retreat"})
     RETREAT("Retreat"),
+
+    @SerializedName(value = "SUPPORT", alternate = {"Support", "support"})
+    SUPPORT("Support"),
 
     @SerializedName(value = "TRANSPORT", alternate = {"Transport", "transport"})
     TRANSPORT("Transport");

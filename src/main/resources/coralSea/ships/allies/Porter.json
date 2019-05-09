@@ -1,0 +1,35 @@
+{
+  "type": "DESTROYER",
+  "shipClass": "Porter",
+  "nationality": "UNITED STATES",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 3
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo":
+  {
+    "maxHealth": 2
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 2,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 168
+  },
+  "movement": {
+    "maxEven": 4,
+    "maxOdd": 3
+  },
+  "cargo": {
+    "capacity": 1
+  },
+  "victoryPoints": 9
+}

@@ -1,0 +1,35 @@
+{
+  "name": "H6K4",
+  "type": "Reconnaissance",
+  "nationality": "Japanese",
+  "service": "NAVY",
+  "designation": "NAS-",
+  "altitude": "LOW",
+  "landing": "SEAPLANE",
+  "naval": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0,
+    "sixth": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0,
+    "sixth": 0
+  },
+  "air": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0,
+    "sixth": 0
+  },
+  "range": {
+    "range": 17,
+    "endurance": 4
+  },
+  "frame": {
+    "frame": 2,
+    "fragile": false
+  }
+}

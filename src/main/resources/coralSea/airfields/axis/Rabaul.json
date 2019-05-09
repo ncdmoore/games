@@ -1,0 +1,7 @@
+{
+  "name"     : "Rabaul",
+  "province" : "New Britain",
+  "maxCapacity" : 30,
+  "antiAir"  : 12,
+  "location": "R5"
+}

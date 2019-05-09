@@ -1,0 +1,32 @@
+{
+  "name": "Hudson",
+  "type": "Reconnaissance",
+  "nationality": "Australian",
+  "service": "AIRFORCE",
+  "designation": "RAAF-",
+  "altitude": "LOW",
+  "landing": "LAND",
+  "naval": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "air": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "range": {
+    "range": 8,
+    "endurance": 3
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

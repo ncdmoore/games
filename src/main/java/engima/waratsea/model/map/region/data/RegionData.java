@@ -1,6 +1,6 @@
 package engima.waratsea.model.map.region.data;
 
-import engima.waratsea.model.game.nation.Nation;
+import engima.waratsea.model.game.Nation;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,15 +17,15 @@ public class RegionData {
 
     @Getter
     @Setter
-    private Nation nation;
+    private List<Nation> nation;
 
     @Getter
     @Setter
-    private String min;
+    private String min; // in steps.
 
     @Getter
     @Setter
-    private String max;
+    private String max; // in steps.
 
     @Getter
     @Setter

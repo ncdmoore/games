@@ -1,0 +1,7 @@
+{
+  "name"     : "Espiritu Santo",
+  "province" : "Espiritu Santo",
+  "maxCapacity" : 12,
+  "antiAir"  : 6,
+  "location": "T34"
+}

@@ -1,0 +1,49 @@
+[
+  {
+    "name": "New Guinea",
+    "nation": ["AUSTRALIAN", "UNITED STATES"],
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Port Moresby"
+    ],
+    "ports": [
+      "Port Moresby"
+    ]
+  },
+  {
+    "name": "Australia",
+    "nation": ["AUSTRALIAN", "UNITED STATES"],
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Cairns",
+      "Townsville"
+    ],
+    "ports": [
+      "Cairns",
+      "Townsville"
+    ]
+  },
+  {
+    "name": "Solomon Islands",
+    "nation": ["UNITED STATES"],
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Tulagi"
+    ]
+  },
+  {
+    "name": "Espiritu Santo",
+    "nation": ["UNITED STATES"],
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Espiritu Santo"
+    ],
+    "ports": [
+      "Espiritu Santo"
+    ]
+  }
+]

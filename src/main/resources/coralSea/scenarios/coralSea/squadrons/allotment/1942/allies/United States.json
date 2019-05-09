@@ -1,0 +1,107 @@
+{
+  "nation": "UNITED_STATES",
+  "bombers": {
+    "dice": 0,
+    "factor": 13,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "A24",
+            "number": 1
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "B26B",
+            "number": 1
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "B25A",
+            "number": 1
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "B25A",
+            "number": 1,
+            "strength": "half"
+          }
+        ]
+      },
+      {
+        "selectSize": 2,
+        "aircraft": [
+          {
+            "type": "B17E",
+            "number": 2
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "B17E",
+            "number": 1,
+            "strength": "half"
+          }
+        ]
+      }
+    ]
+  },
+  "fighters": {
+    "dice": 0,
+    "factor": 6,
+    "groups": [
+      {
+        "selectSize": 3,
+        "aircraft": [
+          {
+            "type": "P39D",
+            "number": 3
+          }
+        ]
+      }
+    ]
+  },
+  "recon": {
+    "dice": 0,
+    "factor": 4,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Catalina",
+            "number": 1,
+            "strength": "half"
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Catalina",
+            "number": 1,
+            "strength": "half"
+          }
+        ]
+      }
+    ]
+  }
+}
+

@@ -12,7 +12,7 @@
     "half": 1
   },
   "land": {
-    "modifier": 0,
+    "modifier": 1,
     "full": 1,
     "half": 0
   },

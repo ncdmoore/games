@@ -8,6 +8,7 @@ import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.MapException;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.ship.Ship;
+import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
@@ -21,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,7 +45,7 @@ public class TaskForcePresenter {
     private Provider<TaskForceView> viewProvider;
     private Provider<ShipDetailsDialog> shipDetailsDialogProvider;
     private Provider<ScenarioPresenter> scenarioPresenterProvider;
-    private Provider<MainPresenter> mainPresenterProvider;
+    private Provider<MinefieldPresenter> minefieldPresenterProvider;
     private Provider<FatalErrorDialog> fatalErrorDialogProvider;
 
     /**
@@ -54,7 +56,7 @@ public class TaskForcePresenter {
      * @param viewProvider The corresponding view,
      * @param shipDetailsDialogProvider The ship details dialog provider.
      * @param scenarioPresenterProvider Provides the scenario presenter.
-     * @param mainPresenterProvider Provides the main presenter.
+     * @param minefieldPresenterProvider Provides the minefield presenter.
      * @param fatalErrorDialogProvider Provides the fatal error dialog.
      */
     @Inject
@@ -63,25 +65,23 @@ public class TaskForcePresenter {
                               final Provider<TaskForceView> viewProvider,
                               final Provider<ShipDetailsDialog> shipDetailsDialogProvider,
                               final Provider<ScenarioPresenter> scenarioPresenterProvider,
-                              final Provider<MainPresenter> mainPresenterProvider,
+                              final Provider<MinefieldPresenter> minefieldPresenterProvider,
                               final Provider<FatalErrorDialog> fatalErrorDialogProvider) {
         this.game = game;
         this.gameMap = gameMap;
         this.viewProvider = viewProvider;
         this.shipDetailsDialogProvider = shipDetailsDialogProvider;
         this.scenarioPresenterProvider = scenarioPresenterProvider;
-        this.mainPresenterProvider = mainPresenterProvider;
+        this.minefieldPresenterProvider = minefieldPresenterProvider;
         this.fatalErrorDialogProvider = fatalErrorDialogProvider;
     }
 
     /**
-     * Creates and shows the scenario view.
+     * Creates and shows the task force view.
      *
      * @param primaryStage the stage that the scenario view is placed.
      */
     public void show(final Stage primaryStage) {
-        log.info("show.");
-
         view = viewProvider.get();
 
         this.stage = primaryStage;
@@ -119,26 +119,34 @@ public class TaskForcePresenter {
      * Mark the task forces on the preview map.
      */
     private void markTaskForces() {
-        List<TaskForce> taskForces = game.getHumanPlayer().getTaskForces();
+        game
+                .getHumanPlayer()
+                .getTaskForces()
+                .forEach(this::markTaskForce);
+    }
 
-        taskForces.forEach(taskForce -> {
-            TaskForceMarkerDTO dto = new TaskForceMarkerDTO(taskForce);
-            dto.setGameMap(gameMap);
-            dto.setMarkerEventHandler(this::showTaskForcePopup);
-            dto.setPopupEventHandler(this::closePopup);
-            view.markTaskForceOnMap(dto);
-        });
-
+    /**
+     * Mark the given task force on the preveiw map.
+     *
+     * @param taskForce The selected task force.
+     */
+    private void markTaskForce(final TaskForce taskForce) {
+        TaskForceMarkerDTO dto = new TaskForceMarkerDTO(taskForce);
+        dto.setGameMap(gameMap);
+        dto.setMarkerEventHandler(this::showTaskForcePopup);
+        dto.setPopupEventHandler(this::closePopup);
+        view.markTaskForceOnMap(dto);
     }
 
     /**
      * Mark the task force targets on the preview map.
      */
     private void markTargets() {
-        List<TaskForce> taskForces = game.getHumanPlayer().getTaskForces();
-        taskForces.forEach(this::markTaskForceTargets);
+        game
+                .getHumanPlayer()
+                .getTaskForces()
+                .forEach(this::markTaskForceTargets);
     }
-
 
     /**
      * Mark the given task force's targets.
@@ -147,14 +155,22 @@ public class TaskForcePresenter {
      */
     private void markTaskForceTargets(final TaskForce taskForce) {
         Optional.ofNullable(taskForce.getTargets())
-                .ifPresent(targets -> targets.forEach(target -> {
-                    TargetMarkerDTO dto = new TargetMarkerDTO(taskForce, target);
-                    dto.setGameMap(gameMap);
-                    dto.setMarkerEventHandler(this::showTargetPopup);
-                    dto.setPopupEventHandler(this::closePopup);
-                    view.markTargetOnMap(dto);
-                }));
+                .orElseGet(Collections::emptyList)
+                .forEach(target -> markTaskForceTarget(taskForce, target));
+    }
 
+    /**
+     * Mark the given task force's given target.
+     *
+     * @param taskForce The selected task force.
+     * @param target One of the task force's targets.
+     */
+    private void markTaskForceTarget(final TaskForce taskForce, final Target target) {
+        TargetMarkerDTO dto = new TargetMarkerDTO(taskForce, target);
+        dto.setGameMap(gameMap);
+        dto.setMarkerEventHandler(this::showTargetPopup);
+        dto.setPopupEventHandler(this::closePopup);
+        view.markTargetOnMap(dto);
     }
 
     /**
@@ -186,7 +202,7 @@ public class TaskForcePresenter {
      */
     private void continueButton() {
         log.info("continue button");
-        mainPresenterProvider.get().show(stage);
+        minefieldPresenterProvider.get().show(stage);
     }
 
     /**

@@ -1,0 +1,34 @@
+{
+  "type": "SEAPLANE_CARRIER",
+  "shipClass": "Tangier",
+  "nationality": "UNITED STATES",
+  "flightDeck":
+  {
+    "armour": "NONE",
+    "capacityList": [0, 2]
+  },
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 3,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 384
+  },
+  "movement": {
+    "maxEven": 2,
+    "maxOdd": 1
+  },
+  "aircraft": [
+  {
+    "model": "Catalina",
+    "strength": "half"
+  }
+  ],
+  "victoryPoints": 14
+}

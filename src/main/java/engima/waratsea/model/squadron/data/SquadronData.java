@@ -19,4 +19,8 @@ public class SquadronData {
     @Getter
     @Setter
     private SquadronStrength strength;
+
+    @Getter
+    @Setter
+    private String airfield;
 }

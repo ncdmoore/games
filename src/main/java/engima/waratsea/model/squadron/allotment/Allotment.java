@@ -2,7 +2,7 @@ package engima.waratsea.model.squadron.allotment;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import engima.waratsea.model.game.nation.Nation;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.allotment.data.AllotmentData;
 import engima.waratsea.model.squadron.allotment.data.AllotmentTableData;
 import engima.waratsea.model.squadron.data.SquadronData;

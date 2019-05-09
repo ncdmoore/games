@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.game.nation.Nation;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.ship.data.GunData;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.squadron.Squadron;

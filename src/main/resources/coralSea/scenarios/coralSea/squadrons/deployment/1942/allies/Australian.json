@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Port Moresby",
+    "mandatory": ["Hudson"],
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 1
+  }
+]

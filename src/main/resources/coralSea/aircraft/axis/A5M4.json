@@ -1,0 +1,35 @@
+{
+  "name": "A5M4",
+  "type": "Fighter",
+  "nationality": "Japanese",
+  "service": "NAVY",
+  "designation": "NAS-",
+  "altitude": "LOW",
+  "landing": "CARRIER",
+  "naval": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0,
+    "sixth": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0,
+    "sixth": 0
+  },
+  "air": {
+    "modifier": 1,
+    "full": 2,
+    "half": 1,
+    "sixth": 0
+  },
+  "range": {
+    "range": 10,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

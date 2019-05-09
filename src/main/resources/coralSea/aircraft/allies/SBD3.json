@@ -1,0 +1,32 @@
+{
+  "name": "SBD-3",
+  "type": "Dive Bomber",
+  "nationality": "United States",
+  "service": "NAVY",
+  "designation": "VB-",
+  "altitude": "MEDIUM",
+  "landing": "CARRIER",
+  "naval": {
+    "modifier": 2,
+    "full": 4,
+    "half": 2
+  },
+  "land": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "air": {
+    "modifier": 1,
+    "full": 1,
+    "half": 0
+  },
+  "range": {
+    "range": 17,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

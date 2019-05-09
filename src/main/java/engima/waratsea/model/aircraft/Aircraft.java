@@ -1,7 +1,7 @@
 package engima.waratsea.model.aircraft;
 
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.game.nation.Nation;
+import engima.waratsea.model.game.Nation;
 
 /**
  * Represents an aircraft.

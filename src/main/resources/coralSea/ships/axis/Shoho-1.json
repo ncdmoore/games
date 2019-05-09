@@ -1,0 +1,42 @@
+{
+  "type": "AIRCRAFT_CARRIER",
+  "shipClass": "Shoho",
+  "nationality": "JAPANESE",
+  "flightDeck":
+  {
+    "armour": "NONE",
+    "capacityList": [0, 2, 5]
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 4,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 243
+  },
+  "movement": {
+    "maxEven": 3,
+    "maxOdd": 2
+  },
+  "aircraft": [
+    {
+      "model": "A5M4",
+      "strength": "half"
+    },
+    {
+      "model": "A6M2",
+      "strength": "half"
+    },
+    {
+      "model": "B5N2",
+      "strength": "half"
+    }
+  ],
+  "victoryPoints": 120
+}

@@ -215,7 +215,7 @@ public class SquadronVictoryTest {
 
         Assert.assertEquals(victoryPoints, victory.getTotalVictoryPoints());
 
-        airbase = buildAircraftCarrier("CV06 Victorious");
+        airbase = buildAircraftCarrier("CV06 Victorious-1");
         alliedSquadron.setAirfield(airbase);
 
         event.fire();

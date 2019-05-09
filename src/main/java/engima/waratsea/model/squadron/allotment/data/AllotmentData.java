@@ -1,6 +1,6 @@
 package engima.waratsea.model.squadron.allotment.data;
 
-import engima.waratsea.model.game.nation.Nation;
+import engima.waratsea.model.game.Nation;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,0 +1,40 @@
+[
+  {
+    "name": "New Guinea",
+    "nation": ["JAPANESE"],
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Lae"
+    ],
+    "ports": [
+      "Madang",
+      "Lae"
+    ]
+  },
+  {
+    "name": "New Britain",
+    "nation": ["JAPANESE"],
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Rabaul",
+      "Gasmata"
+    ],
+    "ports": [
+      "Rabaul"
+    ]
+  },
+  {
+    "name": "New Ireland",
+    "nation": ["JAPANESE"],
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Kavieng"
+    ],
+    "ports": [
+      "Kavieng"
+    ]
+  }
+]

@@ -1,0 +1,67 @@
+{
+  "nation": "JAPANESE",
+  "bombers": {
+    "dice": 0,
+    "factor": 10,
+    "groups": [
+      {
+        "selectSize": 2,
+        "aircraft": [
+          {
+            "type": "G3M2",
+            "number": 2
+          }
+        ]
+      },
+      {
+        "selectSize": 3,
+        "aircraft": [
+          {
+            "type": "G4M1",
+            "number": 3
+          }
+        ]
+      }
+    ]
+  },
+  "fighters": {
+    "dice": 0,
+    "factor": 8,
+    "groups": [
+      {
+        "selectSize": 3,
+        "aircraft": [
+          {
+            "type": "A6M2",
+            "number": 3
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "A6M2N",
+            "number": 1
+          }
+        ]
+      }
+    ]
+  },
+  "recon": {
+    "dice": 0,
+    "factor": 2,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "H6K4",
+            "number": 1
+          }
+        ]
+      }
+    ]
+  }
+}
+

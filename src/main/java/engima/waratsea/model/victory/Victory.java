@@ -19,16 +19,16 @@ import java.util.Map;
 public class Victory {
 
     private Map<Side, VictoryConditions> conditions = new HashMap<>();
-    private VictoryLoader loader;
+    private VictoryDAO victoryDAO;
 
     /**
      * Constructor called by guice.
      *
-     * @param loader The victory conditions loader.
+     * @param victoryDAO The victory conditions victoryDAO.
      */
     @Inject
-    public Victory(final VictoryLoader loader) {
-        this.loader = loader;
+    public Victory(final VictoryDAO victoryDAO) {
+        this.victoryDAO = victoryDAO;
     }
 
     /**
@@ -38,8 +38,8 @@ public class Victory {
      * @throws VictoryException Indicates that the victory conditions could not be loaded.
      */
     public void load(final Scenario scenario) throws VictoryException {
-        conditions.put(Side.ALLIES, loader.load(scenario, Side.ALLIES));
-        conditions.put(Side.AXIS, loader.load(scenario, Side.AXIS));
+        conditions.put(Side.ALLIES, victoryDAO.load(scenario, Side.ALLIES));
+        conditions.put(Side.AXIS, victoryDAO.load(scenario, Side.AXIS));
     }
 
     /**
@@ -58,7 +58,7 @@ public class Victory {
      * @param scenario The selected scenario.
      */
     public void save(final Scenario scenario) {
-       loader.save(scenario, Side.ALLIES, conditions.get(Side.ALLIES));
-       loader.save(scenario, Side.AXIS, conditions.get(Side.AXIS));
+       victoryDAO.save(scenario, Side.ALLIES, conditions.get(Side.ALLIES));
+       victoryDAO.save(scenario, Side.AXIS, conditions.get(Side.AXIS));
     }
 }

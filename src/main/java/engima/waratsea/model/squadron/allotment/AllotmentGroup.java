@@ -59,12 +59,18 @@ public class AllotmentGroup {
         // If the number needed is less that the select size, then only select what is needed.
         int numberToSelect = numberNeeded < selectSize ? numberNeeded : selectSize;
 
+
+        if (numberToSelect > aircraft.size()) {
+            log.error("Not enough aircraft available for selection.");
+            numberToSelect = aircraft.size();
+        }
+
         List<SquadronData> selected = new ArrayList<>();
 
         for (int i = 0; i < numberToSelect; i++) {
-            int index = new Random().nextInt(aircraft.size());   // Get an index to remove from the squadron list.
+            int index = new Random().nextInt(aircraft.size());         // Get an index to remove from the squadron list.
             SquadronData squadron = aircraft.remove(index);            // The selected squadron.
-            selected.add(squadron);                              // Add the selected squadron to the selected list.
+            selected.add(squadron);                                    // Add the selected squadron to the selected list.
         }
 
         return selected;

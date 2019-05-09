@@ -1,0 +1,13 @@
+[
+  {
+    "name": "Oran",
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 1
+  },
+  {
+    "name": "Algiers",
+    "recon": 1,
+    "fighter": 1
+  }
+]

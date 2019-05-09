@@ -1,0 +1,54 @@
+{
+  "type": "AIRCRAFT_CARRIER",
+  "shipClass": "Yorktown",
+  "nationality": "UNITED STATES",
+  "flightDeck":
+  {
+    "armour": "NONE",
+    "capacityList": [0, 0, 4, 8, 11, 15]
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 4
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 7,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 384
+  },
+  "movement": {
+    "maxEven": 3,
+    "maxOdd": 3
+  },
+  "aircraft": [
+    {
+      "model": "F4F3",
+      "strength": "full"
+    },
+    {
+      "model": "F4F3",
+      "strength": "half"
+    },
+    {
+      "model": "SBD3",
+      "strength": "full"
+    },
+    {
+      "model": "SBD3",
+      "strength": "full"
+    },
+    {
+      "model": "SBD3",
+      "strength": "full"
+    },
+    {
+      "model": "TBD",
+      "strength": "full"
+    }
+  ],
+  "victoryPoints": 143
+}

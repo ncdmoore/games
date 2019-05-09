@@ -7,9 +7,9 @@ import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.model.scenario.ScenarioLoader;
+import engima.waratsea.model.scenario.ScenarioDAO;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.model.taskForce.TaskForceLoader;
+import engima.waratsea.model.taskForce.TaskForceDAO;
 import engima.waratsea.model.weather.WeatherType;
 import enigma.waratsea.TestModule;
 import lombok.extern.slf4j.Slf4j;
@@ -60,9 +60,9 @@ public class ScenarioLoaderTest {
 
         try {
             gameTitle.setValue(gameName);
-            ScenarioLoader loader = injector.getInstance(ScenarioLoader.class);
+            ScenarioDAO scenarioDAO = injector.getInstance(ScenarioDAO.class);
 
-            List<Scenario> scenarios = loader.load();
+            List<Scenario> scenarios = scenarioDAO.load();
 
             assert (!scenarios.isEmpty());                                                                              // Ensure that at least one scenario was loaded.
 
@@ -90,13 +90,13 @@ public class ScenarioLoaderTest {
 
             gameMap.load(scenario);
 
-            TaskForceLoader loader = injector.getInstance(TaskForceLoader.class);
+            TaskForceDAO taskForceDAO = injector.getInstance(TaskForceDAO.class);
 
-            List<TaskForce> taskForces = loader.load(scenario, Side.ALLIES);
+            List<TaskForce> taskForces = taskForceDAO.load(scenario, Side.ALLIES);
 
             assert (!taskForces.isEmpty());
 
-            taskForces = loader.load(scenario, Side.AXIS);
+            taskForces = taskForceDAO.load(scenario, Side.AXIS);
 
             assert (!taskForces.isEmpty());
         } catch (Exception ex) {

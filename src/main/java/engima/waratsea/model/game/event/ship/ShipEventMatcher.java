@@ -333,7 +333,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
      * @return True if the ship is at an enemy base and any base will match. False otherwise.
      */
     private boolean matchAnyEnemyBase(final TaskForce taskForce) {
-        return locations.contains("ANY_ENEMY_BASE")
+        return locations.contains(GameMap.ANY_ENEMY_BASE)
                 && taskForce.atEnemyBase();
     }
 
@@ -345,7 +345,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
      * @return True if the location matches. False otherwise.
      */
     private boolean matchAnyFriendlyBase(final TaskForce taskForce) {
-        return locations.contains("ANY_FRIENDLY_BASE")
+        return locations.contains(GameMap.ANY_FRIENDLY_BASE)
                 && taskForce.atFriendlyBase();
     }
 

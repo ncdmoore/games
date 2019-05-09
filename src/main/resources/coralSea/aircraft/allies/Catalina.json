@@ -1,0 +1,32 @@
+{
+  "name": "Catalina",
+  "type": "Reconnaissance",
+  "nationality": "United States",
+  "service": "NAVY",
+  "designation": "VQ-",
+  "altitude": "MEDIUM",
+  "landing": "SEAPLANE",
+  "naval": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "air": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "range": {
+    "range": 16,
+    "endurance": 2
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  }
+}

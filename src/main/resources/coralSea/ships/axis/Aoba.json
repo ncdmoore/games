@@ -1,0 +1,46 @@
+{
+  "type": "CRUISER",
+  "shipClass": "Aoba",
+  "nationality": "JAPANESE",
+  "secondary":
+  {
+    "armour": "NONE",
+    "maxHealth": 4
+  },
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo":
+  {
+    "maxHealth": 3
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 5,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 264
+  },
+  "movement": {
+    "maxEven": 4,
+    "maxOdd": 3
+  },
+  "cargo": {
+    "capacity": 3
+  },
+  "aircraft": [
+    {
+      "model": "E8N",
+      "strength": "sixth"
+    }
+  ],
+  "victoryPoints": 26
+}
