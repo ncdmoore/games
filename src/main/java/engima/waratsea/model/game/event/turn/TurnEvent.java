@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Indicates that a random turn event has occurred in the game.
+ * Indicates that a turn event has occurred in the game.
  */
 @Slf4j
 public class TurnEvent extends GameEvent {
@@ -20,27 +20,27 @@ public class TurnEvent extends GameEvent {
     private static transient Map<Object, GameEventHandler<TurnEvent>> map = new HashMap<>();
 
     /**
-     * Initialize the random turn event class. This method clears out all random turn event handlers.
+     * Initialize the turn event class. This method clears out all turn event handlers.
      */
     public static void init() {
         handlers.clear();
     }
 
     /**
-     * This is how event handlers register to receive random turn event notifications.
+     * This is how event handlers register to receive turn event notifications.
      *
-     * @param handler The handler of the random turn event.
-     * @param randomTurnEventHandler The random turn event handler that is registered.
+     * @param handler The handler of the turn event.
+     * @param turnEventHandler The turn event handler that is registered.
      */
-    public static void register(final Object handler, final GameEventHandler<TurnEvent> randomTurnEventHandler) {
-        map.put(handler, randomTurnEventHandler);
-        handlers = add(TurnEvent.class, handlers, randomTurnEventHandler);
+    public static void register(final Object handler, final GameEventHandler<TurnEvent> turnEventHandler) {
+        map.put(handler, turnEventHandler);
+        handlers = add(TurnEvent.class, handlers, turnEventHandler);
     }
 
     /**
      * This is how event handlers unregister for random turn event notifications.
      *
-     * @param handler The random turn event handler that is unregistered.
+     * @param handler The turn event handler that is unregistered.
      */
     public static void unregister(final Object handler) {
         if (map.containsKey(handler)) {
@@ -53,7 +53,7 @@ public class TurnEvent extends GameEvent {
      * notification of the event.
      */
     public void fire() {
-        log.info("Fire random turn event: {}", turn);
+        log.info("Fire turn event: {}", turn);
         handlers.forEach(h -> h.notify(this));
     }
 

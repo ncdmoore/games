@@ -3,6 +3,7 @@ package engima.waratsea.presenter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import engima.waratsea.presenter.navigation.Navigate;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import engima.waratsea.model.game.Game;
@@ -17,14 +18,13 @@ import engima.waratsea.view.ScenarioView;
  */
 @Slf4j
 @Singleton
-public class ScenarioPresenter {
+public class ScenarioPresenter implements Presenter {
     private ScenarioView view;
     private Stage stage;
 
     private Scenario selectedScenario;
     private Provider<ScenarioView> viewProvider;
-    private Provider<StartPresenter> startPresenterProvider;
-    private Provider<TaskForcePresenter> taskForcePresenterProvider;
+    private Navigate navigate;
     private Provider<FatalErrorDialog> fatalErrorDialogProvider;
 
     private Game game;
@@ -33,20 +33,17 @@ public class ScenarioPresenter {
      * The constructor for the scenario presenter. Guice will inject the view.
      * @param game The game.
      * @param viewProvider Scenario view.
-     * @param startPresenterProvider provides the start presenter.
-     * @param taskForcePresenterProvider provides the task force presenter.
+     * @param navigate Controls the screen navigation.
      * @param fatalErrorDialogProvider provides the fatal error dialog.
      */
     @Inject
     public ScenarioPresenter(final Game game,
                              final Provider<ScenarioView> viewProvider,
-                             final Provider<StartPresenter> startPresenterProvider,
-                             final Provider<TaskForcePresenter> taskForcePresenterProvider,
+                             final Navigate navigate,
                              final Provider<FatalErrorDialog> fatalErrorDialogProvider) {
         this.game = game;
         this.viewProvider = viewProvider;
-        this.startPresenterProvider = startPresenterProvider;
-        this.taskForcePresenterProvider = taskForcePresenterProvider;
+        this.navigate = navigate;
         this.fatalErrorDialogProvider = fatalErrorDialogProvider;
     }
 
@@ -96,14 +93,14 @@ public class ScenarioPresenter {
         game.setScenario(selectedScenario);
         game.setHumanSide(side);
 
-        taskForcePresenterProvider.get().show(stage);
+        navigate.goNext(this.getClass(), stage);
     }
 
     /**
      * Callback when the back button is clicked. Return to the start screen.
      */
     private void backButton() {
-        startPresenterProvider.get().show(stage);
+        navigate.goPrev(this.getClass(), stage);
     }
 
     /**

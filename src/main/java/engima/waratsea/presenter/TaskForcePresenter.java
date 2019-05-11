@@ -13,6 +13,7 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.presenter.ship.ShipDetailsDialog;
 import engima.waratsea.view.FatalErrorDialog;
 import engima.waratsea.view.TaskForceView;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Singleton
-public class TaskForcePresenter {
+public class TaskForcePresenter implements Presenter {
     private final Game game;
     private GameMap gameMap;
     private TaskForceView view;
@@ -44,8 +45,7 @@ public class TaskForcePresenter {
 
     private Provider<TaskForceView> viewProvider;
     private Provider<ShipDetailsDialog> shipDetailsDialogProvider;
-    private Provider<ScenarioPresenter> scenarioPresenterProvider;
-    private Provider<MinefieldPresenter> minefieldPresenterProvider;
+    private Navigate navigate;
     private Provider<FatalErrorDialog> fatalErrorDialogProvider;
 
     /**
@@ -55,8 +55,7 @@ public class TaskForcePresenter {
      * @param gameMap The preview game map.
      * @param viewProvider The corresponding view,
      * @param shipDetailsDialogProvider The ship details dialog provider.
-     * @param scenarioPresenterProvider Provides the scenario presenter.
-     * @param minefieldPresenterProvider Provides the minefield presenter.
+     * @param navigate Provides screen navigation.
      * @param fatalErrorDialogProvider Provides the fatal error dialog.
      */
     @Inject
@@ -64,15 +63,13 @@ public class TaskForcePresenter {
                               final GameMap gameMap,
                               final Provider<TaskForceView> viewProvider,
                               final Provider<ShipDetailsDialog> shipDetailsDialogProvider,
-                              final Provider<ScenarioPresenter> scenarioPresenterProvider,
-                              final Provider<MinefieldPresenter> minefieldPresenterProvider,
+                              final Navigate navigate,
                               final Provider<FatalErrorDialog> fatalErrorDialogProvider) {
         this.game = game;
         this.gameMap = gameMap;
         this.viewProvider = viewProvider;
         this.shipDetailsDialogProvider = shipDetailsDialogProvider;
-        this.scenarioPresenterProvider = scenarioPresenterProvider;
-        this.minefieldPresenterProvider = minefieldPresenterProvider;
+        this.navigate = navigate;
         this.fatalErrorDialogProvider = fatalErrorDialogProvider;
     }
 
@@ -202,14 +199,14 @@ public class TaskForcePresenter {
      */
     private void continueButton() {
         log.info("continue button");
-        minefieldPresenterProvider.get().show(stage);
+        navigate.goNext(this.getClass(), stage);
     }
 
     /**
      * Call back for the back button.
      */
     private void backButton() {
-        scenarioPresenterProvider.get().show(stage);
+        navigate.goPrev(this.getClass(), stage);
     }
 
     /**

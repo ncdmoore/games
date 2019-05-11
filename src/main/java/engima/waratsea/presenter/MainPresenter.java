@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
  * This is the main presenter for the game.
  */
 @Slf4j
-public class MainPresenter {
+public class MainPresenter implements Presenter {
 
     private Provider<MainView> viewProvider;
     private MainView view;

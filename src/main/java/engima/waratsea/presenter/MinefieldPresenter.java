@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Game;
+import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.view.MinefieldView;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -15,33 +16,29 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Singleton
-public class MinefieldPresenter {
+public class MinefieldPresenter implements Presenter {
     private final Game game;
 
     private MinefieldView view;
     private Stage stage;
 
     private Provider<MinefieldView> viewProvider;
-    private Provider<TaskForcePresenter> taskForcePresenterProvider;
-    private Provider<MainPresenter> mainPresenterProvider;
+    private Navigate navigate;
 
     /**
      * The constructor called by guice.
      *
      * @param game The game object.
      * @param viewProvider Provides the minefield view.
-     * @param taskForcePresenterProvider Provides the task force view presenter.
-     * @param mainPresenterProvider Provides the main presenter.
+     * @param navigate Provides screen navigation.
      */
     @Inject
     public MinefieldPresenter(final Game game,
                               final Provider<MinefieldView> viewProvider,
-                              final Provider<TaskForcePresenter> taskForcePresenterProvider,
-                              final Provider<MainPresenter> mainPresenterProvider) {
+                              final Navigate navigate) {
         this.game = game;
         this.viewProvider = viewProvider;
-        this.taskForcePresenterProvider = taskForcePresenterProvider;
-        this.mainPresenterProvider = mainPresenterProvider;
+        this.navigate = navigate;
     }
 
     /**
@@ -65,13 +62,13 @@ public class MinefieldPresenter {
      * Call back for the continue button.
      */
     private void continueButton() {
-        mainPresenterProvider.get().show(stage);
+        navigate.goNext(this.getClass(), stage);
     }
 
     /**
      * Call back for the back button.
      */
     private void backButton() {
-        taskForcePresenterProvider.get().show(stage);
+        navigate.goPrev(this.getClass(), stage);
     }
 }

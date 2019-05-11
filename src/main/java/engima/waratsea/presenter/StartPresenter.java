@@ -3,6 +3,7 @@ package engima.waratsea.presenter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import engima.waratsea.presenter.navigation.Navigate;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import engima.waratsea.view.StartView;
@@ -13,25 +14,24 @@ import engima.waratsea.view.StartView;
  */
 @Slf4j
 @Singleton
-public class StartPresenter {
-    private StartView view;
+public class StartPresenter implements Presenter {
     private Stage stage;
 
     private Provider<StartView> viewProvider;
-    private Provider<ScenarioPresenter> scenarioPresenterProvider;
+
+    private Navigate navigate;
 
     /**
      * The constructor for the start presenter. Guice will inject the view and the scenario presenter.
      *
      * @param viewProvider The starting view.
-     * @param scenarioPresenterProvider The scenario presenter provider. The scenario presenter is obtained from this
-     *                                  provider
+     * @param navigate Used to navigate to the next screen.
      */
     @Inject
     public StartPresenter(final Provider<StartView> viewProvider,
-                          final Provider<ScenarioPresenter> scenarioPresenterProvider) {
+                          final Navigate navigate) {
         this.viewProvider = viewProvider;
-        this.scenarioPresenterProvider = scenarioPresenterProvider;
+        this.navigate = navigate;
     }
 
     /**
@@ -42,7 +42,7 @@ public class StartPresenter {
     public void show(final Stage primaryStage) {
         log.info("show.");
 
-        view = viewProvider.get();
+        StartView view = viewProvider.get();
 
         this.stage = primaryStage;
 
@@ -60,7 +60,7 @@ public class StartPresenter {
     private void newGame() {
         log.info("New Game.");
 
-        scenarioPresenterProvider.get().show(stage);
+        navigate.goNext(this.getClass(), stage);
     }
 
     /**
