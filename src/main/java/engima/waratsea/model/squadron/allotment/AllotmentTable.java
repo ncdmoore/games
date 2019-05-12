@@ -50,7 +50,7 @@ public class AllotmentTable {
 
         int numberOfSquadrons = numberOfSteps / 2;
 
-        log.info("Number of squadrons: {}", numberOfSquadrons);
+        log.debug("Number of squadrons: {}", numberOfSquadrons);
 
         // loop through the groups picking squadrons from each group.
         int neededSquadrons = numberOfSquadrons;
@@ -62,6 +62,6 @@ public class AllotmentTable {
             }
         }
 
-        squadrons.forEach(squadron -> log.info("Squadron: {}", squadron));
+        squadrons.forEach(squadron -> log.debug("Squadron: {}", squadron));
     }
 }

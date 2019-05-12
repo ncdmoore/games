@@ -101,22 +101,22 @@ public class VictoryConditions {
                              final SquadronVictoryFactory<SquadronEvent, SquadronVictoryData> squadronVictoryFactory) {
         objectives = data.getObjectives();
 
-        log.info("Build default ship victory conditions for side: {}.", side);
+        log.debug("Build default ship victory conditions for side: {}.", side);
         defaultShips = buildConditions(data.getDefaultShip(), shipVictoryFactory::createShip);
 
-        log.info("Build scenario ship victory conditions for side: {}.", side);
+        log.debug("Build scenario ship victory conditions for side: {}.", side);
         scenarioShips = buildConditions(data.getScenarioShip(), shipVictoryFactory::createShip);
 
-        log.info("Build scenario required ship victory conditions for side: {}.", side);
+        log.debug("Build scenario required ship victory conditions for side: {}.", side);
         requiredShips = buildConditions(data.getRequiredShip(), shipVictoryFactory::createRequired);
 
-        log.info("Build default squadron victory conditions for side: {}.", side);
+        log.debug("Build default squadron victory conditions for side: {}.", side);
         defaultSquadron = buildConditions(data.getDefaultSquadron(), squadronVictoryFactory::create);
 
-        log.info("Build scenario squadron victory conditions for side: {}.", side);
+        log.debug("Build scenario squadron victory conditions for side: {}.", side);
         scenarioSquadron = buildConditions(data.getScenarioSquadron(), squadronVictoryFactory::create);
 
-        log.info("Build scenario airfield victory conditions for side: {}.", side);
+        log.debug("Build scenario airfield victory conditions for side: {}.", side);
         scenarioAirfields = buildConditions(data.getScenarioAirfield(), airfieldVictoryFactory::createAirfield);
 
         registerForEvents();
@@ -187,17 +187,17 @@ public class VictoryConditions {
      * @param event The ship event.
      */
     private void handleShipEvent(final ShipEvent event) {
-        log.info("Handle ship event for ship '{}' {}", event.getShip().getName(), event.getAction());
+        log.debug("Handle ship event for ship '{}' {}", event.getShip().getName(), event.getAction());
 
         //Send the ship event to the required victory conditions.
         checkRequired(requiredShips, event);
 
         //Get the scenario specific event victory points that were awarded.
-        log.info("Check specific scenario victory conditions.");
+        log.debug("Check specific scenario victory conditions.");
         Result result = getPoints(scenarioShips, event);
 
         if (!result.isAwarded()) {
-            log.info("No scenario specific victory condition matched. Check default victory conditions.");
+            log.debug("No scenario specific victory condition matched. Check default victory conditions.");
             //The event did not trigger any scenario specific victory conditions. Thus,
             //get the points for the default victory conditions.
             result = getPoints(defaultShips, event);
@@ -212,14 +212,14 @@ public class VictoryConditions {
      * @param event The squadron event.
      */
     private void handleSquadronEvent(final SquadronEvent event) {
-        log.info("Handle airfield event for airfield '{}' {}", event.getSquadron().getName(), event.getAction());
+        log.debug("Handle airfield event for airfield '{}' {}", event.getSquadron().getName(), event.getAction());
 
         //Get the scenario specific event victory points that were awarded.
-        log.info("Check specific scenario victory conditions.");
+        log.debug("Check specific scenario victory conditions.");
         Result result = getPoints(scenarioSquadron, event);
 
         if (!result.isAwarded()) {
-            log.info("No scenario specific victory condition matched. Check default victory conditions.");
+            log.debug("No scenario specific victory condition matched. Check default victory conditions.");
             //The event did not trigger any scenario specific victory conditions. Thus,
             //get the points for the default victory conditions.
             result = getPoints(defaultSquadron, event);
@@ -234,7 +234,7 @@ public class VictoryConditions {
      * @param event The airfield event.
      */
     private void handleAirfieldEvent(final AirfieldEvent event) {
-        log.info("Handle airfield event for airfield '{}' {}", event.getAirfield().getName(), event.getAction());
+        log.debug("Handle airfield event for airfield '{}' {}", event.getAirfield().getName(), event.getAction());
         Result result = getPoints(scenarioAirfields, event);
         saveHistory(event, result.getPoints());
     }

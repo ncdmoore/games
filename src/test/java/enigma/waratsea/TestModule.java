@@ -23,6 +23,10 @@ import engima.waratsea.model.game.event.squadron.SquadronEventMatcher;
 import engima.waratsea.model.game.event.squadron.SquadronEventMatcherFactory;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.map.region.RegionFactory;
+import engima.waratsea.model.minefield.Minefield;
+import engima.waratsea.model.minefield.MinefieldFactory;
+import engima.waratsea.model.minefield.zone.MinefieldZone;
+import engima.waratsea.model.minefield.zone.MinefieldZoneFactory;
 import engima.waratsea.model.player.ComputerPlayer;
 import engima.waratsea.model.player.HumanPlayer;
 import engima.waratsea.model.player.Player;
@@ -98,6 +102,10 @@ public class TestModule extends AbstractModule {
 
         install(new FactoryModuleBuilder().implement(Airfield.class, Airfield.class).build(AirfieldFactory.class));
         install(new FactoryModuleBuilder().implement(Port.class, Port.class).build(PortFactory.class));
+
+        install(new FactoryModuleBuilder().implement(Minefield.class, Minefield.class).build(MinefieldFactory.class));
+        install(new FactoryModuleBuilder().implement(MinefieldZone.class, MinefieldZone.class).build(MinefieldZoneFactory.class));
+
         install(new FactoryModuleBuilder().implement(Target.class, Target.class).build(TargetFactory.class));
 
         install(new FactoryModuleBuilder().implement(ShipEventMatcher.class, ShipEventMatcher.class).build(ShipEventMatcherFactory.class));

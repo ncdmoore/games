@@ -142,6 +142,7 @@ public class PortDAO {
         port.setRegion(portData.getRegion());
         return port;
     }
+
     /**
      * Log an error for ports that cannot be loaded.
      *

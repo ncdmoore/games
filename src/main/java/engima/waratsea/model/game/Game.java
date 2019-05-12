@@ -93,7 +93,7 @@ public class Game {
      * @param side The human player humanSide.
      */
     public void setHumanSide(final Side side) {                                                                         // New Game Step 2.
-        log.info("Human side: {}", side);
+        log.debug("Human side: {}", side);
 
         humanSide = side;
         humanPlayer.setSide(humanSide);

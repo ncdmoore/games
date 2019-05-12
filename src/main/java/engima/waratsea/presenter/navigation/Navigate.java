@@ -67,5 +67,4 @@ public class Navigate {
     public void goPrev(final Class<?> clazz, final Stage stage) {
         prevMap.get(clazz).get().show(stage);
     }
-
 }

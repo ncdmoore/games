@@ -9,6 +9,8 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.map.region.RegionDAO;
+import engima.waratsea.model.minefield.Minefield;
+import engima.waratsea.model.minefield.MinefieldDAO;
 import engima.waratsea.model.scenario.Scenario;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +40,7 @@ public final class GameMap {
     public static final String ANY_FRIENDLY_BASE = "ANY_FRIENDLY_BASE";
 
     private RegionDAO regionDAO;
+    private MinefieldDAO minefieldDAO;
 
     @Getter
     private final int rows;
@@ -50,6 +53,9 @@ public final class GameMap {
     private Map<Side, List<Airfield>> airfields = new HashMap<>();
     private Map<Side, Map<String, Airfield>> airfieldMap = new HashMap<>();   //Side to Map of Airfield name to Airfield.
     private Map<Side, List<Port>> ports = new HashMap<>();
+    private Map<Side, List<Minefield>> minefields = new HashMap<>();
+
+
     private Map<Side, Map<String, String>> baseRefToName = new HashMap<>();
     private Map<Side, Map<String, String>> baseNameToRef = new HashMap<>();
 
@@ -60,11 +66,14 @@ public final class GameMap {
      *
      * @param props Map properties.
      * @param regionDAO loads the region data.
+     * @param minefieldDAO loads the minefield data.
      */
     @Inject
     public GameMap(final MapProps props,
-                   final RegionDAO regionDAO) {
+                   final RegionDAO regionDAO,
+                   final MinefieldDAO minefieldDAO) {
         this.regionDAO = regionDAO;
+        this.minefieldDAO = minefieldDAO;
 
         rows = props.getInt("rows");
         columns = props.getInt("columns");
@@ -85,6 +94,9 @@ public final class GameMap {
 
         ports.put(Side.ALLIES, buildPorts(Side.ALLIES));
         ports.put(Side.AXIS, buildPorts(Side.AXIS));
+
+        minefields.put(Side.ALLIES, minefieldDAO.load(Side.ALLIES));
+        minefields.put(Side.AXIS, minefieldDAO.load(Side.AXIS));
 
         airfieldMap.put(Side.ALLIES, buildAirfieldMap(airfields.get(Side.ALLIES)));
         airfieldMap.put(Side.AXIS, buildAirfieldMap(airfields.get(Side.AXIS)));
@@ -160,6 +172,16 @@ public final class GameMap {
      */
     public List<Airfield> getNationAirfields(final Side side, final Nation nation) {
         return  nationAirfieldMap.get(side).get(nation);
+    }
+
+    /**
+     * Get the given side's minefields.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @return A list of the given side's minefields.
+     */
+    public List<Minefield> getMinefields(final Side side) {
+        return minefields.get(side);
     }
 
     /**

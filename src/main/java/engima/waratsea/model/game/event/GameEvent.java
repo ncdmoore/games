@@ -44,9 +44,9 @@ public abstract class GameEvent {
 
         List<T> updatedList = new ArrayList<>(list);
 
-        log.info("{}: Register handler: {}", clazz.getSimpleName(), handler);
+        log.debug("{}: Register handler: {}", clazz.getSimpleName(), handler);
         updatedList.add(handler);
-        log.info("{}: Contains {} handlers", clazz.getSimpleName(), updatedList.size());
+        log.debug("{}: Contains {} handlers", clazz.getSimpleName(), updatedList.size());
         return updatedList;
     }
 
@@ -60,7 +60,7 @@ public abstract class GameEvent {
      * @return The updated list with the event handler removed.
      */
     protected static <T> List<T> remove(final Class<?> clazz, final List<T> list, final T handler) {
-        log.info("{}: Unregister handler: {}", clazz.getSimpleName(), handler);
+        log.debug("{}: Unregister handler: {}", clazz.getSimpleName(), handler);
 
         // Since the event handler can unregister during the processing of the notification
         // we make a copy of the current list of handlers and update the copy. Then we
@@ -71,7 +71,7 @@ public abstract class GameEvent {
         if (list.contains(handler)) {
             updatedList = new ArrayList<>(list);
             updatedList.remove(handler);
-            log.info("{}: Contains {} handlers", clazz.getSimpleName(), updatedList.size());
+            log.debug("{}: Contains {} handlers", clazz.getSimpleName(), updatedList.size());
         }
 
         return updatedList;

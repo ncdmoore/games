@@ -101,7 +101,7 @@ public class ScenarioDAO {
             Gson gson = new GsonBuilder().setDateFormat(props.getString("scenario.date.format")).create();
             Scenario scenario = gson.fromJson(br, Scenario.class);
 
-            log.info("load scenario: {}", scenario.getTitle());
+            log.debug("load scenario: {}", scenario.getTitle());
 
             return scenario;
         } catch (Exception ex) {                                                                                        // Catch any Gson errors.

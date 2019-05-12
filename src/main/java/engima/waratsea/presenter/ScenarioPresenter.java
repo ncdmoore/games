@@ -53,8 +53,6 @@ public class ScenarioPresenter implements Presenter {
      * @param primaryStage the stage that the scenario view is placed.
      */
     public void show(final Stage primaryStage) {
-        log.info("show.");
-
         view = viewProvider.get();
 
         this.stage = primaryStage;
@@ -64,7 +62,6 @@ public class ScenarioPresenter implements Presenter {
         view.show(stage);
         view.getContinueButton().setOnAction(event -> continueButton());
         view.getBackButton().setOnAction(event -> backButton());
-
     }
 
     /**
@@ -73,7 +70,6 @@ public class ScenarioPresenter implements Presenter {
      * @param scenario The selected scenario.
      */
     private void scenarioSelected(final Scenario scenario) {
-        log.info("Scenario selected: {}", scenario.getTitle());
         this.selectedScenario = scenario;
         view.setScenario(selectedScenario);
     }
@@ -84,11 +80,7 @@ public class ScenarioPresenter implements Presenter {
      * The scenario and side have now been selected and are set in the game object.
      */
     private void continueButton() {
-        log.info("Selected scenario {}", selectedScenario.getTitle());
-
         Side side = view.getRadioButtonAllies().isSelected() ? Side.ALLIES : Side.AXIS;
-
-        log.info("Selected side {}", side);
 
         game.setScenario(selectedScenario);
         game.setHumanSide(side);

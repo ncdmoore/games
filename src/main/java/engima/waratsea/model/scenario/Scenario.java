@@ -1,14 +1,15 @@
 package engima.waratsea.model.scenario;
 
+import engima.waratsea.model.weather.WeatherType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import engima.waratsea.model.weather.WeatherType;
 
 import javax.annotation.Nonnull;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * This class represents a game scenario.
@@ -57,6 +58,10 @@ public class Scenario implements Comparable<Scenario> {
     @Getter
     @Setter
     private String objectives;
+
+    @Getter
+    @Setter
+    private List<String> minefields;
 
     /**
      * Get the scenario start date.
