@@ -3,7 +3,7 @@ package engima.waratsea.model.map;
 import lombok.Getter;
 
 /**
- * Represents map grid coordinates.
+ * Represents map grid coordinates. This is a single rectangular grid.
  */
 public class GameGrid {
 

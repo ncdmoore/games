@@ -25,6 +25,8 @@ import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.map.region.RegionFactory;
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.model.minefield.MinefieldFactory;
+import engima.waratsea.model.minefield.deployment.MinefieldDeployment;
+import engima.waratsea.model.minefield.deployment.MinefieldDeploymentFactory;
 import engima.waratsea.model.minefield.zone.MinefieldZone;
 import engima.waratsea.model.minefield.zone.MinefieldZoneFactory;
 import engima.waratsea.model.player.ComputerPlayer;
@@ -40,8 +42,8 @@ import engima.waratsea.model.squadron.allotment.Allotment;
 import engima.waratsea.model.squadron.allotment.AllotmentFactory;
 import engima.waratsea.model.squadron.allotment.AllotmentTable;
 import engima.waratsea.model.squadron.allotment.AllotmentTableFactory;
-import engima.waratsea.model.squadron.deployment.Deployment;
-import engima.waratsea.model.squadron.deployment.DeploymentFactory;
+import engima.waratsea.model.squadron.deployment.SquadronDeployment;
+import engima.waratsea.model.squadron.deployment.SquadronDeploymentFactory;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.target.TargetFactory;
 import engima.waratsea.model.taskForce.TaskForce;
@@ -75,7 +77,7 @@ public class TestModule extends AbstractModule {
         install(new FactoryModuleBuilder().implement(Allotment.class, Allotment.class).build(AllotmentFactory.class));
         install(new FactoryModuleBuilder().implement(AllotmentTable.class, AllotmentTable.class).build(AllotmentTableFactory.class));
 
-        install(new FactoryModuleBuilder().implement(Deployment.class, Deployment.class).build(DeploymentFactory.class));
+        install(new FactoryModuleBuilder().implement(SquadronDeployment.class, SquadronDeployment.class).build(SquadronDeploymentFactory.class));
 
         install(new FactoryModuleBuilder().implement(Squadron.class, Squadron.class).build(SquadronFactory.class));
         install(new FactoryModuleBuilder()
@@ -105,6 +107,7 @@ public class TestModule extends AbstractModule {
 
         install(new FactoryModuleBuilder().implement(Minefield.class, Minefield.class).build(MinefieldFactory.class));
         install(new FactoryModuleBuilder().implement(MinefieldZone.class, MinefieldZone.class).build(MinefieldZoneFactory.class));
+        install(new FactoryModuleBuilder().implement(MinefieldDeployment.class, MinefieldDeployment.class).build(MinefieldDeploymentFactory.class));
 
         install(new FactoryModuleBuilder().implement(Target.class, Target.class).build(TargetFactory.class));
 

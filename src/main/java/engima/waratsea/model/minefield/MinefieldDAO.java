@@ -11,6 +11,8 @@ import engima.waratsea.model.minefield.zone.MinefieldZone;
 import engima.waratsea.model.minefield.zone.MinefieldZoneFactory;
 import engima.waratsea.model.minefield.zone.MinefieldZoneId;
 import engima.waratsea.model.minefield.zone.data.MinefieldZoneData;
+import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -60,6 +62,7 @@ public class MinefieldDAO {
     /**
      * Load all of the given sides's minefields.
      *
+     *
      * @param side The side ALLIES or AXIS.
      * @return A list of minefields.
      */
@@ -73,13 +76,26 @@ public class MinefieldDAO {
     }
 
     /**
+     * Save the minefields. The allies and axis minefield data are saved in separate files.
+     *
+     * @param scenario The selected scenario.
+     * @param side  The side AlLIES of AXIS.
+     * @param minefields The minefield data that is saved.
+     */
+    public void save(final Scenario scenario, final Side side, final List<Minefield> minefields) {
+        log.info("Saving minefields, scenario: '{}',side {}", scenario.getTitle(), side);
+        String fileName = config.getSavedFileName(side, Minefield.class);
+        PersistentUtility.save(fileName, PersistentUtility.getData(minefields));
+    }
+
+    /**
      * Add a zone to the minefield.
      *
      * @param minefield The minefield that corresponds to the zone.
      * @return The minefield zone.
      */
     private Minefield addZone(final Minefield minefield) {
-        String name = minefield.getName();
+        String name = minefield.getZoneName();
         Side side = minefield.getSide();
 
         log.info("Add minefield zone: '{}' for side: {}", name, side);
@@ -128,7 +144,9 @@ public class MinefieldDAO {
      * @return The minefield URL.
      */
     private Optional<URL> getMinefieldUrl(final Side side) {
-        return config.getScenarioURL(side, Minefield.class);
+        return config.isNew() ? config.getScenarioURL(side, Minefield.class)    // Get a new game minefields.
+                : config.getSavedURL(side, Minefield.class);                    // Get a saved game minefields.
+
     }
 
     /**

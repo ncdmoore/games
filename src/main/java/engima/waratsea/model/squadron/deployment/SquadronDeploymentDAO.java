@@ -30,10 +30,10 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Singleton
-public class DeploymentDAO {
+public class SquadronDeploymentDAO {
     private Config config;
     private SquadronProps props;
-    private DeploymentFactory deploymentFactory;
+    private SquadronDeploymentFactory deploymentFactory;
 
     /**
      * The constructor. Called by guice.
@@ -43,9 +43,9 @@ public class DeploymentDAO {
      * @param deploymentFactory a deployment factory.
      */
     @Inject
-    public DeploymentDAO(final Config config,
-                         final SquadronProps props,
-                         final DeploymentFactory deploymentFactory) {
+    public SquadronDeploymentDAO(final Config config,
+                                 final SquadronProps props,
+                                 final SquadronDeploymentFactory deploymentFactory) {
         this.config = config;
         this.props = props;
         this.deploymentFactory = deploymentFactory;
@@ -60,8 +60,8 @@ public class DeploymentDAO {
      * @return The squadron deployment of a nation.
      * @throws SquadronException if the squadron deployment cannot be loaded.
      */
-    public List<Deployment> load(final Scenario scenario, final Side side, final Nation nation) throws SquadronException {
-        List<Deployment> deployment = loadScenarioSpecific(scenario, side, nation);
+    public List<SquadronDeployment> load(final Scenario scenario, final Side side, final Nation nation) throws SquadronException {
+        List<SquadronDeployment> deployment = loadScenarioSpecific(scenario, side, nation);
         return deployment.isEmpty() ? loadDefault(scenario, side, nation) : deployment;
     }
 
@@ -74,12 +74,12 @@ public class DeploymentDAO {
      * @param nation The nation: BRITISH, ITALIAN, GERMAN, etc...
      * @return The squadron deployment of a nation.
      */
-    private List<Deployment> loadScenarioSpecific(final Scenario scenario, final Side side, final Nation nation)  {
+    private List<SquadronDeployment> loadScenarioSpecific(final Scenario scenario, final Side side, final Nation nation)  {
         String year = getAllotmentYear(scenario);
 
         log.info("load specific squadron deployment, scenario: '{}', side: '{}', nation: '{}', year: '{}'", new Object[]{scenario.getTitle(), side.toLower(), nation.toString(), year});
-        List<Deployment> deployment = config
-                .getScenarioURL(side, Deployment.class, year + "/" + side.toLower() + "/" + nation.toString() + ".json")
+        List<SquadronDeployment> deployment = config
+                .getScenarioURL(side, SquadronDeployment.class, year + "/" + side.toLower() + "/" + nation.toString() + ".json")
                 .map(url -> readDeployment(url, side, nation))
                 .orElseGet(Collections::emptyList);
 
@@ -97,11 +97,11 @@ public class DeploymentDAO {
      * @return The squadron deployment of a nation.
      * @throws SquadronException if the squadron deployment cannot be loaded.
      */
-    private List<Deployment> loadDefault(final Scenario scenario, final Side side, final Nation nation) throws SquadronException {
+    private List<SquadronDeployment> loadDefault(final Scenario scenario, final Side side, final Nation nation) throws SquadronException {
         String year = getAllotmentYear(scenario);
 
         log.info("Load squadron deployment, scenario: '{}', side: '{}', nation: '{}', year: '{}'", new Object[]{scenario.getTitle(), side.toLower(), nation.toString(), year});
-        return config.getGameURL(side, Deployment.class, year + "/" + side.toLower() + "/" + nation.toString() + ".json")
+        return config.getGameURL(side, SquadronDeployment.class, year + "/" + side.toLower() + "/" + nation.toString() + ".json")
                 .map(url -> readDeployment(url, side, nation))
                 .orElseThrow(() -> new SquadronException("Unable to load deployment for " + scenario.getTitle() + " for " + side.toLower() + " nation: " + nation + " year: " + year));
     }
@@ -114,7 +114,7 @@ public class DeploymentDAO {
      * @param nation specifies the nation: BRITISH, ITALIAN, GERMAN, etc...
      * @return returns a squadron deployment.
      */
-    private List<Deployment> readDeployment(final URL url, final Side side, final Nation nation) {
+    private List<SquadronDeployment> readDeployment(final URL url, final Side side, final Nation nation) {
         try {
             Path path = Paths.get(url.toURI().getPath()); // Use the URI to support file names with spaces.
 
@@ -144,7 +144,7 @@ public class DeploymentDAO {
      * @param data Task force data from the JSON file.
      * @return An initialized or seeded Task Force.
      */
-    private List<Deployment> createDeployments(final Side side, final List<DeploymentData> data) {
+    private List<SquadronDeployment> createDeployments(final Side side, final List<DeploymentData> data) {
         return data.stream()
                 .map(deploymentData -> deploymentFactory.create(side, deploymentData))
                 .collect(Collectors.toList());

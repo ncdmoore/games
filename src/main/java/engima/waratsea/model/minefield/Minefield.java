@@ -2,11 +2,13 @@ package engima.waratsea.model.minefield;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.minefield.data.MinefieldData;
 import engima.waratsea.model.minefield.zone.MinefieldZone;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +16,10 @@ import java.util.List;
 /**
  * Represents a minefield.
  */
-public class Minefield {
+@Slf4j
+public class Minefield implements PersistentData<MinefieldData> {
     @Getter
-    private final String name;
+    private final String zoneName;
 
     @Getter
     private final Side side;
@@ -39,9 +42,23 @@ public class Minefield {
      */
     @Inject
     public Minefield(@Assisted final MinefieldData data) {
-        this.name = data.getZone();
+        this.zoneName = data.getZone();
         this.side = data.getSide();
         this.number = data.getNumber();
+    }
+
+    /**
+     * Get the minefield persistent data.
+     *
+     * @return The minefield persistent data.
+     */
+    public MinefieldData getData() {
+        MinefieldData data = new MinefieldData();
+        data.setZone(zoneName);
+        data.setSide(side);
+        data.setNumber(number);
+        data.setActiveMapRef(activeMapRef);
+        return data;
     }
 
     /**
@@ -50,17 +67,18 @@ public class Minefield {
      * @return A list of map references.
      */
     public List<String> getZoneMapRefs() {
-        return zone.getReferences();
+        return zone.getGrids();
     }
 
     /**
      * Mine one of the available zone map reference grids.
      *
-     * @param mapRef The map reference grid that is mined.
+     * @param grid The map reference grid that is mined.
      */
-    public void mineMapRef(final String mapRef) {
+    public void mineGrid(final String grid) {
         if (activeMapRef.size() < number) {
-            activeMapRef.add(mapRef);
+            activeMapRef.add(grid);
+            log.info("Mine grid: '{}' in minefield: '{}'", grid, zoneName);
         }
     }
 }

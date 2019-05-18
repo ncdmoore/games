@@ -6,7 +6,7 @@ import engima.waratsea.model.squadron.deployment.data.DeploymentData;
 /**
  * Factory used by guice to create squadron deployments.
  */
-public interface DeploymentFactory {
+public interface SquadronDeploymentFactory {
     /**
      * Creates a squadron deployment.
      *
@@ -14,5 +14,5 @@ public interface DeploymentFactory {
      * @param data Deployment data read from a JSON file.
      * @return A Deployment initialized with the data from the JSON file.
      */
-    Deployment create(Side side, DeploymentData data);
+    SquadronDeployment create(Side side, DeploymentData data);
 }

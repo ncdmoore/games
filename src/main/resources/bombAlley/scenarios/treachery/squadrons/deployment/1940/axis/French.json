@@ -8,6 +8,7 @@
   {
     "name": "Algiers",
     "recon": 1,
-    "fighter": 1
+    "fighter": 1,
+    "bomber": 1
   }
 ]

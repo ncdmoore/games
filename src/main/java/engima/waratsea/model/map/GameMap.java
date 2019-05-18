@@ -34,6 +34,8 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 @Singleton
 public final class GameMap {
+    private static final int ALPHABET_SIZE = 26;
+
     private static final String MAP_REFERENCE_FORMAT = "\\s*([a-zA-Z]{1,2})(\\d{1,2})\\s*";
     private static final Pattern PATTERN = Pattern.compile(MAP_REFERENCE_FORMAT);
     public static final String ANY_ENEMY_BASE = "ANY_ENEMY_BASE";
@@ -254,6 +256,33 @@ public final class GameMap {
         return new GameGrid(row, column);
     }
 
+
+    /**
+     * Convert a game grid row and column into a game map reference.
+     *
+     * @param row The grid row.
+     * @param col The grid column.
+     * @return The game map reference.
+     */
+    public String convertRowColumnToRef(final int row, final int col) {
+        final int asciiA = 65;
+        String mapRef;
+
+        int oneBasedRow = row + 1;
+        int factor = col / ALPHABET_SIZE;
+        int mod = col % ALPHABET_SIZE;
+
+        if (factor == 0) {
+            mapRef = Character.toString((char) (asciiA + col)) + oneBasedRow;
+        } else {
+            char first = (char) (asciiA - 1 + factor);
+            char second = (char) (asciiA + mod);
+            mapRef = first + Character.toString(second) + oneBasedRow;
+        }
+
+        return mapRef;
+    }
+
     /**
      * Convert an array of numeric base 26 characters to an integer. For example, the column label AA is converted into
      * 26. The first A = 26, second A = 1. Thus, 26 + 1 = 27. But, since the columns are zero based AA is equal 26.
@@ -264,7 +293,6 @@ public final class GameMap {
     private int convertColumn(final String columnLabel) {
 
         char[] numericCharacters = columnLabel.toCharArray();
-        final int alphabetSize = 26;
 
         int value = 0;
 
@@ -273,7 +301,7 @@ public final class GameMap {
             if (Character.isUpperCase(c)) {
                 base = 'A';
             }
-            value = (value * alphabetSize) + ((c - base) + 1);
+            value = (value * ALPHABET_SIZE) + ((c - base) + 1);
         }
 
         return value - 1;

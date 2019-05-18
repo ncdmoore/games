@@ -4,6 +4,7 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.squadron.Squadron;
@@ -96,4 +97,11 @@ public interface Player {
      * @return The player's ports.
      */
     List<Port> getPorts();
+
+    /**
+     * This gets the player's minefields.
+     *
+     * @return The player's minefields.
+     */
+    List<Minefield> getMinefields();
 }

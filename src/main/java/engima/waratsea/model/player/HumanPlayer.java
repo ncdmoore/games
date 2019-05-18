@@ -5,13 +5,17 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldDAO;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.base.port.PortDAO;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.minefield.Minefield;
+import engima.waratsea.model.minefield.MinefieldDAO;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronAI;
 import engima.waratsea.model.squadron.SquadronDAO;
+import engima.waratsea.model.squadron.deployment.SquadronDeploymentType;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceDAO;
 import lombok.Getter;
@@ -21,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +38,7 @@ public class HumanPlayer implements Player {
     private AirfieldDAO airfieldDAO;
     private PortDAO portDAO;
     private SquadronDAO aviationPlant;
+    private MinefieldDAO minefieldDAO;
 
     @Getter
     @Setter
@@ -52,6 +58,12 @@ public class HumanPlayer implements Player {
     @Getter
     private List<Port> ports;
 
+    @Getter
+    private List<Minefield> minefields;
+
+    private Map<SquadronDeploymentType, BiConsumer<Scenario, Player>> deploymentMap = new HashMap<>();
+
+
     /**
      * Constructor called by guice.
      *
@@ -59,19 +71,27 @@ public class HumanPlayer implements Player {
      * @param taskForceDAO Loads scenario data.
      * @param airfieldDAO Loads airfield data.
      * @param portDAO Loads port data.
+     * @param minefieldDAO Loads minefield data.
      * @param aviationPlant Loads squadron data.
+     * @param squadronAI Deploys the squadrons for fixed deployment scenarios.
      */
     @Inject
     public HumanPlayer(final GameMap gameMap,
                        final TaskForceDAO taskForceDAO,
                        final AirfieldDAO airfieldDAO,
                        final PortDAO portDAO,
-                       final SquadronDAO aviationPlant) {
+                       final MinefieldDAO minefieldDAO,
+                       final SquadronDAO aviationPlant,
+                       final SquadronAI squadronAI) {
         this.gameMap = gameMap;
         this.taskForceDAO = taskForceDAO;
         this.airfieldDAO = airfieldDAO;
         this.portDAO = portDAO;
+        this.minefieldDAO = minefieldDAO;
         this.aviationPlant = aviationPlant;
+
+        deploymentMap.put(SquadronDeploymentType.COMPUTER, squadronAI::deploy);
+        deploymentMap.put(SquadronDeploymentType.HUMAN,    squadronAI::manualDeployment);
     }
 
     /**
@@ -84,6 +104,9 @@ public class HumanPlayer implements Player {
         nations = gameMap.getNations(side);
         airfields = gameMap.getAirfields(side);
         ports = gameMap.gerPorts(side);
+        minefields = gameMap.getMinefields(side);
+
+        scenario.setMinefieldForHumanSide(!minefields.isEmpty());
 
         loadSquadrons(scenario);
         loadTaskForces(scenario);
@@ -96,7 +119,7 @@ public class HumanPlayer implements Player {
      */
     @Override
     public void deployAssets(final Scenario scenario) {
-
+        deploymentMap.get(scenario.getSquadron()).accept(scenario, this);
     }
 
     /**
@@ -109,6 +132,7 @@ public class HumanPlayer implements Player {
         taskForceDAO.save(scenario, side, taskForces);
         portDAO.save(scenario, side, ports);
         airfieldDAO.save(scenario, side, airfields);
+        minefieldDAO.save(scenario, side, minefields);
 
         nations.forEach(nation -> aviationPlant.save(scenario, side, nation, squadrons.get(nation)));
 

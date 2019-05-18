@@ -8,6 +8,9 @@ import engima.waratsea.model.base.port.PortDAO;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.minefield.Minefield;
+import engima.waratsea.model.minefield.MinefieldAI;
+import engima.waratsea.model.minefield.MinefieldDAO;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.squadron.Squadron;
@@ -34,7 +37,10 @@ public class ComputerPlayer implements Player {
     private AirfieldDAO airfieldDAO;
     private PortDAO portDAO;
     private SquadronDAO aviationPlant;
+    private MinefieldDAO minefieldDAO;
+
     private SquadronAI squadronAI;
+    private MinefieldAI minefieldAI;
 
     @Getter
     @Setter
@@ -54,6 +60,9 @@ public class ComputerPlayer implements Player {
     @Getter
     private List<Port> ports;
 
+    @Getter
+    private List<Minefield> minefields;
+
     /**
      * Constructor called by guice.
      *
@@ -61,24 +70,31 @@ public class ComputerPlayer implements Player {
      * @param taskForceDAO Loads scenario data.
      * @param airfieldDAO Loads airfield data.
      * @param portDAO Loads port data.
+     * @param minefieldDAO Loads minefield data.
      * @param aviationPlant Loads squadron data.
      * @param squadronAI squadron AI.
+     * @param minefieldAI minefield AI.
      */
+    //CHECKSTYLE:OFF
     @Inject
     public ComputerPlayer(final GameMap gameMap,
                           final TaskForceDAO taskForceDAO,
                           final AirfieldDAO airfieldDAO,
                           final PortDAO portDAO,
+                          final MinefieldDAO minefieldDAO,
                           final SquadronDAO aviationPlant,
-                          final SquadronAI squadronAI) {
+                          final SquadronAI squadronAI,
+                          final MinefieldAI minefieldAI) {
+        //CHECKSTYLE:ON
         this.gameMap = gameMap;
         this.taskForceDAO = taskForceDAO;
         this.airfieldDAO = airfieldDAO;
         this.portDAO = portDAO;
         this.aviationPlant = aviationPlant;
+        this.minefieldDAO = minefieldDAO;
         this.squadronAI = squadronAI;
+        this.minefieldAI = minefieldAI;
     }
-
 
     /**
      * This sets the player's task forces.
@@ -90,6 +106,7 @@ public class ComputerPlayer implements Player {
         nations = gameMap.getNations(side);
         airfields = gameMap.getAirfields(side);
         ports = gameMap.gerPorts(side);
+        minefields = gameMap.getMinefields(side);
 
         loadSquadrons(scenario);
         loadTaskForces(scenario);
@@ -106,6 +123,7 @@ public class ComputerPlayer implements Player {
         taskForceDAO.save(scenario, side, taskForces);
         portDAO.save(scenario, side, ports);
         airfieldDAO.save(scenario, side, airfields);
+        minefieldDAO.save(scenario, side, minefields);
 
         nations.forEach(nation -> aviationPlant.save(scenario, side, nation, squadrons.get(nation)));
     }
@@ -117,6 +135,8 @@ public class ComputerPlayer implements Player {
      */
     public void deployAssets(final Scenario scenario) {
         squadronAI.deploy(scenario, this);
+        minefieldAI.deploy(scenario, this);
+
     }
 
     /**

@@ -6,6 +6,8 @@ import lombok.Getter;
 /**
  * Represents a grid view on the game map view. A view of a map is scaled. For example the preview map is small and
  * therefore has a small grid view. The main map is larger and has a larger grid view.
+ *
+ * This is a singular rectangular grid view of the game map grid.
  */
 public class GridView {
     @Getter

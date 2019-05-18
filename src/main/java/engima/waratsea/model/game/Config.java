@@ -7,12 +7,13 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.minefield.Minefield;
+import engima.waratsea.model.minefield.deployment.MinefieldDeployment;
 import engima.waratsea.model.minefield.zone.MinefieldZone;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.allotment.Allotment;
-import engima.waratsea.model.squadron.deployment.Deployment;
+import engima.waratsea.model.squadron.deployment.SquadronDeployment;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.victory.Victory;
 import lombok.Getter;
@@ -40,30 +41,32 @@ public final class Config {
 
     private static final MultiKeyMap<String, String> SIDE_FILE_MAP = new MultiKeyMap<>();
     static {
-        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     TaskForce.class.getCanonicalName(),     "/taskforce/alliesTaskForces.json");
-        SIDE_FILE_MAP.put(Side.AXIS.toString(),       TaskForce.class.getCanonicalName(),     "/taskforce/axisTaskForces.json");
-        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Victory.class.getCanonicalName(),       "/victory/alliesVictory.json");
-        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Victory.class.getCanonicalName(),       "/victory/axisVictory.json");
-        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Aircraft.class.getCanonicalName(),      "/aircraft/allies/");
-        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Aircraft.class.getCanonicalName(),      "/aircraft/axis/");
-        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Port.class.getCanonicalName(),          "/ports/allies/");
-        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Port.class.getCanonicalName(),          "/ports/axis/");
-        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Airfield.class.getCanonicalName(),      "/airfields/allies/");
-        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Airfield.class.getCanonicalName(),      "/airfields/axis/");
-        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Region.class.getCanonicalName(),        "/maps/allies/");
-        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Region.class.getCanonicalName(),        "/maps/axis/");
-        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Ship.class.getCanonicalName(),          "/ships/allies/");
-        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Ship.class.getCanonicalName(),          "/ships/axis/");
-        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Squadron.class.getCanonicalName(),      "/squadrons/allies/");
-        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Squadron.class.getCanonicalName(),      "/squadrons/axis/");
-        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Allotment.class.getCanonicalName(),     "/squadrons/allotment/");
-        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Allotment.class.getCanonicalName(),     "/squadrons/allotment/");
-        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Deployment.class.getCanonicalName(),    "/squadrons/deployment/");
-        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Deployment.class.getCanonicalName(),    "/squadrons/deployment/");
-        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Minefield.class.getCanonicalName(),     "/minefield/alliesMinefields.json");
-        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Minefield.class.getCanonicalName(),     "/minefield/axisMinefields.json");
-        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     MinefieldZone.class.getCanonicalName(), "/minefields/allies/");
-        SIDE_FILE_MAP.put(Side.AXIS.toString(),       MinefieldZone.class.getCanonicalName(), "/minefields/axis/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     TaskForce.class.getSimpleName(),             "/taskforce/alliesTaskForces.json");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       TaskForce.class.getSimpleName(),             "/taskforce/axisTaskForces.json");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Victory.class.getSimpleName(),               "/victory/alliesVictory.json");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Victory.class.getSimpleName(),               "/victory/axisVictory.json");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Aircraft.class.getSimpleName(),              "/aircraft/allies/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Aircraft.class.getSimpleName(),              "/aircraft/axis/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Port.class.getSimpleName(),                  "/ports/allies/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Port.class.getSimpleName(),                  "/ports/axis/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Airfield.class.getSimpleName(),              "/airfields/allies/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Airfield.class.getSimpleName(),              "/airfields/axis/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Region.class.getSimpleName(),                "/maps/allies/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Region.class.getSimpleName(),                "/maps/axis/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Ship.class.getSimpleName(),                  "/ships/allies/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Ship.class.getSimpleName(),                  "/ships/axis/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Squadron.class.getSimpleName(),              "/squadrons/allies/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Squadron.class.getSimpleName(),              "/squadrons/axis/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Allotment.class.getSimpleName(),             "/squadrons/allotment/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Allotment.class.getSimpleName(),             "/squadrons/allotment/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     SquadronDeployment.class.getSimpleName(),    "/squadrons/deployment/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       SquadronDeployment.class.getSimpleName(),    "/squadrons/deployment/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Minefield.class.getSimpleName(),             "/minefield/alliesMinefields.json");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Minefield.class.getSimpleName(),             "/minefield/axisMinefields.json");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     MinefieldZone.class.getSimpleName(),         "/minefields/allies/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       MinefieldZone.class.getSimpleName(),         "/minefields/axis/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     MinefieldDeployment.class.getSimpleName(),   "/minefield/deployment/alliesMinefield.json/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       MinefieldDeployment.class.getSimpleName(),   "/minefield/deployment/axisMinefield.json/");
     }
 
     private static final Map<Class<?>, String> FILE_MAP = new HashMap<>();
@@ -125,7 +128,7 @@ public final class Config {
      * @return The entity URL.
      */
     public Optional<URL> getGameURL(final Side side, final Class<?> clazz, final String name) {
-        String entityName = clazz.getCanonicalName();
+        String entityName = clazz.getSimpleName();
         String fileName = gameTitle.getValue() + SIDE_FILE_MAP.get(side.toString(), entityName) + name;
         log.debug("'{}' URL: '{}'", entityName, fileName);
         return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
@@ -140,7 +143,7 @@ public final class Config {
      * @return The entity URL.
      */
     public Optional<URL> getScenarioURL(final Side side, final Class<?> clazz, final String name) {
-        String entityName = clazz.getCanonicalName();
+        String entityName = clazz.getSimpleName();
         String fileName = gameTitle.getValue() + SCENARIO_DIRECTORY_NAME + "/" + scenario + SIDE_FILE_MAP.get(side.toString(), entityName) + name;
         log.debug("'{}' URL: '{}'", entityName, fileName);
         return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
@@ -154,7 +157,7 @@ public final class Config {
      * @return The entity URL.
      */
     public Optional<URL> getScenarioURL(final Side side, final Class<?> clazz) {
-        String entityName = clazz.getCanonicalName();
+        String entityName = clazz.getSimpleName();
         String fileName = gameTitle.getValue() + SCENARIO_DIRECTORY_NAME + "/" + scenario + SIDE_FILE_MAP.get(side.toString(), entityName);
         log.debug("'{}' URL: '{}'", entityName, fileName);
         return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
@@ -268,7 +271,7 @@ public final class Config {
      * @return The file path of the entity's saved game.
      */
     public String getSavedFileName(final Side side, final Class<?> clazz, final String name) {
-        String entityName = clazz.getCanonicalName();
+        String entityName = clazz.getSimpleName();
         String fileName = SAVED_GAME_DIRECTORY + scenario + savedGameName + SIDE_FILE_MAP.get(side.toString(), entityName) + name;
         log.debug("'{}' URL: '{}'", entityName, fileName);
         return fileName;
@@ -282,7 +285,7 @@ public final class Config {
      * @return The file path of the entity's saved game.
      */
     public String getSavedFileName(final Side side, final Class<?> clazz) {
-        String entityName = clazz.getCanonicalName();
+        String entityName = clazz.getSimpleName();
         String fileName = SAVED_GAME_DIRECTORY + scenario + savedGameName + SIDE_FILE_MAP.get(side.toString(), entityName);
         log.debug("'{}' URL: '{}'", entityName, fileName);
         return fileName;

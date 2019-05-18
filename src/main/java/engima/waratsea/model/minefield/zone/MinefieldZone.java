@@ -15,7 +15,7 @@ public class MinefieldZone {
     private final String name;
 
     @Getter
-    private final List<String> references;
+    private final List<String> grids;
 
     /**
      * Constructor called by guice.
@@ -25,6 +25,18 @@ public class MinefieldZone {
     @Inject
     public MinefieldZone(@Assisted final MinefieldZoneData data) {
         this.name = data.getName();
-        this.references = data.getGrids();
+        this.grids = data.getGrids();
+    }
+
+    /**
+     * Get the minefield zone persistent data.
+     *
+     * @return The minefield zone persistent data.
+     */
+    public MinefieldZoneData getData() {
+        MinefieldZoneData data = new MinefieldZoneData();
+        data.setName(name);
+        data.setGrids(grids);
+        return data;
     }
 }

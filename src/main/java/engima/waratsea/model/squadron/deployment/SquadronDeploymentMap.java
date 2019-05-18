@@ -22,7 +22,7 @@ import java.util.stream.Stream;
  * The squadron deployment map for a nation.
  */
 @Slf4j
-public class DeploymentMap {
+public class SquadronDeploymentMap {
     private GameMap gameMap;
 
     @Getter
@@ -39,7 +39,7 @@ public class DeploymentMap {
      * @param gameMap The game's map.
      */
     @Inject
-    public DeploymentMap(final GameMap gameMap) {
+    public SquadronDeploymentMap(final GameMap gameMap) {
         this.gameMap = gameMap;
     }
 
@@ -50,7 +50,7 @@ public class DeploymentMap {
      * @param deployments The airfield deployment rankings.
      * @param airfields The airfields.
      */
-    public void build(final Side deploymentSide, final List<Deployment> deployments, final List<Airfield> airfields) {
+    public void build(final Side deploymentSide, final List<SquadronDeployment> deployments, final List<Airfield> airfields) {
         side = deploymentSide;
         deploymentMap = getRankingMap(deployments, airfields);
         modelMap = getModelMap(deployments, airfields);
@@ -113,7 +113,7 @@ public class DeploymentMap {
      * @return A map of base aircraft type to airfield ranking. This airfield ranking includes
      * every airfield that this nation may use.
      */
-    private Map<AircraftBaseType, Map<Integer, List<Airfield>>> getRankingMap(final List<Deployment> deployments,
+    private Map<AircraftBaseType, Map<Integer, List<Airfield>>> getRankingMap(final List<SquadronDeployment> deployments,
                                                                               final List<Airfield> airfields) {
         // This will be a map of aircraft base type to all airfields for this nation.
         // Any airfield not mentioned in the deployment is simply added to the end
@@ -129,11 +129,11 @@ public class DeploymentMap {
      * @param airfields The airfields.
      * @return A map of airfield to list of aircraft models map.
      */
-    private Map<Airfield, List<String>> getModelMap(final List<Deployment> deployments,
+    private Map<Airfield, List<String>> getModelMap(final List<SquadronDeployment> deployments,
                                                     final List<Airfield> airfields) {
         return deployments
                 .stream()
-                .collect(Collectors.toMap(this::getAirfield, Deployment::getMandatory));
+                .collect(Collectors.toMap(this::getAirfield, SquadronDeployment::getMandatory));
     }
 
     /**
@@ -146,7 +146,7 @@ public class DeploymentMap {
      * @return A list of every airfield ranked by the desirability of deploying the given type of aircraft.
      */
     private Map<Integer, List<Airfield>> getRanking(final AircraftBaseType type,
-                                                    final List<Deployment> deployments,
+                                                    final List<SquadronDeployment> deployments,
                                                     final List<Airfield> airfields) {
         // Get the airfields from the deployment. Sort them by ranking.
         Map<Integer, List<Airfield>> ranked = deployments
@@ -195,7 +195,7 @@ public class DeploymentMap {
      * @param deployment The squadron deployment.
      * @return The corresponding airfield of the deployment.
      */
-    private Airfield getAirfield(final Deployment deployment) {
+    private Airfield getAirfield(final SquadronDeployment deployment) {
         return gameMap.getAirfield(side, deployment.getName());
     }
 
@@ -205,7 +205,7 @@ public class DeploymentMap {
      * @param deployment The squadron deployment.
      * @return A list of airfields names.
      */
-    private List<Airfield> getAirfieldList(final Deployment deployment) {
+    private List<Airfield> getAirfieldList(final SquadronDeployment deployment) {
         Airfield airfield = getAirfield(deployment);
         List<Airfield> list = new ArrayList<>();
         list.add(airfield);

@@ -17,7 +17,7 @@ import java.util.Optional;
 /**
  * Represents the squadron deployment.
  */
-public class Deployment {
+public class SquadronDeployment {
     @Getter
     @Setter
     private String name; //The airfield name.
@@ -34,8 +34,8 @@ public class Deployment {
      * @param data The deployment data read in from a JSON file.
      */
     @Inject
-    public Deployment(@Assisted final Side side,
-                      @Assisted final DeploymentData data) {
+    public SquadronDeployment(@Assisted final Side side,
+                              @Assisted final DeploymentData data) {
         name = data.getName();
 
         mandatory = Optional.ofNullable(data.getMandatory())

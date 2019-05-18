@@ -5,6 +5,7 @@ import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.map.MainMapView;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -41,6 +42,11 @@ public class MainView {
     public void show(final Stage stage) {
 
         Node map = mainMapView.build();
+
+        VBox popup = new VBox(new Label("popup"));
+        popup.setLayoutX(100);
+        popup.setLayoutY(100);
+        mainMapView.addPopup(popup);
 
         VBox vBox = new VBox(map);
 

@@ -107,6 +107,8 @@ public class TaskForcePresenter implements Presenter {
             view.setTaskForces(game.getHumanPlayer().getTaskForces());
             view.getTaskForces().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> taskForceSelected(newValue));
 
+            navigate.update(game.getScenario());
+
         } catch (ScenarioException | MapException | VictoryException ex) {
             fatalErrorDialogProvider.get().show(ex.getMessage() + ".");
         }

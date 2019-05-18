@@ -54,7 +54,7 @@ public class PopUp {
      * @param active indicates if the corresponding marker is active.
      */
     public void draw(final boolean active) {
-        log.info("Draw the popup text: {}", names.get(0));
+        log.debug("Draw the popup text: {}", names.get(0));
 
         Text mapRefText = new Text(mapRef);
         mapRefText.getStyleClass().add("popup-mapRef-text");
@@ -83,7 +83,7 @@ public class PopUp {
      * @param active indicates if the corresponding marker is active.
      */
     public void addText(final String name, final boolean active) {
-        log.info("Add text: {} to the popup", name);
+        log.debug("Add text: {} to the popup", name);
 
         names.add(name);
 

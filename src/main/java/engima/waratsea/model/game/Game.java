@@ -210,6 +210,7 @@ public class Game {
      * Deploy the computer player's assets.
      */
     private void deployAssets() {
+        humanPlayer.deployAssets(scenario);
         computerPlayer.deployAssets(scenario);
     }
 

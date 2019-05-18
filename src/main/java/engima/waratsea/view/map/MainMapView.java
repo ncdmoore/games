@@ -60,4 +60,8 @@ public class MainMapView {
 
         return map;
     }
+
+    public void addPopup(final Node node) {
+        mapView.add(node);
+    }
 }

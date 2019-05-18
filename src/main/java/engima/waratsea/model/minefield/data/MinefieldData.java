@@ -4,6 +4,9 @@ import engima.waratsea.model.game.Side;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents the minefield data read in from a JSON file.
  */
@@ -19,4 +22,8 @@ public class MinefieldData {
     @Getter
     @Setter
     private Side side;
+
+    @Getter
+    @Setter
+    private List<String> activeMapRef = new ArrayList<>();
 }

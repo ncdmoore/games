@@ -4,11 +4,15 @@ import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.map.MultiKeyMap;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Utility class for drawing a grid on a map.
@@ -24,13 +28,22 @@ public class MapView {
 
     private MultiKeyMap<Integer, Rectangle> grid = new MultiKeyMap<>();
 
+
+    private Map<Rectangle, GridView> gridMap = new HashMap<>();
+
+
+    private GameMap gMap;
+
     /**
      * Draw the map's grid.
+     *
      * @param gameMap The game map that this view represents.
      * @param sizeOfTheGrids Size of the square grid in pixels.
      * @return The grid.
      */
     public Group draw(final GameMap gameMap, final int sizeOfTheGrids) {
+        gMap = gameMap;
+
         int numberOfRows = gameMap.getRows();
         int numberOfColumns = gameMap.getColumns();
 
@@ -42,8 +55,11 @@ public class MapView {
             for (int row = 0; row < currentNumberOfRows; row++) {
                 GridView gridView = getGridView(new GameGrid(row, col));
                 Rectangle r = drawSingleGrid(gridView);
+                gridMap.put(r, gridView);
                 map.getChildren().add(r);
                 grid.put(row, col, r);
+
+                registerMouseOver(r);
             }
 
             currentNumberOfRows = (currentNumberOfRows == numberOfRows) ? numberOfRows - 1 : numberOfRows;
@@ -54,6 +70,7 @@ public class MapView {
 
     /**
      * Get a grid view.
+     *
      * @param gameGrid The game grid for which the grid view corresponds.
      * @return The grid view.
      */
@@ -63,6 +80,8 @@ public class MapView {
 
     /**
      * Add a node to the map. This is called to add rectangles to the map.
+     * The node will be displayed on the map.
+     *
      * @param node The node added to the map.
      */
     public void add(final Node node) {
@@ -71,6 +90,7 @@ public class MapView {
 
     /**
      * Remove a node from the map.
+     *
      * @param node The node removed from the map.
      */
     public void remove(final Node node) {
@@ -89,7 +109,7 @@ public class MapView {
 
         Rectangle r = new Rectangle(gridView.getX(), gridView.getY(), gridView.getSize(), gridView.getSize());
         r.setStroke(Color.BLACK);
-        r.setFill(null);
+        r.setFill(Color.TRANSPARENT);
         r.setOpacity(opacity);
         return r;
     }
@@ -111,4 +131,25 @@ public class MapView {
         r.setOpacity(1.0);
         r.setStroke(Color.RED);
     }
+
+    /**
+     * Grid rectangle mouse over event registration.
+     *
+     * @param r rectangle.
+     */
+    private void registerMouseOver(final Rectangle r) {
+
+            r.setOnMouseClicked(this::mouseClicked);
+    }
+
+    private void mouseClicked(final MouseEvent event) {
+        Rectangle r = (Rectangle) event.getSource();
+        GridView gv = gridMap.get(r);
+        log.info("row={},column={}", gv.getRow(), gv.getColumn());
+
+
+        log.info(gMap.convertRowColumnToRef(gv.getRow(), gv.getColumn()));
+
+    }
+
 }
