@@ -215,7 +215,20 @@ public class SquadronDeploymentAI {
         // Remove the deployed models from the deployment map as they are now deployed
         // and we don't want to redeploy then when the finish mandatory method runs
         // later.
-        modelsDeployed.forEach(models::remove);
+        removeDeployed(airfield, modelsDeployed);
+    }
+
+    /**
+     *  Remove the deployed models from the deployment map so we don't deploy them
+     *  a second time when the finish mandatory method runs.
+     *
+     * @param airfield The airfield.
+     * @param deployed The squadrons deployed at the airfield.
+     */
+    private void removeDeployed(final Airfield airfield, final List<String> deployed) {
+        List<String> models = deploymentMap.getMandatoryModels(airfield); // List of models that are requested to be deployed.
+
+        deployed.forEach(models::remove);
     }
 
     /**

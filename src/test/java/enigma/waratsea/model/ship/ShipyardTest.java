@@ -87,14 +87,14 @@ public class ShipyardTest {
         testBuildCruiser("CL33 Birmingham", Nation.BRITISH);
         testBuildCruiser("CL06 Coventry", Nation.BRITISH);
         testBuildCruiser("CL02 Calypso", Nation.BRITISH);
-        testBuildCruiser("CL01b Caledon", Nation.BRITISH);
+        testBuildCruiser("CL01b Caledon 43", Nation.BRITISH);
         testBuildCruiser("CL12 Capetown", Nation.BRITISH);
         testBuildCruiser("CL45 Charybdis", Nation.BRITISH);
         testBuildCruiser("CL46 Cleopatra", Nation.BRITISH);
         testBuildCruiser("CA01 Berwick", Nation.BRITISH);
         testBuildCruiser("CL56 Fiji", Nation.BRITISH);
-        testBuildCruiser("CL16a Delhi", Nation.BRITISH);
-        testBuildCruiser("CL16b Delhi", Nation.BRITISH);
+        testBuildCruiser("CL16a Delhi 39", Nation.BRITISH);
+        testBuildCruiser("CL16b Delhi 42", Nation.BRITISH);
         testBuildCruiser("CL51 Phoebe", Nation.BRITISH);
         testBuildCruiser("CL01 Duguay Trouin", Nation.FRENCH);
         testBuildCruiser("CA01 Duquesne", Nation.FRENCH);
