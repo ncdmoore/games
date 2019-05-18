@@ -79,6 +79,7 @@ public class TaskForcePreviewMapView {
      * @param dto The task force marker data transfer object.
      */
     public void markTaskForce(final TaskForceMarkerDTO dto) {
+        dto.setGameMap(gameMap);
         dto.setMapView(mapView);
 
         if (mapRefMarkerMap.containsKey(dto.getMapReference())) {                                                       //Check if this grid already has a marker.
@@ -98,6 +99,7 @@ public class TaskForcePreviewMapView {
      * @param dto The target marker data transfer object.
      */
     public void markTarget(final TargetMarkerDTO dto) {
+        dto.setGameMap(gameMap);
         dto.setMapView(mapView);
 
         if (mapRefTargetMap.containsKey(dto.getMapReference())) {

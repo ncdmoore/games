@@ -1,17 +1,21 @@
 package engima.waratsea.view;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.utility.CssResourceProvider;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.Getter;
+
+import java.util.List;
 
 /**
  * Represents the minefield view.
@@ -23,6 +27,8 @@ public class MinefieldView {
     private ViewProps props;
     private CssResourceProvider cssResourceProvider;
 
+    @Getter
+    private ChoiceBox<Minefield> minefields = new ChoiceBox<>();
 
     @Getter
     private Button continueButton = new Button("Continue");
@@ -55,6 +61,12 @@ public class MinefieldView {
         StackPane titlePane = new StackPane(title);
         titlePane.setId("title-pane");
 
+        Label labelPane = new Label("Minefield Zone:");
+        labelPane.setId("label-pane");
+
+        HBox mapPane = new HBox(minefields);
+        mapPane.setId("map-pane");
+
         Node pushButtons = buildPushButtons();
 
         //Node map = taskForceMap.draw();
@@ -63,7 +75,7 @@ public class MinefieldView {
         //mapPane.setId("map-pane");
 
 
-        VBox vBox = new VBox(titlePane, pushButtons);
+        VBox vBox = new VBox(titlePane, labelPane, mapPane, pushButtons);
 
         int sceneWidth = props.getInt("taskForce.scene.width");
         int sceneHeight = props.getInt("taskForce.scene.height");
@@ -74,6 +86,16 @@ public class MinefieldView {
 
         stage.setScene(scene);
         stage.show();
+    }
+
+    /**
+     * Set the minefields.
+     *
+     * @param fields The minefields.
+     */
+    public void setMinefields(final List<Minefield> fields) {
+        minefields.getItems().clear();
+        minefields.getItems().addAll(fields);
     }
 
     /**

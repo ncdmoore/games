@@ -81,4 +81,14 @@ public class Minefield implements PersistentData<MinefieldData> {
             log.info("Mine grid: '{}' in minefield: '{}'", grid, zoneName);
         }
     }
+
+    /**
+     * Get the String representation of the minefield.
+     *
+     * @return The String representation, the minefield zone name.
+     */
+    @Override
+    public String toString() {
+        return zoneName;
+    }
 }

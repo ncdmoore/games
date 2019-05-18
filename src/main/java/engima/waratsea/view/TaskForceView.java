@@ -63,7 +63,7 @@ public class TaskForceView {
     private static final String CSS_FILE = "taskForceView.css";
 
     /**
-     * Utility class used in conjuction with table view.
+     * Utility class used in conjunction with table view.
      */
     public static class Row {
         @Getter

@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Game;
+import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.view.MinefieldView;
 import javafx.stage.Stage;
@@ -51,13 +52,33 @@ public class MinefieldPresenter implements Presenter {
 
         view = viewProvider.get();
 
+        setMinefields();
+
         view.show(stage, game.getScenario());
 
 
         view.getContinueButton().setOnAction(event -> continueButton());
         view.getBackButton().setOnAction(event -> backButton());
+
+        view.getMinefields().getSelectionModel().selectFirst();
     }
 
+    /**
+     * Set the human player's minefields.
+     */
+    private void setMinefields() {
+        view.setMinefields(game.getHumanPlayer().getMinefields());
+        view.getMinefields().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> minefieldSelected(newValue));
+    }
+
+    /**
+     * Select a minefield.
+     *
+     * @param minefield The selected minefield.
+     */
+    private void minefieldSelected(final Minefield minefield) {
+        log.info("selected minefield {}", minefield);
+    }
     /**
      * Call back for the continue button.
      */

@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Game;
-import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.MapException;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.ship.Ship;
@@ -37,7 +36,6 @@ import java.util.stream.Collectors;
 @Singleton
 public class TaskForcePresenter implements Presenter {
     private final Game game;
-    private GameMap gameMap;
     private TaskForceView view;
     private Stage stage;
 
@@ -52,7 +50,6 @@ public class TaskForcePresenter implements Presenter {
      * This is the constructor.
      *
      * @param game The game object.
-     * @param gameMap The preview game map.
      * @param viewProvider The corresponding view,
      * @param shipDetailsDialogProvider The ship details dialog provider.
      * @param navigate Provides screen navigation.
@@ -60,13 +57,11 @@ public class TaskForcePresenter implements Presenter {
      */
     @Inject
     public TaskForcePresenter(final Game game,
-                              final GameMap gameMap,
                               final Provider<TaskForceView> viewProvider,
                               final Provider<ShipDetailsDialog> shipDetailsDialogProvider,
                               final Navigate navigate,
                               final Provider<FatalErrorDialog> fatalErrorDialogProvider) {
         this.game = game;
-        this.gameMap = gameMap;
         this.viewProvider = viewProvider;
         this.shipDetailsDialogProvider = shipDetailsDialogProvider;
         this.navigate = navigate;
@@ -131,7 +126,6 @@ public class TaskForcePresenter implements Presenter {
      */
     private void markTaskForce(final TaskForce taskForce) {
         TaskForceMarkerDTO dto = new TaskForceMarkerDTO(taskForce);
-        dto.setGameMap(gameMap);
         dto.setMarkerEventHandler(this::showTaskForcePopup);
         dto.setPopupEventHandler(this::closePopup);
         view.markTaskForceOnMap(dto);
@@ -166,7 +160,6 @@ public class TaskForcePresenter implements Presenter {
      */
     private void markTaskForceTarget(final TaskForce taskForce, final Target target) {
         TargetMarkerDTO dto = new TargetMarkerDTO(taskForce, target);
-        dto.setGameMap(gameMap);
         dto.setMarkerEventHandler(this::showTargetPopup);
         dto.setPopupEventHandler(this::closePopup);
         view.markTargetOnMap(dto);
@@ -200,7 +193,6 @@ public class TaskForcePresenter implements Presenter {
      * Call back for the continue button.
      */
     private void continueButton() {
-        log.info("continue button");
         navigate.goNext(this.getClass(), stage);
     }
 

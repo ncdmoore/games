@@ -22,6 +22,10 @@
     -fx-alignment: top-center;
 }
 
+#label-pane {
+    -fx-padding: 5 0 0 15;
+}
+
 #push-buttons  {
     -fx-spacing: 180;
     -fx-padding: /* top: */ 40 /* right: */ 0 /* bottom: */ 20 /* left: */ 450;
