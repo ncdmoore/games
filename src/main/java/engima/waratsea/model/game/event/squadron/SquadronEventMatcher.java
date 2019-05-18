@@ -2,7 +2,6 @@ package engima.waratsea.model.game.event.squadron;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.sun.istack.internal.NotNull;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.game.Asset;
@@ -12,6 +11,7 @@ import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.Squadron;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;

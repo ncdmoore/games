@@ -2,13 +2,13 @@ package engima.waratsea.model.game.event.airfield;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.sun.istack.internal.NotNull;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.Asset;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.airfield.data.AirfieldMatchData;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;

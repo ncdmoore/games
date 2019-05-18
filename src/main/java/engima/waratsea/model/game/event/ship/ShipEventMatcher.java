@@ -2,7 +2,6 @@ package engima.waratsea.model.game.event.ship;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.sun.istack.internal.NotNull;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.Asset;
 import engima.waratsea.model.game.Side;
@@ -13,6 +12,7 @@ import engima.waratsea.model.ship.ShipType;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
