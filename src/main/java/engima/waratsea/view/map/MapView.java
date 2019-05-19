@@ -1,12 +1,16 @@
 package engima.waratsea.view.map;
 
+import com.google.inject.Inject;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.map.MultiKeyMap;
@@ -20,32 +24,40 @@ import java.util.Map;
 @Slf4j
 public class MapView {
 
+    private GameMap gameMap;
+
+    private int numberOfRows;
+    private int numberOfColumns;
+
     @Getter
     private int gridSize;
 
     @Getter
     private Group map = new Group();
 
-    private MultiKeyMap<Integer, Rectangle> grid = new MultiKeyMap<>();
+    private MultiKeyMap<Integer, Rectangle> grid = new MultiKeyMap<>();    //Row, Column to Rectangle map.
+    private Map<Rectangle, GridView> gridMap = new HashMap<>();            //Rectangle to grid view map.
 
-
-    private Map<Rectangle, GridView> gridMap = new HashMap<>();
-
-
-    private GameMap gMap;
+    /**
+     * Constructor called by guice.
+     *
+     * @param gameMap The game map.
+     */
+    @Inject
+    public MapView(final GameMap gameMap) {
+        this.gameMap = gameMap;
+    }
 
     /**
      * Draw the map's grid.
      *
-     * @param gameMap The game map that this view represents.
      * @param sizeOfTheGrids Size of the square grid in pixels.
      * @return The grid.
      */
-    public Group draw(final GameMap gameMap, final int sizeOfTheGrids) {
-        gMap = gameMap;
+    public Group draw(final int sizeOfTheGrids) {
 
-        int numberOfRows = gameMap.getRows();
-        int numberOfColumns = gameMap.getColumns();
+        numberOfRows = gameMap.getRows();
+        numberOfColumns = gameMap.getColumns();
 
         gridSize = sizeOfTheGrids;
 
@@ -58,14 +70,31 @@ public class MapView {
                 gridMap.put(r, gridView);
                 map.getChildren().add(r);
                 grid.put(row, col, r);
-
-                registerMouseOver(r);
             }
 
             currentNumberOfRows = (currentNumberOfRows == numberOfRows) ? numberOfRows - 1 : numberOfRows;
         }
 
         return map;
+    }
+
+    /**
+     * Register a mouse click handler for each rectangle that makes up the map grid.
+     *
+     * @param handler The mouse click handler.
+     */
+    public void registerMouseClick(final EventHandler<? super MouseEvent> handler) {
+        int currentNumberOfRows = numberOfRows;
+
+        for (int col = 0; col < numberOfColumns; col++) {
+            for (int row = 0; row < currentNumberOfRows; row++) {
+                registerMouseClick(grid.get(row, col), handler);
+
+                addMapReference(gridMap.get(grid.get(row, col)));
+            }
+
+            currentNumberOfRows = (currentNumberOfRows == numberOfRows) ? numberOfRows - 1 : numberOfRows;
+        }
     }
 
     /**
@@ -76,6 +105,16 @@ public class MapView {
      */
     public GridView getGridView(final GameGrid gameGrid) {
         return new GridView(gridSize, gameGrid);
+    }
+
+    /**
+     * Get the grid view.
+     *
+     * @param rectangle The rectangle that maps to the returned grid view.
+     * @return The grid view.
+     */
+    public GridView getGridView(final Rectangle rectangle) {
+        return gridMap.get(rectangle);
     }
 
     /**
@@ -111,6 +150,7 @@ public class MapView {
         r.setStroke(Color.BLACK);
         r.setFill(Color.TRANSPARENT);
         r.setOpacity(opacity);
+
         return r;
     }
 
@@ -136,20 +176,28 @@ public class MapView {
      * Grid rectangle mouse over event registration.
      *
      * @param r rectangle.
+     * @param handler The mouse click handler.
      */
-    private void registerMouseOver(final Rectangle r) {
-
-            r.setOnMouseClicked(this::mouseClicked);
+    private void registerMouseClick(final Rectangle r, final  EventHandler<? super MouseEvent> handler) {
+        r.setOnMouseClicked(handler);
     }
 
-    private void mouseClicked(final MouseEvent event) {
-        Rectangle r = (Rectangle) event.getSource();
-        GridView gv = gridMap.get(r);
-        log.info("row={},column={}", gv.getRow(), gv.getColumn());
+    /**
+     * Add a map reference label to the grid.
+     *
+     * @param gridView The grid view of map grid.
+     */
+    private void addMapReference(final GridView gridView) {
+        String mapRef = gameMap.convertRowColumnToRef(gridView.getRow(), gridView.getColumn());
 
+        Text text = new Text(mapRef);
+        VBox mapRefNode = new VBox(text);
+        mapRefNode.setLayoutX(gridView.getX() + 1);
+        mapRefNode.setLayoutY(gridView.getY() + 1);
 
-        log.info(gMap.convertRowColumnToRef(gv.getRow(), gv.getColumn()));
+        text.getStyleClass().add("map-ref-text");
 
+        add(mapRefNode);
     }
 
 }

@@ -4263,6 +4263,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/css/mainView.css">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/css/minefieldView.css">
           <value>
             <set />

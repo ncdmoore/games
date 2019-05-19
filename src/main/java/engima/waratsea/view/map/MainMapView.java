@@ -7,11 +7,15 @@ import engima.waratsea.view.ViewProps;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The view of the main map.
  */
+@Slf4j
 public class MainMapView {
 
     private GameMap gameMap;
@@ -47,13 +51,11 @@ public class MainMapView {
         ImageView mapImageView = imageResourceProvider.getImageView("mainMap.png");
         int gridSize = props.getInt("taskforce.mainMap.gridSize");
 
-        Node mapGrid = mapView.draw(gameMap, gridSize);
-
+        Node mapGrid = mapView.draw(gridSize);
 
         gameMap.getBases().forEach(base -> mapView.highlight(gameMap.getGrid(base.getReference())));
 
-
-        mapView.highlight(gameMap.getGrid("AJ24"));
+        mapView.registerMouseClick(this::mouseClicked);
 
         StackPane map = new StackPane(mapImageView, mapGrid);
         map.setAlignment(Pos.TOP_LEFT);
@@ -61,7 +63,17 @@ public class MainMapView {
         return map;
     }
 
-    public void addPopup(final Node node) {
-        mapView.add(node);
+    /**
+     * Callback when main map grid is clicked.
+     *
+     * @param event The mouse click event.
+     */
+    private void mouseClicked(final MouseEvent event) {
+        Rectangle r = (Rectangle) event.getSource();
+        GridView gv = mapView.getGridView(r);
+        log.info("row={},column={}", gv.getRow(), gv.getColumn());
+
+        log.info(gameMap.convertRowColumnToRef(gv.getRow(), gv.getColumn()));
+
     }
 }
