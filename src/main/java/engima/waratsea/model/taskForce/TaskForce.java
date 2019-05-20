@@ -214,7 +214,6 @@ public class TaskForce implements PersistentData<TaskForceData> {
         return gameMap.isLocationBase(side, location);
     }
 
-
     /**
      * Get the task force's new location.
      *
@@ -222,6 +221,15 @@ public class TaskForce implements PersistentData<TaskForceData> {
      */
     public void setLocation(final String newLocation) {
         location = gameMap.convertNameToReference(newLocation);
+    }
+
+    /**
+     * Get the task force's location. Return a port if the task force is in a port.
+     *
+     * @return The task force's location. Mapped to a port name if the task force is in a port.
+     */
+    public String getMappedLocation() {
+        return gameMap.convertReferenceToName(location);
     }
 
     /**

@@ -57,7 +57,7 @@ public class MinefieldAI {
                 if (possibleGrids != null) {
                     for (int i = 0; i < minefield.getNumber(); i++) {
                         String grid = selectGrid(possibleGrids);
-                        minefield.mineGrid(grid);
+                        minefield.addMine(grid);
                     }
                 } else {
                     log.error("No deployment found for minefield: {}", minefield.getZoneName());

@@ -15,14 +15,14 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.map.MultiKeyMap;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Utility class for drawing a grid on a map.
  */
 @Slf4j
 public class MapView {
+    private static final double GRID_OPACITY = 0.07;
+
+    private static final double BACKGROUND_OPACITY = 0.45;
 
     private GameMap gameMap;
 
@@ -36,7 +36,6 @@ public class MapView {
     private Group map = new Group();
 
     private MultiKeyMap<Integer, Rectangle> grid = new MultiKeyMap<>();    //Row, Column to Rectangle map.
-    private Map<Rectangle, GridView> gridMap = new HashMap<>();            //Rectangle to grid view map.
 
     /**
      * Constructor called by guice.
@@ -67,7 +66,8 @@ public class MapView {
             for (int row = 0; row < currentNumberOfRows; row++) {
                 GridView gridView = getGridView(new GameGrid(row, col));
                 Rectangle r = drawSingleGrid(gridView);
-                gridMap.put(r, gridView);
+                r.setUserData(gridView);
+
                 map.getChildren().add(r);
                 grid.put(row, col, r);
             }
@@ -89,8 +89,7 @@ public class MapView {
         for (int col = 0; col < numberOfColumns; col++) {
             for (int row = 0; row < currentNumberOfRows; row++) {
                 registerMouseClick(grid.get(row, col), handler);
-
-                addMapReference(gridMap.get(grid.get(row, col)));
+                addMapReference((GridView) grid.get(row, col).getUserData());
             }
 
             currentNumberOfRows = (currentNumberOfRows == numberOfRows) ? numberOfRows - 1 : numberOfRows;
@@ -108,13 +107,14 @@ public class MapView {
     }
 
     /**
-     * Get the grid view.
+     * Get a grid view.
      *
-     * @param rectangle The rectangle that maps to the returned grid view.
+     * @param event A mouse click event.
      * @return The grid view.
      */
-    public GridView getGridView(final Rectangle rectangle) {
-        return gridMap.get(rectangle);
+    public GridView getGridView(final MouseEvent event) {
+        Rectangle r = (Rectangle) event.getSource();
+        return (GridView) r.getUserData();
     }
 
     /**
@@ -143,13 +143,10 @@ public class MapView {
      * @return A rectangle.
      */
     private Rectangle drawSingleGrid(final GridView gridView) {
-
-        final double opacity = 0.07;
-
         Rectangle r = new Rectangle(gridView.getX(), gridView.getY(), gridView.getSize(), gridView.getSize());
         r.setStroke(Color.BLACK);
         r.setFill(Color.TRANSPARENT);
-        r.setOpacity(opacity);
+        r.setOpacity(GRID_OPACITY);
 
         return r;
     }
@@ -173,12 +170,59 @@ public class MapView {
     }
 
     /**
+     * Set the background for a grid.
+     *
+     * @param gameGrid The grid for which the background is set.
+     */
+    public void setBackground(final GameGrid gameGrid) {
+
+        Rectangle r = grid.get(gameGrid.getRow(), gameGrid.getColumn());
+
+        if (r == null) {
+            log.error("set background row: {}, column: {}", gameGrid.getRow(), gameGrid.getColumn());
+            return;
+        }
+
+        r.setOpacity(BACKGROUND_OPACITY);
+        r.setFill(Color.GRAY);
+    }
+
+    /**
+     * Remove the background from a grid.
+     *
+     * @param gameGrid The grid for which the background is removed.
+     */
+    public void removeBackgroud(final GameGrid gameGrid) {
+        Rectangle r = grid.get(gameGrid.getRow(), gameGrid.getColumn());
+
+        if (r == null) {
+            log.error("set background row: {}, column: {}", gameGrid.getRow(), gameGrid.getColumn());
+            return;
+        }
+
+        r.setOpacity(GRID_OPACITY);
+        r.setFill(Color.TRANSPARENT);
+    }
+
+    /**
+     * Register a mouse click event handler for a grid.
+     *
+     * @param gameGrid The grid for which the mouse handler is registered.
+     * @param handler The callback for when the grid is clicked.
+     */
+    public void registerMouseClick(final GameGrid gameGrid, final EventHandler<? super MouseEvent> handler) {
+        Rectangle r = grid.get(gameGrid.getRow(), gameGrid.getColumn());
+
+        registerMouseClick(r, handler);
+    }
+
+    /**
      * Grid rectangle mouse over event registration.
      *
      * @param r rectangle.
      * @param handler The mouse click handler.
      */
-    private void registerMouseClick(final Rectangle r, final  EventHandler<? super MouseEvent> handler) {
+    private void registerMouseClick(final Rectangle r, final EventHandler<? super MouseEvent> handler) {
         r.setOnMouseClicked(handler);
     }
 
@@ -188,7 +232,8 @@ public class MapView {
      * @param gridView The grid view of map grid.
      */
     private void addMapReference(final GridView gridView) {
-        String mapRef = gameMap.convertRowColumnToRef(gridView.getRow(), gridView.getColumn());
+        GameGrid gameGrid = new GameGrid(gridView.getRow(), gridView.getColumn());
+        String mapRef = gameMap.convertGridToReference(gameGrid);
 
         Text text = new Text(mapRef);
         VBox mapRefNode = new VBox(text);

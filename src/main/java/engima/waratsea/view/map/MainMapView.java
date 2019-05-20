@@ -1,6 +1,7 @@
 package engima.waratsea.view.map;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
@@ -9,7 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -69,11 +69,12 @@ public class MainMapView {
      * @param event The mouse click event.
      */
     private void mouseClicked(final MouseEvent event) {
-        Rectangle r = (Rectangle) event.getSource();
-        GridView gv = mapView.getGridView(r);
+        GridView gv = mapView.getGridView(event);
         log.info("row={},column={}", gv.getRow(), gv.getColumn());
 
-        log.info(gameMap.convertRowColumnToRef(gv.getRow(), gv.getColumn()));
+        GameGrid gameGrid = new GameGrid(gv.getRow(), gv.getColumn());
+
+        log.info(gameMap.convertGridToReference(gameGrid));
 
     }
 }

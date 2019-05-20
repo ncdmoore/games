@@ -114,6 +114,7 @@ public class TaskForceView {
     private Label stateValue = new Label();
     private Text missionValue = new Text();
     private Label reasonsValue = new Label();
+    private Label locationValue = new Label();
 
     private Tab taskForceSummaryTab = new Tab("Summary");
     private TabPane taskForceTabPane = new TabPane();
@@ -254,6 +255,7 @@ public class TaskForceView {
 
         Text stateLabel = new Text("State:");
         Text missionLabel = new Text("Mission:");
+        Text locationLabel = new Text("Location:");
         reasonsValue.setWrapText(true);
 
         GridPane gridPane = new GridPane();
@@ -262,6 +264,8 @@ public class TaskForceView {
         gridPane.add(missionValue, 1, 0);
         gridPane.add(stateLabel, 0, 1);
         gridPane.add(stateValue, 1, 1);
+        gridPane.add(locationLabel, 0, 2);
+        gridPane.add(locationValue, 1, 2);
 
         VBox vBox = new VBox(gridPane, reasonsValue);
         vBox.setId("taskforce-details-vbox");
@@ -345,6 +349,10 @@ public class TaskForceView {
         stateValue.setText(taskForce.getState().toString());
         setStateColor(taskForce);
         missionValue.setText(taskForce.getMission().toString());
+
+        String prefix = taskForce.atFriendlyBase() ? "At port " : "At sea zone ";
+
+        locationValue.setText(prefix + taskForce.getMappedLocation());
 
         List<String> reasons = taskForce.getActivatedByText();
         if (!reasons.isEmpty()) {

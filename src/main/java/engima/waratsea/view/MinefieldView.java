@@ -3,7 +3,9 @@ package engima.waratsea.view;
 import com.google.inject.Inject;
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.presenter.dto.map.MinefieldDTO;
 import engima.waratsea.utility.CssResourceProvider;
+import engima.waratsea.view.map.MinefieldPreviewMapView;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -36,17 +38,21 @@ public class MinefieldView {
     @Getter
     private Button backButton = new Button("Back");
 
+    private MinefieldPreviewMapView minefieldMap;
     /**
      * Constructor called by guice.
      *
      * @param props The view properties.
      * @param cssResourceProvider Provides access to the css file.
+     * @param minefieldMap The minefield map.
      */
     @Inject
     public MinefieldView(final ViewProps props,
-                         final CssResourceProvider cssResourceProvider) {
+                         final CssResourceProvider cssResourceProvider,
+                         final MinefieldPreviewMapView minefieldMap) {
         this.props = props;
         this.cssResourceProvider = cssResourceProvider;
+        this.minefieldMap = minefieldMap;
     }
 
     /**
@@ -64,16 +70,17 @@ public class MinefieldView {
         Label labelPane = new Label("Minefield Zone:");
         labelPane.setId("label-pane");
 
-        HBox mapPane = new HBox(minefields);
+
+        minefields.setMinWidth(props.getInt("minefield.list.width"));
+        minefields.setMaxWidth(props.getInt("minefield.list.width"));
+
+
+        Node map = minefieldMap.draw();
+
+        HBox mapPane = new HBox(minefields, map);
         mapPane.setId("map-pane");
 
         Node pushButtons = buildPushButtons();
-
-        //Node map = taskForceMap.draw();
-
-        //HBox mapPane = new HBox(taskForceList, map);
-        //mapPane.setId("map-pane");
-
 
         VBox vBox = new VBox(titlePane, labelPane, mapPane, pushButtons);
 
@@ -96,6 +103,42 @@ public class MinefieldView {
     public void setMinefields(final List<Minefield> fields) {
         minefields.getItems().clear();
         minefields.getItems().addAll(fields);
+    }
+
+    /**
+     * Highlight the currently selected minefield.
+     *
+     * @param dto The minefield data transfer object.
+     */
+    public void highlightMinefield(final MinefieldDTO dto) {
+        minefieldMap.highlight(dto);
+    }
+
+    /**
+     * Remove the highlighting from a given minefield.
+     *
+     * @param dto The minefield data transfer object.
+     */
+    public void removeMinefieldHighlight(final MinefieldDTO dto) {
+        minefieldMap.removeHighLight(dto);
+    }
+
+    /**
+     * Mark a mine on the map.
+     *
+     * @param dto The mine data transfer object.
+     */
+    public void markMine(final MinefieldDTO dto) {
+        minefieldMap.markMine(dto);
+    }
+
+    /**
+     * Un mark a mine on the map.
+     *
+     * @param dto The mine data transfer object.
+     */
+    public void unMarkMine(final MinefieldDTO dto) {
+        minefieldMap.unMarkMine(dto);
     }
 
     /**

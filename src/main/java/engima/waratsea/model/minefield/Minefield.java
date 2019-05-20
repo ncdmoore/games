@@ -62,25 +62,36 @@ public class Minefield implements PersistentData<MinefieldData> {
     }
 
     /**
-     * Get a list of map references that make up the minefield zone.
-     *
-     * @return A list of map references.
-     */
-    public List<String> getZoneMapRefs() {
-        return zone.getGrids();
-    }
-
-    /**
      * Mine one of the available zone map reference grids.
      *
      * @param grid The map reference grid that is mined.
      */
-    public void mineGrid(final String grid) {
-        if (activeMapRef.size() < number) {
+    public void addMine(final String grid) {
+        if (hasRoom()) {
             activeMapRef.add(grid);
-            log.info("Mine grid: '{}' in minefield: '{}'", grid, zoneName);
+            log.info("Add mine to grid: '{}' in minefield: '{}'", grid, zoneName);
         }
     }
+
+    /**
+     * Remove a mine from the minefield. The given grid is no longer mined.
+     *
+     * @param grid The map reference grid that has the mines removed.
+     */
+    public void removeMine(final String grid) {
+        log.info("Remove mine from grid: '{}' in minefield: '{}'", grid, zoneName);
+        activeMapRef.remove(grid);
+    }
+
+    /**
+     * Indicates that the minefield may have another grid mined.
+     *
+     * @return True if the minefield has room for another mined grid.
+     */
+    public boolean hasRoom() {
+        return activeMapRef.size() < number;
+    }
+
 
     /**
      * Get the String representation of the minefield.

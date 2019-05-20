@@ -260,13 +260,15 @@ public final class GameMap {
     /**
      * Convert a game grid row and column into a game map reference.
      *
-     * @param row The grid row.
-     * @param col The grid column.
+     * @param gameGrid The game grid. Contains a row and a column.
      * @return The game map reference.
      */
-    public String convertRowColumnToRef(final int row, final int col) {
+    public String convertGridToReference(final GameGrid gameGrid) {
         final int asciiA = 65;
         String mapRef;
+
+        int row = gameGrid.getRow();
+        int col = gameGrid.getColumn();
 
         int oneBasedRow = row + 1;
         int factor = col / ALPHABET_SIZE;

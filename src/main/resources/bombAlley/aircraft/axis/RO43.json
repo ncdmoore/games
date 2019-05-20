@@ -5,7 +5,7 @@
   "service": "NAVY",
   "designation": "RN-",
   "altitude": "LOW",
-  "landing": "LAND",
+  "landing": "SEAPLANE",
   "naval": {
     "modifier": 0,
     "full": 0,
