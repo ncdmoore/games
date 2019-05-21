@@ -1,23 +1,32 @@
 package engima.waratsea.view;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.game.Game;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.presenter.dto.map.MinefieldDTO;
 import engima.waratsea.utility.CssResourceProvider;
+import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.map.MinefieldPreviewMapView;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Getter;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents the minefield view.
@@ -28,6 +37,9 @@ public class MinefieldView {
 
     private ViewProps props;
     private CssResourceProvider cssResourceProvider;
+    private ImageResourceProvider imageResourceProvider;
+
+    private Game game;
 
     @Getter
     private ChoiceBox<Minefield> minefields = new ChoiceBox<>();
@@ -39,20 +51,37 @@ public class MinefieldView {
     private Button backButton = new Button("Back");
 
     private MinefieldPreviewMapView minefieldMap;
+
+    private Label minesAvailableValue = new Label();
+    private Label minesDeployedValue = new Label();
+
+    private Map<Side, String> flags = new HashMap<>();
+
     /**
      * Constructor called by guice.
      *
      * @param props The view properties.
      * @param cssResourceProvider Provides access to the css file.
+     * @param imageResourceProvider Image file provider.
      * @param minefieldMap The minefield map.
+     * @param game The game.
      */
     @Inject
     public MinefieldView(final ViewProps props,
                          final CssResourceProvider cssResourceProvider,
-                         final MinefieldPreviewMapView minefieldMap) {
+                         final ImageResourceProvider imageResourceProvider,
+                         final MinefieldPreviewMapView minefieldMap,
+                         final Game game) {
         this.props = props;
         this.cssResourceProvider = cssResourceProvider;
+        this.imageResourceProvider = imageResourceProvider;
+
         this.minefieldMap = minefieldMap;
+
+        this.game = game;
+
+        flags.put(Side.ALLIES, "alliesFlag50x34.png");
+        flags.put(Side.AXIS, "axisFlag50x34.png");
     }
 
     /**
@@ -67,22 +96,25 @@ public class MinefieldView {
         StackPane titlePane = new StackPane(title);
         titlePane.setId("title-pane");
 
+        Node objectivesPane = buildObjectives();
+
         Label labelPane = new Label("Minefield Zone:");
         labelPane.setId("label-pane");
-
 
         minefields.setMinWidth(props.getInt("minefield.list.width"));
         minefields.setMaxWidth(props.getInt("minefield.list.width"));
 
+        VBox minefieldVbox = new VBox(minefields, buildMinefieldDetails());
+        minefieldVbox.setId("minefield-vbox");
 
         Node map = minefieldMap.draw();
 
-        HBox mapPane = new HBox(minefields, map);
+        HBox mapPane = new HBox(minefieldVbox, map);
         mapPane.setId("map-pane");
 
         Node pushButtons = buildPushButtons();
 
-        VBox vBox = new VBox(titlePane, labelPane, mapPane, pushButtons);
+        VBox vBox = new VBox(titlePane, objectivesPane, labelPane, mapPane, pushButtons);
 
         int sceneWidth = props.getInt("taskForce.scene.width");
         int sceneHeight = props.getInt("taskForce.scene.height");
@@ -96,6 +128,21 @@ public class MinefieldView {
     }
 
     /**
+     * Build the selected scenario objective's text.
+     *
+     * @return The node that contains the selected scenario objective information.
+     */
+    private Node buildObjectives() {
+        Label objectiveLabel = new Label("Objectives: Place available mines in each minefield zone.");
+        ImageView alliesFlag = imageResourceProvider.getImageView(flags.get(game.getHumanPlayer().getSide()));
+
+        HBox hBox = new HBox(alliesFlag, objectiveLabel);
+        hBox.setId("objectives-pane");
+
+        return hBox;
+    }
+
+    /**
      * Set the minefields.
      *
      * @param fields The minefields.
@@ -103,6 +150,16 @@ public class MinefieldView {
     public void setMinefields(final List<Minefield> fields) {
         minefields.getItems().clear();
         minefields.getItems().addAll(fields);
+    }
+
+    /**
+     * Set the selected minefield.
+     *
+     * @param minefield The selected minefield.
+     */
+    public void setSelectedMinefield(final Minefield minefield) {
+        minesAvailableValue.setText(minefield.hasAvalaible() + "");
+        minesDeployedValue.setText(minefield.hasDeployed() + "");
     }
 
     /**
@@ -130,6 +187,10 @@ public class MinefieldView {
      */
     public void markMine(final MinefieldDTO dto) {
         minefieldMap.markMine(dto);
+        Minefield minefield = dto.getMinefield();
+        minesAvailableValue.setText(minefield.hasAvalaible() + "");
+        minesDeployedValue.setText(minefield.hasDeployed() + "");
+
     }
 
     /**
@@ -139,6 +200,41 @@ public class MinefieldView {
      */
     public void unMarkMine(final MinefieldDTO dto) {
         minefieldMap.unMarkMine(dto);
+        Minefield minefield = dto.getMinefield();
+        minesAvailableValue.setText(minefield.hasAvalaible() + "");
+        minesDeployedValue.setText(minefield.hasDeployed() + "");
+    }
+
+
+    /**
+     * Build the minefield details pane.
+     *
+     * @return The minefield details pane.
+     */
+    private Node buildMinefieldDetails() {
+
+        Text minesAvailableLabel = new Text("Mines Available:");
+        Text minesDeployedLabel = new Text("Mines deployed:");
+
+        GridPane gridPane = new GridPane();
+        gridPane.setId("minefield-details-grid");
+        gridPane.add(minesAvailableLabel, 0, 0);
+        gridPane.add(minesAvailableValue, 1, 0);
+        gridPane.add(minesDeployedLabel, 0, 1);
+        gridPane.add(minesDeployedValue, 1, 1);
+
+        VBox vBox = new VBox(gridPane);
+        vBox.setId("minefield-details-vbox");
+
+        TitledPane titledPane = new TitledPane();
+        titledPane.setText("Minefield Details");
+        titledPane.setContent(vBox);
+
+        titledPane.setMaxWidth(props.getInt("minefield.details.width"));
+        titledPane.setMinWidth(props.getInt("minefield.details.width"));
+        titledPane.setId("minefield-details-pane");
+
+        return titledPane;
     }
 
     /**

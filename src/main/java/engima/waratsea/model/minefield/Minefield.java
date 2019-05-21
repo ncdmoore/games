@@ -92,6 +92,23 @@ public class Minefield implements PersistentData<MinefieldData> {
         return activeMapRef.size() < number;
     }
 
+    /**
+     * Get the number of minefield grids that may have active mines.
+     *
+     * @return Number of grids available for mining.
+     */
+    public int hasAvalaible() {
+        return number - activeMapRef.size();
+    }
+
+    /**
+     * Get the number of minefield grids that have active mines.
+     *
+     * @return Number of grids with active mines.
+     */
+    public int hasDeployed() {
+        return activeMapRef.size();
+    }
 
     /**
      * Get the String representation of the minefield.

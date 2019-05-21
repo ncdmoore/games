@@ -87,6 +87,7 @@ public class MinefieldPresenter implements Presenter {
         selectedMinefield = minefield;
         clearMinefields();
         highlightMinefield(minefield);
+        view.setSelectedMinefield(minefield);
     }
 
     /**

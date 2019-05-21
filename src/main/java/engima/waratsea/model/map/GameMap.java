@@ -57,7 +57,6 @@ public final class GameMap {
     private Map<Side, List<Port>> ports = new HashMap<>();
     private Map<Side, List<Minefield>> minefields = new HashMap<>();
 
-
     private Map<Side, Map<String, String>> baseRefToName = new HashMap<>();
     private Map<Side, Map<String, String>> baseNameToRef = new HashMap<>();
 

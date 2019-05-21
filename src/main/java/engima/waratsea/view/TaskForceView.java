@@ -20,9 +20,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -97,7 +96,7 @@ public class TaskForceView {
     private ImageResourceProvider imageResourceProvider;
 
     @Getter
-    private ListView<TaskForce> taskForces = new ListView<>();
+    private ChoiceBox<TaskForce> taskForces = new ChoiceBox<>();
 
     @Getter
     private Button continueButton = new Button("Continue");
@@ -211,28 +210,13 @@ public class TaskForceView {
      * @return Node containing the task force list.
      */
     private Node buildTaskForceList() {
-
-        taskForces.setCellFactory(param -> new ListCell<TaskForce>() {
-            @Override
-            protected void updateItem(final TaskForce item, final boolean empty) {
-                super.updateItem(item, empty);
-
-                if (item != null) {
-                    setText(item.toString());
-                    if (item.getState() == TaskForceState.RESERVE) {
-                        getStyleClass().add("reserve");
-                    } else {
-                        getStyleClass().add("active");
-                    }
-                }
-            }
-        });
-
         taskForces.setMaxWidth(props.getInt("taskForce.list.width"));
-        taskForces.setMaxHeight(props.getInt("taskForce.list.height"));
-        taskForces.setMinHeight(props.getInt("taskForce.list.height"));
+        taskForces.setMinWidth(props.getInt("taskForce.list.width"));
 
-        return new VBox(taskForces);
+        VBox vBox = new VBox(taskForces, buildTaskForceStateDetails());
+        vBox.setId("taskforce-vbox");
+
+        return vBox;
     }
 
     /**
@@ -241,7 +225,7 @@ public class TaskForceView {
      * @return A node that contains the task force details.
      */
     private Node buildTaskForceDetails() {
-        HBox hBox = new HBox(buildTaskForceStateDetails(), buildShipDetails());
+        HBox hBox = new HBox(buildShipDetails());
         hBox.setId("details-pane");
         return hBox;
     }
@@ -280,6 +264,7 @@ public class TaskForceView {
 
         return titledPane;
     }
+
 
     /**
      * Build the ship details. This the ships within a task force.
@@ -528,7 +513,6 @@ public class TaskForceView {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, BigDecimal::add));
     }
 
-
     /**
      * Build a table of summary data.
      *
@@ -540,17 +524,14 @@ public class TaskForceView {
     private Node buildTable(final String mainLabel, final String numberLabel, final ObservableList<Row> data) {
         TableView<Row> table = new TableView<>();
 
-        TableColumn<Row, String> mainColumn = new TableColumn<>(mainLabel);
-
-        TableColumn<Row, String> typeColumn = new TableColumn<>("Type");
+        TableColumn<Row, String> typeColumn = new TableColumn<>(mainLabel);
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 
         TableColumn<Row, String> numberColumn = new TableColumn<>(numberLabel);
         numberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
 
-        mainColumn.getColumns().add(typeColumn);
-        mainColumn.getColumns().add(numberColumn);
-        table.getColumns().add(mainColumn);
+        table.getColumns().add(typeColumn);
+        table.getColumns().add(numberColumn);
         table.setItems(data);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);   // Needed to keep extra space from being seen after the last column.
         table.setFixedCellSize(props.getInt("taskForce.summary.table.cell.size"));

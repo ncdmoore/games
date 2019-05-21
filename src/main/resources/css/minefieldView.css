@@ -22,6 +22,15 @@
     -fx-alignment: top-center;
 }
 
+#objectives-pane {
+    -fx-padding: 5 0 5 15;
+    -fx-spacing: 15;
+    -fx-border-color: -fx-var-background-color;
+    -fx-border-width: 1px;
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, tan 0%, silver 100%);
+    -fx-alignment: center-left;
+}
+
 #label-pane {
     -fx-padding: 5 0 0 15;
 }
@@ -33,6 +42,18 @@
 
 .mine-marker {
     -fx-fill: radial-gradient(center 50% 50%, radius 60%, white, sienna, black);
+}
+
+#minefield-vbox {
+    -fx-spacing: 30;
+}
+
+#minefield-details-vbox {
+    -fx-background-color: whitesmoke;
+}
+
+#minefield-details-grid {
+    -fx-hgap: 10;
 }
 
 #push-buttons  {
