@@ -105,7 +105,7 @@ public class ComputerPlayer implements Player {
         //Note the airfields and ports used depend upon the map which is set by the scenario.
         nations = gameMap.getNations(side);
         airfields = gameMap.getAirfields(side);
-        ports = gameMap.gerPorts(side);
+        ports = gameMap.getPorts(side);
         minefields = gameMap.getMinefields(side);
 
         loadSquadrons(scenario);

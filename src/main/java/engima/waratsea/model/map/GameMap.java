@@ -51,10 +51,16 @@ public final class GameMap {
     private final int columns;
 
     private Map<Side, Set<Nation>> nations = new HashMap<>();
+
     private Map<Side, List<Region>> regions = new HashMap<>();
+    private Map<Side, Map<String, Region>> regionMap = new HashMap<>();
+
     private Map<Side, List<Airfield>> airfields = new HashMap<>();
     private Map<Side, Map<String, Airfield>> airfieldMap = new HashMap<>();   //Side to Map of Airfield name to Airfield.
+
     private Map<Side, List<Port>> ports = new HashMap<>();
+    private Map<Side, Map<String, Port>> portMap = new HashMap<>();           //Side to Map of Port name to Port.
+
     private Map<Side, List<Minefield>> minefields = new HashMap<>();
 
     private Map<Side, Map<String, String>> baseRefToName = new HashMap<>();
@@ -99,8 +105,14 @@ public final class GameMap {
         minefields.put(Side.ALLIES, minefieldDAO.load(Side.ALLIES));
         minefields.put(Side.AXIS, minefieldDAO.load(Side.AXIS));
 
+        regionMap.put(Side.ALLIES, buildRegionMap(regions.get(Side.ALLIES)));
+        regionMap.put(Side.AXIS, buildRegionMap(regions.get(Side.AXIS)));
+
         airfieldMap.put(Side.ALLIES, buildAirfieldMap(airfields.get(Side.ALLIES)));
         airfieldMap.put(Side.AXIS, buildAirfieldMap(airfields.get(Side.AXIS)));
+
+        portMap.put(Side.ALLIES, buildPortMap(ports.get(Side.ALLIES)));
+        portMap.put(Side.AXIS, buildPortMap(ports.get(Side.AXIS)));
 
         buildNationsMap(Side.ALLIES);
         buildNationsMap(Side.AXIS);
@@ -121,6 +133,7 @@ public final class GameMap {
     public Set<Nation> getNations(final Side side) {
         return nations.get(side);
     }
+
 
     /**
      * Get a side's airfields.
@@ -149,8 +162,33 @@ public final class GameMap {
      * @param side The side ALLIES or AXIS.
      * @return The side's ports.
      */
-    public List<Port> gerPorts(final Side side) {
+    public List<Port> getPorts(final Side side) {
         return ports.get(side);
+    }
+
+    /**
+     * Get a given side's given region list of ports.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @param region The name of the region.
+     * @return A list of ports for the given side and region.
+     */
+    public List<Port> getRegionPorts(final Side side, final String region) {
+        return regionMap
+                .get(side)
+                .get(region)
+                .getPorts();
+    }
+
+    /**
+     * Get the a port by name.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @param portName The name of the port to retrieve.
+     * @return The port that corresponds to the given name.
+     */
+    public Port getPort(final Side side, final String portName) {
+        return portMap.get(side).get(portName);
     }
 
     /**
@@ -195,6 +233,37 @@ public final class GameMap {
     public boolean isLocationBase(final Side side, final String location) {
         return baseRefToName.get(side).containsKey(convertNameToReference(location));
     }
+
+    /**
+     * Get the side of a given base's game grid.
+     *
+     * @param gameGrid A map game grid. The game grid must correspond to a base.
+     * @return The side of the base ALLIES or AXIS.
+     */
+    public Side getBaseSide(final GameGrid gameGrid) {
+        String mapRef = convertGridToReference(gameGrid);
+
+        return baseRefToName.get(Side.ALLIES).containsKey(mapRef) ? Side.ALLIES : Side.AXIS;
+    }
+
+    /**
+     * Determine fi the given location is a base for either side.
+     *
+     * @param gameGrid A game map grid.
+     * @return True if the grid corresponds to base. False otherwise.
+     */
+    public boolean isLocationBase(final GameGrid gameGrid) {
+        String mapRef = convertGridToReference(gameGrid);
+
+        for (Side side : Side.values()) {
+            if (baseRefToName.get(side).containsKey(mapRef)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     /**
      * Convert a location name to a map reference. For example, the name Gibraltar is converted to H22.
@@ -399,17 +468,40 @@ public final class GameMap {
         return name;
     }
 
+    /**
+     * Build the region name to region map.
+     *
+     * @param mapRegions A list of regions for a given side.
+     * @return A map of region names to regions.
+     */
+    private Map<String, Region> buildRegionMap(final List<Region> mapRegions) {
+        return mapRegions
+                .stream()
+                .collect(Collectors.toMap(Region::getName, region -> region));
+    }
 
     /**
      * Build the airfield name to airfield map.
      *
-     * @param fields A list of airfields for the given side.
+     * @param fields A list of airfields for a given side.
      * @return A map of airfield names to airfields.
      */
     private Map<String, Airfield> buildAirfieldMap(final List<Airfield> fields) {
         return fields
                 .stream()
                 .collect(Collectors.toMap(Airfield::getName, airfield -> airfield));
+    }
+
+    /**
+     * Build the port name to port map.
+     *
+     * @param seaPorts A list of ports for a given side.
+     * @return A map of port names to ports.
+     */
+    private Map<String, Port> buildPortMap(final List<Port> seaPorts) {
+        return seaPorts
+                .stream()
+                .collect(Collectors.toMap(Port::getName, port -> port));
     }
 
     /**

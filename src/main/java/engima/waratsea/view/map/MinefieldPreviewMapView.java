@@ -1,10 +1,12 @@
 package engima.waratsea.view.map;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.presenter.dto.map.MinefieldDTO;
+import engima.waratsea.utility.ColorMap;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import javafx.event.EventHandler;
@@ -13,6 +15,8 @@ import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
@@ -28,6 +32,7 @@ public class MinefieldPreviewMapView {
 
     private GameMap gameMap;
     private MapView mapView;
+    private ColorMap colorMap;
 
     /**
      * Constructor called by guice.
@@ -36,16 +41,19 @@ public class MinefieldPreviewMapView {
      * @param imageResourceProvider The image resource provider.
      * @param gameMap The game map.
      * @param mapView A utility to aid in drawing the map grid.
+     * @param colorMap The color map.
      */
     @Inject
     public MinefieldPreviewMapView(final ViewProps props,
                                    final ImageResourceProvider imageResourceProvider,
                                    final GameMap gameMap,
-                                   final MapView mapView) {
+                                   final MapView mapView,
+                                   final ColorMap colorMap) {
         this.props = props;
         this.imageResourceProvider = imageResourceProvider;
         this.gameMap = gameMap;
         this.mapView = mapView;
+        this.colorMap = colorMap;
     }
 
     /**
@@ -98,8 +106,6 @@ public class MinefieldPreviewMapView {
      */
     public void markMine(final MinefieldDTO dto) {
         Minefield minefield = dto.getMinefield();
-
-        log.info("Mark mine");
 
         if (minefield.hasRoom()) {
             GridView gridView = mapView.getGridView(dto.getEvent());
@@ -154,8 +160,23 @@ public class MinefieldPreviewMapView {
      * @param handler The mouse click event handler.
      */
     private void highlightAndRegisterGrid(final GameGrid gameGrid, final EventHandler<? super MouseEvent> handler) {
-        mapView.setBackground(gameGrid);
+
+        Paint backgroundColor = gameMap.isLocationBase(gameGrid) ? getBaseColor(gameGrid) : Color.GRAY;
+
+        mapView.setBackground(gameGrid, backgroundColor);
         mapView.registerMouseClick(gameGrid, handler);
+    }
+
+    /**
+     * Get the color of a base.
+     *
+     * @param gameGrid The game grid.
+     * @return The color of the side.
+     */
+    private Paint getBaseColor(final GameGrid gameGrid) {
+        Side side = gameMap.getBaseSide(gameGrid);
+
+        return colorMap.getBaseColor(side);
     }
 
     /**

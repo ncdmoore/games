@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import lombok.Getter;
@@ -173,8 +174,9 @@ public class MapView {
      * Set the background for a grid.
      *
      * @param gameGrid The grid for which the background is set.
+     * @param color The color of the the new background.
      */
-        public void setBackground(final GameGrid gameGrid) {
+        public void setBackground(final GameGrid gameGrid, final Paint color) {
 
         Rectangle r = grid.get(gameGrid.getRow(), gameGrid.getColumn());
 
@@ -184,7 +186,7 @@ public class MapView {
         }
 
         r.setOpacity(BACKGROUND_OPACITY);
-        r.setFill(Color.GRAY);
+        r.setFill(color);
     }
 
     /**

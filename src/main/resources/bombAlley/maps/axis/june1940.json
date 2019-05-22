@@ -5,27 +5,28 @@
     "min": "4",
     "max": "0",
     "airfields": [
-      "Tobruk",
       "Derna",
       "Rhodes",
       "Scarpanto"
     ],
     "ports": [
-      "Tobruk", "Rhodes"
+      "Rhodes"
     ]
   },
   {
-    "name": "West Libya",
+    "name": "Libya",
     "nation": ["ITALIAN"],
     "min": "0",
     "max": "0",
     "airfields": [
       "Tripoli",
-      "Benghazi"
+      "Benghazi",
+      "Tobruk"
     ],
     "ports": [
       "Tripoli",
-      "Benghazi"
+      "Benghazi",
+      "Tobruk"
     ]
   },
   {
