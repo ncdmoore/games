@@ -8,8 +8,10 @@ import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +41,7 @@ public class TaskForcePreviewMapView {
 
     private Map<String, List<TargetMarker>> targetMap = new HashMap<>();
     private Map<String, TargetMarker> mapRefTargetMap = new HashMap<>();
+
 
     /**
      * Constructor called by guice.
@@ -200,6 +203,28 @@ public class TaskForcePreviewMapView {
     public void closePopup(final MouseEvent event) {
         VBox o = (VBox) event.getSource();
         mapView.remove(o);
+    }
+
+    /**
+     * Get the task force preview map legend.
+     *
+     * @return A grid pane that contains the task force preview map legend.
+     */
+    public Node getLegend() {
+        int gridSize = props.getInt("taskforce.previewMap.gridSize");
+
+        GridPane gridPane = new GridPane();
+        Node taskForceKey = TaskForceMarker.getLegend(0, 0, gridSize);
+        gridPane.add(taskForceKey, 0, 0);
+        gridPane.add(new Label("Task Force"), 1, 0);
+
+        Node targetKey = TargetMarker.getLegend(0, 0, gridSize / 2);
+        gridPane.add(targetKey, 0, 1);
+        gridPane.add(new Label("Task Force Target"), 1, 1);
+
+        gridPane.setId("map-legend-grid");
+
+        return gridPane;
     }
 
 }

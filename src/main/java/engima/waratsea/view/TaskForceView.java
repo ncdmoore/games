@@ -213,7 +213,7 @@ public class TaskForceView {
         taskForces.setMaxWidth(props.getInt("taskForce.list.width"));
         taskForces.setMinWidth(props.getInt("taskForce.list.width"));
 
-        VBox vBox = new VBox(taskForces, buildTaskForceStateDetails());
+        VBox vBox = new VBox(taskForces, buildTaskForceStateDetails(), buildLegend());
         vBox.setId("taskforce-vbox");
 
         return vBox;
@@ -261,6 +261,26 @@ public class TaskForceView {
         titledPane.setMaxWidth(props.getInt("taskForce.details.width"));
         titledPane.setMinWidth(props.getInt("taskForce.details.width"));
         titledPane.setId("taskforce-details-pane");
+
+        return titledPane;
+    }
+
+    /**
+     * Build the task force preview map legend.
+     *
+     * @return The node that contains the task force preview map legend.
+     */
+    private Node buildLegend() {
+
+        VBox vBox = new VBox(taskForceMap.getLegend());
+        vBox.setId("map-legend-vbox");
+
+        TitledPane titledPane = new TitledPane();
+        titledPane.setText("Map Legend");
+        titledPane.setContent(vBox);
+
+        titledPane.setMaxWidth(props.getInt("taskForce.details.width"));
+        titledPane.setMinWidth(props.getInt("taskForce.details.width"));
 
         return titledPane;
     }

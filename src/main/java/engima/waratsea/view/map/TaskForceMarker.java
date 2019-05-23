@@ -2,6 +2,7 @@ package engima.waratsea.view.map;
 
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TaskForceMarker {
 
-    private final double opacity = 0.5;
+    private static final double OPACITY = 0.5;
 
     private final GridView gridView;
     private final EventHandler<? super MouseEvent> eventHandler;
@@ -41,7 +42,7 @@ public class TaskForceMarker {
      */
     public void draw(final MapView map, final boolean active) {
         rectangle = new Rectangle(gridView.getX(), gridView.getY(), gridView.getSize(), gridView.getSize());
-        rectangle.setOpacity(opacity);
+        rectangle.setOpacity(OPACITY);
         rectangle.getStyleClass().add("taskforce-marker");
 
         setOnMouseClicked(eventHandler);
@@ -78,7 +79,7 @@ public class TaskForceMarker {
      * @param map The game map.
      **/
     public void clear(final MapView map) {
-        rectangle.setOpacity(opacity);
+        rectangle.setOpacity(OPACITY);
         popUp.hide(map);
     }
 
@@ -119,4 +120,19 @@ public class TaskForceMarker {
         return popUp.getY() > yThreshold;
     }
 
+    /**
+     * Get the map legend key. This is just a duplicate rectangle that is the same
+     * size and type as used for this marker. It is used in the map legend.
+     *
+     * @param x The x coordinate of the marker.
+     * @param y The y coordingate of the marker.
+     * @param size The size height and width of the marker.
+     * @return A marker legend key.
+     */
+    public static Node getLegend(final double x, final double y, final double size) {
+        Rectangle r = new Rectangle(x, y, size, size);
+        r.setOpacity(OPACITY);
+        r.getStyleClass().add("taskforce-marker");
+        return r;
+    }
 }

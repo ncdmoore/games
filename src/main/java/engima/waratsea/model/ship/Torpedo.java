@@ -67,4 +67,11 @@ public class Torpedo implements Component {
     public String getUnits() {
         return "";
     }
+
+    /**
+     * If the torpedo mount/tube is damaged then the mount/tube is completely knocked out.
+     */
+    public void damage() {
+        health = 0;
+    }
 }
