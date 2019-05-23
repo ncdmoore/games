@@ -80,6 +80,8 @@ public class MinefieldView {
 
         this.game = game;
 
+        minefieldMap.setSide(game.getHumanSide());
+
         flags.put(Side.ALLIES, "alliesFlag50x34.png");
         flags.put(Side.AXIS, "axisFlag50x34.png");
     }
@@ -104,7 +106,7 @@ public class MinefieldView {
         minefields.setMinWidth(props.getInt("minefield.list.width"));
         minefields.setMaxWidth(props.getInt("minefield.list.width"));
 
-        VBox minefieldVbox = new VBox(minefields, buildMinefieldDetails());
+        VBox minefieldVbox = new VBox(minefields, buildMinefieldDetails(), buildLegend());
         minefieldVbox.setId("minefield-vbox");
 
         Node map = minefieldMap.draw();
@@ -134,7 +136,7 @@ public class MinefieldView {
      */
     private Node buildObjectives() {
         Label objectiveLabel = new Label("Objectives: Place available mines in each minefield zone.");
-        ImageView alliesFlag = imageResourceProvider.getImageView(flags.get(game.getHumanPlayer().getSide()));
+        ImageView alliesFlag = imageResourceProvider.getImageView(flags.get(game.getHumanSide()));
 
         HBox hBox = new HBox(alliesFlag, objectiveLabel);
         hBox.setId("objectives-pane");
@@ -233,6 +235,26 @@ public class MinefieldView {
         titledPane.setMaxWidth(props.getInt("minefield.details.width"));
         titledPane.setMinWidth(props.getInt("minefield.details.width"));
         titledPane.setId("minefield-details-pane");
+
+        return titledPane;
+    }
+
+    /**
+     * Build the minefield preview map legend.
+     *
+     * @return The node that contains the minefield preview map legend.
+     */
+    private Node buildLegend() {
+
+        VBox vBox = new VBox(minefieldMap.getLegend());
+        vBox.setId("map-legend-vbox");
+
+        TitledPane titledPane = new TitledPane();
+        titledPane.setText("Map Legend");
+        titledPane.setContent(vBox);
+
+        titledPane.setMaxWidth(props.getInt("minefield.details.width"));
+        titledPane.setMinWidth(props.getInt("minefield.details.width"));
 
         return titledPane;
     }

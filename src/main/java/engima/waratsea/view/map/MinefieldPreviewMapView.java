@@ -12,11 +12,15 @@ import engima.waratsea.view.ViewProps;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Shape;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
@@ -33,6 +37,9 @@ public class MinefieldPreviewMapView {
     private GameMap gameMap;
     private MapView mapView;
     private ColorMap colorMap;
+
+    @Setter
+    private Side side;
 
     /**
      * Constructor called by guice.
@@ -143,6 +150,40 @@ public class MinefieldPreviewMapView {
     }
 
     /**
+     * Get the task force preview map legend.
+     *
+     * @return A grid pane that contains the task force preview map legend.
+     */
+    public Node getLegend() {
+        int gridSize = props.getInt("taskforce.previewMap.gridSize");
+
+        final double opacity = 0.6;
+
+        GridPane gridPane = new GridPane();
+        Node baseKey = MapView.getLegend(0, 0, gridSize);
+        ((Shape) baseKey).setFill(colorMap.getBaseColor(side));
+        baseKey.setOpacity(opacity);
+
+        Node mineZoneKey = MapView.getLegend(0, 0, gridSize);
+        ((Shape) mineZoneKey).setFill(Color.GRAY);
+        mineZoneKey.setOpacity(opacity);
+
+        gridPane.add(baseKey, 0, 0);
+        gridPane.add(new Label("Friendly Port (May Mine)"), 1, 0);
+
+        gridPane.add(mineZoneKey, 0, 1);
+        gridPane.add(new Label("Mine Zone (May Mine)"), 1, 1);
+
+        Node minefieldKey = MineMarker.getLegend(0, 0, gridSize / 2);
+        gridPane.add(minefieldKey, 0, 2);
+        gridPane.add(new Label("Minefield"), 1, 2);
+
+        gridPane.setId("map-legend-grid");
+
+        return gridPane;
+    }
+
+    /**
      * Highlight and register a map reference grid.
      *
      * @param mapRef The map reference of a game grid.
@@ -174,8 +215,6 @@ public class MinefieldPreviewMapView {
      * @return The color of the side.
      */
     private Paint getBaseColor(final GameGrid gameGrid) {
-        Side side = gameMap.getBaseSide(gameGrid);
-
         return colorMap.getBaseColor(side);
     }
 

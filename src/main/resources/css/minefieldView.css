@@ -56,6 +56,15 @@
     -fx-hgap: 10;
 }
 
+#map-legend-vbox {
+    -fx-background-color: whitesmoke;
+}
+
+#map-legend-grid {
+    -fx-hgap: 10;
+    -fx-vgap: 4;
+}
+
 #push-buttons  {
     -fx-spacing: 180;
     -fx-padding: /* top: */ 40 /* right: */ 0 /* bottom: */ 20 /* left: */ 450;

@@ -219,6 +219,23 @@ public class MapView {
     }
 
     /**
+     * Get the map's legend key. This is just a rectangle of the same size as the grid
+     * that can be used as a basis for map legend keys.
+     *
+     * @param x The key's x-coordinate.
+     * @param y The keys's y-coordinate.
+     * @param size The size of the key.
+     * @return The map legend key.
+     */
+    public static Node getLegend(final double x, final double y, final double size) {
+        Rectangle r = new Rectangle(x, y, size, size);
+        r.setStroke(Color.BLACK);
+        r.setFill(Color.TRANSPARENT);
+        r.setOpacity(GRID_OPACITY);
+        return r;
+    }
+
+    /**
      * Grid rectangle mouse over event registration.
      *
      * @param r rectangle.

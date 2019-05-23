@@ -2,6 +2,7 @@ package engima.waratsea.view.map;
 
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.presenter.dto.map.MinefieldDTO;
+import javafx.scene.Node;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import lombok.Getter;
@@ -62,6 +63,19 @@ public class MineMarker  {
         mapView.remove(circle);
     }
 
-
+    /**
+     * Get the map legend key. This is just a duplicate circle that is the same
+     * size and type as used for this marker. It is used in the map legend.
+     *
+     * @param x The marker's x coordinate.
+     * @param y The marker's y coordinate.
+     * @param radius The radius of the marker.
+     * @return The marker legend key.
+     */
+    public static Node getLegend(final double x, final double y, final double radius) {
+        Circle c = new Circle(x + radius, y + radius, radius);
+        c.getStyleClass().add("mine-marker");
+        return c;
+    }
 
 }
