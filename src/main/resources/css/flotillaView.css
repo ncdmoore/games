@@ -93,11 +93,11 @@
 }
 
 
-#minefield-details-vbox {
+#flotilla-details-vbox {
     -fx-background-color: whitesmoke;
 }
 
-#minefield-details-grid {
+#flotilla-details-grid {
     -fx-hgap: 10;
 }
 

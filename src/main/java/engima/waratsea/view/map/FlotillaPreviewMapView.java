@@ -15,8 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -131,26 +129,10 @@ public class FlotillaPreviewMapView {
     public Node getLegend() {
         int gridSize = props.getInt("taskforce.previewMap.gridSize");
 
-        final double opacity = 0.6;
-
         GridPane gridPane = new GridPane();
-        Node baseKey = MapView.getLegend(0, 0, gridSize);
-        ((Shape) baseKey).setFill(colorMap.getBaseColor(side));
-        baseKey.setOpacity(opacity);
-
-        Node mineZoneKey = MapView.getLegend(0, 0, gridSize);
-        ((Shape) mineZoneKey).setFill(Color.GRAY);
-        mineZoneKey.setOpacity(opacity);
-
-        gridPane.add(baseKey, 0, 0);
-        gridPane.add(new Label("Friendly Port (May Mine)"), 1, 0);
-
-        gridPane.add(mineZoneKey, 0, 1);
-        gridPane.add(new Label("Mine Zone (May Mine)"), 1, 1);
-
-        Node minefieldKey = MineMarker.getLegend(0, 0, gridSize / 2);
-        gridPane.add(minefieldKey, 0, 2);
-        gridPane.add(new Label("Minefield"), 1, 2);
+        Node taskForceKey = TaskForceMarker.getLegend(0, 0, gridSize);
+        gridPane.add(taskForceKey, 0, 0);
+        gridPane.add(new Label("Flotilla"), 1, 0);
 
         gridPane.setId("map-legend-grid");
 

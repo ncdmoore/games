@@ -6,10 +6,12 @@ import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.flotilla.data.FlotillaData;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.ship.ShipId;
 import engima.waratsea.model.ship.ShipyardException;
 import engima.waratsea.model.submarine.Submarine;
 import engima.waratsea.model.submarine.SubmarineDAO;
+import engima.waratsea.model.taskForce.TaskForceState;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +41,7 @@ public class Flotilla implements Asset, PersistentData<FlotillaData> {
     private String location; //This is always a map reference and never a name.
 
     private SubmarineDAO submarineDAO;
+    private GameMap gameMap;
 
     /**
      * Constructor called by guice.
@@ -46,16 +49,19 @@ public class Flotilla implements Asset, PersistentData<FlotillaData> {
      * @param side The side ALLIES or AXIS.
      * @param data The flotilla data read in from a JSON file.
      * @param submarineDAO Loads and saves persistent submarine data.
+     * @param gameMap The game map.
      */
     @Inject
     public Flotilla(@Assisted final Side side,
                     @Assisted final FlotillaData data,
-                              final SubmarineDAO submarineDAO) {
+                              final SubmarineDAO submarineDAO,
+                              final GameMap gameMap) {
         this.name = data.getName();
         this.location = data.getLocation();
         this.side = side;
 
         this.submarineDAO = submarineDAO;
+        this.gameMap = gameMap;
 
         buildSubs(data.getSubs());
     }
@@ -82,12 +88,39 @@ public class Flotilla implements Asset, PersistentData<FlotillaData> {
     }
 
     /**
+     * Determine if the flotilla is at a friendly port.
+     *
+     * @return True if the flotilla is currently located at a friendly port. False otherwise.
+     */
+    public boolean atFriendlyBase() {
+        return gameMap.isLocationBase(side, location);
+    }
+
+    /**
+     * Get the flotilla's location. Return a port if the flotilla is in a port.
+     *
+     * @return The flotilla's location. Mapped to a port name if the flotilla is in a port.
+     */
+    public String getMappedLocation() {
+        return gameMap.convertReferenceToName(location);
+    }
+
+    /**
      * Flotilla's are always active.
      *
      * @return True.
      */
     public boolean isActive() {
         return true;
+    }
+
+    /**
+     * Get the flotilla's state.
+     *
+     * @return Active. Flotilla's are always active.
+     */
+    public TaskForceState getState() {
+        return TaskForceState.ACTIVE;
     }
 
     /**

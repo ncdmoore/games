@@ -14,11 +14,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Getter;
 
@@ -41,6 +44,9 @@ public class FlotillaView {
 
     @Getter
     private ChoiceBox<Flotilla> flotillas = new ChoiceBox<>();
+
+    private Label stateValue = new Label();
+    private Label locationValue = new Label();
 
     @Getter
     private Button continueButton = new Button("Continue");
@@ -150,6 +156,12 @@ public class FlotillaView {
      */
     public void setSelectedFlotilla(final Flotilla flotilla) {
         flotillaMap.selectMarker(flotilla.getName());
+
+        stateValue.setText(flotilla.getState().toString());
+
+        String prefix = flotilla.atFriendlyBase() ? "At port " : "At sea zone ";
+
+        locationValue.setText(prefix + flotilla.getMappedLocation());
     }
 
     /**
@@ -159,6 +171,7 @@ public class FlotillaView {
     public void closePopup(final MouseEvent event) {
         flotillaMap.closePopup(event);
     }
+
     /**
      * Build the selected scenario objective's text.
      *
@@ -184,10 +197,60 @@ public class FlotillaView {
         flotillas.setMaxWidth(props.getInt("taskForce.list.width"));
         flotillas.setMinWidth(props.getInt("taskForce.list.width"));
 
-        VBox vBox = new VBox(flotillas/*, buildTaskForceStateDetails(), buildLegend()*/);
+        VBox vBox = new VBox(flotillas, buildFlotillaDetails(), buildLegend());
         vBox.setId("flotilla-vbox");
 
         return vBox;
+    }
+    /**
+     * Build the flotilla details.
+     *
+     * @return A node containing the flotilla details.
+     */
+    private Node buildFlotillaDetails() {
+
+        Text stateLabel = new Text("State:");
+        Text locationLabel = new Text("Location:");
+
+        GridPane gridPane = new GridPane();
+        gridPane.setId("flotilla-details-grid");
+        gridPane.add(stateLabel, 0, 0);
+        gridPane.add(stateValue, 1, 0);
+        gridPane.add(locationLabel, 0, 1);
+        gridPane.add(locationValue, 1, 1);
+
+        VBox vBox = new VBox(gridPane);
+        vBox.setId("flotilla-details-vbox");
+
+        TitledPane titledPane = new TitledPane();
+        titledPane.setText("Flotilla Details");
+        titledPane.setContent(vBox);
+
+        titledPane.setMaxWidth(props.getInt("taskForce.details.width"));
+        titledPane.setMinWidth(props.getInt("taskForce.details.width"));
+        titledPane.setId("flotilla-details-pane");
+
+        return titledPane;
+    }
+
+    /**
+     * Build the task force preview map legend.
+     *
+     * @return The node that contains the task force preview map legend.
+     */
+    private Node buildLegend() {
+
+        VBox vBox = new VBox(flotillaMap.getLegend());
+        vBox.setId("map-legend-vbox");
+
+        TitledPane titledPane = new TitledPane();
+        titledPane.setText("Map Legend");
+        titledPane.setContent(vBox);
+
+        titledPane.setMaxWidth(props.getInt("taskForce.details.width"));
+        titledPane.setMinWidth(props.getInt("taskForce.details.width"));
+
+        return titledPane;
     }
 
     /**
