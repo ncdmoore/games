@@ -383,6 +383,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/asset/Asset.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/Airbase.java">
           <value>
             <set />
@@ -509,6 +514,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Asset.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/AssetType.java">
           <value>
             <set />
           </value>

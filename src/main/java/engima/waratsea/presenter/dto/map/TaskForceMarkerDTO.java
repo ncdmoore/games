@@ -1,8 +1,8 @@
 package engima.waratsea.presenter.dto.map;
 
-import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.map.GameGrid;
-import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import javafx.event.EventHandler;
@@ -16,6 +16,9 @@ import lombok.Setter;
 public class TaskForceMarkerDTO implements PopUpDTO {
 
     @Getter
+    private final Asset asset;
+
+    @Getter
     private final String mapReference;
 
     @Getter
@@ -26,11 +29,11 @@ public class TaskForceMarkerDTO implements PopUpDTO {
 
     @Getter
     @Setter
-    private  EventHandler<? super MouseEvent> markerEventHandler;
+    private EventHandler<? super MouseEvent> markerEventHandler;
 
     @Getter
     @Setter
-    private  EventHandler<? super MouseEvent> popupEventHandler;
+    private EventHandler<? super MouseEvent> popupEventHandler;
 
     @Getter
     private GameGrid grid;
@@ -48,16 +51,21 @@ public class TaskForceMarkerDTO implements PopUpDTO {
 
     /**
      * Construct the task force marker DTO.
-     * @param taskForce The task force model.
+     *
+     * @param asset The game asset model.
      */
-    public TaskForceMarkerDTO(final TaskForce taskForce) {
-        mapReference = taskForce.getLocation();
-        name = taskForce.getName();
-        active = taskForce.isActive();
+    public TaskForceMarkerDTO(final Asset asset) {
+        this.asset = asset;
+        this.mapReference = asset.getLocation();
+        this.name = asset.getName();
+        this.active = asset.isActive();
     }
+
+
 
     /**
      * Set the game map which allows the grid to be determined from the task force's map reference.
+     *
      * @param gameMap The game map.
      */
     public void setGameMap(final GameMap gameMap) {
@@ -66,6 +74,7 @@ public class TaskForceMarkerDTO implements PopUpDTO {
 
     /**
      * Set the map view which allows the grid view to be determined from the task force's grid location.
+     *
      * @param mapView The map view.
      */
     public void setMapView(final MapView mapView) {
@@ -74,6 +83,7 @@ public class TaskForceMarkerDTO implements PopUpDTO {
 
     /**
      * Get the related popup text.
+     *
      * @return The task force name is placed in the popup.
      */
     public String getText() {

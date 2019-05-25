@@ -5,10 +5,15 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.flotilla.Flotilla;
 import engima.waratsea.model.game.Game;
+import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.view.FlotillaView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 /**
  * This class is the presenter for the flotilla summary view. The flotilla summary gives the player an overview
@@ -58,6 +63,8 @@ public class FlotillaPresenter implements Presenter {
 
         view.show(stage, game.getScenario());
 
+        markFlotillas();
+
         view.getContinueButton().setOnAction(event -> continueButton());
         view.getBackButton().setOnAction(event -> backButton());
 
@@ -65,11 +72,33 @@ public class FlotillaPresenter implements Presenter {
     }
 
     /**
-     * Set the human player's minefields.
+     * Set the human player's flotillas.
      */
     private void setFlotillas() {
         view.setFlotillas(game.getHumanPlayer().getFlotillas());
-        view.getFlotillas().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> selectFlotilla(newValue));
+        view.getFlotillas().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> flotillaSelected(newValue));
+    }
+
+    /**
+     * Mark the flotillas on the preview map.
+     */
+    private void markFlotillas() {
+        game
+                .getHumanPlayer()
+                .getFlotillas()
+                .forEach(this::markFlotilla);
+    }
+
+    /**
+     * Mark the given flotilla on the preview map.
+     *
+     * @param flotilla The selected flotilla.
+     */
+    private void markFlotilla(final Flotilla flotilla) {
+        TaskForceMarkerDTO dto = new TaskForceMarkerDTO(flotilla);
+        dto.setMarkerEventHandler(this::showPopup);
+        dto.setPopupEventHandler(this::closePopup);
+        view.markFlotillaOnMap(dto);
     }
 
     /**
@@ -77,8 +106,50 @@ public class FlotillaPresenter implements Presenter {
      *
      * @param flotilla The selected flotilla.
      */
-    private void selectFlotilla(final Flotilla flotilla) {
+    private void flotillaSelected(final Flotilla flotilla) {
+        clearAllFlotillas();
+
         selectedFlotilla = flotilla;
+
+        view.setSelectedFlotilla(flotilla);
+    }
+
+    /**
+     * Clear all the task force selections.
+     */
+    private void clearAllFlotillas() {
+        game.getHumanPlayer().getFlotillas()
+                .forEach(taskForce -> view.clearFlotilla(taskForce));
+    }
+
+    /**
+     * Show the flotilla's popup.
+     *
+     * @param event The mouse event click on the flotilla marker.
+     */
+    @SuppressWarnings("unchecked")
+    private void showPopup(final MouseEvent event) {
+        Shape shape = (Shape) event.getSource();
+        List<Flotilla> selected = (List<Flotilla>) shape.getUserData();
+
+        Flotilla flotilla = selected.get(0);
+
+        // Notify view that the flotilla has been selected.
+        // This keeps the view list in sync with the grid clicks.
+        view.getFlotillas().getSelectionModel().select(flotilla);
+
+        // Select the flotilla. This is needed for clicks that don't change the
+        // flotilla, but redisplay the popup.
+        flotillaSelected(flotilla);
+    }
+
+    /**
+     * Hide the flotilla's popup.
+     *
+     * @param event The mouse event click on the popup.
+     */
+    private void closePopup(final MouseEvent event) {
+        view.closePopup(event);
     }
 
     /**

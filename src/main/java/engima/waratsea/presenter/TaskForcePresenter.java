@@ -19,13 +19,13 @@ import engima.waratsea.view.TaskForceView;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 /**
@@ -208,18 +208,10 @@ public class TaskForcePresenter implements Presenter {
      *
      * @param event Mouse event.
      */
+    @SuppressWarnings("unchecked")
     private void showTaskForcePopup(final MouseEvent event) {
-        Object o = event.getSource();
-
-        List<String> names = view.getTaskForceFromMarker(o).stream().sorted().collect(Collectors.toList());
-
-        log.info("clicked on {}", names.stream().sorted().collect(Collectors.joining(",")));
-
-        List<TaskForce> taskForces = game.getHumanPlayer().getTaskForces();
-
-        List<TaskForce> selected = taskForces.stream()
-                .filter(taskForce -> names.contains(taskForce.getName()))
-                .collect(Collectors.toList());
+        Shape shape = (Shape) event.getSource();
+        List<TaskForce> selected = (List<TaskForce>) shape.getUserData();
 
         int index = selectTheNextTaskForce(selected);
 

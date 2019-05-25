@@ -48,6 +48,51 @@
     -fx-spacing: 30;
 }
 
+
+.taskforce-marker {
+    -fx-fill: linear-gradient( to right bottom, silver, black);
+}
+
+.target-marker {
+    -fx-fill: radial-gradient(center 50% 50%, radius 60%, white, red, black);
+}
+
+.popup-mapRef {
+    -fx-padding: 0 10 0 10;
+    -fx-spacing: 5;
+    //-fx-background-color: linear-gradient( to left bottom, indianred, white, lightgreen);
+    //-fx-background-color: linear-gradient( to left bottom, tomato, white, steelblue);
+    -fx-background-color: linear-gradient( to right bottom, white, silver);
+    -fx-border-color: black;
+    -fx-border-width: 0.5;
+    -fx-effect:  dropshadow(one-pass-box, black, 8, 0.0 , 2, 0);
+}
+
+.popup-mapRef-text {
+    -fx-font: normal 8pt "Lucida Grande";
+    -fx-fill: black;
+}
+
+.popup-taskforce {
+    -fx-padding: 10 10 10 10;
+    -fx-spacing: 5;
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, white 0%, khaki 100%);
+    -fx-border-color: black;
+    -fx-border-width: 0.5;
+    -fx-effect:  dropshadow(one-pass-box, black, 8, 0.0 , 2, 0);
+}
+
+
+.popup-text {
+    -fx-font: normal 8pt "Lucida Grande";
+}
+
+.popup-text-inactive {
+    -fx-font: normal 8pt "Lucida Grande";
+    -fx-text-fill: red;
+}
+
+
 #minefield-details-vbox {
     -fx-background-color: whitesmoke;
 }

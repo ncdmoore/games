@@ -2,7 +2,7 @@ package enigma.waratsea.model.taskForce;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import engima.waratsea.model.game.Asset;
+import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventAction;
 import engima.waratsea.model.game.event.ship.data.ShipMatchData;
@@ -145,7 +145,7 @@ public class TaskForceTest {
         ShipEvent event = new ShipEvent();
         event.setShip(ship);
         event.setAction(ShipEventAction.SPOTTED);
-        event.setBy(Asset.AIRCRAFT);
+        event.setBy(AssetType.AIRCRAFT);
 
         data.setReleaseShipEvents(releaseEvents);
 
@@ -182,7 +182,7 @@ public class TaskForceTest {
         ShipEvent event = new ShipEvent();
         event.setShip(ship);
         event.setAction(ShipEventAction.SPOTTED);
-        event.setBy(Asset.SUB);
+        event.setBy(AssetType.SUB);
 
         data.setReleaseShipEvents(releaseEvents);
 

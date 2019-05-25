@@ -1,7 +1,7 @@
 package engima.waratsea.model.game.event.airfield;
 
 import engima.waratsea.model.base.airfield.Airfield;
-import engima.waratsea.model.game.Asset;
+import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.event.GameEvent;
 import engima.waratsea.model.game.event.GameEventHandler;
 import lombok.Getter;
@@ -66,7 +66,7 @@ public class AirfieldEvent extends GameEvent {
 
     @Getter
     @Setter
-    private Asset by;                       // The game asset ship, sub or aircraft that caused the event. The asset that did the event. Not all events have a by.
+    private AssetType by;                       // The game asset ship, sub or aircraft that caused the event. The asset that did the event. Not all events have a by.
 
     /**
      * This is how an event is fired and all the event handlers receive

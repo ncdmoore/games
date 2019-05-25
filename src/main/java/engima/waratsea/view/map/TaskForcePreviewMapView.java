@@ -87,7 +87,7 @@ public class TaskForcePreviewMapView {
 
         if (mapRefMarkerMap.containsKey(dto.getMapReference())) {                                                       //Check if this grid already has a marker.
             TaskForceMarker existingMarker = mapRefMarkerMap.get(dto.getMapReference());
-            existingMarker.addText(dto.getText(), dto.isActive());                                                      //Add this task force's name to the existing marker.
+            existingMarker.addText(dto);                                                                                //Add this task force's name to the existing marker.
             markerMap.put(dto.getName(), existingMarker);                                                               //Index this task force's name to the existing marker.
         } else {
             TaskForceMarker marker = new TaskForceMarker(dto);                                                          //Create a new marker.

@@ -1,6 +1,6 @@
 package engima.waratsea.model.game.event.airfield.data;
 
-import engima.waratsea.model.game.Asset;
+import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.Side;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,5 +27,5 @@ public class AirfieldMatchData {
 
     @Getter
     @Setter
-    private Asset by;          // The game asset ship, sub or aircraft that caused the event. The asset that did the event. Not all events have a by.
+    private AssetType by;          // The game asset ship, sub or aircraft that caused the event. The asset that did the event. Not all events have a by.
 }

@@ -3,6 +3,7 @@ package engima.waratsea.model.flotilla;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
+import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.flotilla.data.FlotillaData;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ship.ShipId;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
  * Represents a flotilla.
  */
 @Slf4j
-public class Flotilla implements PersistentData<FlotillaData> {
+public class Flotilla implements Asset, PersistentData<FlotillaData> {
     @Getter
     @Setter
     private String name;
@@ -78,6 +79,15 @@ public class Flotilla implements PersistentData<FlotillaData> {
         data.setLocation(location);
         data.setSubs(getSubNames(subs));
         return data;
+    }
+
+    /**
+     * Flotilla's are always active.
+     *
+     * @return True.
+     */
+    public boolean isActive() {
+        return true;
     }
 
     /**

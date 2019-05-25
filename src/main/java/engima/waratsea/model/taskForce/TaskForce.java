@@ -3,6 +3,7 @@ package engima.waratsea.model.taskForce;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
+import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEvent;
@@ -39,7 +40,7 @@ import java.util.stream.Stream;
  * This class represents a task force, which is a collection of ships.
  */
 @Slf4j
-public class TaskForce implements PersistentData<TaskForceData> {
+public class TaskForce implements Asset, PersistentData<TaskForceData> {
     private final Side side;
 
     @Getter

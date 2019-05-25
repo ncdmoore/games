@@ -2,7 +2,7 @@ package enigma.waratsea.model.game.event;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import engima.waratsea.model.game.Asset;
+import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEvent;
@@ -72,7 +72,7 @@ public class ShipEventTest {
         ShipEvent event = new ShipEvent();
         event.setShip(ship);
         event.setAction(ShipEventAction.SPOTTED);
-        event.setBy(Asset.AIRCRAFT);
+        event.setBy(AssetType.AIRCRAFT);
 
         ShipMatchData data = new ShipMatchData();
         data.setAction(ShipEventAction.SPOTTED.toString());

@@ -1,11 +1,15 @@
 package engima.waratsea.view.map;
 
+import engima.waratsea.model.asset.Asset;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The class represents a marker on a map.
@@ -21,12 +25,16 @@ public class TaskForceMarker {
 
     private Rectangle rectangle;
 
+    private List<Asset> assets;
+
     /**
      * Construct a marker.
      *
      * @param dto All the data needed to create a marker.
      */
     public TaskForceMarker(final TaskForceMarkerDTO dto) {
+        this.assets = new ArrayList<>();
+        this.assets.add(dto.getAsset());
         this.gridView = dto.getGridView();
         this.eventHandler = dto.getMarkerEventHandler();
         dto.setStyle("popup-taskforce");
@@ -45,6 +53,8 @@ public class TaskForceMarker {
         rectangle.setOpacity(OPACITY);
         rectangle.getStyleClass().add("taskforce-marker");
 
+        rectangle.setUserData(assets);
+
         setOnMouseClicked(eventHandler);
 
         map.add(rectangle);
@@ -55,11 +65,13 @@ public class TaskForceMarker {
     /**
      * Add text to the marker's corresponding popup.
      *
-     * @param name The text to add.
-     * @param active Indicates if the name is active or inactive.
+     * @param dto All the data needed to create a marker.
      */
-    public void addText(final String name, final boolean active) {
-        popUp.addText(name, active);
+    public void addText(final TaskForceMarkerDTO dto) {
+        Asset asset = dto.getAsset();
+
+        assets.add(asset);
+        popUp.addText(dto.getName(), dto.isActive());
     }
 
     /**

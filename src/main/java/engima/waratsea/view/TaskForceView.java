@@ -349,6 +349,7 @@ public class TaskForceView {
     public void setSelectedTaskForce(final TaskForce taskForce) {
         String name = taskForce.getName();
         taskForceMap.selectMarker(name);
+
         stateValue.setText(taskForce.getState().toString());
         setStateColor(taskForce);
         missionValue.setText(taskForce.getMission().toString());

@@ -3,7 +3,7 @@ package engima.waratsea.model.game.event.airfield;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
-import engima.waratsea.model.game.Asset;
+import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.airfield.data.AirfieldMatchData;
 import lombok.Getter;
@@ -34,7 +34,7 @@ public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
     private final int value;
 
     @Getter
-    private final Asset by;  // The asset Ship, Aircraft, etc to match that performed the event.
+    private final AssetType by;  // The asset Ship, Aircraft, etc to match that performed the event.
 
 
     /**
@@ -115,7 +115,7 @@ public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
      * @param eventBy The asset that caused the event to fire.
      * @return True if the asset that caused the event to fire is matched. False otherwise.
      */
-    private boolean isByEqual(final Asset eventBy) {
+    private boolean isByEqual(final AssetType eventBy) {
         return by == null                                                                                               // If the by asset is not specified then it does not matter.
                 || by.equals(eventBy);
     }

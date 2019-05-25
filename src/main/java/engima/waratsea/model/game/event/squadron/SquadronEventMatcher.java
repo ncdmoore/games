@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.aircraft.AircraftType;
-import engima.waratsea.model.game.Asset;
+import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.squadron.data.SquadronMatchData;
 import engima.waratsea.model.map.GameMap;
@@ -50,7 +50,7 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
     private final List<String> locations; // A list of locations to match. This is the location where the event occurred.
 
     @Getter
-    private final Asset by;    // The game asset Ship, aircraft or sub that caused the event to fire. The asset that did the event.
+    private final AssetType by;    // The game asset Ship, aircraft or sub that caused the event to fire. The asset that did the event.
 
     private GameMap gameMap;
 
@@ -273,7 +273,7 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
      * @param eventBy The asset that caused the event to fire.
      * @return True if the asset that caused the event to fire is matched. False otherwise.
      */
-    private boolean isByEqual(final Asset eventBy) {
+    private boolean isByEqual(final AssetType eventBy) {
         return by == null                                                                                               // If the by asset is not specified then it does not matter.
                 || by.equals(eventBy);
     }

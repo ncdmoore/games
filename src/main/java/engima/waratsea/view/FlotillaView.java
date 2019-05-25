@@ -5,6 +5,7 @@ import engima.waratsea.model.flotilla.Flotilla;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.map.FlotillaPreviewMapView;
@@ -14,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -122,6 +124,41 @@ public class FlotillaView {
         flotillas.getItems().addAll(fields);
     }
 
+    /**
+     * Clear the selected flotilla marker.
+     *
+     * @param flotilla the flotilla whose marker is cleared.
+     */
+    public void clearFlotilla(final Flotilla flotilla) {
+        String name = flotilla.getName();
+        flotillaMap.clearMarker(name);
+    }
+    /**
+     * Mark the flotilla on the preview map.
+     *
+     * @param dto Asset marker data transfer object.
+     */
+    public void markFlotillaOnMap(final TaskForceMarkerDTO dto) {
+        dto.setXOffset(props.getInt("taskforce.previewMap.popup.xOffset"));
+        flotillaMap.markFlotilla(dto);
+    }
+
+    /**
+     * Set the selected flotilla.
+     *
+     * @param flotilla The selected flotilla
+     */
+    public void setSelectedFlotilla(final Flotilla flotilla) {
+        flotillaMap.selectMarker(flotilla.getName());
+    }
+
+    /**
+     * Close the popup.
+     * @param event the mouse event.
+     */
+    public void closePopup(final MouseEvent event) {
+        flotillaMap.closePopup(event);
+    }
     /**
      * Build the selected scenario objective's text.
      *
