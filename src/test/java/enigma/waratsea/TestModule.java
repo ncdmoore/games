@@ -12,6 +12,10 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.base.port.PortFactory;
+import engima.waratsea.model.flotilla.Flotilla;
+import engima.waratsea.model.flotilla.FlotillaFactory;
+import engima.waratsea.model.flotilla.deployment.FlotillaDeployment;
+import engima.waratsea.model.flotilla.deployment.FlotillaDeploymentFactory;
 import engima.waratsea.model.game.event.airfield.AirfieldEvent;
 import engima.waratsea.model.game.event.airfield.AirfieldEventMatcher;
 import engima.waratsea.model.game.event.airfield.AirfieldEventMatcherFactory;
@@ -44,6 +48,8 @@ import engima.waratsea.model.squadron.allotment.AllotmentTable;
 import engima.waratsea.model.squadron.allotment.AllotmentTableFactory;
 import engima.waratsea.model.squadron.deployment.SquadronDeployment;
 import engima.waratsea.model.squadron.deployment.SquadronDeploymentFactory;
+import engima.waratsea.model.submarine.Submarine;
+import engima.waratsea.model.submarine.SubmarineFactory;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.target.TargetFactory;
 import engima.waratsea.model.taskForce.TaskForce;
@@ -74,6 +80,11 @@ public class TestModule extends AbstractModule {
                 .implement(Ship.class, Names.named("surface"), SurfaceShip.class)
                 .build(ShipFactory.class));
 
+        install(new FactoryModuleBuilder().implement(Flotilla.class, Flotilla.class).build(FlotillaFactory.class));
+        install(new FactoryModuleBuilder().implement(FlotillaDeployment.class, FlotillaDeployment.class).build(FlotillaDeploymentFactory.class));
+
+        install(new FactoryModuleBuilder().implement(Submarine.class, Submarine.class).build(SubmarineFactory.class));
+
         install(new FactoryModuleBuilder().implement(Allotment.class, Allotment.class).build(AllotmentFactory.class));
         install(new FactoryModuleBuilder().implement(AllotmentTable.class, AllotmentTable.class).build(AllotmentTableFactory.class));
 
@@ -101,6 +112,7 @@ public class TestModule extends AbstractModule {
         install(new FactoryModuleBuilder()
                 .implement(new TypeLiteral<VictoryCondition<AirfieldEvent, AirfieldVictoryData>>() { }, Names.named("airfield"), AirfieldVictory.class)
                 .build(new TypeLiteral<AirfieldVictoryFactory<AirfieldEvent, AirfieldVictoryData>>() { }));
+
 
         install(new FactoryModuleBuilder().implement(Airfield.class, Airfield.class).build(AirfieldFactory.class));
         install(new FactoryModuleBuilder().implement(Port.class, Port.class).build(PortFactory.class));

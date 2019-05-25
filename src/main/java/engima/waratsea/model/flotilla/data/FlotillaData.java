@@ -15,5 +15,9 @@ public class FlotillaData {
 
     @Getter
     @Setter
-    private List<String> members;
+    private String location;
+
+    @Getter
+    @Setter
+    private List<String> subs;
 }

@@ -208,8 +208,10 @@ public class Game {
 
     /**
      * Deploy the computer player's assets.
+     *
+     * @throws ScenarioException Indicates the task forces could not be loaded.
      */
-    private void deployAssets() {
+    private void deployAssets() throws ScenarioException {
         humanPlayer.deployAssets(scenario);
         computerPlayer.deployAssets(scenario);
     }

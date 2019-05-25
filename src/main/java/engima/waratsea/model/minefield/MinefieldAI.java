@@ -1,6 +1,7 @@
 package engima.waratsea.model.minefield;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.minefield.deployment.MinefieldDeployment;
 import engima.waratsea.model.minefield.deployment.MinefieldDeploymentDAO;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
  * This is the minefield AI class. It deploy's minefields for the computer player.
  */
 @Slf4j
+@Singleton
 public class MinefieldAI {
 
     private static final Random SELECT = new Random();
@@ -58,6 +60,7 @@ public class MinefieldAI {
                     for (int i = 0; i < minefield.getNumber(); i++) {
                         String grid = selectGrid(possibleGrids);
                         minefield.addMine(grid);
+                        possibleGrids.remove(grid);
                     }
                 } else {
                     log.error("No deployment found for minefield: {}", minefield.getZoneName());

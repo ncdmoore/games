@@ -8,14 +8,15 @@
     "maxHealth": 2
   },
   "torpedo": {
-    "maxHealth": 2
+    "maxHealth": 1,
+    "maxNumber": 1
   },
   "asw": {
     "capable": true
   },
   "movement": {
-    "maxEven": 2,
-    "maxOdd": 1
+    "maxEven": 3,
+    "maxOdd": 2
   },
   "hull": {
     "armour": "NONE",

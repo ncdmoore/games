@@ -13,7 +13,8 @@
     "maxHealth": 1
   },
   "torpedo": {
-    "maxHealth": 2
+    "maxHealth": 2,
+    "maxNumber": 1
   },
   "movement": {
     "maxEven": 4,

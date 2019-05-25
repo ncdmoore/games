@@ -5,6 +5,8 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.port.Port;
+import engima.waratsea.model.flotilla.Flotilla;
+import engima.waratsea.model.flotilla.deployment.FlotillaDeployment;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.model.minefield.deployment.MinefieldDeployment;
@@ -43,6 +45,10 @@ public final class Config {
     static {
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     TaskForce.class.getSimpleName(),             "/taskforce/alliesTaskForces.json");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       TaskForce.class.getSimpleName(),             "/taskforce/axisTaskForces.json");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Flotilla.class.getSimpleName(),              "/flotilla/alliesFlotilla.json");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Flotilla.class.getSimpleName(),              "/flotilla/axisFlotilla.json");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     FlotillaDeployment.class.getSimpleName(),    "/flotilla/deployment/alliesFlotilla.json/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       FlotillaDeployment.class.getSimpleName(),    "/flotilla/deployment/axisFlotilla.json/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Victory.class.getSimpleName(),               "/victory/alliesVictory.json");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Victory.class.getSimpleName(),               "/victory/axisVictory.json");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Aircraft.class.getSimpleName(),              "/aircraft/allies/");
@@ -79,7 +85,6 @@ public final class Config {
     static {
         DEFAULT_FILE_MAP.put(Side.ALLIES.toString(), Victory.class.getSimpleName(), "victory/allies");
         DEFAULT_FILE_MAP.put(Side.AXIS.toString(),   Victory.class.getSimpleName(), "victory/axis");
-
     }
 
     private static final String DEFAULT_SAVED_GAME = "/defaultGame";

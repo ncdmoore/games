@@ -3,6 +3,7 @@ package engima.waratsea.model.minefield.deployment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.minefield.deployment.data.DeploymentData;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
  * Represents the minefield deployment data abstraction object.
  */
 @Slf4j
+@Singleton
 public class MinefieldDeploymentDAO {
     private Config config;
 

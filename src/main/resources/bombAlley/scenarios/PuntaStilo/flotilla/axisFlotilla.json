@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Flotilla-1",
+    "subs": [
+      "SM1",
+      "SM2"
+    ]
+  },
+  {
+    "name": "Flotilla-2",
+    "subs": [
+      "SM3",
+      "SM4"
+    ]
+  },
+  {
+    "name": "Flotilla-3",
+    "subs": [
+      "SM5",
+      "SM6"
+    ]
+  },
+  {
+    "name": "Flotilla-4",
+    "subs": [
+      "SM7",
+      "SM8"
+    ]
+  },
+  {
+    "name": "Flotilla-5",
+    "subs": [
+      "SM9",
+      "SM10"
+    ]
+  },
+  {
+    "name": "Flotilla-6",
+    "subs": [
+      "SM11",
+      "SM12"
+    ]
+  }
+]

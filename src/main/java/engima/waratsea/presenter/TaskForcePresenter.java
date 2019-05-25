@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * This class is the presenter for the task for summary view. The task force summary gives the player an overview
+ * This class is the presenter for the task force summary view. The task force summary gives the player an overview
  * of all task forces before the game is started.
  */
 @Slf4j

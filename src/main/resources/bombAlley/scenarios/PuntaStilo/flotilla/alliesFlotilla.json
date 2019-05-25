@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Flotilla-1",
+    "subs": [
+      "T1",
+      "T2"
+    ]
+  },
+  {
+    "name": "Flotilla-2",
+    "subs": [
+      "T3",
+      "T4"
+    ]
+  },
+  {
+    "name": "Flotilla-3",
+    "subs": [
+      "T5",
+      "T6"
+    ]
+  }
+]

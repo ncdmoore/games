@@ -15,11 +15,18 @@ public class TorpedoData {
     @Setter
     private int health;
 
+    @Getter
+    @Setter
+    private int maxNumber;
+
+    @Getter
+    @Setter
+    private int number;
+
     /**
      * The default constructor.
      */
     public TorpedoData() {
         maxHealth = 0;
-        health = 0;
     }
 }

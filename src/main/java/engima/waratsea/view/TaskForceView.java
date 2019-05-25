@@ -42,7 +42,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -57,7 +56,6 @@ import java.util.stream.Collectors;
 /**
  * Represents the task forces summary view.
  */
-@Slf4j
 public class TaskForceView {
     private static final String CSS_FILE = "taskForceView.css";
 

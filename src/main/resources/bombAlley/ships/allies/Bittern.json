@@ -7,9 +7,6 @@
     "armour": "NONE",
     "maxHealth": 1
   },
-  "torpedo": {
-    "maxHealth": 1
-  },
   "asw": {
     "capable": true
   },
@@ -22,8 +19,8 @@
     "capacity": 144
   },
   "movement": {
-    "maxEven": 3,
-    "maxOdd": 2
+    "maxEven": 2,
+    "maxOdd": 1
   },
   "victoryPoints": 3
 }

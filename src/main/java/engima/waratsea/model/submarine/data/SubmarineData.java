@@ -1,6 +1,10 @@
 package engima.waratsea.model.submarine.data;
 
-import engima.waratsea.model.ship.Torpedo;
+import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.ship.ShipId;
+import engima.waratsea.model.ship.ShipType;
+import engima.waratsea.model.ship.data.MovementData;
+import engima.waratsea.model.ship.data.TorpedoData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,9 +14,30 @@ import lombok.Setter;
 public class SubmarineData {
     @Getter
     @Setter
-    private String name;
+    private ShipId shipId;
 
     @Getter
     @Setter
-    private Torpedo torpedo;
+    private ShipType type;
+
+    @Getter
+    @Setter
+    private String shipClass;
+
+    @Getter
+    @Setter
+    private Nation nationality;
+
+    @Getter
+    @Setter
+    private TorpedoData torpedo;
+
+    @Getter
+    @Setter
+    private MovementData movement;
+
+    @Getter
+    @Setter
+    private int victoryPoints;
+
 }

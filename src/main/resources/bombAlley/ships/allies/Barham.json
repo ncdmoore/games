@@ -21,9 +21,6 @@
     "armour": "NONE",
     "maxHealth": 4
   },
-  "torpedo": {
-    "maxHealth": 1
-  },
   "hull": {
     "armour": "HEAVY",
     "maxHealth" : 14,

@@ -4,7 +4,6 @@ import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.presenter.dto.map.MinefieldDTO;
 import javafx.scene.Node;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import lombok.Getter;
 
 
@@ -12,14 +11,10 @@ import lombok.Getter;
  * A mine marker on a map.
  */
 public class MineMarker  {
-    private static final double OPACITY = 1.0;
-
     private final MapView mapView;
 
     @Getter
     private GridView gridView;
-
-    private Rectangle rectangle;
 
     private Circle circle;
 

@@ -11,7 +11,8 @@
     "maxHealth": 1
   },
   "torpedo": {
-    "maxHealth": 1
+    "maxHealth": 1,
+    "maxNumber": 1
   },
   "asw": {
     "capable": true

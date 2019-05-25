@@ -5,6 +5,9 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldDAO;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.base.port.PortDAO;
+import engima.waratsea.model.flotilla.Flotilla;
+import engima.waratsea.model.flotilla.FlotillaAI;
+import engima.waratsea.model.flotilla.FlotillaDAO;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
@@ -34,11 +37,13 @@ public class ComputerPlayer implements Player {
 
     private GameMap gameMap;
     private TaskForceDAO taskForceDAO;
+    private FlotillaDAO flotillaDAO;
     private AirfieldDAO airfieldDAO;
     private PortDAO portDAO;
     private SquadronDAO aviationPlant;
     private MinefieldDAO minefieldDAO;
 
+    private FlotillaAI flotillaAI;
     private SquadronAI squadronAI;
     private MinefieldAI minefieldAI;
 
@@ -51,6 +56,9 @@ public class ComputerPlayer implements Player {
 
     @Getter
     private List<TaskForce> taskForces;
+
+    @Getter
+    private List<Flotilla> flotillas;
 
     private Map<Nation, List<Squadron>> squadrons = new HashMap<>();
 
@@ -68,10 +76,12 @@ public class ComputerPlayer implements Player {
      *
      * @param gameMap The game map.
      * @param taskForceDAO Loads scenario data.
+     * @param flotillaDAO Loads flotilla data.
      * @param airfieldDAO Loads airfield data.
      * @param portDAO Loads port data.
      * @param minefieldDAO Loads minefield data.
      * @param aviationPlant Loads squadron data.
+     * @param flotillaAI  flotilla AI.
      * @param squadronAI squadron AI.
      * @param minefieldAI minefield AI.
      */
@@ -79,19 +89,24 @@ public class ComputerPlayer implements Player {
     @Inject
     public ComputerPlayer(final GameMap gameMap,
                           final TaskForceDAO taskForceDAO,
+                          final FlotillaDAO flotillaDAO,
                           final AirfieldDAO airfieldDAO,
                           final PortDAO portDAO,
                           final MinefieldDAO minefieldDAO,
                           final SquadronDAO aviationPlant,
+                          final FlotillaAI flotillaAI,
                           final SquadronAI squadronAI,
                           final MinefieldAI minefieldAI) {
         //CHECKSTYLE:ON
         this.gameMap = gameMap;
         this.taskForceDAO = taskForceDAO;
+        this.flotillaDAO = flotillaDAO;
         this.airfieldDAO = airfieldDAO;
         this.portDAO = portDAO;
         this.aviationPlant = aviationPlant;
         this.minefieldDAO = minefieldDAO;
+
+        this.flotillaAI = flotillaAI;
         this.squadronAI = squadronAI;
         this.minefieldAI = minefieldAI;
     }
@@ -99,6 +114,7 @@ public class ComputerPlayer implements Player {
     /**
      * This sets the player's task forces.
      * @param scenario The selected scenario.
+     * @throws ScenarioException If the scenario data cannot be properly loaded.
      */
     @Override
     public void buildAssets(final Scenario scenario) throws ScenarioException {
@@ -110,7 +126,7 @@ public class ComputerPlayer implements Player {
 
         loadSquadrons(scenario);
         loadTaskForces(scenario);
-
+        loadFlotillas(scenario);
     }
 
     /**
@@ -121,6 +137,7 @@ public class ComputerPlayer implements Player {
     @Override
     public void saveAssets(final Scenario scenario) {
         taskForceDAO.save(scenario, side, taskForces);
+        flotillaDAO.save(scenario, side, flotillas);
         portDAO.save(scenario, side, ports);
         airfieldDAO.save(scenario, side, airfields);
         minefieldDAO.save(scenario, side, minefields);
@@ -132,8 +149,10 @@ public class ComputerPlayer implements Player {
      * Deploy the squadrons.
      *
      * @param scenario The selected scenario.
+     * @throws ScenarioException If the scenario data cannot be properly loaded.
      */
-    public void deployAssets(final Scenario scenario) {
+    public void deployAssets(final Scenario scenario) throws ScenarioException {
+        flotillaAI.deploy(scenario, this);
         squadronAI.deploy(scenario, this);
         minefieldAI.deploy(scenario, this);
 
@@ -183,6 +202,15 @@ public class ComputerPlayer implements Player {
      */
     private void loadTaskForces(final Scenario scenario) throws ScenarioException {
         taskForces = taskForceDAO.load(scenario, side);
+    }
+
+    /**
+     * Load the flotillas.
+     *
+     * @param scenario The selected scenario.
+     */
+    private void loadFlotillas(final Scenario scenario) {
+        flotillas = flotillaDAO.load(scenario, side);
     }
 
     /**

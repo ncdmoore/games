@@ -18,6 +18,13 @@ public class Torpedo implements Component {
     @Setter
     private int health;
 
+    @Getter
+    private final int maxNumber;
+
+    @Getter
+    @Setter
+    private int number;
+
     /**
      * Constructor.
      *
@@ -26,13 +33,21 @@ public class Torpedo implements Component {
     public Torpedo(final TorpedoData data) {
         this.name = "Torpedo";
         this.maxHealth = data.getMaxHealth();
-        health = data.getHealth();
+        this.health = data.getHealth();
+        this.maxNumber = data.getMaxNumber();
 
         // A torpedo that is knocked out will have a health of -1.
-        // Thus a value of 0 for health indicates this is a newly
+        // Thus, a value of 0 for health indicates this is a newly
         // created torpedo and the health is set to max health.
         if (health == 0) {
             health = maxHealth;
+        }
+
+        // A ship with no more torpedo's is set to -1.
+        // Thus, a value of 0 for number indicates this is a newly
+        // created torpedo and the number is set to max number.
+        if (number == 0) {
+            number = maxNumber;
         }
     }
 
@@ -45,6 +60,8 @@ public class Torpedo implements Component {
         TorpedoData data = new TorpedoData();
         data.setMaxHealth(maxHealth);
         data.setHealth(health);
+        data.setMaxNumber(maxNumber);
+        data.setNumber(number);
         return data;
     }
 
@@ -72,6 +89,6 @@ public class Torpedo implements Component {
      * If the torpedo mount/tube is damaged then the mount/tube is completely knocked out.
      */
     public void damage() {
-        health = 0;
+        health = -1;
     }
 }

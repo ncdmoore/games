@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.presenter.FlotillaPresenter;
 import engima.waratsea.presenter.MainPresenter;
 import engima.waratsea.presenter.MinefieldPresenter;
 import engima.waratsea.presenter.Presenter;
@@ -24,8 +25,9 @@ public class Navigate {
     private Map<Class<?>, Provider<? extends Presenter>> nextMap = new HashMap<>();
     private Map<Class<?>, Provider<? extends Presenter>> prevMap = new HashMap<>();
 
-    private Provider<TaskForcePresenter> taskForcePresenterProvider;
     private Provider<MinefieldPresenter> minefieldPresenterProvider;
+    private Provider<FlotillaPresenter> flotillaPresenterProvider;
+
     private Provider<MainPresenter> mainPresenterProvider;
 
     /**
@@ -34,6 +36,7 @@ public class Navigate {
      * @param startPresenterProvider Provides the start screen.
      * @param scenarioPresenterProvider Provides the scenario selection screen.
      * @param taskForcePresenterProvider Provides the task force summary screen.
+     * @param flotillaPresenterProvider Provides the flotilla summary screen.
      * @param minefieldPresenterProvider Provides the mine field screen.
      * @param mainPresenterProvider Provies the main game screen.
      */
@@ -41,21 +44,24 @@ public class Navigate {
     public Navigate(final Provider<StartPresenter> startPresenterProvider,
                     final Provider<ScenarioPresenter> scenarioPresenterProvider,
                     final Provider<TaskForcePresenter> taskForcePresenterProvider,
+                    final Provider<FlotillaPresenter> flotillaPresenterProvider,
                     final Provider<MinefieldPresenter> minefieldPresenterProvider,
                     final Provider<MainPresenter> mainPresenterProvider) {
 
         nextMap.put(StartPresenter.class, scenarioPresenterProvider);
         nextMap.put(ScenarioPresenter.class, taskForcePresenterProvider);
-        nextMap.put(TaskForcePresenter.class, minefieldPresenterProvider);
+        nextMap.put(TaskForcePresenter.class, flotillaPresenterProvider);
+        nextMap.put(FlotillaPresenter.class, minefieldPresenterProvider);
         nextMap.put(MinefieldPresenter.class, mainPresenterProvider);
 
         prevMap.put(ScenarioPresenter.class, startPresenterProvider);
         prevMap.put(TaskForcePresenter.class, scenarioPresenterProvider);
-        prevMap.put(MinefieldPresenter.class, taskForcePresenterProvider);
+        prevMap.put(FlotillaPresenter.class, taskForcePresenterProvider);
+        prevMap.put(MinefieldPresenter.class, flotillaPresenterProvider);
 
         //There is no back button from the main presenter.
 
-        this.taskForcePresenterProvider = taskForcePresenterProvider;
+        this.flotillaPresenterProvider = flotillaPresenterProvider;
         this.minefieldPresenterProvider = minefieldPresenterProvider;
         this.mainPresenterProvider = mainPresenterProvider;
     }
@@ -104,9 +110,9 @@ public class Navigate {
      * Add the minefield presenter to the navigation maps.
      */
     private void addMinefieldPresenter() {
-        nextMap.put(TaskForcePresenter.class, minefieldPresenterProvider);
+        nextMap.put(FlotillaPresenter.class, minefieldPresenterProvider);
         nextMap.put(MinefieldPresenter.class, mainPresenterProvider);
-        prevMap.put(MinefieldPresenter.class, taskForcePresenterProvider);
+        prevMap.put(MinefieldPresenter.class, flotillaPresenterProvider);
 
     }
 
@@ -114,6 +120,6 @@ public class Navigate {
      * Remove the minefield presenter from the navigation maps.
      */
     private void removeMinefieldPresenter() {
-        nextMap.put(TaskForcePresenter.class, nextMap.get(MinefieldPresenter.class));
+        nextMap.put(FlotillaPresenter.class, nextMap.get(MinefieldPresenter.class));
     }
 }

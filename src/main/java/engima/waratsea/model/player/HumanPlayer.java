@@ -5,6 +5,9 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldDAO;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.base.port.PortDAO;
+import engima.waratsea.model.flotilla.Flotilla;
+import engima.waratsea.model.flotilla.FlotillaAI;
+import engima.waratsea.model.flotilla.FlotillaDAO;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
@@ -35,10 +38,13 @@ public class HumanPlayer implements Player {
 
     private GameMap gameMap;
     private TaskForceDAO taskForceDAO;
+    private FlotillaDAO flotillaDAO;
     private AirfieldDAO airfieldDAO;
     private PortDAO portDAO;
     private SquadronDAO aviationPlant;
     private MinefieldDAO minefieldDAO;
+
+    private FlotillaAI flotillaAI;
 
     @Getter
     @Setter
@@ -49,6 +55,9 @@ public class HumanPlayer implements Player {
 
     @Getter
     private List<TaskForce> taskForces;
+
+    @Getter
+    private List<Flotilla> flotillas;
 
     private Map<Nation, List<Squadron>> squadrons = new HashMap<>();
 
@@ -68,27 +77,36 @@ public class HumanPlayer implements Player {
      * Constructor called by guice.
      *
      * @param gameMap The game map.
-     * @param taskForceDAO Loads scenario data.
+     * @param taskForceDAO Loads task force data.
+     * @param flotillaDAO Loads flotilla data.
      * @param airfieldDAO Loads airfield data.
      * @param portDAO Loads port data.
      * @param minefieldDAO Loads minefield data.
      * @param aviationPlant Loads squadron data.
+     * @param flotillaAI Flotilla AI. Human Flotillas are deployed by the AI.
      * @param squadronAI Deploys the squadrons for fixed deployment scenarios.
      */
+    //CHECKSTYLE:OFF
     @Inject
     public HumanPlayer(final GameMap gameMap,
                        final TaskForceDAO taskForceDAO,
+                       final FlotillaDAO flotillaDAO,
                        final AirfieldDAO airfieldDAO,
                        final PortDAO portDAO,
                        final MinefieldDAO minefieldDAO,
                        final SquadronDAO aviationPlant,
+                       final FlotillaAI flotillaAI,
                        final SquadronAI squadronAI) {
+        //CHECKSTYLE:ON
         this.gameMap = gameMap;
         this.taskForceDAO = taskForceDAO;
+        this.flotillaDAO = flotillaDAO;
         this.airfieldDAO = airfieldDAO;
         this.portDAO = portDAO;
         this.minefieldDAO = minefieldDAO;
         this.aviationPlant = aviationPlant;
+
+        this.flotillaAI = flotillaAI;
 
         deploymentMap.put(SquadronDeploymentType.COMPUTER, squadronAI::deploy);
         deploymentMap.put(SquadronDeploymentType.HUMAN,    squadronAI::manualDeployment);
@@ -110,15 +128,20 @@ public class HumanPlayer implements Player {
 
         loadSquadrons(scenario);
         loadTaskForces(scenario);
+        loadFlotillas(scenario);
     }
 
     /**
      * Deploy assets. This is only called for new games.
      *
      * @param scenario The selected scenario.
+     * @throws ScenarioException Indicates the assets could not be loaded.
      */
     @Override
-    public void deployAssets(final Scenario scenario) {
+    public void deployAssets(final Scenario scenario) throws ScenarioException {
+        flotillaAI.deploy(scenario, this);
+
+        // The scenario determines whether the human player deploys squadrons or the AI does.
         deploymentMap.get(scenario.getSquadron()).accept(scenario, this);
     }
 
@@ -130,6 +153,7 @@ public class HumanPlayer implements Player {
     @Override
     public void saveAssets(final Scenario scenario) {
         taskForceDAO.save(scenario, side, taskForces);
+        flotillaDAO.save(scenario, side, flotillas);
         portDAO.save(scenario, side, ports);
         airfieldDAO.save(scenario, side, airfields);
         minefieldDAO.save(scenario, side, minefields);
@@ -182,6 +206,15 @@ public class HumanPlayer implements Player {
      */
     private void loadTaskForces(final Scenario scenario) throws ScenarioException {
         taskForces = taskForceDAO.load(scenario, side);
+    }
+
+    /**
+     * Load the flotillas.
+     *
+     * @param scenario The selected scenario.
+     */
+    private void loadFlotillas(final Scenario scenario)  {
+        flotillas = flotillaDAO.load(scenario, side);
     }
 
     /**

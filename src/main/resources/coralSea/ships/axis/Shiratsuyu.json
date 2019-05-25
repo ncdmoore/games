@@ -1,6 +1,6 @@
 {
   "type": "DESTROYER",
-  "shipClass": "Fubuki",
+  "shipClass": "Shiratsuyu",
   "nationality": "JAPANESE",
   "tertiary":
   {
@@ -9,7 +9,8 @@
   },
   "torpedo":
   {
-    "maxHealth": 4
+    "maxHealth": 4,
+    "maxNumber": 2
   },
   "antiAir":
   {

@@ -2,6 +2,7 @@ package engima.waratsea.model.player;
 
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.port.Port;
+import engima.waratsea.model.flotilla.Flotilla;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.minefield.Minefield;
@@ -52,8 +53,9 @@ public interface Player {
      * Deploy assets. This is only called for new games.
      *
      * @param scenario The selected scenario.
+     * @throws ScenarioException Indicates the assets could not be loaded.
      */
-    void deployAssets(Scenario scenario);
+    void deployAssets(Scenario scenario) throws ScenarioException;
 
     /**
      * This saves the player's assets.
@@ -68,6 +70,13 @@ public interface Player {
      * @return The player's task forces.
      */
     List<TaskForce> getTaskForces();
+
+    /**
+     * This gets the player's flotillas.
+     *
+     * @return The player's flotillas.
+     */
+    List<Flotilla> getFlotillas();
 
     /**
      * This gets all of the player's squadrons.
