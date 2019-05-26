@@ -98,7 +98,7 @@ public class MinefieldView {
         StackPane titlePane = new StackPane(title);
         titlePane.setId("title-pane");
 
-        Node objectivesPane = buildObjectives();
+        Node objectivesPane = buildObjectives(scenario);
 
         Label labelPane = new Label("Minefield Zone:");
         labelPane.setId("label-pane");
@@ -132,13 +132,14 @@ public class MinefieldView {
     /**
      * Build the selected scenario objective's text.
      *
+     * @param scenario The selected scenario.
      * @return The node that contains the selected scenario objective information.
      */
-    private Node buildObjectives() {
+    private Node buildObjectives(final Scenario scenario) {
         Label objectiveLabel = new Label("Objectives: Place available mines in each minefield zone.");
-        ImageView alliesFlag = imageResourceProvider.getImageView(flags.get(game.getHumanSide()));
+        ImageView flag = imageResourceProvider.getImageView(scenario.getName(), flags.get(game.getHumanSide()));
 
-        HBox hBox = new HBox(alliesFlag, objectiveLabel);
+        HBox hBox = new HBox(flag, objectiveLabel);
         hBox.setId("objectives-pane");
 
         return hBox;

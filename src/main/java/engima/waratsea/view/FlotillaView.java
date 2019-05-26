@@ -94,7 +94,7 @@ public class FlotillaView {
         StackPane titlePane = new StackPane(title);
         titlePane.setId("title-pane");
 
-        Node objectivesPane = buildObjectives(scenario.getObjectives());
+        Node objectivesPane = buildObjectives(scenario);
 
         Label labelPane = new Label("Flotillas:");
         labelPane.setId("label-pane");
@@ -175,14 +175,14 @@ public class FlotillaView {
     /**
      * Build the selected scenario objective's text.
      *
-     * @param objectives The objective's text.
+     * @param scenario The selected scenario
      * @return The node that contains the selected scenario objective information.
      */
-    private Node buildObjectives(final String objectives) {
+    private Node buildObjectives(final Scenario scenario) {
         Label objectiveLabel = new Label("Objectives: Current Submarine Deployment.");
-        ImageView alliesFlag = imageResourceProvider.getImageView(flags.get(game.getHumanSide()));
+        ImageView flag = imageResourceProvider.getImageView(scenario.getName(), flags.get(game.getHumanSide()));
 
-        HBox hBox = new HBox(alliesFlag, objectiveLabel);
+        HBox hBox = new HBox(flag, objectiveLabel);
         hBox.setId("objectives-pane");
 
         return hBox;

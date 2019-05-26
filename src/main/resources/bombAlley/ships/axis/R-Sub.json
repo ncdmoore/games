@@ -1,0 +1,14 @@
+{
+  "type": "SUBMARINE",
+  "shipClass": "Redoutable",
+  "nationality": "FRENCH",
+  "torpedo": {
+    "maxHealth": 1,
+    "maxNumber": 4
+  },
+  "movement": {
+    "maxEven": 1,
+    "maxOdd": 0
+  },
+  "victoryPoints": 4
+}

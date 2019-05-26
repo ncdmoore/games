@@ -157,7 +157,7 @@ public class TaskForceView {
         StackPane titlePane = new StackPane(title);
         titlePane.setId("title-pane");
 
-        Node objectivesPane = buildObjectives(scenario.getObjectives());
+        Node objectivesPane = buildObjectives(scenario);
 
         Label labelPane = new Label("Task Forces:");
         labelPane.setId("label-pane");
@@ -188,15 +188,15 @@ public class TaskForceView {
     /**
      * Build the selected scenario objective's text.
      *
-     * @param objectives The objective's text.
+     * @param scenario The selected scenario.
      * @return The node that contains the selected scenario objective information.
      */
-    private Node buildObjectives(final String objectives) {
+    private Node buildObjectives(final Scenario scenario) {
         Label objectiveLabel = new Label("Objectives:");
-        Label objectiveValue = new Label(objectives);
-        ImageView alliesFlag = imageResourceProvider.getImageView(flags.get(game.getHumanPlayer().getSide()));
+        Label objectiveValue = new Label(scenario.getObjectives());
+        ImageView flag = imageResourceProvider.getImageView(scenario.getName(), flags.get(game.getHumanSide()));
 
-        HBox hBox = new HBox(alliesFlag, objectiveLabel, objectiveValue);
+        HBox hBox = new HBox(flag, objectiveLabel, objectiveValue);
         hBox.setId("objective-pane");
 
         return hBox;

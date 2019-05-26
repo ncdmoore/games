@@ -45,6 +45,19 @@ public class ImageResourceProvider {
     }
 
     /**
+     * Get an image from a resource file that is wrapped in an image view so that is may be placed on the GUI.
+     * We will look for a scenario specific image first, then a default image.
+     *
+     * @param scenario The selected scenario name.
+     * @param resourceName The resource file name.
+     * @return The image wrapped in an image view.
+     */
+    public ImageView getImageView(final String scenario, final String resourceName) {
+        return new ImageView(getImage(scenario, resourceName));
+    }
+
+
+    /**
      * Get a ship image. Attempt to get an image for the ship name. If that fails get the image for the ship's
      * class.
      *
