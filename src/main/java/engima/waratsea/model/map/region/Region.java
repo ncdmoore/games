@@ -55,7 +55,6 @@ public class Region {
     @Getter
     private int max;
 
-
     /**
      * Constructor of Region called by guice.
      *
