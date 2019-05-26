@@ -7,7 +7,6 @@ import engima.waratsea.model.base.BaseId;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +19,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -31,6 +32,9 @@ import java.util.Optional;
 public class AirfieldDAO {
     private Config config;
     private AirfieldFactory factory;
+
+
+    private Map<String, Airfield> cache = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -52,7 +56,14 @@ public class AirfieldDAO {
      * @return An Airfield
      */
     public Airfield load(final BaseId airfieldId) {
-        return buildAirfield(loadAirfieldData(airfieldId));
+
+        if (cache.containsKey(airfieldId.getName())) {
+            return cache.get(airfieldId.getName());
+        } else {
+            Airfield airfield = buildAirfield(loadAirfieldData(airfieldId));
+            cache.put(airfieldId.getName(), airfield);
+            return airfield;
+        }
     }
 
     /**
@@ -107,7 +118,6 @@ public class AirfieldDAO {
     private AirfieldData readAirfield(final URL url, final BaseId airfieldId) {
         String airfieldName = airfieldId.getName();
         Side side = airfieldId.getSide();
-        Region region = airfieldId.getRegion();
 
         try {
             Path path = Paths.get(URLDecoder.decode(url.getPath(), "UTF-8"));
@@ -117,7 +127,6 @@ public class AirfieldDAO {
                 AirfieldData airfieldData = gson.fromJson(br, AirfieldData.class);
 
                 airfieldData.setSide(side);
-                airfieldData.setRegion(region);
 
                 log.debug("load airfield {} for side {}", airfieldName, side);
 
@@ -139,9 +148,7 @@ public class AirfieldDAO {
      * @return An airfield.
      */
     private Airfield buildAirfield(final AirfieldData airfieldData) {
-        Airfield airfield = factory.create(airfieldData);
-        airfield.setRegion(airfieldData.getRegion());
-        return airfield;
+        return factory.create(airfieldData);
     }
 
     /**

@@ -3,6 +3,7 @@ package engima.waratsea.model.squadron.deployment;
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.AircraftBaseType;
 import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
@@ -32,6 +33,7 @@ public class SquadronDeploymentMap {
     private Map<Airfield, List<String>> modelMap;                                    //Contains only deployment airfields for a given nation.
 
     private Side side;
+    private Nation nation;
 
     /**
      * Constructor called by guice.
@@ -47,11 +49,13 @@ public class SquadronDeploymentMap {
      * Build the deployment map.
      *
      * @param deploymentSide  The deployment's side.
+     * @param deploymentNation The deployment's nation.
      * @param deployments The airfield deployment rankings.
      * @param airfields The airfields.
      */
-    public void build(final Side deploymentSide, final List<SquadronDeployment> deployments, final List<Airfield> airfields) {
+    public void build(final Side deploymentSide, final Nation deploymentNation, final List<SquadronDeployment> deployments, final List<Airfield> airfields) {
         side = deploymentSide;
+        nation = deploymentNation;
         deploymentMap = getRankingMap(deployments, airfields);
         modelMap = getModelMap(deployments, airfields);
     }

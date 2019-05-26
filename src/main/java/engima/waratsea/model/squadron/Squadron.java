@@ -10,6 +10,7 @@ import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.AviationPlant;
 import engima.waratsea.model.aircraft.AviationPlantException;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.data.SquadronData;
@@ -30,6 +31,9 @@ import java.util.Optional;
 public class Squadron implements PersistentData<SquadronData> {
     @Getter
     private Side side;
+
+    @Getter
+    private Nation nation;
 
     @Getter
     private final String model;
@@ -74,16 +78,19 @@ public class Squadron implements PersistentData<SquadronData> {
      * Constructor called by guice.
      *
      * @param side The side ALLIES or AXIS.
+     * @param nation The nation.
      * @param data The data of the squadron read in from a JSON file.
      * @param aviationPlant The aviation plant that creates aircraft for squadrons.
      * @param gameMap The game map.
      */
     @Inject
     public Squadron(@Assisted final Side side,
+                    @Assisted final Nation nation,
                     @Assisted final SquadronData data,
                               final AviationPlant aviationPlant,
                               final GameMap gameMap) {
         this.side = side;
+        this.nation = nation;
         this.gameMap = gameMap;
         this.model = data.getModel();
         this.strength = data.getStrength();

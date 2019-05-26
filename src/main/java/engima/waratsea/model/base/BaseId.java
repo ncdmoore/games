@@ -1,7 +1,6 @@
 package engima.waratsea.model.base;
 
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.map.region.Region;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,20 +16,14 @@ public class BaseId {
     @Setter
     private Side side;
 
-    @Getter
-    @Setter
-    private Region region;
-
     /**
      * Constructor.
      *
      * @param name The name of the airfield.
      * @param side The side of the airfield.
-     * @param region The region in which the airfield resides.
      */
-    public BaseId(final String name, final Side side, final Region region) {
+    public BaseId(final String name, final Side side) {
         this.name = name;
         this.side = side;
-        this.region = region;
     }
 }

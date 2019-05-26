@@ -15,7 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -43,9 +45,7 @@ public class Airfield implements Airbase, PersistentData<AirfieldData> {
     @Setter
     private int capacity;           //Capacity in steps.
 
-    @Getter
-    @Setter
-    private  Region region;
+    private Map<Nation, Region> regions = new HashMap<>();
 
     @Getter
     private List<Squadron> squadrons = new ArrayList<>();
@@ -83,12 +83,32 @@ public class Airfield implements Airbase, PersistentData<AirfieldData> {
     }
 
     /**
-     * Get the nations that may operate aircraft from this airfield.
+     * Add a region to this airfield.
      *
-     * @return A list of nations that may operate aircraft from this airfield.
+     * @param region The region that is added.
      */
-    public List<Nation> getNations() {
-        return region.getNations();
+    public void addRegion(final Region region) {
+        region.getNations().forEach(nation -> regions.put(nation, region));
+    }
+
+    /**
+     * Get the given nations region.
+     *
+     * @param nation The nation.
+     * @return The region that corresponds to the given nation.
+     */
+    public Region getRegion(final Nation nation) {
+        return regions.get(nation);
+    }
+
+    /**
+     * Determine if this airfield may be used by the given nation.
+     *
+     * @param nation The nation.
+     * @return True if the given nation may base squadrons at this airfield. False otherwise.
+     */
+    public boolean usedByNation(final Nation nation) {
+        return regions.containsKey(nation);
     }
 
     /**
@@ -128,6 +148,10 @@ public class Airfield implements Airbase, PersistentData<AirfieldData> {
      * @return True if this airfield can house the new squadron; false otherwise.
      */
     private boolean hasRoom(final Squadron squadron) {
+
+        Nation nation = squadron.getNation();
+        Region region = regions.get(nation);
+
         return determineRoom(squadron) && region.hasRoom(squadron);
     }
 

@@ -282,7 +282,7 @@ public class SurfaceShip implements Ship {
         aircraft =  Optional.ofNullable(data)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(squadronData -> factory.create(shipId.getSide(), squadronData))
+                .map(squadronData -> factory.create(shipId.getSide(), nationality, squadronData))
                 .collect(Collectors.toList());
 
         aircraftTypeMap = aircraft

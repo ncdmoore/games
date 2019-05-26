@@ -2,7 +2,7 @@
   {
     "name": "TF1",
     "title": "Naples Force",
-    "location": "AG12",
+    "location": "Naples",
     "state": "ACTIVE",
     "mission": "PATROL",
     "ships": [
@@ -42,7 +42,7 @@
   {
     "name": "TF3",
     "title": "Palermo Force",
-    "location": "AG17",
+    "location": "Palermo",
     "state": "ACTIVE",
     "mission": "PATROL",
     "ships": [

@@ -6,6 +6,7 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.game.GameTitle;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.squadron.SquadronEvent;
 import engima.waratsea.model.game.event.squadron.SquadronEventAction;
@@ -56,7 +57,7 @@ public class SquadronEventTest {
         squadronData.setModel("BF109E");
         squadronData.setStrength(SquadronStrength.FULL);
 
-        Squadron squadron = squadronFactory.create(Side.AXIS, squadronData);
+        Squadron squadron = squadronFactory.create(Side.AXIS, Nation.GERMAN, squadronData);
 
         SquadronMatchData matchData = new SquadronMatchData();
         matchData.setSide(Side.AXIS);
@@ -90,7 +91,7 @@ public class SquadronEventTest {
         squadronData.setStrength(SquadronStrength.FULL);
 
 
-        Squadron squadron = squadronFactory.create(Side.ALLIES, squadronData);
+        Squadron squadron = squadronFactory.create(Side.ALLIES, Nation.BRITISH, squadronData);
         squadron.setAirfield(airfield);
         squadron.setLocation("Alexandria");
 

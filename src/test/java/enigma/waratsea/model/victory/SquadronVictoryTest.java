@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.GameTitle;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.squadron.SquadronEvent;
 import engima.waratsea.model.game.event.squadron.SquadronEventAction;
@@ -58,11 +59,11 @@ public class SquadronVictoryTest {
         SquadronData data = new SquadronData();
         data.setModel("Hurricane-1");
 
-        alliedSquadron = squadronFactory.create(Side.ALLIES, data);
+        alliedSquadron = squadronFactory.create(Side.ALLIES, Nation.BRITISH, data);
 
         data.setModel("BF109F");
 
-        axisSquadron = squadronFactory.create(Side.AXIS, data);
+        axisSquadron = squadronFactory.create(Side.AXIS, Nation.GERMAN, data);
     }
 
     @Test

@@ -1,0 +1,40 @@
+[
+  {
+    "name": "TF1",
+    "title": "Naples Force",
+    "location": "Naples",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "BB02 Giulio Cesare",
+      "BB06 Vittorio Veneto",
+      "CA04 Pola",
+      "CA05 Fiume",
+      "CA06 Gorizia",
+      "DD13 Freccia",
+      "DD14 Dardo",
+      "DD15 Saetta",
+      "DD25 Oriani",
+      "DD26 Gioberti",
+      "DD27 Carducci",
+      "DD28 Alfieri",
+      "DD33 Granatiere",
+      "DD35 Bersagliere",
+      "DD38 Fuciliere",
+      "DD39 Alpino"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "Pantelleria Force",
+    "location": "Pantelleria",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "DD02 Da Noli",
+      "DD05 Malocello",
+      "DD09 Tarigo",
+      "DD11 Vivaldi"
+    ]
+  }
+]

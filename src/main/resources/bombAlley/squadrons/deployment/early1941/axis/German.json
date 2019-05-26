@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Augusta",
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 1
+  },
+  {
+    "name": "Borizzo",
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 1
+  },
+  {
+    "name": "Comiso",
+    "recon": 1,
+    "fighter": 1,
+    "bomber": 1
+  }
+]

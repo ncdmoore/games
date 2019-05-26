@@ -100,7 +100,7 @@ public class Scenario implements Comparable<Scenario> {
     public String getMonthYear(final String separator) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
         return month + separator + year;
     }

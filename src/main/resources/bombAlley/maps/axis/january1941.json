@@ -1,0 +1,108 @@
+[
+  {
+    "name": "East",
+    "nation": ["ITALIAN"],
+    "min": "4",
+    "max": "0",
+    "airfields": [
+      "Derna",
+      "Rhodes",
+      "Scarpanto"
+    ],
+    "ports": [
+      "Rhodes"
+    ]
+  },
+  {
+    "name": "Libya",
+    "nation": ["ITALIAN"],
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Tripoli",
+      "Benghazi",
+      "Tobruk"
+    ],
+    "ports": [
+      "Tripoli",
+      "Benghazi",
+      "Tobruk"
+    ]
+  },
+  {
+    "name": "Sardinia",
+    "nation": ["ITALIAN"],
+    "min": "4",
+    "max": "HALF",
+    "airfields": ["Cagliari"],
+    "ports": ["Cagliari"]
+  },
+  {
+    "name": "Sicily",
+    "nation": ["ITALIAN"],
+    "min": "6",
+    "max": "HALF",
+    "airfields": [
+      "Borizzo",
+      "Comiso",
+      "Augusta"
+    ],
+    "ports": [
+      "Palermo",
+      "Messina",
+      "Augusta"
+    ]
+  },
+  {
+    "name": "Pantellaria",
+    "nation": ["ITALIAN"],
+    "min": "0",
+    "max": "0",
+    "airfields": ["Pantellaria"],
+    "ports": ["Pantellaria"]
+  },
+  {
+    "name": "Italy",
+    "nation": ["ITALIAN"],
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Sarzana",
+      "Triste",
+      "Rome",
+      "Naples",
+      "Foggia",
+      "Grottaglie",
+      "Lecce"
+    ],
+    "ports": [
+      "Genoa",
+      "La Spezia",
+      "Leghorn",
+      "Naples",
+      "Taranto",
+      "Brindisi",
+      "Pola",
+      "Trieste"
+    ]
+  },
+  {
+    "name": "Albania",
+    "nation": ["ITALIAN"],
+    "min": "0",
+    "max": "0",
+    "airfields": ["Durazzo"],
+    "ports": ["Durazzo"]
+  },
+  {
+    "name": "Sicily",
+    "nation": ["GERMAN"],
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Borizzo",
+      "Comiso",
+      "Augusta"
+    ]
+  }
+]

@@ -89,11 +89,11 @@ public class SquadronDeploymentAI {
             squadronTypeMap = getSquadronTypeMap();                                               //Map of aircraft base type to squadron.
             squadronModelMap = getSquadronModelMap();                                             //Map of aircraft model to squadron.
 
-            deploymentMap.build(side, deployments, airfields);                                    //Build the nation's deployment.
+            deploymentMap.build(side, nation, deployments, airfields);                            //Build the nation's deployment.
 
             airfields
                     .stream()
-                    .map(Airfield::getRegion)
+                    .map(airfield -> airfield.getRegion(nation))
                     .distinct()
                     .map(region -> region.setRequirements(squadrons))
                     .filter(Region::hasMinimumRequirement)

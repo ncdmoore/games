@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -53,7 +56,6 @@ public final class GameMap {
     private Map<Side, Set<Nation>> nations = new HashMap<>();
 
     private Map<Side, List<Region>> regions = new HashMap<>();
-    private Map<Side, Map<String, Region>> regionMap = new HashMap<>();
 
     private Map<Side, List<Airfield>> airfields = new HashMap<>();
     private Map<Side, Map<String, Airfield>> airfieldMap = new HashMap<>();   //Side to Map of Airfield name to Airfield.
@@ -104,9 +106,6 @@ public final class GameMap {
 
         minefields.put(Side.ALLIES, minefieldDAO.load(Side.ALLIES));
         minefields.put(Side.AXIS, minefieldDAO.load(Side.AXIS));
-
-        regionMap.put(Side.ALLIES, buildRegionMap(regions.get(Side.ALLIES)));
-        regionMap.put(Side.AXIS, buildRegionMap(regions.get(Side.AXIS)));
 
         airfieldMap.put(Side.ALLIES, buildAirfieldMap(airfields.get(Side.ALLIES)));
         airfieldMap.put(Side.AXIS, buildAirfieldMap(airfields.get(Side.AXIS)));
@@ -167,20 +166,6 @@ public final class GameMap {
     }
 
     /**
-     * Get a given side's given region list of ports.
-     *
-     * @param side The side ALLIES or AXIS.
-     * @param region The name of the region.
-     * @return A list of ports for the given side and region.
-     */
-    public List<Port> getRegionPorts(final Side side, final String region) {
-        return regionMap
-                .get(side)
-                .get(region)
-                .getPorts();
-    }
-
-    /**
      * Get the a port by name.
      *
      * @param side The side ALLIES or AXIS.
@@ -234,17 +219,6 @@ public final class GameMap {
         return baseRefToName.get(side).containsKey(convertNameToReference(location));
     }
 
-    /**
-     * Get the side of a given base's game grid.
-     *
-     * @param gameGrid A map game grid. The game grid must correspond to a base.
-     * @return The side of the base ALLIES or AXIS.
-     */
-    public Side getBaseSide(final GameGrid gameGrid) {
-        String mapRef = convertGridToReference(gameGrid);
-
-        return baseRefToName.get(Side.ALLIES).containsKey(mapRef) ? Side.ALLIES : Side.AXIS;
-    }
 
     /**
      * Determine fi the given location is a base for either side.
@@ -421,6 +395,7 @@ public final class GameMap {
                 .get(side)
                 .stream()
                 .flatMap(region -> region.getAirfields().stream())
+                .filter(distinctByKey(Airfield::getName))
                 .collect(toList());
     }
 
@@ -435,6 +410,7 @@ public final class GameMap {
                 .get(side)
                 .stream()
                 .flatMap(region -> region.getPorts().stream())
+                .filter(distinctByKey(Port::getName))
                 .collect(toList());
     }
 
@@ -466,18 +442,6 @@ public final class GameMap {
         }
 
         return name;
-    }
-
-    /**
-     * Build the region name to region map.
-     *
-     * @param mapRegions A list of regions for a given side.
-     * @return A map of region names to regions.
-     */
-    private Map<String, Region> buildRegionMap(final List<Region> mapRegions) {
-        return mapRegions
-                .stream()
-                .collect(Collectors.toMap(Region::getName, region -> region));
     }
 
     /**
@@ -544,8 +508,19 @@ public final class GameMap {
     private List<Airfield> buildNationAirfields(final Side side, final Nation nation) {
         return airfields.get(side)
                 .stream()
-                .filter(airfield -> airfield.getNations().contains(nation))
+                .filter(airfield -> airfield.usedByNation(nation))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Predicate used to filter list of objects by an object property value.
+     *
+     * @param keyExtractor The function that gives the filtered property value.
+     * @param <T> The type of object.
+     * @return A predicate function.
+     */
+    private static <T> Predicate<T> distinctByKey(final Function<? super T, Object> keyExtractor) {
+        Map<Object, Boolean> map = new ConcurrentHashMap<>();
+        return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
 }

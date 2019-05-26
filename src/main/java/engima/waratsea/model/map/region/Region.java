@@ -22,6 +22,11 @@ import java.util.stream.Collectors;
 
 /**
  * Represents a map region within the game.
+ *
+ * A region may be shared by nations. Or each nation may have its on region object with unique properties.
+ * For this latter case, the map JSON file will contain two separate region definitions each with the same name.
+ * For the former case, a single region definition will exist in which multiple nations are defined in its
+ * nation's list (array).
  */
 @Slf4j
 public class Region {
@@ -52,7 +57,7 @@ public class Region {
 
 
     /**
-     * Constructor of Task Force called by guice.
+     * Constructor of Region called by guice.
      *
      * @param side The side of the task force. ALLIES or AXIS.
      * @param data The task force data read from a JSON file.
@@ -77,6 +82,9 @@ public class Region {
                 .map(this::buildBaseId)
                 .map(airfieldDAO::load)
                 .collect(Collectors.toList());
+
+        airfields.forEach(airfield -> airfield.addRegion(this));
+
 
         ports = Optional.ofNullable(data.getPorts())
                 .orElseGet(Collections::emptyList)
@@ -169,7 +177,7 @@ public class Region {
      * @return An airfield id.
      */
     private BaseId buildBaseId(final String baseId) {
-        return new BaseId(baseId, side, this);
+        return new BaseId(baseId, side);
     }
 
     /**
@@ -196,6 +204,7 @@ public class Region {
         return airfields
                 .stream()
                 .flatMap(airfield -> airfield.getSquadrons().stream())
+                .filter(squadron -> nations.contains(squadron.getNation()))
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .intValue();

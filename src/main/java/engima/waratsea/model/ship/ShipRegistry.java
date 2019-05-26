@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Maps ship names to ship class. This class main purpose is to return ship class names given a ship name.
+ * Maps ship names to ship class. This class's main purpose is to return a ship class name given a ship name.
  */
 @Singleton
 @Slf4j

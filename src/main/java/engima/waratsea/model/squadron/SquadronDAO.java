@@ -145,7 +145,7 @@ public class SquadronDAO {
         return allotmentMap
                 .get(nation)
                 .get()
-                .map(data -> factory.create(side, data))
+                .map(data -> factory.create(side, nation, data))
                 .collect(Collectors.toList());
     }
 
@@ -168,7 +168,7 @@ public class SquadronDAO {
 
             log.debug("load squadrons for side: {}, nation: {}, number of squadrons: {}", new Object[]{side, nation, squadrons.size()});
 
-            return buildSquadrons(side, squadrons);
+            return buildSquadrons(side, nation, squadrons);
         } catch (Exception ex) {                                                                                        // Catch any Gson errors.
             log.error("Unable to load squadrons: {}", url.getPath(), ex);
             return null;
@@ -179,13 +179,14 @@ public class SquadronDAO {
      * Build the squadrons from data read in from a JSON file. This is used for saved games.
      *
      * @param side The side ALLIES or AXIS.
+     * @param nation The nation.
      * @param data The squadron data read in from the JSON file.
      * @return A list of squadrons.
      */
-    private List<Squadron> buildSquadrons(final Side side, final List<SquadronData> data) {
+    private List<Squadron> buildSquadrons(final Side side, final Nation nation, final List<SquadronData> data) {
         return data
                 .stream()
-                .map(squadronData -> factory.create(side, squadronData))
+                .map(squadronData -> factory.create(side, nation, squadronData))
                 .collect(Collectors.toList());
     }
 }

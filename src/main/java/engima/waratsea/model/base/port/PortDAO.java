@@ -7,7 +7,6 @@ import engima.waratsea.model.base.BaseId;
 import engima.waratsea.model.base.port.data.PortData;
 import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +19,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -32,6 +33,7 @@ public class PortDAO {
     private Config config;
     private PortFactory factory;
 
+    private Map<String, Port> cache = new HashMap<>();
     /**
      * Constructor called by guice.
      *
@@ -52,7 +54,13 @@ public class PortDAO {
      * @return A port.
      */
     public Port load(final BaseId portId) {
-        return buildPort(loadPortData(portId));
+        if (cache.containsKey(portId.getName())) {
+            return cache.get(portId.getName());
+        } else {
+            Port port = buildPort(loadPortData(portId));
+            cache.put(portId.getName(), port);
+            return port;
+        }
     }
 
     /**
@@ -107,7 +115,6 @@ public class PortDAO {
     private PortData readPort(final URL url, final BaseId portId) {
         String portName = portId.getName();
         Side side = portId.getSide();
-        Region region = portId.getRegion();
         try {
             Path path = Paths.get(URLDecoder.decode(url.getPath(), "UTF-8"));
             try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
@@ -116,7 +123,6 @@ public class PortDAO {
                 PortData portData = gson.fromJson(br, PortData.class);
 
                 portData.setSide(side);
-                portData.setRegion(region);
 
                 log.debug("load port {} for side {}", portName, side);
 
@@ -138,9 +144,7 @@ public class PortDAO {
      * @return A port.
      */
     private Port buildPort(final PortData portData) {
-        Port port = factory.create(portData);
-        port.setRegion(portData.getRegion());
-        return port;
+        return factory.create(portData);
     }
 
     /**
