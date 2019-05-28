@@ -9,6 +9,7 @@ import engima.waratsea.presenter.MainPresenter;
 import engima.waratsea.presenter.MinefieldPresenter;
 import engima.waratsea.presenter.Presenter;
 import engima.waratsea.presenter.ScenarioPresenter;
+import engima.waratsea.presenter.SquadronPresenter;
 import engima.waratsea.presenter.StartPresenter;
 import engima.waratsea.presenter.TaskForcePresenter;
 import javafx.stage.Stage;
@@ -28,7 +29,7 @@ public class Navigate {
     private Provider<MinefieldPresenter> minefieldPresenterProvider;
     private Provider<FlotillaPresenter> flotillaPresenterProvider;
 
-    private Provider<MainPresenter> mainPresenterProvider;
+    private Provider<SquadronPresenter> squadronPresenterProvider;
 
     /**
      * The constructor called by guice.
@@ -38,6 +39,7 @@ public class Navigate {
      * @param taskForcePresenterProvider Provides the task force summary screen.
      * @param flotillaPresenterProvider Provides the flotilla summary screen.
      * @param minefieldPresenterProvider Provides the mine field screen.
+     * @param squadronPresenterProvider Provides the squadron deployment screen.
      * @param mainPresenterProvider Provies the main game screen.
      */
     @Inject
@@ -46,24 +48,27 @@ public class Navigate {
                     final Provider<TaskForcePresenter> taskForcePresenterProvider,
                     final Provider<FlotillaPresenter> flotillaPresenterProvider,
                     final Provider<MinefieldPresenter> minefieldPresenterProvider,
+                    final Provider<SquadronPresenter> squadronPresenterProvider,
                     final Provider<MainPresenter> mainPresenterProvider) {
 
         nextMap.put(StartPresenter.class, scenarioPresenterProvider);
         nextMap.put(ScenarioPresenter.class, taskForcePresenterProvider);
         nextMap.put(TaskForcePresenter.class, flotillaPresenterProvider);
         nextMap.put(FlotillaPresenter.class, minefieldPresenterProvider);
-        nextMap.put(MinefieldPresenter.class, mainPresenterProvider);
+        nextMap.put(MinefieldPresenter.class, squadronPresenterProvider);
+        nextMap.put(SquadronPresenter.class, mainPresenterProvider);
 
         prevMap.put(ScenarioPresenter.class, startPresenterProvider);
         prevMap.put(TaskForcePresenter.class, scenarioPresenterProvider);
         prevMap.put(FlotillaPresenter.class, taskForcePresenterProvider);
         prevMap.put(MinefieldPresenter.class, flotillaPresenterProvider);
+        prevMap.put(SquadronPresenter.class, minefieldPresenterProvider);
 
         //There is no back button from the main presenter.
 
         this.flotillaPresenterProvider = flotillaPresenterProvider;
         this.minefieldPresenterProvider = minefieldPresenterProvider;
-        this.mainPresenterProvider = mainPresenterProvider;
+        this.squadronPresenterProvider = squadronPresenterProvider;
     }
 
     /**
@@ -111,7 +116,8 @@ public class Navigate {
      */
     private void addMinefieldPresenter() {
         nextMap.put(FlotillaPresenter.class, minefieldPresenterProvider);
-        nextMap.put(MinefieldPresenter.class, mainPresenterProvider);
+        nextMap.put(MinefieldPresenter.class, squadronPresenterProvider);
+
         prevMap.put(MinefieldPresenter.class, flotillaPresenterProvider);
 
     }
@@ -121,5 +127,7 @@ public class Navigate {
      */
     private void removeMinefieldPresenter() {
         nextMap.put(FlotillaPresenter.class, nextMap.get(MinefieldPresenter.class));
+        prevMap.put(SquadronPresenter.class, flotillaPresenterProvider);
+
     }
 }

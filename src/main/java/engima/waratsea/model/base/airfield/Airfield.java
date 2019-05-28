@@ -142,6 +142,16 @@ public class Airfield implements Airbase, PersistentData<AirfieldData> {
     }
 
     /**
+     * The String representation of the airfield.
+     *
+     * @return The String representation of the airfield.
+     */
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    /**
      * Determine if this airfield has room for another squadron.
      *
      * @param squadron A potential new squadron.

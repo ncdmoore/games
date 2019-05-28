@@ -405,16 +405,6 @@ public class TaskForceView {
     }
 
     /**
-     * Get the task force name from the task force marker that was clicked.
-     * @param clickedMarker The clicked marker.
-     * @return The name of the task force that corresponds to the marker.
-     */
-    public List<String> getTaskForceFromMarker(final Object clickedMarker) {
-        return taskForceMap.getNameFromMarker(clickedMarker);
-    }
-
-
-    /**
      * Select a target. Show the corresponding popup.
      *
      * @param clickedMarker The target's marker.

@@ -39,6 +39,9 @@ public class TaskForceMarkerDTO implements PopUpDTO {
     private GameGrid grid;
 
     @Getter
+    private MapView mapView;
+
+    @Getter
     private GridView gridView;
 
     @Getter
@@ -61,8 +64,6 @@ public class TaskForceMarkerDTO implements PopUpDTO {
         this.active = asset.isActive();
     }
 
-
-
     /**
      * Set the game map which allows the grid to be determined from the task force's map reference.
      *
@@ -75,9 +76,10 @@ public class TaskForceMarkerDTO implements PopUpDTO {
     /**
      * Set the map view which allows the grid view to be determined from the task force's grid location.
      *
-     * @param mapView The map view.
+     * @param map The map view.
      */
-    public void setMapView(final MapView mapView) {
+    public void setMapView(final MapView map) {
+        mapView = map;
         gridView = mapView.getGridView(grid);
     }
 

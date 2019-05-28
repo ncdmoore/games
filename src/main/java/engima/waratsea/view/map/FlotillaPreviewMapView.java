@@ -1,10 +1,8 @@
 package engima.waratsea.view.map;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
-import engima.waratsea.utility.ColorMap;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import javafx.geometry.Pos;
@@ -15,7 +13,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -32,10 +29,6 @@ public class FlotillaPreviewMapView {
 
     private GameMap gameMap;
     private MapView mapView;
-    private ColorMap colorMap;
-
-    @Setter
-    private Side side;
 
     private Map<String, TaskForceMarker> markerMap = new HashMap<>();                //marker name -> grid.
 
@@ -46,19 +39,16 @@ public class FlotillaPreviewMapView {
      * @param imageResourceProvider The image resource provider.
      * @param gameMap The game map.
      * @param mapView A utility to aid in drawing the map grid.
-     * @param colorMap The color map.
      */
     @Inject
     public FlotillaPreviewMapView(final ViewProps props,
                                   final ImageResourceProvider imageResourceProvider,
                                   final GameMap gameMap,
-                                  final MapView mapView,
-                                  final ColorMap colorMap) {
+                                  final MapView mapView) {
         this.props = props;
         this.imageResourceProvider = imageResourceProvider;
         this.gameMap = gameMap;
         this.mapView = mapView;
-        this.colorMap = colorMap;
     }
 
     /**
@@ -88,7 +78,7 @@ public class FlotillaPreviewMapView {
         dto.setMapView(mapView);
 
         TaskForceMarker marker = new TaskForceMarker(dto);
-        marker.draw(mapView, true);
+        marker.draw(dto);
 
         markerMap.put(dto.getName(), marker);           //Index this flotilla's name to the new marker.
     }

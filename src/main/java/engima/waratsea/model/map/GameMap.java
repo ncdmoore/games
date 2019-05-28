@@ -12,9 +12,11 @@ import engima.waratsea.model.map.region.RegionDAO;
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.model.minefield.MinefieldDAO;
 import engima.waratsea.model.scenario.Scenario;
+import javafx.util.Pair;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +70,7 @@ public final class GameMap {
     private Map<Side, Map<String, String>> baseRefToName = new HashMap<>();
     private Map<Side, Map<String, String>> baseNameToRef = new HashMap<>();
 
+    private Map<Side, Map<Nation, List<Region>>> nationRegionMap = new HashMap<>();
     private Map<Side, Map<Nation, List<Airfield>>> nationAirfieldMap = new HashMap<>();
 
     /**
@@ -106,6 +109,9 @@ public final class GameMap {
 
         minefields.put(Side.ALLIES, minefieldDAO.load(Side.ALLIES));
         minefields.put(Side.AXIS, minefieldDAO.load(Side.AXIS));
+
+        nationRegionMap.put(Side.ALLIES, buildRegionMap(Side.ALLIES));
+        nationRegionMap.put(Side.AXIS, buildRegionMap(Side.AXIS));
 
         airfieldMap.put(Side.ALLIES, buildAirfieldMap(airfields.get(Side.ALLIES)));
         airfieldMap.put(Side.AXIS, buildAirfieldMap(airfields.get(Side.AXIS)));
@@ -188,14 +194,25 @@ public final class GameMap {
     }
 
     /**
+     * Get the given side's and nation's regions.
+     *
+     * @param side THe side ALLIES or AXIS.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return A list of the given nation's regions.
+     */
+    public List<Region> getNationRegions(final Side side, final Nation nation) {
+        return nationRegionMap.get(side).get(nation);
+    }
+
+    /**
      * Get the given side's and nation's airfields.
      *
-     * @param side The side ALLIES of AXIS.
+     * @param side The side ALLIES or AXIS.
      * @param nation The nation: BRITISH, ITALIAN, etc...
      * @return A list of the given nation's airfields.
      */
     public List<Airfield> getNationAirfields(final Side side, final Nation nation) {
-        return  nationAirfieldMap.get(side).get(nation);
+        return nationAirfieldMap.get(side).get(nation);
     }
 
     /**
@@ -375,6 +392,20 @@ public final class GameMap {
     }
 
     /**
+     * Build a map of nation to list of regions.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @return A map of nation to list of regions.
+     */
+    private Map<Nation, List<Region>> buildRegionMap(final Side side) {
+        return regions
+                .get(side)
+                .stream()
+                .flatMap(this::createNationRegionPair)
+                .collect(Collectors.toMap(Pair::getKey, this::createList, this::merge));
+    }
+
+    /**
      * Get a stream of all the bases both airfields and ports.
      *
      * @param side The side ALLIES or AXIS.
@@ -522,5 +553,40 @@ public final class GameMap {
     private static <T> Predicate<T> distinctByKey(final Function<? super T, Object> keyExtractor) {
         Map<Object, Boolean> map = new ConcurrentHashMap<>();
         return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
+
+    /**
+     * Create a list of nation, region pairs.
+     *
+     * @param region The map region.
+     * @return A stream of nation, region pairs.
+     */
+    private Stream<Pair<Nation, Region>> createNationRegionPair(final Region region) {
+        return region.getNations().stream().map(nation -> new Pair<>(nation, region));
+    }
+
+    /**
+     * Create a list of map regions from a pair of nation,region.
+     *
+     * @param pair  A nation, region pair.
+     * @return A list of regions.
+     */
+    private  List<Region> createList(final Pair<Nation, Region> pair) {
+        Region region = pair.getValue();
+        List<Region> list = new ArrayList<>();
+        list.add(region);
+        return list;
+    }
+
+    /**
+     * Merge two lists.
+     *
+     * @param oldValue A list of type T.
+     * @param newValue A list of type T.
+     * @return The combined list of T.
+     */
+    private  List<Region> merge(final List<Region> oldValue, final List<Region> newValue) {
+        oldValue.addAll(newValue);
+        return oldValue;
     }
 }

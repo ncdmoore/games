@@ -5,7 +5,6 @@
     "min": "4",
     "max": "0",
     "airfields": [
-      "Derna",
       "Rhodes",
       "Scarpanto"
     ],
@@ -19,6 +18,7 @@
     "min": "0",
     "max": "0",
     "airfields": [
+      "Derna",
       "Tripoli",
       "Benghazi",
       "Tobruk"

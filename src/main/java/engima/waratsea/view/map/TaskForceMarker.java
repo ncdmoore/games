@@ -42,13 +42,11 @@ public class TaskForceMarker {
     }
 
     /**
-     * Draw the marker on the provided map.
+     * Draw the marker on the provided map. Register a mouse click callback for the marker.
      *
-     * Register a mouse click callback for the marker.
-     * @param map The map where the marker is drawn.
-     * @param active Indicates whether the popup contents are active or inactive.
+     * @param dto All the data needed to create a marker.
      */
-    public void draw(final MapView map, final boolean active) {
+    public void draw(final TaskForceMarkerDTO dto) {
         rectangle = new Rectangle(gridView.getX(), gridView.getY(), gridView.getSize(), gridView.getSize());
         rectangle.setOpacity(OPACITY);
         rectangle.getStyleClass().add("taskforce-marker");
@@ -57,9 +55,9 @@ public class TaskForceMarker {
 
         setOnMouseClicked(eventHandler);
 
-        map.add(rectangle);
+        dto.getMapView().add(rectangle);
 
-        popUp.draw(active);
+        popUp.draw(dto.isActive());
     }
 
     /**
@@ -93,16 +91,6 @@ public class TaskForceMarker {
     public void clear(final MapView map) {
         rectangle.setOpacity(OPACITY);
         popUp.hide(map);
-    }
-
-    /**
-     * Determine if this marker was clicked.
-     *
-     * @param clickedMarker The marker that was clicked.
-     * @return True if this marker was the marker that was clicked. False otherwise.
-     */
-    public boolean wasClicked(final Object clickedMarker) {
-        return this.rectangle == clickedMarker;
     }
 
     /**

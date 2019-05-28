@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * This class represents a map view. A map view is as it sounds a view of the game map. For example the task force
@@ -91,7 +90,7 @@ public class TaskForcePreviewMapView {
             markerMap.put(dto.getName(), existingMarker);                                                               //Index this task force's name to the existing marker.
         } else {
             TaskForceMarker marker = new TaskForceMarker(dto);                                                          //Create a new marker.
-            marker.draw(mapView, dto.isActive());                                                                       //Store this task force's name in the new marker.
+            marker.draw(dto);                                                                                           //Store this task force's name in the new marker.
             mapRefMarkerMap.put(dto.getMapReference(), marker);
             markerMap.put(dto.getName(), marker);                                                                       //Index this task force's name to the new marker.
         }
@@ -157,17 +156,6 @@ public class TaskForcePreviewMapView {
 
         Optional.ofNullable(targetMap.get(name))
                 .ifPresent(targetMarkers -> targetMarkers.forEach(targetMarker -> targetMarker.clear(mapView)));        //Hide any target marker's if any exist.
-    }
-
-    /**
-     * Get the name of the marker from the markers grid.
-     * @param clickedMarker represents the marker.
-     * @return A list of names associated with this marker.
-     */
-    public List<String> getNameFromMarker(final Object clickedMarker) {
-        return markerMap.entrySet().stream()
-                .filter(entry -> entry.getValue().wasClicked(clickedMarker))
-                .map(Map.Entry::getKey).collect(Collectors.toList());
     }
 
     /**

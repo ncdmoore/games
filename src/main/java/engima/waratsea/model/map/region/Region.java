@@ -170,6 +170,16 @@ public class Region {
     }
 
     /**
+     * The String representation of the region.
+     *
+     * @return String representation of the region.
+     */
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    /**
      * Build an airfield Id. This uniquely identifies an airfield.
      *
      * @param baseId The name of the airfield.
