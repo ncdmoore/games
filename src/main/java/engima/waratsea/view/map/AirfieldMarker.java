@@ -4,7 +4,6 @@ import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import javafx.scene.Node;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import lombok.Getter;
 
@@ -68,7 +67,6 @@ public class AirfieldMarker {
         mapView.add(triangle);
 
         popUp.draw(dto.isActive());
-
     }
 
     /**
@@ -103,15 +101,21 @@ public class AirfieldMarker {
     /**
      * Get the map legend key. This is just a marker that used in the map legend.
      *
+     * @param nation The nation.
      * @param x The marker's x coordinate.
      * @param y The marker's y coordinate.
-     * @param radius The radius of the marker.
+     * @param size The size of the marker.
      * @return The marker legend key.
      */
-    public static Node getLegend(final double x, final double y, final double radius) {
-        Circle c = new Circle(x + radius, y + radius, radius);
-        c.getStyleClass().add("airfield-marker");
-        return c;
+    public static Node getLegend(final Nation nation, final double x, final double y, final double size) {
+        Polygon triangle = new Polygon(x, y + size,
+                x + size, y + size,
+                x + size / 2, y);
+
+        String style = nation.toString().toLowerCase().replace(" ", "-") + "-airfield-marker";
+
+        triangle.getStyleClass().add(style);
+        return triangle;
     }
 
 }

@@ -111,10 +111,14 @@ public class SquadronPresenter implements Presenter {
 
         markAirfields(newNation);
 
+        Region region = view.getRegions().get(newNation).getSelectionModel().getSelectedItem();
+        if (region != null) {
+            view.setSelectedRegion(newNation, region);
+        }
 
         Airfield airfield = view.getAirfields().get(newNation).getSelectionModel().getSelectedItem();
         if (airfield != null) {
-            view.setSelectedAirfield(airfield);
+            view.setSelectedAirfield(newNation, airfield);
         }
 
         selectFirstRegion(newNation);
@@ -199,8 +203,17 @@ public class SquadronPresenter implements Presenter {
     private void regionSelected(final Region region) {
         Nation nation = determineNation();
 
+        log.info("Select Nation: {}", nation);
+        log.info("Select Region: {}", region.getName());
+        log.info("Region Min: {}", region.getMin());
+        log.info("Region Max: {}", region.getMax());
+        log.info("Region Nation: {}", region.getNations().stream().map(Nation::toString).collect(Collectors.joining(",")));
+        log.info("");
+
         view.getAirfields().get(nation).getItems().clear();
         view.getAirfields().get(nation).getItems().addAll(region.getAirfields());
+
+        view.setSelectedRegion(nation, region);
 
         selectFirstAirfield(nation);
     }
@@ -215,9 +228,11 @@ public class SquadronPresenter implements Presenter {
             return;                // We do nothing when the airfield choice box is cleared.
         }
 
+        Nation nation = determineNation();
+
         clearAllAirfields();
 
-        view.setSelectedAirfield(airfield);
+        view.setSelectedAirfield(nation, airfield);
     }
 
     /**

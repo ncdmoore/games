@@ -138,13 +138,13 @@
     -fx-vgap: 4;
 }
 
-#taskforce-details-vbox {
+#airfield-details-vbox {
     -fx-spacing: 15;
     -fx-background-color: whitesmoke;
 
 }
 
-#taskforce-details-grid {
+#airfield-details-grid {
     -fx-hgap: 10;
 }
 

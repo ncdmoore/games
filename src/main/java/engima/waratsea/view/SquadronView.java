@@ -19,11 +19,14 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Getter;
 
@@ -62,6 +65,11 @@ public class SquadronView {
     private TaskForcePreviewMapView taskForceMap;
 
     private Map<Side, String> flags = new HashMap<>();
+
+    private Map<Nation, Label> regionMinimumValue = new HashMap<>();
+    private Map<Nation, Label> regionMaximumValue = new HashMap<>();
+    private Map<Nation, Label> airfieldMaximumValue = new HashMap<>();
+    private Map<Nation, Label> airfieldCurrentValue = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -138,13 +146,27 @@ public class SquadronView {
     }
 
     /**
-     * Set the selected airfield. Show this airfield's map marker.
+     * Set the selected regionl Show the region's details.
      *
-     * @param airfield the selected airfield.
+     * @param nation The nation BRITISH, ITALIAN, etc ...
+     * @param region The selected region.
      */
-    public void setSelectedAirfield(final Airfield airfield) {
+    public void setSelectedRegion(final Nation nation, final Region region) {
+        regionMaximumValue.get(nation).setText(region.getMax() + "");
+        regionMinimumValue.get(nation).setText(region.getMin() + "");
+    }
+
+    /**
+     * Set the selected airfield. Show this airfield's map marker and details.
+     *
+     * @param nation The nation BRITISH, ITALIAN, etc ...
+     * @param airfield The selected airfield.
+     */
+    public void setSelectedAirfield(final Nation nation, final Airfield airfield) {
         String name = airfield.getName();
         taskForceMap.selectAirfieldMarker(name);
+        airfieldMaximumValue.get(nation).setText(airfield.getMaxCapacity() + "");
+        airfieldCurrentValue.get(nation).setText(airfield.getCapacity() + "");
     }
 
     /**
@@ -190,6 +212,78 @@ public class SquadronView {
         hBox.setId("objective-pane");
 
         return hBox;
+    }
+
+    /**
+     * Build the task force state and mission details.
+     *
+     * @param nation The nation BRITISH, ITALIAN, etc ...
+     * @return A node containing the task foce state and mission details.
+     */
+    private Node buildAirfieldDetails(final Nation nation) {
+
+        Text regionMinimumLabel = new Text("Region Minimum:");
+        Text regionMaximumLabel = new Text("Region Maximum:");
+        Text airfieldMaximumLabel = new Text("Airfield Maximum:");
+        Text airfieldCurrentLabel = new Text("Arifield Current:");
+
+        Label regionMaximum = new Label();
+        regionMaximumValue.put(nation, regionMaximum);
+
+        Label regionMinimum = new Label();
+        regionMinimumValue.put(nation, regionMinimum);
+
+        Label airfieldMaximum = new Label();
+        airfieldMaximumValue.put(nation, airfieldMaximum);
+
+        Label airfieldCurrent = new Label();
+        airfieldCurrentValue.put(nation, airfieldCurrent);
+
+        final int row3 = 3;
+        GridPane gridPane = new GridPane();
+        gridPane.setId("airfield-details-grid");
+        gridPane.add(regionMinimumLabel, 0, 0);
+        gridPane.add(regionMinimum, 1, 0);
+        gridPane.add(regionMaximumLabel, 0, 1);
+        gridPane.add(regionMaximum, 1, 1);
+        gridPane.add(airfieldMaximumLabel, 0, 2);
+        gridPane.add(airfieldMaximum, 1, 2);
+        gridPane.add(airfieldCurrentLabel, 0, row3);
+        gridPane.add(airfieldCurrent, 1, row3);
+
+        VBox vBox = new VBox(gridPane);
+        vBox.setId("airfield-details-vbox");
+
+        TitledPane titledPane = new TitledPane();
+        titledPane.setText("Airfield Details");
+        titledPane.setContent(vBox);
+
+        titledPane.setMaxWidth(props.getInt("taskForce.details.width"));
+        titledPane.setMinWidth(props.getInt("taskForce.details.width"));
+        titledPane.setId("airfield-details-pane");
+
+        return titledPane;
+    }
+
+    /**
+     * Build the airfield preview map legend.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc ...
+     * @return The node that contains the airfield preview map legend.
+     */
+    private Node buildLegend(final Nation nation) {
+
+        VBox vBox = new VBox(taskForceMap.getLegendAirfield(nation));
+        vBox.setId("map-legend-vbox");
+
+        TitledPane titledPane = new TitledPane();
+        titledPane.setText("Map Legend");
+        titledPane.setContent(vBox);
+
+        titledPane.setMaxWidth(props.getInt("taskForce.details.width"));
+        titledPane.setMinWidth(props.getInt("taskForce.details.width"));
+
+        return titledPane;
     }
 
     /**
@@ -242,7 +336,7 @@ public class SquadronView {
 
         airfields.put(nation, airfieldChoiceBox);
 
-        VBox vBox = new VBox(regionVBox, airfieldVBox);
+        VBox vBox = new VBox(regionVBox, airfieldVBox, buildAirfieldDetails(nation), buildLegend(nation));
         vBox.setId("squadron-vbox");
 
         tab.setContent(vBox);

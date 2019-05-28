@@ -5,7 +5,9 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.player.Player;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.squadron.deployment.SquadronDeploymentAI;
+import engima.waratsea.model.squadron.deployment.SquadronDeploymentManual;
 import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * This class implements all of the squadron artificial intelligence.
@@ -15,15 +17,19 @@ import lombok.extern.slf4j.Slf4j;
 public class SquadronAI {
 
     private SquadronDeploymentAI squadronDeploymentAI;
+    private SquadronDeploymentManual squadronDeploymentManual;
 
     /**
      * Constructor called by guice.
      *
      * @param squadronDeploymentAI The squadron deployment AI.
+     * @param squadronDeploymentManual The squadron manual deployment.
      */
     @Inject
-    public SquadronAI(final SquadronDeploymentAI squadronDeploymentAI) {
+    public SquadronAI(final SquadronDeploymentAI squadronDeploymentAI,
+                      final SquadronDeploymentManual squadronDeploymentManual) {
         this.squadronDeploymentAI = squadronDeploymentAI;
+        this.squadronDeploymentManual = squadronDeploymentManual;
     }
 
     /**
@@ -43,6 +49,8 @@ public class SquadronAI {
      * @param player   The player.
      */
     public void manualDeployment(final Scenario scenario, final Player player) {
-        log.info("Human player deploys the squadrons, not the AI.");
+        squadronDeploymentManual.deploy(player);
     }
+
+
 }

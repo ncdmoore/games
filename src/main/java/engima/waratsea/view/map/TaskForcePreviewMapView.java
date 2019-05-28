@@ -1,6 +1,7 @@
 package engima.waratsea.view.map;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
@@ -266,4 +267,22 @@ public class TaskForcePreviewMapView {
         return gridPane;
     }
 
+    /**
+     * Get the airfield preview map legend.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc ...
+     * @return A grid pane that contains the airfield preview map legend.
+     */
+    public Node getLegendAirfield(final Nation nation) {
+        int gridSize = props.getInt("taskforce.previewMap.gridSize");
+
+        GridPane gridPane = new GridPane();
+        Node airfieldKey = AirfieldMarker.getLegend(nation, 0, 0, gridSize);
+        gridPane.add(airfieldKey, 0, 0);
+        gridPane.add(new Label("Airfield"), 1, 0);
+
+        gridPane.setId("map-legend-grid");
+
+        return gridPane;
+    }
 }
