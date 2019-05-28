@@ -40,7 +40,6 @@ public class MineMarker  {
     public void draw(final MinefieldDTO dto) {
         minefield = dto.getMinefield();
 
-
         double radius = (double) gridView.getSize() / 2;
         circle = new Circle(gridView.getX() + radius, gridView.getY() + radius, radius);
         circle.setOnMouseClicked(dto.getRemoveMineHandler());

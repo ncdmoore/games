@@ -54,12 +54,28 @@
 
 
 
-.taskforce-marker {
-    -fx-fill: linear-gradient( to right bottom, silver, black);
+.british-airfield-marker {
+    -fx-fill: linear-gradient( to right bottom, silver, blue);
 }
 
-.target-marker {
-    -fx-fill: radial-gradient(center 50% 50%, radius 60%, white, red, black);
+.german-airfield-marker {
+    -fx-fill: linear-gradient( to right bottom, silver, darkred);
+}
+
+.italian-airfield-marker {
+    -fx-fill: linear-gradient( to right bottom, silver, green);
+}
+
+.united-states-airfield-marker {
+    -fx-fill: linear-gradient( to right bottom, silver, navy);
+}
+
+.australian-airfield-marker {
+    -fx-fill: linear-gradient( to right bottom, silver, blue);
+}
+
+.japanese-airfield-marker {
+    -fx-fill: linear-gradient( to right bottom, silver, red);
 }
 
 .popup-mapRef {
@@ -78,7 +94,7 @@
     -fx-fill: black;
 }
 
-.popup-taskforce {
+.popup-airfield {
     -fx-padding: 10 10 10 10;
     -fx-spacing: 5;
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, white 0%, khaki 100%);

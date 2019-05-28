@@ -3,6 +3,7 @@ package engima.waratsea.model.base.airfield;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
+import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.game.Nation;
@@ -24,7 +25,7 @@ import java.util.Optional;
  * Represents airfield's in the game.
  */
 @Slf4j
-public class Airfield implements Airbase, PersistentData<AirfieldData> {
+public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
     @Getter
     private final Side side;
@@ -196,5 +197,25 @@ public class Airfield implements Airbase, PersistentData<AirfieldData> {
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .intValue();
+    }
+
+    /**
+     * The map location of the asset.
+     *
+     * @return The map location of the asset.
+     */
+    @Override
+    public String getLocation() {
+        return reference;
+    }
+
+    /**
+     * Get the active state of the asset.
+     *
+     * @return True if the asset is active. False if the asset is not active.
+     */
+    @Override
+    public boolean isActive() {
+        return true;
     }
 }

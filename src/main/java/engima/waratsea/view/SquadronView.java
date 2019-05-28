@@ -8,6 +8,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.map.TaskForcePreviewMapView;
@@ -19,13 +20,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -124,6 +125,54 @@ public class SquadronView {
 
         stage.setScene(scene);
         stage.show();
+    }
+
+    /**
+     * Place a task force marker on the preview map.
+     *
+     * @param dto Task force data transfer object.
+     */
+    public void markAirfieldOnMap(final TaskForceMarkerDTO dto) {
+        dto.setXOffset(props.getInt("taskforce.previewMap.popup.xOffset"));
+        taskForceMap.markAirfield(dto);
+    }
+
+    /**
+     * Set the selected airfield. Show this airfield's map marker.
+     *
+     * @param airfield the selected airfield.
+     */
+    public void setSelectedAirfield(final Airfield airfield) {
+        String name = airfield.getName();
+        taskForceMap.selectAirfieldMarker(name);
+    }
+
+    /**
+     * Clear an airfield marker.
+     *
+     * @param airfield the airfield whose marker is cleared.
+     */
+    public void clearAirfield(final Airfield airfield) {
+        String name = airfield.getName();
+        taskForceMap.clearAirfieldMarker(name);
+    }
+
+    /**
+     * Remove an airfield marker.
+     *
+     * @param airfield the airfield whose marker is removed.
+     */
+    public void removeAirfield(final Airfield airfield) {
+        String name = airfield.getName();
+        taskForceMap.removeAirfieldMarker(name);
+    }
+
+    /**
+     * Close the popup.
+     * @param event the mouse event.
+     */
+    public void closePopup(final MouseEvent event) {
+        taskForceMap.closePopup(event);
     }
 
     /**

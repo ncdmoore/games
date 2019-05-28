@@ -176,7 +176,7 @@ public class MapView {
      * @param gameGrid The grid for which the background is set.
      * @param color The color of the the new background.
      */
-        public void setBackground(final GameGrid gameGrid, final Paint color) {
+    public void setBackground(final GameGrid gameGrid, final Paint color) {
 
         Rectangle r = grid.get(gameGrid.getRow(), gameGrid.getColumn());
 

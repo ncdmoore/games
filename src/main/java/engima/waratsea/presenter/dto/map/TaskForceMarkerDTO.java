@@ -1,6 +1,7 @@
 package engima.waratsea.presenter.dto.map;
 
 import engima.waratsea.model.asset.Asset;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.view.map.GridView;
@@ -18,6 +19,10 @@ public class TaskForceMarkerDTO implements PopUpDTO {
     @Getter
     private final Asset asset;
 
+    @Getter
+    @Setter
+    private Nation nation;         //Note, some assets are shared by nations, such as airfields. Thus, we have
+                                   //explicitly set the nation to indicate which nation this marker is for.
     @Getter
     private final String mapReference;
 

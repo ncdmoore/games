@@ -13,7 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -38,12 +37,14 @@ public class TaskForcePreviewMapView {
     private Map<String, TaskForceMarker> markerMap = new HashMap<>();                //marker name -> grid.
     private Map<String, TaskForceMarker> mapRefMarkerMap = new HashMap<>();          //map reference -> grid.
 
-    private Map<String, List<TargetMarker>> targetMap = new HashMap<>();
-    private Map<String, TargetMarker> mapRefTargetMap = new HashMap<>();
+    private Map<String, List<TargetMarker>> targetMap = new HashMap<>();             //marker name -> grid.
+    private Map<String, TargetMarker> mapRefTargetMap = new HashMap<>();             //map reference -> grid.
 
+    private Map<String, AirfieldMarker> airfieldMarkerMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
+     *
      * @param props View properties.
      * @param imageResourceProvider The image resource provider.
      * @param gameMap The game map.
@@ -62,6 +63,7 @@ public class TaskForcePreviewMapView {
 
     /**
      * Draws the map grid.
+     *
      * @return The node containing the map grid.
      */
     public Node draw() {
@@ -78,6 +80,7 @@ public class TaskForcePreviewMapView {
 
     /**
      * Place the task force marker on the map.
+     *
      * @param dto The task force marker data transfer object.
      */
     public void markTaskForce(final TaskForceMarkerDTO dto) {
@@ -97,7 +100,24 @@ public class TaskForcePreviewMapView {
     }
 
     /**
+     * Place an airfield marker on the map.
+     *
+     * @param dto The task force marker data transfer object.
+     */
+    public void markAirfield(final TaskForceMarkerDTO dto) {
+        dto.setGameMap(gameMap);
+        dto.setMapView(mapView);
+
+        AirfieldMarker marker = new AirfieldMarker(dto);
+        marker.draw(dto);
+
+        airfieldMarkerMap.put(dto.getName(), marker);
+    }
+
+
+    /**
      * Place the target marker on the map.
+     *
      * @param dto The target marker data transfer object.
      */
     public void markTarget(final TargetMarkerDTO dto) {
@@ -138,6 +158,7 @@ public class TaskForcePreviewMapView {
 
     /**
      * Select a marker on the map.
+     *
      * @param name specifies the marker to select.
      */
     public void selectMarker(final String name) {
@@ -149,6 +170,7 @@ public class TaskForcePreviewMapView {
 
     /**
      * Clear a marker selection on the map.
+     *
      * @param name specifies the marker to clear.
      */
     public void clearMarker(final String name) {
@@ -160,6 +182,7 @@ public class TaskForcePreviewMapView {
 
     /**
      * Select target marker. Show the corresponding popup. Note, only a single target marker can be clicked.
+     *
      * @param clickedMarker represents the marker.
      */
     public void selectTargetMarker(final Object clickedMarker) {
@@ -172,6 +195,7 @@ public class TaskForcePreviewMapView {
 
     /**
      * Add a target marker to the preview map.
+     *
      * @param dto Target marker data transfer object.
      * @param marker The marker to add to the preview map.
      */
@@ -184,13 +208,40 @@ public class TaskForcePreviewMapView {
     }
 
     /**
+     * Select a marker on the map.
+     *
+     * @param name specifies the marker to select.
+     */
+    public void selectAirfieldMarker(final String name) {
+        airfieldMarkerMap.get(name).select(mapView, name);
+    }
+
+    /**
+     * Clear a marker selection on the map.
+     *
+     * @param name specifies the marker to clear.
+     */
+    public void clearAirfieldMarker(final String name) {
+        airfieldMarkerMap.get(name).clear(mapView);
+    }
+
+    /**
+     * Remove an airfield marker from the map.
+     *
+     * @param name specifies the marker to remove.
+     */
+    public void removeAirfieldMarker(final String name) {
+        airfieldMarkerMap.get(name).remove();
+    }
+
+    /**
      * Close the popup.
      *
      * @param event the mouse event.
      */
     public void closePopup(final MouseEvent event) {
-        VBox o = (VBox) event.getSource();
-        mapView.remove(o);
+        Node node = (Node) event.getSource();
+        mapView.remove(node);
     }
 
     /**
