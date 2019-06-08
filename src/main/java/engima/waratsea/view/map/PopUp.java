@@ -140,9 +140,6 @@ public class PopUp {
      **/
     public void adjustY(final int yOffset, final int yThreshold) {
         if (getY() > yThreshold) {
-
-            log.info("name={}", String.join(",", names));
-            log.info("y={}, offset={}", getY(), yOffset);
             popUp.setLayoutY(getY() -  yOffset);
         }
     }
