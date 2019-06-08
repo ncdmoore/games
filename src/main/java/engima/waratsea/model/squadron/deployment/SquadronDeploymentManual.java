@@ -50,6 +50,7 @@ public class SquadronDeploymentManual {
 
         airfields
                 .stream()
+                .map(airfield -> airfield.removeAllSquadrons(nation))
                 .map(airfield -> airfield.getRegion(nation))
                 .distinct()
                 .forEach(region -> region.setRequirements(squadrons));

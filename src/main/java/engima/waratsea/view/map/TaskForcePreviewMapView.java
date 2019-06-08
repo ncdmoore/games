@@ -145,16 +145,18 @@ public class TaskForcePreviewMapView {
      * This method is called to adjust the y coordinate of the popup's that are near the bottom of the map.
      */
     public void finish() {
-        int yPopUpAdjust = props.getInt("taskforce.previewMap.popup.yScale");
         int yBottomThreshold = props.getInt("taskforce.previewMap.y.size");
+        int yPopUpOffset1 = props.getInt("taskforce.previewMap.popup.yOffset.1");
 
-        markerMap.values().stream()
-                .filter(marker -> marker.isPopUpNearMapBotton(yBottomThreshold))
-                .forEach(marker -> marker.adjustY(yPopUpAdjust));
+        mapRefMarkerMap.values().forEach(marker -> {
+            int size = marker.size();
+            int yPopUpOffset = props.getInt("taskforce.previewMap.popup.yOffset." + size);
+            marker.adjustY(yPopUpOffset, yBottomThreshold);
+        });
 
-        mapRefTargetMap.values().stream()
-                .filter(marker -> marker.isPopUpNearMapBotton(yBottomThreshold))
-                .forEach(marker -> marker.adjustY(yPopUpAdjust));
+
+        airfieldMarkerMap.values().forEach(marker -> marker.adjustY(yPopUpOffset1, yBottomThreshold));
+        mapRefTargetMap.values().forEach(marker -> marker.adjustY(yPopUpOffset1, yBottomThreshold));
     }
 
     /**

@@ -8,6 +8,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
@@ -17,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
@@ -31,7 +33,9 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Represents the squadron deployment view.
@@ -54,6 +58,21 @@ public class SquadronView {
     private Map<Nation, ChoiceBox<Airfield>> airfields = new HashMap<>();
 
     @Getter
+    private ListView<Squadron> availableSquadrons = new ListView<>();
+
+    @Getter
+    private Label squadronAirfieldLabel = new Label();
+
+    @Getter
+    private ListView<Squadron> airfieldSquadrons = new ListView<>();
+
+    @Getter
+    private Button deployButton = new Button("Deploy");
+
+    @Getter
+    private Button removeButton = new Button("Remove");
+
+    @Getter
     private Button continueButton = new Button("Continue");
 
     @Getter
@@ -64,11 +83,13 @@ public class SquadronView {
 
     private TaskForcePreviewMapView taskForceMap;
 
-    private Map<Side, String> flags = new HashMap<>();
+    private Map<Nation, String> flags = new HashMap<>();
 
     private Map<Nation, Label> regionMinimumValue = new HashMap<>();
     private Map<Nation, Label> regionMaximumValue = new HashMap<>();
     private Map<Nation, Label> airfieldMaximumValue = new HashMap<>();
+
+    @Getter
     private Map<Nation, Label> airfieldCurrentValue = new HashMap<>();
 
     /**
@@ -96,8 +117,13 @@ public class SquadronView {
         this.gameMap = gameMap;
         this.taskForceMap = taskForceMap;
 
-        flags.put(Side.ALLIES, "alliesFlag50x34.png");
-        flags.put(Side.AXIS, "axisFlag50x34.png");
+        flags.put(Nation.BRITISH, "britishFlag50x34.png");
+        flags.put(Nation.ITALIAN, "axisFlag50x34.png");
+        flags.put(Nation.GERMAN, "germanFlag50x34.png");
+        flags.put(Nation.FRENCH, "axisFlag50x34.png");
+        flags.put(Nation.UNITED_STATES, "alliesFlag50x34.png");
+        flags.put(Nation.JAPANESE, "axisFlag50x34.png");
+        flags.put(Nation.AUSTRALIAN, "australian50x34.png");
     }
 
     /**
@@ -122,7 +148,9 @@ public class SquadronView {
         HBox mapPane = new HBox(nationTabPane, map);
         mapPane.setId("map-pane");
 
-        VBox vBox = new VBox(titlePane, objectivesPane, mapPane, pushButtons);
+        Node squadronsPane = buildSquadronsPane();
+
+        VBox vBox = new VBox(titlePane, objectivesPane, mapPane, squadronsPane, pushButtons);
 
         int sceneWidth = props.getInt("taskForce.scene.width");
         int sceneHeight = props.getInt("taskForce.scene.height");
@@ -166,7 +194,12 @@ public class SquadronView {
         String name = airfield.getName();
         taskForceMap.selectAirfieldMarker(name);
         airfieldMaximumValue.get(nation).setText(airfield.getMaxCapacity() + "");
-        airfieldCurrentValue.get(nation).setText(airfield.getCapacity() + "");
+        airfieldCurrentValue.get(nation).setText(airfield.getCurrentSteps() + "");
+
+        squadronAirfieldLabel.setText(airfield.getName() + " Squadrons:");
+
+        airfieldSquadrons.getItems().clear();
+        airfieldSquadrons.getItems().addAll(airfield.getSquadrons());
     }
 
     /**
@@ -190,7 +223,15 @@ public class SquadronView {
     }
 
     /**
+     * Finish the task force preview map.
+     */
+    public void finish() {
+        taskForceMap.finish();
+    }
+
+    /**
      * Close the popup.
+     *
      * @param event the mouse event.
      */
     public void closePopup(final MouseEvent event) {
@@ -206,9 +247,17 @@ public class SquadronView {
     private Node buildObjectives(final Scenario scenario) {
         Label objectiveLabel = new Label("Objectives:");
         Label objectiveValue = new Label(scenario.getObjectives());
-        ImageView flag = imageResourceProvider.getImageView(scenario.getName(), flags.get(game.getHumanSide()));
 
-        HBox hBox = new HBox(flag, objectiveLabel, objectiveValue);
+        List<ImageView> nationFlags = game
+                .getHumanPlayer()
+                .getNations()
+                .stream()
+                .map(nation -> imageResourceProvider.getImageView(scenario.getName(), flags.get(nation)))
+                .collect(Collectors.toList());
+
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(nationFlags);
+        hBox.getChildren().addAll(objectiveLabel, objectiveValue);
         hBox.setId("objective-pane");
 
         return hBox;
@@ -347,6 +396,37 @@ public class SquadronView {
         return tab;
     }
 
+    /**
+     * Build the squadron pane.
+     *
+     * @return The squadron pane Hbox.
+     */
+    private Node buildSquadronsPane() {
+
+        availableSquadrons.setMinHeight(props.getInt("squadron.list.width"));
+        availableSquadrons.setMaxHeight(props.getInt("squadron.list.width"));
+        availableSquadrons.setMinWidth(props.getInt("squadron.tabPane.width"));
+        availableSquadrons.setMaxWidth(props.getInt("squadron.tabPane.width"));
+
+        VBox buttonVBox = new VBox(deployButton, removeButton);
+        buttonVBox.setId("squadron-controls");
+
+        airfieldSquadrons.setMinHeight(props.getInt("squadron.list.width"));
+        airfieldSquadrons.setMaxHeight(props.getInt("squadron.list.width"));
+        airfieldSquadrons.setMinWidth(props.getInt("squadron.tabPane.width"));
+        airfieldSquadrons.setMaxWidth(props.getInt("squadron.tabPane.width"));
+
+        Label availableLabel = new Label("Available Squadrons:");
+
+        VBox availableVBox = new VBox(availableLabel, availableSquadrons);
+
+        VBox airfieldVBox = new VBox(squadronAirfieldLabel, airfieldSquadrons);
+
+        HBox hBox = new HBox(availableVBox, buttonVBox, airfieldVBox);
+        hBox.setId("squadron-pane");
+
+        return hBox;
+    }
 
     /**
      * build the task force push buttons.

@@ -3,7 +3,7 @@
     "name": "Malta",
     "nation": ["BRITISH"],
     "min": "0",
-    "max": "4",
+    "max": "0",
     "airfields": [
       "Malta-1940"
     ],

@@ -99,6 +99,16 @@ public class AirfieldMarker {
     }
 
     /**
+     * Move the marker's popup away from the bottom of the map.
+     *
+     * @param offset How much the y is adjusted once.
+     * @param yThreshold Determines if the popup is near the bottom and needs to be moved up.
+     **/
+    public void adjustY(final int offset, final int yThreshold) {
+        popUp.adjustY(offset, yThreshold);
+    }
+
+    /**
      * Get the map legend key. This is just a marker that used in the map legend.
      *
      * @param nation The nation.

@@ -134,16 +134,31 @@ public class PopUp {
 
     /**
      * Move the marker's popup away from the bottom of the map.
-     * @param scale How much the y is adjusted per text item in the popup.
+     *
+     * @param yOffset How much the y is adjusted once.
+     * @param yThreshold Determines if the popup is too close to the bottom and needs to be moved up.
      **/
-    public void adjustY(final int scale) {
-        VBox vBox = (VBox) popUp.getChildren().get(NAME_VBOX);
-        int size = vBox.getChildren().size();
-        popUp.setLayoutY(popUp.getLayoutY() - (scale * size));
+    public void adjustY(final int yOffset, final int yThreshold) {
+        if (getY() > yThreshold) {
+
+            log.info("name={}", String.join(",", names));
+            log.info("y={}, offset={}", getY(), yOffset);
+            popUp.setLayoutY(getY() -  yOffset);
+        }
+    }
+
+    /**
+     * Returns the size of the popup.
+     *
+     * @return The size of the popup.
+     */
+    public int size() {
+        return names.size();
     }
 
     /**
      * Get the y-coordinate of the popup.
+     *
      * @return The y-coordinate of the popup.
      */
     public double getY() {

@@ -7,6 +7,7 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.region.Region;
+import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.view.SquadronView;
@@ -34,6 +35,10 @@ public class SquadronPresenter implements Presenter {
 
     private Provider<SquadronView> viewProvider;
     private Navigate navigate;
+
+    private Airfield selectedAirfield;
+    private Squadron selectedAvailableSquadron;
+    private Squadron selectedAirfieldSquadron;
 
     /**
      * This is the constructor.
@@ -68,6 +73,10 @@ public class SquadronPresenter implements Presenter {
 
         selectFirstTab();
 
+        view.finish();
+
+        view.getDeployButton().setOnAction(event -> deploySquadron());
+        view.getRemoveButton().setOnAction(event -> removeSquadron());
         view.getContinueButton().setOnAction(event -> continueButton());
         view.getBackButton().setOnAction(event -> backButton());
     }
@@ -102,6 +111,8 @@ public class SquadronPresenter implements Presenter {
      * @param newTab The tab that now contains the focus. The new tab.
      */
     private void tabChanged(final Tab oldTab, final Tab newTab) {
+        log.info("Table changed from {} to {}", oldTab.getText(), newTab.getText());
+
         Nation oldNation = determineNation(oldTab.getText());
         Nation newNation = determineNation(newTab.getText());
 
@@ -123,6 +134,16 @@ public class SquadronPresenter implements Presenter {
 
         selectFirstRegion(newNation);
         selectFirstAirfield(newNation);
+
+        List<Squadron> available = game
+                .getHumanPlayer()
+                .getSquadrons(newNation)
+                .stream()
+                .filter(Squadron::isAvailable)
+                .collect(Collectors.toList());
+
+        view.getAvailableSquadrons().getItems().clear();
+        view.getAvailableSquadrons().getItems().addAll(available);
     }
 
     /**
@@ -137,6 +158,9 @@ public class SquadronPresenter implements Presenter {
                 .collect(Collectors.toList());
 
         nations.forEach(this::registerSelections);
+
+        view.getAvailableSquadrons().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> availableSquadronSelected(newValue));
+        view.getAirfieldSquadrons().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> airfieldSquadronSelected(newValue));
     }
 
     /**
@@ -232,9 +256,28 @@ public class SquadronPresenter implements Presenter {
 
         clearAllAirfields();
 
+        selectedAirfield = airfield;
+
         view.setSelectedAirfield(nation, airfield);
     }
 
+    /**
+     * Callback when an available squadron is selected.
+     *
+     * @param squadron The selected available squadron.
+     */
+    private void availableSquadronSelected(final Squadron squadron) {
+        selectedAvailableSquadron = squadron;
+    }
+
+    /**
+     * Callback when an airfield squadron is selected.
+     *
+     * @param squadron The selected airfield squadron.
+     */
+    private void airfieldSquadronSelected(final Squadron squadron) {
+        selectedAirfieldSquadron = squadron;
+    }
     /**
      * Clear all the task force selections.
      */
@@ -326,10 +369,52 @@ public class SquadronPresenter implements Presenter {
 
     /**
      * Close the popup.
+     *
      * @param event the mouse event.
      */
     private void closePopup(final MouseEvent event) {
         view.closePopup(event);
+    }
+
+    /**
+     * Deploy the selected squadron.
+     */
+    private void deploySquadron() {
+        log.info("Deploy {}", selectedAvailableSquadron);
+
+        if (selectedAvailableSquadron != null) {
+            // Save off the squadron, because when we remove the selected avaiable squadron
+            // from the list the selected available squadron changes.
+            Squadron squadron = selectedAvailableSquadron;
+
+            if (selectedAirfield.addSquadron(squadron)) {                     // Add the squadron to the airfield.
+                view.getAvailableSquadrons().getItems().remove(squadron);     // Remove the squadron from the available list.
+                view.getAirfieldSquadrons().getItems().add(squadron);         // Add the squadron to the airfield list.
+
+                selectedAirfield.getNations().forEach(nation ->
+                    view.getAirfieldCurrentValue().get(nation).setText(selectedAirfield.getCurrentSteps() + ""));
+            }
+        }
+    }
+
+    /**
+     * Remove the selected squadron from the selected airfield.
+     */
+    private void removeSquadron() {
+        log.info("Remove {}", selectedAirfieldSquadron);
+
+        if (selectedAirfieldSquadron != null) {
+            Squadron squadron = selectedAirfieldSquadron;
+
+            view.getAirfieldSquadrons().getItems().remove(squadron);
+
+            selectedAirfield.removeSquadron(squadron);
+
+            view.getAvailableSquadrons().getItems().add(squadron);
+
+            selectedAirfield.getNations().forEach(nation ->
+                view.getAirfieldCurrentValue().get(nation).setText(selectedAirfield.getCurrentSteps() + ""));
+        }
     }
 
     /**

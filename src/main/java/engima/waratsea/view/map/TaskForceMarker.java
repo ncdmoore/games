@@ -104,20 +104,20 @@ public class TaskForceMarker {
     /**
      * Move the marker's popup away from the bottom of the map.
      *
-     * @param scale How much the y is adjusted per text item in the popup.
+     * @param offset How much the y is adjusted once.
+     * @param yThreshold Determines if the popup is near the bottom and needs to be moved up.
      **/
-    public void adjustY(final int scale) {
-        popUp.adjustY(scale);
+    public void adjustY(final int offset, final int yThreshold) {
+        popUp.adjustY(offset, yThreshold);
     }
 
     /**
-     * Determine if the pop up is near the bottom of the map.
+     * Get the size of the marker.
      *
-     * @param yThreshold The y threshold for which popups are moved upward to avoid running off the bottom of the map.
-     * @return True if the popup is near the bottom of the map.
+     * @return The size of the marker.
      */
-    public boolean isPopUpNearMapBotton(final int yThreshold) {
-        return popUp.getY() > yThreshold;
+    public int size() {
+        return popUp.size();
     }
 
     /**

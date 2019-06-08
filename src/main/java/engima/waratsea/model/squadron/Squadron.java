@@ -192,6 +192,23 @@ public class Squadron implements PersistentData<SquadronData> {
     }
 
     /**
+     * Indicates if the squadron is deployed.
+     *
+     * @return True if the squadron is deployed. False otherwise.
+     */
+    public boolean isDeployed() {
+        return airfield != null;
+    }
+
+    /**
+     * Indicates if the squadron is available (not deployed).
+     *
+     * @return True if the squadron is available (not deployed). False otherwise.
+     */
+    public boolean isAvailable() {
+        return airfield == null;
+    }
+    /**
      * The String representation of a squadron.
      *
      * @return The String representation of a squadron.

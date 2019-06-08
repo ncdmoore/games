@@ -117,6 +117,15 @@ public class Scenario implements Comparable<Scenario> {
     }
 
     /**
+     * Indicates if the human player manually deploys squadrons.
+     *
+     * @return True if the human player manually deploys squadrons.
+     */
+    public boolean isSquadronDeploymentForHumanSide() {
+        return squadron == SquadronDeploymentType.HUMAN;
+    }
+
+    /**
      * Returns the string health of the scenario. This is used in the javafx list view control.
      *
      * @return The string health of the scenario.

@@ -13,6 +13,7 @@ import engima.waratsea.presenter.SquadronPresenter;
 import engima.waratsea.presenter.StartPresenter;
 import engima.waratsea.presenter.TaskForcePresenter;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,13 +24,10 @@ import java.util.Map;
  */
 @Singleton
 public class Navigate {
-    private Map<Class<?>, Provider<? extends Presenter>> nextMap = new HashMap<>();
-    private Map<Class<?>, Provider<? extends Presenter>> prevMap = new HashMap<>();
 
-    private Provider<MinefieldPresenter> minefieldPresenterProvider;
-    private Provider<FlotillaPresenter> flotillaPresenterProvider;
-
-    private Provider<SquadronPresenter> squadronPresenterProvider;
+    private Map<Class<?>, Class<?>> nextPage = new HashMap<>();
+    private Map<Class<?>, Class<?>> prevPage = new HashMap<>();
+    private Map<Class<?>, Pair<Provider<? extends Presenter>, Boolean>> presenterMap = new HashMap<>();
 
     /**
      * The constructor called by guice.
@@ -51,24 +49,27 @@ public class Navigate {
                     final Provider<SquadronPresenter> squadronPresenterProvider,
                     final Provider<MainPresenter> mainPresenterProvider) {
 
-        nextMap.put(StartPresenter.class, scenarioPresenterProvider);
-        nextMap.put(ScenarioPresenter.class, taskForcePresenterProvider);
-        nextMap.put(TaskForcePresenter.class, flotillaPresenterProvider);
-        nextMap.put(FlotillaPresenter.class, minefieldPresenterProvider);
-        nextMap.put(MinefieldPresenter.class, squadronPresenterProvider);
-        nextMap.put(SquadronPresenter.class, mainPresenterProvider);
+        nextPage.put(StartPresenter.class, ScenarioPresenter.class);
+        nextPage.put(ScenarioPresenter.class, TaskForcePresenter.class);
+        nextPage.put(TaskForcePresenter.class, FlotillaPresenter.class);
+        nextPage.put(FlotillaPresenter.class, MinefieldPresenter.class);
+        nextPage.put(MinefieldPresenter.class, SquadronPresenter.class);
+        nextPage.put(SquadronPresenter.class, MainPresenter.class);
 
-        prevMap.put(ScenarioPresenter.class, startPresenterProvider);
-        prevMap.put(TaskForcePresenter.class, scenarioPresenterProvider);
-        prevMap.put(FlotillaPresenter.class, taskForcePresenterProvider);
-        prevMap.put(MinefieldPresenter.class, flotillaPresenterProvider);
-        prevMap.put(SquadronPresenter.class, minefieldPresenterProvider);
-
+        prevPage.put(ScenarioPresenter.class, StartPresenter.class);
+        prevPage.put(TaskForcePresenter.class, ScenarioPresenter.class);
+        prevPage.put(FlotillaPresenter.class, TaskForcePresenter.class);
+        prevPage.put(MinefieldPresenter.class, FlotillaPresenter.class);
+        prevPage.put(SquadronPresenter.class, MinefieldPresenter.class);
         //There is no back button from the main presenter.
 
-        this.flotillaPresenterProvider = flotillaPresenterProvider;
-        this.minefieldPresenterProvider = minefieldPresenterProvider;
-        this.squadronPresenterProvider = squadronPresenterProvider;
+        presenterMap.put(StartPresenter.class, new Pair<>(startPresenterProvider, true));
+        presenterMap.put(ScenarioPresenter.class, new Pair<>(scenarioPresenterProvider, true));
+        presenterMap.put(TaskForcePresenter.class, new Pair<>(taskForcePresenterProvider, true));
+        presenterMap.put(FlotillaPresenter.class, new Pair<>(flotillaPresenterProvider, true));
+        presenterMap.put(MinefieldPresenter.class, new Pair<>(minefieldPresenterProvider, true));
+        presenterMap.put(SquadronPresenter.class, new Pair<>(squadronPresenterProvider, true));
+        presenterMap.put(MainPresenter.class, new Pair<>(mainPresenterProvider, true));
     }
 
     /**
@@ -78,7 +79,14 @@ public class Navigate {
      * @param stage The javafx stage of the next screen.
      */
     public void goNext(final Class<?> clazz, final Stage stage) {
-        nextMap.get(clazz).get().show(stage);
+        Class<?> page = nextPage.get(clazz);
+
+        Pair<Provider<? extends Presenter>, Boolean> pair = presenterMap.get(page);
+        if (pair.getValue()) {
+            pair.getKey().get().show(stage);
+        } else {
+            goNext(page, stage);
+        }
     }
 
     /**
@@ -88,7 +96,14 @@ public class Navigate {
      * @param stage The javafx stage of the previous screen.
      */
     public void goPrev(final Class<?> clazz, final Stage stage) {
-        prevMap.get(clazz).get().show(stage);
+        Class<?> page = prevPage.get(clazz);
+
+        Pair<Provider<? extends Presenter>, Boolean> pair = presenterMap.get(page);
+        if (pair.getValue()) {
+            pair.getKey().get().show(stage);
+        } else {
+            goPrev(page, stage);
+        }
     }
 
     /**
@@ -103,31 +118,18 @@ public class Navigate {
      * @param scenairo The selected scenario.
      */
     public void update(final Scenario scenairo) {
-
-        if (scenairo.isMinefieldForHumanSide()) {
-            addMinefieldPresenter();
-        } else {
-            removeMinefieldPresenter();
-        }
+        updatePresenter(MinefieldPresenter.class, scenairo.isMinefieldForHumanSide());
+        updatePresenter(SquadronPresenter.class,  scenairo.isSquadronDeploymentForHumanSide());
     }
 
     /**
-     * Add the minefield presenter to the navigation maps.
+     * Add or remove a presenter to the navigation maps.
+     *
+     * @param page The presenter to be added or removed.
+     * @param show True causes the given presenter to be shown. False causes the given presenter to not be shown.
      */
-    private void addMinefieldPresenter() {
-        nextMap.put(FlotillaPresenter.class, minefieldPresenterProvider);
-        nextMap.put(MinefieldPresenter.class, squadronPresenterProvider);
-
-        prevMap.put(MinefieldPresenter.class, flotillaPresenterProvider);
-
-    }
-
-    /**
-     * Remove the minefield presenter from the navigation maps.
-     */
-    private void removeMinefieldPresenter() {
-        nextMap.put(FlotillaPresenter.class, nextMap.get(MinefieldPresenter.class));
-        prevMap.put(SquadronPresenter.class, flotillaPresenterProvider);
-
+    private void updatePresenter(final Class<?> page, final boolean show) {
+        Pair<Provider<? extends Presenter>, Boolean> oldPair = presenterMap.get(page);
+        presenterMap.put(page, new Pair<>(oldPair.getKey(), show));
     }
 }

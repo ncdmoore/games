@@ -50,7 +50,6 @@ public enum Nation {
         this.shipPrefix = shipPrefix;
     }
 
-
     /**
      * The string representation of the nation.
      *

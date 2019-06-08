@@ -154,9 +154,14 @@
     -fx-background-radius: 0;
 }
 
-#taskforce-summary-hbox {
-    -fx-padding: /* top */ 10 /* right */ 0 /* bottom */ 0 /* left */ 10;
+#squadron-pane {
+    -fx-padding: /* top */ 10 /* right */ 0 /* bottom */ 0 /* left */ 260;
     -fx-spacing: 30px;
+}
+
+#squadron-controls {
+    -fx-padding: /* top */ 60 /* right */ 0 /* bottom */ 0 /* left */ 0;
+    -fx-spacing: 10;
 }
 
 #push-buttons  {

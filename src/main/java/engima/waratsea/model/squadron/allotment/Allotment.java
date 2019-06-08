@@ -82,6 +82,6 @@ public class Allotment {
      * @return A list of squadron models.
      */
     private List<SquadronData> getSquadrons(final AllotmentTableData data) {
-        return factory.create(data).getSquadrons();
+        return factory.create(nation, data).getSquadrons();
     }
 }

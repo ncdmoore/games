@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Represents airfield's in the game.
@@ -113,6 +115,15 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
+     * Get a set of the airfield's nations.
+     *
+     * @return A set of the airfield's nations.
+     */
+    public Set<Nation> getNations() {
+        return regions.keySet();
+    }
+
+    /**
      * Base a squadron from this airfield.
      *
      * @param squadron The squadron which is now based at this airfield.
@@ -140,6 +151,35 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     public void removeSquadron(final Squadron squadron) {
         squadrons.remove(squadron);
         squadron.setAirfield(null);
+    }
+
+    /**
+     * Remove all of the given nation's squadrons.
+     *
+     * @param nation The nation BRITISH, ITALIAN, etc...
+     * @return The airfield.
+     */
+    public Airfield removeAllSquadrons(final Nation nation) {
+        List<Squadron> toBeRemoved = squadrons
+                .stream()
+                .filter(squadron -> squadron.getNation() == nation)
+                .collect(Collectors.toList());
+
+        squadrons.removeAll(toBeRemoved);
+
+        return this;
+    }
+
+    /**
+     * Get the current number of steps.
+     *
+     * @return The current number of steps deployed at this airfield.
+     */
+    public BigDecimal getCurrentSteps() {
+        return squadrons
+                .stream()
+                .map(Squadron::getSteps)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     /**

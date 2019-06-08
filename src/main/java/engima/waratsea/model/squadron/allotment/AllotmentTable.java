@@ -2,6 +2,7 @@ package engima.waratsea.model.squadron.allotment;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.allotment.data.AllotmentTableData;
 import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.utility.Dice;
@@ -29,11 +30,13 @@ public class AllotmentTable {
     /**
      * The constructor called by guice.
      *
+     * @param nation The nation BRITISH, ITALIAN, etc...
      * @param data The allotment table data read in from a JSON file.
      * @param dice A utility for rolling dice.
      */
     @Inject
-    public AllotmentTable(@Assisted final AllotmentTableData data,
+    public AllotmentTable(@Assisted final Nation nation,
+                          @Assisted final AllotmentTableData data,
                                     final Dice dice) {
 
         groups = data.getGroups()
@@ -41,6 +44,8 @@ public class AllotmentTable {
                 .map(AllotmentGroup::new)
                 .collect(Collectors.toList());
 
+
+        log.debug("{} : number of dice: {}", nation, data.getDice());
 
         int numberOfSteps = dice.sumDiceRoll(data.getDice()) + data.getFactor();
 
@@ -50,7 +55,7 @@ public class AllotmentTable {
 
         int numberOfSquadrons = numberOfSteps / 2;
 
-        log.debug("Number of squadrons: {}", numberOfSquadrons);
+        log.debug("{} : Number of steps: {}", nation, numberOfSteps);
 
         // loop through the groups picking squadrons from each group.
         int neededSquadrons = numberOfSquadrons;
