@@ -4,12 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * An aircraft's range data.
+ * An aircraft's ferryDistance data.
  */
 public class RangeData {
     @Getter
     @Setter
-    private int range;
+    private int ferryDistance;
 
     @Getter
     @Setter

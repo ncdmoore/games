@@ -3,6 +3,7 @@ package engima.waratsea.presenter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import engima.waratsea.model.aircraft.AircraftBaseType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
@@ -267,6 +268,7 @@ public class SquadronPresenter implements Presenter {
      * @param squadron The selected available squadron.
      */
     private void availableSquadronSelected(final Squadron squadron) {
+        log.info("Select Squadron {}", squadron);
         selectedAvailableSquadron = squadron;
     }
 
@@ -276,6 +278,7 @@ public class SquadronPresenter implements Presenter {
      * @param squadron The selected airfield squadron.
      */
     private void airfieldSquadronSelected(final Squadron squadron) {
+        log.info("Select Squadron {}", squadron);
         selectedAirfieldSquadron = squadron;
     }
     /**
@@ -391,8 +394,14 @@ public class SquadronPresenter implements Presenter {
                 view.getAvailableSquadrons().getItems().remove(squadron);     // Remove the squadron from the available list.
                 view.getAirfieldSquadrons().getItems().add(squadron);         // Add the squadron to the airfield list.
 
-                selectedAirfield.getNations().forEach(nation ->
-                    view.getAirfieldCurrentValue().get(nation).setText(selectedAirfield.getCurrentSteps() + ""));
+                AircraftBaseType type = squadron.getBaseType();
+
+                selectedAirfield.getNations().forEach(nation -> {
+                    view.getAirfieldCurrentValue().get(nation).setText(selectedAirfield.getCurrentSteps() + "");
+                    view.getAirfieldSteps().get(nation).get(type).setText(selectedAirfield.getStepsForType(type) + "");
+                });
+
+
             }
         }
     }
@@ -410,10 +419,16 @@ public class SquadronPresenter implements Presenter {
 
             selectedAirfield.removeSquadron(squadron);
 
-            view.getAvailableSquadrons().getItems().add(squadron);
+            if (squadron.getNation() == determineNation()) {
+                view.getAvailableSquadrons().getItems().add(squadron);
+            }
 
-            selectedAirfield.getNations().forEach(nation ->
-                view.getAirfieldCurrentValue().get(nation).setText(selectedAirfield.getCurrentSteps() + ""));
+            AircraftBaseType type = squadron.getBaseType();
+
+            selectedAirfield.getNations().forEach(nation -> {
+                view.getAirfieldCurrentValue().get(nation).setText(selectedAirfield.getCurrentSteps() + "");
+                view.getAirfieldSteps().get(nation).get(type).setText(selectedAirfield.getStepsForType(type) + "");
+            });
         }
     }
 

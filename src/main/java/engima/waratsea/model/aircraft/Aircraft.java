@@ -73,9 +73,9 @@ public interface Aircraft {
     AttackFactor getNaval();
 
     /**
-     * Get the aircraft's range.
+     * Get the aircraft's ferryDistance.
      *
-     * @return The aircraft's range.
+     * @return The aircraft's ferryDistance.
      */
     Range getRange();
 

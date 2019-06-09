@@ -4,11 +4,14 @@ import engima.waratsea.model.aircraft.data.RangeData;
 import lombok.Getter;
 
 /**
- * Represents an aircraft's range.
+ * Represents an aircraft's ferryDistance.
  */
 public class Range {
     @Getter
-    private final int range;
+    private final int ferryDistance;
+
+    @Getter
+    private final int radius;
 
     @Getter
     private final int endurance;
@@ -16,10 +19,11 @@ public class Range {
     /**
      * Constructor.
      *
-     * @param data The aircraft's range data read in from a JSON file.
+     * @param data The aircraft's ferryDistance data read in from a JSON file.
      */
     public Range(final RangeData data) {
-        this.range = data.getRange();
+        this.ferryDistance = data.getFerryDistance();
+        this.radius = ferryDistance / 2 + ferryDistance % 2;
         this.endurance = data.getEndurance();
     }
 }

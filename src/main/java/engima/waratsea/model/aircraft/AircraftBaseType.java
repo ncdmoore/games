@@ -7,11 +7,22 @@ import java.util.List;
  * Represents the base aircraft type. This represents the aircraft's main purpose; the role in which it is best suited.
  */
 public enum AircraftBaseType {
-    RECON,
-    FIGHTER,
-    BOMBER;
+    RECON("Recon"),
+    FIGHTER("Fighter"),
+    BOMBER("Bomber");
 
     private static List<AircraftBaseType> values = Arrays.asList(AircraftBaseType.values());
+
+    private String value;
+
+    /**
+     * The constructor.
+     *
+     * @param value The String value of this enum.
+     */
+    AircraftBaseType(final String value) {
+        this.value = value;
+    }
 
     /**
      * This is used to loop through the enum values. This returns the next value
@@ -30,5 +41,15 @@ public enum AircraftBaseType {
         }
 
         return values.get(index);
+    }
+
+    /**
+     * Get the String representation of this enum.
+     *
+     * @return The String representation of this enum.
+     */
+    @Override
+    public String toString() {
+        return value;
     }
 }

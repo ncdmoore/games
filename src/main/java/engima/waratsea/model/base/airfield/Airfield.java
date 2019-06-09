@@ -3,6 +3,7 @@ package engima.waratsea.model.base.airfield;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
+import engima.waratsea.model.aircraft.AircraftBaseType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
@@ -178,6 +179,20 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     public BigDecimal getCurrentSteps() {
         return squadrons
                 .stream()
+                .map(Squadron::getSteps)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    /**
+     * Get a map of steps by aircraft base type.
+     *
+     * @param type An aircraft base type.
+     * @return The number of steps of aircraft of the given type based at this airfield.
+     */
+    public BigDecimal getStepsForType(final AircraftBaseType type) {
+        return  squadrons
+                .stream()
+                .filter(squadron -> squadron.getBaseType() == type)
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }

@@ -208,6 +208,16 @@ public class Squadron implements PersistentData<SquadronData> {
     public boolean isAvailable() {
         return airfield == null;
     }
+
+    /**
+     * Get the squadron's ferryDistance.
+     *
+     * @return The squadron's ferryDistance.
+     */
+    public int getRange() {
+        return aircraft.getRange().getRadius();
+    }
+
     /**
      * The String representation of a squadron.
      *
@@ -215,6 +225,6 @@ public class Squadron implements PersistentData<SquadronData> {
      */
     @Override
     public String toString() {
-        return name;
+        return name + " (" + getType().toString() + ")";
     }
 }

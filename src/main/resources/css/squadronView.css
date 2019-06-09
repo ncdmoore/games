@@ -49,7 +49,7 @@
 #squadron-vbox {
     -fx-padding: /* top */ 10 /* right */ 0 /* bottom */ 0 /* left */ 0;
 
-    -fx-spacing: 30;
+    -fx-spacing: 10;
 }
 
 
@@ -145,6 +145,14 @@
 }
 
 #airfield-details-grid {
+    -fx-hgap: 10;
+}
+
+#airfield-summary-vbox {
+    -fx-background-color: whitesmoke;
+}
+
+#airfield-summary-grid {
     -fx-hgap: 10;
 }
 

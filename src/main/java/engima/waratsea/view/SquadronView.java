@@ -1,6 +1,7 @@
 package engima.waratsea.view;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.aircraft.AircraftBaseType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
@@ -15,6 +16,7 @@ import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.map.TaskForcePreviewMapView;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -36,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Represents the squadron deployment view.
@@ -91,6 +94,9 @@ public class SquadronView {
 
     @Getter
     private Map<Nation, Label> airfieldCurrentValue = new HashMap<>();
+
+    @Getter
+    private Map<Nation, Map<AircraftBaseType, Label>> airfieldSteps = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -200,6 +206,13 @@ public class SquadronView {
 
         airfieldSquadrons.getItems().clear();
         airfieldSquadrons.getItems().addAll(airfield.getSquadrons());
+
+        GridPane gridPane = new GridPane();
+        gridPane.setId("airfield-summary-grid");
+
+        for (AircraftBaseType type : AircraftBaseType.values()) {
+            airfieldSteps.get(nation).get(type).setText(airfield.getStepsForType(type) + "");
+        }
     }
 
     /**
@@ -269,12 +282,12 @@ public class SquadronView {
      * @param nation The nation BRITISH, ITALIAN, etc ...
      * @return A node containing the task foce state and mission details.
      */
-    private Node buildAirfieldDetails(final Nation nation) {
+    private TitledPane buildAirfieldDetails(final Nation nation) {
 
         Text regionMinimumLabel = new Text("Region Minimum:");
         Text regionMaximumLabel = new Text("Region Maximum:");
         Text airfieldMaximumLabel = new Text("Airfield Maximum:");
-        Text airfieldCurrentLabel = new Text("Arifield Current:");
+        Text airfieldCurrentLabel = new Text("Airfield Current:");
 
         Label regionMaximum = new Label();
         regionMaximumValue.put(nation, regionMaximum);
@@ -310,6 +323,41 @@ public class SquadronView {
         titledPane.setMaxWidth(props.getInt("taskForce.details.width"));
         titledPane.setMinWidth(props.getInt("taskForce.details.width"));
         titledPane.setId("airfield-details-pane");
+
+        return titledPane;
+    }
+
+    /**
+     * Build the squadron summary pane.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return The titled pane that contains the squadron summary for the current airfield.
+     */
+    private TitledPane buildSquadronSummary(final Nation nation) {
+        Map<AircraftBaseType, Label> airfieldStepMap = new HashMap<>();
+        Stream.of(AircraftBaseType.values()).forEach(type -> airfieldStepMap.put(type, new Label()));
+        airfieldSteps.put(nation, airfieldStepMap);
+
+        GridPane gridPane = new GridPane();
+        gridPane.setId("airfield-summary-grid");
+
+        int row = 0;
+        for (AircraftBaseType type : AircraftBaseType.values()) {
+            gridPane.add(new Label(type.toString() + ":"), 0, row);
+            gridPane.add(airfieldSteps.get(nation).get(type), 1, row);
+            row++;
+        }
+
+        VBox vBox = new VBox(gridPane);
+        vBox.setId("airfield-summary-vbox");
+
+        TitledPane titledPane = new TitledPane();
+        titledPane.setText("Squadron Summary");
+        titledPane.setContent(vBox);
+
+        titledPane.setMaxWidth(props.getInt("taskForce.details.width"));
+        titledPane.setMinWidth(props.getInt("taskForce.details.width"));
+        titledPane.setId("squadron-summary-pane");
 
         return titledPane;
     }
@@ -385,7 +433,13 @@ public class SquadronView {
 
         airfields.put(nation, airfieldChoiceBox);
 
-        VBox vBox = new VBox(regionVBox, airfieldVBox, buildAirfieldDetails(nation), buildLegend(nation));
+        Accordion accordion = new Accordion();
+        TitledPane airfieldDetails = buildAirfieldDetails(nation);
+        TitledPane squadronSummary = buildSquadronSummary(nation);
+        accordion.getPanes().addAll(airfieldDetails, squadronSummary);
+        accordion.setExpandedPane(airfieldDetails);
+
+        VBox vBox = new VBox(regionVBox, airfieldVBox, accordion, buildLegend(nation));
         vBox.setId("squadron-vbox");
 
         tab.setContent(vBox);

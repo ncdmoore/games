@@ -526,15 +526,15 @@ public class ShipDetailsView {
     }
 
     /**
-     * Get the squadron's range data.
+     * Get the squadron's ferryDistance data.
      *
      * @param squadron The selected squadron.
-     * @return The squadron's range data.
+     * @return The squadron's ferryDistance data.
      */
     private Map<String, String> getRange(final Squadron squadron) {
         Aircraft aircraft = squadron.getAircraft();
         Map<String, String> details = new LinkedHashMap<>();
-        details.put("Range", aircraft.getRange().getRange() + "");
+        details.put("Range", aircraft.getRange().getFerryDistance() + "");
         details.put("Endurance", aircraft.getRange().getEndurance() + "");
         details.put("Altitude Rating", aircraft.getAltitude().toString());
         details.put("Landing Type", aircraft.getLanding().toString());
