@@ -180,6 +180,22 @@ public class SquadronView {
     }
 
     /**
+     * Mark a squadron's range radius on the preview map.
+     *
+     * @param dto The data transfer object.
+     */
+    public void markSquadronRangeOnMap(final TaskForceMarkerDTO dto) {
+        taskForceMap.markRange(dto);
+    }
+
+    /**
+     * Clear a squadron's range radius on the preview map.
+     */
+    public void clearSquadronRange() {
+        taskForceMap.clearRange();
+    }
+
+    /**
      * Set the selected regionl Show the region's details.
      *
      * @param nation The nation BRITISH, ITALIAN, etc ...

@@ -61,7 +61,7 @@ public class FlotillaPreviewMapView {
         ImageView imageView = imageResourceProvider.getImageView("previewMap.png");
         int gridSize = props.getInt("taskforce.previewMap.gridSize");
 
-        Node grid = mapView.draw(gridSize);
+        Node grid = mapView.draw(imageView, gridSize);
 
         StackPane map = new StackPane(imageView, grid);
         map.setAlignment(Pos.TOP_LEFT);

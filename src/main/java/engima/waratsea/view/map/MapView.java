@@ -6,6 +6,7 @@ import engima.waratsea.model.map.GameMap;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -31,6 +32,9 @@ public class MapView {
     private int numberOfColumns;
 
     @Getter
+    private ImageView background;
+
+    @Getter
     private int gridSize;
 
     @Getter
@@ -51,14 +55,17 @@ public class MapView {
     /**
      * Draw the map's grid.
      *
+     *
+     * @param backgroundImage The background image of the map.
      * @param sizeOfTheGrids Size of the square grid in pixels.
      * @return The grid.
      */
-    public Group draw(final int sizeOfTheGrids) {
+    public Group draw(final ImageView backgroundImage, final int sizeOfTheGrids) {
 
         numberOfRows = gameMap.getRows();
         numberOfColumns = gameMap.getColumns();
 
+        background = backgroundImage;
         gridSize = sizeOfTheGrids;
 
         int currentNumberOfRows = numberOfRows;

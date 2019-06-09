@@ -8,6 +8,7 @@ import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.marker.AirfieldMarker;
+import engima.waratsea.view.map.marker.SquadronRangeMarker;
 import engima.waratsea.view.map.marker.TargetMarker;
 import engima.waratsea.view.map.marker.TaskForceMarker;
 import javafx.geometry.Pos;
@@ -46,6 +47,9 @@ public class TaskForcePreviewMapView {
 
     private Map<String, AirfieldMarker> airfieldMarkerMap = new HashMap<>();
 
+    private SquadronRangeMarker rangeMarker;
+
+    private ImageView imageView;
     /**
      * Constructor called by guice.
      *
@@ -71,10 +75,10 @@ public class TaskForcePreviewMapView {
      * @return The node containing the map grid.
      */
     public Node draw() {
-        ImageView imageView = imageResourceProvider.getImageView("previewMap.png");
+        imageView = imageResourceProvider.getImageView("previewMap.png");
         int gridSize = props.getInt("taskforce.previewMap.gridSize");
 
-        Node grid = mapView.draw(gridSize);
+        Node grid = mapView.draw(imageView, gridSize);
 
         StackPane map = new StackPane(imageView, grid);
         map.setAlignment(Pos.TOP_LEFT);
@@ -141,6 +145,31 @@ public class TaskForcePreviewMapView {
             marker.draw(active);
             mapRefTargetMap.put(dto.getMapReference(), marker);
             addTargetMarker(dto, marker);
+        }
+    }
+
+    /**
+     * Mark the selected squadron's range radius from the selected airfield.
+     *
+     * @param dto The data transfer object.
+     */
+    public void markRange(final TaskForceMarkerDTO dto) {
+        dto.setGameMap(gameMap);
+        dto.setMapView(mapView);
+        dto.setImageView(imageView);
+
+        clearRange();   // Clear the old range marker.
+
+        rangeMarker = new SquadronRangeMarker(dto);
+        rangeMarker.display();
+    }
+
+    /**
+     * Clear the range radius.
+     */
+    public void clearRange() {
+        if (rangeMarker != null) {
+            rangeMarker.hide();
         }
     }
 

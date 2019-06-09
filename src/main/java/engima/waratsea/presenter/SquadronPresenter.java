@@ -160,6 +160,9 @@ public class SquadronPresenter implements Presenter {
 
         nations.forEach(this::registerSelections);
 
+        selectedAirfieldSquadron = null;
+        selectedAvailableSquadron = null;
+
         view.getAvailableSquadrons().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> availableSquadronSelected(newValue));
         view.getAirfieldSquadrons().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> airfieldSquadronSelected(newValue));
     }
@@ -249,8 +252,11 @@ public class SquadronPresenter implements Presenter {
      * @param airfield The selected airfield.
      */
     private void airfieldSelected(final Airfield airfield) {
+        log.info("Selected airfield {}", airfield);
+
         if (airfield == null) {    // This happens when the airfield choice box is cleared.
-            return;                // We do nothing when the airfield choice box is cleared.
+            view.clearSquadronRange();
+            return;
         }
 
         Nation nation = determineNation();
@@ -260,6 +266,9 @@ public class SquadronPresenter implements Presenter {
         selectedAirfield = airfield;
 
         view.setSelectedAirfield(nation, airfield);
+
+        markSquadronRange(selectedAirfield, selectedAvailableSquadron);
+
     }
 
     /**
@@ -270,6 +279,12 @@ public class SquadronPresenter implements Presenter {
     private void availableSquadronSelected(final Squadron squadron) {
         log.info("Select Squadron {}", squadron);
         selectedAvailableSquadron = squadron;
+
+        if (squadron == null) {
+            view.clearSquadronRange();
+        } else {
+            markSquadronRange(selectedAirfield, squadron);
+        }
     }
 
     /**
@@ -280,6 +295,13 @@ public class SquadronPresenter implements Presenter {
     private void airfieldSquadronSelected(final Squadron squadron) {
         log.info("Select Squadron {}", squadron);
         selectedAirfieldSquadron = squadron;
+
+        if (squadron == null) {
+            view.clearSquadronRange();
+        } else {
+            markSquadronRange(selectedAirfield, squadron);
+        }
+
     }
     /**
      * Clear all the task force selections.
@@ -345,6 +367,30 @@ public class SquadronPresenter implements Presenter {
     }
 
     /**
+     * Mark the given selected squadron's range radius circle from the given airfield.
+     *
+     * @param airfield The selected airfield.
+     * @param squadron The selected squadron.
+     */
+    private void markSquadronRange(final Airfield airfield, final Squadron squadron) {
+
+        if (squadron == null) {
+            return;
+        }
+
+        // Temporarily assign the squadron to the selected airfield so that the range
+        // marker marker is properly displayed.
+        squadron.setAirfield(airfield);
+
+        TaskForceMarkerDTO dto = new TaskForceMarkerDTO(squadron);
+
+        view.markSquadronRangeOnMap(dto);
+
+        // Unassign the squadron now that the range has been marked.
+        squadron.setAirfield(null);
+    }
+
+    /**
      * Show the flotilla's popup.
      *
      * @param event The mouse event click on the flotilla marker.
@@ -383,7 +429,7 @@ public class SquadronPresenter implements Presenter {
      * Deploy the selected squadron.
      */
     private void deploySquadron() {
-        log.info("Deploy {}", selectedAvailableSquadron);
+        log.info("Deploy {} to {}", selectedAvailableSquadron, selectedAirfield);
 
         if (selectedAvailableSquadron != null) {
             // Save off the squadron, because when we remove the selected avaiable squadron

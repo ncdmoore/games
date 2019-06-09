@@ -9,6 +9,7 @@ import engima.waratsea.model.aircraft.AircraftId;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.AviationPlant;
 import engima.waratsea.model.aircraft.AviationPlantException;
+import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -28,7 +29,7 @@ import java.util.Optional;
  * Represents an aircraft squadron of a particular class of aircraft.
  */
 @Slf4j
-public class Squadron implements PersistentData<SquadronData> {
+public class Squadron implements Asset, PersistentData<SquadronData> {
     @Getter
     private Side side;
 
@@ -53,7 +54,6 @@ public class Squadron implements PersistentData<SquadronData> {
     private String location;
 
     @Getter
-    @Setter
     private Airbase airfield;
 
     private GameMap gameMap;
@@ -165,6 +165,21 @@ public class Squadron implements PersistentData<SquadronData> {
     }
 
     /**
+     * Set the squadron's airbase.
+     *
+     * @param airbase The squadron's airbase.
+     */
+    public void setAirfield(final Airbase airbase) {
+        airfield = airbase;
+
+        String reference = Optional.ofNullable(airbase)
+                .map(Airbase::getReference)
+                .orElse(null);
+
+        setLocation(reference);
+    }
+
+    /**
      * Set the squadron's location..
      *
      * @param newLocation The squadron's new location.
@@ -226,5 +241,15 @@ public class Squadron implements PersistentData<SquadronData> {
     @Override
     public String toString() {
         return name + " (" + getType().toString() + ")";
+    }
+
+    /**
+     * Get the active state of the asset.
+     *
+     * @return True if the asset is active. False if the asset is not active.
+     */
+    @Override
+    public boolean isActive() {
+        return true;
     }
 }

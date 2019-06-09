@@ -7,9 +7,11 @@ import engima.waratsea.model.map.GameMap;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import javafx.event.EventHandler;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import lombok.Getter;
 import lombok.Setter;
+
 
 /**
  * Task force marker data transfer object. Used to transfer task force information to the view layer.
@@ -56,6 +58,10 @@ public class TaskForceMarkerDTO implements PopUpDTO {
     @Getter
     @Setter
     private String style;
+
+    @Getter
+    @Setter
+    private ImageView imageView;
 
     /**
      * Construct the task force marker DTO.

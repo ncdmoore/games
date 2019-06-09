@@ -9,7 +9,7 @@ import lombok.Setter;
 public class RangeData {
     @Getter
     @Setter
-    private int ferryDistance;
+    private int range;
 
     @Getter
     @Setter

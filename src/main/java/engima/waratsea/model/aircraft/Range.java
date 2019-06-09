@@ -22,8 +22,8 @@ public class Range {
      * @param data The aircraft's ferryDistance data read in from a JSON file.
      */
     public Range(final RangeData data) {
-        this.ferryDistance = data.getFerryDistance();
-        this.radius = ferryDistance / 2 + ferryDistance % 2;
+        this.ferryDistance = data.getRange();
         this.endurance = data.getEndurance();
+        this.radius = (ferryDistance * endurance) / 2 + (ferryDistance % 2) * endurance;
     }
 }

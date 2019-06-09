@@ -51,7 +51,7 @@ public class MainMapView {
         ImageView mapImageView = imageResourceProvider.getImageView("mainMap.png");
         int gridSize = props.getInt("taskforce.mainMap.gridSize");
 
-        Node mapGrid = mapView.draw(gridSize);
+        Node mapGrid = mapView.draw(mapImageView, gridSize);
 
         gameMap.getBases().forEach(base -> mapView.highlight(gameMap.getGrid(base.getReference())));
 
