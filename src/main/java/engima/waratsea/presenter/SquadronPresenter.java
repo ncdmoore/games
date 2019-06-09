@@ -12,7 +12,7 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.view.SquadronView;
-import engima.waratsea.view.map.AirfieldMarker;
+import engima.waratsea.view.map.marker.AirfieldMarker;
 import javafx.scene.control.Tab;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Shape;

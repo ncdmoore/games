@@ -9,6 +9,7 @@ import engima.waratsea.presenter.dto.map.MinefieldDTO;
 import engima.waratsea.utility.ColorMap;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.map.marker.MineMarker;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;

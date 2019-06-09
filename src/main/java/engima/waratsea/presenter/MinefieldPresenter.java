@@ -8,7 +8,7 @@ import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.presenter.dto.map.MinefieldDTO;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.view.MinefieldView;
-import engima.waratsea.view.map.MineMarker;
+import engima.waratsea.view.map.marker.MineMarker;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;

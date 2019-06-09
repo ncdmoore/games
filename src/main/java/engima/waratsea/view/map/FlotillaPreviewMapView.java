@@ -5,6 +5,7 @@ import engima.waratsea.model.map.GameMap;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.map.marker.TaskForceMarker;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
