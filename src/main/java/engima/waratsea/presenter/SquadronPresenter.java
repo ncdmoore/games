@@ -280,11 +280,7 @@ public class SquadronPresenter implements Presenter {
         log.info("Select Squadron {}", squadron);
         selectedAvailableSquadron = squadron;
 
-        if (squadron == null) {
-            view.clearSquadronRange();
-        } else {
-            markSquadronRange(selectedAirfield, squadron);
-        }
+        markSquadronRange(selectedAirfield, squadron);
     }
 
     /**
@@ -296,13 +292,9 @@ public class SquadronPresenter implements Presenter {
         log.info("Select Squadron {}", squadron);
         selectedAirfieldSquadron = squadron;
 
-        if (squadron == null) {
-            view.clearSquadronRange();
-        } else {
-            markSquadronRange(selectedAirfield, squadron);
-        }
-
+        markSquadronRange(selectedAirfield, squadron);
     }
+
     /**
      * Clear all the task force selections.
      */
@@ -375,6 +367,7 @@ public class SquadronPresenter implements Presenter {
     private void markSquadronRange(final Airfield airfield, final Squadron squadron) {
 
         if (squadron == null) {
+            view.clearSquadronRange();
             return;
         }
 
