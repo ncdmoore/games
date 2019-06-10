@@ -112,7 +112,7 @@ public class SquadronPresenter implements Presenter {
      * @param newTab The tab that now contains the focus. The new tab.
      */
     private void tabChanged(final Tab oldTab, final Tab newTab) {
-        log.info("Table changed from {} to {}", oldTab.getText(), newTab.getText());
+        log.info("Tab changed from {} to {}", oldTab.getText(), newTab.getText());
 
         Nation oldNation = determineNation(oldTab.getText());
         Nation newNation = determineNation(newTab.getText());
@@ -131,6 +131,7 @@ public class SquadronPresenter implements Presenter {
         Airfield airfield = view.getAirfields().get(newNation).getSelectionModel().getSelectedItem();
         if (airfield != null) {
             view.setSelectedAirfield(newNation, airfield);
+            selectedAirfield = airfield;
         }
 
         selectFirstRegion(newNation);
@@ -231,13 +232,6 @@ public class SquadronPresenter implements Presenter {
     private void regionSelected(final Region region) {
         Nation nation = determineNation();
 
-        log.info("Select Nation: {}", nation);
-        log.info("Select Region: {}", region.getName());
-        log.info("Region Min: {}", region.getMin());
-        log.info("Region Max: {}", region.getMax());
-        log.info("Region Nation: {}", region.getNations().stream().map(Nation::toString).collect(Collectors.joining(",")));
-        log.info("");
-
         view.getAirfields().get(nation).getItems().clear();
         view.getAirfields().get(nation).getItems().addAll(region.getAirfields());
 
@@ -280,6 +274,16 @@ public class SquadronPresenter implements Presenter {
         log.info("Select Squadron {}", squadron);
         selectedAvailableSquadron = squadron;
 
+        // Javafx does not call this callback if the squadron does not change.
+        // This causes problems when we click between the available squadron list
+        // and the airfield squadron list. It's possible for the value to not change.
+        // Thus, when the available squadron is selected we clear the selection
+        // in the airfield list. That way when we click back into the airfield list
+        // the value is guaranteed to change.
+        if (squadron != null) {
+            view.getAirfieldSquadrons().getSelectionModel().clearSelection();
+        }
+
         markSquadronRange(selectedAirfield, squadron);
     }
 
@@ -291,6 +295,16 @@ public class SquadronPresenter implements Presenter {
     private void airfieldSquadronSelected(final Squadron squadron) {
         log.info("Select Squadron {}", squadron);
         selectedAirfieldSquadron = squadron;
+
+        // Javafx does not call this callback if the squadron does not change.
+        // This causes problems when we click between the available squadron list
+        // and the airfield squadron list. It's possible for the value to not change.
+        // Thus, when the airfield squadron is selected we clear the selection
+        // in the available list. That way when we click back into the available list
+        // the value is guaranteed to change.
+        if (squadron != null) {
+            view.getAvailableSquadrons().getSelectionModel().clearSelection();
+        }
 
         markSquadronRange(selectedAirfield, squadron);
     }
@@ -371,16 +385,24 @@ public class SquadronPresenter implements Presenter {
             return;
         }
 
-        // Temporarily assign the squadron to the selected airfield so that the range
-        // marker marker is properly displayed.
-        squadron.setAirfield(airfield);
+        // Temporarily assign the available squadron to the selected airfield so that the range
+        // marker is properly displayed.
+        boolean isAvailable = false;
+        if (squadron.isAvailable()) {
+            squadron.setAirfield(airfield);
+            isAvailable = true;
+        }
 
         TaskForceMarkerDTO dto = new TaskForceMarkerDTO(squadron);
 
         view.markSquadronRangeOnMap(dto);
 
-        // Unassign the squadron now that the range has been marked.
-        squadron.setAirfield(null);
+        // Un-assign the available squadron now that the range has been marked.
+        // This is needed to keep from prematurely assigning the squadron.
+        // Squadron's are only assigned via the deployment button.
+        if (isAvailable) {
+            squadron.setAirfield(null);
+        }
     }
 
     /**
