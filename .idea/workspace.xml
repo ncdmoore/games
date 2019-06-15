@@ -2,24 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/A5M4-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/A6M2-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/A6M2N-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/B5N2-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/D3A1-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/E13A-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/E7K-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/E8N-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/F1M-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/G3M2-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/G4M1-profile.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/F4F3-profile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/OS2U-profile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/SBD3-profile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/TBD-profile.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Torpedo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Torpedo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/SquadronPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/SquadronPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MinefieldPreviewMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MinefieldPreviewMapView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/TaskForcePreviewMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/TaskForcePreviewMapView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/Z1007-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/Z1007-profile.png" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -40,16 +27,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/E7K-profile.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/E8N-profile.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/E13A-profile.png">
           <provider selected="true" editor-type-id="images" />
@@ -75,18 +52,28 @@
           <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/H6K4-profile.png">
           <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/E13A.png">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/F4F3-profile.png">
           <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/E7K.png">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/OS2U-profile.png">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/SBD3-profile.png">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/TBD-profile.png">
           <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
@@ -194,9 +181,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="867" />
+    <option name="x" value="1006" />
     <option name="y" value="49" />
-    <option name="width" value="1371" />
+    <option name="width" value="1269" />
     <option name="height" value="1283" />
   </component>
   <component name="ProjectView">
@@ -352,7 +339,7 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="coralSea" type="462c0819:PsiDirectoryNode" />
               <item name="aircraft" type="462c0819:PsiDirectoryNode" />
-              <item name="axis" type="462c0819:PsiDirectoryNode" />
+              <item name="allies" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
@@ -362,7 +349,7 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="coralSea" type="462c0819:PsiDirectoryNode" />
               <item name="aircraft" type="462c0819:PsiDirectoryNode" />
-              <item name="axis" type="462c0819:PsiDirectoryNode" />
+              <item name="allies" type="462c0819:PsiDirectoryNode" />
               <item name="images" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -396,11 +383,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/images" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="engima.waratsea.presenter.squadron" />
@@ -586,11 +573,18 @@
       <option name="project" value="LOCAL" />
       <updated>1560616694852</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Added aircraft profile images for the Japanese.">
+      <created>1560628424149</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1560628424149</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="867" y="49" width="1371" height="1283" extended-state="0" />
+    <frame x="1006" y="49" width="1269" height="1283" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Image Layers" order="0" />
@@ -598,7 +592,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Designer" order="4" />
-      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.26862302" />
+      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.29095355" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Build" order="0" weight="0.3297785" />
       <window_info anchor="bottom" id="Terminal" order="1" />
@@ -634,7 +628,8 @@
     <MESSAGE value="Squadron summary titled pane added to squadron deployment screen." />
     <MESSAGE value="Add squadron radius circles to the squadron deployment map." />
     <MESSAGE value="Added aircraft profile images." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added aircraft profile images." />
+    <MESSAGE value="Added aircraft profile images for the Japanese." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added aircraft profile images for the Japanese." />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
@@ -646,22 +641,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/JU88A.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/HE111H.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Swordfish-profile.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/css/shipDetails.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="436">
-          <caret line="37" column="19" lean-forward="true" selection-start-line="37" selection-start-column="19" selection-end-line="37" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/ship/ShipDetailsDialog.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -870,6 +849,18 @@
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/H6K4-profile.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/F4F3-profile.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/OS2U-profile.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/SBD3-profile.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/TBD-profile.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
   </component>
