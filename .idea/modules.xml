@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/WorldWarTwoAtSea.iml" filepath="$PROJECT_DIR$/WorldWarTwoAtSea.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/worldWarTwoAtSea.iml" filepath="$PROJECT_DIR$/.idea/modules/worldWarTwoAtSea.iml" />
     </modules>
   </component>
 </project>

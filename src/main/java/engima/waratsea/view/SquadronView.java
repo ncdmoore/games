@@ -70,10 +70,13 @@ public class SquadronView {
     private ListView<Squadron> airfieldSquadrons = new ListView<>();
 
     @Getter
-    private Button deployButton = new Button("Deploy");
+    private Button deployButton = new Button();
 
     @Getter
-    private Button removeButton = new Button("Remove");
+    private Button removeButton = new Button();
+
+    @Getter
+    private Button detailsButton = new Button("Details");
 
     @Getter
     private Button continueButton = new Button("Continue");
@@ -478,7 +481,18 @@ public class SquadronView {
         availableSquadrons.setMinWidth(props.getInt("squadron.tabPane.width"));
         availableSquadrons.setMaxWidth(props.getInt("squadron.tabPane.width"));
 
-        VBox buttonVBox = new VBox(deployButton, removeButton);
+        deployButton.setGraphic(imageResourceProvider.getImageView("rightArrow.png"));
+        removeButton.setGraphic(imageResourceProvider.getImageView("leftArrow.png"));
+
+        deployButton.setMinWidth(props.getInt("squadron.button.width"));
+        deployButton.setMaxWidth(props.getInt("squadron.button.width"));
+        removeButton.setMaxWidth(props.getInt("squadron.button.width"));
+        removeButton.setMinWidth(props.getInt("squadron.button.width"));
+        detailsButton.setMaxWidth(props.getInt("squadron.button.width"));
+        detailsButton.setMinWidth(props.getInt("squadron.button.width"));
+
+
+        VBox buttonVBox = new VBox(deployButton, removeButton, detailsButton);
         buttonVBox.setId("squadron-controls");
 
         airfieldSquadrons.setMinHeight(props.getInt("squadron.list.width"));

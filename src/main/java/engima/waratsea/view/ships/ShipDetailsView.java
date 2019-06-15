@@ -1,21 +1,19 @@
 package engima.waratsea.view.ships;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.aircraft.Aircraft;
-import engima.waratsea.model.aircraft.AttackFactor;
 import engima.waratsea.model.ship.Component;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.squadron.SquadronDetailsView;
 import javafx.scene.Node;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -43,29 +41,25 @@ public class ShipDetailsView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
 
-    private ImageView aircraftImage = new ImageView();
-    private TitledPane squadronDetailsPane;
-    private TitledPane aircraftDetailsPane;
-    private TitledPane aircraftAirToAirPane;
-    private TitledPane aircraftLandPane;
-    private TitledPane aircraftNavalPane;
-    private TitledPane aircraftRangePane;
-    private TitledPane aircraftFramePane;
+    private SquadronDetailsView squadronDetailsView;
 
     @Getter
-    private ListView<Squadron> squadrons = new ListView<>();
+    private ChoiceBox<Squadron> squadrons = new ChoiceBox<>();
 
     /**
      * Constructor called by guice.
      *
      * @param imageResourceProvider Provides images.
-     * @param props View properites.
+     * @param props View properties.
+     * @param squadronDetailsView The squadron details view.
      */
     @Inject
     public ShipDetailsView(final ImageResourceProvider imageResourceProvider,
-                           final ViewProps props) {
+                           final ViewProps props,
+                           final SquadronDetailsView squadronDetailsView) {
         this.imageResourceProvider = imageResourceProvider;
         this.props = props;
+        this.squadronDetailsView = squadronDetailsView;
     }
 
     /**
@@ -100,14 +94,7 @@ public class ShipDetailsView {
      * @param squadron The selected squadron.
      */
     public void selectSquadron(final Squadron squadron) {
-        aircraftImage.setImage(getImage(squadron));
-        squadronDetailsPane.setContent(buildStats(getSquadronDetailsData(squadron)));
-        aircraftDetailsPane.setContent(buildStats(getAircraftDetailsData(squadron)));
-        aircraftAirToAirPane.setContent(buildStats(getAttackFactor(squadron, squadron.getAircraft().getAir())));
-        aircraftLandPane.setContent(buildStats(getAttackFactor(squadron, squadron.getAircraft().getLand())));
-        aircraftNavalPane.setContent(buildStats(getAttackFactor(squadron, squadron.getAircraft().getNaval())));
-        aircraftRangePane.setContent(buildStats(getRange(squadron)));
-        aircraftFramePane.setContent(buildStats(getFrame(squadron)));
+        squadronDetailsView.selectSquadron(squadron);
     }
 
     /**
@@ -125,10 +112,10 @@ public class ShipDetailsView {
         VBox detailsVBox = new VBox(shipVBox, shipDetailsPane);
         detailsVBox.setId("details-pane");
 
-        Node weaponComponentsVBox = buildShipWeaponComponents(ship);
+        Node weaponComponentsVBox = buildWeapons(ship);
         weaponComponentsVBox.setId("components-pane");
 
-        Node performanceComponetsVBox = buildShipPerformanceComponents(ship);
+        Node performanceComponetsVBox = buildPerformance(ship);
         performanceComponetsVBox.setId("components-pane");
 
         HBox hBox = new HBox(detailsVBox, weaponComponentsVBox, performanceComponetsVBox);
@@ -208,43 +195,35 @@ public class ShipDetailsView {
 
         squadrons.getItems().clear();
         squadrons.getItems().addAll(ship.getAircraft());
-        squadrons.setMinHeight(props.getInt("ship.dialog.aircraft.list.height"));
-        squadrons.setMaxHeight(props.getInt("ship.dialog.aircraft.list.height"));
-        squadrons.setMaxWidth(props.getInt("ship.dialog.aircraft.list.width"));
-        squadrons.setMaxWidth(props.getInt("ship.dialog.aircraft.list.width"));
-
 
         VBox aircraftListBox = new VBox(new Label("Select Squadron:"), squadrons);
         aircraftListBox.setId("aircraft-list");
 
         Squadron squadron = squadrons.getItems().get(0);
 
-        aircraftImage.setImage(getImage(squadron));
-
-        VBox imageBox = new VBox(aircraftImage);
-
+        Node imageBox = squadronDetailsView.buildImage(squadron);
         imageBox.setId("ship-image");
 
-        TitledPane titledPane = new TitledPane();
-        titledPane.setText("Ship Squadrons");
-        titledPane.setContent(aircraftListBox);
-        titledPane.setCollapsible(false);
+        Node profileBox = squadronDetailsView.buildProfile(squadron);
 
-        VBox listBox = new VBox(imageBox, titledPane);
+
+        VBox listBox = new VBox(imageBox, profileBox);
         listBox.setId("details-pane");
 
-        Node weaponComponentsVBox = buildSquadronWeaponComponents(squadron);
+        Node weaponComponentsVBox = squadronDetailsView.buildWeapons(squadron);
         weaponComponentsVBox.setId("components-pane");
 
-        Node performanceComponetsVBox = buildSquadronPerformanceComponents(squadron);
+        Node performanceComponetsVBox = squadronDetailsView.buildPerformance(squadron);
         performanceComponetsVBox.setId("components-pane");
 
         HBox hBox = new HBox(listBox, weaponComponentsVBox, performanceComponetsVBox);
         hBox.setId("main-hbox");
 
+        VBox vBox = new VBox(aircraftListBox, hBox);
+
         Tab aircraftTab = new Tab("Aircraft");
         aircraftTab.setClosable(false);
-        aircraftTab.setContent(hBox);
+        aircraftTab.setContent(vBox);
 
         return aircraftTab;
     }
@@ -255,7 +234,7 @@ public class ShipDetailsView {
      * @param ship The ship.
      * @return The node that contains the ship components.
      */
-    private Node buildShipWeaponComponents(final Ship ship) {
+    private Node buildWeapons(final Ship ship) {
         TitledPane surfaceWeaponsPane = buildPane("Surface Weapons", getSurfaceWeaponData(ship));
         TitledPane antiAirWeaponsPane = buildPane("Anti-Air Weapons", getAntiAirWeaponData(ship));
         TitledPane torpedoPane = buildPane("Torpedos", getTorpedoData(ship));
@@ -269,40 +248,13 @@ public class ShipDetailsView {
      * @param ship The ship.
      * @return The node that contains the ship components.
      */
-    private Node buildShipPerformanceComponents(final Ship ship) {
+    private Node buildPerformance(final Ship ship) {
         TitledPane speedPane = buildPane("Movement", getMovementData(ship));
         TitledPane aswPane = buildPane("ASW", getAswData(ship));
         TitledPane fuelPane = buildPane("Fuel", getFuelData(ship));
         TitledPane squadronPane = buildPane("Aircraft", getSquadronSummary(ship));
         TitledPane cargoPane = buildPane("Cargo", getCargoData(ship));
         return new VBox(speedPane, aswPane, fuelPane, squadronPane, cargoPane);
-    }
-
-    /**
-     * Build the squadron weapon components.
-     *
-     * @param squadron The squadron.
-     * @return The node that contains the squadron components.
-     */
-    private Node buildSquadronWeaponComponents(final Squadron squadron) {
-        squadronDetailsPane = buildPane("Squadron Details", getSquadronDetailsData(squadron));
-        aircraftDetailsPane = buildPane("Aircraft Details", getAircraftDetailsData(squadron));
-        aircraftLandPane = buildPane("Land", getAttackFactor(squadron, squadron.getAircraft().getLand()));
-        aircraftNavalPane = buildPane("Naval", getAttackFactor(squadron, squadron.getAircraft().getNaval()));
-        return new VBox(squadronDetailsPane, aircraftDetailsPane, aircraftLandPane, aircraftNavalPane);
-    }
-
-    /**
-     * Build the squadron performance components.
-     *
-     * @param squadron The squadron.
-     * @return The node that contains the squadron components.
-     */
-    private Node buildSquadronPerformanceComponents(final Squadron squadron) {
-        aircraftAirToAirPane = buildPane("Air-to-Air", getAttackFactor(squadron, squadron.getAircraft().getAir()));
-        aircraftRangePane = buildPane("Performance", getRange(squadron));
-        aircraftFramePane = buildPane("Frame", getFrame(squadron));
-        return new VBox(aircraftAirToAirPane, aircraftRangePane, aircraftFramePane);
     }
 
     /**
@@ -483,79 +435,6 @@ public class ShipDetailsView {
     }
 
     /**
-     * Get the squadron details.
-     *
-     * @param squadron The selected squadron.
-     * @return The squadron's details.
-     */
-    private Map<String, String> getSquadronDetailsData(final Squadron squadron) {
-        Map<String, String> details = new LinkedHashMap<>();
-        details.put("Name:", squadron.getName());
-        details.put("Strength:", squadron.getStrength() + "");
-        return details;
-    }
-
-    /**
-     * Get the aircraft details.
-     *
-     * @param squadron The selected squadron.
-     * @return The aircraft's details.
-     */
-    private Map<String, String> getAircraftDetailsData(final Squadron squadron) {
-        Aircraft aircraft = squadron.getAircraft();
-        Map<String, String> details = new LinkedHashMap<>();
-        details.put("Model:", aircraft.getModel());
-        details.put("Type:", aircraft.getType() + "");
-        details.put("Nationality:", aircraft.getNationality().toString());
-        details.put("Service", aircraft.getService().toString());
-        return details;
-    }
-
-    /**
-     * Get the squadron's attack factor data.
-     *
-     * @param squadron The selected squadron.
-     * @param factor The attack factor.
-     * @return The aircraft's attack data.
-     */
-    private Map<String, String> getAttackFactor(final Squadron squadron, final AttackFactor factor) {
-        Map<String, String> details = new LinkedHashMap<>();
-        details.put("Factor", factor.getFactor(squadron.getStrength()) + "");
-        details.put("Modifier", factor.getModifier() + "");
-        return details;
-    }
-
-    /**
-     * Get the squadron's ferryDistance data.
-     *
-     * @param squadron The selected squadron.
-     * @return The squadron's ferryDistance data.
-     */
-    private Map<String, String> getRange(final Squadron squadron) {
-        Aircraft aircraft = squadron.getAircraft();
-        Map<String, String> details = new LinkedHashMap<>();
-        details.put("Range", aircraft.getRange().getFerryDistance() + "");
-        details.put("Endurance", aircraft.getRange().getEndurance() + "");
-        details.put("Altitude Rating", aircraft.getAltitude().toString());
-        details.put("Landing Type", aircraft.getLanding().toString());
-        return details;
-    }
-
-    /**
-     * Get the squadron's frame data.
-     *
-     * @param squadron The selected squadron.
-     * @return The squadron's frame data.
-     */
-    private Map<String, String> getFrame(final Squadron squadron) {
-        Aircraft aircraft = squadron.getAircraft();
-        Map<String, String> details = new LinkedHashMap<>();
-        details.put("Frame", aircraft.getFrame().getFrame() + "");
-        details.put("Fragile", aircraft.getFrame().isFragile() + "");
-        return details;
-    }
-
-    /**
      * Get the ship prefix.
      *
      * @param ship The ship.
@@ -573,17 +452,6 @@ public class ShipDetailsView {
      */
     private ImageView getImage(final Ship ship) {
         return imageResourceProvider.getShipImageView(ship);
-    }
-
-    /**
-     * Get the aircraft's image.
-     *
-     * @param squadron The selected squadron.
-     * @return The aircraft's image view.
-     */
-    private Image getImage(final Squadron squadron) {
-        Aircraft aircraft = squadron.getAircraft();
-        return imageResourceProvider.getAircraftImageView(aircraft);
     }
 
     /**

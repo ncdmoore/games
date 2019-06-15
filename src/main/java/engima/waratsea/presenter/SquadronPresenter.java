@@ -11,6 +11,7 @@ import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
+import engima.waratsea.presenter.squadron.SquadronDetailsDialog;
 import engima.waratsea.view.SquadronView;
 import engima.waratsea.view.map.marker.AirfieldMarker;
 import javafx.scene.control.Tab;
@@ -35,6 +36,8 @@ public class SquadronPresenter implements Presenter {
     private Stage stage;
 
     private Provider<SquadronView> viewProvider;
+    private Provider<SquadronDetailsDialog> squadronDetailsDialogProvider;
+
     private Navigate navigate;
 
     private Airfield selectedAirfield;
@@ -45,15 +48,18 @@ public class SquadronPresenter implements Presenter {
      * This is the constructor.
      *
      * @param game The game object.
-     * @param viewProvider The corresponding view,
+     * @param viewProvider The corresponding view.
+     * @param squadronDetailsDialogProvider The ship details dialog provider.
      * @param navigate Provides screen navigation.
      */
     @Inject
     public SquadronPresenter(final Game game,
                              final Provider<SquadronView> viewProvider,
+                             final Provider<SquadronDetailsDialog> squadronDetailsDialogProvider,
                              final Navigate navigate) {
         this.game = game;
         this.viewProvider = viewProvider;
+        this.squadronDetailsDialogProvider = squadronDetailsDialogProvider;
         this.navigate = navigate;
     }
 
@@ -78,6 +84,7 @@ public class SquadronPresenter implements Presenter {
 
         view.getDeployButton().setOnAction(event -> deploySquadron());
         view.getRemoveButton().setOnAction(event -> removeSquadron());
+        view.getDetailsButton().setOnAction(event -> showSquadron());
         view.getContinueButton().setOnAction(event -> continueButton());
         view.getBackButton().setOnAction(event -> backButton());
     }
@@ -387,14 +394,12 @@ public class SquadronPresenter implements Presenter {
 
         // Temporarily assign the available squadron to the selected airfield so that the range
         // marker is properly displayed.
-        boolean isAvailable = false;
-        if (squadron.isAvailable()) {
+        boolean isAvailable = squadron.isAvailable();
+        if (isAvailable) {
             squadron.setAirfield(airfield);
-            isAvailable = true;
         }
 
         TaskForceMarkerDTO dto = new TaskForceMarkerDTO(squadron);
-
         view.markSquadronRangeOnMap(dto);
 
         // Un-assign the available squadron now that the range has been marked.
@@ -461,8 +466,6 @@ public class SquadronPresenter implements Presenter {
                     view.getAirfieldCurrentValue().get(nation).setText(selectedAirfield.getCurrentSteps() + "");
                     view.getAirfieldSteps().get(nation).get(type).setText(selectedAirfield.getStepsForType(type) + "");
                 });
-
-
             }
         }
     }
@@ -490,6 +493,17 @@ public class SquadronPresenter implements Presenter {
                 view.getAirfieldCurrentValue().get(nation).setText(selectedAirfield.getCurrentSteps() + "");
                 view.getAirfieldSteps().get(nation).get(type).setText(selectedAirfield.getStepsForType(type) + "");
             });
+        }
+    }
+
+    /**
+     * Show the selected squadron.
+     */
+    private void showSquadron() {
+        if (selectedAvailableSquadron != null) {
+            squadronDetailsDialogProvider.get().show(selectedAvailableSquadron);
+        } else if (selectedAirfieldSquadron != null) {
+            squadronDetailsDialogProvider.get().show(selectedAirfieldSquadron);
         }
     }
 

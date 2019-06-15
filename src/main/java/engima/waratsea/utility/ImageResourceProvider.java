@@ -95,6 +95,22 @@ public class ImageResourceProvider {
     }
 
     /**
+     * Get the aircraft image.
+     *
+     * @param aircraft The aircraft whose image is retrieved.
+     * @return The aircraft's image view.
+     */
+    public Image getAircraftProfileImageView(final Aircraft aircraft) {
+        Image image = getAircraftProfileImage(aircraft)
+                .orElse(null);
+
+        if (image == null) {
+            log.error("Unable to load aircraft profile image for {}", aircraft.getModel());
+        }
+
+        return image;
+    }
+    /**
      * Load the image that corresponds to the ship name.
      *
      * @param ship The ship whose image is loaded.
@@ -119,13 +135,24 @@ public class ImageResourceProvider {
     }
 
     /**
-     * Load the image that corresponds to the aircraft's model.
+     * Load the image that corresponds to the aircraft's image.
      *
      * @param aircraft The aircraft whose image is laoded.
      * @return An optional aircraft image.
      */
     private Optional<Image> getAircraftImage(final Aircraft aircraft) {
         String path = gameTitle.getValue() + "/aircraft/" + aircraft.getSide() + "/images/" + aircraft.getModel() + ".png";
+        return loadImage(path);
+    }
+
+    /**
+     * Load the image that corresponds to the aircraft's profile image.
+     *
+     * @param aircraft The aircraft whose profile image is loaded.
+     * @return An optional aircraft profile image.
+     */
+    private Optional<Image> getAircraftProfileImage(final Aircraft aircraft) {
+        String path = gameTitle.getValue() + "/aircraft/" + aircraft.getSide() + "/images/" + aircraft.getModel() + "-profile.png";
         return loadImage(path);
     }
 
