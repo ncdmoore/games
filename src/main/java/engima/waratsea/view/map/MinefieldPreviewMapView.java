@@ -175,7 +175,7 @@ public class MinefieldPreviewMapView {
         gridPane.add(mineZoneKey, 0, 1);
         gridPane.add(new Label("Mine Zone (May Mine)"), 1, 1);
 
-        Node minefieldKey = MineMarker.getLegend(0, 0, gridSize / 2);
+        Node minefieldKey = MineMarker.getLegend(0, 0, gridSize / 2.0);
         gridPane.add(minefieldKey, 0, 2);
         gridPane.add(new Label("Minefield"), 1, 2);
 

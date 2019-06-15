@@ -292,7 +292,7 @@ public class TaskForcePreviewMapView {
         gridPane.add(taskForceKey, 0, 0);
         gridPane.add(new Label("Task Force"), 1, 0);
 
-        Node targetKey = TargetMarker.getLegend(0, 0, gridSize / 2);
+        Node targetKey = TargetMarker.getLegend(0, 0, gridSize / 2.0);
         gridPane.add(targetKey, 0, 1);
         gridPane.add(new Label("Task Force Target"), 1, 1);
 

@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -500,11 +501,26 @@ public class SquadronPresenter implements Presenter {
      * Show the selected squadron.
      */
     private void showSquadron() {
+        getSelected()
+                .ifPresent(squadron -> squadronDetailsDialogProvider.get().show(squadron));
+
+    }
+
+    /**
+     * Get the current selected squadron.
+     *
+     * @return The selected squadron.
+     */
+    private Optional<Squadron> getSelected() {
+        Squadron selectedSquadron = null;
+
         if (selectedAvailableSquadron != null) {
-            squadronDetailsDialogProvider.get().show(selectedAvailableSquadron);
+           selectedSquadron = selectedAvailableSquadron;
         } else if (selectedAirfieldSquadron != null) {
-            squadronDetailsDialogProvider.get().show(selectedAirfieldSquadron);
+            selectedSquadron = selectedAirfieldSquadron;
         }
+
+        return Optional.ofNullable(selectedSquadron);
     }
 
     /**
