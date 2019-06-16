@@ -78,6 +78,25 @@ public class ImageResourceProvider {
     }
 
     /**
+     * Get the ship profile image. Attempt to get an image for the ship name. If that fails get the image for the
+     * ship's class.
+     *
+     * @param ship The ship whose image is retrieved.
+     * @return The ship's image view.
+     */
+    public ImageView getShipProfileImageView(final Ship ship) {
+        Image image = getShipNameProfileImage(ship)
+                .orElseGet(() -> getShipClassProfileImage(ship)
+                        .orElse(null));
+
+        if (image == null) {
+            log.error("Unable to load the ship profile image for '{}' of class '{}'", ship.getName(), ship.getShipClass());
+        }
+
+        return new ImageView(image);
+    }
+
+    /**
      * Get the aircraft image.
      *
      * @param aircraft The aircraft whose image is retrieved.
@@ -131,6 +150,30 @@ public class ImageResourceProvider {
     private Optional<Image> getShipClassImage(final Ship ship) {
         log.debug("look for ship class '{}'", ship.getShipClass());
         String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getShipClass() + ".png";
+        return loadImage(path);
+    }
+
+    /**
+     * Load the profile image that corresponds to the ship's name.
+     *
+     * @param ship The ship whose profile image is loaded.
+     * @return An optional ship profile image.
+     */
+    private Optional<Image> getShipNameProfileImage(final Ship ship) {
+        log.info("Look for ship name profile '{}'", ship.getName());
+        String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getName() + "-profile.png";
+        return loadImage(path);
+    }
+
+    /**
+     * Load the profile image that corresponds to the ship's class name.
+     *
+     * @param ship The ship whose profile image is loaded.
+     * @return An optional ship profile image.
+     */
+    private Optional<Image> getShipClassProfileImage(final Ship ship) {
+        log.info("Look for ship class profile '{}'", ship.getShipClass());
+        String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getShipClass() + "-profile.png";
         return loadImage(path);
     }
 

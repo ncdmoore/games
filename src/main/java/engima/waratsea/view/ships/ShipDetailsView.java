@@ -115,10 +115,18 @@ public class ShipDetailsView {
         Node weaponComponentsVBox = buildWeapons(ship);
         weaponComponentsVBox.setId("components-pane");
 
+        HBox leftHBox = new HBox(detailsVBox, weaponComponentsVBox);
+        leftHBox.setId("left-hbox");
+
+        Node profileBox = buildProfile(ship);
+
+        VBox leftVBox = new VBox(leftHBox, profileBox);
+        leftVBox.setId("left-vbox");
+
         Node performanceComponetsVBox = buildPerformance(ship);
         performanceComponetsVBox.setId("components-pane");
 
-        HBox hBox = new HBox(detailsVBox, weaponComponentsVBox, performanceComponetsVBox);
+        HBox hBox = new HBox(leftVBox, performanceComponetsVBox);
         hBox.setId("main-hbox");
 
         Tab shipTab = new Tab("Specifications");
@@ -226,6 +234,24 @@ public class ShipDetailsView {
         aircraftTab.setContent(vBox);
 
         return aircraftTab;
+    }
+
+    /**
+     * Build the ship's profile image.
+     *
+     * @param ship The ship whose profile is built.
+     * @return The node that contains the ship's profile image.
+     */
+    private Node buildProfile(final Ship ship) {
+        TitledPane titledPane = new TitledPane();
+        titledPane.setText("Ship Profile");
+
+        VBox shipVBox = new VBox(getProfileImage(ship));
+        shipVBox.setId("profile-vbox");
+
+        titledPane.setContent(shipVBox);
+
+        return titledPane;
     }
 
     /**
@@ -452,6 +478,16 @@ public class ShipDetailsView {
      */
     private ImageView getImage(final Ship ship) {
         return imageResourceProvider.getShipImageView(ship);
+    }
+
+    /**
+     * Get the ship's profile image.
+     *
+     * @param ship The ship.
+     * @return The ship's profile image view.
+     */
+    private ImageView getProfileImage(final Ship ship) {
+        return imageResourceProvider.getShipProfileImageView(ship);
     }
 
     /**
