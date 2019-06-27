@@ -14,17 +14,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +56,11 @@ public class FlotillaView {
 
     @Getter
     private Button backButton = new Button("Back");
+
+    @Getter
+    private List<Button> subButtons;
+
+    private TilePane submarinePane;
 
     private Map<Side, String> flags = new HashMap<>();
 
@@ -102,12 +110,14 @@ public class FlotillaView {
         Node taskForceList = buildFlotillaList();
         Node pushButtons = buildPushButtons();
 
+        Node submarineButtons = buildSubmarineButtons();
+
         Node map = flotillaMap.draw();
 
         HBox mapPane = new HBox(taskForceList, map);
         mapPane.setId("map-pane");
 
-        VBox vBox = new VBox(titlePane, objectivesPane, labelPane, mapPane, pushButtons);
+        VBox vBox = new VBox(titlePane, objectivesPane, labelPane, mapPane, submarineButtons, pushButtons);
 
         int sceneWidth = props.getInt("taskForce.scene.width");
         int sceneHeight = props.getInt("taskForce.scene.height");
@@ -162,6 +172,8 @@ public class FlotillaView {
         String prefix = flotilla.atFriendlyBase() ? "At port " : "At sea zone ";
 
         locationValue.setText(prefix + flotilla.getMappedLocation());
+
+        setSubmarineButtons(flotilla);
     }
 
     /**
@@ -251,6 +263,44 @@ public class FlotillaView {
         titledPane.setMinWidth(props.getInt("taskForce.details.width"));
 
         return titledPane;
+    }
+
+    /**
+     * Build the node that contains the submarine buttons.
+     *
+     * @return The node that contains the submarine flotilla buttons.
+     */
+    private Node buildSubmarineButtons() {
+        submarinePane = new TilePane();
+        submarinePane.setId("flotilla-pane");
+
+        ScrollPane sp = new ScrollPane();
+        sp.setContent(submarinePane);
+        sp.setFitToWidth(true);
+        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        return sp;
+    }
+
+    /**
+     * Build the flotilla submarine buttons.
+     *
+     * @param flotilla The selected submarine flotilla
+     */
+    private void setSubmarineButtons(final Flotilla flotilla) {
+
+        submarinePane.getChildren().clear();
+        subButtons = new ArrayList<>();
+
+        flotilla.getSubs()
+                .forEach(submarine -> {
+                    Button button = new Button(submarine.getName());
+                    button.setUserData(submarine);
+                    button.setMinWidth(props.getInt("taskForce.ship.label.width"));
+                    button.setMaxWidth(props.getInt("taskForce.ship.label.width"));
+                    submarinePane.getChildren().add(button);
+                    subButtons.add(button);
+                });
     }
 
     /**

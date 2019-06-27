@@ -7,6 +7,7 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.model.vessel.Vessel;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.Map;
 /**
  * Represents a ship.
  */
-public interface Ship extends PersistentData<ShipData> {
+public interface Ship extends Vessel, PersistentData<ShipData> {
 
     /**
      * Get the ship's id.

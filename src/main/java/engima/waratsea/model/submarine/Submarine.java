@@ -5,17 +5,26 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.flotilla.Flotilla;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.Side;
+import engima.waratsea.model.ship.Component;
+import engima.waratsea.model.ship.Fuel;
+import engima.waratsea.model.ship.Movement;
 import engima.waratsea.model.ship.ShipId;
 import engima.waratsea.model.ship.ShipType;
 import engima.waratsea.model.ship.Torpedo;
 import engima.waratsea.model.submarine.data.SubmarineData;
+import engima.waratsea.model.vessel.Vessel;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Represents a submarine.
  */
-public class Submarine implements PersistentData<SubmarineData> {
+public class Submarine implements Vessel, PersistentData<SubmarineData> {
     @Getter
     private final ShipId shipId;
 
@@ -35,6 +44,12 @@ public class Submarine implements PersistentData<SubmarineData> {
     private final Torpedo torpedo;
 
     @Getter
+    private final Movement movement;
+
+    @Getter
+    private final Fuel fuel;
+
+    @Getter
     @Setter
     private Flotilla flotilla;
 
@@ -52,6 +67,8 @@ public class Submarine implements PersistentData<SubmarineData> {
         this.victoryPoints = data.getVictoryPoints();
 
         torpedo = new Torpedo(data.getTorpedo());
+        movement = new Movement(data.getMovement());
+        fuel = new Fuel(data.getFuel());
     }
 
     /**
@@ -68,5 +85,43 @@ public class Submarine implements PersistentData<SubmarineData> {
         data.setVictoryPoints(victoryPoints);
         data.setTorpedo(torpedo.getData());
         return data;
+    }
+
+    /**
+     * Get the name of the submarine.
+     *
+     * @return The submarine name.
+     */
+    public String getName() {
+        return shipId.getName();
+    }
+
+    /**
+     * Get the side of the submarine.
+     *
+     * @return The submarine's side.
+     */
+    public Side getSide() {
+        return shipId.getSide();
+    }
+
+    /**
+     * The map location of the asset.
+     *
+     * @return The map location of the asset.
+     */
+    public String getLocation() {
+        return flotilla.getLocation();
+    }
+
+    /**
+     * Get a list of all the ship components.
+     *
+     * @return A list of ship components.
+     */
+    public List<Component> getComponents() {
+        return Stream.of(torpedo, movement, fuel)
+                .filter(Component::isPresent)
+                .collect(Collectors.toList());
     }
 }

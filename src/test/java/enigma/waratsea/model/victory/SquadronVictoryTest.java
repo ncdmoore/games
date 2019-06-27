@@ -11,12 +11,12 @@ import engima.waratsea.model.game.event.squadron.SquadronEventAction;
 import engima.waratsea.model.game.event.squadron.data.SquadronMatchData;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.model.ship.Ship;
-import engima.waratsea.model.ship.ShipId;
-import engima.waratsea.model.ship.Shipyard;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
 import engima.waratsea.model.squadron.data.SquadronData;
+import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.model.taskForce.TaskForceFactory;
+import engima.waratsea.model.taskForce.data.TaskForceData;
 import engima.waratsea.model.victory.VictoryConditions;
 import engima.waratsea.model.victory.VictoryConditionsFactory;
 import engima.waratsea.model.victory.data.SquadronVictoryData;
@@ -27,13 +27,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SquadronVictoryTest {
     private static Squadron alliedSquadron;
     private static Squadron axisSquadron;
     private static VictoryConditionsFactory victoryConditionsFactory;
-    private static Shipyard shipyard;
+    private static TaskForceFactory factory;
 
     @BeforeClass
     public static void setup() throws Exception {
@@ -42,7 +43,7 @@ public class SquadronVictoryTest {
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
         gameTitle.setValue("bombAlley");
 
-        shipyard = injector.getInstance(Shipyard.class);
+        factory = injector.getInstance(TaskForceFactory.class);
 
         Scenario scenario = new Scenario();
         scenario.setName("firstSortie");
@@ -180,7 +181,7 @@ public class SquadronVictoryTest {
     }
 
     @Test
-    public void testSquadronArrivalFromCarrier() throws Exception {
+    public void testSquadronArrivalFromCarrier() {
         int victoryPoints = 10;
 
         SquadronMatchData squadronMatchData = new SquadronMatchData();
@@ -208,7 +209,15 @@ public class SquadronVictoryTest {
         event.setAction(SquadronEventAction.ARRIVAL);
         event.setSquadron(alliedSquadron);
 
-        Airbase airbase = buildAircraftCarrier("CVL01 Argus-1");
+        TaskForceData data = new TaskForceData();
+        List<String> shipNames = new ArrayList<>(Arrays.asList("BC01 Renown", "CVL01 Argus-1", "CV06 Victorious-1", "CL17 Despatch","CL36 Sheffield", "DD53 Faulknor"));
+        data.setShips(shipNames);
+        data.setLocation("F12");
+
+        TaskForce taskForce = factory.create(Side.ALLIES, data);
+
+        Airbase airbase = (Airbase) taskForce.getShip("CVL01 Argus-1");
+
         alliedSquadron.setAirfield(airbase);
         alliedSquadron.setLocation("Malta");
 
@@ -216,7 +225,7 @@ public class SquadronVictoryTest {
 
         Assert.assertEquals(victoryPoints, victory.getTotalVictoryPoints());
 
-        airbase = buildAircraftCarrier("CV06 Victorious-1");
+        airbase = (Airbase) taskForce.getShip("CV06 Victorious-1");
         alliedSquadron.setAirfield(airbase);
 
         event.fire();
@@ -226,9 +235,4 @@ public class SquadronVictoryTest {
 
     }
 
-    private Airbase buildAircraftCarrier(final String shipName) throws Exception {
-        ShipId shipId = new ShipId(shipName, Side.ALLIES);
-        Ship ship = shipyard.load(shipId);
-        return (Airbase) ship;
-    }
 }

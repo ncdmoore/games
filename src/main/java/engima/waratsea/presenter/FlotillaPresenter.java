@@ -5,9 +5,13 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.flotilla.Flotilla;
 import engima.waratsea.model.game.Game;
+import engima.waratsea.model.submarine.Submarine;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
+import engima.waratsea.presenter.submarine.SubmarineDetailsDialog;
 import engima.waratsea.view.FlotillaView;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
@@ -23,6 +27,7 @@ import java.util.List;
 @Singleton
 public class FlotillaPresenter implements Presenter {
     private Provider<FlotillaView> viewProvider;
+    private Provider<SubmarineDetailsDialog> subDetailsDialogProvider;
 
     private final Game game;
     private FlotillaView view;
@@ -38,14 +43,18 @@ public class FlotillaPresenter implements Presenter {
      * @param game The game object.
      * @param viewProvider The corresponding view,
      * @param navigate Provides screen navigation.
+     * @param subDetailsDialogProvider The submarine details dialog provider.
      */
     @Inject
     public FlotillaPresenter(final Game game,
                              final Provider<FlotillaView> viewProvider,
-                             final Navigate navigate) {
+                             final Navigate navigate,
+                             final Provider<SubmarineDetailsDialog> subDetailsDialogProvider) {
         this.game = game;
         this.viewProvider = viewProvider;
         this.navigate = navigate;
+        this.subDetailsDialogProvider = subDetailsDialogProvider;
+
     }
 
     /**
@@ -112,6 +121,8 @@ public class FlotillaPresenter implements Presenter {
         selectedFlotilla = flotilla;
 
         view.setSelectedFlotilla(flotilla);
+        view.getSubButtons()
+                .forEach(button -> button.setOnAction(this::displaySubDialog));
     }
 
     /**
@@ -164,5 +175,17 @@ public class FlotillaPresenter implements Presenter {
      */
     private void backButton() {
         navigate.goPrev(this.getClass(), stage);
+    }
+
+    /**
+     * Display the submarine details dialog.
+     *
+     * @param event The mouse click event.
+     */
+    private void displaySubDialog(final ActionEvent event) {
+        Button button = (Button) event.getSource();
+        Submarine sub = (Submarine) button.getUserData();
+        subDetailsDialogProvider.get().show(sub);
+
     }
 }

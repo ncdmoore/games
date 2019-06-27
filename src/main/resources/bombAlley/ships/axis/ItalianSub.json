@@ -1,6 +1,6 @@
 {
   "type": "SUBMARINE",
-  "shipClass": "Submarine",
+  "shipClass": "Adua",
   "nationality": "ITALIAN",
   "torpedo": {
     "maxHealth": 1,
@@ -9,6 +9,9 @@
   "movement": {
     "maxEven": 1,
     "maxOdd": 0
+  },
+  "fuel": {
+    "capacity": 432
   },
   "victoryPoints": 4
 }

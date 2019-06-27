@@ -110,6 +110,23 @@
     -fx-vgap: 4;
 }
 
+.scroll-pane {
+   -fx-background-color: transparent;      /* Hide the border of the scroll pane. */
+}
+
+#flotilla-pane {
+    -fx-padding: /* top: */ 20 /* right: */ 0 /* bottom: */ 0 /* left: */ 260;
+    -fx-tile-alignment: top-left;
+    -fx-hgap: 4;
+    -fx-vgap: 4;
+}
+
+#flotilla-pane .button {
+    -fx-text-fill: navy;
+    -fx-base: whitesmoke;
+    -fx-background-radius: 0;
+}
+
 #push-buttons  {
     -fx-spacing: 180;
     -fx-padding: /* top: */ 40 /* right: */ 0 /* bottom: */ 20 /* left: */ 450;

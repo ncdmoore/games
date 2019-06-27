@@ -3,7 +3,7 @@ package engima.waratsea.utility;
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.game.GameTitle;
-import engima.waratsea.model.ship.Ship;
+import engima.waratsea.model.vessel.Vessel;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +64,7 @@ public class ImageResourceProvider {
      * @param ship The ship whose image is retrieved.
      * @return The ship's image view.
      */
-    public ImageView getShipImageView(final Ship ship) {
+    public ImageView getShipImageView(final Vessel ship) {
         Image image = getShipNameImage(ship)
                 .orElseGet(() -> getShipClassImage(ship)
                         .orElse(null));
@@ -84,7 +84,7 @@ public class ImageResourceProvider {
      * @param ship The ship whose image is retrieved.
      * @return The ship's image view.
      */
-    public ImageView getShipProfileImageView(final Ship ship) {
+    public ImageView getShipProfileImageView(final Vessel ship) {
         Image image = getShipNameProfileImage(ship)
                 .orElseGet(() -> getShipClassProfileImage(ship)
                         .orElse(null));
@@ -135,7 +135,7 @@ public class ImageResourceProvider {
      * @param ship The ship whose image is loaded.
      * @return An optional ship image.
      */
-    private Optional<Image> getShipNameImage(final Ship ship) {
+    private Optional<Image> getShipNameImage(final Vessel ship) {
         log.debug("look for ship name '{}'", ship.getName());
         String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getName() + ".png";
         return loadImage(path);
@@ -147,7 +147,7 @@ public class ImageResourceProvider {
      * @param ship The ship whose image is loaded.
      * @return An optional ship image.
      */
-    private Optional<Image> getShipClassImage(final Ship ship) {
+    private Optional<Image> getShipClassImage(final Vessel ship) {
         log.debug("look for ship class '{}'", ship.getShipClass());
         String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getShipClass() + ".png";
         return loadImage(path);
@@ -159,7 +159,7 @@ public class ImageResourceProvider {
      * @param ship The ship whose profile image is loaded.
      * @return An optional ship profile image.
      */
-    private Optional<Image> getShipNameProfileImage(final Ship ship) {
+    private Optional<Image> getShipNameProfileImage(final Vessel ship) {
         log.info("Look for ship name profile '{}'", ship.getName());
         String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getName() + "-profile.png";
         return loadImage(path);
@@ -171,7 +171,7 @@ public class ImageResourceProvider {
      * @param ship The ship whose profile image is loaded.
      * @return An optional ship profile image.
      */
-    private Optional<Image> getShipClassProfileImage(final Ship ship) {
+    private Optional<Image> getShipClassProfileImage(final Vessel ship) {
         log.info("Look for ship class profile '{}'", ship.getShipClass());
         String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getShipClass() + "-profile.png";
         return loadImage(path);

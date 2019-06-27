@@ -41,6 +41,7 @@ import java.util.stream.Stream;
  */
 @Slf4j
 public class TaskForce implements Asset, PersistentData<TaskForceData> {
+    @Getter
     private final Side side;
 
     @Getter
