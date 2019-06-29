@@ -257,7 +257,13 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
                 .stream()
                 .map(shipEventMatcher -> "\u2022 " + shipEventMatcher.getExplanation());
 
-        return Stream.concat(turnReasons, shipReasons).collect(Collectors.toList());
+        List<String> reasons = Stream.concat(turnReasons, shipReasons).collect(Collectors.toList());
+
+        if (!reasons.isEmpty()) {
+            reasons.add(0, "Activated:");
+        }
+
+        return reasons;
     }
 
     /**

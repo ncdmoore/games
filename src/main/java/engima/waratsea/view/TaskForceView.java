@@ -40,8 +40,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -58,36 +58,6 @@ import java.util.stream.Collectors;
  */
 public class TaskForceView {
     private static final String CSS_FILE = "taskForceView.css";
-
-    /**
-     * Utility class used in conjunction with table view.
-     */
-    public static class Row {
-        @Getter
-        @Setter
-        private String type;
-
-        @Getter
-        @Setter
-        private String number;
-
-        /**
-         * Constructor.
-         *
-         * @param type The entity type.
-         * @param number The number of the entity type.
-         */
-        public Row(final String type, final String number) {
-            this.type = type;
-            this.number = number;
-
-            String decimal = number.substring(number.indexOf('.') + 1);
-
-            if (Integer.parseInt(decimal) == 0) {
-                this.number = number.substring(0, number.indexOf('.'));
-            }
-        }
-    }
 
     private ViewProps props;
     private CssResourceProvider cssResourceProvider;
@@ -359,9 +329,6 @@ public class TaskForceView {
         locationValue.setText(prefix + taskForce.getMappedLocation());
 
         List<String> reasons = taskForce.getActivatedByText();
-        if (!reasons.isEmpty()) {
-            reasons.add(0, "Activated:");
-        }
 
         reasonsValue.setText(String.join("\n", reasons));
         setTabs(taskForce);
@@ -457,21 +424,21 @@ public class TaskForceView {
      */
     private void setSummaryTab(final Map<ShipViewType, List<Ship>> shipViewTypeMap,
                                final Map<AircraftType, BigDecimal> squadronTypeMap) {
-        List<Row> shipRows = shipViewTypeMap
+        List<Pair<String, String>> shipRows = shipViewTypeMap
                 .entrySet()
                 .stream()
                 .filter(entry -> !entry.getValue().isEmpty())
-                .map(entry -> new Row(entry.getKey().toString(), entry.getValue().size() + ""))
+                .map(entry -> new Pair<>(entry.getKey().toString(), entry.getValue().size() + ""))
                 .collect(Collectors.toList());
-        ObservableList<Row> shipData = FXCollections.observableArrayList(shipRows);
+        ObservableList<Pair<String, String>> shipData = FXCollections.observableArrayList(shipRows);
 
-        List<Row> squadronRows = squadronTypeMap
+        List<Pair<String, String>> squadronRows = squadronTypeMap
                 .entrySet()
                 .stream()
                 .filter(entry -> !(entry.getValue().compareTo(BigDecimal.ZERO) == 0))
-                .map(entry -> new Row(entry.getKey().toString(), entry.getValue().setScale(2, RoundingMode.HALF_UP) + ""))
+                .map(entry -> new Pair<>(entry.getKey().toString(), stripFraction(entry.getValue().setScale(2, RoundingMode.HALF_UP) + "")))
                 .collect(Collectors.toList());
-        ObservableList<Row> squadronData = FXCollections.observableArrayList(squadronRows);
+        ObservableList<Pair<String, String>> squadronData = FXCollections.observableArrayList(squadronRows);
 
         HBox hBox = new HBox(buildTable("Ships", "Number", shipData));
         hBox.setId("taskforce-summary-hbox");
@@ -530,14 +497,14 @@ public class TaskForceView {
      * @param data The summary data.
      * @return A node containing the summary table.
      */
-    private Node buildTable(final String mainLabel, final String numberLabel, final ObservableList<Row> data) {
-        TableView<Row> table = new TableView<>();
+    private Node buildTable(final String mainLabel, final String numberLabel, final ObservableList<Pair<String, String>> data) {
+        TableView<Pair<String, String>> table = new TableView<>();
 
-        TableColumn<Row, String> typeColumn = new TableColumn<>(mainLabel);
-        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        TableColumn<Pair<String, String>, String> typeColumn = new TableColumn<>(mainLabel);
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("key"));
 
-        TableColumn<Row, String> numberColumn = new TableColumn<>(numberLabel);
-        numberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
+        TableColumn<Pair<String, String>, String> numberColumn = new TableColumn<>(numberLabel);
+        numberColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 
         table.getColumns().add(typeColumn);
         table.getColumns().add(numberColumn);
@@ -586,5 +553,20 @@ public class TaskForceView {
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         tab.setContent(sp);
+    }
+
+    /**
+     * Strip off the trailing zero's.
+     *
+     * @param number A number string.
+     * @return If the given number has a zero fraction, then the number is returned with
+     * no trailing zeros.
+     */
+    private String stripFraction(final String number) {
+        String decimal = number.substring(number.indexOf('.') + 1);
+
+        return (Integer.parseInt(decimal) == 0)
+                ? number.substring(0, number.indexOf('.'))
+                : number;
     }
 }

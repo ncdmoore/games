@@ -40,8 +40,6 @@ public class StartPresenter implements Presenter {
      * @param primaryStage the primary stage.
      */
     public void show(final Stage primaryStage) {
-        log.info("show.");
-
         StartView view = viewProvider.get();
 
         this.stage = primaryStage;
@@ -58,8 +56,6 @@ public class StartPresenter implements Presenter {
      * Call back for the new game button.
      */
     private void newGame() {
-        log.info("New Game.");
-
         navigate.goNext(this.getClass(), stage);
     }
 
@@ -81,7 +77,6 @@ public class StartPresenter implements Presenter {
      * Call back for quit game button.
      */
     private void quitGame() {
-        log.info("Quit Game");
         stage.close();
     }
 }
