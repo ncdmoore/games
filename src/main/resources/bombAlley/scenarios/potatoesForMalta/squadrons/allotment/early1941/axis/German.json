@@ -1,7 +1,8 @@
 {
   "nation": "GERMAN",
+  "maxOptionalDice": 2,
   "bombers": {
-    "dice": 3,
+    "dice": 2,
     "factor": 4,
     "groups": [
       {
@@ -29,7 +30,7 @@
     ]
   },
   "fighters": {
-    "dice": 3,
+    "dice": 2,
     "factor": 3,
     "groups": [
       {

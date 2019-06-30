@@ -35,4 +35,13 @@ public class Dice {
                 .sum();
     }
 
+    /**
+     * Roll the a dice of a given number of sides.
+     *
+     * @param sides The number of sides of the dice.
+     * @return A value between 1 and sides.
+     */
+    public int roll(final int sides) {
+        return DICE.nextInt(sides) + 1;
+    }
 }

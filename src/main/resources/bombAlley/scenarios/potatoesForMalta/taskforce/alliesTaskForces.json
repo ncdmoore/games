@@ -1,80 +1,92 @@
 [
   {
     "name": "TF1",
-    "title": "Detached Force",
-    "location": "Alexandria",
+    "title": "Excess Convoy",
+    "location": "Gibraltar",
     "state": "ACTIVE",
-    "mission": "FERRY",
+    "mission": "TRANSPORT",
     "targets": [
-      {"location": "Gibraltar"}
+      {"location": "Malta"}
     ],
     "ships": [
-      "BB10 Ramillies",
-      "CA01 Berwick",
-      "CL35 Newcastle",
-      "DD38 Defender",
-      "DD61 Gallant",
-      "DD67 Greyhound",
-      "DD68 Griffin",
-      "DD71 Hereward"
+      "CL44 Bonaventure",
+      "DD69 Hasty",
+      "DD71 Hereward",
+      "DD113 Jaguar",
+      "TR01",
+      "TR02",
+      "TR03",
+      "TR04"
+    ],
+    "cargoShips": [
+      "TR01",
+      "TR02",
+      "TR03",
+      "TR04"
     ]
   },
   {
     "name": "TF2",
     "title": "Covering Force",
-    "location": "Alexandria",
+    "location": "Gibraltar",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": "ESCORT",
     "ships": [
-      "CVL04 Eagle-1",
-      "BB04 Barham",
-      "BB05 Malaya"
+      "BB05 Malaya",
+      "BC01 Renown",
+      "CV04 Ark Royal-1",
+      "CL36 Sheffield",
+      "DD53 Faulknor",
+      "DD55 Firedrake",
+      "DD56 Forester",
+      "DD57 Foresight",
+      "DD58 Fortune",
+      "DD60 Fury"
     ]
   },
   {
     "name": "TF3",
-    "title": "Mediterranean Force",
-    "location": "Alexandria",
-    "state": "RESERVE",
-    "mission": "PATROL",
-    "releaseTurnEvents" : [
-      {
-        "turn": 8
-      }
+    "title": "Fast Convoy",
+    "location": "Athens",
+    "state": "ACTIVE",
+    "mission": "TRANSPORT",
+    "targets": [
+      {"location": "Malta"}
     ],
+    "ships": [
+      "CL37 Southampton",
+      "CL38 Gloucester",
+      "DD78 Ilex",
+      "DD114 Janus"
+    ],
+    "cargoShips": [
+      "CL37 Southampton",
+      "CL38 Gloucester"
+    ]
+  },
+  {
+    "name": "TF4",
+    "title": "Alexandria Force",
+    "location": "Alexandria",
+    "state": "ACTIVE",
+    "mission": "ESCORT",
     "ships": [
       "BB02 Warspite",
       "BB03 Valiant",
       "CV05 Illustrious-1",
-      "CL25 Ajax",
-      "CL28 Orion",
-      "CL03 Sydney",
-      "DD46 Encounter",
-      "DD72 Hero",
-      "DD76 Hyperion",
-      "DD78 Ilex",
+      "DD35 Dainty",
+      "DD61 Gallant",
+      "DD67 Greyhound",
+      "DD68 Griffin",
       "DD105 Mohawk",
       "DD106 Nubian",
-      "DD114 Janus",
       "DD117 Jervis",
       "DD118 Juno"
     ]
   },
   {
-    "name": "TF4",
-    "title": "Malta Convoy Escort",
-    "location": "Alexandria",
-    "state": "ACTIVE",
-    "mission": "ESCORT",
-    "ships": [
-      "CL34 Glasgow",
-      "CL38 Gloucester",
-      "CA12 York"
-    ]
-  },
-  {
     "name": "TF5",
-    "title": "Westbound Convoy",
+    "title": "Convoy MW.5",
     "location": "Alexandria",
     "state": "ACTIVE",
     "mission": "TRANSPORT",
@@ -82,72 +94,93 @@
       {"location": "Malta"}
     ],
     "ships": [
-      "CL06 Coventry",
       "CL10 Calcutta",
-      "DD35 Dainty",
-      "DD37 Decoy",
-      "DD69 Hasty",
-      "DD70 Havock",
-      "TR01",
-      "TR02",
-      "TR03",
-      "TR04"
-    ],
-    "cargoShips": [
-      "TR01",
-      "TR02",
-      "TR03",
-      "TR04"
-    ]
-  },
-  {
-    "name": "TF6",
-    "title": "Eastbound Convoy",
-    "location": "Gibraltar",
-    "state": "ACTIVE",
-    "mission": "TRANSPORT",
-    "targets": [
-      {"location": "Malta"}
-    ],
-    "ships": [
-      "CL37 Southampton",
-      "CL40 Manchester",
-      "DD74 Hotspur",
+      "DD38 Defender",
+      "DD40 Diamond",
       "DE97 Flower-1",
       "DE98 Flower-2",
       "DE99 Flower-3",
       "DE100 Flower-4",
+      "DE101 Flower-5",
+      "DE102 Flower-6",
+      "DE103 Flower-7",
+      "DE104 Flower-8",
+      "DE105 Flower-9",
+      "DE106 Flower-10",
+      "DE107 Flower-11",
+      "DE108 Flower-12",
       "TR05",
-      "TR06",
-      "TR07"
+      "TR06"
     ],
     "cargoShips": [
-      "CL37 Southampton",
-      "CL40 Manchester",
       "TR05",
-      "TR06",
-      "TR07"
+      "TR06"
+    ]
+  },
+  {
+    "name": "TF6",
+    "title": "Emergency Force",
+    "location": "Alexandria",
+    "state": "RESERVE",
+    "mission": "INTERCEPT",
+    "releaseShipEvents": [
+      {
+        "action": "DAMAGED",
+        "side": "ALLIES",
+        "shipType": "BATTLESHIP"
+      },
+      {
+        "action": "DAMAGED",
+        "side": "ALLIES",
+        "shipType": "AIRCRAFT_CARRIER"
+      }
+    ],
+    "ships": [
+      "BB04 Barham",
+      "CVL04 Eagle-1",
+      "DE01 V&W-1",
+      "DE02 V&W-2",
+      "DE03 V&W-3",
+      "DE04 V&W-4",
+      "DE05 V&W-5",
+      "DE06 V&W-6"
     ]
   },
   {
     "name": "TF7",
-    "title": "Covering Group",
-    "location": "Gibraltar",
+    "title": "Suda Bay Force",
+    "location": "Suda Bay",
     "state": "ACTIVE",
     "mission": "PATROL",
     "ships": [
-      "BC01 Renown",
-      "CV04 Ark Royal-1",
-      "CL17 Despatch",
-      "CL36 Sheffield",
-      "DD53 Faulknor",
-      "DD55 Firedrake",
-      "DD56 Forester",
-      "DD60 Fury",
-      "DD34 Duncan",
-      "DD113 Jaguar",
-      "DD123 Kelvin",
-      "DE01 V&W-1"
+      "CA12 York",
+      "CL25 Ajax",
+      "CL28 Orion",
+      "CL01 Perth",
+      "DE109 Flower-13",
+      "DE110 Flower-14",
+      "DE111 Flower-15",
+      "DE112 Flower-16",
+      "DE113 Flower-17",
+      "DE114 Flower-18",
+      "DE115 Flower-19",
+      "DE116 Flower-20",
+      "DE117 Flower-21",
+      "DE118 Flower-22",
+      "DE119 Flower-23",
+      "DE120 Flower-24",
+      "AO03"
+    ]
+  },
+  {
+    "name": "TF8",
+    "title": "Malta Force",
+    "location": "Malta",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "CL03 Sydney",
+      "DD01 Stuart"
     ]
   }
 ]

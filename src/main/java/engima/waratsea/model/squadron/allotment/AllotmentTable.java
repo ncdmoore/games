@@ -44,10 +44,15 @@ public class AllotmentTable {
                 .map(AllotmentGroup::new)
                 .collect(Collectors.toList());
 
+        int numDice = data.getDice();
+        int optionalNumDice = data.getOptionalDice();
+        int totalDice = numDice + optionalNumDice;
 
-        log.debug("{} : number of dice: {}", nation, data.getDice());
+        log.debug("{} : number of dice: {}", nation, numDice);
+        log.debug("{} : number of optional dice {}", nation, optionalNumDice);
+        log.debug("{} : number of total dice {}", nation, totalDice);
 
-        int numberOfSteps = dice.sumDiceRoll(data.getDice()) + data.getFactor();
+        int numberOfSteps = dice.sumDiceRoll(totalDice) + data.getFactor();
 
         if (numberOfSteps % 2 != 0) {
             numberOfSteps++;
@@ -68,5 +73,12 @@ public class AllotmentTable {
         }
 
         squadrons.forEach(squadron -> log.debug("Squadron: {}", squadron));
+
+        int remainingOptionalNumDice = data.getOptionalDice() - optionalNumDice;
+
+        data.setOptionalDice(remainingOptionalNumDice);
+
     }
+
+
 }

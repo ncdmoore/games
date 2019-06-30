@@ -14,6 +14,10 @@ public class AllotmentData {
 
     @Getter
     @Setter
+    private int maxOptionalDice;
+
+    @Getter
+    @Setter
     private AllotmentTableData bombers;
 
     @Getter

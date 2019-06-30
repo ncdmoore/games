@@ -21,8 +21,9 @@ import java.util.function.BiFunction;
 @Slf4j
 public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData> {
     // The cargo capacity factor is 3 times the board game value to avoid fractions.
-    // Thus the victory for unloading cargo is divided by 3 --> 4 instead of 12.
-    // The factor 12 is specified in the game manual under Victory Points.
+    // Thus the victory for unloading cargo is divided by 3.
+    // The game manual specifies a victory factor of 12 under Victory Points.
+    // This now becomes 4.   (12 / 3 = 4)
     private static final int CARGO_CAPACITY_UNLOAD_FACTOR = 4;
     private static final int OUT_OF_FUEL_FACTOR = 2;
     private GameMap gameMap;

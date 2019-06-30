@@ -60,5 +60,19 @@
     "ports": [
       "Haifa"
     ]
+  },
+  {
+    "name": "Greece",
+    "nation": ["BRITISH"],
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Athens",
+      "Suda Bay"
+    ],
+    "ports": [
+      "Athens",
+      "Suda Bay"
+    ]
   }
 ]

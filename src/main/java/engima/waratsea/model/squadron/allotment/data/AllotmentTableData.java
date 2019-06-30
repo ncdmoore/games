@@ -15,6 +15,10 @@ public class AllotmentTableData {
 
     @Getter
     @Setter
+    private int optionalDice;
+
+    @Getter
+    @Setter
     private int factor;
 
     @Getter

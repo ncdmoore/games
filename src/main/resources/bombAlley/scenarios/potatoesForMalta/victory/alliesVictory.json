@@ -1,0 +1,23 @@
+{
+  "objectives": "Unload the cargo carried by the Excess, Fast and MW.5 convoys at Malta.",
+  "scenarioShip": [
+    {
+      "event": {
+        "side": "ALLIES",
+        "action": "CARGO_UNLOADED",
+        "shipType": "TRANSPORT",
+        "location": "Malta"
+      }
+    },
+    {
+      "event": {
+        "side": "ALLIES",
+        "action": "CARGO_UNLOADED",
+        "shipType": "CRUISER",
+        "location": "Malta",
+        "startingLocation": "Athens"
+      },
+      "points": 8
+    }
+  ]
+}

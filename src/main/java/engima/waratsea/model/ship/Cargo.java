@@ -6,6 +6,22 @@ import lombok.Setter;
 
 /**
  * A ship's cargo.
+ *
+ *  Large Transport game cargo capacity is 3.
+ *  Small Transport game cargo capacity is 2.
+ *  Destroyer Transport APD game cargo capacity is 1.
+ *  Destroyer game cargo capacity is 1/3
+ *  Cruiser game cargo capacity is 1.
+ *  Sea plane carrier game cargo capacity is 2.
+ *
+ *  To avoid fractions the ship's cargo capacity is multipled by 3. Thus,
+ *
+ *  Large Transport   = 9 cargo capacity.
+ *  Small Transport   = 6 cargo capacity.
+ *  APD               = 3 cargo capacity.
+ *  Destroyer         = 1 cargo capacity.
+ *  Cruiser           = 3 cargo capacity.
+ *  Sea Plane Carrier = 6 cargo capacity.
  */
 public class Cargo implements Component {
     @Getter

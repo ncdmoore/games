@@ -27,7 +27,7 @@
     </appender>
 
 
-    <logger name="engima.waratsea.model.squadron" level="info" additivity="false">
+    <logger name="engima.waratsea.model.squadron" level="debug" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
 

@@ -8,9 +8,17 @@
     "ships": [
       "BB02 Giulio Cesare",
       "BB06 Vittorio Veneto",
-      "CA04 Pola",
+      "CA01 Trento",
+      "CA02 Trieste",
       "CA05 Fiume",
       "CA06 Gorizia",
+      "CA07 Bolzano",
+      "CL07 Montecuccoli",
+      "CL09 Duca d Aosta",
+      "CL10 Eugenio di Savoia",
+      "DD03 Da Recco",
+      "DD07 Pessagno",
+      "DD08 Pigafetta",
       "DD13 Freccia",
       "DD14 Dardo",
       "DD15 Saetta",
@@ -19,7 +27,10 @@
       "DD27 Carducci",
       "DD28 Alfieri",
       "DD33 Granatiere",
+      "DD34 Corazziere",
       "DD35 Bersagliere",
+      "DD36 Carabiniere",
+      "DD37 Ascari",
       "DD38 Fuciliere",
       "DD39 Alpino"
     ]
@@ -32,9 +43,21 @@
     "mission": "PATROL",
     "ships": [
       "DD02 Da Noli",
-      "DD05 Malocello",
+      "DD05 Da Malocello",
       "DD09 Tarigo",
-      "DD11 Vivaldi"
+      "DD11 Vivaldi",
+      "DE46 Spica-1",
+      "DE47 Spica-2",
+      "DE48 Spica-3",
+      "DE49 Spica-4",
+      "DE50 Spica-5",
+      "DE51 Spica-6",
+      "DE52 Spica-7",
+      "DE53 Spica-8",
+      "DE54 Spica-9",
+      "DE55 Spica-10",
+      "DE56 Spica-11",
+      "DE57 Spica-12"
     ]
   }
 ]
