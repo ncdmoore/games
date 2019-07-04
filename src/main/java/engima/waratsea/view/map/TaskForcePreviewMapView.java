@@ -14,6 +14,7 @@ import engima.waratsea.view.map.marker.TaskForceMarker;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -314,6 +315,13 @@ public class TaskForcePreviewMapView {
         Node airfieldKey = AirfieldMarker.getLegend(nation, 0, 0, gridSize);
         gridPane.add(airfieldKey, 0, 0);
         gridPane.add(new Label("Airfield"), 1, 0);
+
+        Node rangeKey = SquadronRangeMarker.getLegend(0, 0, gridSize / 2);
+        Label rangeLabel = new Label("Combat Radius");
+        rangeLabel.setTooltip(new Tooltip("Outer circle: squadron equipped with drop tanks"));
+
+        gridPane.add(rangeKey, 0, 1);
+        gridPane.add(rangeLabel, 1, 1);
 
         gridPane.setId("map-legend-grid");
 

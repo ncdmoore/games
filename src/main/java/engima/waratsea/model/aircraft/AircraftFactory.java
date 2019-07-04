@@ -17,10 +17,19 @@ public interface AircraftFactory {
     Aircraft createAircraft(AircraftData data);
 
     /**
+     * Create a fighter aircraft.
+     *
+      * @param data The aircraft's data.
+     * @return The fighter aircraft.
+     */
+    @Named("fighter")
+    Aircraft createFighter(AircraftData data);
+
+    /**
      * Creates an Italian bomber.
      *
      * @param data The aircraft's data.
-     * @return The aircraft.
+     * @return The poor naval bomber aircraft.
      */
     @Named("poorNaval")
     Aircraft createPoorNavalBomber(AircraftData data);

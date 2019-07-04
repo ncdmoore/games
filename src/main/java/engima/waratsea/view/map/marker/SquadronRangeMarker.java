@@ -5,12 +5,16 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import lombok.Getter;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class SquadronRangeMarker {
@@ -24,7 +28,7 @@ public class SquadronRangeMarker {
     @Getter
     private Asset squadron;
 
-    private Circle rangeCircle;
+    private List<Circle> rangeCircles;
 
     private ImageView imageView;
 
@@ -45,30 +49,64 @@ public class SquadronRangeMarker {
      */
     public void display() {
         draw();                    // Draw a new circle.
-        mapView.add(rangeCircle);  // Add the new circle.
+        rangeCircles.forEach(mapView::add);
+
     }
 
     /**
      * Hide or remove the squadron range radius.
      */
     public void hide() {
-        mapView.remove(rangeCircle);
+        rangeCircles.forEach(mapView::remove);
     }
 
     /**
      * Draw the squadron range radius.
      */
     private void draw() {
-        double radius = ((Squadron) squadron).getRange() * gridView.getSize();
+        rangeCircles = ((Squadron) squadron)
+                .getRadius()
+                .stream()
+                .map(this::drawCircle)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Draw a combat radius circle.
+     *
+     * @param combatRadius The squadron's combat radius.
+     * @return A circle that corresponds to the squadron's combat radius.
+     */
+    private Circle drawCircle(final int combatRadius) {
+        double radius = combatRadius * gridView.getSize();
         double offset = (double) gridView.getSize() / 2;
 
-        rangeCircle = new Circle(gridView.getX() + offset, gridView.getY() + offset, radius);
-        rangeCircle.setFill(null);
-        rangeCircle.setStroke(Color.BLACK);
+        Circle circle = new Circle(gridView.getX() + offset, gridView.getY() + offset, radius);
+        circle.setFill(null);
+        circle.setStroke(Color.BLACK);
 
         // Use the image to get a rectangle that can be used to clip the range radius circles to keep them
         // from leaking outside the map.
         Image image = imageView.getImage();
-        rangeCircle.setClip(new Rectangle(imageView.getX(), imageView.getY(), image.getWidth(), image.getHeight()));
+        circle.setClip(new Rectangle(imageView.getX(), imageView.getY(), image.getWidth(), image.getHeight()));
+
+        return circle;
+    }
+
+    /**
+     * Get the map legend key. This is just a duplicate circle that is the same
+     * size and type as used for this marker. It is used in the map legend.
+     *
+     * @param x The marker's x coordinate.
+     * @param y The marker's y coordinate.
+     * @param radius The radius of the marker.
+     * @return The marker legend key.
+     */
+    public static Node getLegend(final double x, final double y, final double radius) {
+        Circle circle = new Circle(x + radius, y + radius, radius);
+        circle.setFill(null);
+        circle.setStroke(Color.BLACK);
+       // circle.getStyleClass().add("mine-marker");
+        return circle;
     }
 }

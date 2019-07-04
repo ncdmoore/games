@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -225,12 +226,14 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     }
 
     /**
-     * Get the squadron's ferryDistance.
+     * Get the squadron's combat radii. If the squadron can equip with
+     * drop tanks then two radii are returned: one with drop tanks and
+     * one without.
      *
-     * @return The squadron's ferryDistance.
+     * @return The squadron's combat radii.
      */
-    public int getRange() {
-        return aircraft.getRange().getRadius();
+    public List<Integer> getRadius() {
+        return aircraft.getRadius();
     }
 
     /**

@@ -3,6 +3,8 @@ package engima.waratsea.model.aircraft;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
 
+import java.util.List;
+
 /**
  * Represents an aircraft.
  */
@@ -14,7 +16,6 @@ public interface Aircraft {
      * @return The aircraft's model.
      */
     String getModel();
-
 
     /**
      * Get the aircraft's side.
@@ -78,6 +79,15 @@ public interface Aircraft {
      * @return The aircraft's ferryDistance.
      */
     Range getRange();
+
+    /**
+     * Get the aircraft's combat radius. If the aircraft can be
+     * equiped with drop tanks then two combar radii are returned:
+     * one with drop tanks and one without.
+     *
+     * @return A list of combar radii.
+     */
+    List<Integer> getRadius();
 
     /**
      * Get the aircraft's altitude rating.

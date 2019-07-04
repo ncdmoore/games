@@ -3,17 +3,16 @@ package engima.waratsea.model.aircraft;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.data.AircraftData;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.Side;
 import lombok.Getter;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-/**
- * Represents an aircraft.
- */
-public class AircraftImpl implements Aircraft {
+public class Fighter implements Aircraft {
+    private static final double DROP_TANK_FACTOR = 1.5;
 
     @Getter
     private final AircraftId aircraftId;
@@ -57,7 +56,7 @@ public class AircraftImpl implements Aircraft {
      * @param data The aircraft data read in from a JSON file.
      */
     @Inject
-    public AircraftImpl(@Assisted final AircraftData data) {
+    public Fighter(@Assisted final AircraftData data) {
         this.aircraftId = data.getAircraftId();
         this.type = data.getType();
         this.designation = data.getDesignation();
@@ -93,12 +92,14 @@ public class AircraftImpl implements Aircraft {
     }
 
     /**
-     * The aircraft's combat radius.
+     * Get combat radius of the aircraft. There are two radii: one with
+     * drop tanks and one without.
      *
-     * @return The aircraft's combat radius inside a list.
+     * @return A list of combat radii.
      */
-    @Override
     public List<Integer> getRadius() {
-        return Collections.singletonList(range.getRadius());
+        int radius = range.getRadius();
+        int radiusWithDropTank = (int) Math.ceil(range.getRadius() * DROP_TANK_FACTOR);
+        return new ArrayList<>(Arrays.asList(radius, radiusWithDropTank));
     }
 }

@@ -7,6 +7,7 @@ import com.google.inject.name.Names;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.aircraft.AircraftFactory;
 import engima.waratsea.model.aircraft.AircraftImpl;
+import engima.waratsea.model.aircraft.Fighter;
 import engima.waratsea.model.aircraft.PoorNavalBomber;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
@@ -93,6 +94,7 @@ public class TestModule extends AbstractModule {
         install(new FactoryModuleBuilder().implement(Squadron.class, Squadron.class).build(SquadronFactory.class));
         install(new FactoryModuleBuilder()
                 .implement(Aircraft.class, Names.named("aircraft"), AircraftImpl.class)
+                .implement(Aircraft.class, Names.named("fighter"), Fighter.class)
                 .implement(Aircraft.class, Names.named("poorNaval"), PoorNavalBomber.class)
                 .build(AircraftFactory.class));
 
