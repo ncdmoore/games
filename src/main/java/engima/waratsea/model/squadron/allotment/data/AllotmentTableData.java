@@ -24,4 +24,13 @@ public class AllotmentTableData {
     @Getter
     @Setter
     private List<AllotmentGroupData> groups;
+
+    /**
+     * Determine if any squadrons are allotted for this table.
+     *
+     * @return True if squadrons are allotted. False otherwise.
+     */
+    public boolean isPresent() {
+        return dice + optionalDice + factor > 0;
+    }
 }
