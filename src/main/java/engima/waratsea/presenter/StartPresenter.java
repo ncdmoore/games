@@ -39,6 +39,7 @@ public class StartPresenter implements Presenter {
      *
      * @param primaryStage the primary stage.
      */
+    @Override
     public void show(final Stage primaryStage) {
         StartView view = viewProvider.get();
 
@@ -50,6 +51,16 @@ public class StartPresenter implements Presenter {
         view.getSavedButton().setOnAction(event -> savedGame());
         view.getOptionsButton().setOnAction(event -> options());
         view.getQuitButton().setOnAction(event -> quitGame());
+    }
+
+    /**
+     * Re show the starting view.
+     *
+     * @param primaryStage The primary javafx stage.
+     */
+    @Override
+    public void reShow(final Stage primaryStage) {
+        show(primaryStage);
     }
 
     /**

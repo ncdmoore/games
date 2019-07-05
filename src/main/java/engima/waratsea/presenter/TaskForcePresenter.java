@@ -71,14 +71,49 @@ public class TaskForcePresenter implements Presenter {
     /**
      * Creates and shows the task force view.
      *
-     * @param primaryStage the stage that the scenario view is placed.
+     * @param primaryStage the stage that the task force view is placed.
      */
+    @Override
     public void show(final Stage primaryStage) {
+        startGame();
+        setupView(primaryStage);
+    }
+
+    /**
+     * Reshows the task force view.
+     *
+     * @param primaryStage the stage that the task force view is placed.
+     */
+    @Override
+    public void reShow(final Stage primaryStage) {
+        setupView(primaryStage);
+    }
+
+    /**
+     * Initialize the task force data.
+     */
+    private void startGame() {
+        try {
+            game.startNew();
+        } catch (ScenarioException | MapException | VictoryException ex) {
+            fatalErrorDialogProvider.get().show(ex.getMessage() + ".");
+        }
+    }
+
+    /**
+     * Setup the task force view.
+     *
+     * @param primaryStage The primary stage.
+     */
+    private void setupView(final Stage primaryStage) {
         view = viewProvider.get();
 
         this.stage = primaryStage;
 
-        startGame();
+        view.setTaskForces(game.getHumanPlayer().getTaskForces());
+        view.getTaskForces().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> taskForceSelected(newValue));
+
+        navigate.update(game.getScenario());
 
         view.show(stage, game.getScenario());
 
@@ -91,22 +126,6 @@ public class TaskForcePresenter implements Presenter {
         view.getBackButton().setOnAction(event -> backButton());
 
         view.getTaskForces().getSelectionModel().selectFirst();
-    }
-
-    /**
-     * Initialize the task force data.
-     */
-    private void startGame() {
-        try {
-            game.startNew();
-            view.setTaskForces(game.getHumanPlayer().getTaskForces());
-            view.getTaskForces().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> taskForceSelected(newValue));
-
-            navigate.update(game.getScenario());
-
-        } catch (ScenarioException | MapException | VictoryException ex) {
-            fatalErrorDialogProvider.get().show(ex.getMessage() + ".");
-        }
     }
 
     /**

@@ -12,4 +12,11 @@ public interface Presenter {
      * @param primaryStage The primary javafx stage.
      */
     void show(Stage primaryStage);
+
+    /**
+     * Re show the primary stage.
+     *
+     * @param primaryStage The primary javafx stage.
+     */
+    void reShow(Stage primaryStage);
 }

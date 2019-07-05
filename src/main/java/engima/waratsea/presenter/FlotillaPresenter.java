@@ -35,8 +35,6 @@ public class FlotillaPresenter implements Presenter {
 
     private Navigate navigate;
 
-    private Flotilla selectedFlotilla;
-
     /**
      * This is the constructor.
      *
@@ -81,6 +79,16 @@ public class FlotillaPresenter implements Presenter {
     }
 
     /**
+     * Re show the primary stage.
+     *
+     * @param primaryStage The primary javafx stage.
+     */
+    @Override
+    public void reShow(final Stage primaryStage) {
+        show(primaryStage);
+    }
+
+    /**
      * Set the human player's flotillas.
      */
     private void setFlotillas() {
@@ -117,8 +125,6 @@ public class FlotillaPresenter implements Presenter {
      */
     private void flotillaSelected(final Flotilla flotilla) {
         clearAllFlotillas();
-
-        selectedFlotilla = flotilla;
 
         view.setSelectedFlotilla(flotilla);
         view.getSubButtons()

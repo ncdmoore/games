@@ -100,7 +100,7 @@ public class Navigate {
 
         Pair<Provider<? extends Presenter>, Boolean> pair = presenterMap.get(page);
         if (pair.getValue()) {
-            pair.getKey().get().show(stage);
+            pair.getKey().get().reShow(stage);
         } else {
             goPrev(page, stage);
         }

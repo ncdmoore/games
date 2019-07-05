@@ -52,6 +52,7 @@ public class ScenarioPresenter implements Presenter {
      *
      * @param primaryStage the stage that the scenario view is placed.
      */
+    @Override
     public void show(final Stage primaryStage) {
         view = viewProvider.get();
 
@@ -62,6 +63,16 @@ public class ScenarioPresenter implements Presenter {
         view.show(stage);
         view.getContinueButton().setOnAction(event -> continueButton());
         view.getBackButton().setOnAction(event -> backButton());
+    }
+
+    /**
+     * Re show the scenario view.
+     *
+     * @param primaryStage The primary javafx stage.
+     */
+    @Override
+    public void reShow(final Stage primaryStage) {
+        show(primaryStage);
     }
 
     /**

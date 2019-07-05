@@ -27,8 +27,10 @@ public class MainPresenter implements Presenter {
 
     /**
      * Show the main game view.
+     *
      * @param primaryStage The primary Javafx stage.
      */
+    @Override
     public void show(final Stage primaryStage) {
         log.info("show.");
 
@@ -37,5 +39,15 @@ public class MainPresenter implements Presenter {
         this.stage = primaryStage;
 
         view.show(stage);
+    }
+
+    /**
+     * Re show the main game view.
+     *
+     * @param primaryStage The primary javafx stage.
+     */
+    @Override
+    public void reShow(final Stage primaryStage) {
+        show(primaryStage);
     }
 }

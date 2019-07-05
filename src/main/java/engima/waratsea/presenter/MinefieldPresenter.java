@@ -54,6 +54,7 @@ public class MinefieldPresenter implements Presenter {
      *
      * @param primaryStage the stage that the scenario view is placed.
      */
+    @Override
     public void show(final Stage primaryStage) {
         this.stage = primaryStage;
 
@@ -68,6 +69,16 @@ public class MinefieldPresenter implements Presenter {
         view.getBackButton().setOnAction(event -> backButton());
 
         view.getMinefields().getSelectionModel().selectFirst();
+    }
+
+    /**
+     * Re show the minefield view.
+     *
+     * @param primaryStage The primary javafx stage.
+     */
+    @Override
+    public void reShow(final Stage primaryStage) {
+        show(primaryStage);
     }
 
     /**

@@ -65,10 +65,11 @@ public class SquadronPresenter implements Presenter {
     }
 
     /**
-     * Creates and shows the task force view.
+     * Creates and shows the squadron view.
      *
      * @param primaryStage the stage that the scenario view is placed.
      */
+    @Override
     public void show(final Stage primaryStage) {
         view = viewProvider.get();
 
@@ -88,6 +89,16 @@ public class SquadronPresenter implements Presenter {
         view.getDetailsButton().setOnAction(event -> showSquadron());
         view.getContinueButton().setOnAction(event -> continueButton());
         view.getBackButton().setOnAction(event -> backButton());
+    }
+
+    /**
+     * Re show the squadron view.
+     *
+     * @param primaryStage The primary javafx stage.
+     */
+    @Override
+    public void reShow(final Stage primaryStage) {
+        show(primaryStage);
     }
 
     /**
