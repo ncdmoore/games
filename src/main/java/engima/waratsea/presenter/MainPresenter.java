@@ -2,6 +2,7 @@ package engima.waratsea.presenter;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import engima.waratsea.view.MainView;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
  * This is the main presenter for the game.
  */
 @Slf4j
+@Singleton
 public class MainPresenter implements Presenter {
 
     private Provider<MainView> viewProvider;
