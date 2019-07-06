@@ -126,8 +126,6 @@ public class Game {
         loadGameVictory();
         buildAssets();
         deployAssets();
-
-        save();              //Save the default game.
     }
 
     /**
@@ -164,6 +162,16 @@ public class Game {
         loadGameMap();
         loadGameVictory();
         buildAssets();
+    }
+
+    /**
+     * Save the game.
+     */
+    public void save() {
+        gameDAO.save(getData());
+        gameVictory.save(scenario);
+        humanPlayer.saveAssets(scenario);
+        computerPlayer.saveAssets(scenario);
     }
 
     /**
@@ -216,15 +224,7 @@ public class Game {
         computerPlayer.deployAssets(scenario);
     }
 
-    /**
-     * Save the game.
-     */
-    private void save() {
-        gameDAO.save(getData());
-        gameVictory.save(scenario);
-        humanPlayer.saveAssets(scenario);
-        computerPlayer.saveAssets(scenario);
-    }
+
 
     /**
      * Get all of the game persistent data.

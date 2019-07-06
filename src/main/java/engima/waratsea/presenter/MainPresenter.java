@@ -3,6 +3,7 @@ package engima.waratsea.presenter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import engima.waratsea.model.game.Game;
 import engima.waratsea.view.MainView;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -14,16 +15,22 @@ import lombok.extern.slf4j.Slf4j;
 @Singleton
 public class MainPresenter implements Presenter {
 
+    private Game game;
+
     private Provider<MainView> viewProvider;
     private MainView view;
     private Stage stage;
 
     /**
      * Constructor called by guice.
+     *
+     * @param game The game.
      * @param viewProvider The view provider.
      */
     @Inject
-    public MainPresenter(final Provider<MainView> viewProvider) {
+    public MainPresenter(final Game game,
+                         final Provider<MainView> viewProvider) {
+        this.game = game;
         this.viewProvider = viewProvider;
     }
 
@@ -34,13 +41,15 @@ public class MainPresenter implements Presenter {
      */
     @Override
     public void show(final Stage primaryStage) {
-        log.info("show.");
+
+        game.save();
 
         view = viewProvider.get();
 
         this.stage = primaryStage;
 
         view.show(stage);
+
     }
 
     /**
