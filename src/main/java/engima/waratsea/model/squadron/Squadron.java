@@ -186,7 +186,9 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @param newLocation The squadron's new location.
      */
     public void setLocation(final String newLocation) {
-        location = gameMap.convertNameToReference(newLocation);
+        location = Optional.ofNullable(newLocation)
+                .map(gameMap::convertNameToReference)
+                .orElse(null);
     }
 
     /**
