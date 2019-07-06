@@ -6,6 +6,7 @@ import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.aircraft.AircraftBaseType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.BaseCapacity;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -130,17 +131,18 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param squadron The squadron which is now based at this airfield.
      */
     @Override
-    public boolean addSquadron(final Squadron squadron) {
+    public BaseCapacity addSquadron(final Squadron squadron) {
 
-        if (hasRoom(squadron)) {
+        BaseCapacity result = hasRoom(squadron);
+
+        if (result == BaseCapacity.HAS_ROOM) {
             Optional.ofNullable(squadron.getAirfield())
                     .ifPresent(airfield -> airfield.removeSquadron(squadron));
             squadrons.add(squadron);
             squadron.setAirfield(this);
-            return true;
         }
 
-        return false;
+        return result;
     }
 
     /**
@@ -213,12 +215,20 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param squadron A potential new squadron.
      * @return True if this airfield can house the new squadron; false otherwise.
      */
-    private boolean hasRoom(final Squadron squadron) {
+    private BaseCapacity hasRoom(final Squadron squadron) {
 
         Nation nation = squadron.getNation();
         Region region = regions.get(nation);
 
-        return determineRoom(squadron) && region.hasRoom(squadron);
+        if (!region.hasRoom(squadron)) {
+            return BaseCapacity.REGION_FULL;
+        }
+
+        if (!determineRoom(squadron)) {
+            return BaseCapacity.BASE_FULL;
+        }
+
+        return BaseCapacity.HAS_ROOM;
     }
 
     /**

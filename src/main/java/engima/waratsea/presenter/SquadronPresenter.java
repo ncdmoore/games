@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.aircraft.AircraftBaseType;
+import engima.waratsea.model.base.BaseCapacity;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
@@ -13,6 +14,7 @@ import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.presenter.squadron.SquadronDetailsDialog;
 import engima.waratsea.view.SquadronView;
+import engima.waratsea.view.WarnDialog;
 import engima.waratsea.view.map.marker.AirfieldMarker;
 import javafx.scene.control.Tab;
 import javafx.scene.input.MouseEvent;
@@ -38,6 +40,7 @@ public class SquadronPresenter implements Presenter {
 
     private Provider<SquadronView> viewProvider;
     private Provider<SquadronDetailsDialog> squadronDetailsDialogProvider;
+    private Provider<WarnDialog> warnDialogProvider;
 
     private Navigate navigate;
 
@@ -51,16 +54,19 @@ public class SquadronPresenter implements Presenter {
      * @param game The game object.
      * @param viewProvider The corresponding view.
      * @param squadronDetailsDialogProvider The ship details dialog provider.
+     * @param warnDialogProvider The warning dialog provider.
      * @param navigate Provides screen navigation.
      */
     @Inject
     public SquadronPresenter(final Game game,
                              final Provider<SquadronView> viewProvider,
                              final Provider<SquadronDetailsDialog> squadronDetailsDialogProvider,
+                             final Provider<WarnDialog> warnDialogProvider,
                              final Navigate navigate) {
         this.game = game;
         this.viewProvider = viewProvider;
         this.squadronDetailsDialogProvider = squadronDetailsDialogProvider;
+        this.warnDialogProvider = warnDialogProvider;
         this.navigate = navigate;
     }
 
@@ -468,9 +474,11 @@ public class SquadronPresenter implements Presenter {
             // from the list the selected available squadron changes.
             Squadron squadron = selectedAvailableSquadron;
 
-            if (selectedAirfield.addSquadron(squadron)) {                     // Add the squadron to the airfield.
-                view.getAvailableSquadrons().getItems().remove(squadron);     // Remove the squadron from the available list.
-                view.getAirfieldSquadrons().getItems().add(squadron);         // Add the squadron to the airfield list.
+            BaseCapacity result = selectedAirfield.addSquadron(squadron);
+
+            if (result == BaseCapacity.HAS_ROOM) { // Add the squadron to the airfield.
+                view.getAvailableSquadrons().getItems().remove(squadron);          // Remove the squadron from the available list.
+                view.getAirfieldSquadrons().getItems().add(squadron);              // Add the squadron to the airfield list.
 
                 AircraftBaseType type = squadron.getBaseType();
 
@@ -478,6 +486,8 @@ public class SquadronPresenter implements Presenter {
                     view.getAirfieldCurrentValue().get(nation).setText(selectedAirfield.getCurrentSteps() + "");
                     view.getAirfieldSteps().get(nation).get(type).setText(selectedAirfield.getStepsForType(type) + "");
                 });
+            } else {
+                warnDialogProvider.get().show("Unable to deploy squadron to " + selectedAirfield.getName() + ". " + result + ".");
             }
         }
     }

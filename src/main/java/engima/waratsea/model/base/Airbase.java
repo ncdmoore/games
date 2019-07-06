@@ -42,7 +42,7 @@ public interface Airbase extends Base {
      * @param squadron The squadron that is now based at this airbase.
      * @return True if the squadron was added. False otherwise.
      */
-    boolean addSquadron(Squadron squadron);
+    BaseCapacity addSquadron(Squadron squadron);
 
     /**
      * Remove a squadron from this air base.
