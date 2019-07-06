@@ -170,6 +170,17 @@ public class Region {
     }
 
     /**
+     * Determine if this region's minimum squadron requirement is met.
+     *
+     * @return True if this region's minimum squadron requirement is met. False if this region's mininum
+     * squadron requirement is not yet met.
+     */
+    public boolean minimumSatisfied() {
+        return getNeeded() == 0;
+    }
+
+
+    /**
      * The String representation of the region.
      *
      * @return String representation of the region.

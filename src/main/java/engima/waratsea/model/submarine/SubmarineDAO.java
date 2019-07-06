@@ -88,7 +88,7 @@ public class SubmarineDAO {
      * @throws ShipyardException Indicates that the ship could not be built.
      */
     private Submarine buildNew(final ShipId shipId) throws ShipyardException {
-        log.info("Build new sub: '{}' for side {}", shipId.getName(), shipId.getSide());
+        log.debug("Build new sub: '{}' for side {}", shipId.getName(), shipId.getSide());
         String subClassName = registry.getClass(shipId);
         SubmarineData subData = getSubData(subClassName, shipId);
         subData.setShipId(shipId);

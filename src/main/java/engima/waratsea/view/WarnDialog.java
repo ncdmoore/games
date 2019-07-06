@@ -57,7 +57,7 @@ public class WarnDialog {
         VBox vBox = new VBox(20, hBox, ok);
         vBox.setId("main-pane");
 
-        Scene scene = new Scene(vBox, 600, 150);
+        Scene scene = new Scene(vBox, 800, 150);
 
         scene.getStylesheets().add(cssResourceProvider.get(CSS_FILE));
 

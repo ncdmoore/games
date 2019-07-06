@@ -8,6 +8,7 @@ import engima.waratsea.model.base.BaseCapacity;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 @Singleton
 public class SquadronPresenter implements Presenter {
     private final Game game;
+    private final GameMap gameMap;
     private SquadronView view;
     private Stage stage;
 
@@ -52,6 +54,7 @@ public class SquadronPresenter implements Presenter {
      * This is the constructor.
      *
      * @param game The game object.
+     * @param gameMap The game's map.
      * @param viewProvider The corresponding view.
      * @param squadronDetailsDialogProvider The ship details dialog provider.
      * @param warnDialogProvider The warning dialog provider.
@@ -59,11 +62,13 @@ public class SquadronPresenter implements Presenter {
      */
     @Inject
     public SquadronPresenter(final Game game,
+                             final GameMap gameMap,
                              final Provider<SquadronView> viewProvider,
                              final Provider<SquadronDetailsDialog> squadronDetailsDialogProvider,
                              final Provider<WarnDialog> warnDialogProvider,
                              final Navigate navigate) {
         this.game = game;
+        this.gameMap = gameMap;
         this.viewProvider = viewProvider;
         this.squadronDetailsDialogProvider = squadronDetailsDialogProvider;
         this.warnDialogProvider = warnDialogProvider;
@@ -137,7 +142,7 @@ public class SquadronPresenter implements Presenter {
      * @param newTab The tab that now contains the focus. The new tab.
      */
     private void tabChanged(final Tab oldTab, final Tab newTab) {
-        log.info("Tab changed from {} to {}", oldTab.getText(), newTab.getText());
+        log.debug("Tab changed from {} to {}", oldTab.getText(), newTab.getText());
 
         Nation oldNation = determineNation(oldTab.getText());
         Nation newNation = determineNation(newTab.getText());
@@ -271,7 +276,7 @@ public class SquadronPresenter implements Presenter {
      * @param airfield The selected airfield.
      */
     private void airfieldSelected(final Airfield airfield) {
-        log.info("Selected airfield {}", airfield);
+        log.debug("Selected airfield {}", airfield);
 
         if (airfield == null) {    // This happens when the airfield choice box is cleared.
             view.clearSquadronRange();
@@ -296,7 +301,7 @@ public class SquadronPresenter implements Presenter {
      * @param squadron The selected available squadron.
      */
     private void availableSquadronSelected(final Squadron squadron) {
-        log.info("Select Squadron {}", squadron);
+        log.debug("Select Squadron {}", squadron);
         selectedAvailableSquadron = squadron;
 
         // Javafx does not call this callback if the squadron does not change.
@@ -318,7 +323,7 @@ public class SquadronPresenter implements Presenter {
      * @param squadron The selected airfield squadron.
      */
     private void airfieldSquadronSelected(final Squadron squadron) {
-        log.info("Select Squadron {}", squadron);
+        log.debug("Select Squadron {}", squadron);
         selectedAirfieldSquadron = squadron;
 
         // Javafx does not call this callback if the squadron does not change.
@@ -467,7 +472,7 @@ public class SquadronPresenter implements Presenter {
      * Deploy the selected squadron.
      */
     private void deploySquadron() {
-        log.info("Deploy {} to {}", selectedAvailableSquadron, selectedAirfield);
+        log.debug("Deploy {} to {}", selectedAvailableSquadron, selectedAirfield);
 
         if (selectedAvailableSquadron != null) {
             // Save off the squadron, because when we remove the selected avaiable squadron
@@ -496,7 +501,7 @@ public class SquadronPresenter implements Presenter {
      * Remove the selected squadron from the selected airfield.
      */
     private void removeSquadron() {
-        log.info("Remove {}", selectedAirfieldSquadron);
+        log.debug("Remove {}", selectedAirfieldSquadron);
 
         if (selectedAirfieldSquadron != null) {
             Squadron squadron = selectedAirfieldSquadron;
@@ -548,7 +553,24 @@ public class SquadronPresenter implements Presenter {
      * Call back for the continue button.
      */
     private void continueButton() {
-        navigate.goNext(this.getClass(), stage);
+        Optional<Squadron> anyAvailable = game
+                .getHumanPlayer()
+                .getNations()
+                .stream()
+                .flatMap(nation -> game.getHumanPlayer().getSquadrons(nation).stream())
+                .filter(Squadron::isAvailable)
+                .findAny();
+
+        List<Region> regionsNotSatisfied = gameMap
+                .areAllRegionsSatisfied(game.getHumanSide());
+
+        if (anyAvailable.isPresent()) {
+            warnNotAllSquadronsDeployed();
+        } else if (regionsNotSatisfied.size() > 0) {
+            warnNotAllRegionsSatisfied(regionsNotSatisfied);
+        } else {
+            navigate.goNext(this.getClass(), stage);
+        }
     }
 
     /**
@@ -576,5 +598,23 @@ public class SquadronPresenter implements Presenter {
      */
     private Nation determineNation(final String nation) {
         return Nation.valueOf(nation.replace(" ", "_").toUpperCase());
+    }
+
+    /**
+     * Warn that not all of the squadrons are deployed.
+     */
+    private void warnNotAllSquadronsDeployed() {
+        warnDialogProvider.get().show("Not all squadrons have been deployed. Squadrons not deployed are lost.");
+    }
+
+    /**
+     * Warn that some of the regions minimum squadron requirements are not satisfied.
+     *
+     * @param regions A list of regions for which the minimum squadron requirement is
+     *                not satisfied.
+     */
+    private void warnNotAllRegionsSatisfied(final List<Region> regions) {
+        String regionNames = regions.stream().map(Region::getName).collect(Collectors.joining(", "));
+        warnDialogProvider.get().show("The following regions do not have their minimum squadron requirement satisfied: " + regionNames + ".");
     }
 }

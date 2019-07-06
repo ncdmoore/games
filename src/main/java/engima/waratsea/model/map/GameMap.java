@@ -255,6 +255,19 @@ public final class GameMap {
         return false;
     }
 
+    /**
+     * Determine if all of a given sides regions minimum squadron requirements are met.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @return A list of regions for which the minimum squadron requirement
+     * is not satisfied.
+     */
+    public List<Region> areAllRegionsSatisfied(final Side side) {
+        return regions
+                .get(side)
+                .stream().filter(region -> !region.minimumSatisfied())
+                .collect(toList());
+    }
 
     /**
      * Convert a location name to a map reference. For example, the name Gibraltar is converted to H22.
