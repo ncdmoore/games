@@ -55,4 +55,12 @@ public class Port implements Base, PersistentData<PortData> {
        data.setLocation(reference);
        return data;
     }
+
+    /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
+    }
 }

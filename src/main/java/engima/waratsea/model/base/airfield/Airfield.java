@@ -88,6 +88,14 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
+    }
+
+    /**
      * Add a region to this airfield.
      *
      * @param region The region that is added.

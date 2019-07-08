@@ -128,4 +128,12 @@ public class AirfieldVictory implements VictoryCondition<AirfieldEvent, Airfield
 
         return data;
     }
+
+    /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
+    }
 }

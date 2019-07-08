@@ -80,8 +80,7 @@ public class FlotillaDAO {
     public void save(final Scenario scenario, final Side side, final List<Flotilla> flotillas) {
         log.info("Saving flotillas, scenario: '{}',side {}", scenario.getTitle(), side);
         String fileName = config.getSavedFileName(side, Flotilla.class);
-        PersistentUtility.save(fileName, PersistentUtility.getData(flotillas));
-        flotillas.forEach(Flotilla::saveSubs);
+        PersistentUtility.save(fileName, flotillas);
     }
 
     /**

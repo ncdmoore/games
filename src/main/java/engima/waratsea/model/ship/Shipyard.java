@@ -79,7 +79,7 @@ public class Shipyard {
     public void save(final Ship ship) {
         log.debug("Save ship: '{}' for side {}", ship.getName(), ship.getShipId().getSide());
         String fileName = config.getSavedFileName(ship.getShipId().getSide(), Ship.class, ship.getName() + ".json");
-        PersistentUtility.save(fileName, ship.getData());
+        PersistentUtility.save(fileName, ship);
     }
 
     /**

@@ -69,7 +69,8 @@ public class Flotilla implements Asset, PersistentData<FlotillaData> {
     /**
      * Save the flotilla sub data.
      */
-    public void saveSubs() {
+    @Override
+    public void saveChildrenData() {
         subs.forEach(submarine -> submarineDAO.save(submarine));
     }
 

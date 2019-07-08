@@ -138,6 +138,14 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     }
 
     /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
+    }
+
+    /**
      * Get the type of squadron.
      *
      * @return The type of squadron: FIGHTER, BOMBER, etc.

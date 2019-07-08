@@ -113,7 +113,7 @@ public class SquadronDAO {
         log.info("Saving squadrons, scenario: '{}', side: {}, nation: {}", new Object[]{scenario.getTitle(), side, nation});
         log.info("Saving {} squadrons", squadrons.size());
         String fileName = config.getSavedFileName(side, Squadron.class, nation + ".json");
-        PersistentUtility.save(fileName, PersistentUtility.getData(squadrons));
+        PersistentUtility.save(fileName, squadrons);
     }
 
     /**

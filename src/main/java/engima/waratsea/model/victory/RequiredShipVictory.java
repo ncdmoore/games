@@ -60,6 +60,15 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
     }
 
     /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
+    }
+
+
+    /**
      * Determine if a ship event thrown results in meeting the required victory condition.
      *
      * @param event The fired ship event.

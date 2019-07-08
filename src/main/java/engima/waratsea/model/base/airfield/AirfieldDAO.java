@@ -77,7 +77,7 @@ public class AirfieldDAO {
         log.debug("Saving airfields, scenario: '{}',side {}", scenario.getTitle(), side);
         airfields.forEach(airfield -> {
             String fileName = config.getSavedFileName(side, Airfield.class, airfield.getName() + ".json");
-            PersistentUtility.save(fileName, airfield.getData());
+            PersistentUtility.save(fileName, airfield);
         });
     }
 

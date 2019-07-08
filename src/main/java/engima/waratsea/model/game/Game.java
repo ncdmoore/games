@@ -1,6 +1,7 @@
 package engima.waratsea.model.game;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.data.GameData;
 import engima.waratsea.model.game.event.GameEvent;
 import engima.waratsea.model.map.GameMap;
@@ -25,7 +26,7 @@ import java.util.Map;
  */
 @Slf4j
 @Singleton
-public class Game {
+public class Game implements PersistentData<GameData> {
     @Getter
     @Inject
     @Named("Computer")
@@ -66,6 +67,25 @@ public class Game {
 
     private  Map<Side, Player> players = new HashMap<>();
 
+    /**
+     * Get all of the game persistent data.
+     *
+     * @return The game's persistent data.
+     */
+    public GameData getData() {
+        GameData data = new GameData();
+        data.setHumanSide(humanSide);
+        data.setScenario(scenario);
+        return data;
+    }
+
+    /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
+    }
 
     /**
      * Initialize the scenario summary data.
@@ -168,7 +188,7 @@ public class Game {
      * Save the game.
      */
     public void save() {
-        gameDAO.save(getData());
+        gameDAO.save(this);
         gameVictory.save(scenario);
         humanPlayer.saveAssets(scenario);
         computerPlayer.saveAssets(scenario);
@@ -226,15 +246,5 @@ public class Game {
 
 
 
-    /**
-     * Get all of the game persistent data.
-     *
-     * @return The game's persistent data.
-     */
-    private GameData getData() {
-        GameData data = new GameData();
-        data.setHumanSide(humanSide);
-        data.setScenario(scenario);
-        return data;
-    }
+
 }

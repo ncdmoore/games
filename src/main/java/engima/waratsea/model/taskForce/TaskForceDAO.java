@@ -81,8 +81,7 @@ public class TaskForceDAO {
     public void save(final Scenario scenario, final Side side, final List<TaskForce> taskForces) {
         log.info("Saving task forces, scenario: '{}',side {}", scenario.getTitle(), side);
         String fileName = config.getSavedFileName(side, TaskForce.class);
-        PersistentUtility.save(fileName, PersistentUtility.getData(taskForces));
-        taskForces.forEach(TaskForce::saveShips);
+        PersistentUtility.save(fileName, taskForces);
     }
 
     /**

@@ -119,7 +119,7 @@ public class VictoryDAO {
     public void save(final Scenario scenario, final Side side, final VictoryConditions conditions) {
         log.info("Saving victory, scenario: {}, side: {}", scenario.getTitle(), side);
         String fileName = config.getSavedFileName(side, Victory.class);
-        PersistentUtility.save(fileName, conditions.getData());
+        PersistentUtility.save(fileName, conditions);
     }
 
     /**

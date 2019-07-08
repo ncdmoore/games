@@ -2,6 +2,7 @@ package engima.waratsea.model.victory;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.GameEvent;
 import engima.waratsea.model.game.event.airfield.AirfieldEvent;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
  * One for the ALLIES and one for the AXIS.
  */
 @Slf4j
-public class VictoryConditions {
+public class VictoryConditions implements PersistentData<VictoryConditionsData> {
 
     @Getter
     private int totalVictoryPoints;
@@ -141,6 +142,14 @@ public class VictoryConditions {
         data.setScenarioAirfield(PersistentUtility.getData(scenarioAirfields));
 
         return data;
+    }
+
+    /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
     }
 
     /**

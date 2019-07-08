@@ -74,7 +74,7 @@ public class PortDAO {
         log.debug("Saving ports, scenario: '{}',side {}", scenario.getTitle(), side);
         ports.forEach(port -> {
             String fileName = config.getSavedFileName(side, Port.class, port.getName() + ".json");
-            PersistentUtility.save(fileName, port.getData());
+            PersistentUtility.save(fileName, port);
         });
     }
 

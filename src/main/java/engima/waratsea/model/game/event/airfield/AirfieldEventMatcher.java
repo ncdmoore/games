@@ -66,6 +66,14 @@ public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
     }
 
     /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
+    }
+
+    /**
      * Determines if two ship events are equal.
      *
      * @param firedEvent The airfield event to test for matching.

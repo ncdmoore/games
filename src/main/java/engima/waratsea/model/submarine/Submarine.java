@@ -88,6 +88,14 @@ public class Submarine implements Vessel, PersistentData<SubmarineData> {
     }
 
     /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
+    }
+
+    /**
      * Get the name of the submarine.
      *
      * @return The submarine name.

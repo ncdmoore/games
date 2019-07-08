@@ -49,12 +49,12 @@ public class GameDAO {
     /**
      * Save the game data.
      *
-     * @param data The game data that is saved.
+     * @param game The game that is saved.
      */
-    public void save(final GameData data) {
+    public void save(final Game game) {
         log.info("Saving game");
         String fileName = config.getSavedFileName(Game.class);
-        PersistentUtility.save(fileName, data);
+        PersistentUtility.save(fileName, game);
     }
 
     /**

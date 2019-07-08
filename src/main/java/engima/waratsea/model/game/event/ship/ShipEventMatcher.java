@@ -94,6 +94,14 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     }
 
     /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
+    }
+
+    /**
      * Determines if the fired event matches the desired event.
      *
      * @param firedEvent The ship event to test for matching.

@@ -12,4 +12,10 @@ public interface PersistentData<T> {
      * @return The persistent data.
      */
     T getData();
+
+    /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    void saveChildrenData();
 }

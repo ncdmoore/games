@@ -43,4 +43,12 @@ public class Target implements PersistentData<TargetData> {
         data.setLocation(location);
         return data;
     }
+
+    /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
+    }
 }

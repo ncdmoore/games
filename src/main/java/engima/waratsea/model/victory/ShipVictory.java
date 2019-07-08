@@ -111,6 +111,14 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
     }
 
     /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
+    }
+
+    /**
      * Determine if a ship event thrown results in a change in victory points.
      *
      * @param event The fired ship event.

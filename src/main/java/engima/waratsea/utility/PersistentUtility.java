@@ -40,33 +40,32 @@ public final class PersistentUtility {
     }
 
     /**
-     * Save a list of data objects.
+     * Save a list of objects.
      *
      * @param fileName The file to save the data to.
-     * @param data A list of objects that are saved to the given file.
-     *
-     * @param <T> The type of objects saved.
+     * @param input The given list of objects.
+     * @param <T> The type of data object. The persistent part of the object that is saved.
+     * @param <R> The type of given object. The object that is saved.
      */
-    public static <T> void save(final String fileName, final List<T> data) {
-        Path path = Paths.get(fileName);
+    public static <T, R extends PersistentData<T>> void save(final String fileName, final List<R> input) {
+        List<T> data = getData(input);
+        saveList(fileName, data);
 
-        try {
+        // Save the object's children if it has any.
+        input.forEach(PersistentData::saveChildrenData);
+    }
 
-            Files.createDirectories(Optional.ofNullable(path.getParent()).orElseThrow(IOException::new));
-            if (!Files.exists(path)) {
-                Files.createFile(path);
-            }
-
-            FileOutputStream out = new FileOutputStream(path.toString());
-
-            try (OutputStreamWriter writer = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                String json = gson.toJson(data);
-                writer.write(json);
-            }
-        } catch (IOException ex) {
-            log.error("Unable to save  '{}' file not found.", fileName, ex);
-        }
+    /**
+     * Save a single data object.
+     *
+     * @param fileName The file to save the data to.
+     * @param data The data that is saved to the given file.
+     * @param <T> The type of data object. The persistent part of the object that is saved.
+     * @param <R> The type of given object. The object that is saved.
+     */
+    public static <T, R extends PersistentData<T>> void save(final String fileName, final R data) {
+        T t = data.getData();
+        saveObject(fileName, t);
     }
 
     /**
@@ -76,7 +75,7 @@ public final class PersistentUtility {
      * @param data The data that is saved to the given file.
      * @param <T> The type of object saved.
      */
-    public static <T> void save(final String fileName, final T data) {
+    private static <T> void saveObject(final String fileName, final T data) {
         Path path = Paths.get(fileName);
 
         try {
@@ -93,6 +92,36 @@ public final class PersistentUtility {
                 writer.write(json);
             }
 
+        } catch (IOException ex) {
+            log.error("Unable to save  '{}' file not found.", fileName, ex);
+        }
+    }
+
+    /**
+     * Save a list of data objects.
+     *
+     * @param fileName The file to save the data to.
+     * @param data A list of objects that are saved to the given file.
+     *
+     * @param <T> The type of objects saved.
+     */
+    private static <T> void saveList(final String fileName, final List<T> data) {
+        Path path = Paths.get(fileName);
+
+        try {
+
+            Files.createDirectories(Optional.ofNullable(path.getParent()).orElseThrow(IOException::new));
+            if (!Files.exists(path)) {
+                Files.createFile(path);
+            }
+
+            FileOutputStream out = new FileOutputStream(path.toString());
+
+            try (OutputStreamWriter writer = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                String json = gson.toJson(data);
+                writer.write(json);
+            }
         } catch (IOException ex) {
             log.error("Unable to save  '{}' file not found.", fileName, ex);
         }

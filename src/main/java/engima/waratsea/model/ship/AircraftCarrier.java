@@ -177,6 +177,14 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
+    }
+
+    /**
      * Get a list of all the ship components.
      *
      * @return A list of ship components.
