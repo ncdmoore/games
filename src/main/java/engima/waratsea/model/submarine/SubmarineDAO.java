@@ -76,7 +76,7 @@ public class SubmarineDAO {
      * @param submarine The submarine to save.
      */
     public void save(final Submarine submarine) {
-        log.info("Save submarine: '{}' for side {}", submarine.getShipId().getName(), submarine.getShipId().getSide());
+        log.debug("Save submarine: '{}' for side {}", submarine.getShipId().getName(), submarine.getShipId().getSide());
         String fileName = config.getSavedFileName(submarine.getShipId().getSide(), Ship.class, submarine.getShipId().getName() + ".json");
         PersistentUtility.save(fileName, submarine);
     }
