@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Flotilla-1",
+    "location": "Palermo",
+    "boats": [
+      "MTB1",
+      "MTB2",
+      "MTB3",
+      "MTB4",
+      "MTB5"
+    ]
+  },
+  {
+    "name": "Flotilla-2",
+    "location": "Brindisi",
+
+    "boats": [
+      "MTB6",
+      "MTB7"
+    ]
+  },
+  {
+    "name": "Flotilla-3",
+    "location": "Pantellaria",
+    "boats": [
+      "MTB8"
+    ]
+  }
+]

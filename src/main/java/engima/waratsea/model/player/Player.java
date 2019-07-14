@@ -3,6 +3,7 @@ package engima.waratsea.model.player;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.flotilla.Flotilla;
+import engima.waratsea.model.flotilla.FlotillaType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.minefield.Minefield;
@@ -72,11 +73,20 @@ public interface Player {
     List<TaskForce> getTaskForces();
 
     /**
+     * Determines if the player has any flotilla's of the given type.
+     *
+     * @param flotillaType The flotilla type: SUBMARINE or MTB.
+     * @return True if the player has a flotilla of the given type.
+     */
+    boolean hasFlotilla(FlotillaType flotillaType);
+
+    /**
      * This gets the player's flotillas.
      *
+     * @param flotillaType The type of flotilla: SUBMARINE or MTB.
      * @return The player's flotillas.
      */
-    List<Flotilla> getFlotillas();
+    List<Flotilla> getFlotillas(FlotillaType flotillaType);
 
     /**
      * This gets all of the player's squadrons.

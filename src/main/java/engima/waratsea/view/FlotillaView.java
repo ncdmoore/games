@@ -2,6 +2,7 @@ package engima.waratsea.view;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.flotilla.Flotilla;
+import engima.waratsea.model.flotilla.FlotillaType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
@@ -15,6 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * Represents the flotilla summary view.
@@ -46,10 +50,13 @@ public class FlotillaView {
     private FlotillaPreviewMapView flotillaMap;
 
     @Getter
-    private ChoiceBox<Flotilla> flotillas = new ChoiceBox<>();
+    private TabPane flotillaTabPane;
 
-    private Label stateValue = new Label();
-    private Label locationValue = new Label();
+    @Getter
+    private Map<FlotillaType, ChoiceBox<Flotilla>> flotillas = new HashMap<>();
+
+    private Map<FlotillaType, Label> stateValue = new HashMap<>();
+    private Map<FlotillaType, Label> locationValue = new HashMap<>();
 
     @Getter
     private Button continueButton = new Button("Continue");
@@ -58,9 +65,9 @@ public class FlotillaView {
     private Button backButton = new Button("Back");
 
     @Getter
-    private List<Button> subButtons;
+    private List<Button> vesselButtons;
 
-    private TilePane submarinePane;
+    private TilePane vesselPane;
 
     private Map<Side, String> flags = new HashMap<>();
 
@@ -107,10 +114,10 @@ public class FlotillaView {
         Label labelPane = new Label("Flotillas:");
         labelPane.setId("label-pane");
 
-        Node taskForceList = buildFlotillaList();
+        Node taskForceList = buildTabPane();
         Node pushButtons = buildPushButtons();
 
-        Node submarineButtons = buildSubmarineButtons();
+        Node submarineButtons = buildVesselButtons();
 
         Node map = flotillaMap.draw();
 
@@ -133,11 +140,12 @@ public class FlotillaView {
     /**
      * Set the minefields.
      *
-     * @param fields The minefields.
+     * @param flotillaType The type of flotilla: SUBMARINE or MTB.
+     * @param items The flotillas.
      */
-    public void setFlotillas(final List<Flotilla> fields) {
-        flotillas.getItems().clear();
-        flotillas.getItems().addAll(fields);
+    public void setFlotillas(final FlotillaType flotillaType, final List<Flotilla> items) {
+        flotillas.get(flotillaType).getItems().clear();
+        flotillas.get(flotillaType).getItems().addAll(items);
     }
 
     /**
@@ -149,6 +157,17 @@ public class FlotillaView {
         String name = flotilla.getName();
         flotillaMap.clearMarker(name);
     }
+
+    /**
+     * Remove the given flotilla marker.
+     *
+     * @param flotilla the flotilla whose marker is removed.
+     */
+    public void removeFlotilla(final Flotilla flotilla) {
+        String name = flotilla.getName();
+        flotillaMap.removeMarker(name);
+    }
+
     /**
      * Mark the flotilla on the preview map.
      *
@@ -162,22 +181,24 @@ public class FlotillaView {
     /**
      * Set the selected flotilla.
      *
+     * @param flotillaType The flotilla type: SUBMARINE or MTB.
      * @param flotilla The selected flotilla
      */
-    public void setSelectedFlotilla(final Flotilla flotilla) {
+    public void setSelectedFlotilla(final FlotillaType flotillaType, final Flotilla flotilla) {
         flotillaMap.selectMarker(flotilla.getName());
 
-        stateValue.setText(flotilla.getState().toString());
+        stateValue.get(flotillaType).setText(flotilla.getState().toString());
 
         String prefix = flotilla.atFriendlyBase() ? "At port " : "At sea zone ";
 
-        locationValue.setText(prefix + flotilla.getMappedLocation());
+        locationValue.get(flotillaType).setText(prefix + flotilla.getMappedLocation());
 
-        setSubmarineButtons(flotilla);
+        setVesselButtons(flotilla);
     }
 
     /**
      * Close the popup.
+     *
      * @param event the mouse event.
      */
     public void closePopup(final MouseEvent event) {
@@ -201,35 +222,100 @@ public class FlotillaView {
     }
 
     /**
+     * Build the flotilla tab pane.
+     *
+     * @return The flotilla tab pane.
+     */
+    private Node buildTabPane() {
+        flotillaTabPane = new TabPane();
+        flotillaTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        flotillaTabPane.setMinWidth(props.getInt("flotilla.tabPane.width"));
+        flotillaTabPane.setMaxWidth(props.getInt("flotilla.tabPane.width"));
+
+        Stream.of(FlotillaType.values())
+                .filter(this::hasTab)
+                .map(this::buildTab)
+                .forEach(tab -> flotillaTabPane.getTabs().add(tab));
+
+        return flotillaTabPane;
+    }
+
+    /**
+     * Determine if the given flotilla type is present and a tab is needed for it.
+     *
+     * @param flotillaType The type of flotilla: SUBMARINE or MTB.
+     * @return True if the player has a flotilla of the given type. False otherwise.
+     */
+    private boolean hasTab(final FlotillaType flotillaType) {
+        return game.getHumanPlayer().hasFlotilla(flotillaType);
+    }
+
+    /**
+     * Build a flotilla tab.
+     *
+     * @param flotillaType The type of flotilla: SUBMARINE or MTB.
+     * @return A flotilla tab.
+     */
+    private Tab buildTab(final FlotillaType flotillaType) {
+        Tab tab = new Tab(flotillaType.toString());
+
+        tab.setContent(buildFlotillaList(flotillaType));
+
+        return tab;
+    }
+    /**
+     * Build the flotilla choice box.
+     *
+     * @param flotillaType The type of flotilla: SUBMARINE or MTB.
+     * @return The flotilla choice box.
+     */
+    private ChoiceBox<Flotilla> buildChoiceBox(final FlotillaType flotillaType) {
+        ChoiceBox<Flotilla> submarineChoiceBox = new ChoiceBox<>();
+
+        flotillas.put(flotillaType, submarineChoiceBox);
+
+        return submarineChoiceBox;
+    }
+
+    /**
      * build the task force list.
      *
+     * @param flotillaType The flotilla type: SUBMARINE or MTB.
      * @return Node containing the task force list.
      */
-    private Node buildFlotillaList() {
-        flotillas.setMaxWidth(props.getInt("taskForce.list.width"));
-        flotillas.setMinWidth(props.getInt("taskForce.list.width"));
+    private Node buildFlotillaList(final FlotillaType flotillaType) {
+        ChoiceBox<Flotilla> flotillaChoiceBox = buildChoiceBox(flotillaType);
 
-        VBox vBox = new VBox(flotillas, buildFlotillaDetails(), buildLegend());
+        flotillaChoiceBox.setMaxWidth(props.getInt("taskForce.list.width"));
+        flotillaChoiceBox.setMinWidth(props.getInt("taskForce.list.width"));
+
+        VBox vBox = new VBox(flotillaChoiceBox, buildFlotillaDetails(flotillaType), buildLegend());
         vBox.setId("flotilla-vbox");
 
         return vBox;
     }
+
     /**
      * Build the flotilla details.
      *
+     * @param flotillaType The type of flotilla: SUBMARINE or MTB.
      * @return A node containing the flotilla details.
      */
-    private Node buildFlotillaDetails() {
+    private Node buildFlotillaDetails(final FlotillaType flotillaType) {
 
         Text stateLabel = new Text("State:");
         Text locationLabel = new Text("Location:");
 
+        stateValue.put(flotillaType, new Label());
+        locationValue.put(flotillaType, new Label());
+
+
         GridPane gridPane = new GridPane();
         gridPane.setId("flotilla-details-grid");
         gridPane.add(stateLabel, 0, 0);
-        gridPane.add(stateValue, 1, 0);
+        gridPane.add(stateValue.get(flotillaType), 1, 0);
         gridPane.add(locationLabel, 0, 1);
-        gridPane.add(locationValue, 1, 1);
+        gridPane.add(locationValue.get(flotillaType), 1, 1);
 
         VBox vBox = new VBox(gridPane);
         vBox.setId("flotilla-details-vbox");
@@ -266,16 +352,16 @@ public class FlotillaView {
     }
 
     /**
-     * Build the node that contains the submarine buttons.
+     * Build the node that contains the vessel buttons.
      *
-     * @return The node that contains the submarine flotilla buttons.
+     * @return The node that contains the vessel flotilla buttons.
      */
-    private Node buildSubmarineButtons() {
-        submarinePane = new TilePane();
-        submarinePane.setId("flotilla-pane");
+    private Node buildVesselButtons() {
+        vesselPane = new TilePane();
+        vesselPane.setId("flotilla-pane");
 
         ScrollPane sp = new ScrollPane();
-        sp.setContent(submarinePane);
+        sp.setContent(vesselPane);
         sp.setFitToWidth(true);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
@@ -283,23 +369,22 @@ public class FlotillaView {
     }
 
     /**
-     * Build the flotilla submarine buttons.
+     * Build the flotilla vessel buttons.
      *
-     * @param flotilla The selected submarine flotilla
+     * @param flotilla The selected vessel flotilla
      */
-    private void setSubmarineButtons(final Flotilla flotilla) {
+    private void setVesselButtons(final Flotilla flotilla) {
+        vesselPane.getChildren().clear();
+        vesselButtons = new ArrayList<>();
 
-        submarinePane.getChildren().clear();
-        subButtons = new ArrayList<>();
-
-        flotilla.getSubs()
-                .forEach(submarine -> {
-                    Button button = new Button(submarine.getName());
-                    button.setUserData(submarine);
+        flotilla.getVessels()
+                .forEach(vessel -> {
+                    Button button = new Button(vessel.getName());
+                    button.setUserData(vessel);
                     button.setMinWidth(props.getInt("taskForce.ship.label.width"));
                     button.setMaxWidth(props.getInt("taskForce.ship.label.width"));
-                    submarinePane.getChildren().add(button);
-                    subButtons.add(button);
+                    vesselPane.getChildren().add(button);
+                    vesselButtons.add(button);
                 });
     }
 

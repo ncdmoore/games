@@ -15,6 +15,8 @@ import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.base.port.PortFactory;
 import engima.waratsea.model.flotilla.Flotilla;
 import engima.waratsea.model.flotilla.FlotillaFactory;
+import engima.waratsea.model.flotilla.MotorTorpedoBoatFlotilla;
+import engima.waratsea.model.flotilla.SubmarineFlotilla;
 import engima.waratsea.model.flotilla.deployment.FlotillaDeployment;
 import engima.waratsea.model.flotilla.deployment.FlotillaDeploymentFactory;
 import engima.waratsea.model.game.event.airfield.AirfieldEvent;
@@ -34,6 +36,8 @@ import engima.waratsea.model.minefield.deployment.MinefieldDeployment;
 import engima.waratsea.model.minefield.deployment.MinefieldDeploymentFactory;
 import engima.waratsea.model.minefield.zone.MinefieldZone;
 import engima.waratsea.model.minefield.zone.MinefieldZoneFactory;
+import engima.waratsea.model.motorTorpedoBoat.MotorTorpedoBoat;
+import engima.waratsea.model.motorTorpedoBoat.MotorTorpedoBoatFactory;
 import engima.waratsea.model.player.ComputerPlayer;
 import engima.waratsea.model.player.HumanPlayer;
 import engima.waratsea.model.player.Player;
@@ -88,10 +92,15 @@ public class BasicModule extends AbstractModule {
                 .implement(Ship.class, Names.named("surface"), SurfaceShip.class)
                 .build(ShipFactory.class));
 
-        install(new FactoryModuleBuilder().implement(Flotilla.class, Flotilla.class).build(FlotillaFactory.class));
+        install(new FactoryModuleBuilder()
+                .implement(Flotilla.class, Names.named("submarine"), SubmarineFlotilla.class)
+                .implement(Flotilla.class, Names.named("mtb"), MotorTorpedoBoatFlotilla.class)
+                .build(FlotillaFactory.class));
+
         install(new FactoryModuleBuilder().implement(FlotillaDeployment.class, FlotillaDeployment.class).build(FlotillaDeploymentFactory.class));
 
         install(new FactoryModuleBuilder().implement(Submarine.class, Submarine.class).build(SubmarineFactory.class));
+        install(new FactoryModuleBuilder().implement(MotorTorpedoBoat.class, MotorTorpedoBoat.class).build(MotorTorpedoBoatFactory.class));
 
 
         install(new FactoryModuleBuilder().implement(Allotment.class, Allotment.class).build(AllotmentFactory.class));

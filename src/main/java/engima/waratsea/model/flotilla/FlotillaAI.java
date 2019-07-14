@@ -57,7 +57,7 @@ public class FlotillaAI {
     public void deploy(final Scenario selectedScenario, final Player player) throws ScenarioException {
         Side side = player.getSide();
 
-        List<Flotilla> flotillas = player.getFlotillas();
+        List<Flotilla> flotillas = player.getFlotillas(FlotillaType.SUBMARINE);
 
         if (!flotillas.isEmpty()) {
             log.info("Deploy flotillas for side: {}", side);

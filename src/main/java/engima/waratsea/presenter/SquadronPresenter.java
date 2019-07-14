@@ -90,7 +90,6 @@ public class SquadronPresenter implements Presenter {
 
         registerCallbacks();
         registerTabChange();
-
         selectFirstTab();
 
         view.finish();
@@ -147,20 +146,27 @@ public class SquadronPresenter implements Presenter {
         Nation oldNation = determineNation(oldTab.getText());
         Nation newNation = determineNation(newTab.getText());
 
+        // The tab has changed. Remove the old nation's airfields from the map.
         if (oldNation != newNation) {
             removeAirfields(oldNation);
         }
 
         markAirfields(newNation);
 
+        // This is needed when the tab changes but the region does not. Meaning that last time this tab
+        // was asctive the same region was selected.
+        // The call to select the first region may not trigger any changes. Thus, we need this code.
         Region region = view.getRegions().get(newNation).getSelectionModel().getSelectedItem();
         if (region != null) {
-            view.setSelectedRegion(newNation, region);
+            view.setSelectedRegion(newNation, region);    // Tell the view of the newly selected region.
         }
 
+        // This is needed when the tab changes but the airfield does not. Meaning the last time this tab
+        // was active the same airfield was selected.
+        // The call to select first airfield may not trigger any changes. Thus, we need this code.
         Airfield airfield = view.getAirfields().get(newNation).getSelectionModel().getSelectedItem();
         if (airfield != null) {
-            view.setSelectedAirfield(newNation, airfield);
+            view.setSelectedAirfield(newNation, airfield);  // Tell the view of the newly selected airfield.
             selectedAirfield = airfield;
         }
 
@@ -260,6 +266,8 @@ public class SquadronPresenter implements Presenter {
      * @param region The selected region.
      */
     private void regionSelected(final Region region) {
+        log.debug("Selected region {}", region);
+
         Nation nation = determineNation();
 
         view.getAirfields().get(nation).getItems().clear();

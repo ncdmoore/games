@@ -96,6 +96,16 @@ public class TaskForceMarker {
     }
 
     /**
+     * Remove this marker from the map entirely.
+     *
+     * @param map THe game map.
+     */
+    public void remove(final MapView map) {
+        map.remove(rectangle);
+        popUp.hide(map);
+    }
+
+    /**
      * Register this marker for mouse clicks.
      * @param callback The method that is called when this marker is clicked.
      */

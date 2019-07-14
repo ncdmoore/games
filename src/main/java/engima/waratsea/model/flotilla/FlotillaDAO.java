@@ -19,30 +19,37 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 /**
- * Loads and saves persistent flotialla data.
+ * Loads and saves persistent flotilla data.
  */
 @Singleton
 @Slf4j
 public class FlotillaDAO {
+    // Flotilla type to flotilla factory map.
+    private Map<FlotillaType, BiFunction<Side, FlotillaData, Flotilla>> factoryMap = new HashMap<>();
+
     private Config config;
-    private FlotillaFactory flotillaFactory;
 
     /**
      * The constructor. Called by guice.
      *
      * @param config The game's config.
-     * @param flotillaFactory Factory for creating flotilla objects.
+     * @param factory Factory for creating flotilla objects.
      */
     @Inject
     public FlotillaDAO(final Config config,
-                        final FlotillaFactory flotillaFactory) {
+                        final FlotillaFactory factory) {
         this.config = config;
-        this.flotillaFactory = flotillaFactory;
+
+        factoryMap.put(FlotillaType.SUBMARINE, factory::createSubmarineFlotilla);
+        factoryMap.put(FlotillaType.MTB, factory::createMTBFlotilla);
     }
 
     /**
@@ -50,11 +57,27 @@ public class FlotillaDAO {
      *
      * @param scenario The selected scenario.
      * @param side The side: ALLIES or AXIS.
+     * @param type The type of flotilla: SUBMARINE or MTB.
      * @return A list of task forces.
      */
-    public List<Flotilla> load(final Scenario scenario, final Side side) {
+    public List<Flotilla> load(final Scenario scenario, final Side side, final FlotillaType type) {
+        return loadData(scenario, side, type.getClazz())
+                .stream()
+                .map(data -> buildFlotilla(side, data, type))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Load the flotilla data.
+     *
+     * @param scenario The selected scenario.
+     * @param side The side: ALLIES or AXIS.
+     * @param clazz The class of flotilla that is loaded.
+     * @return A list of all the flotilla data read in from a JSON file.
+     */
+    private List<FlotillaData> loadData(final Scenario scenario, final Side side, final Class<?> clazz) {
         log.info("Load flotilla, scenario: '{}', side: '{}'", scenario.getTitle(), side);
-        return getURL(side)
+        return getURL(side, clazz)
                 .map(u -> readFlotilla(u, side))
                 .orElseGet(() -> logWarn(scenario, side));
     }
@@ -63,11 +86,12 @@ public class FlotillaDAO {
      * Get the flotilla URL.
      *
      * @param side The side ALLIES or AXIS.
+     * @param clazz The class of flotilla that is loaded.
      * @return The flotilla URL.
      */
-    private Optional<URL> getURL(final Side side) {
-        return config.isNew() ? config.getScenarioURL(side, Flotilla.class) // Get the new game task forces.
-                : config.getSavedURL(side, Flotilla.class);                 // Get a saved game task forces.
+    private Optional<URL> getURL(final Side side, final Class<?> clazz) {
+        return config.isNew() ? config.getScenarioURL(side, clazz) // Get the new game task forces.
+                : config.getSavedURL(side, clazz);                 // Get a saved game task forces.
     }
 
     /**
@@ -78,8 +102,16 @@ public class FlotillaDAO {
      * @param flotillas The flotilla data that is saved.
      */
     public void save(final Scenario scenario, final Side side, final List<Flotilla> flotillas) {
+        Class clazz = flotillas.get(0).getClass();
+
         log.info("Saving flotillas, scenario: '{}',side {}", scenario.getTitle(), side);
-        String fileName = config.getSavedFileName(side, Flotilla.class);
+        log.info("Saving {} flotillas", flotillas.size());
+
+        if (flotillas.isEmpty()) {
+            return;
+        }
+
+        String fileName = config.getSavedFileName(side, clazz);
         PersistentUtility.save(fileName, flotillas);
     }
 
@@ -90,18 +122,18 @@ public class FlotillaDAO {
      * @param side specifies the side: ALLIES or AXIS.
      * @return returns a list of flotilla objects.
      */
-    private List<Flotilla> readFlotilla(final URL url, final Side side) {
+    private List<FlotillaData> readFlotilla(final URL url, final Side side) {
         Path path = Paths.get(url.getPath());
 
         try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
             Type collectionType = new TypeToken<List<FlotillaData>>() { }.getType();
 
             Gson gson = new Gson();
-            List<FlotillaData> flotillas = gson.fromJson(br, collectionType);
+            List<FlotillaData> flotillaData = gson.fromJson(br, collectionType);
 
-            log.debug("load flotilla for side: {}, number of flotillas: {}", side, flotillas.size());
+            log.debug("load flotilla for side: {}, number of flotillas: {}", side, flotillaData.size());
 
-            return seedFlotilla(side, flotillas);
+            return flotillaData;
         } catch (Exception ex) {                                                                                        // Catch any Gson errors.
             log.error("Unable to load flotilla: {}", url.getPath(), ex);
             return null;
@@ -109,16 +141,15 @@ public class FlotillaDAO {
     }
 
     /**
-     * Seed the flotilla with the data from the JSON file.
+     * Build the flotilla with the data from the JSON file.
      *
      * @param side The side of the flotilla. ALLIES or AXIS.
      * @param data Flotilla data from the JSON file.
+     * @param flotillaType The type of flotilla: SUBMARINE or MTB.
      * @return An initialized or seeded Flotilla.
      */
-    private List<Flotilla> seedFlotilla(final Side side, final List<FlotillaData> data) {
-        return data.stream()
-                .map(flotillaData -> flotillaFactory.create(side, flotillaData))
-                .collect(Collectors.toList());
+    private Flotilla buildFlotilla(final Side side, final FlotillaData data, final FlotillaType flotillaType) {
+        return factoryMap.get(flotillaType).apply(side, data);
     }
 
     /**
@@ -128,7 +159,7 @@ public class FlotillaDAO {
      * @param side The side ALLIES or AXIS.
      * @return An empty list.
      */
-    private List<Flotilla> logWarn(final Scenario scenario, final Side side) {
+    private List<FlotillaData> logWarn(final Scenario scenario, final Side side) {
         log.warn("Unable to load flotilla for scenario: '{}', side: {}", scenario.getTitle(), side);
         return Collections.emptyList();
     }

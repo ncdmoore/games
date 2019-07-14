@@ -103,6 +103,15 @@ public class FlotillaPreviewMapView {
     }
 
     /**
+     * Remove a marker from the map.
+     *
+     * @param name specifies the marker to remove.
+     */
+    public void removeMarker(final String name) {
+        markerMap.get(name).remove(mapView);
+    }
+
+    /**
      * Close the popup.
      *
      * @param event the mouse event.

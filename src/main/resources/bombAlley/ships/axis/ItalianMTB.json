@@ -1,0 +1,17 @@
+{
+  "type": "MTB",
+  "shipClass": "MTB",
+  "nationality": "ITALIAN",
+  "torpedo": {
+    "maxHealth": 2,
+    "maxNumber": 2
+  },
+  "movement": {
+    "maxEven": 1,
+    "maxOdd": 1
+  },
+  "fuel": {
+    "capacity": 10
+  },
+  "victoryPoints": 2
+}

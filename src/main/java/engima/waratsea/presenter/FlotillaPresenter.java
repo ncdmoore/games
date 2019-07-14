@@ -4,20 +4,25 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.flotilla.Flotilla;
+import engima.waratsea.model.flotilla.FlotillaType;
 import engima.waratsea.model.game.Game;
+import engima.waratsea.model.motorTorpedoBoat.MotorTorpedoBoat;
 import engima.waratsea.model.submarine.Submarine;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.presenter.motorTorpedoBoat.MotorTorpedoDetailsDialog;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.presenter.submarine.SubmarineDetailsDialog;
 import engima.waratsea.view.FlotillaView;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * This class is the presenter for the flotilla summary view. The flotilla summary gives the player an overview
@@ -28,6 +33,7 @@ import java.util.List;
 public class FlotillaPresenter implements Presenter {
     private Provider<FlotillaView> viewProvider;
     private Provider<SubmarineDetailsDialog> subDetailsDialogProvider;
+    private Provider<MotorTorpedoDetailsDialog> mtbDetailsDialogProvider;
 
     private final Game game;
     private FlotillaView view;
@@ -42,17 +48,19 @@ public class FlotillaPresenter implements Presenter {
      * @param viewProvider The corresponding view,
      * @param navigate Provides screen navigation.
      * @param subDetailsDialogProvider The submarine details dialog provider.
+     * @param mtbDetailsDialogProvider The MTB details dialog provider.
      */
     @Inject
     public FlotillaPresenter(final Game game,
                              final Provider<FlotillaView> viewProvider,
                              final Navigate navigate,
-                             final Provider<SubmarineDetailsDialog> subDetailsDialogProvider) {
+                             final Provider<SubmarineDetailsDialog> subDetailsDialogProvider,
+                             final Provider<MotorTorpedoDetailsDialog> mtbDetailsDialogProvider) {
         this.game = game;
         this.viewProvider = viewProvider;
         this.navigate = navigate;
         this.subDetailsDialogProvider = subDetailsDialogProvider;
-
+        this.mtbDetailsDialogProvider = mtbDetailsDialogProvider;
     }
 
     /**
@@ -64,18 +72,17 @@ public class FlotillaPresenter implements Presenter {
     public void show(final Stage primaryStage) {
         this.view = viewProvider.get();
 
-        setFlotillas();
-
         this.stage = primaryStage;
 
         view.show(stage, game.getScenario());
 
-        markFlotillas();
+        setFlotillas();
+        registerCallbacks();
+        registerTabChange();
+        selectFirstTab();
 
         view.getContinueButton().setOnAction(event -> continueButton());
         view.getBackButton().setOnAction(event -> backButton());
-
-        view.getFlotillas().getSelectionModel().selectFirst();
     }
 
     /**
@@ -89,20 +96,95 @@ public class FlotillaPresenter implements Presenter {
     }
 
     /**
-     * Set the human player's flotillas.
+     * Set the flotillas in the view.
      */
     private void setFlotillas() {
-        view.setFlotillas(game.getHumanPlayer().getFlotillas());
-        view.getFlotillas().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> flotillaSelected(newValue));
+        Stream
+                .of(FlotillaType.values())
+                .filter(this::hasFlotilla)
+                .forEach(type -> view
+                        .setFlotillas(type, game.getHumanPlayer()
+                        .getFlotillas(type)));
     }
 
     /**
-     * Mark the flotillas on the preview map.
+     * Register callbacks for the flotilla selection.
      */
-    private void markFlotillas() {
+    private void registerCallbacks() {
+        Stream
+                .of(FlotillaType.values())
+                .filter(this::hasFlotilla)
+                .forEach(type -> view
+                        .getFlotillas()
+                        .get(type)
+                        .getSelectionModel()
+                        .selectedItemProperty()
+                        .addListener((v, oldValue, newValue) -> flotillaSelected(newValue)));
+    }
+
+    /**
+     * Register callbacks when a flotilla tab is clicked.
+     */
+    private void registerTabChange() {
+        view
+                .getFlotillaTabPane()
+                .getSelectionModel()
+                .selectedItemProperty()
+                .addListener((v, oldValue, newValue) -> tabChanged(oldValue, newValue));
+    }
+
+    /**
+     * Select the first tab. This is need to ensure that a tab is initially selected
+     * when the squadron view is presented.
+     */
+    private void selectFirstTab() {
+        Tab tab = view
+                .getFlotillaTabPane()
+                .getTabs().get(0);
+
+        tabChanged(tab, tab);
+    }
+
+    /**
+     * This method is called anytime a tab is changed.
+     *
+     * @param oldTab The tab that did have focus. The old tab.
+     * @param newTab The tab that now contains the focus. The new tab.
+     */
+    private void tabChanged(final Tab oldTab, final Tab newTab) {
+        log.debug("Tab changed from {} to {}", oldTab.getText(), newTab.getText());
+
+        FlotillaType oldFlotillaType = determineFlotillaType(oldTab.getText());
+        FlotillaType newFlotillaType = determineFlotillaType(newTab.getText());
+
+        if (oldFlotillaType != newFlotillaType) {
+            removeFlotillas(oldFlotillaType);
+        }
+
+        markFlotillas(newFlotillaType);
+
+        Flotilla flotilla = view.getFlotillas().get(newFlotillaType).getSelectionModel().getSelectedItem();
+        if (flotilla != null) {
+            log.info("Set selected flotilla {}", flotilla);
+            view.setSelectedFlotilla(newFlotillaType, flotilla);
+            view.getVesselButtons()
+                    .forEach(button -> button.setOnAction(this::displayVesselDialog));
+        }
+
+        selectFirstFlotilla(newFlotillaType);
+    }
+
+
+
+    /**
+     * Mark the flotillas on the preview map.
+     *
+     * @param type The flotilla type: SUBMARINE or MTB.
+     */
+    private void markFlotillas(final FlotillaType type) {
         game
                 .getHumanPlayer()
-                .getFlotillas()
+                .getFlotillas(type)
                 .forEach(this::markFlotilla);
     }
 
@@ -119,6 +201,15 @@ public class FlotillaPresenter implements Presenter {
     }
 
     /**
+     * Select the first flotilla for the given flotilla type.
+     *
+     * @param flotillaType The flotilla type: SUBMARINE or MTB.
+     */
+    private void selectFirstFlotilla(final FlotillaType flotillaType) {
+        view.getFlotillas().get(flotillaType).getSelectionModel().selectFirst();
+    }
+
+    /**
      * Select a flotilla.
      *
      * @param flotilla The selected flotilla.
@@ -126,17 +217,31 @@ public class FlotillaPresenter implements Presenter {
     private void flotillaSelected(final Flotilla flotilla) {
         clearAllFlotillas();
 
-        view.setSelectedFlotilla(flotilla);
-        view.getSubButtons()
-                .forEach(button -> button.setOnAction(this::displaySubDialog));
+        FlotillaType flotillaType = determineFlotillaType();
+
+        view.setSelectedFlotilla(flotillaType, flotilla);
+        view.getVesselButtons()
+                .forEach(button -> button.setOnAction(this::displayVesselDialog));
     }
 
     /**
-     * Clear all the task force selections.
+     * Clear all the flotilla selections.
      */
     private void clearAllFlotillas() {
-        game.getHumanPlayer().getFlotillas()
-                .forEach(taskForce -> view.clearFlotilla(taskForce));
+        FlotillaType flotillaType = determineFlotillaType();
+
+        game.getHumanPlayer().getFlotillas(flotillaType)
+                .forEach(flotilla -> view.clearFlotilla(flotilla));
+    }
+
+    /**
+     * Remove all the flotilla's of the given type.
+     *
+     * @param flotillaType The flotilla type: SUBMARINE or MTB.
+     */
+    private void removeFlotillas(final FlotillaType flotillaType) {
+        game.getHumanPlayer().getFlotillas(flotillaType)
+                .forEach(flotilla -> view.removeFlotilla(flotilla));
     }
 
     /**
@@ -153,7 +258,7 @@ public class FlotillaPresenter implements Presenter {
 
         // Notify view that the flotilla has been selected.
         // This keeps the view list in sync with the grid clicks.
-        view.getFlotillas().getSelectionModel().select(flotilla);
+        view.getFlotillas().get(FlotillaType.SUBMARINE).getSelectionModel().select(flotilla);
 
         // Select the flotilla. This is needed for clicks that don't change the
         // flotilla, but redisplay the popup.
@@ -188,10 +293,53 @@ public class FlotillaPresenter implements Presenter {
      *
      * @param event The mouse click event.
      */
-    private void displaySubDialog(final ActionEvent event) {
-        Button button = (Button) event.getSource();
-        Submarine sub = (Submarine) button.getUserData();
-        subDetailsDialogProvider.get().show(sub);
+    private void displayVesselDialog(final ActionEvent event) {
+        log.info("Show vessel dialog");
 
+
+        Button button = (Button) event.getSource();
+
+        Class<?> c = button.getUserData().getClass();
+
+        log.info("sub button class {}", c);
+
+        if (c == Submarine.class) {
+            Submarine sub = (Submarine) button.getUserData();
+            subDetailsDialogProvider.get().show(sub);
+        } else {
+            MotorTorpedoBoat mtb = (MotorTorpedoBoat) button.getUserData();
+            mtbDetailsDialogProvider.get().show(mtb);
+        }
+    }
+
+    /**
+     * Determine if the player has flotilla's of the given type.
+     *
+     * @param type The type of flotilla: SUBMARINE or MTB.
+     * @return True if the player has the given type of flotilla. False otherwise.
+     */
+    private boolean hasFlotilla(final FlotillaType type) {
+        return game.getHumanPlayer().hasFlotilla(type);
+    }
+
+
+    /**
+     * Convert a string into a FlotillaType enum.
+     *
+     * @param type The flotillaType string.
+     * @return The nation enum.
+     */
+    private FlotillaType determineFlotillaType(final String type) {
+        return FlotillaType.valueOf(type.replace(" ", "_").toUpperCase());
+    }
+
+    /**
+     * Determine the active flotilla from the active tab.
+     *
+     * @return The active flotilla.
+     */
+    private FlotillaType determineFlotillaType() {
+        String selectedNation = view.getFlotillaTabPane().getSelectionModel().getSelectedItem().getText().toUpperCase().replace(" ", "_");
+        return FlotillaType.valueOf(selectedNation);
     }
 }

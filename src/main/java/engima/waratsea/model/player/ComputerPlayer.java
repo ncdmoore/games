@@ -8,6 +8,7 @@ import engima.waratsea.model.base.port.PortDAO;
 import engima.waratsea.model.flotilla.Flotilla;
 import engima.waratsea.model.flotilla.FlotillaAI;
 import engima.waratsea.model.flotilla.FlotillaDAO;
+import engima.waratsea.model.flotilla.FlotillaType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * This is the computer player in the game.
@@ -57,8 +59,7 @@ public class ComputerPlayer implements Player {
     @Getter
     private List<TaskForce> taskForces;
 
-    @Getter
-    private List<Flotilla> flotillas;
+    private Map<FlotillaType, List<Flotilla>> flotillas = new HashMap<>();
 
     private Map<Nation, List<Squadron>> squadrons = new HashMap<>();
 
@@ -137,13 +138,37 @@ public class ComputerPlayer implements Player {
     @Override
     public void saveAssets(final Scenario scenario) {
         taskForceDAO.save(scenario, side, taskForces);
-        flotillaDAO.save(scenario, side, flotillas);
+        Stream.of(FlotillaType.values()).forEach(flotillaType -> flotillaDAO.save(scenario, side, flotillas.get(flotillaType)));
         portDAO.save(scenario, side, ports);
         airfieldDAO.save(scenario, side, airfields);
         minefieldDAO.save(scenario, side, minefields);
 
         nations.forEach(nation -> aviationPlant.save(scenario, side, nation, squadrons.get(nation)));
     }
+
+    /**
+     * Determines if the player has any flotilla's of the given type.
+     *
+     * @param flotillaType The flotilla type: SUBMARINE or MTB.
+     * @return True if the player has a flotilla of the given type.
+     */
+    @Override
+    public boolean hasFlotilla(final FlotillaType flotillaType) {
+        return !flotillas.get(flotillaType).isEmpty();
+    }
+
+    /**
+     * This gets the player's flotillas.
+     *
+     * @param flotillaType The type of flotilla: SUBMARINE or MTB.
+     * @return The player's flotillas.
+     */
+    @Override
+    public List<Flotilla> getFlotillas(final FlotillaType flotillaType) {
+        return flotillas.get(flotillaType);
+    }
+
+
 
     /**
      * Deploy the squadrons.
@@ -210,7 +235,9 @@ public class ComputerPlayer implements Player {
      * @param scenario The selected scenario.
      */
     private void loadFlotillas(final Scenario scenario) {
-        flotillas = flotillaDAO.load(scenario, side);
+        for (FlotillaType flotillaType : FlotillaType.values()) {
+            flotillas.put(flotillaType, flotillaDAO.load(scenario, side, flotillaType));
+        }
     }
 
     /**

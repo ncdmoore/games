@@ -20,4 +20,8 @@ public class FlotillaData {
     @Getter
     @Setter
     private List<String> subs;
+
+    @Getter
+    @Setter
+    private List<String> boats;
 }
