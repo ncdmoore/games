@@ -102,14 +102,16 @@ public class FlotillaDAO {
      * @param flotillas The flotilla data that is saved.
      */
     public void save(final Scenario scenario, final Side side, final List<Flotilla> flotillas) {
+        if (flotillas.isEmpty()) {
+            return;
+        }
+
         Class clazz = flotillas.get(0).getClass();
 
         log.info("Saving flotillas, scenario: '{}',side {}", scenario.getTitle(), side);
         log.info("Saving {} flotillas", flotillas.size());
 
-        if (flotillas.isEmpty()) {
-            return;
-        }
+
 
         String fileName = config.getSavedFileName(side, clazz);
         PersistentUtility.save(fileName, flotillas);
