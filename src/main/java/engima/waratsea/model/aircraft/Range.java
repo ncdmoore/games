@@ -14,7 +14,7 @@ public class Range {
     private final int radius;
 
     @Getter
-    private final int endurance;
+    private final int endurance; // Endurance is equal to turns. Thus, if the endurance is 2, then this equates to 2 turns.
 
     /**
      * Constructor.

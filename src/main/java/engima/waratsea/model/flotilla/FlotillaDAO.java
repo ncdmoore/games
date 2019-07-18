@@ -77,9 +77,11 @@ public class FlotillaDAO {
      */
     private List<FlotillaData> loadData(final Scenario scenario, final Side side, final Class<?> clazz) {
         log.info("Load flotilla, scenario: '{}', side: '{}'", scenario.getTitle(), side);
+        log.info("Load flotilla, type: '{}'", clazz.getSimpleName());
         return getURL(side, clazz)
+                .map(this::exists)
                 .map(u -> readFlotilla(u, side))
-                .orElseGet(() -> logWarn(scenario, side));
+                .orElseGet(() -> logWarn(scenario, side, clazz));
     }
 
     /**
@@ -90,8 +92,8 @@ public class FlotillaDAO {
      * @return The flotilla URL.
      */
     private Optional<URL> getURL(final Side side, final Class<?> clazz) {
-        return config.isNew() ? config.getScenarioURL(side, clazz) // Get the new game task forces.
-                : config.getSavedURL(side, clazz);                 // Get a saved game task forces.
+        return config.isNew() ? config.getScenarioURL(side, clazz) // Get the new game flotillas.
+                : config.getSavedURL(side, clazz);                 // Get a saved game flotillas.
     }
 
     /**
@@ -111,10 +113,21 @@ public class FlotillaDAO {
         log.info("Saving flotillas, scenario: '{}',side {}", scenario.getTitle(), side);
         log.info("Saving {} flotillas", flotillas.size());
 
-
-
         String fileName = config.getSavedFileName(side, clazz);
         PersistentUtility.save(fileName, flotillas);
+    }
+
+    /**
+     * Ensure that the URL exists.
+     *
+     * @param url The URL that is tested for existence.
+     * @return The URL if it exists. Otherwise null.
+     */
+    private URL exists(final URL url) {
+        String name = url.getPath();
+        Path path = Paths.get(name);
+
+        return Files.exists(path) ? url : null;
     }
 
     /**
@@ -159,10 +172,12 @@ public class FlotillaDAO {
      *
      * @param scenario The selected scenario.
      * @param side The side ALLIES or AXIS.
+     * @param clazz The class of the flotilla.
      * @return An empty list.
      */
-    private List<FlotillaData> logWarn(final Scenario scenario, final Side side) {
+    private List<FlotillaData> logWarn(final Scenario scenario, final Side side, final Class<?> clazz) {
         log.warn("Unable to load flotilla for scenario: '{}', side: {}", scenario.getTitle(), side);
+        log.warn("Unable to load flotilla for class: '{}'", clazz.getSimpleName());
         return Collections.emptyList();
     }
 }

@@ -17,9 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class represents the game. It contains the game rules, game players etc.
@@ -28,36 +26,16 @@ import java.util.Map;
 @Singleton
 public class Game implements PersistentData<GameData> {
     @Getter
-    @Inject
-    @Named("Computer")
-    @SuppressWarnings("unused")
     private Player computerPlayer;
 
     @Getter
-    @Inject
-    @Named("Human")
-    @SuppressWarnings("unused")
     private Player humanPlayer;
 
-    @Inject
-    @SuppressWarnings("unused")
-    private  Config config;
-
-    @Inject
-    @SuppressWarnings("unused")
+    private Config config;
     private ScenarioDAO scenarioDAO;
-
-    @Inject
-    @SuppressWarnings("unused")
     private GameDAO gameDAO;
-
-    @Inject
-    @SuppressWarnings("unused")
-    private  GameMap gameMap;
-
-    @Inject
-    @SuppressWarnings("unused")
-    private  Victory gameVictory;
+    private GameMap gameMap;
+    private Victory gameVictory;
 
     @Getter
     private Side humanSide;
@@ -65,7 +43,33 @@ public class Game implements PersistentData<GameData> {
     @Getter
     private Scenario scenario; // The selected scenario.
 
-    private  Map<Side, Player> players = new HashMap<>();
+    /**
+     * Constructor called by guice.
+     *
+     * @param computerPlayer The computer player.
+     * @param humanPlayer The human player.
+     * @param config The game configuration.
+     * @param scenarioDAO  The scenario data abstraction object.
+     * @param gameDAO The game data abstraction object.
+     * @param gameMap The game map.
+     * @param gameVictory The game victory conditions.
+     */
+    @Inject
+    public Game(final @Named("Computer") Player computerPlayer,
+                final @Named("Human") Player humanPlayer,
+                final Config config,
+                final ScenarioDAO scenarioDAO,
+                final GameDAO gameDAO,
+                final GameMap gameMap,
+                final Victory gameVictory) {
+        this.computerPlayer = computerPlayer;
+        this.humanPlayer = humanPlayer;
+        this.config = config;
+        this.scenarioDAO = scenarioDAO;
+        this.gameDAO = gameDAO;
+        this.gameMap = gameMap;
+        this.gameVictory = gameVictory;
+    }
 
     /**
      * Get all of the game persistent data.
@@ -76,6 +80,7 @@ public class Game implements PersistentData<GameData> {
         GameData data = new GameData();
         data.setHumanSide(humanSide);
         data.setScenario(scenario);
+        data.setSavedGameName(config.getSavedGameName());
         return data;
     }
 
@@ -85,6 +90,20 @@ public class Game implements PersistentData<GameData> {
      */
     @Override
     public void saveChildrenData() {
+    }
+
+    /**
+     * Set the game type as a new game.
+     */
+    public void setNew() {
+        config.setType(GameType.NEW);
+    }
+
+    /**
+     * Set the game type as an existing game.
+     */
+    public void setExisting() {
+        config.setType(GameType.EXISTING);
     }
 
     /**
@@ -98,12 +117,22 @@ public class Game implements PersistentData<GameData> {
     }
 
     /**
+     * Initialize the saved game data.
+     *
+     * @return List of game data.
+     * @throws ScenarioException Indicates the game data could not be loaded.
+     */
+    public List<GameData> initGames() throws ScenarioException {                                                            // Saved Game Step 1.
+        return gameDAO.load();
+    }
+
+    /**
      * Set the game's selected scenario.
      *
      * @param selectedScenario The selected scenario.
      */
     public void setScenario(final Scenario selectedScenario) {                                                          // New Game Step 2.
-        scenario = selectedScenario;
+        scenario = selectedScenario;                                                                                    // Saved Game Step 2.
         config.setScenario(scenario.getName());
     }
 
@@ -112,24 +141,21 @@ public class Game implements PersistentData<GameData> {
      *
      * @param side The human player humanSide.
      */
-    public void setHumanSide(final Side side) {                                                                         // New Game Step 2.
-        log.debug("Human side: {}", side);
+    public void setHumanSide(final Side side) {                                                                         // New Game Step 3.
+        log.debug("Human side: {}", side);                                                                              // Saved Game Step 3.
 
         humanSide = side;
         humanPlayer.setSide(humanSide);
         computerPlayer.setSide(humanSide.opposite());
-        players.put(side, humanPlayer);
-        players.put(side.opposite(), computerPlayer);
     }
 
     /**
-     * Get a player given the player's side.
+     * Sets the name of the saved game.
      *
-     * @param side The side ALLIES or AXIS.
-     * @return The player that corresponds to the given side.
+     * @param savedGameName The saved game name.
      */
-    public Player getPlayer(final Side side) {
-        return players.get(side);
+    public void setSavedGameName(final String savedGameName) {
+        config.setSavedGameName(savedGameName);
     }
 
     /**
@@ -139,7 +165,7 @@ public class Game implements PersistentData<GameData> {
      * @throws MapException Indicates the map data could not be loaded.
      * @throws VictoryException Indicates the victory data could not be loaded.
      */
-    public void startNew() throws ScenarioException, MapException, VictoryException {                                   // New Game Step 3.
+    public void startNew() throws ScenarioException, MapException, VictoryException {                                   // New Game Step 4.
         GameEvent.init();
 
         loadGameMap();
@@ -149,45 +175,28 @@ public class Game implements PersistentData<GameData> {
     }
 
     /**
-     * Set the saved games scenario name. This is needed in order to load the saved game files.
-     *
-     * @param scenarioName The saved game's scenario name.
-     */
-    public void setScenarioName(final String scenarioName) {                                                            // Saved Game Step 1.
-        config.setScenario(scenarioName);
-    }
-
-    /**
-     * Set the saved game name. This is needed in order to load the saved game files.
-     *
-     * @param savedGameName The name of the saved game.
-     */
-    public void setSavedGameName(final String savedGameName) {                                                          // Saved Game Step 2.
-        config.setSavedGameName(savedGameName);
-    }
-
-    /**
      * Load a save game.
      *
-     * @throws GameException indicates the main game data could not be loaded.
+     * @throws ScenarioException indicates that the task forces could not be loaded.
      * @throws MapException indicates that the map could not be loaded.
      * @throws VictoryException indicates that the victory conditions could not be loaded.
-     * @throws ScenarioException indicates that the task forces could not be loaded.
      */
-    public void startExisting() throws  GameException, MapException, VictoryException, ScenarioException {              // Saved Game Step 3.
+    public void startExisting() throws ScenarioException, MapException, VictoryException {                              // Saved Game Step 4.
         GameEvent.init();
-
-        loadSavedGame();
 
         loadGameMap();
         loadGameVictory();
         buildAssets();
+        // No need to deploy assets as this has already been done.
     }
 
     /**
-     * Save the game.
+     * Save the given game.
+     *
+     * @param savedGameName The name of the saved game.
      */
-    public void save() {
+    public void save(final String savedGameName) {
+        config.setSavedGameName(savedGameName);
         gameDAO.save(this);
         gameVictory.save(scenario);
         humanPlayer.saveAssets(scenario);
@@ -195,14 +204,14 @@ public class Game implements PersistentData<GameData> {
     }
 
     /**
-     * Load a saved game.
-     *
-     * @throws GameException indicates that the game could not be loaded.
+     * Save the default game.
      */
-    private void loadSavedGame() throws GameException {
-        GameData data = gameDAO.load();
-        setHumanSide(data.getHumanSide());
-        setScenario(data.getScenario());
+    public void save() {
+        config.setSavedGameName(Config.DEFAULT_SAVED_GAME);
+        gameDAO.save(this);
+        gameVictory.save(scenario);
+        humanPlayer.saveAssets(scenario);
+        computerPlayer.saveAssets(scenario);
     }
 
     /**
@@ -243,8 +252,4 @@ public class Game implements PersistentData<GameData> {
         humanPlayer.deployAssets(scenario);
         computerPlayer.deployAssets(scenario);
     }
-
-
-
-
 }

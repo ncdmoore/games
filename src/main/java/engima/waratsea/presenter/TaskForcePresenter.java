@@ -4,17 +4,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Game;
-import engima.waratsea.model.map.MapException;
-import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.presenter.ship.ShipDetailsDialog;
-import engima.waratsea.view.FatalErrorDialog;
 import engima.waratsea.view.TaskForceView;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -44,7 +40,6 @@ public class TaskForcePresenter implements Presenter {
     private Provider<TaskForceView> viewProvider;
     private Provider<ShipDetailsDialog> shipDetailsDialogProvider;
     private Navigate navigate;
-    private Provider<FatalErrorDialog> fatalErrorDialogProvider;
 
     /**
      * This is the constructor.
@@ -53,19 +48,16 @@ public class TaskForcePresenter implements Presenter {
      * @param viewProvider The corresponding view,
      * @param shipDetailsDialogProvider The ship details dialog provider.
      * @param navigate Provides screen navigation.
-     * @param fatalErrorDialogProvider Provides the fatal error dialog.
      */
     @Inject
     public TaskForcePresenter(final Game game,
                               final Provider<TaskForceView> viewProvider,
                               final Provider<ShipDetailsDialog> shipDetailsDialogProvider,
-                              final Navigate navigate,
-                              final Provider<FatalErrorDialog> fatalErrorDialogProvider) {
+                              final Navigate navigate) {
         this.game = game;
         this.viewProvider = viewProvider;
         this.shipDetailsDialogProvider = shipDetailsDialogProvider;
         this.navigate = navigate;
-        this.fatalErrorDialogProvider = fatalErrorDialogProvider;
     }
 
     /**
@@ -75,7 +67,6 @@ public class TaskForcePresenter implements Presenter {
      */
     @Override
     public void show(final Stage primaryStage) {
-        startGame();
         setupView(primaryStage);
     }
 
@@ -87,17 +78,6 @@ public class TaskForcePresenter implements Presenter {
     @Override
     public void reShow(final Stage primaryStage) {
         setupView(primaryStage);
-    }
-
-    /**
-     * Initialize the task force data.
-     */
-    private void startGame() {
-        try {
-            game.startNew();
-        } catch (ScenarioException | MapException | VictoryException ex) {
-            fatalErrorDialogProvider.get().show(ex.getMessage() + ".");
-        }
     }
 
     /**

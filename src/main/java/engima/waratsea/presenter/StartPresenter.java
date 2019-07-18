@@ -67,6 +67,7 @@ public class StartPresenter implements Presenter {
      * Call back for the new game button.
      */
     private void newGame() {
+        navigate.setNewGamePath();
         navigate.goNext(this.getClass(), stage);
     }
 
@@ -74,7 +75,8 @@ public class StartPresenter implements Presenter {
      * Call back for saved game button.
      */
     private void savedGame() {
-        log.info("Saved Game.");
+        navigate.setSavedGamePath();
+        navigate.goNext(this.getClass(), stage);
     }
 
     /**

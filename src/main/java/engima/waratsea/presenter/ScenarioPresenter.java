@@ -3,6 +3,9 @@ package engima.waratsea.presenter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import engima.waratsea.model.game.Config;
+import engima.waratsea.model.map.MapException;
+import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.presenter.navigation.Navigate;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +34,7 @@ public class ScenarioPresenter implements Presenter {
 
     /**
      * The constructor for the scenario presenter. Guice will inject the view.
+     *
      * @param game The game.
      * @param viewProvider Scenario view.
      * @param navigate Controls the screen navigation.
@@ -93,8 +97,12 @@ public class ScenarioPresenter implements Presenter {
     private void continueButton() {
         Side side = view.getRadioButtonAllies().isSelected() ? Side.ALLIES : Side.AXIS;
 
+        game.setNew();
         game.setScenario(selectedScenario);
         game.setHumanSide(side);
+        game.setSavedGameName(Config.DEFAULT_SAVED_GAME);
+
+        startGame();
 
         navigate.goNext(this.getClass(), stage);
     }
@@ -125,4 +133,14 @@ public class ScenarioPresenter implements Presenter {
         }
     }
 
+    /**
+     * Initialize the task force data.
+     */
+    private void startGame() {
+        try {
+            game.startNew();
+        } catch (ScenarioException | MapException | VictoryException ex) {
+            fatalErrorDialogProvider.get().show(ex.getMessage() + ".");
+        }
+    }
 }

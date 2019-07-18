@@ -3,23 +3,31 @@ package engima.waratsea.model.game;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import engima.waratsea.model.game.data.GameData;
+import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * This class loads and saves game data.
  */
 @Slf4j
 public class GameDAO {
-
-
     private Config config;
 
     /**
@@ -33,17 +41,26 @@ public class GameDAO {
     }
 
     /**
-     * Load the task force for the given scenario and side.
+     * Load the game for the given scenario and side.
      *
      * @return The game data.
-     * @throws GameException if the game cannot be loaded.
+     * @throws ScenarioException if the game cannot be loaded.
      */
-    public GameData load() throws GameException {
-        log.info("Load game");
-        return config
-                .getSavedURL(Game.class)
+    public List<GameData> load() throws ScenarioException {
+        log.info("Load games");
+
+        File[] directories = getScenarioDirs();                                                                         //Get the sub-directories directly under the scenario directory.
+
+        return Arrays.stream(directories)
+                .filter(this::isReadable)
+                .flatMap(this::getSavedGameDirs)
+                .map(this::getGameDataFile)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .map(this::readGame)
-                .orElseThrow(() -> new GameException("Unable to game"));
+                .filter(Objects::nonNull)
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     /**
@@ -58,20 +75,82 @@ public class GameDAO {
     }
 
     /**
+     * Get all the scenario directories.
+     *
+     * @return An array of directory files.
+     * @throws ScenarioException Thrown if unable to read the scenario files.
+     */
+    private File[] getScenarioDirs() throws ScenarioException {
+        return config.getSavedDirectory()
+                .map(url -> new File(url.getPath()).listFiles(File::isDirectory))
+                .orElseThrow(() -> new ScenarioException("Unable to find the scenario directories"));
+    }
+
+    /**
+     * Get the saved game directories of the given scenario.
+     *
+     * @param scenarioDirectory A given scenario directory in the saved games directory.
+     * @return A stream of saved game directories.
+     */
+    private Stream<File> getSavedGameDirs(final File scenarioDirectory)  {
+        File[] savedGameDirs = scenarioDirectory.listFiles(File::isDirectory);
+        Optional<File[]> dirs = Optional.ofNullable(savedGameDirs);
+        return Arrays.stream(dirs.orElse(new File[0]));
+    }
+
+    /**
+     * Get the URL of the saved game "game.json" file.
+     *
+     * @param file The saved game directory.
+     * @return The URL of the saved game.json file.
+     */
+    private Optional<URL> getGameDataFile(final File file) {
+        String fileName = file.getPath() + "/game.json";
+
+        Path path = Paths.get(fileName);
+        try {
+            return Optional.of(path.toUri().toURL());
+        } catch (MalformedURLException ex) {
+            log.error("Bad url '{}'", path);
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Verify that the directory is readable. If the directory is not readable then we will exclude it from
+     * the list of scenarios.
+     *
+     * @param directory The scenario directory to test for readability.
+     * @return True if the scenario directory can be read. False otherwise.
+     */
+    private boolean isReadable(final File directory) {
+        boolean isFileReadable = directory.canRead();
+        log.debug("file: {} is readable is {}", directory, isFileReadable);
+        return isFileReadable;
+    }
+
+    /**
      * Read the task force data from scenario task force json files for the given side.
      *
      * @param url specifies the task force json file.
      * @return returns a list of task force objects.
      */
     private GameData readGame(final URL url) {
-        Path path = Paths.get(url.getPath());
+        try {
+            Path path = Paths.get(url.toURI().getPath());
 
-        try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-            log.info("load game data");
-            Gson gson = new Gson();
-            return gson.fromJson(br, GameData.class);
-        } catch (Exception ex) {                                                                                        // Catch any Gson errors.
-            log.error("Unable to game data", ex);
+            log.info("load game data with path '{}'", path);
+
+            try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+
+                Gson gson = new Gson();
+                return gson.fromJson(br, GameData.class);
+            } catch (Exception ex) {                                                                                    // Catch any Gson errors.
+                log.error("Unable to read game data for URL: {}", url.getPath(), ex);
+                return null;
+            }
+        } catch (URISyntaxException ex) {
+            log.error("Unable to get URI for URL: {}", url.getPath());
             return null;
         }
     }

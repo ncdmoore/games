@@ -40,7 +40,6 @@ import java.util.Optional;
 public final class Config {
     private static final String SUMMARY_FILE_NAME = "summary.json";
     private static final String SCENARIO_DIRECTORY_NAME = "/scenarios";
-    private static final String SAVED_GAME_DIRECTORY = System.getProperty("user.home") + "/WW2atSea/SavedGames/";
 
     private static final MultiKeyMap<String, String> SIDE_FILE_MAP = new MultiKeyMap<>();
     static {
@@ -90,9 +89,10 @@ public final class Config {
         DEFAULT_FILE_MAP.put(Side.AXIS.toString(),   Victory.class.getSimpleName(), "victory/axis");
     }
 
-    private static final String DEFAULT_SAVED_GAME = "/defaultGame";
+    public static final String DEFAULT_SAVED_GAME = "/defaultGame";
 
-    private GameTitle gameTitle;
+    private final GameTitle gameTitle;
+    private final String savedGameDirectory;
 
     @Getter
     @Setter
@@ -113,6 +113,7 @@ public final class Config {
     @Inject
     public Config(final GameTitle gameTitle) {
         this.gameTitle = gameTitle;
+        this.savedGameDirectory = System.getProperty("user.home") + "/WW2atSea/SavedGames/" + gameTitle.getValue() + "/";
         this.type = GameType.NEW;
         savedGameName = DEFAULT_SAVED_GAME;
     }
@@ -172,35 +173,30 @@ public final class Config {
     }
 
     /**
-     * Get a URL in the scenario directory. This URL maps to a file in the scenario directory.
-     *
-     * @param clazz The entity class.
-     * @return The entity URL.
-     */
-    public Optional<URL> getScenarioURL(final Class<?> clazz) {
-        String fileName = gameTitle.getValue() + SCENARIO_DIRECTORY_NAME + "/" + scenario + FILE_MAP.get(clazz);
-        log.debug("'{}' URL: '{}'", clazz.getSimpleName(), fileName);
-        return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
-    }
-
-    /**
      * Get the URL of the current game's scenario directory.
      *
      * @return The game's scenario directory URL.
      */
     public Optional<URL> getScenarioDirectory() {
-        return Optional.ofNullable(getClass().getClassLoader().getResource(gameTitle.getValue() + Config.SCENARIO_DIRECTORY_NAME));
+        return Optional
+                .ofNullable(getClass()
+                .getClassLoader()
+                .getResource(gameTitle.getValue() + Config.SCENARIO_DIRECTORY_NAME));
     }
 
     /**
-     * Get the scenario directory path.
+     * Get the URL of the saved game directory.
      *
-     * @return The game's scenario directory path.
+     * @return The saved game directory URL.
      */
-    public String getScenarioDirectoryNameName() {
-        String fileName = gameTitle.getValue() + SCENARIO_DIRECTORY_NAME + "/" + scenario;
-        log.debug("Scenario URL: '{}'", fileName);
-        return fileName;
+    public Optional<URL> getSavedDirectory() {
+        Path path = Paths.get(savedGameDirectory);
+        try {
+            return Optional.of(path.toUri().toURL());
+        } catch (MalformedURLException ex) {
+            log.error("Bad url '{}'", path);
+            return Optional.empty();
+        }
     }
 
     /**
@@ -246,6 +242,7 @@ public final class Config {
     public Optional<URL> getSavedURL(final Side side, final Class<?> clazz) {
         String fileName = getSavedFileName(side, clazz);
         Path path = Paths.get(fileName);
+
         try {
             return Optional.of(path.toUri().toURL());
         } catch (MalformedURLException ex) {
@@ -254,7 +251,7 @@ public final class Config {
         }
     }
 
-     /** Get the saved URL of the given entity. This URL maps to a file in the current saved game directory.
+    /** Get the saved URL of the given entity. This URL maps to a file in the current saved game directory.
       *
       * @param clazz The entity class.
       * @return The URL of the entity.
@@ -262,6 +259,7 @@ public final class Config {
     public Optional<URL> getSavedURL(final Class<?> clazz) {
         String fileName = getSavedFileName(clazz);
         Path path = Paths.get(fileName);
+
         try {
             return Optional.of(path.toUri().toURL());
         } catch (MalformedURLException ex) {
@@ -280,7 +278,7 @@ public final class Config {
      */
     public String getSavedFileName(final Side side, final Class<?> clazz, final String name) {
         String entityName = clazz.getSimpleName();
-        String fileName = SAVED_GAME_DIRECTORY + scenario + savedGameName + SIDE_FILE_MAP.get(side.toString(), entityName) + name;
+        String fileName = savedGameDirectory + scenario + savedGameName + SIDE_FILE_MAP.get(side.toString(), entityName) + name;
         log.debug("'{}' URL: '{}'", entityName, fileName);
         return fileName;
     }
@@ -294,7 +292,7 @@ public final class Config {
      */
     public String getSavedFileName(final Side side, final Class<?> clazz) {
         String entityName = clazz.getSimpleName();
-        String fileName = SAVED_GAME_DIRECTORY + scenario + savedGameName + SIDE_FILE_MAP.get(side.toString(), entityName);
+        String fileName = savedGameDirectory + scenario + savedGameName + SIDE_FILE_MAP.get(side.toString(), entityName);
         log.debug("'{}' URL: '{}'", entityName, fileName);
         return fileName;
     }
@@ -306,7 +304,7 @@ public final class Config {
      * @return The file path of the entity's saved game.
      */
     public String getSavedFileName(final Class<?> clazz) {
-        String fileName = SAVED_GAME_DIRECTORY + scenario + savedGameName + FILE_MAP.get(clazz);
+        String fileName = savedGameDirectory + scenario + savedGameName + FILE_MAP.get(clazz);
         log.debug("'{}' URL: '{}'", clazz.getSimpleName(), fileName);
         return fileName;
     }
@@ -319,6 +317,5 @@ public final class Config {
      */
     public Path getScenarioSummary(final String scenarioDirectory) {
         return Paths.get(scenarioDirectory, SUMMARY_FILE_NAME);
-
     }
 }

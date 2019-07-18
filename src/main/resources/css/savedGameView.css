@@ -1,0 +1,54 @@
+////////////////////////////////////////////////////////////////////
+// Define variables that may be used in this file.
+// Currently only colors variables can be defined.
+////////////////////////////////////////////////////////////////////
+* {
+    -fx-var-background-color: rgb(224, 228, 203);
+}
+
+.root {
+    -fx-background: -fx-var-background-color;
+}
+
+
+#title {
+    -fx-font: bold 16pt "Lucida Grande";
+    -fx-text-fill: navy;
+}
+
+#title-pane {
+    -fx-border-width: 1px;
+    -fx-border-color: -fx-var-background-color;
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, gray 0%, lightblue 100%);
+    -fx-alignment: top-center;
+}
+
+#main-pane {
+    -fx-border-width: 1px;
+    -fx-border-color: -fx-var-background-color;
+    -fx-border-insets: /* top: */ 20 /* right: */ 0 /* bottom: */ 0 /* left: */ 200;
+}
+
+
+//////////////////////////////////////////////
+// Style the scenario description labels.
+// padding top right bottom left.
+//////////////////////////////////////////////
+#scenario-details {
+    -fx-alignment: top-left;
+    -fx-hgap: 30;
+    -fx-vgap: 30;
+    -fx-padding: /* top: */ 0 /* right: */ 0 /* bottom: */ 0 /* left: */ 20;
+}
+
+
+#side-radio-buttons  {
+    -fx-spacing: 173;
+    -fx-padding: /* top: */ 60 /* right: */ 0 /* bottom: */ 20 /* left: */ 25;
+
+}
+
+#push-buttons  {
+    -fx-spacing: 180;
+    -fx-padding: /* top: */ 20 /* right: */ 0 /* bottom: */ 20 /* left: */ 250;
+}

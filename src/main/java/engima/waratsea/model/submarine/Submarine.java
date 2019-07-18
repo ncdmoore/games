@@ -84,6 +84,8 @@ public class Submarine implements Vessel, PersistentData<SubmarineData> {
         data.setNationality(nationality);
         data.setVictoryPoints(victoryPoints);
         data.setTorpedo(torpedo.getData());
+        data.setMovement(movement.getData());
+        data.setFuel(fuel.getData());
         return data;
     }
 

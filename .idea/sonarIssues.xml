@@ -153,6 +153,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Day.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Game.java">
           <value>
             <set />
@@ -164,6 +169,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Nation.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Turn.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/TurnType.java">
           <value>
             <set />
           </value>
@@ -423,6 +438,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/SavedGamePresenter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/ScenarioPresenter.java">
           <value>
             <set />
@@ -489,6 +509,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/FlotillaView.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/SavedGameView.java">
           <value>
             <set />
           </value>
@@ -598,6 +623,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Luqa-1940.json">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Suda Bay.json">
           <value>
             <set />
@@ -644,6 +674,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/properties/view.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/firstSortie/summary.json">
           <value>
             <set />
           </value>
@@ -703,6 +738,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/maps/allies/june1940.json">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Caledon 39.json">
           <value>
             <set />
@@ -753,6 +793,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/css/savedGameView.css">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/css/shipDetails.css">
           <value>
             <set />
@@ -799,6 +844,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/victory/SquadronVictoryTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../json/src/main/java/Main.java">
           <value>
             <set />
           </value>
