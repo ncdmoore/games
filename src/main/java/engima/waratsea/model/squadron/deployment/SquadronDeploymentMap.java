@@ -83,7 +83,7 @@ public class SquadronDeploymentMap {
 
         rankingForTypeMap
                 .forEach((ranking, airfields) -> airfields
-                        .forEach(airfield -> log.debug("{} Airfield: '{}', ranking: '{}'", new Object[]{type, airfield.getName(), ranking})));
+                        .forEach(airfield -> log.info("{} Airfield: '{}', ranking: '{}'", new Object[]{type, airfield.getName(), ranking})));
 
         return rankingForTypeMap
                 .entrySet()

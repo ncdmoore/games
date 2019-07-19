@@ -127,20 +127,8 @@ public class SavedGamePresenter implements Presenter {
             log.error("Unable to load any of the saved game scenarios", ex);
             fatalErrorDialogProvider.get().show("Unable to load any of the saved game scenarios.");
         }
-
-       /* if (view.getScenarios().getItems().isEmpty()) {                                                                 // Only initialize the list once.
-            try {
-                view.setScenarios(game.initScenarios());
-                view.getScenarios().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> scenarioSelected(newValue));
-                view.getScenarios().getSelectionModel().select(0);
-            } catch (ScenarioException ex) {
-                log.error("Unable to load scenario summaries", ex);
-                fatalErrorDialogProvider.get().show("Unable to load any game scenarios.");
-            }
-        } else {
-            view.getScenarios().getSelectionModel().select(0);                                                   // Ensure that the first scenario is always selected.
-        }*/
     }
+
     /**
      * Initialize the task force data.
      */

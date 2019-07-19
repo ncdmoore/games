@@ -34,7 +34,6 @@ public class ScenarioView {
     private ListView<Scenario> scenarios = new ListView<>();
 
     private ImageView  scenarioImage = new ImageView();
-
     private Text dateValue = new Text();
     private Text turnValue = new Text();
     private Text descriptionValue = new Text();

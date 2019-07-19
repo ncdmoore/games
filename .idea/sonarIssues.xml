@@ -353,6 +353,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/deployment/SquadronDeploymentMap.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/submarine/Submarine.java">
           <value>
             <set />
@@ -514,6 +519,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/SavedGameView.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ScenarioView.java">
           <value>
             <set />
           </value>
@@ -769,6 +779,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/axisShip.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/deployment/1940/allies/British.json">
           <value>
             <set />
           </value>

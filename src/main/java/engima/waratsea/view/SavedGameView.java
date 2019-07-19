@@ -5,6 +5,7 @@ import engima.waratsea.model.game.data.GameData;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,9 +13,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Getter;
 
@@ -27,6 +30,10 @@ public class SavedGameView {
     private ListView<GameData> savedGames = new ListView<>();
 
     private ImageView scenarioImage = new ImageView();
+    private Text dateValue = new Text();
+    private Text turnValue = new Text();
+    private Text descriptionValue = new Text();
+    private Text sideValue = new Text();
 
     @Getter
     private Button continueButton;
@@ -68,8 +75,9 @@ public class SavedGameView {
         Label label = new Label("Saved Games:");
 
         Node savedGamesList = buildSavedGamesList();
+        Node scenarioDetails = buildScenarioDetails();
 
-        HBox savedGamesBox = new HBox(savedGamesList);
+        HBox savedGamesBox = new HBox(savedGamesList, scenarioDetails);
 
         Node pushButtons = buildPushButtons();
 
@@ -105,8 +113,21 @@ public class SavedGameView {
      * @param savedGame currently selected saved game.
      */
     public void setSelectedSavedGame(final GameData savedGame) {
-        setScenarioImages(savedGame.getScenario());
-       // setScenarioDetails(scenario);
+        Scenario scenario = savedGame.getScenario();
+        setScenarioImages(scenario);
+        setScenarioDetails(scenario);
+
+        sideValue.setText(savedGame.getHumanSide().toString());
+    }
+
+    /**
+     * Set the scenario details.
+     * @param scenario currently selected scenario.
+     */
+    private void setScenarioDetails(final Scenario scenario) {
+        turnValue.setText(Integer.toString(scenario.getMaxTurns()));
+        dateValue.setText(scenario.getDate());
+        descriptionValue.setText(scenario.getDescription());
     }
 
     /**
@@ -118,6 +139,38 @@ public class SavedGameView {
         savedGames.setMaxHeight(props.getInt("scenario.list.height"));
 
         return new VBox(scenarioImage, savedGames);
+    }
+
+    /**
+     * Build the scenario details node.
+     * @return The node that contains the scenario details.
+     */
+    private GridPane buildScenarioDetails() {
+
+        Text dateLabel = new Text("Date:");
+        Text turnLabel = new Text("Number of Turns:");
+        Text descriptionLabel = new Text("Description:");
+        Text sideLabel = new Text("Side:");
+
+        descriptionValue.setWrappingWidth(props.getInt("scenario.description.wrap"));
+
+        final int row3 = 3;
+
+        GridPane gridPane = new GridPane();
+        gridPane.add(dateLabel, 0, 0);
+        gridPane.add(dateValue, 1, 0);
+        gridPane.add(turnLabel, 0, 1);
+        gridPane.add(turnValue, 1, 1);
+        gridPane.add(descriptionLabel, 0, 2);
+        gridPane.add(descriptionValue, 1, 2);
+        gridPane.add(sideLabel, 0, row3);
+        gridPane.add(sideValue, 1, row3);
+
+
+        gridPane.setId("scenario-details");
+        GridPane.setValignment(descriptionLabel, VPos.TOP);
+
+        return gridPane;
     }
 
     /**
