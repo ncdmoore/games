@@ -95,6 +95,7 @@ public class MinefieldPresenter implements Presenter {
      * @param minefield The selected minefield.
      */
     private void selectMinefield(final Minefield minefield) {
+        log.info("Minefield selected {}", minefield.getZoneName());
         selectedMinefield = minefield;
         clearMinefields();
         highlightMinefield(minefield);
@@ -107,9 +108,12 @@ public class MinefieldPresenter implements Presenter {
      * @param minefield The selected minefield.
      */
     private void highlightMinefield(final Minefield minefield) {
+        log.info("Highlight minefield {}", minefield.getZoneName());
         MinefieldDTO dto = new MinefieldDTO();
         dto.setMinefield(minefield);
         dto.setAddMineHandler(this::addMinefieldClicked);
+        dto.setRemoveMineHandler(this::removeMinefieldClicked);
+
         view.highlightMinefield(dto);
     }
 
@@ -144,7 +148,9 @@ public class MinefieldPresenter implements Presenter {
         dto.setMinefield(selectedMinefield);
         dto.setEvent(event);
         dto.setRemoveMineHandler(this::removeMinefieldClicked);
-        view.markMine(dto);
+        if (selectedMinefield.hasRoom()) {
+            view.markMine(dto);
+        }
     }
 
     /**

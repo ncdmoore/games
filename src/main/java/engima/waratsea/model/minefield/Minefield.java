@@ -33,7 +33,7 @@ public class Minefield implements PersistentData<MinefieldData> {
 
     @Getter
     @Setter
-    private List<String> activeMapRef = new ArrayList<>();
+    private List<String> activeMapRef = new ArrayList<>();    // The game grids with mines.
 
     /**
      * Constructor called by guice.

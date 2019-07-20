@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.util.List;
 
 /**
- * Represents a minefield.
+ * Represents a minefield zone. A zone is just the collection of available grids. Grids that may be mined.
  */
 public class MinefieldZone {
     @Getter

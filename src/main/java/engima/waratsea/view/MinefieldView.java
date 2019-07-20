@@ -130,22 +130,6 @@ public class MinefieldView {
     }
 
     /**
-     * Build the selected scenario objective's text.
-     *
-     * @param scenario The selected scenario.
-     * @return The node that contains the selected scenario objective information.
-     */
-    private Node buildObjectives(final Scenario scenario) {
-        Label objectiveLabel = new Label("Objectives: Place available mines in each minefield zone.");
-        ImageView flag = imageResourceProvider.getImageView(scenario.getName(), flags.get(game.getHumanSide()));
-
-        HBox hBox = new HBox(flag, objectiveLabel);
-        hBox.setId("objectives-pane");
-
-        return hBox;
-    }
-
-    /**
      * Set the minefields.
      *
      * @param fields The minefields.
@@ -208,6 +192,21 @@ public class MinefieldView {
         minesDeployedValue.setText(minefield.hasDeployed() + "");
     }
 
+    /**
+     * Build the selected scenario objective's text.
+     *
+     * @param scenario The selected scenario.
+     * @return The node that contains the selected scenario objective information.
+     */
+    private Node buildObjectives(final Scenario scenario) {
+        Label objectiveLabel = new Label("Objectives: Place available mines in each minefield zone.");
+        ImageView flag = imageResourceProvider.getImageView(scenario.getName(), flags.get(game.getHumanSide()));
+
+        HBox hBox = new HBox(flag, objectiveLabel);
+        hBox.setId("objectives-pane");
+
+        return hBox;
+    }
 
     /**
      * Build the minefield details pane.

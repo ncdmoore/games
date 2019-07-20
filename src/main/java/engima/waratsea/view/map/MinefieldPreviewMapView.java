@@ -24,7 +24,10 @@ import javafx.scene.shape.Shape;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * This class represents a map view. A map view is as it sounds a view of the game map. For example the minefield
@@ -41,6 +44,8 @@ public class MinefieldPreviewMapView {
 
     @Setter
     private Side side;
+
+    private Set<String> markedMines = new HashSet<>();
 
     /**
      * Constructor called by guice.
@@ -92,6 +97,8 @@ public class MinefieldPreviewMapView {
                 .getZone()
                 .getGrids()
                 .forEach(mapRef -> highlightAndRegister(mapRef, dto.getAddMineHandler()));
+
+        markExisting(dto);
     }
 
     /**
@@ -115,15 +122,15 @@ public class MinefieldPreviewMapView {
     public void markMine(final MinefieldDTO dto) {
         Minefield minefield = dto.getMinefield();
 
-        if (minefield.hasRoom()) {
-            GridView gridView = mapView.getGridView(dto.getEvent());
-            GameGrid gameGrid = new GameGrid(gridView.getRow(), gridView.getColumn());
-            String mapRef = gameMap.convertGridToReference(gameGrid);
+        GridView gridView = mapView.getGridView(dto.getEvent());
+        GameGrid gameGrid = new GameGrid(gridView.getRow(), gridView.getColumn());
+        String mapRef = gameMap.convertGridToReference(gameGrid);
 
-            MineMarker mineMarker = new MineMarker(mapView, gridView);
-            mineMarker.draw(dto);
-            minefield.addMine(mapRef);
-        }
+        MineMarker mineMarker = new MineMarker(mapView, gridView);
+        mineMarker.draw(dto);
+        minefield.addMine(mapRef);
+
+        markedMines.add(mapRef);
     }
 
     /**
@@ -148,6 +155,8 @@ public class MinefieldPreviewMapView {
         minefield.removeMine(mapRef);
 
         mineMarker.remove();
+
+        markedMines.remove(mapRef);
     }
 
     /**
@@ -236,5 +245,40 @@ public class MinefieldPreviewMapView {
      */
     private void removeHighlightAndUnregisterGrid(final GameGrid gameGrid) {
         mapView.removeBackgroud(gameGrid);
+    }
+
+    /**
+     * Mark all of a minefields existing mines.
+     *
+     * @param dto the minefield data transfer object.
+     */
+    private void markExisting(final MinefieldDTO dto) {
+        List<String> existingMines = dto.getMinefield().getActiveMapRef();
+
+        existingMines
+                .stream()
+                .filter(mapRef -> !markedMines.contains(mapRef))
+                .forEach(mapRef -> markExistingMine(mapRef, dto));
+    }
+
+    /**
+     * Mark a grid as having a mine. This is needed when a user navigates between the minefield screen and other
+     * screens. We need to mark any existing mines on the selected minefield.
+     *
+     * @param mapRef The map reference where the mine is marked.
+     * @param dto The minefield data transfer object.
+     */
+    private void markExistingMine(final String mapRef, final MinefieldDTO dto) {
+        GameGrid gameGrid = gameMap.getGrid(mapRef);
+        if (gameGrid != null) {
+            GridView gridView = new GridView(mapView.getGridSize(), gameGrid);
+
+            MineMarker mineMarker = new MineMarker(mapView, gridView);
+            mineMarker.draw(dto);
+
+            markedMines.add(mapRef);
+        } else {
+            log.error("Unable to get grid from map reference: '{}'", mapRef);
+        }
     }
 }
