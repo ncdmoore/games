@@ -73,8 +73,8 @@ public final class Config {
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Minefield.class.getSimpleName(),                "/minefield/axisMinefields.json");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     MinefieldZone.class.getSimpleName(),            "/minefields/allies/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       MinefieldZone.class.getSimpleName(),            "/minefields/axis/");
-        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     MinefieldDeployment.class.getSimpleName(),      "/minefield/deployment/alliesMinefield.json/");
-        SIDE_FILE_MAP.put(Side.AXIS.toString(),       MinefieldDeployment.class.getSimpleName(),      "/minefield/deployment/axisMinefield.json/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     MinefieldDeployment.class.getSimpleName(),      "/minefield/deployment/alliesMinefield.json");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       MinefieldDeployment.class.getSimpleName(),      "/minefield/deployment/axisMinefield.json");
     }
 
     private static final Map<Class<?>, String> FILE_MAP = new HashMap<>();
