@@ -35,10 +35,12 @@ public class TargetMarker {
     /**
      * Draw the marker on the provided map.
      * Register a mouse click callback for the marker.
-     * @param active Indicates whether the popup contents are active or inactive. A target marker will be inactive
-     *               if it occupies the same space as a task force marker.
+     * @param dto Data transfer object.2
      */
-    public void draw(final boolean active) {
+    public void draw(final TargetMarkerDTO dto) {
+        //indicates whether the popup contents are active or inactive. A target marker will be inactive
+        //if it occupies the same space as a task force marker.
+        boolean active = dto.isActive();
 
         if (active) {
             double radius = (double) gridView.getSize() / 2;
@@ -47,7 +49,7 @@ public class TargetMarker {
             setOnMouseClicked(eventHandler);
         }
 
-        popUp.draw(active);
+        popUp.draw(dto);
     }
 
     /**

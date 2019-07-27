@@ -22,7 +22,14 @@ public class TargetMarkerDTO implements PopUpDTO {
     private final String taskForceName;
 
     @Getter
-    private final String mission;
+    @Setter
+    private boolean active;
+
+    @Getter
+    private final String name;
+
+    @Getter
+    private final String title;
 
     @Getter
     @Setter
@@ -54,7 +61,8 @@ public class TargetMarkerDTO implements PopUpDTO {
     public TargetMarkerDTO(final TaskForce taskForce, final Target target) {
         this.mapReference = target.getLocation();
         this.taskForceName = taskForce.getName();
-        this.mission = taskForce.getMission().toString();
+        this.name = taskForce.getMission().toString();
+        this.title = taskForce.getMission().toString();
     }
 
     /**
@@ -71,13 +79,5 @@ public class TargetMarkerDTO implements PopUpDTO {
      */
     public void setMapView(final MapView mapView) {
         gridView = mapView.getGridView(grid);
-    }
-
-    /**
-     * Get the popup text for the target marker.
-     * @return The popup text.
-     */
-    public String getText() {
-        return mission;
     }
 }

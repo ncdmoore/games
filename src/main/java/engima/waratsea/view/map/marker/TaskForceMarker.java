@@ -59,7 +59,7 @@ public class TaskForceMarker {
 
         dto.getMapView().add(rectangle);
 
-        popUp.draw(dto.isActive());
+        popUp.draw(dto);
     }
 
     /**
@@ -71,7 +71,7 @@ public class TaskForceMarker {
         Asset asset = dto.getAsset();
 
         assets.add(asset);
-        popUp.addText(dto.getName(), dto.isActive());
+        popUp.addText(dto);
     }
 
     /**

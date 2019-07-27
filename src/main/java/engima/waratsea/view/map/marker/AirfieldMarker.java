@@ -68,7 +68,7 @@ public class AirfieldMarker {
 
         mapView.add(triangle);
 
-        popUp.draw(dto.isActive());
+        popUp.draw(dto);
     }
 
     /**

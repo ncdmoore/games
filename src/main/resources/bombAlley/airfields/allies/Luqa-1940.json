@@ -1,8 +1,8 @@
 {
-  "name"     : "Luqa-1940",
-  "province" : "Malta",
-  "maxCapacity" : 4,
-  "antiAir"       : 6,
+  "name": "Luqa-1940",
+  "title": "Luqa",
+  "province": "Malta",
+  "maxCapacity": 4,
+  "antiAir": 6,
   "location": "AK24"
-
 }

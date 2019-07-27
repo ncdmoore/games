@@ -142,8 +142,9 @@ public class TaskForcePreviewMapView {
             //If the target marker occupies the same space as a task force marker
             //then make the target marker inactive.
             boolean active = !mapRefMarkerMap.containsKey(dto.getMapReference());
+            dto.setActive(active);
 
-            marker.draw(active);
+            marker.draw(dto);
             mapRefTargetMap.put(dto.getMapReference(), marker);
             addTargetMarker(dto, marker);
         }

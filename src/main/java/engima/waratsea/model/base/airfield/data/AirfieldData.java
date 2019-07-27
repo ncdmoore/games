@@ -16,6 +16,10 @@ public class AirfieldData {
 
     @Getter
     @Setter
+    private String title;
+
+    @Getter
+    @Setter
     private Side side;
 
     @Getter

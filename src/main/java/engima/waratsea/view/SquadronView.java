@@ -221,7 +221,7 @@ public class SquadronView {
         airfieldMaximumValue.get(nation).setText(airfield.getMaxCapacity() + "");
         airfieldCurrentValue.get(nation).setText(airfield.getCurrentSteps() + "");
 
-        squadronAirfieldLabel.setText(airfield.getName() + " Squadrons:");
+        squadronAirfieldLabel.setText(airfield.getTitle() + " Squadrons:");
 
         airfieldSquadrons.getItems().clear();
         airfieldSquadrons.getItems().addAll(airfield.getSquadrons());

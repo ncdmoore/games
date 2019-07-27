@@ -32,6 +32,9 @@ public class TaskForceMarkerDTO implements PopUpDTO {
     private final String name;
 
     @Getter
+    private final String title;
+
+    @Getter
     private final boolean active;
 
     @Getter
@@ -72,6 +75,7 @@ public class TaskForceMarkerDTO implements PopUpDTO {
         this.asset = asset;
         this.mapReference = asset.getLocation();
         this.name = asset.getName();
+        this.title = asset.getTitle();
         this.active = asset.isActive();
     }
 
@@ -92,14 +96,5 @@ public class TaskForceMarkerDTO implements PopUpDTO {
     public void setMapView(final MapView map) {
         mapView = map;
         gridView = mapView.getGridView(grid);
-    }
-
-    /**
-     * Get the related popup text.
-     *
-     * @return The task force name is placed in the popup.
-     */
-    public String getText() {
-        return name;
     }
 }

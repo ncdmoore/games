@@ -85,6 +85,16 @@ public class SubmarineFlotilla implements Flotilla {
     }
 
     /**
+     * Get the flotilla's title.
+     *
+     * @return The flotilla's title.
+     */
+    @Override
+    public String getTitle() {
+        return getName();
+    }
+
+    /**
      * Determine if the flotilla is at a friendly port.
      *
      * @return True if the flotilla is currently located at a friendly port. False otherwise.

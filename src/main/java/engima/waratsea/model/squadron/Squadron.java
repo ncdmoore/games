@@ -146,6 +146,16 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     }
 
     /**
+     * Get the squadron's title.
+     *
+     * @return The squadron's title.
+     */
+    @Override
+    public String getTitle() {
+        return getName();
+    }
+
+    /**
      * Get the type of squadron.
      *
      * @return The type of squadron: FIGHTER, BOMBER, etc.

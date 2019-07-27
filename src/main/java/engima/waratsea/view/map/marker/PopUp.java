@@ -43,7 +43,7 @@ public class PopUp {
      * @param dto The data for the task force marker and associated popup.
      */
     public PopUp(final PopUpDTO dto) {
-        this.names.add(dto.getText());
+        this.names.add(dto.getName());
         this.mapRef = dto.getMapReference();
         this.gridView = dto.getGridView();
         this.xOffset = dto.getXOffset();
@@ -53,9 +53,9 @@ public class PopUp {
 
     /**
      * Draw the popup. Keep it hidden at first.
-     * @param active indicates if the corresponding marker is active.
+     * @param dto The popup data transfer object.
      */
-    public void draw(final boolean active) {
+    public void draw(final PopUpDTO dto) {
         log.debug("Draw the popup text: {}", names.get(0));
 
         Text mapRefText = new Text(mapRef);
@@ -63,11 +63,11 @@ public class PopUp {
         VBox mapRefVbox = new VBox(mapRefText);
         mapRefVbox.getStyleClass().add("popup-mapRef");
 
-        Label nameText = new Label(names.get(0));
+        Label nameText = new Label(dto.getTitle());
 
         namesMap.put(names.get(0), nameText);
 
-        String textStyle = active ? "popup-text" : "popup-text-inactive";
+        String textStyle = dto.isActive() ? "popup-text" : "popup-text-inactive";
 
         nameText.getStyleClass().add(textStyle);
         VBox nameVbox = new VBox(nameText);
@@ -81,19 +81,20 @@ public class PopUp {
     }
 
     /** Add text to the popup.
-     * @param name The text to add.
-     * @param active indicates if the corresponding marker is active.
+     * @param dto The popup data transfer object.
      */
-    public void addText(final String name, final boolean active) {
+    public void addText(final PopUpDTO dto) {
+        String name = dto.getName();
+
         log.debug("Add text: {} to the popup", name);
 
         names.add(name);
 
-        Label text = new Label(name);
+        Label text = new Label(dto.getTitle());
 
         namesMap.put(name, text);
 
-        String textStyle = active ? "popup-text" : "popup-text-inactive";
+        String textStyle = dto.isActive() ? "popup-text" : "popup-text-inactive";
         text.getStyleClass().add(textStyle);
         List<Node> childern = popUp.getChildren();
         ((VBox) childern.get(NAME_VBOX)).getChildren().add(text);

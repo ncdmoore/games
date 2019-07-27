@@ -38,6 +38,9 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     private final String name;
 
     @Getter
+    private final String title;
+
+    @Getter
     private final int maxCapacity;   //Capacity in steps.
 
     @Getter
@@ -64,10 +67,12 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     public Airfield(@Assisted final AirfieldData data) {
         this.side = data.getSide();
         name = data.getName();
+        title = Optional.ofNullable(data.getTitle()).orElse(name);   // If no title is specified just use the name.
         maxCapacity = data.getMaxCapacity();
         capacity = maxCapacity;
         antiAir = data.getAntiAir();
         reference = data.getLocation();
+
     }
 
     /**
@@ -214,7 +219,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public String toString() {
-        return name;
+        return title;
     }
 
     /**

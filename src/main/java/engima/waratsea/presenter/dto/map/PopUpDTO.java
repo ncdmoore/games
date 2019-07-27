@@ -10,10 +10,16 @@ import javafx.scene.input.MouseEvent;
 public interface PopUpDTO {
 
     /**
+     * The name of the popup.
+     * @return The popup name.
+     */
+    String getName();
+
+    /**
      * The text contained within the popup.
      * @return The popup text.
      */
-    String getText();
+    String getTitle();
 
     /**
      * The map reference that the popup annotates.
@@ -45,5 +51,11 @@ public interface PopUpDTO {
      */
     EventHandler<? super MouseEvent> getPopupEventHandler();
 
+    /**
+     * If the popup or its marker is active.
+     *
+     * @return True if the popup or its marker is active. False otherwise.
+     */
+    boolean isActive();
 
 }
