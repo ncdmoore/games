@@ -8,7 +8,7 @@ import engima.waratsea.model.flotilla.FlotillaType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.motorTorpedoBoat.MotorTorpedoBoat;
 import engima.waratsea.model.submarine.Submarine;
-import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.motorTorpedoBoat.MotorTorpedoDetailsDialog;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.presenter.submarine.SubmarineDetailsDialog;
@@ -194,7 +194,7 @@ public class FlotillaPresenter implements Presenter {
      * @param flotilla The selected flotilla.
      */
     private void markFlotilla(final Flotilla flotilla) {
-        TaskForceMarkerDTO dto = new TaskForceMarkerDTO(flotilla);
+        AssetMarkerDTO dto = new AssetMarkerDTO(flotilla);
         dto.setMarkerEventHandler(this::showPopup);
         dto.setPopupEventHandler(this::closePopup);
         view.markFlotillaOnMap(dto);

@@ -8,7 +8,7 @@ import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
-import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.presenter.ship.ShipDetailsDialog;
 import engima.waratsea.view.TaskForceView;
@@ -122,7 +122,7 @@ public class TaskForcePresenter implements Presenter {
      * @param taskForce The selected task force.
      */
     private void markTaskForce(final TaskForce taskForce) {
-        TaskForceMarkerDTO dto = new TaskForceMarkerDTO(taskForce);
+        AssetMarkerDTO dto = new AssetMarkerDTO(taskForce);
         dto.setMarkerEventHandler(this::showTaskForcePopup);
         dto.setPopupEventHandler(this::closePopup);
         view.markTaskForceOnMap(dto);

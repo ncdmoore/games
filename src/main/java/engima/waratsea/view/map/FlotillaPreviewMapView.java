@@ -2,7 +2,7 @@ package engima.waratsea.view.map;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.map.GameMap;
-import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.marker.TaskForceMarker;
@@ -74,7 +74,7 @@ public class FlotillaPreviewMapView {
      *
      * @param dto The taskforce/flotilla data transfer object.
      */
-    public void markFlotilla(final TaskForceMarkerDTO dto) {
+    public void markFlotilla(final AssetMarkerDTO dto) {
         dto.setGameMap(gameMap);
         dto.setMapView(mapView);
 

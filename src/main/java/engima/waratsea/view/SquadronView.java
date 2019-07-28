@@ -10,7 +10,7 @@ import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.map.TaskForcePreviewMapView;
@@ -177,7 +177,7 @@ public class SquadronView {
      *
      * @param dto Task force data transfer object.
      */
-    public void markAirfieldOnMap(final TaskForceMarkerDTO dto) {
+    public void markAirfieldOnMap(final AssetMarkerDTO dto) {
         dto.setXOffset(props.getInt("taskforce.previewMap.popup.xOffset"));
         taskForceMap.markAirfield(dto);
     }
@@ -187,7 +187,7 @@ public class SquadronView {
      *
      * @param dto The data transfer object.
      */
-    public void markSquadronRangeOnMap(final TaskForceMarkerDTO dto) {
+    public void markSquadronRangeOnMap(final AssetMarkerDTO dto) {
         taskForceMap.markRange(dto);
     }
 

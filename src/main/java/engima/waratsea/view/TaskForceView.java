@@ -9,7 +9,7 @@ import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceState;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
-import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.map.TaskForcePreviewMapView;
@@ -349,7 +349,7 @@ public class TaskForceView {
      *
      * @param dto Task force data transfer object.
      */
-    public void markTaskForceOnMap(final TaskForceMarkerDTO dto) {
+    public void markTaskForceOnMap(final AssetMarkerDTO dto) {
         dto.setXOffset(props.getInt("taskforce.previewMap.popup.xOffset"));
         taskForceMap.markTaskForce(dto);
     }

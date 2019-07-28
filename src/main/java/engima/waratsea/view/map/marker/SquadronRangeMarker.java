@@ -2,7 +2,7 @@ package engima.waratsea.view.map.marker;
 
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import javafx.scene.Node;
@@ -37,7 +37,7 @@ public class SquadronRangeMarker {
      *
      * @param dto The data transfer object.
      */
-    public SquadronRangeMarker(final TaskForceMarkerDTO dto) {
+    public SquadronRangeMarker(final AssetMarkerDTO dto) {
         mapView = dto.getMapView();
         gridView = dto.getGridView();
         squadron = dto.getAsset();

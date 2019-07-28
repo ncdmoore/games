@@ -16,7 +16,7 @@ import lombok.Setter;
 /**
  * Task force marker data transfer object. Used to transfer task force information to the view layer.
  */
-public class TaskForceMarkerDTO implements PopUpDTO {
+public class AssetMarkerDTO implements PopUpDTO {
 
     @Getter
     private final Asset asset;
@@ -71,7 +71,7 @@ public class TaskForceMarkerDTO implements PopUpDTO {
      *
      * @param asset The game asset model.
      */
-    public TaskForceMarkerDTO(final Asset asset) {
+    public AssetMarkerDTO(final Asset asset) {
         this.asset = asset;
         this.mapReference = asset.getLocation();
         this.name = asset.getName();

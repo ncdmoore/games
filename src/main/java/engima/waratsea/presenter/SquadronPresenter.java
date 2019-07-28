@@ -11,7 +11,7 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.presenter.squadron.SquadronDetailsDialog;
 import engima.waratsea.view.SquadronView;
@@ -380,7 +380,7 @@ public class SquadronPresenter implements Presenter {
      * @param airfield The airfield that is marked.
      */
     private void markAirfield(final Nation nation, final Airfield airfield) {
-        TaskForceMarkerDTO dto = new TaskForceMarkerDTO(airfield);
+        AssetMarkerDTO dto = new AssetMarkerDTO(airfield);
         dto.setNation(nation);
         dto.setMarkerEventHandler(this::showPopup);
         dto.setPopupEventHandler(this::closePopup);
@@ -430,7 +430,7 @@ public class SquadronPresenter implements Presenter {
             squadron.setAirfield(airfield);
         }
 
-        TaskForceMarkerDTO dto = new TaskForceMarkerDTO(squadron);
+        AssetMarkerDTO dto = new AssetMarkerDTO(squadron);
         view.markSquadronRangeOnMap(dto);
 
         // Un-assign the available squadron now that the range has been marked.

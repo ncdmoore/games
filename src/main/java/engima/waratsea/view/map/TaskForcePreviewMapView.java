@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
-import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.marker.AirfieldMarker;
@@ -92,7 +92,7 @@ public class TaskForcePreviewMapView {
      *
      * @param dto The task force marker data transfer object.
      */
-    public void markTaskForce(final TaskForceMarkerDTO dto) {
+    public void markTaskForce(final AssetMarkerDTO dto) {
         dto.setGameMap(gameMap);
         dto.setMapView(mapView);
 
@@ -113,7 +113,7 @@ public class TaskForcePreviewMapView {
      *
      * @param dto The task force marker data transfer object.
      */
-    public void markAirfield(final TaskForceMarkerDTO dto) {
+    public void markAirfield(final AssetMarkerDTO dto) {
         dto.setGameMap(gameMap);
         dto.setMapView(mapView);
 
@@ -155,7 +155,7 @@ public class TaskForcePreviewMapView {
      *
      * @param dto The data transfer object.
      */
-    public void markRange(final TaskForceMarkerDTO dto) {
+    public void markRange(final AssetMarkerDTO dto) {
         dto.setGameMap(gameMap);
         dto.setMapView(mapView);
         dto.setImageView(imageView);

@@ -1,7 +1,7 @@
 package engima.waratsea.view.map.marker;
 
 import engima.waratsea.model.asset.Asset;
-import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import javafx.event.EventHandler;
@@ -34,7 +34,7 @@ public class TaskForceMarker {
      *
      * @param dto All the data needed to create a marker.
      */
-    public TaskForceMarker(final TaskForceMarkerDTO dto) {
+    public TaskForceMarker(final AssetMarkerDTO dto) {
         this.taskForces = new ArrayList<>();
         this.taskForces.add(dto.getAsset());
         this.gridView = dto.getGridView();
@@ -48,7 +48,7 @@ public class TaskForceMarker {
      *
      * @param dto All the data needed to create a marker.
      */
-    public void draw(final TaskForceMarkerDTO dto) {
+    public void draw(final AssetMarkerDTO dto) {
         rectangle = new Rectangle(gridView.getX(), gridView.getY(), gridView.getSize(), gridView.getSize());
         rectangle.setOpacity(OPACITY);
         rectangle.getStyleClass().add("taskforce-marker");
@@ -67,7 +67,7 @@ public class TaskForceMarker {
      *
      * @param dto All the data needed to create a marker.
      */
-    public void addText(final TaskForceMarkerDTO dto) {
+    public void addText(final AssetMarkerDTO dto) {
         Asset taskForce = dto.getAsset();
 
         taskForces.add(taskForce);

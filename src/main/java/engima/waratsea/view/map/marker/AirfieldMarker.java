@@ -2,7 +2,7 @@ package engima.waratsea.view.map.marker;
 
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import javafx.scene.Node;
@@ -36,7 +36,7 @@ public class AirfieldMarker {
      *
      * @param dto The data transfer object.
      */
-    public AirfieldMarker(final TaskForceMarkerDTO dto) {
+    public AirfieldMarker(final AssetMarkerDTO dto) {
         mapView = dto.getMapView();
         gridView = dto.getGridView();
         nation = dto.getNation();
@@ -50,7 +50,7 @@ public class AirfieldMarker {
      *
      * @param dto The data transfer object.
      */
-    public void draw(final TaskForceMarkerDTO dto) {
+    public void draw(final AssetMarkerDTO dto) {
         airfield = dto.getAsset();
 
         double size = (double) gridView.getSize();

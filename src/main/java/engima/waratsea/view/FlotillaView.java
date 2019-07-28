@@ -6,7 +6,7 @@ import engima.waratsea.model.flotilla.FlotillaType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.presenter.dto.map.TaskForceMarkerDTO;
+import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.map.FlotillaPreviewMapView;
@@ -173,7 +173,7 @@ public class FlotillaView {
      *
      * @param dto Asset marker data transfer object.
      */
-    public void markFlotillaOnMap(final TaskForceMarkerDTO dto) {
+    public void markFlotillaOnMap(final AssetMarkerDTO dto) {
         dto.setXOffset(props.getInt("taskforce.previewMap.popup.xOffset"));
         flotillaMap.markFlotilla(dto);
     }
