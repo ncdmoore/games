@@ -24,7 +24,7 @@ public class TaskForceMarkerDTO implements PopUpDTO {
     @Getter
     @Setter
     private Nation nation;         //Note, some assets are shared by nations, such as airfields. Thus, we have
-                                   //explicitly set the nation to indicate which nation this marker is for.
+                                   //to explicitly set the nation to indicate which nation this marker is for.
     @Getter
     private final String mapReference;
 
