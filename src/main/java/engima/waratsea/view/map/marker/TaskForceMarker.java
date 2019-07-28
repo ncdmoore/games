@@ -27,7 +27,7 @@ public class TaskForceMarker {
 
     private Rectangle rectangle;
 
-    private List<Asset> assets;
+    private List<Asset> taskForces;
 
     /**
      * Construct a marker.
@@ -35,8 +35,8 @@ public class TaskForceMarker {
      * @param dto All the data needed to create a marker.
      */
     public TaskForceMarker(final TaskForceMarkerDTO dto) {
-        this.assets = new ArrayList<>();
-        this.assets.add(dto.getAsset());
+        this.taskForces = new ArrayList<>();
+        this.taskForces.add(dto.getAsset());
         this.gridView = dto.getGridView();
         this.eventHandler = dto.getMarkerEventHandler();
         dto.setStyle("popup-taskforce");
@@ -53,7 +53,7 @@ public class TaskForceMarker {
         rectangle.setOpacity(OPACITY);
         rectangle.getStyleClass().add("taskforce-marker");
 
-        rectangle.setUserData(assets);
+        rectangle.setUserData(taskForces);
 
         setOnMouseClicked(eventHandler);
 
@@ -68,9 +68,9 @@ public class TaskForceMarker {
      * @param dto All the data needed to create a marker.
      */
     public void addText(final TaskForceMarkerDTO dto) {
-        Asset asset = dto.getAsset();
+        Asset taskForce = dto.getAsset();
 
-        assets.add(asset);
+        taskForces.add(taskForce);
         popUp.addText(dto);
     }
 
