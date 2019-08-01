@@ -3,6 +3,7 @@ package engima.waratsea.view.map.marker;
 import engima.waratsea.presenter.dto.map.PopUpDTO;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
+import engima.waratsea.view.map.ViewOrder;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -78,6 +79,7 @@ public class PopUp {
         popUp.getChildren().addAll(mapRefVbox, nameVbox);
         popUp.setLayoutX(gridView.getX() + xOffset);
         popUp.setLayoutY(gridView.getY());
+        popUp.setViewOrder(ViewOrder.POPUP.getValue());
     }
 
     /** Add text to the popup.

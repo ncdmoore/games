@@ -5,6 +5,7 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
+import engima.waratsea.view.map.ViewOrder;
 import javafx.scene.Node;
 import javafx.scene.shape.Polygon;
 import lombok.Getter;
@@ -61,6 +62,8 @@ public class AirfieldMarker {
 
         triangle.setOnMouseClicked(dto.getMarkerEventHandler());
         triangle.setUserData(this);
+
+        triangle.setViewOrder(ViewOrder.MARKER.getValue());
 
         String style = nation.toString().toLowerCase().replace(" ", "-") + "-airfield-marker";
 

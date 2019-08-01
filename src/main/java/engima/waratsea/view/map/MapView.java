@@ -76,6 +76,8 @@ public class MapView {
                 Rectangle r = drawSingleGrid(gridView);
                 r.setUserData(gridView);
 
+                r.setViewOrder(ViewOrder.GRID.getValue());
+
                 map.getChildren().add(r);
                 grid.put(row, col, r);
             }

@@ -3,6 +3,7 @@ package engima.waratsea.view.map.marker;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
+import engima.waratsea.view.map.ViewOrder;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -46,6 +47,9 @@ public class TargetMarker {
             double radius = (double) gridView.getSize() / 2;
             circle = new Circle(gridView.getX() + radius, gridView.getY() + radius, radius);
             circle.getStyleClass().add("target-marker");
+
+            circle.setViewOrder(ViewOrder.MARKER.getValue());
+
             setOnMouseClicked(eventHandler);
         }
 

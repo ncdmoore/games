@@ -5,6 +5,7 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
+import engima.waratsea.view.map.ViewOrder;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -89,6 +90,9 @@ public class SquadronRangeMarker {
         // from leaking outside the map.
         Image image = imageView.getImage();
         circle.setClip(new Rectangle(imageView.getX(), imageView.getY(), image.getWidth(), image.getHeight()));
+
+        circle.setViewOrder(ViewOrder.MARKER.getValue());
+
 
         return circle;
     }

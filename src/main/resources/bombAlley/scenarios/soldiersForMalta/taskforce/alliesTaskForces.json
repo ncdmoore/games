@@ -11,6 +11,10 @@
     "ships": [
       "CL38 Gloucester",
       "CL39 Liverpool"
+    ],
+    "cargoShips": [
+      "CL38 Gloucester",
+      "CL39 Liverpool"
     ]
   },
   {
@@ -22,7 +26,7 @@
     "ships": [
       "BB02 Warspite",
       "BB03 Valiant",
-      "CV05 Illustrious",
+      "CV05 Illustrious-1",
       "CA12 York",
       "CL28 Orion",
       "CL03 Sydney",
