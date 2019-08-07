@@ -4,6 +4,7 @@ import engima.waratsea.model.asset.Asset;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
+import engima.waratsea.view.map.ViewOrder;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -52,6 +53,8 @@ public class TaskForceMarker {
         rectangle = new Rectangle(gridView.getX(), gridView.getY(), gridView.getSize(), gridView.getSize());
         rectangle.setOpacity(OPACITY);
         rectangle.getStyleClass().add("taskforce-marker");
+
+        rectangle.setViewOrder(ViewOrder.MARKER.getValue());
 
         rectangle.setUserData(taskForces);
 
