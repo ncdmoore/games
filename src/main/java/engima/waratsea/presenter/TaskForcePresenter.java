@@ -126,7 +126,7 @@ public class TaskForcePresenter implements Presenter {
     private void markTaskForce(final TaskForce taskForce) {
         AssetMarkerDTO dto = new AssetMarkerDTO(taskForce);
         dto.setMarkerEventHandler(this::showTaskForcePopup);
-        dto.setPopupEventHandler(this::closePopup);
+        dto.setPopupEventHandler(this::popupClicked);
         view.markTaskForceOnMap(dto);
     }
 
@@ -261,11 +261,12 @@ public class TaskForcePresenter implements Presenter {
     }
 
     /**
-     * Close the popup.
+     * Task force popup has been either right or left clicked.
+     *
      * @param event the mouse event.
      */
     @SuppressWarnings("unchecked")
-    private void closePopup(final MouseEvent event) {
+    private void popupClicked(final MouseEvent event) {
         if (event.getButton() == MouseButton.PRIMARY) {
             VBox vbox = (VBox) event.getSource();
             List<TaskForce> selected = (List<TaskForce>) vbox.getUserData();
@@ -276,6 +277,15 @@ public class TaskForcePresenter implements Presenter {
             view.closePopup(event);
         }
     }
+
+    /**
+     * Close the popup.
+     * @param event the mouse event.
+     */
+    private void closePopup(final MouseEvent event) {
+        view.closePopup(event);
+    }
+
 
     /**
      * Display the ship details dialog.
