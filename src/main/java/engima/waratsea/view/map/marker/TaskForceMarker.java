@@ -60,6 +60,8 @@ public class TaskForceMarker {
         dto.getMapView().add(rectangle);
 
         popUp.draw(dto);
+
+        popUp.setUserData(taskForces);
     }
 
     /**

@@ -103,6 +103,15 @@ public class PopUp {
     }
 
     /**
+     * Store user data on the popup.
+     *
+     * @param data The user data to store.
+     */
+    public void setUserData(final Object data) {
+        popUp.setUserData(data);
+    }
+
+    /**
      * Display this popup.
      * @param map The map that contains this popup.
      */

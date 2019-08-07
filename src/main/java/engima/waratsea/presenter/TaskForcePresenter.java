@@ -14,7 +14,9 @@ import engima.waratsea.presenter.ship.ShipDetailsDialog;
 import engima.waratsea.view.TaskForceView;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -210,7 +212,16 @@ public class TaskForcePresenter implements Presenter {
         Shape shape = (Shape) event.getSource();
         List<TaskForce> selected = (List<TaskForce>) shape.getUserData();
 
-        int index = selectTheNextTaskForce(selected);
+        selectTheNextTaskForce(selected);
+    }
+
+    /**
+     * Select the next task force in the given list of task forces.
+     *
+     * @param selected The list of task forces residing in the marker's grid.
+     */
+    private void selectTheNextTaskForce(final List<TaskForce> selected) {
+        int index = determineTheNextTaskForce(selected);
 
         // Notify view that the task force has been selected.
         // This keeps the view list in sync with the grid clicks.
@@ -221,13 +232,14 @@ public class TaskForcePresenter implements Presenter {
         taskForceSelected(selected.get(index));
     }
 
+
     /**
      * A task force marker has been clicked. Select the next task force that resides in the marker's grid.
      *
      * @param selected The list of task forces residing in the marker's grid.
      * @return The index of the now selected task force.
      */
-    private int selectTheNextTaskForce(final List<TaskForce> selected) {
+    private int determineTheNextTaskForce(final List<TaskForce> selected) {
         int index = 0;
         if (selected.size() > 1) {
             index = selected.indexOf(selectedTaskForce) + 1;
@@ -252,8 +264,17 @@ public class TaskForcePresenter implements Presenter {
      * Close the popup.
      * @param event the mouse event.
      */
+    @SuppressWarnings("unchecked")
     private void closePopup(final MouseEvent event) {
-        view.closePopup(event);
+        if (event.getButton() == MouseButton.PRIMARY) {
+            VBox vbox = (VBox) event.getSource();
+            List<TaskForce> selected = (List<TaskForce>) vbox.getUserData();
+            selectTheNextTaskForce(selected);
+        }
+
+        if (event.getButton() == MouseButton.SECONDARY) {
+            view.closePopup(event);
+        }
     }
 
     /**
