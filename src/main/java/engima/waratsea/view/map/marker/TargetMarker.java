@@ -9,6 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 
+import java.util.Optional;
+
 /**
  * A target marker on the preview map.
  */
@@ -30,7 +32,8 @@ public class TargetMarker {
         this.gridView = dto.getGridView();
         this.eventHandler = dto.getMarkerEventHandler();
         dto.setStyle("popup-target");
-        this.popUp = new PopUp(dto);
+
+        this.popUp = dto.isPopup() ? new PopUp(dto) : null;
     }
 
     /**
@@ -53,7 +56,8 @@ public class TargetMarker {
             setOnMouseClicked(eventHandler);
         }
 
-        popUp.draw(dto);
+        Optional.ofNullable(popUp)
+                .ifPresent(p -> p.draw(dto));
     }
 
     /**
@@ -66,7 +70,10 @@ public class TargetMarker {
             map.add(circle);
             circle.setOpacity(1.0);
         }
-        popUp.display(map);
+
+        Optional
+                .ofNullable(popUp)
+                .ifPresent(p -> p.display(map));
     }
 
     /**
@@ -78,7 +85,10 @@ public class TargetMarker {
             map.remove(circle);
             circle.setOpacity(OPACITY);
         }
-        popUp.hide(map);
+
+        Optional
+                .ofNullable(popUp)
+                .ifPresent(p -> p.hide(map));
     }
 
     /**
@@ -105,9 +115,10 @@ public class TargetMarker {
      * @param yThreshold Determines if the popup is near the bottom and needs to be moved up.
      **/
     public void adjustY(final int offset, final int yThreshold) {
-        popUp.adjustY(offset, yThreshold);
+        Optional
+                .ofNullable(popUp)
+                .ifPresent(p -> p.adjustY(offset, yThreshold));
     }
-
 
     /**
      * Get the map legend key. This is just a duplicate circle that is the same

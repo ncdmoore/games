@@ -146,9 +146,21 @@ public class TaskForcePresenter implements Presenter {
      * @param taskForce The task force whose targets are marked.
      */
     private void markTaskForceTargets(final TaskForce taskForce) {
-        Optional.ofNullable(taskForce.getTargets())
-                .orElseGet(Collections::emptyList)
-                .forEach(target -> markTaskForceTarget(taskForce, target));
+
+        List<Target> targets = Optional.ofNullable(taskForce.getTargets())
+                .orElseGet(Collections::emptyList);
+
+        // The first target marker has an associated popup.
+        targets
+                .stream()
+                .findFirst()
+                .ifPresent(target -> markTaskForceTarget(taskForce, target, true));
+
+        // The remaining target markers do not have an associated popup.
+        targets
+                .stream()
+                .skip(1)
+                .forEach(target -> markTaskForceTarget(taskForce, target, false));
     }
 
     /**
@@ -156,9 +168,11 @@ public class TaskForcePresenter implements Presenter {
      *
      * @param taskForce The selected task force.
      * @param target One of the task force's targets.
+     * @param popup Indicates if the target marker has an associated popup.
      */
-    private void markTaskForceTarget(final TaskForce taskForce, final Target target) {
+    private void markTaskForceTarget(final TaskForce taskForce, final Target target, final boolean popup) {
         TargetMarkerDTO dto = new TargetMarkerDTO(taskForce, target);
+        dto.setPopup(popup);
         dto.setMarkerEventHandler(this::showTargetPopup);
         dto.setPopupEventHandler(this::closePopup);
         view.markTargetOnMap(dto);

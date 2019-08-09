@@ -53,6 +53,10 @@ public class TargetMarkerDTO implements PopUpDTO {
     @Setter
     private String style;
 
+    @Getter
+    @Setter
+    private boolean popup;
+
     /**
      * Construct the target marker DTO.
      * @param taskForce The task force that has this target.
