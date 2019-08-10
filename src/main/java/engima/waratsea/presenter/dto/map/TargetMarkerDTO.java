@@ -6,6 +6,7 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
+import engima.waratsea.view.map.marker.PopUp;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import lombok.Getter;
@@ -55,7 +56,7 @@ public class TargetMarkerDTO implements PopUpDTO {
 
     @Getter
     @Setter
-    private boolean popup;
+    private PopUp popup; // Indicates if this target marker will contain a popup.
 
     /**
      * Construct the target marker DTO.
@@ -83,5 +84,14 @@ public class TargetMarkerDTO implements PopUpDTO {
      */
     public void setMapView(final MapView mapView) {
         gridView = mapView.getGridView(grid);
+    }
+
+    /**
+     * Determine if this popup is shared amongst the target markers.
+     *
+     * @return True if the target is shared. False otherwise.
+     */
+    public boolean isPopupShared() {
+        return popup != null;
     }
 }

@@ -12,6 +12,8 @@ import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.presenter.ship.ShipDetailsDialog;
 import engima.waratsea.view.TaskForceView;
+import engima.waratsea.view.map.marker.PopUp;
+import engima.waratsea.view.map.marker.TargetMarker;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
@@ -151,16 +153,16 @@ public class TaskForcePresenter implements Presenter {
                 .orElseGet(Collections::emptyList);
 
         // The first target marker has an associated popup.
-        targets
+        TargetMarker marker = targets
                 .stream()
                 .findFirst()
-                .ifPresent(target -> markTaskForceTarget(taskForce, target, true));
+                .map(target -> markTaskForceTarget(taskForce, target, null)).orElse(null);
 
-        // The remaining target markers do not have an associated popup.
+        // The remaining target markers share the same popup.
         targets
                 .stream()
                 .skip(1)
-                .forEach(target -> markTaskForceTarget(taskForce, target, false));
+                .forEach(target -> markTaskForceTarget(taskForce, target, marker.getPopUp()));
     }
 
     /**
@@ -169,13 +171,14 @@ public class TaskForcePresenter implements Presenter {
      * @param taskForce The selected task force.
      * @param target One of the task force's targets.
      * @param popup Indicates if the target marker has an associated popup.
+     * @return The target marker.
      */
-    private void markTaskForceTarget(final TaskForce taskForce, final Target target, final boolean popup) {
+    private TargetMarker markTaskForceTarget(final TaskForce taskForce, final Target target, final PopUp popup) {
         TargetMarkerDTO dto = new TargetMarkerDTO(taskForce, target);
         dto.setPopup(popup);
         dto.setMarkerEventHandler(this::showTargetPopup);
         dto.setPopupEventHandler(this::closePopup);
-        view.markTargetOnMap(dto);
+        return view.markTargetOnMap(dto);
     }
 
     /**

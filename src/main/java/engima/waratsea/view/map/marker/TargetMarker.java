@@ -8,8 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
-
-import java.util.Optional;
+import lombok.Getter;
 
 /**
  * A target marker on the preview map.
@@ -20,9 +19,10 @@ public class TargetMarker {
 
     private final GridView gridView;
     private final EventHandler<? super MouseEvent> eventHandler;
-    private final PopUp popUp;
-
     private Circle circle;
+
+    @Getter
+    private final PopUp popUp;
 
     /**
      * Construct a marker.
@@ -33,7 +33,7 @@ public class TargetMarker {
         this.eventHandler = dto.getMarkerEventHandler();
         dto.setStyle("popup-target");
 
-        this.popUp = dto.isPopup() ? new PopUp(dto) : null;
+        this.popUp = dto.isPopupShared() ?  dto.getPopup() : new PopUp(dto);
     }
 
     /**
@@ -56,24 +56,24 @@ public class TargetMarker {
             setOnMouseClicked(eventHandler);
         }
 
-        Optional.ofNullable(popUp)
-                .ifPresent(p -> p.draw(dto));
+        if (!dto.isPopupShared()) {
+            popUp.draw(dto);
+        }
     }
 
     /**
      * Select this marker. The marker is now the currently selected marker.
      * @param map The game map.
      */
-    public void select(final MapView map) {
+    public void
+    select(final MapView map) {
         if (circle != null) {
             map.remove(circle);
             map.add(circle);
             circle.setOpacity(1.0);
         }
 
-        Optional
-                .ofNullable(popUp)
-                .ifPresent(p -> p.display(map));
+        popUp.display(map);
     }
 
     /**
@@ -86,9 +86,7 @@ public class TargetMarker {
             circle.setOpacity(OPACITY);
         }
 
-        Optional
-                .ofNullable(popUp)
-                .ifPresent(p -> p.hide(map));
+        popUp.hide(map);
     }
 
     /**
@@ -115,9 +113,7 @@ public class TargetMarker {
      * @param yThreshold Determines if the popup is near the bottom and needs to be moved up.
      **/
     public void adjustY(final int offset, final int yThreshold) {
-        Optional
-                .ofNullable(popUp)
-                .ifPresent(p -> p.adjustY(offset, yThreshold));
+        popUp.adjustY(offset, yThreshold);
     }
 
     /**

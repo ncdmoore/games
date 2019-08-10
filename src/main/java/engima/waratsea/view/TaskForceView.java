@@ -13,6 +13,7 @@ import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.map.TaskForcePreviewMapView;
+import engima.waratsea.view.map.marker.TargetMarker;
 import engima.waratsea.view.ships.ShipViewType;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -358,10 +359,11 @@ public class TaskForceView {
      * Place a target marker on the preview map.
      *
      * @param dto Target data transfer object.
+     * @return The target marker.
      */
-    public void markTargetOnMap(final TargetMarkerDTO dto) {
+    public TargetMarker markTargetOnMap(final TargetMarkerDTO dto) {
         dto.setXOffset(props.getInt("taskforce.previewMap.popup.xOffset"));
-        taskForceMap.markTarget(dto);
+        return taskForceMap.markTarget(dto);
     }
 
     /**

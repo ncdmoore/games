@@ -40,10 +40,10 @@ public class TaskForcePreviewMapView {
     private GameMap gameMap;
     private MapView mapView;
 
-    private Map<String, TaskForceMarker> markerMap = new HashMap<>();                //marker name -> grid.
+    private Map<String, TaskForceMarker> markerMap = new HashMap<>();                //marker name (task force name)-> grid.
     private Map<String, TaskForceMarker> mapRefMarkerMap = new HashMap<>();          //map reference -> grid.
 
-    private Map<String, List<TargetMarker>> targetMap = new HashMap<>();             //marker name -> grid.
+    private Map<String, List<TargetMarker>> targetMap = new HashMap<>();             //marker name (task force name) -> grid.
     private Map<String, TargetMarker> mapRefTargetMap = new HashMap<>();             //map reference -> grid.
 
     private Map<String, AirfieldMarker> airfieldMarkerMap = new HashMap<>();
@@ -128,16 +128,18 @@ public class TaskForcePreviewMapView {
      * Place the target marker on the map.
      *
      * @param dto The target marker data transfer object.
+     * @return The target marker.
      */
-    public void markTarget(final TargetMarkerDTO dto) {
+    public TargetMarker markTarget(final TargetMarkerDTO dto) {
         dto.setGameMap(gameMap);
         dto.setMapView(mapView);
 
+        TargetMarker marker;
         if (mapRefTargetMap.containsKey(dto.getMapReference())) {
-            TargetMarker existingMarker = mapRefTargetMap.get(dto.getMapReference());
-            addTargetMarker(dto, existingMarker);
+            marker = mapRefTargetMap.get(dto.getMapReference());
+            addTargetMarker(dto, marker);
         } else {
-            TargetMarker marker = new TargetMarker(dto);
+            marker = new TargetMarker(dto);
 
             //If the target marker occupies the same space as a task force marker
             //then make the target marker inactive.
@@ -148,6 +150,8 @@ public class TaskForcePreviewMapView {
             mapRefTargetMap.put(dto.getMapReference(), marker);
             addTargetMarker(dto, marker);
         }
+
+        return marker;
     }
 
     /**
