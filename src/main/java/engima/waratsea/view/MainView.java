@@ -3,14 +3,18 @@ package engima.waratsea.view;
 import com.google.inject.Inject;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.map.MainMapView;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The main game window's view.
  */
+@Slf4j
 public class MainView {
     private static final String CSS_FILE = "mainView.css";
 
@@ -39,14 +43,18 @@ public class MainView {
      */
     public void show(final Stage stage) {
 
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
+        stage.setX(primaryScreenBounds.getMinX());
+        stage.setY(primaryScreenBounds.getMinY());
+        stage.setWidth(primaryScreenBounds.getWidth());
+        stage.setHeight(primaryScreenBounds.getHeight());
+
         Node map = mainMapView.build();
 
         VBox vBox = new VBox(map);
 
-        int sceneWidth = props.getInt("taskForce.scene.width");
-        int sceneHeight = props.getInt("taskForce.scene.height");
-
-        Scene scene = new Scene(vBox, sceneWidth, sceneHeight);
+        Scene scene = new Scene(vBox, primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
 
         scene.getStylesheets().add(cssResourceProvider.get(CSS_FILE));
 

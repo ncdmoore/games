@@ -135,6 +135,11 @@ public class TaskForcePreviewMapView {
         dto.setMapView(mapView);
 
         TargetMarker marker;
+        // If the target marker occupies the same grid as an
+        // existing target marker, then just add this target
+        // marker to the list of markers at this grid.
+        // This is needed for different task forces that have the
+        // same target marker.
         if (mapRefTargetMap.containsKey(dto.getMapReference())) {
             marker = mapRefTargetMap.get(dto.getMapReference());
             addTargetMarker(dto, marker);
