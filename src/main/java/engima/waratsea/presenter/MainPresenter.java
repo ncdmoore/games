@@ -50,6 +50,7 @@ public class MainPresenter implements Presenter {
 
         view.show(stage);
 
+        view.getMainMenu().getQuit().setOnAction(e -> quit());
     }
 
     /**
@@ -60,5 +61,12 @@ public class MainPresenter implements Presenter {
     @Override
     public void reShow(final Stage primaryStage) {
         show(primaryStage);
+    }
+
+    /**
+     * Quit the game.
+     */
+    private void quit() {
+        stage.close();
     }
 }

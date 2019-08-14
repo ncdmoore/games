@@ -6,10 +6,14 @@ import engima.waratsea.view.map.MainMapView;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuBar;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * The main game window's view.
@@ -18,23 +22,25 @@ import lombok.extern.slf4j.Slf4j;
 public class MainView {
     private static final String CSS_FILE = "mainView.css";
 
-    private ViewProps props;
     private CssResourceProvider cssResourceProvider;
     private MainMapView mainMapView;
 
+    @Getter
+    private MainMenu mainMenu;
+
     /**
      * Constructor called by guice.
-     * @param props The view properties.
      * @param cssResourceProvider Utility to provide css files.
      * @param mainMapView The main game map view.
+     * @param mainMenu The main game menu.
      */
     @Inject
-    public MainView(final ViewProps props,
-                    final CssResourceProvider cssResourceProvider,
-                    final MainMapView mainMapView) {
-        this.props = props;
+    public MainView(final CssResourceProvider cssResourceProvider,
+                    final MainMapView mainMapView,
+                    final MainMenu mainMenu) {
         this.cssResourceProvider = cssResourceProvider;
         this.mainMapView = mainMapView;
+        this.mainMenu = mainMenu;
     }
 
     /**
@@ -50,11 +56,18 @@ public class MainView {
         stage.setWidth(primaryScreenBounds.getWidth());
         stage.setHeight(primaryScreenBounds.getHeight());
 
+        BorderPane mainPane = new BorderPane();
+
+        MenuBar menuBar = mainMenu.build();
         Node map = mainMapView.build();
+
 
         VBox vBox = new VBox(map);
 
-        Scene scene = new Scene(vBox, primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
+        mainPane.setTop(menuBar);
+        mainPane.setCenter(vBox);
+
+        Scene scene = new Scene(mainPane, primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
 
         scene.getStylesheets().add(cssResourceProvider.get(CSS_FILE));
 
