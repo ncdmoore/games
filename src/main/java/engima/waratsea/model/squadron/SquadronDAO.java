@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.BufferedReader;
 import java.lang.reflect.Type;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -97,8 +98,8 @@ public class SquadronDAO {
     private List<Squadron> loadExisting(final Scenario scenario, final Side side, final Nation nation) throws ScenarioException {
         log.info("Load squadrons for scenario: '{}', side: {}, nation: {}", new Object[]{scenario.getTitle(), side, nation});
         return config.getSavedURL(side, Squadron.class, nation + ".json")
-                .map(u -> readSquadrons(u, side, nation))
-                .orElseThrow(() -> new ScenarioException("Unable to squadrons for " + scenario.getTitle() + " for " + side + " and " + nation));
+                .map(url -> readSquadrons(url, side, nation))
+                .orElseThrow(() -> new ScenarioException("Unable to load squadrons for " + scenario.getTitle() + " for " + side + " and " + nation));
     }
 
     /**
@@ -158,9 +159,10 @@ public class SquadronDAO {
      * @return returns a list of task force objects.
      */
     private List<Squadron> readSquadrons(final URL url, final Side side, final Nation nation) {
-        Path path = Paths.get(url.getPath());
+        Path path = Paths.get(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8));
 
         try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+
             Type collectionType = new TypeToken<List<SquadronData>>() { }.getType();
 
             Gson gson = new Gson();

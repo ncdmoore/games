@@ -10,7 +10,6 @@ import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -183,20 +182,15 @@ public class Shipyard {
         String shipName = shipId.getName();
         Side side = shipId.getSide();
 
-        try {
-            Path path = Paths.get(URLDecoder.decode(url.getPath(), "UTF-8"));
-            try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+        Path path = Paths.get(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8));
+        try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 
-                log.debug("load ship class '{}' for ship '{}' and side '{}'", new Object[]{url.getPath(), shipName, side});
+            log.debug("load ship class '{}' for ship '{}' and side '{}'", new Object[]{url.getPath(), shipName, side});
 
-                Gson gson = new Gson();
-                return gson.fromJson(br, ShipData.class);
+            Gson gson = new Gson();
+            return gson.fromJson(br, ShipData.class);
 
-            } catch (Exception ex) {                                                                                        // Catch any Gson errors.
-                log.error("Unable to load ship class '{}' for ship '{}' and side: '{}'. {}", new Object[]{url.getPath(), shipName, side, ex});
-                return null;
-            }
-        } catch (UnsupportedEncodingException ex) {
+        } catch (Exception ex) {                                                                                        // Catch any Gson errors.
             log.error("Unable to load ship class '{}' for ship '{}' and side: '{}'. {}", new Object[]{url.getPath(), shipName, side, ex});
             return null;
         }

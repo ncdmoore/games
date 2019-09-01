@@ -224,6 +224,7 @@ public final class Config {
     public Optional<URL> getSavedURL(final Side side, final Class<?> clazz, final String name) {
         String fileName = getSavedFileName(side, clazz, name);
         Path path = Paths.get(fileName);
+
         try {
             return Optional.of(path.toUri().toURL());
         } catch (MalformedURLException ex) {
