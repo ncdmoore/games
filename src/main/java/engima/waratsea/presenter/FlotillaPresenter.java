@@ -13,6 +13,7 @@ import engima.waratsea.presenter.motorTorpedoBoat.MotorTorpedoDetailsDialog;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.presenter.submarine.SubmarineDetailsDialog;
 import engima.waratsea.view.FlotillaView;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -138,11 +139,14 @@ public class FlotillaPresenter implements Presenter {
      * when the squadron view is presented.
      */
     private void selectFirstTab() {
-        Tab tab = view
+        ObservableList<Tab> tabs = view
                 .getFlotillaTabPane()
-                .getTabs().get(0);
+                .getTabs();
 
-        tabChanged(tab, tab);
+        if (!tabs.isEmpty()) {
+            Tab tab = tabs.get(0);
+            tabChanged(tab, tab);
+        }
     }
 
     /**
