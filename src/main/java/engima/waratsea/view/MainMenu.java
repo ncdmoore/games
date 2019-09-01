@@ -11,7 +11,12 @@ import lombok.Getter;
 public class MainMenu {
 
     @Getter
+    private MenuItem save;
+
+    @Getter
     private MenuItem quit;
+
+
 
     /**
      * Build the main menu bar.
@@ -22,7 +27,10 @@ public class MainMenu {
         MenuBar menuBar = new MenuBar();
 
         Menu menuFile = new Menu("File");
+        save = new MenuItem("_Save");
         quit = new MenuItem("_Quit");
+
+        menuFile.getItems().add(save);
         menuFile.getItems().add(quit);
 
         menuBar.getMenus().add(menuFile);

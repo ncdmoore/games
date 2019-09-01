@@ -204,7 +204,7 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
     private String getLocations(@NotNull final List<String> shipLocations) {
         return shipLocations.stream()
                 .filter(Objects::nonNull)
-                .map(gameMap::convertReferenceToName)
+                .map(gameMap::convertAirfieldReferenceToName)
                 .collect(Collectors.joining(", "));
     }
 

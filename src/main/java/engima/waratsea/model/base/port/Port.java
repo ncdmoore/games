@@ -63,4 +63,14 @@ public class Port implements Base, PersistentData<PortData> {
     @Override
     public void saveChildrenData() {
     }
+
+    /**
+     * The String representation of the port.
+     *
+     * @return The String representation of the port.
+     */
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -57,11 +57,11 @@ public class GameMapTest {
         assert (grid.getRow() == 30);
         assert (grid.getColumn() == 56);
 
-        mapReference = "A01";
+        mapReference = "A10";
 
         grid = gameMap.getGrid(mapReference);
 
-        assert (grid.getRow() == 0);
+        assert (grid.getRow() == 9);
         assert (grid.getColumn() == 0);
 
         mapReference = "A1";
@@ -89,7 +89,7 @@ public class GameMapTest {
     @Test
     public void testMapPropReverseLookup() {
         String mapReference = "AK24";
-        String name = gameMap.convertReferenceToName(mapReference);
+        String name = gameMap.convertPortReferenceToName(mapReference);
         Assert.assertEquals ("Malta", name);
     }
 

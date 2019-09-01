@@ -72,9 +72,8 @@ public class MainMapView {
         GridView gv = mapView.getGridView(event);
         log.info("row={},column={}", gv.getRow(), gv.getColumn());
 
-        GameGrid gameGrid = new GameGrid(gv.getRow(), gv.getColumn());
+        GameGrid gameGrid = gameMap.getGrid(gv.getRow(), gv.getColumn());
 
-        log.info(gameMap.convertGridToReference(gameGrid));
-
+        log.info(gameGrid.getMapReference());
     }
 }

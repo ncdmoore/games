@@ -226,7 +226,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     private String getLocations(@NotNull final List<String> shipLocations) {
         return shipLocations.stream()
                 .filter(Objects::nonNull)
-                .map(gameMap::convertReferenceToName)
+                .map(gameMap::convertPortReferenceToName)
                 .collect(Collectors.joining(", "));
     }
 

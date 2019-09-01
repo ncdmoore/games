@@ -3,7 +3,7 @@ package engima.waratsea.model.squadron;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.GameTitle;
-import engima.waratsea.utility.ProperyWrapper;
+import engima.waratsea.utility.PropertyWrapper;
 
 /**
  * This class represents all the squadron properties.
@@ -11,7 +11,7 @@ import engima.waratsea.utility.ProperyWrapper;
 @Singleton
 public class SquadronProps {
 
-    private final ProperyWrapper props;
+    private final PropertyWrapper props;
 
     private static final String SQUADRON_PROPERTIES = "/squadrons/allotment/squadron.properties";
 
@@ -24,7 +24,7 @@ public class SquadronProps {
      */
     @Inject
     public SquadronProps(final GameTitle gameTitle,
-                         final ProperyWrapper props) {
+                         final PropertyWrapper props) {
         this.props = props;
 
         String gameName = gameTitle.getValue();

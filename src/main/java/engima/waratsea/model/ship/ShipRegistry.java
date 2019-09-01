@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.utility.ProperyWrapper;
+import engima.waratsea.utility.PropertyWrapper;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -19,7 +19,7 @@ public class ShipRegistry {
     private static final String ALLIED_SHIP_PROPERTIES = "ships/allies/alliedShip.properties";
     private static final String AXIS_SHIP_PROPERTIES = "ships/axis/axisShip.properties";
 
-    private static  Map<Side, ProperyWrapper> shipMap = new HashMap<>();
+    private static  Map<Side, PropertyWrapper> shipMap = new HashMap<>();
 
     /**
      * The constructor of the Ship registry.
@@ -30,8 +30,8 @@ public class ShipRegistry {
      */
     @Inject
     public ShipRegistry(final GameTitle gameTitle,
-                        final ProperyWrapper alliedShips,
-                        final ProperyWrapper axisShips) {
+                        final PropertyWrapper alliedShips,
+                        final PropertyWrapper axisShips) {
         shipMap.put(Side.ALLIES, alliedShips);
         shipMap.put(Side.AXIS, axisShips);
 

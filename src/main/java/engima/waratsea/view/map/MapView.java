@@ -72,7 +72,7 @@ public class MapView {
 
         for (int col = 0; col < numberOfColumns; col++) {
             for (int row = 0; row < currentNumberOfRows; row++) {
-                GridView gridView = getGridView(new GameGrid(row, col));
+                GridView gridView = getGridView(gameMap.getGrid(row, col));
                 Rectangle r = drawSingleGrid(gridView);
                 r.setUserData(gridView);
 
@@ -260,8 +260,8 @@ public class MapView {
      * @param gridView The grid view of map grid.
      */
     private void addMapReference(final GridView gridView) {
-        GameGrid gameGrid = new GameGrid(gridView.getRow(), gridView.getColumn());
-        String mapRef = gameMap.convertGridToReference(gameGrid);
+        GameGrid gameGrid = gameMap.getGrid(gridView.getRow(), gridView.getColumn());
+        String mapRef = gameGrid.getMapReference();
 
         Text text = new Text(mapRef);
         VBox mapRefNode = new VBox(text);

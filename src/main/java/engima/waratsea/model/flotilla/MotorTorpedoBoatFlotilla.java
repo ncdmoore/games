@@ -88,7 +88,7 @@ public class MotorTorpedoBoatFlotilla implements Flotilla {
      */
     @Override
     public String getMappedLocation() {
-        return gameMap.convertReferenceToName(location);
+        return gameMap.convertPortReferenceToName(location);
     }
 
     /**

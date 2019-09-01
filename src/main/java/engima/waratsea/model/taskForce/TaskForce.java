@@ -232,7 +232,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
      * @return The task force's location. Mapped to a port name if the task force is in a port.
      */
     public String getMappedLocation() {
-        return gameMap.convertReferenceToName(location);
+        return gameMap.convertPortReferenceToName(location);
     }
 
     /**

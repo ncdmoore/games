@@ -109,7 +109,7 @@ public class SubmarineFlotilla implements Flotilla {
      * @return The flotilla's location. Mapped to a port name if the flotilla is in a port.
      */
     public String getMappedLocation() {
-        return gameMap.convertReferenceToName(location);
+        return gameMap.convertPortReferenceToName(location);
     }
 
     /**

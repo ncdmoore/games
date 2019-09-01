@@ -3,7 +3,7 @@ package engima.waratsea.view;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.GameTitle;
-import engima.waratsea.utility.ProperyWrapper;
+import engima.waratsea.utility.PropertyWrapper;
 
 /**
  * This class represents all the view properties.
@@ -11,7 +11,7 @@ import engima.waratsea.utility.ProperyWrapper;
 @Singleton
 public class ViewProps {
 
-    private final ProperyWrapper props;
+    private final PropertyWrapper props;
 
     private static final String VIEW_PROPERTIES = "properties/view.properties";
 
@@ -24,7 +24,7 @@ public class ViewProps {
      */
     @Inject
     public ViewProps(final GameTitle gameTitle,
-                     final ProperyWrapper props) {
+                     final PropertyWrapper props) {
         this.props = props;
 
         String gameName = gameTitle.getValue();

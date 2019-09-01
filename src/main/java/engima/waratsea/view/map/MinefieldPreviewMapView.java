@@ -123,8 +123,8 @@ public class MinefieldPreviewMapView {
         Minefield minefield = dto.getMinefield();
 
         GridView gridView = mapView.getGridView(dto.getEvent());
-        GameGrid gameGrid = new GameGrid(gridView.getRow(), gridView.getColumn());
-        String mapRef = gameMap.convertGridToReference(gameGrid);
+        GameGrid gameGrid = gameMap.getGrid(gridView.getRow(), gridView.getColumn());
+        String mapRef = gameGrid.getMapReference();
 
         MineMarker mineMarker = new MineMarker(mapView, gridView);
         mineMarker.draw(dto);
@@ -149,8 +149,8 @@ public class MinefieldPreviewMapView {
 
         GridView gridView = mineMarker.getGridView();
 
-        GameGrid gameGrid = new GameGrid(gridView.getRow(), gridView.getColumn());
-        String mapRef = gameMap.convertGridToReference(gameGrid);
+        GameGrid gameGrid = gameMap.getGrid(gridView.getRow(), gridView.getColumn());
+        String mapRef = gameGrid.getMapReference();
 
         minefield.removeMine(mapRef);
 

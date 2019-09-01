@@ -15,6 +15,7 @@ import engima.waratsea.model.scenario.Scenario;
 import javafx.util.Pair;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.map.MultiKeyMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,12 +40,12 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 @Singleton
 public final class GameMap {
-    private static final int ALPHABET_SIZE = 26;
-
     private static final String MAP_REFERENCE_FORMAT = "\\s*([a-zA-Z]{1,2})(\\d{1,2})\\s*";
     private static final Pattern PATTERN = Pattern.compile(MAP_REFERENCE_FORMAT);
     public static final String ANY_ENEMY_BASE = "ANY_ENEMY_BASE";
     public static final String ANY_FRIENDLY_BASE = "ANY_FRIENDLY_BASE";
+
+    private final String defaultGridType;
 
     private RegionDAO regionDAO;
     private MinefieldDAO minefieldDAO;
@@ -55,20 +56,27 @@ public final class GameMap {
     @Getter
     private final int columns;
 
+    private MultiKeyMap<Integer, GameGrid> gridMap = new MultiKeyMap<>();          //Row, Column to Game grid map.
+    private Map<String, GameGrid> gridRefMap = new HashMap<>();                    //Map reference to Game grid map.
+
     private Map<Side, Set<Nation>> nations = new HashMap<>();
 
     private Map<Side, List<Region>> regions = new HashMap<>();
 
     private Map<Side, List<Airfield>> airfields = new HashMap<>();
-    private Map<Side, Map<String, Airfield>> airfieldMap = new HashMap<>();   //Side to Map of Airfield name to Airfield.
+    private Map<Side, Map<String, Airfield>> airfieldMap = new HashMap<>();        //Inner map: maps Airfield name to Airfield.
 
     private Map<Side, List<Port>> ports = new HashMap<>();
-    private Map<Side, Map<String, Port>> portMap = new HashMap<>();           //Side to Map of Port name to Port.
+    private Map<Side, Map<String, Port>> portMap = new HashMap<>();                //Inner map: maps Port name to Port.
 
     private Map<Side, List<Minefield>> minefields = new HashMap<>();
 
-    private Map<Side, Map<String, String>> baseRefToName = new HashMap<>();
-    private Map<Side, Map<String, String>> baseNameToRef = new HashMap<>();
+    private Map<Side, Map<String, String>> portRefToName = new HashMap<>();        //Inner map: maps Port map reference to Port name.
+    private Map<Side, Map<String, String>> airfieldRefToName = new HashMap<>();    //Inner map: maps Airfield map reference to Airfield name.
+
+    private Map<Side, Map<String, BaseGrid>> baseRefToBase = new HashMap<>();
+
+    private Map<Side, Map<String, String>> baseNameToRef = new HashMap<>();        //Inner map: maps Base name to Base map reference.
 
     private Map<Side, Map<Nation, List<Region>>> nationRegionMap = new HashMap<>();
     private Map<Side, Map<Nation, List<Airfield>>> nationAirfieldMap = new HashMap<>();
@@ -89,6 +97,10 @@ public final class GameMap {
 
         rows = props.getInt("rows");
         columns = props.getInt("columns");
+
+        defaultGridType = props.getString("defaultGridType", "LAND");
+
+        buildGrid(props);
     }
 
     /**
@@ -233,7 +245,12 @@ public final class GameMap {
      * @return True if the given location is a base for the given side.
      */
     public boolean isLocationBase(final Side side, final String location) {
-        return baseRefToName.get(side).containsKey(convertNameToReference(location));
+        //If the location is a name convert it to a reference.
+        //If the location is a reference then the conversion is a no op.
+        String mapRef = convertNameToReference(location);
+
+        return portRefToName.get(side).containsKey(mapRef)
+                || airfieldRefToName.get(side).containsKey(mapRef);
     }
 
 
@@ -244,10 +261,11 @@ public final class GameMap {
      * @return True if the grid corresponds to base. False otherwise.
      */
     public boolean isLocationBase(final GameGrid gameGrid) {
-        String mapRef = convertGridToReference(gameGrid);
+        String mapRef = gameGrid.getMapReference();
 
         for (Side side : Side.values()) {
-            if (baseRefToName.get(side).containsKey(mapRef)) {
+            if (portRefToName.get(side).containsKey(mapRef)
+                    || airfieldRefToName.get(side).containsKey(mapRef)) {
                 return true;
             }
         }
@@ -289,17 +307,27 @@ public final class GameMap {
      * Convert a map reference to a location name. For example, the reference H22 is converted to Gibraltar.
      *
      * @param reference A map reference.
-     * @return The corresponding location name.
+     * @return The corresponding port location name.
      */
-    public String convertReferenceToName(final String reference) {
-        return Optional.ofNullable(getBaseName(reference)).orElse(reference);
+    public String convertPortReferenceToName(final String reference) {
+        return Optional.ofNullable(getPortName(reference)).orElse(reference);
+    }
+
+    /**
+     * Convert a map reference to a location name. For example, the reference H22 is converted to Gibraltar.
+     *
+     * @param reference A map reference.
+     * @return The corresponding airfield location name.
+     */
+    public String convertAirfieldReferenceToName(final String reference) {
+        return Optional.ofNullable(getAirfieldName(reference)).orElse(reference);
     }
 
     /**
      * Convert a game map reference into grid coordinates.
      *
      * @param mapReference game map reference.
-     * @return a map grid coordinate.
+     * @return The game grid corresponding to the given map reference.
      */
     public GameGrid getGrid(final String mapReference) {
 
@@ -308,77 +336,42 @@ public final class GameMap {
             return null;
         }
 
-        Pattern pattern = Pattern.compile(MAP_REFERENCE_FORMAT);
-        Matcher matcher = pattern.matcher(mapReference);
-
-        int row = 0;
-        int column = 0;
-
-        while (matcher.find()) {
-            String columnLabel = matcher.group(1);
-            String rowLabel = matcher.group(2);
-            row = Integer.parseInt(rowLabel) - 1;      // zero-based row numbers.
-            column = convertColumn(columnLabel);       // zero-based column numbers.
-        }
-
-
-        log.debug("Map reference: {}", mapReference);
-        log.debug("Grid row: {}, column: {}", row, column);
-
-        return new GameGrid(row, column);
-    }
-
-
-    /**
-     * Convert a game grid row and column into a game map reference.
-     *
-     * @param gameGrid The game grid. Contains a row and a column.
-     * @return The game map reference.
-     */
-    public String convertGridToReference(final GameGrid gameGrid) {
-        final int asciiA = 65;
-        String mapRef;
-
-        int row = gameGrid.getRow();
-        int col = gameGrid.getColumn();
-
-        int oneBasedRow = row + 1;
-        int factor = col / ALPHABET_SIZE;
-        int mod = col % ALPHABET_SIZE;
-
-        if (factor == 0) {
-            mapRef = Character.toString((char) (asciiA + col)) + oneBasedRow;
-        } else {
-            char first = (char) (asciiA - 1 + factor);
-            char second = (char) (asciiA + mod);
-            mapRef = first + Character.toString(second) + oneBasedRow;
-        }
-
-        return mapRef;
+        return gridRefMap.get(mapReference);
     }
 
     /**
-     * Convert an array of numeric base 26 characters to an integer. For example, the column label AA is converted into
-     * 26. The first A = 26, second A = 1. Thus, 26 + 1 = 27. But, since the columns are zero based AA is equal 26.
+     * Get the game grid given a row and column.
      *
-     * @param columnLabel String that represents the column on the game map.
-     * @return The integer equivalent of the given column string.
+     * @param row The game grid's row.
+     * @param col The game grid's column.
+     * @return The game grid corresponding to the given row and column.
      */
-    private int convertColumn(final String columnLabel) {
+    public GameGrid getGrid(final int row, final int col) {
+        return gridMap.get(row, col);
+    }
 
-        char[] numericCharacters = columnLabel.toCharArray();
+    /**
+     * Build the map grids.
+     *
+     * @param props Map properties.
+     */
+    private void buildGrid(final MapProps props) {
+        int currentNumberOfRows = rows;
 
-        int value = 0;
+        for (int col = 0; col < columns; col++) {
+            for (int row = 0; row < currentNumberOfRows; row++) {
+                GameGrid gameGrid = new GameGrid(row, col);
+                String mapReference = gameGrid.getMapReference();
 
-        for (char c : numericCharacters) {
-            char base = 'a';
-            if (Character.isUpperCase(c)) {
-                base = 'A';
+                GridType gridType = GridType.valueOf(props.getString(mapReference, defaultGridType));
+                gameGrid.setType(gridType);
+
+                gridMap.put(row, col, gameGrid);
+                gridRefMap.put(mapReference, gameGrid);
             }
-            value = (value * ALPHABET_SIZE) + ((c - base) + 1);
-        }
 
-        return value - 1;
+            currentNumberOfRows = (currentNumberOfRows == rows) ? rows - 1 : rows;
+        }
     }
 
     /**
@@ -388,10 +381,16 @@ public final class GameMap {
      * @param side The side ALLIES or AXIS.
      */
     private void buildLocationToBaseMap(final Side side) {
-        Map<String, String> refToNameMap = getBases(side)
-                .distinct()
-                .collect(Collectors.toMap(Base::getReference,
-                                          Base::getName,
+        Map<String, String> portRefToNameMap = getPorts(side)
+                .stream()
+                .collect(Collectors.toMap(Port::getReference,
+                                          Port::getName,
+                                          (oldValue, newValue) -> newValue));
+
+        Map<String, String> airfieldRefToNameMap = getAirfields(side)
+                .stream()
+                .collect(Collectors.toMap(Airfield::getReference,
+                                          Airfield::getName,
                                           (oldValue, newValue) -> newValue));
 
         Map<String, String> nameToRefMap = getBases(side)
@@ -400,9 +399,43 @@ public final class GameMap {
                                           Base::getReference,
                                           (oldValue, newValue) -> newValue));
 
-        baseRefToName.put(side, refToNameMap);
+        buildBaseRefToBaseMap(side);
+
+        portRefToName.put(side, portRefToNameMap);
+        airfieldRefToName.put(side, airfieldRefToNameMap);
         baseNameToRef.put(side, nameToRefMap);
     }
+
+    /**
+     * Build a map of base map references to base grids.
+     *
+     * @param side The side ALLIES or AXIS.
+     */
+    private void buildBaseRefToBaseMap(final Side side) {
+        Map<String, BaseGrid> baseRefToBaseGrid = getPorts(side)
+                .stream()
+                .map(port -> {
+                    BaseGrid baseGrid = new BaseGrid(port);
+                    baseGrid.setGameGrid(getGrid(baseGrid.getReference()));
+                    return baseGrid;
+                })
+                .collect(Collectors.toMap(BaseGrid::getReference,
+                                          basegrid -> basegrid));
+
+        Map<Boolean, List<Airfield>> airbases = getAirfields(side)
+                .stream()
+                .collect(Collectors.partitioningBy(airfield -> baseRefToBaseGrid.containsKey(airfield.getReference())));
+
+        airbases.get(true).forEach(airfield -> baseRefToBaseGrid.get(airfield.getReference()).setAirfield(airfield));
+        airbases.get(false).forEach(airfield -> {
+            BaseGrid baseGrid = new BaseGrid(airfield);
+            baseGrid.setGameGrid(getGrid(baseGrid.getReference()));
+            baseRefToBaseGrid.put(airfield.getReference(), baseGrid);
+        });
+
+        baseRefToBase.put(side, baseRefToBaseGrid);
+    }
+
 
     /**
      * Build a map of nation to list of regions.
@@ -479,10 +512,25 @@ public final class GameMap {
      * @param reference The base's map reference.
      * @return The name of the base.
      */
-    private String getBaseName(final String reference) {
-        String name = baseRefToName.get(Side.ALLIES).get(reference);
+    private String getPortName(final String reference) {
+        String name = portRefToName.get(Side.ALLIES).get(reference);
         if (name == null) {
-            name = baseRefToName.get(Side.AXIS).get(reference);
+            name = portRefToName.get(Side.AXIS).get(reference);
+        }
+
+        return name;
+    }
+
+    /**
+     * Get the base name given the base reference.
+     *
+     * @param reference The base's map reference.
+     * @return The name of the base.
+     */
+    private String getAirfieldName(final String reference) {
+        String name = airfieldRefToName.get(Side.ALLIES).get(reference);
+        if (name == null) {
+            name = airfieldRefToName.get(Side.AXIS).get(reference);
         }
 
         return name;

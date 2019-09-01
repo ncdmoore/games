@@ -50,7 +50,9 @@ public class MainPresenter implements Presenter {
 
         view.show(stage);
 
-        view.getMainMenu().getQuit().setOnAction(e -> quit());
+        view.getMainMenu().getSave().setOnAction(event -> save());
+        view.getMainMenu().getQuit().setOnAction(event -> quit());
+
     }
 
     /**
@@ -61,6 +63,22 @@ public class MainPresenter implements Presenter {
     @Override
     public void reShow(final Stage primaryStage) {
         show(primaryStage);
+    }
+
+    /**
+     * Save the current game.
+     */
+    private void save() {
+        game.save();
+    }
+
+    /**
+     * Save the given game.
+     *
+     * @param savedGameName The name of the game that is saved.
+     */
+    private void saveAs(final String savedGameName) {
+        game.save(savedGameName);
     }
 
     /**

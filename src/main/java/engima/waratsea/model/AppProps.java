@@ -3,7 +3,7 @@ package engima.waratsea.model;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.GameTitle;
-import engima.waratsea.utility.ProperyWrapper;
+import engima.waratsea.utility.PropertyWrapper;
 
 /**
  * This class represents all the application properties.
@@ -11,7 +11,7 @@ import engima.waratsea.utility.ProperyWrapper;
 @Singleton
 public class AppProps {
 
-    private final ProperyWrapper props;
+    private final PropertyWrapper props;
     private static final String APP_PROPERTIES = "properties/app.properties";
 
     /**
@@ -22,7 +22,7 @@ public class AppProps {
      * @param props Property wrapper.
      */
     @Inject
-    public AppProps(final GameTitle gameTitle, final ProperyWrapper props) {
+    public AppProps(final GameTitle gameTitle, final PropertyWrapper props) {
         String gameName = gameTitle.getValue();
 
         props.init(APP_PROPERTIES);                                                                                    // Load default application properties.

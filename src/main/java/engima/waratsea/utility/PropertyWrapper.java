@@ -11,7 +11,7 @@ import java.util.Properties;
  *
  */
 @Slf4j
-public class ProperyWrapper {
+public class PropertyWrapper {
 
     private Properties properties = new Properties();
 
@@ -30,20 +30,31 @@ public class ProperyWrapper {
     }
 
     /**
-     * Get a property string health.
+     * Get a property string value.
      *
-     * @param key the property to getShipData.
-     * @return The health of the property.
+     * @param key the property key.
+     * @return The value of the property.
      */
     public String getString(final String key) {
         return properties.getProperty(key);
     }
 
     /**
-     * Get the property int health.
+     * Get the property string value if the given key is found; otherwise, the default is returned.
      *
-     * @param key the property to getShipData.
-     * @return The health of the property.
+     * @param key the property key
+     * @param defaultValue The property default value.
+     * @return The value of the property or the default if no value found.
+     */
+    public String getString(final String key, final String defaultValue) {
+        return properties.getProperty(key, defaultValue);
+    }
+
+    /**
+     * Get the property int value.
+     *
+     * @param key the property key.
+     * @return The value of the property.
      */
     public int getInt(final String key) {
         return Integer.parseInt(properties.getProperty(key));
@@ -51,9 +62,9 @@ public class ProperyWrapper {
 
 
     /**
-     * Get the property health.
-     * @param key the property to getShipData.
-     * @return The health of the property.
+     * Get the property value.
+     * @param key the property key.
+     * @return The value of the property.
      */
     public double getDouble(final String key) {
         return Double.parseDouble(properties.getProperty(key));
