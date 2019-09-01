@@ -149,6 +149,7 @@ public class Navigate {
     public void update(final Scenario scenairo) {
         updatePresenter(MinefieldPresenter.class, scenairo.isMinefieldForHumanSide());
         updatePresenter(SquadronPresenter.class,  scenairo.isSquadronDeploymentForHumanSide());
+        updatePresenter(FlotillaPresenter.class,  scenairo.isFlotillasForHumanSide());
     }
 
     /**

@@ -130,6 +130,8 @@ public class HumanPlayer implements Player {
         loadSquadrons(scenario);
         loadTaskForces(scenario);
         loadFlotillas(scenario);
+
+        scenario.setFlotillasForHumanSide(areFlotillasPresent());
     }
 
     /**
@@ -240,6 +242,18 @@ public class HumanPlayer implements Player {
         for (FlotillaType flotillaType : FlotillaType.values()) {
             flotillas.put(flotillaType, flotillaDAO.load(scenario, side, flotillaType));
         }
+    }
+
+    /**
+     * Determine if any flotillas are present.
+     *
+     * @return True if any flotillas are present. False otherwise.
+     */
+    private boolean areFlotillasPresent() {
+        return flotillas
+                .entrySet()
+                .stream()
+                .anyMatch(entry -> !entry.getValue().isEmpty());   // Is the flotilla list empty
     }
 
     /**

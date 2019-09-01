@@ -63,6 +63,10 @@ public class Scenario implements Comparable<Scenario> {
     @Setter
     private boolean minefieldForHumanSide;
 
+    @Getter
+    @Setter
+    private boolean flotillasForHumanSide;
+
     /**
      * The scenario constructor.
      */
