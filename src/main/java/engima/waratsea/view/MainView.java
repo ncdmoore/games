@@ -23,6 +23,8 @@ public class MainView {
     private static final String CSS_FILE = "mainView.css";
 
     private CssResourceProvider cssResourceProvider;
+
+    @Getter
     private MainMapView mainMapView;
 
     @Getter

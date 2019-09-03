@@ -17,6 +17,8 @@ public class MainPresenter implements Presenter {
 
     private Game game;
 
+    private MainMapPresenter mainMapPresenter;
+
     private Provider<MainView> viewProvider;
     private MainView view;
     private Stage stage;
@@ -25,12 +27,15 @@ public class MainPresenter implements Presenter {
      * Constructor called by guice.
      *
      * @param game The game.
+     * @param mainMapPresenter The main map presenter.
      * @param viewProvider The view provider.
      */
     @Inject
     public MainPresenter(final Game game,
+                         final MainMapPresenter mainMapPresenter,
                          final Provider<MainView> viewProvider) {
         this.game = game;
+        this.mainMapPresenter = mainMapPresenter;
         this.viewProvider = viewProvider;
     }
 
@@ -46,12 +51,16 @@ public class MainPresenter implements Presenter {
 
         view = viewProvider.get();
 
+        mainMapPresenter.setMainMapView(view.getMainMapView());
+
         this.stage = primaryStage;
 
         view.show(stage);
 
         view.getMainMenu().getSave().setOnAction(event -> save());
         view.getMainMenu().getQuit().setOnAction(event -> quit());
+
+        mainMapPresenter.setBaseClickHandler();
 
     }
 

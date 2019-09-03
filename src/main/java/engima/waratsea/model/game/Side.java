@@ -10,6 +10,7 @@ public enum Side {
     ALLIES("Allies", "Allied"),
     AXIS("Axis", "Axis");
 
+    @Getter
     private final String value;
 
     @Getter

@@ -195,14 +195,13 @@ public final class GameMap {
     }
 
     /**
-     * Get all of the bases on this map.
+     * Get the base grids for the given side.
      *
-     * @return A list of all the game bases.
+     * @param side The side: ALLIES or AXIS.
+     * @return A list of base grids for the given side.
      */
-    public List<Base> getBases() {
-        return Stream.concat(getBases(Side.ALLIES), getBases(Side.AXIS))
-                .distinct()
-                .collect(toList());
+    public List<BaseGrid> getBaseGrids(final Side side) {
+        return new ArrayList<>(baseRefToBase.get(side).values());
     }
 
     /**
@@ -416,7 +415,7 @@ public final class GameMap {
                 .stream()
                 .map(port -> {
                     BaseGrid baseGrid = new BaseGrid(port);
-                    baseGrid.setGameGrid(getGrid(baseGrid.getReference()));
+                    baseGrid.setGameGrid(getGrid(port.getReference()));
                     return baseGrid;
                 })
                 .collect(Collectors.toMap(BaseGrid::getReference,
@@ -429,13 +428,12 @@ public final class GameMap {
         airbases.get(true).forEach(airfield -> baseRefToBaseGrid.get(airfield.getReference()).setAirfield(airfield));
         airbases.get(false).forEach(airfield -> {
             BaseGrid baseGrid = new BaseGrid(airfield);
-            baseGrid.setGameGrid(getGrid(baseGrid.getReference()));
+            baseGrid.setGameGrid(getGrid(airfield.getReference()));
             baseRefToBaseGrid.put(airfield.getReference(), baseGrid);
         });
 
         baseRefToBase.put(side, baseRefToBaseGrid);
     }
-
 
     /**
      * Build a map of nation to list of regions.
