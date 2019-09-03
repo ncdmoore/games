@@ -51,8 +51,6 @@ public class MainPresenter implements Presenter {
 
         view = viewProvider.get();
 
-        mainMapPresenter.setMainMapView(view.getMainMapView());
-
         this.stage = primaryStage;
 
         view.show(stage);

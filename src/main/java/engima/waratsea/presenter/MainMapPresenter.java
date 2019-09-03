@@ -1,6 +1,7 @@
 package engima.waratsea.presenter;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.port.Port;
@@ -10,7 +11,6 @@ import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
@@ -24,23 +24,30 @@ public class MainMapPresenter {
 
     private Game game;
 
+    private Provider<MainMapView> viewProvider;
+
     /**
      * The constructor called by guice.
      *
      * @param game The game.
+     * @param viewProvider Provides the main map view.
      */
     @Inject
-    public MainMapPresenter(final Game game) {
+    public MainMapPresenter(final Game game,
+                            final Provider<MainMapView> viewProvider) {
         this.game = game;
+        this.viewProvider = viewProvider;
     }
 
-    @Setter
     private MainMapView mainMapView;
 
     /**
      * Setup mouse event handlers for when the base grids are clicked.
      */
     public void setBaseClickHandler() {
+
+        mainMapView = viewProvider.get();
+
         Side humanSide =  game.getHumanPlayer().getSide();
         mainMapView.setBaseClickHandler(humanSide, this::humanBaseClickHandler);
         mainMapView.setBaseClickHandler(humanSide.opposite(), this::computerBaseClickHandler);
