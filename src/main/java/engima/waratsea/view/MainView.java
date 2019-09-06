@@ -1,6 +1,7 @@
 package engima.waratsea.view;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.map.MainMapView;
 import javafx.geometry.Rectangle2D;
@@ -11,7 +12,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -19,15 +19,12 @@ import lombok.extern.slf4j.Slf4j;
  * The main game window's view.
  */
 @Slf4j
+@Singleton
 public class MainView {
     private static final String CSS_FILE = "mainView.css";
 
     private CssResourceProvider cssResourceProvider;
-
-    @Getter
     private MainMapView mainMapView;
-
-    @Getter
     private MainMenu mainMenu;
 
     /**
@@ -60,9 +57,8 @@ public class MainView {
 
         BorderPane mainPane = new BorderPane();
 
-        MenuBar menuBar = mainMenu.build();
-        Node map = mainMapView.build();
-
+        MenuBar menuBar = mainMenu.getMenuBar();
+        Node map = mainMapView.getMap();
 
         VBox vBox = new VBox(map);
 

@@ -14,3 +14,7 @@
     -fx-font: normal 5pt "Lucida Grande";
     -fx-fill: grey;
 }
+
+#map-base-grid-marker {
+    -fx-opacity: 1.0;
+}

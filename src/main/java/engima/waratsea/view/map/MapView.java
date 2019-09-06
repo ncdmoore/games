@@ -134,7 +134,9 @@ public class MapView {
      * @param node The node added to the map.
      */
     public void add(final Node node) {
-        map.getChildren().add(node);
+        if (!map.getChildren().contains(node)) {
+            map.getChildren().add(node);
+        }
     }
 
     /**

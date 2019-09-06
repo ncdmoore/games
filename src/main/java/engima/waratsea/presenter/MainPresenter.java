@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Game;
+import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.MainView;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class MainPresenter implements Presenter {
     private MainMapPresenter mainMapPresenter;
 
     private Provider<MainView> viewProvider;
+    private Provider<MainMenu> menuProvider;
     private MainView view;
     private Stage stage;
 
@@ -28,15 +30,18 @@ public class MainPresenter implements Presenter {
      *
      * @param game The game.
      * @param mainMapPresenter The main map presenter.
-     * @param viewProvider The view provider.
+     * @param viewProvider The main view provider.
+     * @param menuProvider The main menu provider.
      */
     @Inject
     public MainPresenter(final Game game,
                          final MainMapPresenter mainMapPresenter,
-                         final Provider<MainView> viewProvider) {
+                         final Provider<MainView> viewProvider,
+                         final Provider<MainMenu> menuProvider) {
         this.game = game;
         this.mainMapPresenter = mainMapPresenter;
         this.viewProvider = viewProvider;
+        this.menuProvider = menuProvider;
     }
 
     /**
@@ -55,11 +60,10 @@ public class MainPresenter implements Presenter {
 
         view.show(stage);
 
-        view.getMainMenu().getSave().setOnAction(event -> save());
-        view.getMainMenu().getQuit().setOnAction(event -> quit());
+        menuProvider.get().getSave().setOnAction(event -> save());
+        menuProvider.get().getQuit().setOnAction(event -> quit());
 
         mainMapPresenter.setBaseClickHandler();
-
     }
 
     /**

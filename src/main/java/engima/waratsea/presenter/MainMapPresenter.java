@@ -7,6 +7,8 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.BaseGridType;
+import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
 import javafx.scene.image.ImageView;
@@ -23,34 +25,44 @@ import java.util.Optional;
 public class MainMapPresenter {
 
     private Game game;
-
-    private Provider<MainMapView> viewProvider;
+    private MainMapView mainMapView;
+    private MainMenu mainMenu;
 
     /**
      * The constructor called by guice.
      *
      * @param game The game.
      * @param viewProvider Provides the main map view.
+     * @param menuProvider Provides the main menu.
      */
     @Inject
     public MainMapPresenter(final Game game,
-                            final Provider<MainMapView> viewProvider) {
+                            final Provider<MainMapView> viewProvider,
+                            final Provider<MainMenu> menuProvider) {
         this.game = game;
-        this.viewProvider = viewProvider;
-    }
 
-    private MainMapView mainMapView;
+        mainMapView = viewProvider.get();
+        mainMenu = menuProvider.get();
+    }
 
     /**
      * Setup mouse event handlers for when the base grids are clicked.
      */
     public void setBaseClickHandler() {
-
-        mainMapView = viewProvider.get();
+        mainMenu.getShowAirfields().setOnAction(event -> toggleMarkers());
+        mainMenu.getShowPorts().setOnAction(event -> toggleMarkers());
 
         Side humanSide =  game.getHumanPlayer().getSide();
         mainMapView.setBaseClickHandler(humanSide, this::humanBaseClickHandler);
         mainMapView.setBaseClickHandler(humanSide.opposite(), this::computerBaseClickHandler);
+    }
+
+    /**
+     * Callback for when the show airfields map menu item is clicked.
+     */
+    private void toggleMarkers() {
+        mainMapView.toggleBaseMarkers(Side.ALLIES);
+        mainMapView.toggleBaseMarkers(Side.AXIS);
     }
 
     /**
@@ -67,6 +79,10 @@ public class MainMapPresenter {
         String airfieldName = Optional.ofNullable(baseMarker.getBaseGrid().getAirfield()).map(Airfield::getName).orElse("");
 
         log.info("Human: Base port: '{}', airfield: '{}'", portName, airfieldName);
+
+        if (baseMarker.getBaseGrid().getType() == BaseGridType.AIRFIELD) {
+            log.info("show airfield dialog box");
+        }
     }
 
     /**

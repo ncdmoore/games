@@ -1,5 +1,8 @@
 package engima.waratsea.view;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -8,6 +11,7 @@ import lombok.Getter;
 /**
  * The game's main menu.
  */
+@Singleton
 public class MainMenu {
 
     @Getter
@@ -16,25 +20,34 @@ public class MainMenu {
     @Getter
     private MenuItem quit;
 
+    @Getter
+    private CheckMenuItem showAirfields;
 
+    @Getter
+    private CheckMenuItem showPorts;
+
+    @Getter
+    private MenuBar menuBar = new MenuBar();
 
     /**
-     * Build the main menu bar.
-     *
-     * @return The main menu bar.
+     * Constructor called by guice.
      */
-    public MenuBar build() {
-        MenuBar menuBar = new MenuBar();
-
+    @Inject
+    public MainMenu() {
         Menu menuFile = new Menu("File");
         save = new MenuItem("_Save");
         quit = new MenuItem("_Quit");
 
-        menuFile.getItems().add(save);
-        menuFile.getItems().add(quit);
+        menuFile.getItems().addAll(save, quit);
 
-        menuBar.getMenus().add(menuFile);
+        Menu menuMap = new Menu("Map");
+        showAirfields = new CheckMenuItem("Show _Airfields");
+        showAirfields.setSelected(true);
+        showPorts = new CheckMenuItem("Show _Ports");
+        showPorts.setSelected(true);
 
-        return menuBar;
+        menuMap.getItems().addAll(showAirfields, showPorts);
+
+        menuBar.getMenus().addAll(menuFile, menuMap);
     }
 }

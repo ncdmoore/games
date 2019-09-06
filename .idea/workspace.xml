@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGridType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/BaseMarker.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/alliesAirfield&amp;Port.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/alliesAirfield.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/alliesPort.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/axisAirfield&amp;Port.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/axisAirfield.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/axisPort.png" afterDir="false" />
+    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="Add map menu items that control whether the airfield and port base markers are shown on the main game map.">
       <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Side.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Side.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGrid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GridType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GridType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MainMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MainMapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/BaseMarker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/BaseMarker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/mainView.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -74,22 +66,15 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MainMapView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="536">
-              <caret line="100" lean-forward="true" selection-start-line="100" selection-end-line="100" />
+            <state relative-caret-position="619">
+              <caret line="162" column="62" selection-start-line="162" selection-start-column="62" selection-end-line="162" selection-end-column="62" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2918#2919#0" expanded="true" />
-                <element signature="e#2991#2992#0" expanded="true" />
+                <element signature="e#3143#3144#0" expanded="true" />
+                <element signature="e#3208#3209#0" expanded="true" />
+                <element signature="e#3490#3491#0" expanded="true" />
+                <element signature="e#3563#3564#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Side.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -97,67 +82,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainPresenter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="516">
-              <caret line="62" column="47" selection-start-line="62" selection-start-column="47" selection-end-line="62" selection-end-column="47" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="553">
-              <caret line="69" column="11" selection-start-line="69" selection-start-column="11" selection-end-line="69" selection-end-column="11" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#780#781#0" expanded="true" />
-                <element signature="e#812#813#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGridType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="37" selection-start-line="9" selection-start-column="37" selection-end-line="9" selection-end-column="37" />
-              <folding>
-                <element signature="e#339#340#0" expanded="true" />
-                <element signature="e#373#374#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
-              <caret line="26" column="11" selection-start-line="26" selection-start-column="11" selection-end-line="26" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="200" column="55" lean-forward="true" selection-start-line="200" selection-start-column="55" selection-end-line="200" selection-end-column="55" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#7333#7334#0" expanded="true" />
-                <element signature="e#7404#7405#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GridType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+            <state relative-caret-position="302">
+              <caret line="65" column="47" selection-start-line="65" selection-start-column="47" selection-end-line="65" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -165,28 +91,81 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/BaseMarker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+            <state relative-caret-position="388">
+              <caret line="43" column="16" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#810#811#0" expanded="true" />
-                <element signature="e#848#849#0" expanded="true" />
+                <element signature="e#1128#1129#0" expanded="true" />
+                <element signature="e#1166#1167#0" expanded="true" />
+                <element signature="e#1259#1260#0" expanded="true" />
+                <element signature="e#1300#1301#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGrid.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MapView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="12" column="53" selection-start-line="12" selection-start-column="53" selection-end-line="12" selection-end-column="53" />
+            <state relative-caret-position="404">
+              <caret line="179" column="26" lean-forward="true" selection-start-line="179" selection-start-column="26" selection-end-line="179" selection-end-column="26" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1867#1868#0" expanded="true" />
-                <element signature="e#1916#1917#0" expanded="true" />
+                <element signature="e#4198#4199#0" expanded="true" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="46" selection-start-line="46" selection-end-line="46" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainMenu.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="34" column="11" lean-forward="true" selection-start-line="34" selection-start-column="11" selection-end-line="34" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="24" column="40" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/css/mainView.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" column="18" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/css/taskForceView.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1708" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/css/subDetails.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-880" />
           </provider>
         </entry>
       </file>
@@ -241,7 +220,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/SquadronRangeMarker.java" />
         <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/potatoesForMalta/taskforce/alliesTaskForces.json" />
         <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/taskforce/alliesTaskForces.json" />
         <option value="$PROJECT_DIR$/build.gradle" />
@@ -256,13 +234,11 @@
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/TargetMarker.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/TargetMarkerDTO.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/TaskForcePreviewMapView.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainMenu.java" />
         <option value="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/axis/Triste.json" />
         <option value="$PROJECT_DIR$/src/main/resources/bombAlley/maps/axis/june1940.json" />
         <option value="$PROJECT_DIR$/src/main/resources/bombAlley/maps/axis/january1941.json" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/port/Port.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEventMatcher.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MapView.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MinefieldPreviewMapView.java" />
         <option value="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/map/GameMapTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/MapProps.java" />
@@ -282,23 +258,26 @@
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseType.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGRidType.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/AssetMarkerDTO.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainPresenter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/BaseMarker.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Side.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MainMapView.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGrid.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGridType.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GridType.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/css/mainView.css" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainMenu.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/BaseMarker.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MapView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MainMapView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainPresenter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="962" />
-    <option name="y" value="39" />
-    <option name="width" value="1532" />
+    <option name="x" value="998" />
+    <option name="y" value="23" />
+    <option name="width" value="1491" />
     <option name="height" value="1338" />
   </component>
   <component name="ProjectView">
@@ -509,34 +488,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
-              <item name="maps" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
-              <item name="properties" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -735,20 +687,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Squadron summary titled pane added to squadron deployment screen.">
-      <created>1560094769011</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1560094769011</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Squadron summary titled pane added to squadron deployment screen.">
-      <created>1560094912176</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1560094912176</updated>
     </task>
     <task id="LOCAL-00010" summary="Add squadron radius circles to the squadron deployment map.">
       <created>1560122619784</created>
@@ -1079,7 +1017,21 @@
       <option name="project" value="LOCAL" />
       <updated>1567379899348</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="First draft of main map base icons.">
+      <created>1567476991140</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1567476991140</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Fix injection of main map view in main map presenter.">
+      <created>1567478183494</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1567478183494</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1115,14 +1067,14 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="962" y="39" width="1532" height="1338" extended-state="0" />
+    <frame x="998" y="23" width="1491" height="1338" extended-state="0" />
     <layout>
       <window_info id="Image Layers" order="0" />
       <window_info id="UI Designer" order="1" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Designer" order="4" />
-      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.25771812" />
+      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.26501036" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Build" order="0" weight="0.32940185" />
       <window_info anchor="bottom" id="Terminal" order="1" />
@@ -1132,13 +1084,13 @@
       <window_info anchor="bottom" id="SonarQube" order="5" />
       <window_info anchor="bottom" id="FindBugs-IDEA" order="6" weight="0.32940185" />
       <window_info anchor="bottom" id="Message" order="7" />
-      <window_info anchor="bottom" id="Find" order="8" weight="0.44481888" />
-      <window_info anchor="bottom" id="Run" order="9" sideWeight="0.49917898" visible="true" weight="0.29844645" />
+      <window_info anchor="bottom" id="Find" order="8" weight="0.38920686" />
+      <window_info anchor="bottom" id="Run" order="9" sideWeight="0.49917898" weight="0.29844645" />
       <window_info anchor="bottom" id="Debug" order="10" weight="0.33361414" />
       <window_info anchor="bottom" id="Cvs" order="11" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="12" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="13" />
-      <window_info anchor="bottom" id="Messages" order="14" weight="0.32940185" />
+      <window_info active="true" anchor="bottom" id="Messages" order="14" visible="true" weight="0.32869992" />
       <window_info anchor="bottom" id="Dependency Viewer" order="15" weight="0.32940185" />
       <window_info anchor="right" id="Palette" order="0" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
@@ -1152,9 +1104,6 @@
     </layout>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Refactor the allotment to support additional types of aircraft with little code change." />
-    <MESSAGE value="Added drop tank range circles for fighters." />
-    <MESSAGE value="Added a re-show method to all presenters for the prev navigation buttons." />
     <MESSAGE value="Save the default game at the start of game play. This saves all of the configuration and deployement steps." />
     <MESSAGE value="Fix error logged when squadron is temporarily assigned an airbase for range display on squadron deployment screen." />
     <MESSAGE value="Add warning dialog when airfield or region does not have capacity to add squadron." />
@@ -1177,7 +1126,10 @@
     <MESSAGE value="Handle case where no flotillas are defined." />
     <MESSAGE value="Fix reading squadron saved files with spaces." />
     <MESSAGE value="Made the flotilla setup screen optional. Only shown if flotillas are present for the human player." />
-    <option name="LAST_COMMIT_MESSAGE" value="Made the flotilla setup screen optional. Only shown if flotillas are present for the human player." />
+    <MESSAGE value="First draft of main map base icons." />
+    <MESSAGE value="Fix injection of main map view in main map presenter." />
+    <MESSAGE value="Add map menu items that control whether the airfield and port base markers are shown on the main game map." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add map menu items that control whether the airfield and port base markers are shown on the main game map." />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
@@ -1189,69 +1141,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/FlotillaPresenter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-          <folding>
-            <element signature="e#9071#9072#0" expanded="true" />
-            <element signature="e#9221#9222#0" expanded="true" />
-            <element signature="e#9363#9364#0" expanded="true" />
-            <element signature="e#10401#10402#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForceDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="83" column="26" selection-start-line="83" selection-start-column="26" selection-end-line="83" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/scenarios/coralSea/squadrons/allotment/1942/allies/United States.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-923" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/scenarios/coralSea/squadrons/deployment/1942/allies/United States.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Shipyard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2224">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/SquadronDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/utility/PersistentUtility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="412">
-          <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/ComputerPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="139" column="21" selection-start-line="139" selection-start-column="21" selection-end-line="139" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1860">
-          <caret line="234" lean-forward="true" selection-start-line="234" selection-end-line="234" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/navigation/Navigate.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
@@ -1370,13 +1259,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/GridView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="45" lean-forward="true" selection-start-line="45" selection-end-line="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MinefieldPreviewMapView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
@@ -1418,20 +1300,6 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/images/alliesAirfield.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MapView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="136" column="26" selection-start-line="136" selection-start-column="26" selection-end-line="136" selection-end-column="26" />
-          <folding>
-            <element signature="e#3895#3896#0" expanded="true" />
-            <element signature="e#3938#3939#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/images/alliesAirfield&amp;Port.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/images/axisAirfield&amp;Port.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -1455,72 +1323,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="553">
-          <caret line="69" column="11" selection-start-line="69" selection-start-column="11" selection-end-line="69" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#780#781#0" expanded="true" />
-            <element signature="e#812#813#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainPresenter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="516">
-          <caret line="62" column="47" selection-start-line="62" selection-start-column="47" selection-end-line="62" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Side.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/BaseMarker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#810#811#0" expanded="true" />
-            <element signature="e#848#849#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MainMapView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="100" lean-forward="true" selection-start-line="100" selection-end-line="100" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2918#2919#0" expanded="true" />
-            <element signature="e#2991#2992#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="26" column="11" selection-start-line="26" selection-start-column="11" selection-end-line="26" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGrid.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="12" column="53" selection-start-line="12" selection-start-column="53" selection-end-line="12" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1867#1868#0" expanded="true" />
-            <element signature="e#1916#1917#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1547,10 +1353,147 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/SquadronView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/ScenarioView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/SavedGameView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/MinefieldView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGrid.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="12" column="53" selection-start-line="12" selection-start-column="53" selection-end-line="12" selection-end-column="53" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GridType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        <state relative-caret-position="150">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/images/alliesAirfield&amp;Port.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/images/alliesAirfield&amp;Port.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/GridView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/css/taskForceView.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1708" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/css/subDetails.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-880" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/css/mainView.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="18" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="34" column="11" lean-forward="true" selection-start-line="34" selection-start-column="11" selection-end-line="34" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="24" column="40" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MainMapView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="619">
+          <caret line="162" column="62" selection-start-line="162" selection-start-column="62" selection-end-line="162" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3143#3144#0" expanded="true" />
+            <element signature="e#3208#3209#0" expanded="true" />
+            <element signature="e#3490#3491#0" expanded="true" />
+            <element signature="e#3563#3564#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MapView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="179" column="26" lean-forward="true" selection-start-line="179" selection-start-column="26" selection-end-line="179" selection-end-column="26" />
+          <folding>
+            <element signature="e#4198#4199#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/BaseMarker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="43" column="16" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1128#1129#0" expanded="true" />
+            <element signature="e#1166#1167#0" expanded="true" />
+            <element signature="e#1259#1260#0" expanded="true" />
+            <element signature="e#1300#1301#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainPresenter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="65" column="47" selection-start-line="65" selection-start-column="47" selection-end-line="65" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="46" selection-start-line="46" selection-end-line="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

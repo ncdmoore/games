@@ -46,6 +46,15 @@ public class BaseMarker {
     }
 
     /**
+     * Hide the base marker.
+     *
+     * @param mapView The map where the base marker is hidden.
+     */
+    public void hide(final MapView mapView) {
+        mapView.remove(imageView);
+    }
+
+    /**
      * Set the Base marker clicked handler.
      *
      * @param handler The mouse click event handler.
