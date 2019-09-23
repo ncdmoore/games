@@ -1,7 +1,10 @@
 {
-  "name"     : "Derna",
-  "province" : "Libya",
-  "maxCapacity" : 8,
-  "antiAir"       : 2,
+  "name": "Derna",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 8,
+  "antiAir": 2,
   "location": "AV29"
 }

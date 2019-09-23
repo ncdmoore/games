@@ -1,7 +1,11 @@
 {
-  "name"     : "Kalamata",
-  "province" : "Greece",
-  "maxCapacity" : 10,
-  "antiAir"       : 3,
+  "name": "Kalamata",
+  "province": "Greece",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 10,
+  "antiAir": 3,
   "location": "AU22"
 }

@@ -1,0 +1,21 @@
+////////////////////////////////////////////////////////////////////
+// Define variables that may be used in this file.
+// Currently only colors variables can be defined.
+////////////////////////////////////////////////////////////////////
+* {
+    -fx-var-background-color: rgb(224, 228, 203);
+}
+
+.root {
+    -fx-background: -fx-var-background-color;
+}
+
+
+#main-pane {
+    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
+}
+
+.component-grid {
+    -fx-background-color: whitesmoke;
+    -fx-hgap: 10;
+}

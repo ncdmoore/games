@@ -1,4 +1,4 @@
-package engima.waratsea.view.ships;
+package engima.waratsea.view.ship;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.ship.Component;
@@ -7,6 +7,7 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronDetailsView;
+import engima.waratsea.view.util.TitledGridPane;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -261,10 +262,10 @@ public class ShipDetailsView {
      * @return The node that contains the ship components.
      */
     private Node buildWeapons(final Ship ship) {
-        TitledPane surfaceWeaponsPane = buildPane("Surface Weapons", getSurfaceWeaponData(ship));
-        TitledPane antiAirWeaponsPane = buildPane("Anti-Air Weapons", getAntiAirWeaponData(ship));
-        TitledPane torpedoPane = buildPane("Torpedos", getTorpedoData(ship));
-        TitledPane armourPane = buildPane("Armour", getArmourData(ship));
+        TitledGridPane surfaceWeaponsPane = buildPane("Surface Weapons", getSurfaceWeaponData(ship));
+        TitledGridPane antiAirWeaponsPane = buildPane("Anti-Air Weapons", getAntiAirWeaponData(ship));
+        TitledGridPane torpedoPane = buildPane("Torpedos", getTorpedoData(ship));
+        TitledGridPane armourPane = buildPane("Armour", getArmourData(ship));
         return new VBox(surfaceWeaponsPane, antiAirWeaponsPane, torpedoPane, armourPane);
     }
 
@@ -275,11 +276,11 @@ public class ShipDetailsView {
      * @return The node that contains the ship components.
      */
     private Node buildPerformance(final Ship ship) {
-        TitledPane speedPane = buildPane("Movement", getMovementData(ship));
-        TitledPane aswPane = buildPane("ASW", getAswData(ship));
-        TitledPane fuelPane = buildPane("Fuel", getFuelData(ship));
-        TitledPane squadronPane = buildPane("Aircraft", getSquadronSummary(ship));
-        TitledPane cargoPane = buildPane("Cargo", getCargoData(ship));
+        TitledGridPane speedPane = buildPane("Movement", getMovementData(ship));
+        TitledGridPane aswPane = buildPane("ASW", getAswData(ship));
+        TitledGridPane fuelPane = buildPane("Fuel", getFuelData(ship));
+        TitledGridPane squadronPane = buildPane("Aircraft", getSquadronSummary(ship));
+        TitledGridPane cargoPane = buildPane("Cargo", getCargoData(ship));
         return new VBox(speedPane, aswPane, fuelPane, squadronPane, cargoPane);
     }
 
@@ -290,33 +291,12 @@ public class ShipDetailsView {
      * @param data The data contained within the pane.
      * @return The titled pane.
      */
-    private TitledPane buildPane(final String title, final Map<String, String> data) {
-        TitledPane pane = new TitledPane();
-        pane.setText(title);
-        pane.setContent(buildStats(data));
-        pane.setMinWidth(props.getInt("ship.dialog.detailsPane.width"));
-        pane.setMaxWidth(props.getInt("ship.dialog.detailsPane.width"));
-        pane.setCollapsible(true);
-        return pane;
-    }
+    private TitledGridPane buildPane(final String title, final Map<String, String> data) {
 
-    /**
-     * Build the weapons data.
-     *
-     * @param stats A map of the ship stats.
-     * @return A grid of the weapons data.
-     */
-    private Node buildStats(final Map<String, String> stats) {
-        GridPane gridPane = new GridPane();
-        int i = 0;
-        for (Map.Entry<String, String> entry : stats.entrySet()) {
-            gridPane.add(new Label(entry.getKey()), 0, i);
-            gridPane.add(new Label(entry.getValue()), 1, i);
-            i++;
-        }
-
-        gridPane.getStyleClass().add("component-grid");
-        return gridPane;
+        return new TitledGridPane()
+                .setWidth(props.getInt("ship.dialog.detailsPane.width"))
+                .setStyleId("component-grid")
+                .buildPane(title, data);
     }
 
     /**

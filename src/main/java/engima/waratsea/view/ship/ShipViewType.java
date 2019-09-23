@@ -1,4 +1,4 @@
-package engima.waratsea.view.ships;
+package engima.waratsea.view.ship;
 
 import engima.waratsea.model.ship.ShipType;
 import lombok.Getter;
@@ -49,6 +49,7 @@ public enum ShipViewType  {
     /**
      * Determine the view ship type that corresponds to the given model ship type. Several model's of ships
      * are classified into the same view type in the GUI.
+     *
      * @param type The model ship type.
      * @return The view ship type.
      */
@@ -58,6 +59,7 @@ public enum ShipViewType  {
 
     /**
      * Return the string representation of the ship view type.
+     *
      * @return The string representation of the ship view type.
      */
     @Override

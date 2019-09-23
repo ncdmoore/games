@@ -1,7 +1,12 @@
 {
-  "name"     : "Naples",
-  "province" : "Italy",
-  "maxCapacity" : 30,
-  "antiAir"       : 20,
+  "name": "Naples",
+  "province": "Italy",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 30,
+  "antiAir": 20,
   "location": "AJ14"
 }

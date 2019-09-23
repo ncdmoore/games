@@ -1,7 +1,11 @@
 {
-  "name"     : "Rome",
-  "province" : "Italy",
-  "maxCapacity" : 40,
-  "antiAir"       : 20,
+  "name": "Rome",
+  "province": "Italy",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 40,
+  "antiAir": 20,
   "location": "AH12"
 }

@@ -1,7 +1,12 @@
 {
-  "name"     : "Port Lyautey",
-  "province" : "Morocco",
-  "maxCapacity" : 10,
-  "antiAir"       : 3,
+  "name": "Port Lyautey",
+  "province": "Morocco",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 10,
+  "antiAir": 3,
   "location": "F26"
 }

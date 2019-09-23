@@ -1,6 +1,10 @@
 {
   "name"     : "Port Moresby",
-  "province" : "New Guinea",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
   "maxCapacity" : 20,
   "antiAir"  : 5,
   "location": "H14"

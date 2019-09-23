@@ -1,8 +1,11 @@
 {
-  "name"     : "Luqa",
-  "province" : "Malta",
-  "maxCapacity" : 20,
-  "antiAir"       : 12,
+  "name": "Luqa",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 12,
   "location": "AK24"
-
 }

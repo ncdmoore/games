@@ -1,7 +1,11 @@
 {
-  "name"     : "Bizerte",
-  "province" : "Tunisia",
-  "maxCapacity" : 20,
-  "antiAir"       : 5,
+  "name": "Bizerte",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 5,
   "location": "AC21"
 }

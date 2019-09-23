@@ -1,7 +1,11 @@
 {
-  "name"     : "Alexandria",
-  "province" : "Egypt",
-  "maxCapacity" : 20,
-  "antiAir"     : 8,
+  "name": "Alexandria",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 8,
   "location": "BG32"
 }

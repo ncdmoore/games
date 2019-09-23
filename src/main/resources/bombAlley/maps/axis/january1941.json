@@ -45,7 +45,9 @@
     "airfields": [
       "Borizzo",
       "Comiso",
-      "Augusta"
+      "Augusta",
+      "Palermo",
+      "Messina"
     ],
     "ports": [
       "Palermo",
@@ -73,7 +75,13 @@
       "Naples",
       "Foggia",
       "Grottaglie",
-      "Lecce"
+      "Lecce",
+      "Genoa",
+      "La Spezia",
+      "Leghorn",
+      "Taranto",
+      "Brindisi",
+      "Pola"
     ],
     "ports": [
       "Genoa",

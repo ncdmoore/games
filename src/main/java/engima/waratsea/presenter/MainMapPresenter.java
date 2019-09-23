@@ -7,7 +7,7 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.map.BaseGridType;
+import engima.waratsea.presenter.airfield.AirfieldDetailsDialog;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
@@ -28,21 +28,27 @@ public class MainMapPresenter {
     private MainMapView mainMapView;
     private MainMenu mainMenu;
 
+    private Provider<AirfieldDetailsDialog> airfieldDetailsDialogProvider;
+
     /**
      * The constructor called by guice.
      *
      * @param game The game.
      * @param viewProvider Provides the main map view.
      * @param menuProvider Provides the main menu.
+     * @param airfieldDetailsDialogProvider Provides airfield details dialog.
      */
     @Inject
     public MainMapPresenter(final Game game,
                             final Provider<MainMapView> viewProvider,
-                            final Provider<MainMenu> menuProvider) {
+                            final Provider<MainMenu> menuProvider,
+                            final Provider<AirfieldDetailsDialog> airfieldDetailsDialogProvider) {
         this.game = game;
 
         mainMapView = viewProvider.get();
         mainMenu = menuProvider.get();
+
+        this.airfieldDetailsDialogProvider = airfieldDetailsDialogProvider;
     }
 
     /**
@@ -75,14 +81,17 @@ public class MainMapPresenter {
 
         BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
 
+
+
         String portName = Optional.ofNullable(baseMarker.getBaseGrid().getPort()).map(Port::getName).orElse("");
         String airfieldName = Optional.ofNullable(baseMarker.getBaseGrid().getAirfield()).map(Airfield::getName).orElse("");
 
         log.info("Human: Base port: '{}', airfield: '{}'", portName, airfieldName);
 
-        if (baseMarker.getBaseGrid().getType() == BaseGridType.AIRFIELD) {
+            Airfield airfield = baseMarker.getBaseGrid().getAirfield();
             log.info("show airfield dialog box");
-        }
+            airfieldDetailsDialogProvider.get().show(airfield);
+
     }
 
     /**

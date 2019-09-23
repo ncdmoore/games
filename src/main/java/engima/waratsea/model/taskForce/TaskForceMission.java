@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
  * Represents a task force's mission.
  */
 public enum TaskForceMission {
+    @SerializedName(value = "AIR_RAID", alternate = {"Air_Raid", "air_raid"})
+    AIR_RAID("Air Raid"),
+
     @SerializedName(value = "BOMBARDMENT", alternate = {"Bombardment", "bombardment"})
     BOMBARDMENT("Bombardment"),
 

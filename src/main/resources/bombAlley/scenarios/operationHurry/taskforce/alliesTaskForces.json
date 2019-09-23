@@ -4,7 +4,10 @@
     "title": "Force H",
     "location": "Gibraltar",
     "state": "ACTIVE",
-    "mission": "ESCORT",
+    "mission": "AIR_RAID",
+    "targets": [
+      {"location":  "Cagliari"}
+    ],
     "ships": [
       "BB03 Valiant",
       "BC03 Hood",

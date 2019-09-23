@@ -1,7 +1,11 @@
 {
-  "name"     : "Algiers",
-  "province" : "Algeria",
-  "maxCapacity" : 20,
-  "antiAir"       : 5,
+  "name": "Algiers",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 5,
   "location": "T22"
 }

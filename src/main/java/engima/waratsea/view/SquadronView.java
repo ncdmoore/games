@@ -11,9 +11,12 @@ import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
+import engima.waratsea.presenter.squadron.Deployment;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.map.TaskForcePreviewMapView;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
@@ -23,7 +26,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -61,6 +67,9 @@ public class SquadronView {
     private Map<Nation, ChoiceBox<Airfield>> airfields = new HashMap<>();
 
     @Getter
+    private TableView<Deployment> deploymentStats = new TableView<>();
+
+    @Getter
     private ListView<Squadron> availableSquadrons = new ListView<>();
 
     @Getter
@@ -94,6 +103,7 @@ public class SquadronView {
     private Map<Nation, Label> regionMinimumValue = new HashMap<>();
     private Map<Nation, Label> regionMaximumValue = new HashMap<>();
     private Map<Nation, Label> airfieldMaximumValue = new HashMap<>();
+    private Map<Nation, Label> airfieldLandingTypeValue = new HashMap<>();
 
     @Getter
     private Map<Nation, Label> airfieldCurrentValue = new HashMap<>();
@@ -133,6 +143,15 @@ public class SquadronView {
         flags.put(Nation.UNITED_STATES, "alliesFlag50x34.png");
         flags.put(Nation.JAPANESE, "axisFlag50x34.png");
         flags.put(Nation.AUSTRALIAN, "australian50x34.png");
+    }
+
+    /**
+     * Bind the deployment stats table to the deployment stats.
+     *
+     * @param deployment A list of deployment stats per aircraft landing type.
+     */
+    public void bindDeploymentStats(final List<Deployment> deployment) {
+        deploymentStats.setItems(FXCollections.observableArrayList(deployment));
     }
 
     /**
@@ -218,6 +237,7 @@ public class SquadronView {
     public void setSelectedAirfield(final Nation nation, final Airfield airfield) {
         String name = airfield.getName();
         taskForceMap.selectAirfieldMarker(name);
+        airfieldLandingTypeValue.get(nation).setText(airfield.getAirfieldType().toString());
         airfieldMaximumValue.get(nation).setText(airfield.getMaxCapacity() + "");
         airfieldCurrentValue.get(nation).setText(airfield.getCurrentSteps() + "");
 
@@ -305,6 +325,7 @@ public class SquadronView {
 
         Text regionMinimumLabel = new Text("Region Minimum:");
         Text regionMaximumLabel = new Text("Region Maximum:");
+        Text airfieldTypeLabel = new Text("Airfield Type:");
         Text airfieldMaximumLabel = new Text("Airfield Maximum:");
         Text airfieldCurrentLabel = new Text("Airfield Current:");
 
@@ -314,6 +335,9 @@ public class SquadronView {
         Label regionMinimum = new Label();
         regionMinimumValue.put(nation, regionMinimum);
 
+        Label airfieldType = new Label();
+        airfieldLandingTypeValue.put(nation, airfieldType);
+
         Label airfieldMaximum = new Label();
         airfieldMaximumValue.put(nation, airfieldMaximum);
 
@@ -321,16 +345,19 @@ public class SquadronView {
         airfieldCurrentValue.put(nation, airfieldCurrent);
 
         final int row3 = 3;
+        final int row4 = 4;
         GridPane gridPane = new GridPane();
         gridPane.setId("airfield-details-grid");
         gridPane.add(regionMinimumLabel, 0, 0);
         gridPane.add(regionMinimum, 1, 0);
         gridPane.add(regionMaximumLabel, 0, 1);
         gridPane.add(regionMaximum, 1, 1);
-        gridPane.add(airfieldMaximumLabel, 0, 2);
-        gridPane.add(airfieldMaximum, 1, 2);
-        gridPane.add(airfieldCurrentLabel, 0, row3);
-        gridPane.add(airfieldCurrent, 1, row3);
+        gridPane.add(airfieldTypeLabel, 0, 2);
+        gridPane.add(airfieldType, 1, 2);
+        gridPane.add(airfieldMaximumLabel, 0, row3);
+        gridPane.add(airfieldMaximum, 1, row3);
+        gridPane.add(airfieldCurrentLabel, 0, row4);
+        gridPane.add(airfieldCurrent, 1, row4);
 
         VBox vBox = new VBox(gridPane);
         vBox.setId("airfield-details-vbox");
@@ -417,6 +444,7 @@ public class SquadronView {
                 .getHumanPlayer()
                 .getNations()
                 .stream()
+                .sorted()
                 .map(this::buildTab)
                 .forEach(tab -> nationsTabPane.getTabs().add(tab));
 
@@ -470,6 +498,41 @@ public class SquadronView {
     }
 
     /**
+     * Build the deployment summary deploymentStats.
+     *
+     * @return The deployment summary deploymentStats.
+     */
+    private Node buildDeployment() {
+        Label label = new Label("Squadron Step Summary:");
+
+        TableColumn<Deployment, String> typeColumn = new TableColumn<>("Type");
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+
+        TableColumn<Deployment, String> totalColumn = new TableColumn<>("Total\nSteps");
+        totalColumn.setCellValueFactory(new PropertyValueFactory<>("totalSteps"));
+
+        TableColumn<Deployment, String> deployedColumn = new TableColumn<>("Deployed\nSteps");
+        deployedColumn.setCellValueFactory(new PropertyValueFactory<>("deployedSteps"));
+
+        deploymentStats.getColumns().add(typeColumn);
+        deploymentStats.getColumns().add(totalColumn);
+        deploymentStats.getColumns().add(deployedColumn);
+        deploymentStats.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);   // Needed to keep extra space from being seen after the last column.
+        deploymentStats.setFixedCellSize(props.getInt("squadron.summary.table.cell.size"));
+        deploymentStats.prefHeightProperty()
+                .bind(Bindings.size(deploymentStats.getItems())
+                        .multiply(deploymentStats.getFixedCellSize())
+                        .add(props.getInt("squadron.summary.table.cell.header.size")));
+        deploymentStats.minHeightProperty().bind(deploymentStats.prefHeightProperty());
+        deploymentStats.maxHeightProperty().bind(deploymentStats.prefHeightProperty());
+
+        deploymentStats.setMinWidth(props.getInt("squadron.summary.width"));
+        deploymentStats.setMaxWidth(props.getInt("squadron.summary.width"));
+
+        return new VBox(label, deploymentStats);
+    }
+
+    /**
      * Build the squadron pane.
      *
      * @return The squadron pane Hbox.
@@ -491,7 +554,6 @@ public class SquadronView {
         detailsButton.setMaxWidth(props.getInt("squadron.button.width"));
         detailsButton.setMinWidth(props.getInt("squadron.button.width"));
 
-
         VBox buttonVBox = new VBox(deployButton, removeButton, detailsButton);
         buttonVBox.setId("squadron-controls");
 
@@ -506,7 +568,7 @@ public class SquadronView {
 
         VBox airfieldVBox = new VBox(squadronAirfieldLabel, airfieldSquadrons);
 
-        HBox hBox = new HBox(availableVBox, buttonVBox, airfieldVBox);
+        HBox hBox = new HBox(buildDeployment(), availableVBox, buttonVBox, airfieldVBox);
         hBox.setId("squadron-pane");
 
         return hBox;

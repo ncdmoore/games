@@ -1,7 +1,11 @@
 {
-  "name"     : "Casablanca",
-  "province" : "Morocco",
-  "maxCapacity" : 10,
-  "antiAir"       : 3,
+  "name": "Casablanca",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 10,
+  "antiAir": 3,
   "location": "D27"
 }

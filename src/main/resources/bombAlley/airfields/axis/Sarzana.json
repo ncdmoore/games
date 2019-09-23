@@ -1,7 +1,11 @@
 {
-  "name"     : "Sarzana",
-  "province" : "Italy",
-  "maxCapacity" : 20,
-  "antiAir"       : 10,
+  "name": "Sarzana",
+  "province": "Italy",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 10,
   "location": "AE8"
 }

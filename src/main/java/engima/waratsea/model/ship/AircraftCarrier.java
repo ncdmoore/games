@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.BaseCapacity;
+import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.ship.data.GunData;
@@ -315,16 +315,16 @@ public class AircraftCarrier implements Ship, Airbase {
      * @param squadron The squadron which is now based at this airfield.
      */
     @Override
-    public BaseCapacity addSquadron(final Squadron squadron) {
+    public AirfieldOperation addSquadron(final Squadron squadron) {
         Optional.ofNullable(squadron.getAirfield())
                 .ifPresent(airfield -> airfield.removeSquadron(squadron));
 
         if (hasRoom(squadron)) {
             aircraft.add(squadron);
-            return BaseCapacity.HAS_ROOM;
+            return AirfieldOperation.SUCCESS;
         }
 
-        return BaseCapacity.BASE_FULL;
+        return AirfieldOperation.BASE_FULL;
     }
 
     /**

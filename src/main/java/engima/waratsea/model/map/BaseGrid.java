@@ -1,6 +1,7 @@
 package engima.waratsea.model.map;
 
 import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Side;
 import lombok.Getter;
@@ -48,7 +49,7 @@ public class BaseGrid {
      */
     public BaseGrid(@Nonnull final Airfield airfield) {
         this.airfield = airfield;
-        this.type = BaseGridType.AIRFIELD;
+        this.type = determineInitialBaseType(airfield);
         this.side = airfield.getSide();
     }
 
@@ -61,7 +62,7 @@ public class BaseGrid {
         airfield = airfieldValue;
 
         Optional.ofNullable(port)
-                .ifPresent(p -> type = BaseGridType.BOTH);
+                .ifPresent(p -> type = determineBaseType(airfield));
     }
 
     /**
@@ -73,9 +74,8 @@ public class BaseGrid {
         port = portValue;
 
         Optional.ofNullable(airfield)
-                .ifPresent(a -> type = BaseGridType.BOTH);
+                .ifPresent(field -> type = determineBaseType(field));
     }
-
 
     /**
      * Get the base grid's map reference.
@@ -84,5 +84,25 @@ public class BaseGrid {
      */
     public String getReference() {
         return gameGrid.getMapReference();
+    }
+
+    /**
+     * Determine the base grid type based on the airfield alone.
+     *
+     * @param field A given airfield.
+     * @return The base grid type.
+     */
+    private BaseGridType determineInitialBaseType(final Airfield field) {
+        return field.getAirfieldType() == AirfieldType.SEAPLANE ? BaseGridType.SEAPLANE : BaseGridType.AIRFIELD;
+    }
+
+    /**
+     * Determine the base grid type based on the airfield knowing that a port is also present.
+     *
+     * @param field The given airfield.
+     * @return The base grid type.
+     */
+    private BaseGridType determineBaseType(final Airfield field) {
+        return field.getAirfieldType() == AirfieldType.SEAPLANE ? BaseGridType.PORT : BaseGridType.BOTH;
     }
 }

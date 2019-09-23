@@ -1,0 +1,9 @@
+{
+  "name": "Genoa",
+  "landingType": [
+    "SEAPLANE"
+  ],
+  "maxCapacity": 15,
+  "antiAir": 15,
+  "location": "AC7"
+}

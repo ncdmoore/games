@@ -4,9 +4,10 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.aircraft.AircraftBaseType;
+import engima.waratsea.model.aircraft.AircraftType;
+import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.BaseCapacity;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Represents airfield's in the game.
@@ -39,6 +41,11 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
     @Getter
     private final String title;
+
+    private final List<LandingType> landingType;
+
+    @Getter
+    private final AirfieldType airfieldType;
 
     @Getter
     private final int maxCapacity;   //Capacity in steps.
@@ -58,6 +65,8 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     @Getter
     private List<Squadron> squadrons = new ArrayList<>();
 
+    private Map<AircraftType, List<Squadron>> squadronMap = new HashMap<>();
+
     /**
      * Constructor called by guice.
      *
@@ -68,11 +77,17 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         this.side = data.getSide();
         name = data.getName();
         title = Optional.ofNullable(data.getTitle()).orElse(name);   // If no title is specified just use the name.
+        landingType = data.getLandingType();
+        airfieldType = determineType();
         maxCapacity = data.getMaxCapacity();
         capacity = maxCapacity;
         antiAir = data.getAntiAir();
         reference = data.getLocation();
 
+        // Initialize the squadron list for each type of aircraft.
+        Stream
+                .of(AircraftType.values())
+                .forEach(type -> squadronMap.put(type, new ArrayList<>()));
     }
 
     /**
@@ -85,6 +100,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         AirfieldData data = new AirfieldData();
         data.setSide(side);
         data.setName(name);
+        data.setLandingType(landingType);
         data.setMaxCapacity(maxCapacity);
         data.setCapacity(capacity);
         data.setAntiAir(antiAir);
@@ -144,15 +160,19 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param squadron The squadron which is now based at this airfield.
      */
     @Override
-    public BaseCapacity addSquadron(final Squadron squadron) {
+    public AirfieldOperation addSquadron(final Squadron squadron) {
 
-        BaseCapacity result = hasRoom(squadron);
+        AirfieldOperation result = hasRoom(squadron);
 
-        if (result == BaseCapacity.HAS_ROOM) {
+        if (result == AirfieldOperation.SUCCESS) {
             Optional.ofNullable(squadron.getAirfield())
                     .ifPresent(airfield -> airfield.removeSquadron(squadron));
             squadrons.add(squadron);
             squadron.setAirfield(this);
+
+            squadronMap
+                    .get(squadron.getType())
+                    .add(squadron);
         }
 
         return result;
@@ -166,6 +186,11 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     @Override
     public void removeSquadron(final Squadron squadron) {
         squadrons.remove(squadron);
+
+        squadronMap
+                .get(squadron.getType())
+                .remove(squadron);
+
         squadron.setAirfield(null);
     }
 
@@ -199,7 +224,46 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
-     * Get a map of steps by aircraft base type.
+     * Get the number of steps stationed at this airfield for each aircraft type for the given nation.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return The number of steps of the given aircraft type
+     * stationed at the base.
+     */
+    public Map<AircraftType, BigDecimal> getStepMap(final Nation nation) {
+        return squadronMap
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey,
+                                          entry -> entry
+                                                  .getValue()
+                                                  .stream()
+                                                  .filter(squadron -> squadron.ofNation(nation))
+                                                  .map(Squadron::getSteps)
+                                                  .reduce(BigDecimal.ZERO, BigDecimal::add)));
+    }
+
+    /**
+     * Get the squadron map.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return The squadron map keyed by aircraft type.
+     */
+    public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation nation) {
+        return squadronMap
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey,
+                                          entry -> entry
+                                                   .getValue()
+                                                   .stream()
+                                                   .filter(squadron -> squadron.ofNation(nation))
+                                                   .collect(Collectors.toList())));
+    }
+
+    /**
+     * Get the number of steps stationed at this airfield for the
+     * given base type of aircraft.
      *
      * @param type An aircraft base type.
      * @return The number of steps of aircraft of the given type based at this airfield.
@@ -222,26 +286,41 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         return title;
     }
 
+
+    /**
+     * Determine if the given squadron can land at this airfield.
+     *
+     * @param squadron The squadron that is checked to determine if it can land at this airfield.
+     * @return True if the given squadron may land at this airfield. Otherwise, false.
+     */
+    public boolean canSquadronLand(final Squadron squadron) {
+        return landingType.contains(squadron.getLandingType());
+    }
+
     /**
      * Determine if this airfield has room for another squadron.
      *
      * @param squadron A potential new squadron.
      * @return True if this airfield can house the new squadron; false otherwise.
      */
-    private BaseCapacity hasRoom(final Squadron squadron) {
+    private AirfieldOperation hasRoom(final Squadron squadron) {
+
+        if (!canSquadronLand(squadron)) {
+            return AirfieldOperation.LANDING_TYPE_NOT_SUPPORTED;
+        }
 
         Nation nation = squadron.getNation();
         Region region = regions.get(nation);
 
         if (!region.hasRoom(squadron)) {
-            return BaseCapacity.REGION_FULL;
+            return AirfieldOperation.REGION_FULL;
         }
 
         if (!determineRoom(squadron)) {
-            return BaseCapacity.BASE_FULL;
+            return AirfieldOperation.BASE_FULL;
         }
 
-        return BaseCapacity.HAS_ROOM;
+        return AirfieldOperation.SUCCESS;
     }
 
     /**
@@ -295,5 +374,18 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     @Override
     public boolean isActive() {
         return true;
+    }
+
+    /**
+     * Determine the type of airfield based on the types of squadrons that can land.
+     *
+     * @return The type of airfield.
+     */
+    private AirfieldType determineType() {
+        if (landingType.contains(LandingType.LAND) && landingType.contains(LandingType.SEAPLANE)) {
+            return AirfieldType.BOTH;
+        }
+
+        return landingType.contains(LandingType.LAND) ? AirfieldType.LAND : AirfieldType.SEAPLANE;
     }
 }

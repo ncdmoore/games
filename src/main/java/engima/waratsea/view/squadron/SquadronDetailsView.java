@@ -6,12 +6,12 @@ import engima.waratsea.model.aircraft.AttackFactor;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.util.TitledGridPane;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -25,13 +25,13 @@ public class SquadronDetailsView {
 
     private ImageView aircraftImage = new ImageView();
     private ImageView aircraftProfile = new ImageView();
-    private TitledPane squadronDetailsPane;
-    private TitledPane aircraftDetailsPane;
-    private TitledPane aircraftAirToAirPane;
-    private TitledPane aircraftLandPane;
-    private TitledPane aircraftNavalPane;
-    private TitledPane aircraftRangePane;
-    private TitledPane aircraftFramePane;
+    private TitledGridPane squadronDetailsPane;
+    private TitledGridPane aircraftDetailsPane;
+    private TitledGridPane aircraftAirToAirPane;
+    private TitledGridPane aircraftLandPane;
+    private TitledGridPane aircraftNavalPane;
+    private TitledGridPane aircraftRangePane;
+    private TitledGridPane aircraftFramePane;
 
     /**
      * Constructor called by guice.
@@ -150,13 +150,13 @@ public class SquadronDetailsView {
     public void selectSquadron(final Squadron squadron) {
         aircraftImage.setImage(getImage(squadron));
         aircraftProfile.setImage(getProfile(squadron));
-        squadronDetailsPane.setContent(buildStats(getSquadronDetailsData(squadron)));
-        aircraftDetailsPane.setContent(buildStats(getAircraftDetailsData(squadron)));
-        aircraftAirToAirPane.setContent(buildStats(getAttackFactor(squadron, squadron.getAircraft().getAir())));
-        aircraftLandPane.setContent(buildStats(getAttackFactor(squadron, squadron.getAircraft().getLand())));
-        aircraftNavalPane.setContent(buildStats(getAttackFactor(squadron, squadron.getAircraft().getNaval())));
-        aircraftRangePane.setContent(buildStats(getRange(squadron)));
-        aircraftFramePane.setContent(buildStats(getFrame(squadron)));
+        squadronDetailsPane.updatePane(getSquadronDetailsData(squadron));
+        aircraftDetailsPane.updatePane(getAircraftDetailsData(squadron));
+        aircraftAirToAirPane.updatePane(getAttackFactor(squadron, squadron.getAircraft().getAir()));
+        aircraftLandPane.updatePane(getAttackFactor(squadron, squadron.getAircraft().getLand()));
+        aircraftNavalPane.updatePane(getAttackFactor(squadron, squadron.getAircraft().getNaval()));
+        aircraftRangePane.updatePane(getRange(squadron));
+        aircraftFramePane.updatePane(getFrame(squadron));
     }
     /**
      * Get the squadron details.
@@ -238,33 +238,12 @@ public class SquadronDetailsView {
      * @param data The data contained within the pane.
      * @return The titled pane.
      */
-    private TitledPane buildPane(final String title, final Map<String, String> data) {
-        TitledPane pane = new TitledPane();
-        pane.setText(title);
-        pane.setContent(buildStats(data));
-        pane.setMinWidth(props.getInt("ship.dialog.detailsPane.width"));
-        pane.setMaxWidth(props.getInt("ship.dialog.detailsPane.width"));
-        pane.setCollapsible(true);
-        return pane;
-    }
+    private TitledGridPane buildPane(final String title, final Map<String, String> data) {
 
-    /**
-     * Build the weapons data.
-     *
-     * @param stats A map of the ship stats.
-     * @return A grid of the weapons data.
-     */
-    private Node buildStats(final Map<String, String> stats) {
-        GridPane gridPane = new GridPane();
-        int i = 0;
-        for (Map.Entry<String, String> entry : stats.entrySet()) {
-            gridPane.add(new Label(entry.getKey()), 0, i);
-            gridPane.add(new Label(entry.getValue()), 1, i);
-            i++;
-        }
-
-        gridPane.getStyleClass().add("component-grid");
-        return gridPane;
+        return new TitledGridPane()
+                .setWidth(props.getInt("ship.dialog.detailsPane.width"))
+                .setStyleId("component-grid")
+                .buildPane(title, data);
     }
 
     /**

@@ -1,7 +1,11 @@
 {
-  "name"     : "Cagliari",
-  "province" : "Sardina",
-  "maxCapacity" : 50,
-  "antiAir"       : 20,
+  "name": "Cagliari",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 50,
+  "antiAir": 20,
   "location": "AC17"
 }

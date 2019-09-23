@@ -1,7 +1,12 @@
 {
-  "name"     : "Rhodes",
-  "province" : "Dodecanese",
-  "maxCapacity" : 20,
-  "antiAir"       : 8,
+  "name": "Rhodes",
+  "province": "Dodecanese",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 8,
   "location": "BE23"
 }

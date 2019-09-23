@@ -1,7 +1,11 @@
 {
-  "name"     : "Haifa",
-  "province" : "Palestine",
-  "maxCapacity" : 10,
-  "antiAir"       : 4,
+  "name": "Haifa",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 10,
+  "antiAir": 4,
   "location": "BO29"
 }

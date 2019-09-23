@@ -3,7 +3,7 @@ package engima.waratsea.model.squadron.deployment;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.aircraft.AircraftBaseType;
-import engima.waratsea.model.base.BaseCapacity;
+import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -40,7 +40,7 @@ public class SquadronDeploymentAI {
     private Map<AircraftBaseType, List<Squadron>> squadronTypeMap;
     private Map<String, List<Squadron>> squadronModelMap;
 
-    private AircraftBaseType baseType = AircraftBaseType.BOMBER;
+    private AircraftBaseType baseType = AircraftBaseType.BOMBER;                     //Seed the base type.
 
     /**
      * Constructor called by guice.
@@ -90,7 +90,7 @@ public class SquadronDeploymentAI {
             squadronTypeMap = getSquadronTypeMap();                                               //Map of aircraft base type to squadron.
             squadronModelMap = getSquadronModelMap();                                             //Map of aircraft model to squadron.
 
-            deploymentMap.build(side, nation, deployments, airfields);                            //Build the nation's deployment.
+            deploymentMap.build(side, deployments, airfields);                                    //Build the nation's deployment.
 
             airfields
                     .stream()
@@ -243,11 +243,9 @@ public class SquadronDeploymentAI {
         try {
             Squadron squadron = squadronModelMap.get(model).remove(0);
             squadrons.remove(squadron);
-            BaseCapacity result = airfield.addSquadron(squadron);
-            if (result == BaseCapacity.HAS_ROOM) {
-                log.info("Deploy squadron: '{}' of type '{}' to airfield: '{}'", new Object[]{squadron.getName(), squadron.getBaseType(), airfield.getName()});
-            } else {
-                log.error("Unable to deploy squadron: '{} of type '{}' to airfield: '{}'", new Object[]{squadron.getName(), squadron.getBaseType(), airfield.getName()});
+            AirfieldOperation result = airfield.addSquadron(squadron);
+            if (result == AirfieldOperation.SUCCESS) {
+                log.error("Deploy squadron: '{} of type '{}' to airfield: '{}' result: '{}'", new Object[]{squadron.getName(), squadron.getBaseType(), airfield.getName(), result});
             }
         } catch (IndexOutOfBoundsException ex) {
             log.error("Could not get find squadron of model '{}' to deploy the region mandatory requirement", model);
@@ -277,11 +275,17 @@ public class SquadronDeploymentAI {
     }
 
     /**
-     * Finish deploying the remaining squadrons soley based on the deployment map.
+     * Finish deploying the remaining squadrons solely based on the deployment map.
      */
     private void finishDeployment() {
         finishMandatory();
         finishRemaining();
+
+        if (squadrons.isEmpty()) {
+            log.info("Deployment finished - success: true");
+        } else {
+            log.error("Deployment finished - success: false");
+        }
     }
 
     /**
@@ -349,11 +353,13 @@ public class SquadronDeploymentAI {
             List<Airfield> fields = entry.getValue();
             for (Airfield airfield : entry.getValue()) {
                 // If the airfield has room add the squadron.
-                if (airfield.addSquadron(squadron) == BaseCapacity.HAS_ROOM) {
-                    log.info("Deploy squadron: '{}' of type '{}' to airfield: '{}'", new Object[]{squadron.getName(),  squadron.getBaseType(), airfield.getName()});
+                AirfieldOperation result = airfield.addSquadron(squadron);
+                log.info("Deploy squadron: '{}' of type '{}' to airfield: '{}' result: '{}'",
+                        new Object[]{squadron.getName(),  squadron.getBaseType(), airfield.getName(), result});
+                if (result == AirfieldOperation.SUCCESS) {
                     fields.remove(airfield); // Remove the airfield and place it at the end of the list.
                     fields.add(airfield);    // This give us a round robin deployment scheme for airfields at
-                    return;                  // the same ranking.sd
+                    return;                  // the same ranking.
                 }
             }
         }

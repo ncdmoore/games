@@ -31,10 +31,13 @@
     "airfields": [
       "Alexandria",
       "Suez",
-      "Aboukir"
+      "Aboukir",
+      "Port Said"
     ],
     "ports": [
-      "Alexandria", "Port Said", "Suez"
+      "Alexandria",
+      "Port Said",
+      "Suez"
     ]
   },
   {

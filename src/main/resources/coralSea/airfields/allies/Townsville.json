@@ -1,6 +1,10 @@
 {
   "name"     : "Townsville",
-  "province" : "Australia",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
   "maxCapacity" : 24,
   "antiAir"  : 12,
   "location": "H30"

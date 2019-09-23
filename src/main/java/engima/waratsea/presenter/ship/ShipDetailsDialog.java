@@ -7,7 +7,7 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.ships.ShipDetailsView;
+import engima.waratsea.view.ship.ShipDetailsView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;

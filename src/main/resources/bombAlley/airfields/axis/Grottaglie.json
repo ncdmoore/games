@@ -1,7 +1,11 @@
 {
-  "name"     : "Grottaglie",
-  "province" : "Italy",
-  "maxCapacity" : 20,
-  "antiAir"       : 10,
+  "name": "Grottaglie",
+  "province": "Italy",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 10,
   "location": "AP14"
 }

@@ -1,7 +1,11 @@
 {
-  "name"     : "Famagusta",
-  "province" : "Cyprus",
-  "maxCapacity" : 8,
-  "antiAir"       : 3,
+  "name": "Famagusta",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 8,
+  "antiAir": 3,
   "location": "BM25"
 }

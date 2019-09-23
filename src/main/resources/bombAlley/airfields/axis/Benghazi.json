@@ -1,7 +1,11 @@
 {
-  "name"     : "Benghazi",
-  "province" : "Libya",
-  "maxCapacity" : 20,
-  "antiAir"       : 6,
+  "name": "Benghazi",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 6,
   "location": "AS30"
 }

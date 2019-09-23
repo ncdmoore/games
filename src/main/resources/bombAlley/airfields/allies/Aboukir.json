@@ -1,7 +1,10 @@
 {
-  "name"     : "Aboukir",
-  "province" : "Egypt",
-  "maxCapacity" : 20,
-  "antiAir"  : 5,
+  "name": "Aboukir",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 5,
   "location": "BI32"
 }

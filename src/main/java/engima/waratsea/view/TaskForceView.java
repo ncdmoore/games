@@ -14,7 +14,7 @@ import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.map.TaskForcePreviewMapView;
 import engima.waratsea.view.map.marker.TargetMarker;
-import engima.waratsea.view.ships.ShipViewType;
+import engima.waratsea.view.ship.ShipViewType;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -462,7 +463,7 @@ public class TaskForceView {
      */
     private Map<ShipViewType, List<Ship>> getShipViewTypeMap(final TaskForce taskForce) {
 
-        Map<ShipViewType, List<Ship>> shipViewTypeMap = new HashMap<>();
+        Map<ShipViewType, List<Ship>> shipViewTypeMap = new LinkedHashMap<>();
 
         Arrays.stream(ShipViewType.values())
                 .forEach(viewType -> shipViewTypeMap.put(viewType, new ArrayList<>()));
@@ -488,7 +489,8 @@ public class TaskForceView {
                 .map(Ship::getSquadronSummary)
                 .map(Map::entrySet)
                 .flatMap(Collection::stream)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, BigDecimal::add));
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, BigDecimal::add, LinkedHashMap::new));
     }
 
     /**
@@ -517,6 +519,9 @@ public class TaskForceView {
                 .bind(Bindings.size(table.getItems())
                         .multiply(table.getFixedCellSize())
                         .add(props.getInt("taskForce.summary.table.cell.header.size")));
+
+        table.minHeightProperty().bind(table.prefHeightProperty());
+        table.maxHeightProperty().bind(table.prefHeightProperty());
 
         return new VBox(table);
     }

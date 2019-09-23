@@ -4,7 +4,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.aircraft.AircraftBaseType;
-import engima.waratsea.model.base.BaseCapacity;
+import engima.waratsea.model.aircraft.LandingType;
+import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
@@ -13,6 +14,7 @@ import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
+import engima.waratsea.presenter.squadron.Deployment;
 import engima.waratsea.presenter.squadron.SquadronDetailsDialog;
 import engima.waratsea.view.SquadronView;
 import engima.waratsea.view.WarnDialog;
@@ -23,7 +25,11 @@ import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -50,6 +56,8 @@ public class SquadronPresenter implements Presenter {
     private Squadron selectedAvailableSquadron;
     private Squadron selectedAirfieldSquadron;
 
+    private Map<LandingType, Deployment> deployment = new LinkedHashMap<>();
+
     /**
      * This is the constructor.
      *
@@ -73,6 +81,9 @@ public class SquadronPresenter implements Presenter {
         this.squadronDetailsDialogProvider = squadronDetailsDialogProvider;
         this.warnDialogProvider = warnDialogProvider;
         this.navigate = navigate;
+
+        deployment.put(LandingType.LAND, new Deployment(LandingType.LAND));
+        deployment.put(LandingType.SEAPLANE, new Deployment(LandingType.SEAPLANE));
     }
 
     /**
@@ -84,10 +95,11 @@ public class SquadronPresenter implements Presenter {
     public void show(final Stage primaryStage) {
         view = viewProvider.get();
 
+        view.bindDeploymentStats(new ArrayList<>(deployment.values()));
+
         this.stage = primaryStage;
 
         view.show(stage, game.getScenario());
-
         registerCallbacks();
         registerTabChange();
         selectFirstTab();
@@ -154,7 +166,7 @@ public class SquadronPresenter implements Presenter {
         markAirfields(newNation);
 
         // This is needed when the tab changes but the region does not. Meaning that last time this tab
-        // was asctive the same region was selected.
+        // was active the same region was selected.
         // The call to select the first region may not trigger any changes. Thus, we need this code.
         Region region = view.getRegions().get(newNation).getSelectionModel().getSelectedItem();
         if (region != null) {
@@ -170,18 +182,16 @@ public class SquadronPresenter implements Presenter {
             selectedAirfield = airfield;
         }
 
+        updateDeployment(newNation, LandingType.LAND);
+        updateDeployment(newNation, LandingType.SEAPLANE);
+
         selectFirstRegion(newNation);
         selectFirstAirfield(newNation);
 
-        List<Squadron> available = game
-                .getHumanPlayer()
-                .getSquadrons(newNation)
-                .stream()
-                .filter(Squadron::isAvailable)
-                .collect(Collectors.toList());
+        //If the airfield does not change then the select airfield doesn't trigger a callback.
+        //Thus, we set the available squadrons explicitly.
+        setAvailableSquadrons(newNation, selectedAirfield);
 
-        view.getAvailableSquadrons().getItems().clear();
-        view.getAvailableSquadrons().getItems().addAll(available);
     }
 
     /**
@@ -243,6 +253,38 @@ public class SquadronPresenter implements Presenter {
     }
 
     /**
+     * Update the given nation's squadron deployment totals.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @param landingType The landing type of the squadron deployment.
+     */
+    private void updateDeployment(final Nation nation, final LandingType landingType) {
+
+        List<Squadron> squadrons = game
+                .getHumanPlayer()
+                .getSquadrons(nation);
+
+        BigDecimal total = squadrons
+                .stream()
+                .filter(squadron -> squadron.isLandingTypeCompatible(landingType))
+                .map(Squadron::getSteps)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal deployed = squadrons
+                .stream()
+                .filter(squadron -> squadron.isLandingTypeCompatible(landingType))
+                .filter(Squadron::isDeployed)
+                .map(Squadron::getSteps)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        deployment.get(landingType).setTotalSteps(total);
+        deployment.get(landingType).setDeployedSteps(deployed);
+
+        view.getDeploymentStats().refresh();
+    }
+
+
+    /**
      * Select the first region for the given nation.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc ...
@@ -299,8 +341,31 @@ public class SquadronPresenter implements Presenter {
 
         view.setSelectedAirfield(nation, airfield);
 
+        setAvailableSquadrons(nation, airfield);
+
         markSquadronRange(selectedAirfield, selectedAvailableSquadron);
 
+    }
+
+    /**
+     * Set the available squadrons based on the type of airfield.
+     *
+     * @param nation The nation BRITISH, ITALIAN, etc.
+     * @param airfield The currently selected airfield.
+     */
+    private void setAvailableSquadrons(final Nation nation, final Airfield airfield) {
+        log.debug("Set the available squadrons for airfield: '{}'", airfield);
+
+        List<Squadron> available = game
+                .getHumanPlayer()
+                .getSquadrons(nation)
+                .stream()
+                .filter(Squadron::isAvailable)
+                .filter(airfield::canSquadronLand)
+                .collect(Collectors.toList());
+
+        view.getAvailableSquadrons().getItems().clear();
+        view.getAvailableSquadrons().getItems().addAll(available);
     }
 
     /**
@@ -487,13 +552,16 @@ public class SquadronPresenter implements Presenter {
             // from the list the selected available squadron changes.
             Squadron squadron = selectedAvailableSquadron;
 
-            BaseCapacity result = selectedAirfield.addSquadron(squadron);
+            AirfieldOperation result = selectedAirfield.addSquadron(squadron);
 
-            if (result == BaseCapacity.HAS_ROOM) { // Add the squadron to the airfield.
+            if (result == AirfieldOperation.SUCCESS) { // Add the squadron to the airfield.
                 view.getAvailableSquadrons().getItems().remove(squadron);          // Remove the squadron from the available list.
                 view.getAirfieldSquadrons().getItems().add(squadron);              // Add the squadron to the airfield list.
 
                 AircraftBaseType type = squadron.getBaseType();
+
+                updateDeployment(squadron.getNation(), LandingType.LAND);
+                updateDeployment(squadron.getNation(), LandingType.SEAPLANE);
 
                 selectedAirfield.getNations().forEach(nation -> {
                     view.getAirfieldCurrentValue().get(nation).setText(selectedAirfield.getCurrentSteps() + "");
@@ -517,6 +585,9 @@ public class SquadronPresenter implements Presenter {
             view.getAirfieldSquadrons().getItems().remove(squadron);
 
             selectedAirfield.removeSquadron(squadron);
+
+            updateDeployment(squadron.getNation(), LandingType.LAND);
+            updateDeployment(squadron.getNation(), LandingType.SEAPLANE);
 
             if (squadron.getNation() == determineNation()) {
                 view.getAvailableSquadrons().getItems().add(squadron);

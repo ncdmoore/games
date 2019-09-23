@@ -1,6 +1,9 @@
 {
   "name"     : "Gasmata",
-  "province" : "New Britain",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
   "maxCapacity" : 12,
   "antiAir"  : 5,
   "location": "M10"

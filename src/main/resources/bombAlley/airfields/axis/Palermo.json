@@ -1,0 +1,10 @@
+{
+  "name": "Palermo",
+  "landingType": [
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 10,
+  "antiAir": 10,
+  "location": "AI20"
+}

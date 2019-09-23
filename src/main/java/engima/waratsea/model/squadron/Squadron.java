@@ -9,6 +9,7 @@ import engima.waratsea.model.aircraft.AircraftId;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.AviationPlant;
 import engima.waratsea.model.aircraft.AviationPlantException;
+import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
@@ -59,11 +60,11 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
 
     private GameMap gameMap;
 
-    private static Map<Side, Map<String, Integer>> designationMap = new HashMap<>();
+    private static final Map<Side, Map<String, Integer>> DESIGNATION_MAP = new HashMap<>();
 
     static {
-        designationMap.put(Side.ALLIES, new HashMap<>());
-        designationMap.put(Side.AXIS, new HashMap<>());
+        DESIGNATION_MAP.put(Side.ALLIES, new HashMap<>());
+        DESIGNATION_MAP.put(Side.AXIS, new HashMap<>());
     }
 
     /**
@@ -72,7 +73,7 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @param side The side ALLIES or AXIS.
      */
     public static void init(final Side side) {
-        designationMap.get(side).clear();
+        DESIGNATION_MAP.get(side).clear();
     }
 
     /**
@@ -96,8 +97,6 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
         this.model = data.getModel();
         this.strength = data.getStrength();
         this.name = data.getName();
-        Optional.ofNullable(data.getAirfield())
-                .ifPresent(field -> airfield = gameMap.getAirfield(side, field));
 
         try {
             AircraftId aircraftId = new AircraftId(model, side);
@@ -105,8 +104,8 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
 
             String designation = aircraft.getDesignation();
 
-            int index = designationMap.get(side).getOrDefault(designation, 0);
-            designationMap.get(side).put(designation, ++index);
+            int index = DESIGNATION_MAP.get(side).getOrDefault(designation, 0);
+            DESIGNATION_MAP.get(side).put(designation, ++index);
 
             // Squadrons that have been saved will already have a name.
             // Only newly created squadrons at game start will not have a name.
@@ -119,6 +118,8 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
         } catch (AviationPlantException ex) {
             log.error("Unable to build aircraft model: '{}' for side: {}", model, side);
         }
+
+        initializeAirbase(data.getAirfield());  // Station this squadron if a base name is known.
     }
 
     /**
@@ -174,6 +175,15 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     }
 
     /**
+     * Get the landing type of this squadron.
+     *
+     * @return The squadron's landing type.
+     */
+    public LandingType getLandingType() {
+        return aircraft.getLanding();
+    }
+
+    /**
      * Get the number of steps that the squadron contains. Full strength squadrons contain two steps. Half strength
      * squadrons contain one step. Battleship and cruiser float planes are equal to 1/3 of a step.
      *
@@ -210,7 +220,7 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     }
 
     /**
-     * Determine if the squadron is at an enemey base.
+     * Determine if the squadron is at an enemy base.
      *
      * @return True if the squadron is currently located at an enemy base. False otherwise.
      */
@@ -237,6 +247,22 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     }
 
     /**
+     * Indicates if the squadron is a seaplane squadron.
+     *
+     * @param landingType The type of landing type.
+     * @return True if the squadron is composed of seaplanes. False otherwise.
+     */
+    public boolean isLandingTypeCompatible(final LandingType landingType) {
+
+        if (landingType == getLandingType()) {
+            return true;
+        }
+
+        return getLandingType() == LandingType.CARRIER
+                 && landingType == LandingType.LAND;
+    }
+
+    /**
      * Indicates if the squadron is available (not deployed).
      *
      * @return True if the squadron is available (not deployed). False otherwise.
@@ -257,6 +283,16 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     }
 
     /**
+     * Returns true if this squadron belongs to the given nation.
+     *
+     * @param targetNation A nation: BRITISH, ITALIAN, etc.
+     * @return True if this squadron belongs to the given nation. False otherwise.
+     */
+    public boolean ofNation(final Nation targetNation) {
+        return nation == targetNation;
+    }
+
+    /**
      * The String representation of a squadron.
      *
      * @return The String representation of a squadron.
@@ -274,5 +310,22 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     @Override
     public boolean isActive() {
         return true;
+    }
+
+    /**
+     * If this squadron is already stationed at an airbase, then make sure
+     * to set the airbase and add this squadron to that airbase. This happens
+     * for squadrons that are created from saved games.
+     *
+     * @param airbaseName The airbase name from the squadron JSON file.
+     */
+    private void initializeAirbase(final String airbaseName) {
+         Optional
+                .ofNullable(airbaseName)
+                .map(baseName -> gameMap.getAirfield(side, baseName))
+                .ifPresent(airbase -> {
+                    setAirfield(airbase);
+                    airbase.addSquadron(this);
+                });
     }
 }

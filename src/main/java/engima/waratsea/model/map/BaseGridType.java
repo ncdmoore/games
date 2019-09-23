@@ -11,6 +11,7 @@ import lombok.Getter;
  */
 public enum BaseGridType {
     AIRFIELD("Airfield"),
+    SEAPLANE("Seaplane"),
     PORT("Port"),
     BOTH("Airfield&Port");
 
@@ -25,4 +26,6 @@ public enum BaseGridType {
     BaseGridType(final String value) {
         this.value = value;
     }
+
+
 }

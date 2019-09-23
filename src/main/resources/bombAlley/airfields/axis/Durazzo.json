@@ -1,7 +1,11 @@
 {
-  "name"     : "Durazzo",
-  "province" : "Albania",
-  "maxCapacity" : 10,
-  "antiAir"       : 3,
+  "name": "Durazzo",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 10,
+  "antiAir": 3,
   "location": "AR13"
 }

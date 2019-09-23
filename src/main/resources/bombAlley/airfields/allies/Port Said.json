@@ -1,0 +1,9 @@
+{
+  "name": "Port Said",
+  "landingType": [
+    "SEAPLANE"
+  ],
+  "maxCapacity": 10,
+  "antiAir": 10,
+  "location": "BK32"
+}

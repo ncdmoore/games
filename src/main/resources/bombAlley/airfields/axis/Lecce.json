@@ -1,7 +1,11 @@
 {
-  "name"     : "Lecce",
-  "province" : "Italy",
-  "maxCapacity" : 20,
-  "antiAir"       : 20,
+  "name": "Lecce",
+  "province": "Italy",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 20,
   "location": "AP15"
 }

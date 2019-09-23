@@ -1,7 +1,11 @@
 {
-  "name"     : "Cairns",
-  "province" : "Australia",
-  "maxCapacity" : 20,
-  "antiAir"  : 10,
+  "name": "Cairns",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 10,
   "location": "F26"
 }

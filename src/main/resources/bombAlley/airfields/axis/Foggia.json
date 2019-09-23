@@ -1,7 +1,10 @@
 {
-  "name"     : "Foggia",
-  "province" : "Italy",
-  "maxCapacity" : 30,
-  "antiAir"       : 10,
+  "name": "Foggia",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 30,
+  "antiAir": 10,
   "location": "AM13"
 }

@@ -1,7 +1,11 @@
 {
-  "name"     : "Kavala",
-  "province" : "Greece",
-  "maxCapacity" : 20,
-  "antiAir"       : 3,
+  "name": "Kavala",
+  "province": "Greece",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 3,
   "location": "AU17"
 }

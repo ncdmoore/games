@@ -1,0 +1,9 @@
+{
+  "name": "Pola",
+  "landingType": [
+    "SEAPLANE"
+  ],
+  "maxCapacity": 10,
+  "antiAir": 10,
+  "location": "AJ6"
+}

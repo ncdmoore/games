@@ -1,6 +1,9 @@
 {
   "name": "Suez",
-  "province": "Egypt",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
   "maxCapacity": 1,
   "antiAir": 5,
   "location": "BK34"

@@ -1,11 +1,12 @@
-package engima.waratsea.model.base;
+package engima.waratsea.model.base.airfield;
 
 import lombok.Getter;
 
-public enum BaseCapacity {
-    HAS_ROOM("Base has room"),
+public enum AirfieldOperation {
+    SUCCESS("Success"),
     REGION_FULL("Region does not have capacity"),
-    BASE_FULL("Base does not have capacity");
+    BASE_FULL("Base does not have capacity"),
+    LANDING_TYPE_NOT_SUPPORTED("Squadron landing type not allowed");
 
     @Getter
     private String value;
@@ -15,7 +16,7 @@ public enum BaseCapacity {
      *
      * @param value String value of the enum.
      */
-    BaseCapacity(final String value) {
+    AirfieldOperation(final String value) {
         this.value = value;
     }
 

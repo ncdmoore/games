@@ -1,7 +1,12 @@
 {
-  "name"     : "Pantellaria",
-  "province" : "Pantellaria",
-  "maxCapacity" : 15,
-  "antiAir"       : 10,
+  "name": "Pantellaria",
+  "province": "Pantellaria",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 15,
+  "antiAir": 10,
   "location": "AG22"
 }

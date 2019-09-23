@@ -1,7 +1,10 @@
 {
-  "name"     : "Borizzo",
-  "province" : "Sicily",
-  "maxCapacity" : 40,
-  "antiAir"       : 18,
+  "name": "Borizzo",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 40,
+  "antiAir": 18,
   "location": "AH20"
 }

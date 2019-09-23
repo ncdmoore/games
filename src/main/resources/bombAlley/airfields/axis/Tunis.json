@@ -1,7 +1,12 @@
 {
-  "name"     : "Tunis",
-  "province" : "Tunisia",
-  "maxCapacity" : 20,
-  "antiAir"  : 5,
+  "name": "Tunis",
+  "province": "Tunisia",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 5,
   "location": "AE22"
 }

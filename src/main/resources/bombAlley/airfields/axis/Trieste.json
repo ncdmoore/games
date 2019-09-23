@@ -1,7 +1,12 @@
 {
-  "name"     : "Trieste",
-  "province" : "Italy",
-  "maxCapacity" : 20,
-  "antiAir"       : 12,
+  "name": "Trieste",
+  "province": "Italy",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 12,
   "location": "AJ4"
 }
