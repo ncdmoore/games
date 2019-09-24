@@ -162,7 +162,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     @Override
     public AirfieldOperation addSquadron(final Squadron squadron) {
 
-        AirfieldOperation result = hasRoom(squadron);
+        AirfieldOperation result = canStation(squadron);
 
         if (result == AirfieldOperation.SUCCESS) {
             Optional.ofNullable(squadron.getAirfield())
@@ -298,12 +298,12 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
-     * Determine if this airfield has room for another squadron.
+     * Determine if this airfield can station another squadron.
      *
      * @param squadron A potential new squadron.
      * @return True if this airfield can house the new squadron; false otherwise.
      */
-    private AirfieldOperation hasRoom(final Squadron squadron) {
+    private AirfieldOperation canStation(final Squadron squadron) {
 
         if (!canSquadronLand(squadron)) {
             return AirfieldOperation.LANDING_TYPE_NOT_SUPPORTED;
