@@ -322,9 +322,16 @@ public class TaskForcePreviewMapView {
         int gridSize = props.getInt("taskforce.previewMap.gridSize");
 
         GridPane gridPane = new GridPane();
-        Node airfieldKey = AirfieldMarker.getLegend(nation, 0, 0, gridSize);
+        Node airfieldKey = AirfieldMarker.getLegendAirfield(nation, 0, 0, gridSize);
         gridPane.add(airfieldKey, 0, 0);
         gridPane.add(new Label("Airfield"), 1, 0);
+
+        Node seaplaneKey = AirfieldMarker.getLegendSeaplane(nation, 0, 0, gridSize);
+
+        final int row3 = 3;
+        gridPane.add(seaplaneKey, 2, 0);
+        gridPane.add(new Label("Seaplane"), row3, 0);
+
 
         Node rangeKey = SquadronRangeMarker.getLegend(0, 0, gridSize / 2);
         Label rangeLabel = new Label("Combat Radius");

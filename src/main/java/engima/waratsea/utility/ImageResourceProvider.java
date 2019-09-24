@@ -247,7 +247,7 @@ public class ImageResourceProvider {
         String path = IMAGES_DIR + resourceName;
         Optional<Image> image = loadImage(path);
 
-        if (!image.isPresent()) {
+        if (image.isEmpty()) {
             log.error("Unable to load resource: {}", path);
         }
 
@@ -274,9 +274,10 @@ public class ImageResourceProvider {
      * @return The image from the file.
      */
     private Image getFile(final URL url) {
+
        try {
            File file =  new File(url.toURI().getPath());
-           log.debug("Loaded image: {}", url.toURI().getPath());
+           log.info("Loaded image: {}", url.toURI().getPath());
            return new Image(file.toURI().toString());
        } catch (URISyntaxException ex) {
            log.error("Unable to get URI from URL.", ex);
