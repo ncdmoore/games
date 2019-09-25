@@ -47,5 +47,8 @@
       "strength": "half"
     }
   ],
+  "landingType": [
+    "CARRIER"
+  ],
   "victoryPoints": 73
 }

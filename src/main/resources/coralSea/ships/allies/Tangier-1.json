@@ -30,5 +30,8 @@
     "strength": "half"
   }
   ],
+  "landingType": [
+    "SEAPLANE"
+  ],
   "victoryPoints": 14
 }

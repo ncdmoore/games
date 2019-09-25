@@ -3,6 +3,7 @@ package engima.waratsea.model.ship;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.AircraftType;
+import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.game.Side;
@@ -88,6 +89,8 @@ public class AircraftCarrier implements Ship, Airbase {
     @Getter
     private AircraftCapacity aircraftCapacity;
 
+    private List<LandingType> landingType;
+
     @Getter
     private List<Squadron> aircraft;
 
@@ -126,6 +129,9 @@ public class AircraftCarrier implements Ship, Airbase {
 
         flightDeck = new FlightDeck(data.getFlightDeck());
         aircraftCapacity = buildAircraftCapacity(flightDeck);
+
+        landingType = Optional.ofNullable(data.getLandingType())
+                        .orElseGet(Collections::emptyList);
 
         buildSquadrons(data.getAircraft(), factory);
     }
@@ -172,6 +178,8 @@ public class AircraftCarrier implements Ship, Airbase {
         data.setFlightDeck(flightDeck.getData());
 
         data.setAircraft(PersistentUtility.getData(aircraft));
+
+        data.setLandingType(landingType);
 
         return data;
     }
@@ -319,12 +327,13 @@ public class AircraftCarrier implements Ship, Airbase {
         Optional.ofNullable(squadron.getAirfield())
                 .ifPresent(airfield -> airfield.removeSquadron(squadron));
 
-        if (hasRoom(squadron)) {
+        AirfieldOperation result = canStation(squadron);
+
+        if (result == AirfieldOperation.SUCCESS) {
             aircraft.add(squadron);
-            return AirfieldOperation.SUCCESS;
         }
 
-        return AirfieldOperation.BASE_FULL;
+        return result;
     }
 
     /**
@@ -363,7 +372,10 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
-     * Build the ship squadrons.
+     * Build the ship squadrons. Do not examine the landing type. Some
+     * scenario's require that carriers be loaded with aircraft that
+     * can take off but not land. Thus, we ignore the landing type
+     * on initial ship creation.
      *
      * @param data The aircraft data read in from a JSON file.
      * @param factory The squadron factory that builds the actual squadron.
@@ -386,9 +398,12 @@ public class AircraftCarrier implements Ship, Airbase {
      * @param squadron The new squadron.
      * @return True if this airfield can house the new squadron; false otherwise.
      */
-    private boolean hasRoom(final Squadron squadron) {
-        int steps = squadron.getSteps().intValue();
-        return steps + deployedSteps() <= getMaxCapacity();
+    private AirfieldOperation canStation(final Squadron squadron) {
+        if (!landingType.contains(squadron.getLandingType())) {
+            return AirfieldOperation.LANDING_TYPE_NOT_SUPPORTED;
+        }
+
+        return hasRoom(squadron) ? AirfieldOperation.SUCCESS : AirfieldOperation.BASE_FULL;
     }
 
     /**
@@ -402,5 +417,16 @@ public class AircraftCarrier implements Ship, Airbase {
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .intValue();
+    }
+
+    /**
+     * Determine if the aircraft carrier has room for the given squadron.
+     *
+     * @param squadron A squadron that may be based at this aircraft carrier.
+     * @return True if this aircraft carrier has room for the given squadron. False otherwise.
+     */
+    private boolean hasRoom(final Squadron squadron) {
+        int steps = squadron.getSteps().intValue();
+        return steps + deployedSteps() <= getMaxCapacity();
     }
 }

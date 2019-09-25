@@ -1,5 +1,6 @@
 package engima.waratsea.model.ship.data;
 
+import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.ship.ShipId;
 import engima.waratsea.model.ship.ShipType;
@@ -80,6 +81,10 @@ public class ShipData {
     @Getter
     @Setter
     private String originPort;
+
+    @Getter
+    @Setter
+    private List<LandingType> landingType;
 
     @Getter
     @Setter

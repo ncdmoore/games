@@ -23,5 +23,8 @@
     "maxEven": 2,
     "maxOdd": 2
   },
+  "landingType": [
+    "SEAPLANE"
+  ],
   "victoryPoints": 18
 }

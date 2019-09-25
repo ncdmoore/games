@@ -55,5 +55,8 @@
       "strength": "full"
     }
   ],
+  "landingType": [
+    "CARRIER"
+  ],
   "victoryPoints": 120
 }

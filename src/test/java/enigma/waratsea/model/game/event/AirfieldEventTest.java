@@ -2,6 +2,7 @@ package enigma.waratsea.model.game.event;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
@@ -17,6 +18,9 @@ import enigma.waratsea.TestModule;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AirfieldEventTest {
 
@@ -47,6 +51,7 @@ public class AirfieldEventTest {
         AirfieldData airfieldData = new AirfieldData();
         airfieldData.setName("Rome");
         airfieldData.setSide(Side.ALLIES);
+        airfieldData.setLandingType(new ArrayList<>(Arrays.asList(LandingType.LAND, LandingType.SEAPLANE)));
 
         Airfield airfield = airfieldFactory.create(airfieldData);
 

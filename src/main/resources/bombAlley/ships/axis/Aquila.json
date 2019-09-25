@@ -29,5 +29,8 @@
     "maxEven": 3,
     "maxOdd": 3
   },
+  "landingType": [
+    "CARRIER"
+  ],
   "victoryPoints": 118
 }

@@ -279,9 +279,11 @@ public class SurfaceShip implements Ship {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-
     /**
-     * Build the ship squadrons.
+     * Build the ship squadrons. Do not examine the landing type. Some
+     * scenario's require that carriers be loaded with aircraft that
+     * can take off but not land. Thus, we ignore the landing type
+     * on initial ship creation.
      *
      * @param data The aircraft data read in from a JSON file.
      * @param factory The squadron factory that builds the actual squadron.
