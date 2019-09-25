@@ -81,16 +81,14 @@ public class MainMapPresenter {
 
         BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
 
-
-
         String portName = Optional.ofNullable(baseMarker.getBaseGrid().getPort()).map(Port::getName).orElse("");
         String airfieldName = Optional.ofNullable(baseMarker.getBaseGrid().getAirfield()).map(Airfield::getName).orElse("");
 
         log.info("Human: Base port: '{}', airfield: '{}'", portName, airfieldName);
 
-            Airfield airfield = baseMarker.getBaseGrid().getAirfield();
-            log.info("show airfield dialog box");
-            airfieldDetailsDialogProvider.get().show(airfield);
+        Airfield airfield = baseMarker.getBaseGrid().getAirfield();
+        log.info("show airfield dialog box");
+        airfieldDetailsDialogProvider.get().show(airfield);
 
     }
 

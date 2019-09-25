@@ -171,6 +171,10 @@ public class MainMapView {
             return true;
         }
 
+        if (type == BaseGridType.SEAPLANE && showAirfields) {
+            return true;
+        }
+
         if (type == BaseGridType.PORT && showPorts) {
             return true;
         }

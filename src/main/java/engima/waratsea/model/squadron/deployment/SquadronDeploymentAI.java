@@ -245,7 +245,7 @@ public class SquadronDeploymentAI {
             squadrons.remove(squadron);
             AirfieldOperation result = airfield.addSquadron(squadron);
             if (result == AirfieldOperation.SUCCESS) {
-                log.error("Deploy squadron: '{} of type '{}' to airfield: '{}' result: '{}'", new Object[]{squadron.getName(), squadron.getBaseType(), airfield.getName(), result});
+                log.info("Deploy squadron: '{} of type '{}' to airfield: '{}' result: '{}'", new Object[]{squadron.getName(), squadron.getBaseType(), airfield.getName(), result});
             }
         } catch (IndexOutOfBoundsException ex) {
             log.error("Could not get find squadron of model '{}' to deploy the region mandatory requirement", model);
