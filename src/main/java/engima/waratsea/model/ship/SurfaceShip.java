@@ -281,8 +281,8 @@ public class SurfaceShip implements Ship {
 
     /**
      * Build the ship squadrons. Do not examine the landing type. Some
-     * scenario's require that carriers be loaded with aircraft that
-     * can take off but not land. Thus, we ignore the landing type
+     * scenario's require that surface ships be loaded with aircraft that
+     * can take off but not land at sea. Thus, we ignore the landing type
      * on initial ship creation.
      *
      * @param data The aircraft data read in from a JSON file.
