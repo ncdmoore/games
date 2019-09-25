@@ -55,7 +55,7 @@ public class AirfieldDetailsDialog {
 
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Airfield Details");
+        stage.setTitle(airfield.getTitle() + " " +  airfield.getAirfieldType().getTitle() + " Details");
 
         dialog.setWidth(props.getInt("airfield.dialog.width"));
         dialog.setHeight(props.getInt("airfield.dialog.height"));
