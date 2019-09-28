@@ -54,6 +54,15 @@ public class BaseGrid {
     }
 
     /**
+     * Get an optional airfield for this base marker.
+     *
+     * @return An optional airfield.
+     */
+    public Optional<Airfield> getAirfield() {
+        return Optional.ofNullable(airfield);
+    }
+
+    /**
      * Set the airfield for this grid.
      *
      * @param airfieldValue The airfield that is located at this grid.

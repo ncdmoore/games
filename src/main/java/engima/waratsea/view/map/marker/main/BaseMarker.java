@@ -49,7 +49,6 @@ public class BaseMarker {
         imageView.setUserData(this);
 
         imageView.setId("map-base-grid-marker");
-
     }
 
     /**
@@ -78,4 +77,5 @@ public class BaseMarker {
     public void setBaseClickHandler(final EventHandler<? super MouseEvent> handler) {
         imageView.setOnMouseClicked(handler);
     }
+
 }
