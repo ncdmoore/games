@@ -4,7 +4,9 @@ import lombok.Getter;
 
 public enum ViewOrder {
     GRID(100.0),
-    MARKER(10.0),
+    GRID_DECORATION(45),
+    MARKER(50.0),
+    MARKER_DECORATION(40),
     POPUP(5.0);
 
     @Getter

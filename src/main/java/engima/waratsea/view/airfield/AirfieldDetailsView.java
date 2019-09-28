@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronViewType;
@@ -11,15 +12,19 @@ import engima.waratsea.view.util.TitledGridPane;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import org.apache.commons.collections4.ListUtils;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -88,10 +93,11 @@ public class AirfieldDetailsView {
 
         TitledPane missions = buildMissionDetails();
         TitledPane patrols = buildPatrolDetails();
+        TitledPane ready = buildReadyDetails(nation);
 
         Accordion accordion = new Accordion();
 
-        accordion.getPanes().addAll(missions, patrols);
+        accordion.getPanes().addAll(missions, patrols, ready);
         accordion.setExpandedPane(missions);
 
         HBox hBox = new HBox(leftVBox, accordion);
@@ -158,13 +164,17 @@ public class AirfieldDetailsView {
                .stream()
                .collect(Collectors.toMap(e -> SquadronViewType.get(e.getKey()),
                                          Map.Entry::getValue,
-                                         BigDecimal::add));
+                                         BigDecimal::add,
+                                         LinkedHashMap::new));
 
        // Convert the map to a string key value pair for display on the GUI.
        return steps
                .entrySet()
                .stream()
-               .collect(Collectors.toMap(e -> e.getKey().toString(), e -> e.getValue().toString()));
+               .collect(Collectors.toMap(e -> e.getKey().toString(),
+                                         e -> e.getValue().toString(),
+                                         (oldValue, newValue) -> oldValue,
+                                         LinkedHashMap::new));
     }
 
     /**
@@ -186,7 +196,7 @@ public class AirfieldDetailsView {
     }
 
     /**
-     * Build the partol details pane.
+     * Build the patrol details pane.
      *
      * @return A titled pane containing the partol details of the airfield.
      */
@@ -198,6 +208,48 @@ public class AirfieldDetailsView {
         Label label = new Label("patrol data");
 
         titledPane.setContent(label);
+
+        return titledPane;
+    }
+
+    /**
+     * Build the ready details pane.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return A titled pane containing the ready details of the airfield.
+     */
+    private TitledPane buildReadyDetails(final Nation nation) {
+        TitledPane titledPane = new TitledPane();
+
+        titledPane.setText("Ready");
+
+        Map<SquadronViewType, List<Squadron>> squadrons = airfield.getSquadronMap(nation)
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(e -> SquadronViewType.get(e.getKey()),
+                                          Map.Entry::getValue,
+                                          ListUtils::union,
+                                          LinkedHashMap::new));
+
+        TilePane tilePane = new TilePane();
+        tilePane.setPrefColumns(props.getInt("airfield.dialog.ready.columns"));
+
+        squadrons.forEach((type, list) -> {
+
+            Label title = new Label(type + ":");
+
+            ListView<Squadron> listView = new ListView<>();
+            listView.getItems().addAll(list);
+            listView.setMaxHeight(props.getInt("airfield.dialog.ready.list.width"));
+            listView.setMinHeight(props.getInt("airfield.dialog.ready.list.width"));
+
+            VBox vBox = new VBox(title, listView);
+
+            tilePane.getChildren().add(vBox);
+        });
+
+
+        titledPane.setContent(tilePane);
 
         return titledPane;
     }

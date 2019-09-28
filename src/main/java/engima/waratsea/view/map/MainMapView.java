@@ -12,6 +12,7 @@ import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.marker.main.BaseMarker;
+import engima.waratsea.view.map.marker.main.BaseMarkerFactory;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -35,8 +36,9 @@ public class MainMapView {
 
     private GameMap gameMap;
     private ViewProps props;
-    private ImageResourceProvider imageResourceProvider;
     private Provider<MainMenu> menuProvider;
+    private BaseMarkerFactory markerFactory;
+
 
     @Getter
     private StackPane map;
@@ -51,6 +53,7 @@ public class MainMapView {
      * @param props The view properties.
      * @param imageResourceProvider provides images.
      * @param menuProvider The main menu provider.
+     * @param markerFactory The base marker provider.
      * @param mapView A utility to draw the map's grid.
      */
     @Inject
@@ -58,11 +61,12 @@ public class MainMapView {
                        final ViewProps props,
                        final ImageResourceProvider imageResourceProvider,
                        final Provider<MainMenu> menuProvider,
+                       final BaseMarkerFactory markerFactory,
                        final MapView mapView) {
         this.gameMap = gameMap;
         this.props = props;
-        this.imageResourceProvider = imageResourceProvider;
         this.menuProvider = menuProvider;
+        this.markerFactory = markerFactory;
         this.mapView = mapView;
 
         baseMarkers.put(Side.ALLIES, new ArrayList<>());
@@ -119,10 +123,7 @@ public class MainMapView {
         BaseGridType type = baseGrid.getType();
 
         int gridSize = props.getInt("taskforce.mainMap.gridSize");
-        final String imagePrefix = baseGrid.getSide().getValue().toLowerCase();
-        ImageView baseImageView = imageResourceProvider.getImageView(imagePrefix + type.getValue() + ".png");
-        baseImageView.setId("map-base-grid-marker");
-        BaseMarker baseMarker = new BaseMarker(baseGrid, new GridView(gridSize, baseGrid.getGameGrid()), baseImageView);
+        BaseMarker baseMarker = markerFactory.create(baseGrid, new GridView(gridSize, baseGrid.getGameGrid()));
         baseMarkers.get(baseGrid.getSide()).add(baseMarker);
 
         if (displayBaseMarker(type)) {

@@ -72,6 +72,8 @@ import engima.waratsea.model.victory.ShipVictoryFactory;
 import engima.waratsea.model.victory.data.AirfieldVictoryData;
 import engima.waratsea.model.victory.data.ShipVictoryData;
 import engima.waratsea.model.victory.data.SquadronVictoryData;
+import engima.waratsea.view.map.marker.main.BaseMarker;
+import engima.waratsea.view.map.marker.main.BaseMarkerFactory;
 
 public class TestModule extends AbstractModule {
     @Override
@@ -137,5 +139,9 @@ public class TestModule extends AbstractModule {
         install(new FactoryModuleBuilder().implement(ShipEventMatcher.class, ShipEventMatcher.class).build(ShipEventMatcherFactory.class));
         install(new FactoryModuleBuilder().implement(SquadronEventMatcher.class, SquadronEventMatcher.class).build(SquadronEventMatcherFactory.class));
         install(new FactoryModuleBuilder().implement(AirfieldEventMatcher.class, AirfieldEventMatcher.class).build(AirfieldEventMatcherFactory.class));
+
+
+        install(new FactoryModuleBuilder().implement(BaseMarker.class, BaseMarker.class).build(BaseMarkerFactory.class));
+
     }
 }

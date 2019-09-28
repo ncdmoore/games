@@ -72,6 +72,8 @@ import engima.waratsea.model.victory.VictoryConditionsFactory;
 import engima.waratsea.model.victory.data.AirfieldVictoryData;
 import engima.waratsea.model.victory.data.ShipVictoryData;
 import engima.waratsea.model.victory.data.SquadronVictoryData;
+import engima.waratsea.view.map.marker.main.BaseMarker;
+import engima.waratsea.view.map.marker.main.BaseMarkerFactory;
 
 /**
  * The guice basic module that configures the bindings for the main application.
@@ -148,6 +150,12 @@ public class BasicModule extends AbstractModule {
         install(new FactoryModuleBuilder().implement(ShipEventMatcher.class, ShipEventMatcher.class).build(ShipEventMatcherFactory.class));
         install(new FactoryModuleBuilder().implement(SquadronEventMatcher.class, SquadronEventMatcher.class).build(SquadronEventMatcherFactory.class));
         install(new FactoryModuleBuilder().implement(AirfieldEventMatcher.class, AirfieldEventMatcher.class).build(AirfieldEventMatcherFactory.class));
+
+
+
+        install(new FactoryModuleBuilder().implement(BaseMarker.class, BaseMarker.class).build(BaseMarkerFactory.class));
+
+
     }
 }
 

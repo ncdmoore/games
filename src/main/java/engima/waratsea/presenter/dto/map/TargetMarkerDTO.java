@@ -6,7 +6,7 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
-import engima.waratsea.view.map.marker.PopUp;
+import engima.waratsea.view.map.marker.preview.PopUp;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import lombok.Getter;

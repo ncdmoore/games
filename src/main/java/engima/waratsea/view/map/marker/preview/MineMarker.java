@@ -1,4 +1,4 @@
-package engima.waratsea.view.map.marker;
+package engima.waratsea.view.map.marker.preview;
 
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.presenter.dto.map.MinefieldDTO;

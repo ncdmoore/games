@@ -15,6 +15,7 @@ import engima.waratsea.model.scenario.Scenario;
 import javafx.util.Pair;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.map.MultiKeyMap;
 
 import java.util.ArrayList;
@@ -446,7 +447,7 @@ public final class GameMap {
                 .get(side)
                 .stream()
                 .flatMap(this::createNationRegionPair)
-                .collect(Collectors.toMap(Pair::getKey, this::createList, this::merge));
+                .collect(Collectors.toMap(Pair::getKey, this::createList, ListUtils::union));
     }
 
     /**

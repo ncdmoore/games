@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -65,7 +66,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     @Getter
     private List<Squadron> squadrons = new ArrayList<>();
 
-    private Map<AircraftType, List<Squadron>> squadronMap = new HashMap<>();
+    private Map<AircraftType, List<Squadron>> squadronMap = new LinkedHashMap<>();
 
     /**
      * Constructor called by guice.
@@ -87,6 +88,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         // Initialize the squadron list for each type of aircraft.
         Stream
                 .of(AircraftType.values())
+                .sorted()
                 .forEach(type -> squadronMap.put(type, new ArrayList<>()));
     }
 
@@ -240,7 +242,9 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                                                   .stream()
                                                   .filter(squadron -> squadron.ofNation(nation))
                                                   .map(Squadron::getSteps)
-                                                  .reduce(BigDecimal.ZERO, BigDecimal::add)));
+                                                  .reduce(BigDecimal.ZERO, BigDecimal::add),
+                                          (oldList, newList) -> oldList, // no collisions should occur. AircraftType is unique.
+                                          LinkedHashMap::new));
     }
 
     /**
@@ -258,7 +262,9 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                                                    .getValue()
                                                    .stream()
                                                    .filter(squadron -> squadron.ofNation(nation))
-                                                   .collect(Collectors.toList())));
+                                                   .collect(Collectors.toList()),
+                                          (oldList, newList) -> oldList, // no collisions should occur. AircraftType is unique.
+                                          LinkedHashMap::new));
     }
 
     /**
