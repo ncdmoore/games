@@ -25,7 +25,6 @@ public class BaseGrid {
     @Getter
     private Port port;
 
-    @Getter
     private Airfield airfield;
 
     @Getter

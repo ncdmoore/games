@@ -102,6 +102,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         AirfieldData data = new AirfieldData();
         data.setSide(side);
         data.setName(name);
+        data.setTitle(title);
         data.setLandingType(landingType);
         data.setMaxCapacity(maxCapacity);
         data.setCapacity(capacity);
