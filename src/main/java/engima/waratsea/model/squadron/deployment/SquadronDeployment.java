@@ -15,7 +15,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Represents the squadron deployment.
+ * Represents the squadron deployment for a particular airfield.
+ * The name field uniquely identifies the airfield.
  */
 public class SquadronDeployment {
     @Getter

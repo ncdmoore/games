@@ -170,8 +170,8 @@ public final class GameMap {
      * @param airfieldName The name of the airfield to retrieve.
      * @return The airfield that corresponds to the given name.
      */
-    public Airfield getAirfield(final Side side, final String airfieldName) {
-        return airfieldMap.get(side).get(airfieldName);
+    public Optional<Airfield> getAirfield(final Side side, final String airfieldName) {
+        return Optional.ofNullable(airfieldMap.get(side).get(airfieldName));
     }
 
     /**
@@ -188,11 +188,15 @@ public final class GameMap {
      * Get the a port by name.
      *
      * @param side The side ALLIES or AXIS.
-     * @param portName The name of the port to retrieve.
-     * @return The port that corresponds to the given name.
+     * @param location The name of the port to retrieve.
+     * @return An optional port that corresponds to the given name.
      */
-    public Port getPort(final Side side, final String portName) {
-        return portMap.get(side).get(portName);
+    public Optional<Port> getPort(final Side side, final String location) {
+        //If the location is a reference convert it to a name.
+        //If the location is a name then the conversion is a no op.
+        String portName = convertPortReferenceToName(location);
+
+        return Optional.ofNullable(portMap.get(side).get(portName));
     }
 
     /**
@@ -517,6 +521,7 @@ public final class GameMap {
             name = portRefToName.get(Side.AXIS).get(reference);
         }
 
+        // name may be null at this point if the reference does not map to a port.
         return name;
     }
 
@@ -636,17 +641,5 @@ public final class GameMap {
         List<Region> list = new ArrayList<>();
         list.add(region);
         return list;
-    }
-
-    /**
-     * Merge two lists.
-     *
-     * @param oldValue A list of type T.
-     * @param newValue A list of type T.
-     * @return The combined list of T.
-     */
-    private  List<Region> merge(final List<Region> oldValue, final List<Region> newValue) {
-        oldValue.addAll(newValue);
-        return oldValue;
     }
 }

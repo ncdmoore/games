@@ -3,6 +3,7 @@ package engima.waratsea.view.map.marker.main;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.map.BaseGrid;
 import engima.waratsea.model.map.BaseGridType;
@@ -29,6 +30,8 @@ public class BaseMarker {
     private final ImageView imageView;
     private final ImageView roundel;
 
+    private final ImageView flag;
+
     /**
      * The constructor.
      *
@@ -54,18 +57,24 @@ public class BaseMarker {
         final String imagePrefix = baseGrid.getSide().getValue().toLowerCase();
         this.imageView = imageResourceProvider.getImageView(scenarioName, imagePrefix + type.getValue() + ".png");
         this.roundel = imageResourceProvider.getImageView(scenarioName, imagePrefix + "Roundel12x12.png");
+        this.flag = imageResourceProvider.getImageView(scenarioName, imagePrefix + "Flag18x12.png");
 
         imageView.setX(gridView.getX());
         imageView.setY(gridView.getY());
         imageView.setViewOrder(ViewOrder.MARKER.getValue());
-
         imageView.setUserData(this);
+        imageView.setId("map-base-grid-marker");
 
         roundel.setX(gridView.getX() + props.getInt("main.map.base.marker.roudel.x.offset"));
         roundel.setY(gridView.getY() + 1);
         roundel.setViewOrder(ViewOrder.MARKER_DECORATION.getValue());
+        roundel.setUserData(this);
 
-        imageView.setId("map-base-grid-marker");
+        flag.setX(gridView.getX() + 1);
+        flag.setY(gridView.getY() + props.getInt("main.map.base.marker.flag.y.offset"));
+        flag.setViewOrder(ViewOrder.MARKER_DECORATION.getValue());
+        flag.setUserData(this);
+
     }
 
     /**
@@ -78,6 +87,10 @@ public class BaseMarker {
 
         if (areSquadronsPresent() && game.getHumanPlayer().getSide() == baseGrid.getSide()) {
             mapView.add(roundel);
+        }
+
+        if (areTaskForcesPresent() && game.getHumanPlayer().getSide() == baseGrid.getSide()) {
+            mapView.add(flag);
         }
     }
 
@@ -97,6 +110,8 @@ public class BaseMarker {
      */
     public void setBaseClickHandler(final EventHandler<? super MouseEvent> handler) {
         imageView.setOnMouseClicked(handler);
+        roundel.setOnMouseClicked(handler);
+        flag.setOnMouseClicked(handler);
     }
 
     /**
@@ -109,6 +124,19 @@ public class BaseMarker {
         return baseGrid
                 .getAirfield()
                 .map(Airfield::areSquadronsPresent)
+                .orElse(false);
+    }
+
+    /**
+     * Determine if any task forces are present at this marker's port, if
+     * this marker contains a port.
+     *
+     * @return True if this marker's port contains task forces. False otherwise.
+     */
+    private boolean areTaskForcesPresent() {
+        return baseGrid
+                .getPort()
+                .map(Port::areTaskForcesPresent)
                 .orElse(false);
     }
 

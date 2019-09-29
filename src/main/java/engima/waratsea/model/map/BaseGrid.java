@@ -22,14 +22,11 @@ public class BaseGrid {
     @Setter
     private GameGrid gameGrid;
 
-    @Getter
     private Port port;
-
     private Airfield airfield;
 
     @Getter
     private BaseGridType type;
-
 
     /**
      * Constructor.
@@ -60,6 +57,15 @@ public class BaseGrid {
      */
     public Optional<Airfield> getAirfield() {
         return Optional.ofNullable(airfield);
+    }
+
+    /**
+     * Get an optional port for this base marker.
+     *
+     * @return An optional port.
+     */
+    public Optional<Port> getPort() {
+        return Optional.ofNullable(port);
     }
 
     /**

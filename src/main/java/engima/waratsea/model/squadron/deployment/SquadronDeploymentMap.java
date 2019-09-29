@@ -8,6 +8,7 @@ import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.ListUtils;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -79,7 +80,8 @@ public class SquadronDeploymentMap {
 
         rankingForTypeMap
                 .forEach((ranking, airfields) -> airfields
-                        .forEach(airfield -> log.info("{} Airfield: '{}', ranking: '{}'", new Object[]{type, airfield.getName(), ranking})));
+                        .forEach(airfield -> log.debug("{} Airfield: '{}', ranking: '{}'",
+                                new Object[]{type, airfield.getName(), ranking})));
 
         return rankingForTypeMap
                 .entrySet()
@@ -127,13 +129,14 @@ public class SquadronDeploymentMap {
      *
      * @param deployments The airfield deployment.
      * @param airfields The airfields.
-     * @return A map of airfield to list of aircraft models map.
+     * @return A map of airfield objects to a list of aircraft model names.
      */
     private Map<Airfield, List<String>> getModelMap(final List<SquadronDeployment> deployments,
                                                     final List<Airfield> airfields) {
         return deployments
                 .stream()
-                .collect(Collectors.toMap(this::getAirfield, SquadronDeployment::getMandatory));
+                .collect(Collectors.toMap(this::getAirfield,
+                                          SquadronDeployment::getMandatory));
     }
 
     /**
@@ -153,7 +156,7 @@ public class SquadronDeploymentMap {
                 .stream()
                 .collect(Collectors.toMap(deployment -> deployment.getRanking(type),
                         this::getAirfieldList,
-                        this::merge));
+                        ListUtils::union));
 
         List<Airfield> rankedAirfields = ranked
                 .entrySet()
@@ -195,8 +198,10 @@ public class SquadronDeploymentMap {
      * @param deployment The squadron deployment.
      * @return The corresponding airfield of the deployment.
      */
-    private Airfield getAirfield(final SquadronDeployment deployment) {
-        return gameMap.getAirfield(side, deployment.getName());
+    private Airfield getAirfield(final SquadronDeployment deployment)  {
+        return gameMap.getAirfield(side, deployment.getName())
+                .orElseThrow(() -> new RuntimeException("Unable to get the airfield for the deployment: '"
+                        + deployment.getName() + "'"));
     }
 
     /**
@@ -211,19 +216,6 @@ public class SquadronDeploymentMap {
         list.add(airfield);
         return list;
     }
-
-    /**
-     * Merge two lists.
-     *
-     * @param oldValue A list of airfields.
-     * @param newValue A list of airfields.
-     * @return The combined list of airfields.
-     */
-    private List<Airfield> merge(final List<Airfield> oldValue, final List<Airfield> newValue) {
-        oldValue.addAll(newValue);
-        return oldValue;
-    }
-
 
     /**
      * Filter the given airfield list by the given region.

@@ -27,7 +27,7 @@
     </appender>
 
 
-    <logger name="engima.waratsea.presenter" level="debug" additivity="false">
+    <logger name="engima.waratsea.presenter" level="info" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
 

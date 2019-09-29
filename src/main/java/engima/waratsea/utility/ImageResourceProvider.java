@@ -160,7 +160,7 @@ public class ImageResourceProvider {
      * @return An optional ship profile image.
      */
     private Optional<Image> getShipNameProfileImage(final Vessel ship) {
-        log.info("Look for ship name profile '{}'", ship.getName());
+        log.debug("Look for ship name profile '{}'", ship.getName());
         String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getName() + "-profile.png";
         return loadImage(path);
     }
@@ -172,7 +172,7 @@ public class ImageResourceProvider {
      * @return An optional ship profile image.
      */
     private Optional<Image> getShipClassProfileImage(final Vessel ship) {
-        log.info("Look for ship class profile '{}'", ship.getShipClass());
+        log.debug("Look for ship class profile '{}'", ship.getShipClass());
         String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getShipClass() + "-profile.png";
         return loadImage(path);
     }
@@ -277,7 +277,7 @@ public class ImageResourceProvider {
 
        try {
            File file =  new File(url.toURI().getPath());
-           log.info("Loaded image: {}", url.toURI().getPath());
+           log.debug("Loaded image: {}", url.toURI().getPath());
            return new Image(file.toURI().toString());
        } catch (URISyntaxException ex) {
            log.error("Unable to get URI from URL.", ex);

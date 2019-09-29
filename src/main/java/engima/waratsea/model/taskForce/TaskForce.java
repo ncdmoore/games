@@ -224,6 +224,11 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
      */
     public void setLocation(final String newLocation) {
         location = gameMap.convertNameToReference(newLocation);
+
+        if (atFriendlyBase()) {
+            gameMap.getPort(side, location)
+                    .ifPresent(port -> port.addTaskForce(this));
+        }
     }
 
     /**

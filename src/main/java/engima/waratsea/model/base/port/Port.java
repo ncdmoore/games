@@ -6,7 +6,11 @@ import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.base.Base;
 import engima.waratsea.model.base.port.data.PortData;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a port within the game.
@@ -28,6 +32,8 @@ public class Port implements Base, PersistentData<PortData> {
     private final String reference; // A simple string is used to prevent circular logic on mapping names and references.
                                     // Ports are used to map port names to map references. Thus, we just need a map reference.
 
+    @Getter
+    private List<TaskForce> taskForces = new ArrayList<>();
     /**
      * Constructor called by guice.
      *
@@ -72,5 +78,23 @@ public class Port implements Base, PersistentData<PortData> {
     @Override
     public String toString() {
         return name;
+    }
+
+    /**
+     * Add a task force to this port.
+     *
+     * @param taskForce The task force added to this port.
+     */
+    public void addTaskForce(final TaskForce taskForce) {
+        taskForces.add(taskForce);
+    }
+
+    /**
+     * Determine if this port has task forces present.
+     *
+     * @return True if task forces are present at this port. False, otherwsie.
+     */
+    public boolean areTaskForcesPresent() {
+        return !taskForces.isEmpty();
     }
 }

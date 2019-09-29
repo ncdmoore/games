@@ -15,8 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Optional;
-
 /**
  * This class handles all interaction with the main game map.
  */
@@ -81,7 +79,7 @@ public class MainMapPresenter {
 
         BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
 
-        String portName = Optional.ofNullable(baseMarker.getBaseGrid().getPort()).map(Port::getName).orElse("");
+        String portName = baseMarker.getBaseGrid().getPort().map(Port::getName).orElse("");
         String airfieldName = baseMarker.getBaseGrid().getAirfield().map(Airfield::getName).orElse("");
 
         log.info("Human: Base port: '{}', airfield: '{}'", portName, airfieldName);
@@ -102,7 +100,7 @@ public class MainMapPresenter {
 
         BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
 
-        String portName = Optional.ofNullable(baseMarker.getBaseGrid().getPort()).map(Port::getName).orElse("");
+        String portName = baseMarker.getBaseGrid().getPort().map(Port::getName).orElse("");
         String airfieldName = baseMarker.getBaseGrid().getAirfield().map(Airfield::getName).orElse("");
 
         log.info("Computer: Base port: '{}', airfield: '{}'", portName, airfieldName);

@@ -320,9 +320,9 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @param airbaseName The airbase name from the squadron JSON file.
      */
     private void initializeAirbase(final String airbaseName) {
-         Optional
+        Optional
                 .ofNullable(airbaseName)
-                .map(baseName -> gameMap.getAirfield(side, baseName))
+                .flatMap(baseName -> gameMap.getAirfield(side, baseName))
                 .ifPresent(airbase -> {
                     setAirfield(airbase);
                     airbase.addSquadron(this);
