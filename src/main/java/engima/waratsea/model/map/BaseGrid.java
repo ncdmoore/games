@@ -30,6 +30,7 @@ public class BaseGrid {
     @Getter
     private BaseGridType type;
 
+
     /**
      * Constructor.
      *

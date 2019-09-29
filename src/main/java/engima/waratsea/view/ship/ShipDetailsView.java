@@ -203,7 +203,7 @@ public class ShipDetailsView {
     private Tab buildAircraftTab(final Ship ship) {
 
         squadrons.getItems().clear();
-        squadrons.getItems().addAll(ship.getAircraft());
+        squadrons.getItems().addAll(ship.getSquadrons());
 
         VBox aircraftListBox = new VBox(new Label("Select Squadron:"), squadrons);
         aircraftListBox.setId("aircraft-list");

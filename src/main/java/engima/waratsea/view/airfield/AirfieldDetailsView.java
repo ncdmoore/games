@@ -64,6 +64,7 @@ public class AirfieldDetailsView {
         airfield
                 .getNations()
                 .stream()
+                .sorted()
                 .map(this::createNationTab)
                 .forEach(tab -> tabPane.getTabs().add(tab));
 

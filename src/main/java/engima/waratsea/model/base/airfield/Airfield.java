@@ -158,6 +158,16 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
+     * Indicates if this airbase has any squadrons.
+     *
+     * @return True if any squadron is based at this airbase. False otherwise.
+     */
+    @Override
+    public boolean areSquadronsPresent() {
+        return !squadrons.isEmpty();
+    }
+
+    /**
      * Base a squadron from this airfield.
      *
      * @param squadron The squadron which is now based at this airfield.

@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Represents an aircraft carrier.
+ * Represents an squadrons carrier.
  */
 public class AircraftCarrier implements Ship, Airbase {
 
@@ -92,7 +92,7 @@ public class AircraftCarrier implements Ship, Airbase {
     private List<LandingType> landingType;
 
     @Getter
-    private List<Squadron> aircraft;
+    private List<Squadron> squadrons;
 
     @Getter
     private Map<AircraftType, List<Squadron>> aircraftTypeMap;
@@ -101,7 +101,7 @@ public class AircraftCarrier implements Ship, Airbase {
      * Constructor called by guice.
      *
      * @param data Ship's data.
-     * @param factory Squadron factory that makes the aircraft carrier's squadrons.
+     * @param factory Squadron factory that makes the squadrons carrier's squadrons.
      */
     @Inject
     public AircraftCarrier(@Assisted final ShipData data,
@@ -177,7 +177,7 @@ public class AircraftCarrier implements Ship, Airbase {
 
         data.setFlightDeck(flightDeck.getData());
 
-        data.setAircraft(PersistentUtility.getData(aircraft));
+        data.setAircraft(PersistentUtility.getData(squadrons));
 
         data.setLandingType(landingType);
 
@@ -205,7 +205,7 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
-     * Get the aircraft carriers maximum squadron capacity in steps.
+     * Get the squadrons carriers maximum squadron capacity in steps.
      *
      * @return The carrier's maximum squadron capacity in steps.
      */
@@ -215,13 +215,23 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
-     * Get The aircraft carrier's current aircraft capacity.
+     * Get The squadrons carrier's current squadrons capacity.
      *
-     * @return The current aircraft capacity in steps.
+     * @return The current squadrons capacity in steps.
      */
     @Override
     public int getCapacity() {
         return aircraftCapacity.getHealth();
+    }
+
+    /**
+     * Indicates if this airbase has any squadrons.
+     *
+     * @return True if any squadron is based at this airbase. False otherwise.
+     */
+    @Override
+    public boolean areSquadronsPresent() {
+        return !squadrons.isEmpty();
     }
 
     /**
@@ -267,9 +277,9 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
-     * Determines if this ship is an aircraft carrier.
+     * Determines if this ship is an squadrons carrier.
      *
-     * @return True if this ship is an aircraft carrier. False otherwise.
+     * @return True if this ship is an squadrons carrier. False otherwise.
      */
     @Override
     public boolean isCarrier() {
@@ -277,13 +287,13 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
-     * Determines if this ship has any aircraft carrier based or float planes.
+     * Determines if this ship has any squadrons carrier based or float planes.
      *
-     * @return True if this ship has aircraft. False otherwise.
+     * @return True if this ship has squadrons. False otherwise.
      */
     @Override
     public boolean hasAircraft() {
-        return !aircraft.isEmpty();
+        return !squadrons.isEmpty();
     }
 
     /**
@@ -303,9 +313,9 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
-     * Get a summary map of aircraft type to number of steps of that type.
+     * Get a summary map of squadrons type to number of steps of that type.
      *
-     * @return A map of aircraft types to number of steps of that type.
+     * @return A map of squadrons types to number of steps of that type.
      */
     @Override
     public Map<AircraftType, BigDecimal> getSquadronSummary() {
@@ -330,7 +340,7 @@ public class AircraftCarrier implements Ship, Airbase {
         AirfieldOperation result = canStation(squadron);
 
         if (result == AirfieldOperation.SUCCESS) {
-            aircraft.add(squadron);
+            squadrons.add(squadron);
         }
 
         return result;
@@ -343,26 +353,27 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public void removeSquadron(final Squadron squadron) {
-        aircraft.remove(squadron);
+        squadrons.remove(squadron);
     }
+
     /**
      * Get the strength in steps of the given list of squadrons.
      *
-     * @param squadrons A list of squadrons of a given aircraft type.
+     * @param squads A list of squadrons of a given squadrons type.
      * @return The total strength of the list of squadrons.
      */
-    private BigDecimal sumSteps(final List<Squadron> squadrons) {
-        return squadrons
+    private BigDecimal sumSteps(final List<Squadron> squads) {
+        return squads
                 .stream()
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     /**
-     * Build the aircraft capacity.
+     * Build the squadrons capacity.
      *
-     * @param deck The aircraft carrier's flight deck.
-     * @return The ship's aircraft carrier capacity.
+     * @param deck The squadrons carrier's flight deck.
+     * @return The ship's squadrons carrier capacity.
      */
     private AircraftCapacity buildAircraftCapacity(final FlightDeck deck) {
         AircraftCapacity capacity = new AircraftCapacity();
@@ -373,21 +384,21 @@ public class AircraftCarrier implements Ship, Airbase {
 
     /**
      * Build the ship squadrons. Do not examine the landing type. Some
-     * scenario's require that carriers be loaded with aircraft that
+     * scenario's require that carriers be loaded with squadrons that
      * can take off but not land. Thus, we ignore the landing type
      * on initial ship creation.
      *
-     * @param data The aircraft data read in from a JSON file.
+     * @param data The squadrons data read in from a JSON file.
      * @param factory The squadron factory that builds the actual squadron.
      */
     private void buildSquadrons(final List<SquadronData> data, final SquadronFactory factory) {
-        aircraft = Optional.ofNullable(data)
+        squadrons = Optional.ofNullable(data)
                 .orElseGet(Collections::emptyList)
                 .stream()
                 .map(squadronData -> factory.create(shipId.getSide(), nationality, squadronData))
                 .collect(Collectors.toList());
 
-        aircraftTypeMap = aircraft
+        aircraftTypeMap = squadrons
                 .stream()
                 .collect(Collectors.groupingBy(Squadron::getType));
     }
@@ -412,7 +423,7 @@ public class AircraftCarrier implements Ship, Airbase {
      * @return The current number of steps deployed at this airfield.
      */
     private int deployedSteps() {
-        return aircraft
+        return squadrons
                 .stream()
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
@@ -420,10 +431,10 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
-     * Determine if the aircraft carrier has room for the given squadron.
+     * Determine if the squadrons carrier has room for the given squadron.
      *
-     * @param squadron A squadron that may be based at this aircraft carrier.
-     * @return True if this aircraft carrier has room for the given squadron. False otherwise.
+     * @param squadron A squadron that may be based at this squadrons carrier.
+     * @return True if this squadrons carrier has room for the given squadron. False otherwise.
      */
     private boolean hasRoom(final Squadron squadron) {
         int steps = squadron.getSteps().intValue();

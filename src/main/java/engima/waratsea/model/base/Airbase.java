@@ -38,6 +38,13 @@ public interface Airbase extends Base {
     int getCapacity();
 
     /**
+     * Indicates if this airbase has any squadrons.
+     *
+     * @return True if any squadron is based at this airbase. False otherwise.
+     */
+    boolean areSquadronsPresent();
+
+    /**
      * Add a squadron to this air base.
      *
      * @param squadron The squadron that is now based at this airbase.

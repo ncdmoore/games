@@ -96,7 +96,7 @@ public interface Ship extends Vessel, PersistentData<ShipData> {
      *
      * @return A list of aircraft squadrons.
      */
-    List<Squadron> getAircraft();
+    List<Squadron> getSquadrons();
 
 
     /**

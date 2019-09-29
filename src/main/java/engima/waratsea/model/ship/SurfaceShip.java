@@ -81,7 +81,7 @@ public class SurfaceShip implements Ship {
     private String originPort;
 
     @Getter
-    private List<Squadron> aircraft;
+    private List<Squadron> squadrons;
 
     @Getter
     private Map<AircraftType, List<Squadron>> aircraftTypeMap;
@@ -158,7 +158,7 @@ public class SurfaceShip implements Ship {
 
         data.setOriginPort(originPort);
 
-        data.setAircraft(PersistentUtility.getData(aircraft));
+        data.setAircraft(PersistentUtility.getData(squadrons));
 
         return data;
     }
@@ -204,9 +204,9 @@ public class SurfaceShip implements Ship {
     }
 
     /**
-     * Determines if this ship is an aircraft carrier.
+     * Determines if this ship is an squadrons carrier.
      *
-     * @return True if this ship is an aircraft carrier. False otherwise.
+     * @return True if this ship is an squadrons carrier. False otherwise.
      */
     @Override
     public boolean isCarrier() {
@@ -214,13 +214,13 @@ public class SurfaceShip implements Ship {
     }
 
     /**
-     * Determines if this ship has any aircraft carrier based or float planes.
+     * Determines if this ship has any squadrons carrier based or float planes.
      *
-     * @return True if this ship has aircraft. False otherwise.
+     * @return True if this ship has squadrons. False otherwise.
      */
     @Override
     public boolean hasAircraft() {
-        return !aircraft.isEmpty();
+        return !squadrons.isEmpty();
     }
 
     /**
@@ -252,9 +252,9 @@ public class SurfaceShip implements Ship {
     }
 
     /**
-     * Get a summary map of aircraft type to number of steps of that type.
+     * Get a summary map of squadrons type to number of steps of that type.
      *
-     * @return A map of aircraft types to number of steps of that type.
+     * @return A map of squadrons types to number of steps of that type.
      */
     @Override
     public Map<AircraftType, BigDecimal> getSquadronSummary() {
@@ -269,11 +269,11 @@ public class SurfaceShip implements Ship {
     /**
      * Get the strength in steps of the given list of squadrons.
      *
-     * @param squadrons A list of squadrons of a given aircraft type.
+     * @param squads A list of squadrons of a given squadrons type.
      * @return The total strength of the list of squadrons.
      */
-    private BigDecimal sumSteps(final List<Squadron> squadrons) {
-        return squadrons
+    private BigDecimal sumSteps(final List<Squadron> squads) {
+        return squads
                 .stream()
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -281,21 +281,21 @@ public class SurfaceShip implements Ship {
 
     /**
      * Build the ship squadrons. Do not examine the landing type. Some
-     * scenario's require that surface ships be loaded with aircraft that
+     * scenario's require that surface ships be loaded with squadrons that
      * can take off but not land at sea. Thus, we ignore the landing type
      * on initial ship creation.
      *
-     * @param data The aircraft data read in from a JSON file.
+     * @param data The squadrons data read in from a JSON file.
      * @param factory The squadron factory that builds the actual squadron.
      */
     private void buildSquadrons(final List<SquadronData> data, final SquadronFactory factory) {
-        aircraft =  Optional.ofNullable(data)
+        squadrons =  Optional.ofNullable(data)
                 .orElseGet(Collections::emptyList)
                 .stream()
                 .map(squadronData -> factory.create(shipId.getSide(), nationality, squadronData))
                 .collect(Collectors.toList());
 
-        aircraftTypeMap = aircraft
+        aircraftTypeMap = squadrons
                 .stream()
                 .collect(Collectors.groupingBy(Squadron::getType));
     }
