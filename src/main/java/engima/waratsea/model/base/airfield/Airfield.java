@@ -374,16 +374,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
-     * The map location of the asset.
-     *
-     * @return The map location of the asset.
-     */
-    @Override
-    public String getLocation() {
-        return reference;
-    }
-
-    /**
      * Get the active state of the asset.
      *
      * @return True if the asset is active. False if the asset is not active.

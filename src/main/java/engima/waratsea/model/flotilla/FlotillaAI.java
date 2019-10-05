@@ -75,7 +75,7 @@ public class FlotillaAI {
                 if (flotillaDeployment.getNumber() > 0) {
                     String grid = selectGrid(flotillaDeployment.getGrids());
                     flotillaDeployment.deploy(grid);
-                    flotilla.setLocation(grid);
+                    flotilla.setReference(grid);
 
                     log.info("Deploy flotilla '{}' to grid: '{}'", flotilla.getName(), grid);
 

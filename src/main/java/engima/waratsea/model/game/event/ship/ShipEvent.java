@@ -77,9 +77,9 @@ public class ShipEvent extends GameEvent {
      */
     private void log() {
         if (by == null) {
-            log.info("Fire event: {} {} at {}", new Object[]{ship.getName(), action, ship.getTaskForce().getLocation()});
+            log.info("Fire event: {} {} at {}", new Object[]{ship.getName(), action, ship.getTaskForce().getReference()});
         } else {
-            log.info("Fire event: {} {} at {} by {}", new Object[]{ship.getName(), action, ship.getTaskForce().getLocation(), by});
+            log.info("Fire event: {} {} at {} by {}", new Object[]{ship.getName(), action, ship.getTaskForce().getReference(), by});
         }
     }
 }

@@ -34,7 +34,7 @@ public class SubmarineFlotilla implements Flotilla {
 
     @Getter
     @Setter
-    private String location; //This is always a map reference and never a name.
+    private String reference; //This is always a map reference and never a name.
 
     private SubmarineDAO submarineDAO;
     private GameMap gameMap;
@@ -53,7 +53,7 @@ public class SubmarineFlotilla implements Flotilla {
                                        final SubmarineDAO submarineDAO,
                                        final GameMap gameMap) {
         this.name = data.getName();
-        this.location = data.getLocation();
+        this.reference = data.getLocation();
         this.side = side;
 
         this.submarineDAO = submarineDAO;
@@ -79,7 +79,7 @@ public class SubmarineFlotilla implements Flotilla {
     public FlotillaData getData() {
         FlotillaData data = new FlotillaData();
         data.setName(name);
-        data.setLocation(location);
+        data.setLocation(reference);
         data.setSubs(getSubNames(subs));
         return data;
     }
@@ -100,16 +100,16 @@ public class SubmarineFlotilla implements Flotilla {
      * @return True if the flotilla is currently located at a friendly port. False otherwise.
      */
     public boolean atFriendlyBase() {
-        return gameMap.isLocationBase(side, location);
+        return gameMap.isLocationBase(side, reference);
     }
 
     /**
-     * Get the flotilla's location. Return a port if the flotilla is in a port.
+     * Get the flotilla's reference. Return a port if the flotilla is in a port.
      *
-     * @return The flotilla's location. Mapped to a port name if the flotilla is in a port.
+     * @return The flotilla's reference. Mapped to a port name if the flotilla is in a port.
      */
     public String getMappedLocation() {
-        return gameMap.convertPortReferenceToName(location);
+        return gameMap.convertPortReferenceToName(reference);
     }
 
     /**

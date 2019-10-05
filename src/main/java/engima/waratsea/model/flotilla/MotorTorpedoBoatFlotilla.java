@@ -33,7 +33,7 @@ public class MotorTorpedoBoatFlotilla implements Flotilla {
     private List<MotorTorpedoBoat> boats;
 
     @Getter
-    private String location; //This is always a map reference and never a name.
+    private String reference; //This is always a map reference and never a name.
 
     private MotorTorpedoBoatDAO boatDAO;
     private GameMap gameMap;
@@ -56,7 +56,7 @@ public class MotorTorpedoBoatFlotilla implements Flotilla {
         this.gameMap = gameMap;
         this.boatDAO = boatDAO;
 
-        setLocation(data.getLocation());
+        setReference(data.getLocation());
 
         buildBoats(data.getBoats());
     }
@@ -78,26 +78,26 @@ public class MotorTorpedoBoatFlotilla implements Flotilla {
      */
     @Override
     public boolean atFriendlyBase() {
-        return gameMap.isLocationBase(side, location);
+        return gameMap.isLocationBase(side, reference);
     }
 
     /**
-     * Get the flotilla's location. Return a port if the flotilla is in a port.
+     * Get the flotilla's reference. Return a port if the flotilla is in a port.
      *
-     * @return The flotilla's location. Mapped to a port name if the flotilla is in a port.
+     * @return The flotilla's reference. Mapped to a port name if the flotilla is in a port.
      */
     @Override
     public String getMappedLocation() {
-        return gameMap.convertPortReferenceToName(location);
+        return gameMap.convertPortReferenceToName(reference);
     }
 
     /**
-     * Get the flotilla's new location.
+     * Get the flotilla's new reference.
      *
-     * @param newLocation The flotilla's new location.
+     * @param newLocation The flotilla's new reference.
      */
-    public void setLocation(final String newLocation) {
-        location = gameMap.convertNameToReference(newLocation);
+    public void setReference(final String newLocation) {
+        reference = gameMap.convertNameToReference(newLocation);
     }
 
     /**
@@ -139,7 +139,7 @@ public class MotorTorpedoBoatFlotilla implements Flotilla {
     public FlotillaData getData() {
         FlotillaData data = new FlotillaData();
         data.setName(name);
-        data.setLocation(location);
+        data.setLocation(reference);
         data.setBoats(getBoatNames(boats));
 
         return data;

@@ -130,7 +130,7 @@ public class ShipVictoryTest {
 
         Assert.assertEquals(0, victory.getTotalVictoryPoints());
 
-        taskForce.setLocation("Tobruk");
+        taskForce.setReference("Tobruk");
 
         Assert.assertTrue(taskForce.atEnemyBase());
 
@@ -265,7 +265,7 @@ public class ShipVictoryTest {
 
         Assert.assertEquals(0, victory.getTotalVictoryPoints());
 
-        taskForce.setLocation("Malta");
+        taskForce.setReference("Malta");
 
         ShipEvent event = new ShipEvent();
         event.setAction(ShipEventAction.CARGO_UNLOADED);
@@ -301,7 +301,7 @@ public class ShipVictoryTest {
 
         Assert.assertFalse(victory.requirementsMet());
 
-        taskForce.setLocation("Malta");
+        taskForce.setReference("Malta");
 
         ShipEvent event = new ShipEvent();
         event.setAction(ShipEventAction.CARGO_UNLOADED);
@@ -354,7 +354,7 @@ public class ShipVictoryTest {
 
         Assert.assertEquals(0, victory.getTotalVictoryPoints());
 
-        taskForce.setLocation("Tobruk");
+        taskForce.setReference("Tobruk");
 
         ShipEvent event = new ShipEvent();
         event.setAction(ShipEventAction.BOMBARDMENT);
@@ -396,7 +396,7 @@ public class ShipVictoryTest {
 
         Assert.assertEquals(0, victory.getTotalVictoryPoints());
 
-        taskForce.setLocation("Tobruk");
+        taskForce.setReference("Tobruk");
 
         Assert.assertTrue(taskForce.atEnemyBase());
 
@@ -472,7 +472,7 @@ public class ShipVictoryTest {
 
         Assert.assertEquals(0, victory.getTotalVictoryPoints());
 
-        taskForce.setLocation("Tobruk");
+        taskForce.setReference("Tobruk");
 
         Assert.assertTrue(taskForce.atEnemyBase());
 

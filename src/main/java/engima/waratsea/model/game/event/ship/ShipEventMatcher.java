@@ -41,13 +41,13 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     @Getter
     private final List<ShipType> shipTypes; // A list of ship types to match.
 
-    // A list of starting locations to match. This is the location where a ship started.
-    // The only event that uses this is the CARGO_UNLOADED event. The starting location is the location
+    // A list of starting locations to match. This is the reference where a ship started.
+    // The only event that uses this is the CARGO_UNLOADED event. The starting reference is the reference
     // where the cargo was loaded.
     @Getter
     private final List<String> portOrigins;
 
-    private final List<String> locations; // A list of locations to match. This is the location where the event occurred.
+    private final List<String> locations; // A list of locations to match. This is the reference where the event occurred.
 
     @Getter
     private final AssetType by;    // The game asset Ship, aircraft or sub that caused the event to fire. The asset that did the event.
@@ -149,8 +149,8 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
         log.debug("Match side {}", logValue(side));
         log.debug("Match task force name {}", logValue(taskForceName));
         log.debug("Match ship type {}", logShip(shipTypes));
-        log.debug("Match starting location {}", logLocation(portOrigins));
-        log.debug("Match location {}", logLocation(locations));
+        log.debug("Match starting reference {}", logLocation(portOrigins));
+        log.debug("Match reference {}", logLocation(locations));
         log.debug("Match by {}", logValue(by));
     }
 
@@ -276,18 +276,18 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     }
 
     /**
-     * Determine if the fired event location mathces the desired location.
+     * Determine if the fired event reference mathces the desired reference.
      *
      * @param ship The fired event ship.
-     * @return True if the ship's location matched. False otherwise.
+     * @return True if the ship's reference matched. False otherwise.
      */
     private boolean isLocationEqual(final Ship ship) {
         TaskForce taskForce = ship.getTaskForce();
 
-        return locations == null                                                                                         // If the location is not specified then it does not matter.
+        return locations == null                                                                                         // If the reference is not specified then it does not matter.
                 || matchAnyEnemyBase(taskForce)
                 || matchAnyFriendlyBase(taskForce)
-                || locations.contains(taskForce.getLocation());
+                || locations.contains(taskForce.getReference());
     }
 
     /**
@@ -346,11 +346,11 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     }
 
     /**
-     * Matches the event location if the desired location is a friendly location and the event location occurs at a
+     * Matches the event reference if the desired reference is a friendly reference and the event reference occurs at a
      * friendly base.
      *
      * @param taskForce The task force of the ship that experienced the event.
-     * @return True if the location matches. False otherwise.
+     * @return True if the reference matches. False otherwise.
      */
     private boolean matchAnyFriendlyBase(final TaskForce taskForce) {
         return locations.contains(GameMap.ANY_FRIENDLY_BASE)
@@ -393,11 +393,11 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     }
 
     /**
-     * The location is converted to a name if possible. If no location is specified then "*"
+     * The reference is converted to a name if possible. If no reference is specified then "*"
      * is returned.
      *
-     * @param value The location value to log.
-     * @return The value of the location. A name is returned if possible.
+     * @param value The reference value to log.
+     * @return The value of the reference. A name is returned if possible.
      */
     private String logLocation(final List<String> value) {
         return Optional.ofNullable(value)

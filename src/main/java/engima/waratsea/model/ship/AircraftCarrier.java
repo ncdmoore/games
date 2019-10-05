@@ -261,7 +261,7 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public String getReference() {
-        return taskForce.getLocation();
+        return taskForce.getReference();
     }
 
     /**
@@ -301,7 +301,7 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public void setSail() {
-        originPort = taskForce.getLocation();
+        originPort = taskForce.getReference();
     }
 
     /**

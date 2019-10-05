@@ -40,14 +40,14 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
     @Getter
     private final List<AircraftType> aircraftTypes; // A list of aircraft types to match.
 
-    // A list of starting locations to match. This is the location where a squadron took off.
-    // The only event that uses this is the ARRIVAL event. The starting location is the location
+    // A list of starting locations to match. This is the reference where a squadron took off.
+    // The only event that uses this is the ARRIVAL event. The starting reference is the reference
     // where the squadron took off. This may be an aircraft carrier or a transport ship if
     // the squadron is launched from catapult.
     @Getter
     private final List<String> airfieldOrigins;  // The airfield names should be stored in the airfield origins. Not airfield references.
 
-    private final List<String> locations; // A list of locations to match. This is the location where the event occurred.
+    private final List<String> locations; // A list of locations to match. This is the reference where the event occurred.
 
     @Getter
     private final AssetType by;    // The game asset Ship, aircraft or sub that caused the event to fire. The asset that did the event.
@@ -127,8 +127,8 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
         log.debug("Match side {}", logValue(side));
         log.debug("Match aircraft model {}", logName(aircraftModels));
         log.debug("Match aircraft type {}", logAircraft(aircraftTypes));
-        log.debug("Match starting location {}", logLocation(airfieldOrigins));
-        log.debug("Match location {}", logLocation(locations));
+        log.debug("Match starting reference {}", logLocation(airfieldOrigins));
+        log.debug("Match reference {}", logLocation(locations));
         log.debug("Match by {}", logValue(by));
     }
 
@@ -253,16 +253,16 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
     }
 
     /**
-     * Determine if the location of the event is matched.
+     * Determine if the reference of the event is matched.
      *
      * @param squadron The squadron that experienced the event.
-     * @return True if the squadron's location matched. False otherwise.
+     * @return True if the squadron's reference matched. False otherwise.
      */
     private boolean isLocationEqual(final Squadron squadron) {
-        return locations == null                                                                                         // If the location is not specified then it does not matter.
+        return locations == null                                                                                         // If the reference is not specified then it does not matter.
                 || matchAnyEnemyBase(squadron)
                 || matchAnyFriendlyBase(squadron)
-                || locations.contains(squadron.getLocation());
+                || locations.contains(squadron.getReference());
     }
 
     /**
@@ -306,7 +306,7 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
     }
 
     /**
-     * Matches when the event location occurs at an enemy base.
+     * Matches when the event reference occurs at an enemy base.
      *
      * @param squadron The squadron experiencing the event.
      * @return True if the squadron is at an enemy base. False otherwise.
@@ -317,7 +317,7 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
     }
 
     /**
-     * Matches when the event location occurs at a friendly base.
+     * Matches when the event reference occurs at a friendly base.
      *
      * @param squadron The squadron that experienced the event.
      * @return True if the squadron is at a friendly base. False otherwise.
@@ -353,11 +353,11 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
     }
 
     /**
-     * The location is converted to a name if possible. If no location is specified then "*"
+     * The reference is converted to a name if possible. If no reference is specified then "*"
      * is returned.
      *
-     * @param value The location value to log.
-     * @return The value of the location. A name is returned if possible.
+     * @param value The reference value to log.
+     * @return The value of the reference. A name is returned if possible.
      */
     private String logLocation(final List<String> value) {
         return Optional.ofNullable(value)

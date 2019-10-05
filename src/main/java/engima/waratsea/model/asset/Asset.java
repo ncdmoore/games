@@ -20,7 +20,6 @@ public interface Asset {
      */
     Side getSide();
 
-
     /**
      * Get the title of the asset that is displayed on the GUI.
      *
@@ -29,11 +28,11 @@ public interface Asset {
     String getTitle();
 
     /**
-     * The map location of the asset.
+     * The map reference of the asset.
      *
-     * @return The map location of the asset.
+     * @return The map reference of the asset.
      */
-    String getLocation();
+    String getReference();
 
     /**
      * Get the active state of the asset.

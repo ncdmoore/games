@@ -98,7 +98,7 @@ public class SquadronEventTest {
 
         Squadron squadron = squadronFactory.create(Side.ALLIES, Nation.BRITISH, squadronData);
         squadron.setAirfield(airfield);
-        squadron.setLocation("Alexandria");
+        squadron.setReference("Alexandria");
 
         SquadronMatchData matchData = new SquadronMatchData();
         matchData.setSide(Side.ALLIES);

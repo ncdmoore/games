@@ -219,7 +219,7 @@ public class SquadronVictoryTest {
         Airbase airbase = (Airbase) taskForce.getShip("CVL01 Argus-1");
 
         alliedSquadron.setAirfield(airbase);
-        alliedSquadron.setLocation("Malta");
+        alliedSquadron.setReference("Malta");
 
         event.fire();
 

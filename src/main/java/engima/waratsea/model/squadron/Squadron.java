@@ -53,7 +53,7 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     private SquadronStrength strength;
 
     @Getter
-    private String location;
+    private String reference; //This is always a map reference and never a name.
 
     @Getter
     private Airbase airfield;
@@ -201,20 +201,20 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     public void setAirfield(final Airbase airbase) {
         airfield = airbase;
 
-        String reference = Optional.ofNullable(airbase)
+        String mapReference = Optional.ofNullable(airbase)
                 .map(Airbase::getReference)
                 .orElse(null);
 
-        setLocation(reference);
+        setReference(mapReference);
     }
 
     /**
-     * Set the squadron's location..
+     * Set the squadron's reference..
      *
-     * @param newLocation The squadron's new location.
+     * @param newLocation The squadron's new reference.
      */
-    public void setLocation(final String newLocation) {
-        location = Optional.ofNullable(newLocation)
+    public void setReference(final String newLocation) {
+        reference = Optional.ofNullable(newLocation)
                 .map(gameMap::convertNameToReference)
                 .orElse(null);
     }
@@ -225,7 +225,7 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @return True if the squadron is currently located at an enemy base. False otherwise.
      */
     public boolean atEnemyBase() {
-        return gameMap.isLocationBase(side.opposite(), location);
+        return gameMap.isLocationBase(side.opposite(), reference);
     }
 
     /**
@@ -234,7 +234,7 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @return True if the squadron is currently located at a friendly base. False otherwise.
      */
     public boolean atFriendlyBase() {
-        return gameMap.isLocationBase(side, location);
+        return gameMap.isLocationBase(side, reference);
     }
 
     /**

@@ -29,7 +29,7 @@ public enum AircraftBaseType {
      * in the list based off the current value. If the end of the list is reached
      * then the head of the list is returned.
      *
-     * @return The next location in the enum values list.
+     * @return The next reference in the enum values list.
      */
     public AircraftBaseType next() {
         int index = values.indexOf(this);

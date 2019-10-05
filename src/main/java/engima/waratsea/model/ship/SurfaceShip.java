@@ -240,7 +240,7 @@ public class SurfaceShip implements Ship {
      */
     @Override
     public void setSail() {
-        originPort = taskForce.getLocation();
+        originPort = taskForce.getReference();
     }
 
     /**

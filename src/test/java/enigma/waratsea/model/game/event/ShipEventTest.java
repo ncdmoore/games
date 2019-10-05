@@ -61,7 +61,7 @@ public class ShipEventTest {
         data.setShips(ships);
 
         taskForce = factory.create(Side.ALLIES, data);
-        taskForce.setLocation("Tobruk");
+        taskForce.setReference("Tobruk");
     }
 
     @Test

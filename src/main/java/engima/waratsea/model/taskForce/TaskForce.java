@@ -57,7 +57,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
     private TaskForceMission mission;
 
     @Getter
-    private String location; //This is always a map reference and never a name.
+    private String reference; //This is always a map reference and never a name.
 
     @Getter
     @Setter
@@ -126,7 +126,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
 
         this.shipyard = shipyard;
 
-        setLocation(data.getLocation());
+        setReference(data.getLocation());
         buildShips(data.getShips());
         loadCargo(data.getCargoShips());
         getCarriers();
@@ -150,7 +150,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
         data.setMission(mission);
         data.setTargets(PersistentUtility.getData(targets));
         data.setState(state);
-        data.setLocation(location);
+        data.setLocation(reference);
         data.setShips(getShipNames(ships));
         data.setCargoShips(getShipNames(cargoShips));
         data.setReleaseShipEvents(PersistentUtility.getData(releaseShipEvents));
@@ -205,7 +205,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
      * @return True if the task force is currently located at an enemy port. False otherwise.
      */
     public boolean atEnemyBase() {
-        return gameMap.isLocationBase(side.opposite(), location);
+        return gameMap.isLocationBase(side.opposite(), reference);
     }
 
     /**
@@ -214,30 +214,30 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
      * @return True if the task force is currently located at a friendly port. False otherwise.
      */
     public boolean atFriendlyBase() {
-        return gameMap.isLocationBase(side, location);
+        return gameMap.isLocationBase(side, reference);
     }
 
     /**
-     * Get the task force's new location.
+     * Get the task force's new reference.
      *
-     * @param newLocation The task force's new location.
+     * @param newLocation The task force's new reference.
      */
-    public void setLocation(final String newLocation) {
-        location = gameMap.convertNameToReference(newLocation);
+    public void setReference(final String newLocation) {
+        reference = gameMap.convertNameToReference(newLocation);
 
         if (atFriendlyBase()) {
-            gameMap.getPort(side, location)
+            gameMap.getPort(side, reference)
                     .ifPresent(port -> port.addTaskForce(this));
         }
     }
 
     /**
-     * Get the task force's location. Return a port if the task force is in a port.
+     * Get the task force's reference. Return a port if the task force is in a port.
      *
-     * @return The task force's location. Mapped to a port name if the task force is in a port.
+     * @return The task force's reference. Mapped to a port name if the task force is in a port.
      */
     public String getMappedLocation() {
-        return gameMap.convertPortReferenceToName(location);
+        return gameMap.convertPortReferenceToName(reference);
     }
 
     /**

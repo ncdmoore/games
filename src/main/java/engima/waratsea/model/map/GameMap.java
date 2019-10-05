@@ -57,30 +57,30 @@ public final class GameMap {
     @Getter
     private final int columns;
 
-    private MultiKeyMap<Integer, GameGrid> gridMap = new MultiKeyMap<>();          //Row, Column to Game grid map.
-    private Map<String, GameGrid> gridRefMap = new HashMap<>();                    //Map reference to Game grid map.
+    private final MultiKeyMap<Integer, GameGrid> gridMap = new MultiKeyMap<>();          //Row, Column to Game grid map.
+    private final Map<String, GameGrid> gridRefMap = new HashMap<>();                    //Map reference to Game grid map.
 
-    private Map<Side, Set<Nation>> nations = new HashMap<>();
+    private final Map<Side, Set<Nation>> nations = new HashMap<>();
 
-    private Map<Side, List<Region>> regions = new HashMap<>();
+    private final Map<Side, List<Region>> regions = new HashMap<>();
 
-    private Map<Side, List<Airfield>> airfields = new HashMap<>();
-    private Map<Side, Map<String, Airfield>> airfieldMap = new HashMap<>();        //Inner map: maps Airfield name to Airfield.
+    private final Map<Side, List<Airfield>> airfields = new HashMap<>();
+    private final Map<Side, Map<String, Airfield>> airfieldMap = new HashMap<>();        //Inner map: maps Airfield name to Airfield.
 
-    private Map<Side, List<Port>> ports = new HashMap<>();
-    private Map<Side, Map<String, Port>> portMap = new HashMap<>();                //Inner map: maps Port name to Port.
+    private final Map<Side, List<Port>> ports = new HashMap<>();
+    private final Map<Side, Map<String, Port>> portMap = new HashMap<>();                //Inner map: maps Port name to Port.
 
-    private Map<Side, List<Minefield>> minefields = new HashMap<>();
+    private final Map<Side, List<Minefield>> minefields = new HashMap<>();
 
-    private Map<Side, Map<String, String>> portRefToName = new HashMap<>();        //Inner map: maps Port map reference to Port name.
-    private Map<Side, Map<String, String>> airfieldRefToName = new HashMap<>();    //Inner map: maps Airfield map reference to Airfield name.
+    private final Map<Side, Map<String, String>> portRefToName = new HashMap<>();        //Inner map: maps Port map reference to Port name.
+    private final Map<Side, Map<String, String>> airfieldRefToName = new HashMap<>();    //Inner map: maps Airfield map reference to Airfield name.
 
-    private Map<Side, Map<String, BaseGrid>> baseRefToBase = new HashMap<>();
+    private final Map<Side, Map<String, BaseGrid>> baseRefToBase = new HashMap<>();      //Inner map: maps map reference to base grid.
 
-    private Map<Side, Map<String, String>> baseNameToRef = new HashMap<>();        //Inner map: maps Base name to Base map reference.
+    private final Map<Side, Map<String, String>> baseNameToRef = new HashMap<>();        //Inner map: maps Base name to Base map reference.
 
-    private Map<Side, Map<Nation, List<Region>>> nationRegionMap = new HashMap<>();
-    private Map<Side, Map<Nation, List<Airfield>>> nationAirfieldMap = new HashMap<>();
+    private final Map<Side, Map<Nation, List<Region>>> nationRegionMap = new HashMap<>();
+    private final Map<Side, Map<Nation, List<Airfield>>> nationAirfieldMap = new HashMap<>();
 
     /**
      * The constructor of the GameMap. Called by guice.
@@ -108,7 +108,7 @@ public final class GameMap {
      * Load the map.
      *
      * @param scenario The selected scenario.
-     * @throws MapException An error occured attempting to load the map data.
+     * @throws MapException An error occurred attempting to load the map data.
      */
     public void load(final Scenario scenario) throws MapException {
         regions.put(Side.ALLIES, regionDAO.loadRegions(scenario, Side.ALLIES));
@@ -122,6 +122,9 @@ public final class GameMap {
 
         minefields.put(Side.ALLIES, minefieldDAO.load(Side.ALLIES));
         minefields.put(Side.AXIS, minefieldDAO.load(Side.AXIS));
+
+
+
 
         nationRegionMap.put(Side.ALLIES, buildRegionMap(Side.ALLIES));
         nationRegionMap.put(Side.AXIS, buildRegionMap(Side.AXIS));
@@ -192,8 +195,8 @@ public final class GameMap {
      * @return An optional port that corresponds to the given name.
      */
     public Optional<Port> getPort(final Side side, final String location) {
-        //If the location is a reference convert it to a name.
-        //If the location is a name then the conversion is a no op.
+        //If the reference is a reference convert it to a name.
+        //If the reference is a name then the conversion is a no op.
         String portName = convertPortReferenceToName(location);
 
         return Optional.ofNullable(portMap.get(side).get(portName));
@@ -242,15 +245,15 @@ public final class GameMap {
     }
 
     /**
-     * Determine if the given location is a base for the given side.
+     * Determine if the given reference is a base for the given side.
      *
      * @param side The side ALLIES or AXIS.
-     * @param location The map reference location.
-     * @return True if the given location is a base for the given side.
+     * @param location The map reference reference.
+     * @return True if the given reference is a base for the given side.
      */
     public boolean isLocationBase(final Side side, final String location) {
-        //If the location is a name convert it to a reference.
-        //If the location is a reference then the conversion is a no op.
+        //If the reference is a name convert it to a reference.
+        //If the reference is a reference then the conversion is a no op.
         String mapRef = convertNameToReference(location);
 
         return portRefToName.get(side).containsKey(mapRef)
@@ -259,7 +262,7 @@ public final class GameMap {
 
 
     /**
-     * Determine fi the given location is a base for either side.
+     * Determine fi the given reference is a base for either side.
      *
      * @param gameGrid A game map grid.
      * @return True if the grid corresponds to base. False otherwise.
@@ -292,9 +295,9 @@ public final class GameMap {
     }
 
     /**
-     * Convert a location name to a map reference. For example, the name Gibraltar is converted to H22.
+     * Convert a reference name to a map reference. For example, the name Gibraltar is converted to H22.
      *
-     * @param name A named location on the map.
+     * @param name A named reference on the map.
      * @return The corresponding map reference of where the name is located.
      */
     public String convertNameToReference(final String name) {
@@ -308,20 +311,20 @@ public final class GameMap {
     }
 
     /**
-     * Convert a map reference to a location name. For example, the reference H22 is converted to Gibraltar.
+     * Convert a map reference to a reference name. For example, the reference H22 is converted to Gibraltar.
      *
      * @param reference A map reference.
-     * @return The corresponding port location name.
+     * @return The corresponding port reference name.
      */
     public String convertPortReferenceToName(final String reference) {
         return Optional.ofNullable(getPortName(reference)).orElse(reference);
     }
 
     /**
-     * Convert a map reference to a location name. For example, the reference H22 is converted to Gibraltar.
+     * Convert a map reference to a reference name. For example, the reference H22 is converted to Gibraltar.
      *
      * @param reference A map reference.
-     * @return The corresponding airfield location name.
+     * @return The corresponding airfield reference name.
      */
     public String convertAirfieldReferenceToName(final String reference) {
         return Optional.ofNullable(getAirfieldName(reference)).orElse(reference);
@@ -379,7 +382,7 @@ public final class GameMap {
     }
 
     /**
-     * Build a location map reference to base name map for the given side. Both ports and airfields are
+     * Build a reference map reference to base name map for the given side. Both ports and airfields are
      * included in this map.
      *
      * @param side The side ALLIES or AXIS.

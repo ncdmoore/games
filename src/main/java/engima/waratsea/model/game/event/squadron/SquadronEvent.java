@@ -77,9 +77,9 @@ public class SquadronEvent extends GameEvent {
      */
     private void log() {
         if (by == null) {
-            log.info("Fire event: {} {} at {}", new Object[]{squadron.getName(), action, squadron.getLocation()});
+            log.info("Fire event: {} {} at {}", new Object[]{squadron.getName(), action, squadron.getReference()});
         } else {
-            log.info("Fire event: {} {} at {} by {}", new Object[]{squadron.getName(), action, squadron.getLocation(), by});
+            log.info("Fire event: {} {} at {} by {}", new Object[]{squadron.getName(), action, squadron.getReference(), by});
         }
     }
 }

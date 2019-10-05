@@ -21,18 +21,18 @@ public interface Flotilla extends Asset, PersistentData<FlotillaData> {
     boolean atFriendlyBase();
 
     /**
-     * Get the flotilla's location. Return a port if the flotilla is in a port.
+     * Get the flotilla's reference. Return a port if the flotilla is in a port.
      *
-     * @return The flotilla's location. Mapped to a port name if the flotilla is in a port.
+     * @return The flotilla's reference. Mapped to a port name if the flotilla is in a port.
      */
     String getMappedLocation();
 
     /**
-     * Set the flotilla's location.
+     * Set the flotilla's reference.
      *
-     * @param location The flotilla's new location.
+     * @param location The flotilla's new reference.
      */
-    void setLocation(String location);
+    void setReference(String location);
 
     /**
      * Flotilla's are always active.

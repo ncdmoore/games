@@ -111,12 +111,12 @@ public class MotorTorpedoBoat  implements Vessel, PersistentData<MotorTorpedoBoa
     }
 
     /**
-     * The map location of the asset.
+     * The map reference of the asset.
      *
-     * @return The map location of the asset.
+     * @return The map reference of the asset.
      */
     public String getLocation() {
-        return flotilla.getLocation();
+        return flotilla.getReference();
     }
 
     /**

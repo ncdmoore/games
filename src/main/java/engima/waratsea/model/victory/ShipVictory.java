@@ -125,11 +125,11 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
      * @return True if the fired ship event is one that results in a change in victory points.
      */
     public boolean match(final ShipEvent event) {
-        String location = gameMap.convertPortReferenceToName(event.getShip().getTaskForce().getLocation());
+        String location = gameMap.convertPortReferenceToName(event.getShip().getTaskForce().getReference());
 
         boolean matched = matcher.match(event);
 
-        log.info("Ship: '{}' '{}', location: '{}'. matched: {}", new Object[]{event.getShip().getName(),
+        log.info("Ship: '{}' '{}', reference: '{}'. matched: {}", new Object[]{event.getShip().getName(),
                 event.getAction(), location, matched});
 
         return matched;
@@ -144,7 +144,7 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
     public int getPoints(final ShipEvent event) {
         int awardedPoints = 0;
 
-        String location = gameMap.convertPortReferenceToName(event.getShip().getTaskForce().getLocation());
+        String location = gameMap.convertPortReferenceToName(event.getShip().getTaskForce().getReference());
 
         if (occurrencesMet()) {
             awardedPoints = calculation.apply(points, event);
@@ -152,7 +152,7 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
             requirementMet = totalPoints >= requiredPoints;
         }
 
-        log.info("Ship: '{}' '{}', location: '{}'. Occurrence: {}, Required: {}. Victory points awarded: {}", new Object[]{event.getShip().getName(),
+        log.info("Ship: '{}' '{}', reference: '{}'. Occurrence: {}, Required: {}. Victory points awarded: {}", new Object[]{event.getShip().getName(),
                 event.getAction(), location, occurrenceCount, requiredOccurrences, awardedPoints});
 
         return awardedPoints;

@@ -73,7 +73,7 @@ public class AssetMarkerDTO implements PopUpDTO {
      */
     public AssetMarkerDTO(final Asset asset) {
         this.asset = asset;
-        this.mapReference = asset.getLocation();
+        this.mapReference = asset.getReference();
         this.name = asset.getName();
         this.title = asset.getTitle();
         this.active = asset.isActive();
@@ -89,7 +89,7 @@ public class AssetMarkerDTO implements PopUpDTO {
     }
 
     /**
-     * Set the map view which allows the grid view to be determined from the task force's grid location.
+     * Set the map view which allows the grid view to be determined from the task force's grid reference.
      *
      * @param map The map view.
      */

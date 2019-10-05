@@ -16,7 +16,7 @@ public class GameGrid {
     private final int column;
 
     @Getter
-    private String mapReference;
+    private final String mapReference;
 
     @Getter
     @Setter
@@ -31,13 +31,16 @@ public class GameGrid {
     public GameGrid(final int row, final int column) {
         this.row = row;
         this.column = column;
-        buildMapReference();
+        this.mapReference = buildMapReference();
     }
 
     /**
-     * Get the map reference that corresponds to the game grid.
+     * Get the map reference that corresponds to this game grid.
+     *
+     * @return The map reference that corresponds to this game grid.
      */
-    private void buildMapReference() {
+    private String buildMapReference() {
+        String mapRef;
         final int asciiA = 65;
 
         int oneBasedRow = row + 1;
@@ -45,11 +48,13 @@ public class GameGrid {
         int mod = column % ALPHABET_SIZE;
 
         if (factor == 0) {
-            mapReference = Character.toString((char) (asciiA + column)) + oneBasedRow;
+            mapRef = Character.toString((char) (asciiA + column)) + oneBasedRow;
         } else {
             char first = (char) (asciiA - 1 + factor);
             char second = (char) (asciiA + mod);
-            mapReference = first + Character.toString(second) + oneBasedRow;
+            mapRef = first + Character.toString(second) + oneBasedRow;
         }
+
+        return mapRef;
     }
 }
