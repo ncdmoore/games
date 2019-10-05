@@ -85,12 +85,12 @@ public class AirfieldDetailsView {
         ImageView airfieldView = imageResourceProvider.getImageView(nation + "Airfield" + airfieldType + "Details.png");
         ImageView roundel = imageResourceProvider.getImageView(nation + ROUNDEL_SIZE);
 
+        TitledPane airfieldTitle = buildAirfieldTitle();
         TitledGridPane airfieldDetails = buildAirfieldDetails();
         TitledGridPane airfieldSteps = buildAirfieldSteps(nation);
 
-        VBox leftVBox = new VBox(airfieldView, airfieldDetails, airfieldSteps);
+        VBox leftVBox = new VBox(airfieldTitle, airfieldView, airfieldDetails, airfieldSteps);
         leftVBox.setId("left-vbox");
-
 
         TitledPane missions = buildMissionDetails();
         TitledPane patrols = buildPatrolDetails();
@@ -112,6 +112,18 @@ public class AirfieldDetailsView {
     }
 
     /**
+     * Build the airfield title pane.
+     *
+     * @return A title pane with the airfield's title.
+     */
+    private TitledPane buildAirfieldTitle() {
+         TitledPane titledPane = new TitledPane();
+         titledPane.setText(airfield.getTitle());
+         titledPane.setId("airfield-title-pane");
+         return titledPane;
+    }
+
+    /**
      * Build the airfield details.
      *
      * @return A titled grid pane containing the airfield details.
@@ -120,7 +132,7 @@ public class AirfieldDetailsView {
         return new TitledGridPane()
                 .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
                 .setStyleId("component-grid")
-                .buildPane(airfield.getTitle(), getAirfieldDetails());
+                .buildPane("Airfield Stats", getAirfieldDetails());
     }
 
     /**
@@ -233,7 +245,7 @@ public class AirfieldDetailsView {
                                           LinkedHashMap::new));
 
         TilePane tilePane = new TilePane();
-        tilePane.setPrefColumns(props.getInt("airfield.dialog.ready.columns"));
+        tilePane.setId("ready-tile-pane");
 
         squadrons.forEach((type, list) -> {
 

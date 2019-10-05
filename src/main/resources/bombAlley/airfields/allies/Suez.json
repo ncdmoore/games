@@ -2,7 +2,8 @@
   "name": "Suez",
   "landingType": [
     "LAND",
-    "CARRIER"
+    "CARRIER",
+    "SEAPLANE"
   ],
   "maxCapacity": 1,
   "antiAir": 5,
