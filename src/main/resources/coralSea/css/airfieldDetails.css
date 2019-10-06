@@ -35,14 +35,21 @@
     -fx-vgap: 10;
 }
 
-#summary-title-pane-allied {
+#summary-title-pane-united-states {
     -fx-border-width: 1px;
     -fx-border-color: black;
     -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
     -fx-alignment: top-center;
 }
 
-#summary-title-pane-axis {
+#summary-title-pane-australian {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, darkred, white, blue);
+    -fx-alignment: top-center;
+}
+
+#summary-title-pane-japanese {
     -fx-border-width: 1px;
     -fx-border-color: black;
     -fx-background-color: linear-gradient(to right, white, white, red);

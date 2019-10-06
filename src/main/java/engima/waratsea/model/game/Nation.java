@@ -10,33 +10,36 @@ import java.util.Comparator;
  */
 public enum Nation implements Comparator<Nation> {
     @SerializedName(value = "AUSTRALIAN", alternate = {"Australian", "australian"})
-    AUSTRALIAN("Australian", "HMAS"),
+    AUSTRALIAN("Australian", "Australian", "HMAS"),
 
     @SerializedName(value = "BRITISH", alternate = {"British", "british"})
-    BRITISH("British", "HMS"),
+    BRITISH("British", "British", "HMS"),
 
     @SerializedName(value = "FRENCH", alternate = {"French", "french"})
-    FRENCH("French", ""),
+    FRENCH("French", "French", ""),
 
     @SerializedName(value = "GERMAN", alternate = {"German", "german"})
-    GERMAN("German", "KMS"),
+    GERMAN("German", "German", "KMS"),
 
     @SerializedName(value = "GREEK", alternate = {"Greek", "greek"})
-    GREEK("Greek", "HS"),
+    GREEK("Greek", "Greek", "HS"),
 
     @SerializedName(value = "ITALIAN", alternate = {"Italian", "italian"})
-    ITALIAN("Italian", "RN"),
+    ITALIAN("Italian", "Italian", "RN"),
 
     @SerializedName(value = "JAPANESE", alternate = {"Japanese", "japanese"})
-    JAPANESE("Japanese", "IJN"),
+    JAPANESE("Japanese", "Japanese", "IJN"),
 
     @SerializedName(value = "POLISH", alternate = {"Polish", "polish"})
-    POLISH("Polish", "ORP"),
+    POLISH("Polish", "Polish", "ORP"),
 
     @SerializedName(value = "UNITED_STATES", alternate = {"UNITED STATES", "United_States", "united_states", "United States", "united states"})
-    UNITED_STATES("United States", "USS");
+    UNITED_STATES("United States", "United-States", "USS");
 
     private final String value;
+
+    @Getter
+    private final String fileName;
 
     @Getter
     private final String shipPrefix;
@@ -45,10 +48,12 @@ public enum Nation implements Comparator<Nation> {
      * Constructor.
      *
      * @param value The string value of the Nation.
+     * @param fileName The string value used for file names that involve a nation.
      * @param shipPrefix The prefix before a ship name.
      */
-    Nation(final String value, final String shipPrefix) {
+    Nation(final String value, final String fileName, final String shipPrefix) {
         this.value = value;
+        this.fileName = fileName;
         this.shipPrefix = shipPrefix;
     }
 

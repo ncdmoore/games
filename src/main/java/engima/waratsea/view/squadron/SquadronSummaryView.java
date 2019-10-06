@@ -49,7 +49,7 @@ public class SquadronSummaryView {
         title.setId("summary-title");
 
         StackPane titlePane = new StackPane(title);
-        titlePane.setId("summary-title-pane-" + nation.toString().toLowerCase());
+        titlePane.setId("summary-title-pane-" + nation.getFileName().toLowerCase());
 
         Node profile = buildProfile();
 
