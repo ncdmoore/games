@@ -96,6 +96,19 @@ public class SquadronSummaryView {
     }
 
     /**
+     * Build the squadron stats.
+     *
+     * @return A node with the squadron stats.
+     */
+    private Node buildStats() {
+        TitledPane titledPane = new TitledPane();
+
+
+        return titledPane;
+    }
+
+
+    /**
      * Get the aircraft's profile image.
      *
      * @param squadron The selected squadron.

@@ -5,27 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/A24-240-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/A24-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B17E-240-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B17E-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B25A-240-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B25A-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B26B-240-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B26B-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/Catalina-240-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/F4F3-240-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/Hudson-240-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/Hudson-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/OS2U-240-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/P39D-240-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/P39D-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/SBD3-240-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/TBD-240-profile.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Nation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Nation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -78,53 +59,27 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/Catalina-profile.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B17E-240-profile.png">
-          <provider selected="true" editor-type-id="images" />
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldDetailsView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1524">
+              <caret line="286" lean-forward="true" selection-start-line="286" selection-end-line="286" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/A5M4-profile.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/Catalina.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/F4F3-profile.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B17E-profile.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/A24-profile.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/P39D.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/Hudson-profile.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/Hudson-240-profile.png">
-          <provider selected="true" editor-type-id="images" />
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="580">
+              <caret line="101" column="26" selection-start-line="101" selection-start-column="26" selection-end-line="101" selection-end-column="26" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -227,14 +182,14 @@
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldDetailsView.java" />
         <option value="$PROJECT_DIR$/src/main/resources/properties/view.properties" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Nation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java" />
         <option value="$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="625" />
-    <option name="y" value="55" />
+    <option name="x" value="1038" />
+    <option name="y" value="35" />
     <option name="width" value="1502" />
     <option name="height" value="1338" />
   </component>
@@ -297,80 +252,6 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="engima" type="462c0819:PsiDirectoryNode" />
               <item name="waratsea" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="engima" type="462c0819:PsiDirectoryNode" />
-              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="game" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="engima" type="462c0819:PsiDirectoryNode" />
-              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
-              <item name="presenter" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="engima" type="462c0819:PsiDirectoryNode" />
-              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
-              <item name="presenter" type="462c0819:PsiDirectoryNode" />
-              <item name="airfield" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="engima" type="462c0819:PsiDirectoryNode" />
-              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
-              <item name="presenter" type="462c0819:PsiDirectoryNode" />
-              <item name="ship" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="engima" type="462c0819:PsiDirectoryNode" />
-              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
-              <item name="presenter" type="462c0819:PsiDirectoryNode" />
-              <item name="squadron" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="engima" type="462c0819:PsiDirectoryNode" />
-              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
-              <item name="utility" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="engima" type="462c0819:PsiDirectoryNode" />
-              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
               <item name="view" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -393,107 +274,7 @@
               <item name="engima" type="462c0819:PsiDirectoryNode" />
               <item name="waratsea" type="462c0819:PsiDirectoryNode" />
               <item name="view" type="462c0819:PsiDirectoryNode" />
-              <item name="map" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="engima" type="462c0819:PsiDirectoryNode" />
-              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
-              <item name="ship" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="engima" type="462c0819:PsiDirectoryNode" />
-              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
               <item name="squadron" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
-              <item name="aircraft" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="coralSea" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="coralSea" type="462c0819:PsiDirectoryNode" />
-              <item name="aircraft" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="coralSea" type="462c0819:PsiDirectoryNode" />
-              <item name="aircraft" type="462c0819:PsiDirectoryNode" />
-              <item name="axis" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="coralSea" type="462c0819:PsiDirectoryNode" />
-              <item name="aircraft" type="462c0819:PsiDirectoryNode" />
-              <item name="axis" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="properties" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -512,7 +293,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.25979218" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Ignored.Files" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -559,7 +340,7 @@
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="engima.waratsea.Main" />
       <module name="worldWarTwoAtSea.main" />
-      <option name="PROGRAM_PARAMETERS" value="game=coralSea" />
+      <option name="PROGRAM_PARAMETERS" value="game=bombAlley" />
       <option name="VM_PARAMETERS" value="--module-path /Library/java/JavaVirtualMachines/javafx-sdk-12.0.2/lib --add-modules javafx.controls,javafx.fxml" />
       <extension name="coverage">
         <pattern>
@@ -603,7 +384,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in worldWarTwoAtSea.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="All in worldWarTwoAtSea.test (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="worldWarTwoAtSea.test" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
@@ -612,18 +393,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameMapTest.testConversionFromMapReference" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="All in worldWarTwoAtSea.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.map.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.map" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.map.GameMapTest" />
-      <option name="METHOD_NAME" value="testConversionFromMapReference" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -674,18 +447,18 @@
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.All in worldWarTwoAtSea.test" />
-      <item itemvalue="JUnit.GameMapTest.testConversionFromMapReference" />
       <item itemvalue="JUnit.AirfieldEventTest.testAirfieldDamagedEvent" />
       <item itemvalue="JUnit.SquadronEventTest.testSquadronFerryEvent" />
       <item itemvalue="JUnit.All in worldWarTwoAtSea.test (1)" />
+      <item itemvalue="JUnit.All in worldWarTwoAtSea.test (2)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in worldWarTwoAtSea.test (2)" />
         <item itemvalue="JUnit.All in worldWarTwoAtSea.test (1)" />
         <item itemvalue="JUnit.All in worldWarTwoAtSea.test" />
         <item itemvalue="JUnit.SquadronEventTest.testSquadronFerryEvent" />
         <item itemvalue="JUnit.AirfieldEventTest.testAirfieldDamagedEvent" />
-        <item itemvalue="JUnit.GameMapTest.testConversionFromMapReference" />
       </list>
     </recent_temporary>
   </component>
@@ -699,13 +472,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00027" summary="Save the default game at the start of game play. This saves all of the configuration and deployement steps.">
-      <created>1562416493818</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1562416493818</updated>
     </task>
     <task id="LOCAL-00028" summary="Fix error logged when squadron is temporarily assigned an airbase for range display on squadron deployment screen.">
       <created>1562417641496</created>
@@ -1043,13 +809,17 @@
       <option name="project" value="LOCAL" />
       <updated>1570384915660</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="Add japanese and us squadron summary profile images.">
+      <created>1570393608042</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1570393608042</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_worldWarTwoAtSea_test - 2019.09.01 at 22h 02m 31s.xml">
-      <configuration name="All in worldWarTwoAtSea.test" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="All_in_worldWarTwoAtSea_test - 2019.09.24 at 17h 55m 19s.xml">
       <configuration name="All in worldWarTwoAtSea.test" configurationId="JUnit" />
     </history-entry>
@@ -1077,9 +847,12 @@
     <history-entry file="All_in_worldWarTwoAtSea_test_(1) - 2019.10.05 at 18h 11m 18s.xml">
       <configuration name="All in worldWarTwoAtSea.test (1)" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="All_in_worldWarTwoAtSea_test_(2) - 2019.10.06 at 16h 37m 52s.xml">
+      <configuration name="All in worldWarTwoAtSea.test (2)" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="625" y="55" width="1502" height="1338" extended-state="0" />
+    <frame x="1038" y="35" width="1502" height="1338" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Image Layers" order="0" />
@@ -1128,7 +901,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Limit the target popup to only the first target of a given task force." />
     <MESSAGE value="Share the target popup amongst all target markers." />
     <MESSAGE value="Main View now takes the full screen size." />
     <MESSAGE value="Add the game main menu." />
@@ -1153,7 +925,8 @@
     <MESSAGE value="Add anchor icon to airfields images - for airfields that support seaplanes." />
     <MESSAGE value="Rename location to reference for all assets as they always store a map reference for location." />
     <MESSAGE value="Add squadron profile to ready tile of airfield details dialog." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add squadron profile to ready tile of airfield details dialog." />
+    <MESSAGE value="Add japanese and us squadron summary profile images." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add japanese and us squadron summary profile images." />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
@@ -1342,16 +1115,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldDetailsView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="294" column="70" selection-start-line="294" selection-start-column="70" selection-end-line="294" selection-end-column="70" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Nation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
@@ -1363,16 +1126,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-402">
           <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="40" column="7" lean-forward="true" selection-start-line="40" selection-start-column="7" selection-end-line="40" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1418,6 +1171,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/A5M4-profile.png">
       <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldDetailsView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1524">
+          <caret line="286" lean-forward="true" selection-start-line="286" selection-end-line="286" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="580">
+          <caret line="101" column="26" selection-start-line="101" selection-start-column="26" selection-end-line="101" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
   </component>
   <component name="masterDetails">
