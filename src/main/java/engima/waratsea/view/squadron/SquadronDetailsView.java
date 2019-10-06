@@ -265,6 +265,6 @@ public class SquadronDetailsView {
      */
     private Image getProfile(final Squadron squadron) {
         Aircraft aircraft = squadron.getAircraft();
-        return imageResourceProvider.getAircraftProfileImageView(aircraft);
+        return imageResourceProvider.getAircraftProfileImageView(squadron.getSide(), aircraft.getModel());
     }
 }

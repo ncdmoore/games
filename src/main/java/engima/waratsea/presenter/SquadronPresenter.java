@@ -554,7 +554,7 @@ public class SquadronPresenter implements Presenter {
 
             AirfieldOperation result = selectedAirfield.addSquadron(squadron);
 
-            if (result == AirfieldOperation.SUCCESS) { // Add the squadron to the airfield.
+            if (result == AirfieldOperation.SUCCESS) {                             // Add the squadron to the airfield.
                 view.getAvailableSquadrons().getItems().remove(squadron);          // Remove the squadron from the available list.
                 view.getAirfieldSquadrons().getItems().add(squadron);              // Add the squadron to the airfield list.
 
@@ -665,7 +665,13 @@ public class SquadronPresenter implements Presenter {
      * @return The active nation.
      */
     private Nation determineNation() {
-        String selectedNation = view.getNationsTabPane().getSelectionModel().getSelectedItem().getText().toUpperCase().replace(" ", "_");
+        String selectedNation = view.getNationsTabPane()
+                .getSelectionModel()
+                .getSelectedItem()
+                .getText()
+                .toUpperCase()
+                .replace(" ", "_");
+
         return Nation.valueOf(selectedNation);
     }
 

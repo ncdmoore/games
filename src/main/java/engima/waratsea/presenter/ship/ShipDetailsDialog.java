@@ -94,8 +94,6 @@ public class ShipDetailsDialog {
      * @param squadron The selected squadron.
      */
     private void squadronSelected(final Squadron squadron) {
-        log.info("Select squadron {}", squadron);
-
         view.selectSquadron(squadron);
     }
 }

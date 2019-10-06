@@ -638,6 +638,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/squadron/SquadronSummary.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/submarine/SubmarineDetailsDialog.java">
           <value>
             <set />
@@ -859,6 +864,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronDetailsView.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java">
           <value>
             <set />
           </value>
@@ -1168,6 +1178,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/css/airfieldDetails.css">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/css/shipDetails.css">
           <value>
             <set />
@@ -1444,6 +1459,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/coralSea/airfields/axis/Rabaul.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css">
           <value>
             <set />
           </value>

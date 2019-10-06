@@ -1,12 +1,14 @@
 package engima.waratsea.view.airfield;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.squadron.SquadronSummaryView;
 import engima.waratsea.view.squadron.SquadronViewType;
 import engima.waratsea.view.util.TitledGridPane;
 import javafx.scene.Node;
@@ -20,9 +22,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
 import org.apache.commons.collections4.ListUtils;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,21 +36,34 @@ public class AirfieldDetailsView {
     private static final String ROUNDEL_SIZE = "20x20.png";
 
     private final ImageResourceProvider imageResourceProvider;
+    private final Provider<SquadronSummaryView> squadronSummaryViewProvider;
     private final ViewProps props;
 
     private Airfield airfield;
+
+    @Getter
+    private final TabPane nationsTabPane = new TabPane();
+
+    private final Map<Nation, Map<SquadronViewType, ListView<Squadron>>> readyLists = new HashMap<>();
+
+    @Getter
+    private final Map<Nation, SquadronSummaryView> readySquadronSummaryView = new HashMap<>();
 
     /**
      * Constructor called by guice.
      *
      * @param imageResourceProvider Provides images.
      * @param props View properties.
+     * @param squadronSummaryViewProvider Provides the squadron summary view.
      */
     @Inject
     public AirfieldDetailsView(final ImageResourceProvider imageResourceProvider,
-                               final ViewProps props) {
+                               final ViewProps props,
+                               final Provider<SquadronSummaryView> squadronSummaryViewProvider) {
         this.imageResourceProvider = imageResourceProvider;
         this.props = props;
+
+        this.squadronSummaryViewProvider = squadronSummaryViewProvider;
     }
 
     /**
@@ -58,17 +75,26 @@ public class AirfieldDetailsView {
     public Node show(final Airfield field) {
         airfield = field;
 
-        TabPane tabPane = new TabPane();
-        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        nationsTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         airfield
                 .getNations()
                 .stream()
                 .sorted()
                 .map(this::createNationTab)
-                .forEach(tab -> tabPane.getTabs().add(tab));
+                .forEach(tab -> nationsTabPane.getTabs().add(tab));
 
-        return tabPane;
+        return nationsTabPane;
+    }
+
+    /**
+     * Get the ready lists for a given nation.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return A map of squadron view type to listviews that contain the ready squadrons.
+     */
+    public Map<SquadronViewType, ListView<Squadron>> getReadyLists(final Nation nation) {
+        return readyLists.get(nation);
     }
 
     /**
@@ -78,6 +104,8 @@ public class AirfieldDetailsView {
      * @return The nation's tab.
      */
     private Tab createNationTab(final Nation nation) {
+        buildMaps(nation);
+
         Tab tab = new Tab(nation.toString());
 
         AirfieldType airfieldType = airfield.getAirfieldType();
@@ -107,8 +135,17 @@ public class AirfieldDetailsView {
         tab.setGraphic(roundel);
         tab.setContent(hBox);
 
-
         return tab;
+    }
+
+    /**
+     * Build the nation maps.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     */
+    private void buildMaps(final Nation nation) {
+        readyLists.put(nation, new HashMap<>());
+        readySquadronSummaryView.put(nation, squadronSummaryViewProvider.get());
     }
 
     /**
@@ -184,7 +221,7 @@ public class AirfieldDetailsView {
        return steps
                .entrySet()
                .stream()
-               .collect(Collectors.toMap(e -> e.getKey().toString(),
+               .collect(Collectors.toMap(e -> e.getKey() + ":",
                                          e -> e.getValue().toString(),
                                          (oldValue, newValue) -> oldValue,
                                          LinkedHashMap::new));
@@ -203,7 +240,6 @@ public class AirfieldDetailsView {
         Label label = new Label("mission data");
 
         titledPane.setContent(label);
-
 
         return titledPane;
     }
@@ -255,14 +291,23 @@ public class AirfieldDetailsView {
             listView.getItems().addAll(list);
             listView.setMaxHeight(props.getInt("airfield.dialog.ready.list.width"));
             listView.setMinHeight(props.getInt("airfield.dialog.ready.list.width"));
+            listView.setMaxWidth(props.getInt("airfield.dialog.ready.width"));
+            listView.setMinWidth(props.getInt("airfield.dialog.ready.width"));
+
+            readyLists.get(nation).put(type, listView);
 
             VBox vBox = new VBox(title, listView);
 
             tilePane.getChildren().add(vBox);
         });
 
+        Node node = readySquadronSummaryView
+                .get(nation)
+                .show(nation);
 
-        titledPane.setContent(tilePane);
+        VBox vBox = new VBox(tilePane, node);
+
+        titledPane.setContent(vBox);
 
         return titledPane;
     }

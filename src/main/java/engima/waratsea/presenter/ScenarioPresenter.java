@@ -122,7 +122,10 @@ public class ScenarioPresenter implements Presenter {
         if (view.getScenarios().getItems().isEmpty()) {                                                                 // Only initialize the list once.
             try {
                 view.setScenarios(game.initScenarios());
-                view.getScenarios().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> scenarioSelected(newValue));
+                view.getScenarios()
+                        .getSelectionModel()
+                        .selectedItemProperty()
+                        .addListener((v, oldValue, newValue) -> scenarioSelected(newValue));
                 view.getScenarios().getSelectionModel().select(0);
             } catch (ScenarioException ex) {
                 log.error("Unable to load scenario summaries", ex);

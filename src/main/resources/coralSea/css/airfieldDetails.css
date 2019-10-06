@@ -34,3 +34,22 @@
     -fx-hgap: 5;
     -fx-vgap: 10;
 }
+
+#summary-title-pane-allied {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
+    -fx-alignment: top-center;
+}
+
+#summary-title-pane-axis {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, white, white, red);
+    -fx-alignment: top-center;
+}
+
+#profile-vbox {
+    -fx-background-color: white;
+    -fx-alignment: center;
+}

@@ -3,6 +3,7 @@ package engima.waratsea.utility;
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.game.GameTitle;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.vessel.Vessel;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -116,19 +117,23 @@ public class ImageResourceProvider {
     /**
      * Get the aircraft image.
      *
+     * @param side The side: ALLIES or AXIS.
      * @param aircraft The aircraft whose image is retrieved.
      * @return The aircraft's image view.
      */
-    public Image getAircraftProfileImageView(final Aircraft aircraft) {
-        Image image = getAircraftProfileImage(aircraft)
+    public Image getAircraftProfileImageView(final Side side, final String aircraft) {
+        Image image = getAircraftProfileImage(side, aircraft)
                 .orElse(null);
 
         if (image == null) {
-            log.error("Unable to load aircraft profile image for {}", aircraft.getModel());
+            log.error("Unable to load aircraft profile image for {}", aircraft);
         }
 
         return image;
     }
+
+
+
     /**
      * Load the image that corresponds to the ship name.
      *
@@ -191,11 +196,12 @@ public class ImageResourceProvider {
     /**
      * Load the image that corresponds to the aircraft's profile image.
      *
+     * @param side The side: ALLIES or AXIS
      * @param aircraft The aircraft whose profile image is loaded.
      * @return An optional aircraft profile image.
      */
-    private Optional<Image> getAircraftProfileImage(final Aircraft aircraft) {
-        String path = gameTitle.getValue() + "/aircraft/" + aircraft.getSide() + "/images/" + aircraft.getModel() + "-profile.png";
+    private Optional<Image> getAircraftProfileImage(final Side side, final String aircraft) {
+        String path = gameTitle.getValue() + "/aircraft/" + side + "/images/" + aircraft + "-profile.png";
         return loadImage(path);
     }
 
