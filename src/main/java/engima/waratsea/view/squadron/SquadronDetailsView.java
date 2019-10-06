@@ -158,6 +158,7 @@ public class SquadronDetailsView {
         aircraftRangePane.updatePane(getRange(squadron));
         aircraftFramePane.updatePane(getFrame(squadron));
     }
+
     /**
      * Get the squadron details.
      *

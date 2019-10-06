@@ -56,7 +56,20 @@
     -fx-alignment: top-center;
 }
 
+#summary-pane {
+    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left */ 0;
+}
+
+#summary-vbox {
+    -fx-spacing: 5;
+}
+
+#summary-hbox {
+    -fx-spacing: 5;
+}
+
 #profile-vbox {
     -fx-background-color: white;
     -fx-alignment: center;
 }
+
