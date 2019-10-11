@@ -22,6 +22,9 @@ import engima.waratsea.model.squadron.SquadronAI;
 import engima.waratsea.model.squadron.SquadronDAO;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceDAO;
+import engima.waratsea.model.victory.VictoryConditions;
+import engima.waratsea.model.victory.VictoryDAO;
+import engima.waratsea.model.victory.VictoryException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,17 +40,20 @@ import java.util.stream.Stream;
  */
 public class ComputerPlayer implements Player {
 
-    private GameMap gameMap;
-    private TaskForceDAO taskForceDAO;
-    private FlotillaDAO flotillaDAO;
-    private AirfieldDAO airfieldDAO;
-    private PortDAO portDAO;
-    private SquadronDAO aviationPlant;
-    private MinefieldDAO minefieldDAO;
+    private final GameMap gameMap;
+    private final VictoryDAO victoryDAO;
+    private final TaskForceDAO taskForceDAO;
+    private final FlotillaDAO flotillaDAO;
+    private final AirfieldDAO airfieldDAO;
+    private final PortDAO portDAO;
+    private final SquadronDAO aviationPlant;
+    private final MinefieldDAO minefieldDAO;
 
-    private FlotillaAI flotillaAI;
-    private SquadronAI squadronAI;
-    private MinefieldAI minefieldAI;
+    private final FlotillaAI flotillaAI;
+    private final SquadronAI squadronAI;
+    private final MinefieldAI minefieldAI;
+
+    private VictoryConditions victoryConditions;
 
     @Getter
     @Setter
@@ -59,9 +65,9 @@ public class ComputerPlayer implements Player {
     @Getter
     private List<TaskForce> taskForces;
 
-    private Map<FlotillaType, List<Flotilla>> flotillas = new HashMap<>();
+    private final Map<FlotillaType, List<Flotilla>> flotillas = new HashMap<>();
 
-    private Map<Nation, List<Squadron>> squadrons = new HashMap<>();
+    private final Map<Nation, List<Squadron>> squadrons = new HashMap<>();
 
     @Getter
     private List<Airfield> airfields;
@@ -76,6 +82,7 @@ public class ComputerPlayer implements Player {
      * Constructor called by guice.
      *
      * @param gameMap The game map.
+     * @param victoryDAO Loads the computer player's victory conditions.
      * @param taskForceDAO Loads scenario data.
      * @param flotillaDAO Loads flotilla data.
      * @param airfieldDAO Loads airfield data.
@@ -89,6 +96,7 @@ public class ComputerPlayer implements Player {
     //CHECKSTYLE:OFF
     @Inject
     public ComputerPlayer(final GameMap gameMap,
+                          final VictoryDAO victoryDAO,
                           final TaskForceDAO taskForceDAO,
                           final FlotillaDAO flotillaDAO,
                           final AirfieldDAO airfieldDAO,
@@ -99,7 +107,9 @@ public class ComputerPlayer implements Player {
                           final SquadronAI squadronAI,
                           final MinefieldAI minefieldAI) {
         //CHECKSTYLE:ON
+
         this.gameMap = gameMap;
+        this.victoryDAO = victoryDAO;
         this.taskForceDAO = taskForceDAO;
         this.flotillaDAO = flotillaDAO;
         this.airfieldDAO = airfieldDAO;
@@ -110,6 +120,17 @@ public class ComputerPlayer implements Player {
         this.flotillaAI = flotillaAI;
         this.squadronAI = squadronAI;
         this.minefieldAI = minefieldAI;
+    }
+
+    /**
+     * Build the player's victory conditions.
+     *
+     * @param scenario The selected scenario.
+     * @throws VictoryException is thrown if the victory conditions cannot be loaded.
+     */
+    @Override
+    public void buildVictory(final Scenario scenario) throws VictoryException {
+        victoryConditions = victoryDAO.load(scenario, side);
     }
 
     /**
@@ -128,6 +149,16 @@ public class ComputerPlayer implements Player {
         loadSquadrons(scenario);
         loadTaskForces(scenario);
         loadFlotillas(scenario);
+    }
+
+    /**
+     * Save the victory conditions.
+     *
+     * @param scenario The selected scenario.
+     */
+    @Override
+    public void saveVictory(final Scenario scenario) {
+        victoryDAO.save(scenario, side, victoryConditions);
     }
 
     /**

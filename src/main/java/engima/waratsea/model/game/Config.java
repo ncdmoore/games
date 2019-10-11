@@ -18,7 +18,7 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.allotment.Allotment;
 import engima.waratsea.model.squadron.deployment.SquadronDeployment;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.model.victory.Victory;
+import engima.waratsea.model.victory.VictoryConditions;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -51,8 +51,8 @@ public final class Config {
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       MotorTorpedoBoatFlotilla.class.getSimpleName(), "/flotilla/axisMTBFlotilla.json");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     FlotillaDeployment.class.getSimpleName(),       "/flotilla/deployment/alliesFlotilla.json/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       FlotillaDeployment.class.getSimpleName(),       "/flotilla/deployment/axisFlotilla.json/");
-        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Victory.class.getSimpleName(),                  "/victory/alliesVictory.json");
-        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Victory.class.getSimpleName(),                  "/victory/axisVictory.json");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     VictoryConditions.class.getSimpleName(),        "/victory/alliesVictory.json");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       VictoryConditions.class.getSimpleName(),        "/victory/axisVictory.json");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Aircraft.class.getSimpleName(),                 "/aircraft/allies/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Aircraft.class.getSimpleName(),                 "/aircraft/axis/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Port.class.getSimpleName(),                     "/ports/allies/");
@@ -85,8 +85,8 @@ public final class Config {
 
     private static final MultiKeyMap<String, String> DEFAULT_FILE_MAP = new MultiKeyMap<>();
     static {
-        DEFAULT_FILE_MAP.put(Side.ALLIES.toString(), Victory.class.getSimpleName(), "victory/allies");
-        DEFAULT_FILE_MAP.put(Side.AXIS.toString(),   Victory.class.getSimpleName(), "victory/axis");
+        DEFAULT_FILE_MAP.put(Side.ALLIES.toString(), VictoryConditions.class.getSimpleName(), "victory/allies");
+        DEFAULT_FILE_MAP.put(Side.AXIS.toString(),   VictoryConditions.class.getSimpleName(), "victory/axis");
     }
 
     public static final String DEFAULT_SAVED_GAME = "/defaultGame";

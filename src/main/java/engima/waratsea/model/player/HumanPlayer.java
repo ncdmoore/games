@@ -22,6 +22,9 @@ import engima.waratsea.model.squadron.SquadronDAO;
 import engima.waratsea.model.squadron.deployment.SquadronDeploymentType;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceDAO;
+import engima.waratsea.model.victory.VictoryConditions;
+import engima.waratsea.model.victory.VictoryDAO;
+import engima.waratsea.model.victory.VictoryException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,15 +41,18 @@ import java.util.stream.Stream;
  */
 public class HumanPlayer implements Player {
 
-    private GameMap gameMap;
-    private TaskForceDAO taskForceDAO;
-    private FlotillaDAO flotillaDAO;
-    private AirfieldDAO airfieldDAO;
-    private PortDAO portDAO;
-    private SquadronDAO aviationPlant;
-    private MinefieldDAO minefieldDAO;
+    private final GameMap gameMap;
+    private final VictoryDAO victoryDAO;
+    private final TaskForceDAO taskForceDAO;
+    private final FlotillaDAO flotillaDAO;
+    private final AirfieldDAO airfieldDAO;
+    private final PortDAO portDAO;
+    private final SquadronDAO aviationPlant;
+    private final MinefieldDAO minefieldDAO;
 
-    private FlotillaAI flotillaAI;
+    private final FlotillaAI flotillaAI;
+
+    private VictoryConditions victoryConditions;
 
     @Getter
     @Setter
@@ -58,9 +64,9 @@ public class HumanPlayer implements Player {
     @Getter
     private List<TaskForce> taskForces;
 
-    private Map<FlotillaType, List<Flotilla>> flotillas = new HashMap<>();
+    private final Map<FlotillaType, List<Flotilla>> flotillas = new HashMap<>();
 
-    private Map<Nation, List<Squadron>> squadrons = new HashMap<>();
+    private final Map<Nation, List<Squadron>> squadrons = new HashMap<>();
 
     @Getter
     private List<Airfield> airfields;
@@ -71,13 +77,14 @@ public class HumanPlayer implements Player {
     @Getter
     private List<Minefield> minefields;
 
-    private Map<SquadronDeploymentType, BiConsumer<Scenario, Player>> deploymentMap = new HashMap<>();
+    private final Map<SquadronDeploymentType, BiConsumer<Scenario, Player>> deploymentMap = new HashMap<>();
 
 
     /**
      * Constructor called by guice.
      *
      * @param gameMap The game map.
+     * @param victoryDAO Loads the player's victory conditions.
      * @param taskForceDAO Loads task force data.
      * @param flotillaDAO Loads flotilla data.
      * @param airfieldDAO Loads airfield data.
@@ -90,6 +97,7 @@ public class HumanPlayer implements Player {
     //CHECKSTYLE:OFF
     @Inject
     public HumanPlayer(final GameMap gameMap,
+                       final VictoryDAO victoryDAO,
                        final TaskForceDAO taskForceDAO,
                        final FlotillaDAO flotillaDAO,
                        final AirfieldDAO airfieldDAO,
@@ -99,7 +107,9 @@ public class HumanPlayer implements Player {
                        final FlotillaAI flotillaAI,
                        final SquadronAI squadronAI) {
         //CHECKSTYLE:ON
+
         this.gameMap = gameMap;
+        this.victoryDAO = victoryDAO;
         this.taskForceDAO = taskForceDAO;
         this.flotillaDAO = flotillaDAO;
         this.airfieldDAO = airfieldDAO;
@@ -111,6 +121,18 @@ public class HumanPlayer implements Player {
 
         deploymentMap.put(SquadronDeploymentType.COMPUTER, squadronAI::deploy);
         deploymentMap.put(SquadronDeploymentType.HUMAN,    squadronAI::manualDeployment);
+    }
+
+    /**
+     * Build the player's victory conditions.
+     *
+     * @param scenario The selected scenario.
+     * @throws VictoryException is thrown if the victory conditions cannot be loaded.
+     */
+    @Override
+    public void buildVictory(final Scenario scenario) throws VictoryException {
+        victoryConditions = victoryDAO.load(scenario, side);
+        scenario.setObjectives(victoryConditions.getObjectives());
     }
 
     /**
@@ -146,6 +168,16 @@ public class HumanPlayer implements Player {
 
         // The scenario determines whether the human player deploys squadrons or the AI does.
         deploymentMap.get(scenario.getSquadron()).accept(scenario, this);
+    }
+
+    /**
+     * Save the victory conditions.
+     *
+     * @param scenario The selected scenario.
+     */
+    @Override
+    public void saveVictory(final Scenario scenario) {
+        victoryDAO.save(scenario, side, victoryConditions);
     }
 
     /**

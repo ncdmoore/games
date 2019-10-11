@@ -11,6 +11,7 @@ import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.model.victory.VictoryException;
 
 import java.util.List;
 import java.util.Set;
@@ -43,6 +44,14 @@ public interface Player {
     Set<Nation> getNations();
 
     /**
+     * This sets the player's victory conditions.
+     *
+     * @param scenario The selected scenario.
+     * @throws VictoryException Indicates the victory conditions could not be loaded.
+     */
+    void buildVictory(Scenario scenario) throws VictoryException;
+
+    /**
      * This sets the player's assets.
      *
      * @param scenario The selected scenario.
@@ -57,6 +66,13 @@ public interface Player {
      * @throws ScenarioException Indicates the assets could not be loaded.
      */
     void deployAssets(Scenario scenario) throws ScenarioException;
+
+    /**
+     * This saves the player's victory conditions.
+     *
+     * @param scenario The selected scenario.
+     */
+    void saveVictory(Scenario scenario);
 
     /**
      * This saves the player's assets.

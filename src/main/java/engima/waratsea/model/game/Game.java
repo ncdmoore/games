@@ -10,7 +10,6 @@ import engima.waratsea.model.player.Player;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.scenario.ScenarioDAO;
-import engima.waratsea.model.victory.Victory;
 import engima.waratsea.model.victory.VictoryException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +34,6 @@ public class Game implements PersistentData<GameData> {
     private ScenarioDAO scenarioDAO;
     private GameDAO gameDAO;
     private GameMap gameMap;
-    private Victory gameVictory;
 
     @Getter
     private Side humanSide;
@@ -52,7 +50,6 @@ public class Game implements PersistentData<GameData> {
      * @param scenarioDAO  The scenario data abstraction object.
      * @param gameDAO The game data abstraction object.
      * @param gameMap The game map.
-     * @param gameVictory The game victory conditions.
      */
     @Inject
     public Game(final @Named("Computer") Player computerPlayer,
@@ -60,15 +57,13 @@ public class Game implements PersistentData<GameData> {
                 final Config config,
                 final ScenarioDAO scenarioDAO,
                 final GameDAO gameDAO,
-                final GameMap gameMap,
-                final Victory gameVictory) {
+                final GameMap gameMap) {
         this.computerPlayer = computerPlayer;
         this.humanPlayer = humanPlayer;
         this.config = config;
         this.scenarioDAO = scenarioDAO;
         this.gameDAO = gameDAO;
         this.gameMap = gameMap;
-        this.gameVictory = gameVictory;
     }
 
     /**
@@ -122,7 +117,7 @@ public class Game implements PersistentData<GameData> {
      * @return List of game data.
      * @throws ScenarioException Indicates the game data could not be loaded.
      */
-    public List<GameData> initGames() throws ScenarioException {                                                            // Saved Game Step 1.
+    public List<GameData> initGames() throws ScenarioException {                                                        // Saved Game Step 1.
         return gameDAO.load();
     }
 
@@ -198,8 +193,9 @@ public class Game implements PersistentData<GameData> {
     public void save(final String savedGameName) {
         config.setSavedGameName(savedGameName);
         gameDAO.save(this);
-        gameVictory.save(scenario);
+        humanPlayer.saveVictory(scenario);
         humanPlayer.saveAssets(scenario);
+        computerPlayer.saveVictory(scenario);
         computerPlayer.saveAssets(scenario);
     }
 
@@ -209,8 +205,9 @@ public class Game implements PersistentData<GameData> {
     public void save() {
         config.setSavedGameName(Config.DEFAULT_SAVED_GAME);
         gameDAO.save(this);
-        gameVictory.save(scenario);
+        humanPlayer.saveVictory(scenario);
         humanPlayer.saveAssets(scenario);
+        computerPlayer.saveVictory(scenario);
         computerPlayer.saveAssets(scenario);
     }
 
@@ -229,8 +226,8 @@ public class Game implements PersistentData<GameData> {
      * @throws VictoryException Indicates the game gameVictory could not be loaded.
      */
     private void loadGameVictory() throws VictoryException {
-        gameVictory.load(scenario);
-        scenario.setObjectives(gameVictory.getObjectives(humanPlayer.getSide()));
+        humanPlayer.buildVictory(scenario);
+        computerPlayer.buildVictory(scenario);
     }
 
     /**

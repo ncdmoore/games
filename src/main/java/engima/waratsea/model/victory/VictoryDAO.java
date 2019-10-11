@@ -13,7 +13,6 @@ import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -118,7 +117,7 @@ public class VictoryDAO {
      */
     public void save(final Scenario scenario, final Side side, final VictoryConditions conditions) {
         log.info("Saving victory, scenario: {}, side: {}", scenario.getTitle(), side);
-        String fileName = config.getSavedFileName(side, Victory.class);
+        String fileName = config.getSavedFileName(side, VictoryConditions.class);
         PersistentUtility.save(fileName, conditions);
     }
 
@@ -133,7 +132,7 @@ public class VictoryDAO {
     private VictoryConditionsData loadDefaultVictoryData(final Side side) throws VictoryException {
         log.info("Load default victory");
         return config
-                .getDefaultURL(side, Victory.class)
+                .getDefaultURL(side, VictoryConditions.class)
                 .map(this::readVictory)
                 .orElseThrow(() -> new VictoryException("Unable to load default victory"));
     }
@@ -149,7 +148,7 @@ public class VictoryDAO {
     private VictoryConditionsData loadScenarioVictoryData(final Scenario scenario, final Side side) throws VictoryException {
         log.info("Load scenario victory, scenario: '{}', side: '{}'", scenario.getTitle(), side);
         return config
-                .getScenarioURL(side, Victory.class)
+                .getScenarioURL(side, VictoryConditions.class)
                 .map(this::readVictory)
                 .orElseThrow(() -> new VictoryException("Unable to load victory for side " + side, "warn"));
     }
@@ -165,7 +164,7 @@ public class VictoryDAO {
     private VictoryConditionsData loadSavedGameVictoryData(final Scenario scenario, final Side side) throws VictoryException {
         log.info("Load victory, scenario: '{}', side: '{}'", scenario.getTitle(), side);
         return config
-                .getSavedURL(side, Victory.class)
+                .getSavedURL(side, VictoryConditions.class)
                 .map(this::readVictory)
                 .orElseThrow(() -> new VictoryException("Unable to load saved game victory for side " + side));
     }
@@ -177,21 +176,16 @@ public class VictoryDAO {
      * @return The data read from the JSON file.
      */
     private VictoryConditionsData readVictory(final URL url) {
-        try {
-            Path path = Paths.get(URLDecoder.decode(url.getPath(), "UTF-8"));
-            try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+        Path path = Paths.get(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8));
+        try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 
-                Gson gson = new Gson();
-                VictoryConditionsData data = gson.fromJson(br, VictoryConditionsData.class);
+            Gson gson = new Gson();
+            VictoryConditionsData data = gson.fromJson(br, VictoryConditionsData.class);
 
-                log.info("load victory '{}'", url.getPath());
+            log.info("load victory '{}'", url.getPath());
 
-                return data;
-            } catch (Exception ex) {                                                                                        // Catch any Gson errors.
-                log.error("Unable to load victory '{}'. {}", new Object[]{url.getPath(), ex});
-                return null;
-            }
-        } catch (UnsupportedEncodingException ex) {
+            return data;
+        } catch (Exception ex) {                                                                                        // Catch any Gson errors.
             log.error("Unable to load victory '{}'. {}", new Object[]{url.getPath(), ex});
             return null;
         }
