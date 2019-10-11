@@ -30,7 +30,7 @@ public class Main extends Application {
     private static final Map<String, Consumer<String>> HANDLERS = new HashMap<>();
 
     static {
-        PARAMETERS.put(GAME, GameTitle.DEFAULT_GAME);
+        PARAMETERS.put(GAME, GameTitle.DEFAULT_GAME.getValue());
         HANDLERS.put(GAME, Main::handleGameParameter);
     }
 

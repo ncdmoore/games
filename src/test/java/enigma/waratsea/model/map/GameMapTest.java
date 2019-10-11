@@ -2,6 +2,7 @@ package enigma.waratsea.model.map;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
@@ -19,8 +20,7 @@ public class GameMapTest {
     public static void setup() throws Exception{
         Injector injector = Guice.createInjector(new TestModule());
         GameTitle gameTitle = injector.getInstance(GameTitle.class);                                                              //The game instance must be injected first!
-        final String gameName = "bombAlley";
-        gameTitle.setValue(gameName);
+        gameTitle.setName(GameName.BOMB_ALLEY);
 
         gameMap = injector.getInstance(GameMap.class);
 

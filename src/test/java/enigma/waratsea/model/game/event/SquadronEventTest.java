@@ -6,6 +6,7 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
+import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -39,7 +40,7 @@ public class SquadronEventTest {
         Injector injector = Guice.createInjector(new TestModule());
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
-        gameTitle.setValue("bombAlley");
+        gameTitle.setName(GameName.BOMB_ALLEY);
 
         Scenario scenario = new Scenario();
         scenario.setName("firstSortie");

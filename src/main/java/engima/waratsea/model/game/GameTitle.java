@@ -13,17 +13,35 @@ import lombok.Setter;
 @Singleton
 public class GameTitle {
 
-    public static final String DEFAULT_GAME = "bombAlley";
+    public static final GameName DEFAULT_GAME = GameName.BOMB_ALLEY;
 
     @Getter
     @Setter
-    private String value;            //This is the name of the game bombAlley, Coral Sea, etc.
+    private GameName name;            //This is the name of the game bombAlley, Coral Sea, etc.
 
     /**
      * Constructor called by guice.
      */
     @Inject
     public GameTitle() {
-        value = DEFAULT_GAME;
+        name = DEFAULT_GAME;
+    }
+
+    /**
+     * Set the value of the game title via it's String representation.
+     *
+     * @param value The String representation of the enum.
+     */
+    public void setValue(final String value) {
+        name = GameName.convert(value);
+    }
+
+    /**
+     * Get the String representation of the game title.
+     *
+     * @return The String representation of the enum.
+     */
+    public String getValue() {
+        return name.getValue();
     }
 }

@@ -3,6 +3,7 @@ package enigma.waratsea.model.scenario;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
@@ -30,7 +31,7 @@ public class ScenarioLoaderTest {
     private static Injector injector;
 
 
-    private List<String> games = new ArrayList<>(Arrays.asList("bombAlley", "coralSea"));
+    private List<GameName> games = new ArrayList<>(Arrays.asList(GameName.BOMB_ALLEY, GameName.CORAL_SEA));
 
 
     @BeforeClass
@@ -51,15 +52,15 @@ public class ScenarioLoaderTest {
     //todo consider all scenarios.
     @Test
     public void testTaskForceLoading() {
-        taskForceLoading("bombAlley", "firstSortie", "june1940");
-        taskForceLoading("bombAlley", "capeTeulada", "june1940");
+        taskForceLoading(GameName.BOMB_ALLEY, "firstSortie", "june1940");
+        taskForceLoading(GameName.BOMB_ALLEY, "capeTeulada", "june1940");
         //taskForceLoading("coralSea", "coralSea");
     }
 
-    private void scenarioSummaryLoading(String gameName) {
+    private void scenarioSummaryLoading(GameName gameName) {
 
         try {
-            gameTitle.setValue(gameName);
+            gameTitle.setName(gameName);
             ScenarioDAO scenarioDAO = injector.getInstance(ScenarioDAO.class);
 
             List<Scenario> scenarios = scenarioDAO.load();
@@ -76,10 +77,10 @@ public class ScenarioLoaderTest {
 
     }
 
-    private void taskForceLoading(String gameName, String scenarioName, String mapName)  {
+    private void taskForceLoading(GameName gameName, String scenarioName, String mapName)  {
 
         try {
-            gameTitle.setValue(gameName);
+            gameTitle.setName(gameName);
 
             Scenario scenario = new Scenario();
             scenario.setName(scenarioName);

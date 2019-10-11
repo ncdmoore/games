@@ -2,6 +2,7 @@ package enigma.waratsea.model.map.region;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
@@ -33,13 +34,13 @@ public class RegionTest {
 
     @Test
     public void testMapLoading() throws Exception {
-        mapLoading("bombAlley");
+        mapLoading(GameName.BOMB_ALLEY);
     }
 
 
-    private void mapLoading(String gameName) throws Exception {
+    private void mapLoading(GameName gameName) throws Exception {
 
-        gameTitle.setValue(gameName);
+        gameTitle.setName(gameName);
 
         List<Scenario> scenarios = scenarioDAO.load();
         scenarios.forEach(this::loadRegion);

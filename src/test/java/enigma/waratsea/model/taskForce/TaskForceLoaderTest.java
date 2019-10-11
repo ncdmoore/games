@@ -3,6 +3,7 @@ package enigma.waratsea.model.taskForce;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.GameType;
 import engima.waratsea.model.game.Side;
@@ -32,7 +33,7 @@ public class TaskForceLoaderTest {
         gameMap = injector.getInstance(GameMap.class);
         taskForceDAO = injector.getInstance(TaskForceDAO.class);
 
-        gameTitle.setValue("bombAlley");
+        gameTitle.setName(GameName.BOMB_ALLEY);
     }
 
     @Test

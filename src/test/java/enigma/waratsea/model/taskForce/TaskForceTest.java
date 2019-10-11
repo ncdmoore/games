@@ -3,6 +3,7 @@ package enigma.waratsea.model.taskForce;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.game.AssetType;
+import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventAction;
 import engima.waratsea.model.game.event.ship.data.ShipMatchData;
@@ -40,7 +41,7 @@ public class TaskForceTest {
         Injector injector = Guice.createInjector(new TestModule());
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
-        gameTitle.setValue("bombAlley");
+        gameTitle.setName(GameName.BOMB_ALLEY);
 
         gameMap = injector.getInstance(GameMap.class);
 

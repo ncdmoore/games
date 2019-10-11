@@ -13,6 +13,7 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.Rules;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.data.SquadronData;
@@ -32,6 +33,8 @@ import java.util.Optional;
  */
 @Slf4j
 public class Squadron implements Asset, PersistentData<SquadronData> {
+    private Rules rules;
+
     @Getter
     private Side side;
 
@@ -84,13 +87,16 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @param data The data of the squadron read in from a JSON file.
      * @param aviationPlant The aviation plant that creates aircraft for squadrons.
      * @param gameMap The game map.
+     * @param rules The game rules.
      */
     @Inject
     public Squadron(@Assisted final Side side,
                     @Assisted final Nation nation,
                     @Assisted final SquadronData data,
                               final AviationPlant aviationPlant,
-                              final GameMap gameMap) {
+                              final GameMap gameMap,
+                              final Rules rules) {
+        this.rules = rules;
         this.side = side;
         this.nation = nation;
         this.gameMap = gameMap;
@@ -183,7 +189,6 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
         return aircraft.getLanding();
     }
 
-
     /**
      * Get the squadron air-to-air attack factor.
      *
@@ -263,6 +268,15 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      */
     public int getLandModifier() {
         return aircraft.getLand().getModifier();
+    }
+
+    /**
+     * Determine if this squadron may perform ASW.
+     *
+     * @return True if this squadron may perform ASW. False otherwise.
+     */
+    public boolean canDoASW() {
+        return rules.aswFilter(this);
     }
 
     /**

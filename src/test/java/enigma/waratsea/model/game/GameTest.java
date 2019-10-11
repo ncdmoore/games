@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import engima.waratsea.model.AppProps;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Game;
+import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.MapException;
@@ -32,7 +33,7 @@ public class GameTest {
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);                                                    //The game instance must be injected first!
 
-        gameTitle.setValue("bombAlley");
+        gameTitle.setName(GameName.BOMB_ALLEY);
 
         injector.getInstance(AppProps.class);                                                                           // Load the main application properties.
 

@@ -3,6 +3,7 @@ package enigma.waratsea.model.victory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.airfield.AirfieldEvent;
@@ -32,7 +33,7 @@ public class AirfieldVictoryTest {
         Injector injector = Guice.createInjector(new TestModule());
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
-        gameTitle.setValue("bombAlley");
+        gameTitle.setName(GameName.BOMB_ALLEY);
 
         Scenario scenario = new Scenario();
         scenario.setName("firstSortie");

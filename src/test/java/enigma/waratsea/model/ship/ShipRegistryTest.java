@@ -2,6 +2,7 @@ package enigma.waratsea.model.ship;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ship.ShipId;
@@ -19,7 +20,7 @@ public class ShipRegistryTest {
         Injector injector = Guice.createInjector(new TestModule());
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
-        gameTitle.setValue("bombAlley");
+        gameTitle.setName(GameName.BOMB_ALLEY);
 
         registry = injector.getInstance(ShipRegistry.class);
     }
