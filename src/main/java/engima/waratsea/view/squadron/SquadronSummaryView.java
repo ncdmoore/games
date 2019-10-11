@@ -129,7 +129,7 @@ public class SquadronSummaryView {
                 .setWidth(props.getInt("airfield.dialog.ready.width"))
                 .setStyleId("component-grid");
 
-        ImageView imageView = imageResourceProvider.getImageView("info15x15.png");
+        ImageView imageView = imageResourceProvider.getImageView("info17x17.png");
         HBox hbox = new HBox(imageView);
         hbox.setId("squadron-attack-data-title");
 
@@ -153,7 +153,7 @@ public class SquadronSummaryView {
                 .setWidth(props.getInt("airfield.dialog.ready.width"))
                 .setStyleId("component-grid");
 
-        ImageView imageView = imageResourceProvider.getImageView("info15x15.png");
+        ImageView imageView = imageResourceProvider.getImageView("info17x17.png");
         HBox hbox = new HBox(imageView);
         hbox.setId("squadron-performance-data-title");
 

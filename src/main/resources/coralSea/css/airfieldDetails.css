@@ -21,7 +21,7 @@
 }
 
 .component-grid {
-    -fx-background-color: whitesmoke;
+    -fx-background-color: white;
     -fx-hgap: 10;
 }
 
