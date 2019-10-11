@@ -25,6 +25,15 @@
     -fx-hgap: 10;
 }
 
+#landing-type-pane {
+    -fx-background-color: white;
+    -fx-spacing: 5;
+}
+
+#landing-type-pane .check-box {
+    -fx-opacity: 1.0;
+}
+
 #airfield-title-pane {
     -fx-collapsible: false;
 }

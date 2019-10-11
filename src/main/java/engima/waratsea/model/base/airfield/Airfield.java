@@ -43,6 +43,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     @Getter
     private final String title;
 
+    @Getter
     private final List<LandingType> landingType;
 
     @Getter

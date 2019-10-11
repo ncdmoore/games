@@ -2,6 +2,7 @@ package engima.waratsea.view.airfield;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.game.Nation;
@@ -13,6 +14,7 @@ import engima.waratsea.view.squadron.SquadronViewType;
 import engima.waratsea.view.util.TitledGridPane;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
@@ -116,13 +118,15 @@ public class AirfieldDetailsView {
         TitledPane airfieldTitle = buildAirfieldTitle();
         TitledGridPane airfieldDetails = buildAirfieldDetails();
         TitledGridPane airfieldSteps = buildAirfieldSteps(nation);
+        TitledPane landingTypes = buildLandingTypes();
 
-        VBox leftVBox = new VBox(airfieldTitle, airfieldView, airfieldDetails, airfieldSteps);
+        VBox leftVBox = new VBox(airfieldTitle, airfieldView, airfieldDetails, airfieldSteps, landingTypes);
         leftVBox.setId("left-vbox");
 
         TitledPane missions = buildMissionDetails();
         TitledPane patrols = buildPatrolDetails();
         TitledPane ready = buildReadyDetails(nation);
+
 
         Accordion accordion = new Accordion();
 
@@ -201,6 +205,39 @@ public class AirfieldDetailsView {
                 .setTitle("Airfield Step Summary")
                 .buildPane(getAirfieldSteps(nation));
     }
+
+    /**
+     * Build landing types for the airfield.
+     *
+     * @return A titled pane containing the landing types.
+     */
+    private TitledPane buildLandingTypes() {
+        TitledPane titledPane = new TitledPane();
+
+        titledPane.setText("Supported Landing Types");
+
+        CheckBox land = new CheckBox("Land");
+        CheckBox sea = new CheckBox("Seaplane");
+
+        if (airfield.getLandingType().contains(LandingType.LAND)) {
+            land.setSelected(true);
+        }
+
+        if (airfield.getLandingType().contains(LandingType.SEAPLANE)) {
+            sea.setSelected(true);
+        }
+
+        land.setDisable(true);
+        sea.setDisable(true);
+
+        VBox vBox = new VBox(land, sea);
+
+        titledPane.setContent(vBox);
+        vBox.setId("landing-type-pane");
+
+        return titledPane;
+    }
+
 
     /**
      * Get the airfield step summary for each type of squadron.
