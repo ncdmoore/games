@@ -33,6 +33,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AirfieldDetailsView {
     private static final String ROUNDEL_SIZE = "20x20.png";
@@ -216,21 +217,13 @@ public class AirfieldDetailsView {
 
         titledPane.setText("Supported Landing Types");
 
-        CheckBox land = new CheckBox("Land");
-        CheckBox sea = new CheckBox("Seaplane");
+        List<CheckBox> checkBoxes = Stream.of(LandingType.values())
+                .filter(landingType -> landingType != LandingType.CARRIER)
+                .map(this::buildCheckBox)
+                .collect(Collectors.toList());
 
-        if (airfield.getLandingType().contains(LandingType.LAND)) {
-            land.setSelected(true);
-        }
-
-        if (airfield.getLandingType().contains(LandingType.SEAPLANE)) {
-            sea.setSelected(true);
-        }
-
-        land.setDisable(true);
-        sea.setDisable(true);
-
-        VBox vBox = new VBox(land, sea);
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(checkBoxes);
 
         titledPane.setContent(vBox);
         vBox.setId("landing-type-pane");
@@ -238,6 +231,21 @@ public class AirfieldDetailsView {
         return titledPane;
     }
 
+    /**
+     * Build the landing type check boxes that indicate which
+     * landing types the airfield support.
+     *
+     * @param landingType An aircraft/squadron landing type.
+     * @return A checkbox corresponding to the given landing type.
+     */
+    private CheckBox buildCheckBox(final LandingType landingType) {
+        CheckBox checkBox = new CheckBox(landingType.toString());
+        if (airfield.getLandingType().contains(landingType)) {
+            checkBox.setSelected(true);
+        }
+        checkBox.setDisable(true);
+        return checkBox;
+    }
 
     /**
      * Get the airfield step summary for each type of squadron.
