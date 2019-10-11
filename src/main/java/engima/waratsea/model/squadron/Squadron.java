@@ -183,6 +183,88 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
         return aircraft.getLanding();
     }
 
+
+    /**
+     * Get the squadron air-to-air attack factor.
+     *
+     * @return The air-to-air attack factor.
+     */
+    public int getAirFactor() {
+        return aircraft.getAir().getFactor(strength);
+    }
+
+    /**
+     * Get the squadron air-to-air attack modifier.
+     *
+     * @return The air-to-air attack modifier.
+     */
+    public int getAirModifier() {
+        return aircraft.getAir().getModifier();
+    }
+
+    /**
+     * Get the squadron's air-to-air hit probability.
+     *
+     * @return The squadron's air-to-air hit probability.
+     */
+    public int getAirHitProbability() {
+        return aircraft.getAirHitProbability(strength);
+    }
+
+    /**
+     * Get the squadron's land hit probability.
+     *
+     * @return The squadron's land hit probability.
+     */
+    public int getLandHitProbability() {
+        return aircraft.getLandHitProbability(strength);
+    }
+
+    /**
+     * Get the squadron's naval hit probability.
+     *
+     * @return The squadron's naval hit probability.
+     */
+    public int getNavalHitProbability() {
+        return aircraft.getNavalHitProbability(strength);
+    }
+
+    /**
+     * Get the squadron naval attack factor.
+     *
+     * @return The naval attack factor.
+     */
+    public int getNavalFactor() {
+        return aircraft.getNaval().getFactor(strength);
+    }
+
+    /**
+     * Get the squadron naval attack modifier.
+     *
+     * @return The naval attack modifier.
+     */
+    public int getNavalModifier() {
+        return aircraft.getNaval().getModifier();
+    }
+
+    /**
+     * Get the squadron land attack factor.
+     *
+     * @return The land attack factor.
+     */
+    public int getLandFactor() {
+        return aircraft.getLand().getFactor(strength);
+    }
+
+    /**
+     * Get the squadron land attack modifier.
+     *
+     * @return The land attack modifier.
+     */
+    public int getLandModifier() {
+        return aircraft.getLand().getModifier();
+    }
+
     /**
      * Get the number of steps that the squadron contains. Full strength squadrons contain two steps. Half strength
      * squadrons contain one step. Battleship and cruiser float planes are equal to 1/3 of a step.

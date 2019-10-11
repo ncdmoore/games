@@ -244,7 +244,8 @@ public class SquadronDetailsView {
         return new TitledGridPane()
                 .setWidth(props.getInt("ship.dialog.detailsPane.width"))
                 .setStyleId("component-grid")
-                .buildPane(title, data);
+                .buildPane(data)
+                .setTitle(title);
     }
 
     /**

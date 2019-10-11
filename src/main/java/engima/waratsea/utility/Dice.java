@@ -44,4 +44,20 @@ public class Dice {
     public int roll(final int sides) {
         return DICE.nextInt(sides) + 1;
     }
+
+    /**
+     * The probability a number of six-sided dice will roll a given number.
+     *
+     * @param numHit The numbers on a six-sided dice that count as a hit.
+     * @param numberDiceToRoll The number of six-sided dice that are rolled.
+     * @return The probability that the given number of "numbers" will hit.
+     */
+    public int probability6(final int numHit, final int numberDiceToRoll) {
+
+        double num = Math.pow((DICE_SIX_SIDED - numHit), numberDiceToRoll);
+        double den = Math.pow(DICE_SIX_SIDED, numberDiceToRoll);
+
+        final int percentage = 100;
+        return (int) ((1.0 - (num / den)) * percentage);
+    }
 }

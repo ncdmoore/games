@@ -2,6 +2,7 @@ package engima.waratsea.model.aircraft;
 
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.squadron.SquadronStrength;
 
 import java.util.List;
 
@@ -58,6 +59,30 @@ public interface Aircraft {
      * @return The aircraft's air to air attack factor.
      */
     AttackFactor getAir();
+
+    /**
+     * Get the probability the aircraft will hit in an air-to-air attack.
+     *
+     * @param strength The strength of the squadron.
+     * @return A percentage representing the probability this aircraft will hit in an air-to-air attack.
+     */
+    int getAirHitProbability(SquadronStrength strength);
+
+    /**
+     * Get the probability the aircraft will hit in a land attack.
+     *
+     * @param strength The strength of the squadron.
+     * @return A percentage representing the probability this aircraft will hit in a land attack.
+     */
+    int getLandHitProbability(SquadronStrength strength);
+
+    /**
+     * Get the probability the aircraft will hit during a naval attack.
+     *
+     * @param strength The strength of the squadron.
+     * @return A percentage representing the probability this aircraft will hit in a naval attack.
+     */
+    int getNavalHitProbability(SquadronStrength strength);
 
     /**
      * Get the aircraft's land attack factor.

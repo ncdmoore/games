@@ -169,7 +169,8 @@ public class AirfieldDetailsView {
         return new TitledGridPane()
                 .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
                 .setStyleId("component-grid")
-                .buildPane("Airfield Stats", getAirfieldDetails());
+                .setTitle("Airfield Stats")
+                .buildPane(getAirfieldDetails());
     }
 
     /**
@@ -197,7 +198,8 @@ public class AirfieldDetailsView {
         return new TitledGridPane()
                 .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
                 .setStyleId("component-grid")
-                .buildPane("Airfield Step Summary", getAirfieldSteps(nation));
+                .setTitle("Airfield Step Summary")
+                .buildPane(getAirfieldSteps(nation));
     }
 
     /**

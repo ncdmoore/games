@@ -5,6 +5,8 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.data.AircraftData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.squadron.SquadronStrength;
+import engima.waratsea.utility.Dice;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -50,13 +52,17 @@ public class Fighter implements Aircraft {
     @Getter
     private final Frame frame;
 
+    private final Dice dice;
+
     /**
      * The constructor called by guice.
      *
      * @param data The aircraft data read in from a JSON file.
+     * @param dice Dice utility.
      */
     @Inject
-    public Fighter(@Assisted final AircraftData data) {
+    public Fighter(@Assisted final AircraftData data,
+                             final Dice dice) {
         this.aircraftId = data.getAircraftId();
         this.type = data.getType();
         this.designation = data.getDesignation();
@@ -69,6 +75,8 @@ public class Fighter implements Aircraft {
         this.air = new AttackFactor(data.getAir());
         this.range = new Range(data.getRange());
         this.frame = new Frame(data.getFrame());
+
+        this.dice = dice;
     }
 
     /**
@@ -89,6 +97,39 @@ public class Fighter implements Aircraft {
     @Override
     public Side getSide() {
         return aircraftId.getSide();
+    }
+
+    /**
+     * Get the probability the aircraft will hit in an air-to-air attack.
+     *
+     * @param strength The strength of the squadron.
+     * @return A percentage representing the probability this aircraft will hit in an air-to-air attack.
+     */
+    @Override
+    public int getAirHitProbability(final SquadronStrength strength) {
+        return dice.probability6(air.getModifier() + 1, air.getFactor(strength));
+    }
+
+    /**
+     * Get the probability the aircraft will hit in a land attack.
+     *
+     * @param strength The strength of the squadron.
+     * @return A percentage representing the probability this aircraft will hit in a land attack.
+     */
+    @Override
+    public int getLandHitProbability(final SquadronStrength strength) {
+        return dice.probability6(land.getModifier() + 1, land.getFactor(strength));
+    }
+
+    /**
+     * Get the probability the aircraft will hit during a naval attack.
+     *
+     * @param strength The strength of the squadron.
+     * @return A percentage representing the probability this aircraft will hit in a naval attack.
+     */
+    @Override
+    public int getNavalHitProbability(final SquadronStrength strength) {
+        return dice.probability6(naval.getModifier() + 1, naval.getFactor(strength));
     }
 
     /**

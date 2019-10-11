@@ -9,7 +9,6 @@ import engima.waratsea.model.game.Side;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -116,21 +115,16 @@ public class AviationPlant {
      * @return The data read from the JSON file.
      */
     private AircraftData readAircraftModel(final URL url, final Side side) {
-        try {
-            Path path = Paths.get(URLDecoder.decode(url.getPath(), "UTF-8"));
-            try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+        Path path = Paths.get(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8));
+        try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 
-                log.debug("load aircraft model {} for side {}", url.getPath(), side);
+            log.debug("load aircraft model {} for side {}", url.getPath(), side);
 
-                Gson gson = new Gson();
-                return gson.fromJson(br, AircraftData.class);
+            Gson gson = new Gson();
+            return gson.fromJson(br, AircraftData.class);
 
-            } catch (Exception ex) {                                                                                        // Catch any Gson errors.
-                log.error("Unable to load aircraft model '{}' for side: {}. {}", new Object[]{url.getPath(), side, ex});
-                return null;
-            }
-        } catch (UnsupportedEncodingException ex) {
-            log.error("Unable to load aircraft model {} for side: {}. {}", new Object[]{url.getPath(), side, ex});
+        } catch (Exception ex) {                                                                                        // Catch any Gson errors.
+            log.error("Unable to load aircraft model '{}' for side: {}. {}", new Object[]{url.getPath(), side, ex});
             return null;
         }
     }
