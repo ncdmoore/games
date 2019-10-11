@@ -88,8 +88,8 @@ public class SquadronSummaryView {
     public void setSquadron(final Squadron squadron) {
         title.setText(squadron.getTitle());
         aircraftProfile.setImage(getProfile(squadron));
-        setAttackStats(squadron);
-        setPerformanceStats(squadron);
+        attackStats.buildPaneMultiColumn(getAttackStats(squadron));
+        performanceStats.buildPane(getPerformanceStats(squadron));
         mainPane.setVisible(true);
     }
 
@@ -117,13 +117,56 @@ public class SquadronSummaryView {
      * Build the component titled panes.
      */
     private void buildStats() {
+        buildAttacks();
+        buildPerformance();
+    }
+
+    /**
+     * Build the attack data.
+     */
+    private void buildAttacks() {
         attackStats
                 .setWidth(props.getInt("airfield.dialog.ready.width"))
                 .setStyleId("component-grid");
 
+        ImageView imageView = imageResourceProvider.getImageView("info15x15.png");
+        HBox hbox = new HBox(imageView);
+        hbox.setId("squadron-attack-data-title");
+
+        Tooltip tooltip = new Tooltip("Squadron Attack Data:\n\nFirst number is the attack factor.\nSecond number is the attack (modifier).\nThird number is the % chance of a single hit.");
+
+        tooltip.setShowDelay(Duration.seconds(props.getDouble("tooltip.delay")));
+        tooltip.setShowDuration(Duration.seconds(props.getDouble("tooltip.duration")));
+
+        Tooltip.install(imageView, tooltip);
+
+        attackStats.setGraphic(hbox);
+        attackStats.setContentDisplay(ContentDisplay.RIGHT);
+        attackStats.setText("Squadron Attack Data");
+    }
+
+    /**
+     * Build the performance data.
+     */
+    private void buildPerformance() {
         performanceStats
                 .setWidth(props.getInt("airfield.dialog.ready.width"))
                 .setStyleId("component-grid");
+
+        ImageView imageView = imageResourceProvider.getImageView("info15x15.png");
+        HBox hbox = new HBox(imageView);
+        hbox.setId("squadron-performance-data-title");
+
+        Tooltip tooltip = new Tooltip("Squadron Performance Data:\n\nRadius is in grid squares.\nEndurance is in game turns.");
+
+        tooltip.setShowDelay(Duration.seconds(props.getDouble("tooltip.delay")));
+        tooltip.setShowDuration(Duration.seconds(props.getDouble("tooltip.duration")));
+
+        Tooltip.install(imageView, tooltip);
+
+        performanceStats.setGraphic(hbox);
+        performanceStats.setContentDisplay(ContentDisplay.RIGHT);
+        performanceStats.setText("Squadron Performance Data");
     }
 
     /**
@@ -195,52 +238,6 @@ public class SquadronSummaryView {
         details.put("Endurance:", squadron.getAircraft().getRange().getEndurance() + "");
 
         return details;
-    }
-
-    /**
-     * Update the squadron attack stats.
-     *
-     * @param squadron The selected squadron.
-     */
-    private void setAttackStats(final Squadron squadron) {
-        ImageView imageView = imageResourceProvider.getImageView("info15x15.png");
-        HBox hbox = new HBox(imageView);
-        hbox.setId("squadron-attack-data-title");
-
-        Tooltip tooltip = new Tooltip("Squadron Attack Data:\n\nFirst number is the attack factor.\nSecond number is the attack (modifier).\nThird number is the % chance of a single hit.");
-
-        tooltip.setShowDelay(Duration.seconds(props.getDouble("tooltip.delay")));
-        tooltip.setShowDuration(Duration.seconds(props.getDouble("tooltip.duration")));
-
-        Tooltip.install(imageView, tooltip);
-
-        attackStats.setGraphic(hbox);
-        attackStats.setContentDisplay(ContentDisplay.RIGHT);
-        attackStats.setText("Squadron Attack Data");
-        attackStats.buildPaneMultiColumn(getAttackStats(squadron));
-    }
-
-    /**
-     * Update the squadron performance stats.
-     *
-     * @param squadron the selected squadron.
-     */
-    private void setPerformanceStats(final Squadron squadron) {
-        ImageView imageView = imageResourceProvider.getImageView("info15x15.png");
-        HBox hbox = new HBox(imageView);
-        hbox.setId("squadron-performance-data-title");
-
-        Tooltip tooltip = new Tooltip("Squadron Performance Data:\n\nRadius is in grid squares.\nEndurance is in game turns.");
-
-        tooltip.setShowDelay(Duration.seconds(props.getDouble("tooltip.delay")));
-        tooltip.setShowDuration(Duration.seconds(props.getDouble("tooltip.duration")));
-
-        Tooltip.install(imageView, tooltip);
-
-        performanceStats.setGraphic(hbox);
-        performanceStats.setContentDisplay(ContentDisplay.RIGHT);
-        performanceStats.setText("Squadron Performance Data");
-        performanceStats.buildPane(getPerformanceStats(squadron));
     }
 
     /**
