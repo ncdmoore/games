@@ -12,6 +12,7 @@ import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
+import engima.waratsea.model.squadron.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
 import lombok.Getter;
 import lombok.Setter;
@@ -260,6 +261,19 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
+     * Get the list of squadrons for the given nation.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return The squadron list for the given nation.
+     */
+    public List<Squadron> getSquadrons(final Nation nation) {
+        return squadrons
+                .stream()
+                .filter(squadron -> squadron.ofNation(nation))
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Get the squadron map.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
@@ -313,6 +327,21 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     public boolean canSquadronLand(final Squadron squadron) {
         return landingType.contains(squadron.getLandingType());
+    }
+
+
+    /**
+     * Get a list of squadrons for the given nation that can perform the given patrol type.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @param patrolType The type of patrol.
+     * @return A list of squadrons for the given nation that can perform the given patrol.
+     */
+    public List<Squadron> getCapableSquadrons(final Nation nation, final PatrolType patrolType) {
+        return getSquadrons(nation)
+                .stream()
+                .filter(squadron -> squadron.canDoPatrol(patrolType))
+                .collect(Collectors.toList());
     }
 
     /**

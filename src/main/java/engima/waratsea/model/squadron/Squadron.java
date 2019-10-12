@@ -65,6 +65,8 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
 
     private static final Map<Side, Map<String, Integer>> DESIGNATION_MAP = new HashMap<>();
 
+
+
     static {
         DESIGNATION_MAP.put(Side.ALLIES, new HashMap<>());
         DESIGNATION_MAP.put(Side.AXIS, new HashMap<>());
@@ -273,10 +275,11 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     /**
      * Determine if this squadron may perform ASW.
      *
+     * @param patrolType Type of patrol.
      * @return True if this squadron may perform ASW. False otherwise.
      */
-    public boolean canDoASW() {
-        return rules.aswFilter(this);
+    public boolean canDoPatrol(final PatrolType patrolType) {
+        return rules.patrolFilter(patrolType, this);
     }
 
     /**

@@ -18,6 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -27,6 +28,9 @@ import java.util.Map;
 
 @Slf4j
 public class SquadronSummaryView {
+    @Getter
+    private Squadron selectedSquadron;
+
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
 
@@ -51,11 +55,11 @@ public class SquadronSummaryView {
     }
 
     /**
-     * Show the squadron summary.
+     * Show the selectedSquadron summary.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
      *
-     * @return A node containing the squadron summary.
+     * @return A node containing the selectedSquadron summary.
      */
     public Node show(final Nation nation) {
         title.setId("summary-title");
@@ -81,12 +85,20 @@ public class SquadronSummaryView {
     }
 
     /**
+     * Hide the summary.
+     */
+    public void hide() {
+        mainPane.setVisible(false);
+    }
+
+    /**
      * Set the squadron for which the summary is shown.
      *
-     * @param squadron The squadron who's summary is shown.
+     * @param squadron The selectedSquadron who's summary is shown.
      */
-    public void setSquadron(final Squadron squadron) {
-        title.setText(squadron.getTitle());
+    public void setSelectedSquadron(final Squadron squadron) {
+        this.selectedSquadron = squadron;
+        title.setText(selectedSquadron.getTitle());
         aircraftProfile.setImage(getProfile(squadron));
         attackStats.buildPaneMultiColumn(getAttackStats(squadron));
         performanceStats.buildPane(getPerformanceStats(squadron));
@@ -170,10 +182,10 @@ public class SquadronSummaryView {
     }
 
     /**
-     * Get the squadron attack data.
+     * Get the selectedSquadron attack data.
      *
-     * @param squadron The selected squadron.
-     * @return The squadron's attack data.
+     * @param squadron The selected selectedSquadron.
+     * @return The selectedSquadron's attack data.
      */
     private Map<String, List<String>> getAttackStats(final Squadron squadron) {
         Map<String, List<String>> details = new LinkedHashMap<>();
@@ -190,6 +202,9 @@ public class SquadronSummaryView {
                 ? squadron.getNavalFactor() + " (" + squadron.getNavalModifier() + ")"
                 : squadron.getNavalFactor() + "";
 
+        List<String> type = new ArrayList<>();
+        type.add(squadron.getType().toString());
+
         List<String> strength = new ArrayList<>();
         strength.add(squadron.getStrength().toString());
 
@@ -205,21 +220,21 @@ public class SquadronSummaryView {
         navalList.add(naval);
         navalList.add(squadron.getNavalHitProbability() + "%");
 
+        details.put("Type:", type);
         details.put("Strength:", strength);
-        details.put(" ", new ArrayList<>());
+        details.put("  ", new ArrayList<>());
         details.put("Air-to-Air Attack:", airToAirList);
         details.put("Land Attack:", landList);
         details.put("Naval Attack:", navalList);
-        details.put("  ", new ArrayList<>());
 
         return details;
     }
 
     /**
-     * Get the squadron performance data.
+     * Get the selectedSquadron performance data.
      *
-     * @param squadron The selected squadron.
-     * @return The squadron's performance data.
+     * @param squadron The selected selectedSquadron.
+     * @return The selectedSquadron's performance data.
      */
     private Map<String, String> getPerformanceStats(final Squadron squadron) {
         Map<String, String> details = new LinkedHashMap<>();
@@ -243,7 +258,7 @@ public class SquadronSummaryView {
     /**
      * Get the aircraft's profile image.
      *
-     * @param squadron The selected squadron.
+     * @param squadron The selected selectedSquadron.
      * @return The aircraft's profile image view.
      */
     private Image getProfile(final Squadron squadron) {

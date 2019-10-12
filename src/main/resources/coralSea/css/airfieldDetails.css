@@ -16,7 +16,7 @@
     -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
 }
 
-#left-vbox {
+#airfield-summary-vbox {
     -fx-spacing: 5;
 }
 
@@ -32,6 +32,24 @@
 
 #landing-type-pane .check-box {
     -fx-opacity: 1.0;
+}
+
+#airfield-title-pane {
+    -fx-collapsible: false;
+}
+
+#patrol-main-pane {
+    -fx-padding: /* top: */ 20 /* right: */ 10 /* bottom: */ 0 /* left: */ 10;
+}
+
+#patrol-list-view-pair {
+    -fx-spacing: 30;
+    -fx-alignment: top-center;
+}
+
+#patrol-list-view-pair-controls {
+    -fx-padding: /* top: */ 60 /* right: */ 0 /* bottom: */ 0 /* left: */ 0;
+    -fx-spacing: 10;
 }
 
 #airfield-title-pane {

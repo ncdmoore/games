@@ -6,6 +6,7 @@ import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.squadron.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
 import engima.waratsea.model.squadron.SquadronStrength;
@@ -40,7 +41,7 @@ public class SquadronTest {
 
         Squadron squadron = factory.create(Side.AXIS, Nation.GERMAN, data);
 
-        Assert.assertFalse(squadron.canDoASW());
+        Assert.assertFalse(squadron.canDoPatrol(PatrolType.ASW));
     }
 
     @Test
@@ -53,7 +54,7 @@ public class SquadronTest {
 
         Squadron squadron = factory.create(Side.ALLIES, Nation.BRITISH, data);
 
-        Assert.assertTrue(squadron.canDoASW());
+        Assert.assertTrue(squadron.canDoPatrol(PatrolType.ASW));
     }
 
     @Test
@@ -67,7 +68,7 @@ public class SquadronTest {
 
         Squadron squadron = factory.create(Side.AXIS, Nation.JAPANESE, data);
 
-        Assert.assertTrue(squadron.canDoASW());
+        Assert.assertTrue(squadron.canDoPatrol(PatrolType.ASW));
 
     }
 }

@@ -4,17 +4,22 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.squadron.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.AirfieldDetailsView;
+import engima.waratsea.view.airfield.AirfieldPatrolView;
 import engima.waratsea.view.squadron.SquadronViewType;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * The presenter for the airfield details dialog.
@@ -70,13 +75,59 @@ public class AirfieldDetailsDialog {
         dialog.setCss(cssResourceProvider.get(CSS_FILE));
         dialog.setContents(view.show(airfield));
 
-        registerReadyHandlers(airfield);
+        registerHandlers(airfield);
 
         dialog.getOkButton().setOnAction(event -> close());
 
         dialog.show(stage);
 
         // No code can go here. The dialog blocks until closed.
+    }
+
+    /**
+     * Register all handlers.
+     *
+     * @param airfield The airfield.
+     */
+    private void registerHandlers(final Airfield airfield) {
+        registerPatrolHandlers(airfield);
+        registerReadyHandlers(airfield);
+    }
+
+    /**
+     * Register the patrol handlers.
+     *
+     * @param airfield The airfield.
+     */
+    private void registerPatrolHandlers(final Airfield airfield) {
+        airfield.getNations().forEach(nation -> {
+
+            AirfieldPatrolView patrolView = view
+                    .getAirfieldPatrolView()
+                    .get(nation);
+
+            Stream.of(PatrolType.values()).forEach(patrolType -> {
+                patrolView
+                        .getAvailableList(patrolType)
+                        .getSelectionModel()
+                        .selectedItemProperty()
+                        .addListener((v, oldValue, newValue) -> patrolAvailableSquadronSelected(newValue, patrolType));
+
+                patrolView
+                        .getAssignedList(patrolType)
+                        .getSelectionModel()
+                        .selectedItemProperty()
+                        .addListener((v, oldValue, newValue) -> patrolAssignedSquadronSelected(newValue, patrolType));
+
+                patrolView
+                        .getAddButton(patrolType)
+                        .setOnAction(this::patrolAddSquadron);
+
+                patrolView
+                        .getRemoveButton(patrolType)
+                        .setOnAction(this::patrolRemoveSquadron);
+            });
+        });
     }
 
     /**
@@ -87,7 +138,9 @@ public class AirfieldDetailsDialog {
     private void registerReadyHandlers(final Airfield airfield) {
         airfield.getNations().forEach(nation ->
             view
-                    .getReadyLists(nation)
+                    .getAirfieldReadyView()
+                    .get(nation)
+                    .getReadyLists()
                     .forEach((type, listview) -> listview
                             .getSelectionModel()
                             .selectedItemProperty()
@@ -100,6 +153,82 @@ public class AirfieldDetailsDialog {
      */
     private void close() {
         stage.close();
+    }
+
+    /**
+     * Add a squadron to the corresponding patrol which is determined from the add button.
+     *
+     * @param event The button action event.
+     */
+    private void patrolAddSquadron(final ActionEvent event) {
+        Button button = (Button) event.getSource();
+        PatrolType type = (PatrolType) button.getUserData();
+
+        Nation nation = determineNation();
+
+        Squadron squadron = view
+                .getAirfieldPatrolView()
+                .get(nation)
+                .assignPatrol(type);
+
+        view.getAirfieldReadyView()
+                .get(nation)
+                .remove(squadron);
+    }
+
+    /**
+     * Remove a squadron from the corresponding patrol which is determined from the remove button.
+     *
+     * @param event The button action event.
+     */
+    private void patrolRemoveSquadron(final ActionEvent event) {
+        Button button = (Button) event.getSource();
+        PatrolType type = (PatrolType) button.getUserData();
+
+        Nation nation = determineNation();
+
+        Squadron squadron = view
+                .getAirfieldPatrolView()
+                .get(nation)
+                .removePatrol(type);
+
+        view.getAirfieldReadyView()
+                .get(nation)
+                .add(squadron);
+    }
+
+    /**
+     * A squadron from the given patrol type's available list has been selected.
+     *
+     * @param patrolSquadron The selected available squadron.
+     * @param patrolType The given patrol type.
+     */
+    private void patrolAvailableSquadronSelected(final Squadron patrolSquadron, final PatrolType patrolType) {
+        Optional.ofNullable(patrolSquadron).ifPresent(squadron -> {
+            Nation nation = determineNation();
+
+            view
+                    .getAirfieldPatrolView()
+                    .get(nation)
+                    .selectAvailableSquadron(patrolSquadron, patrolType);
+        });
+    }
+
+    /**
+     * A squadron from the given patrol type's assigned list has been selected.
+     *
+     * @param patrolSquadron The selected assigned squadron.
+     * @param patrolType The given patrol type.
+     */
+    private void patrolAssignedSquadronSelected(final Squadron patrolSquadron, final PatrolType patrolType) {
+        Optional.ofNullable(patrolSquadron).ifPresent(squadron -> {
+            Nation nation = determineNation();
+
+            view
+                    .getAirfieldPatrolView()
+                    .get(nation)
+                    .selectAssignedSquadron(patrolSquadron, patrolType);
+        });
     }
 
     /**
@@ -120,19 +249,20 @@ public class AirfieldDetailsDialog {
             //anytime a ready squadron is selected. This way when a listview is selected
             //a notification is guaranteed to be sent.
             view
-                    .getReadyLists(nation)
+                    .getAirfieldReadyView()
+                    .get(nation)
+                    .getReadyLists()
                     .entrySet()
                     .stream()
                     .filter(entry -> entry.getKey() != type)
                     .forEach(entry -> entry.getValue().getSelectionModel().clearSelection());
 
-            //squadronDialogProvider.get().show(readySquadron);
-
-            view.getReadySquadronSummaryView()
+            view
+                    .getAirfieldReadyView()
                     .get(nation)
-                    .setSquadron(readySquadron);
+                    .getSquadronSummaryView()
+                    .setSelectedSquadron(readySquadron);
         });
-
     }
 
     /**

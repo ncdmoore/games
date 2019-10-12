@@ -25,7 +25,7 @@ public enum AircraftType implements Comparator<AircraftType> {
     TORPEDO_BOMBER("Torpedo Bomber", AircraftBaseType.BOMBER, "TB", 4),
 
     @SerializedName(value = "RECONNAISSANCE", alternate = {"Reconnaissance", "reconnaissance"})
-    RECONNAISSANCE("Reconnaissance", AircraftBaseType.RECON, "R", 5);
+    RECONNAISSANCE("Recon", AircraftBaseType.RECON, "R", 5);
 
     private String value;
 
