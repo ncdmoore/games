@@ -12,7 +12,7 @@
 
 
 #main-pane {
-    -fx-spacing: 5;
+    -fx-spacing: 15;
     -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
 }
 
@@ -55,7 +55,7 @@
 
 #ready-tile-pane {
     -fx-pref-columns: 3;
-    -fx-hgap: 5;
+    -fx-hgap: 20;
     -fx-vgap: 10;
 }
 
@@ -88,7 +88,7 @@
 }
 
 #summary-pane {
-    -fx-padding: /* top: */ 20 /* right: */ 0 /* bottom: */ 0 /* left */ 0;
+    -fx-padding: /* top: */ 100 /* right: */ 0 /* bottom: */ 0 /* left */ 0;
 }
 
 #summary-vbox {
@@ -96,7 +96,7 @@
 }
 
 #summary-hbox {
-    -fx-spacing: 5;
+    -fx-spacing: 20;
 }
 
 #profile-vbox {

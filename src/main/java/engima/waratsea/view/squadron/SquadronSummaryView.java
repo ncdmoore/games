@@ -120,8 +120,8 @@ public class SquadronSummaryView {
         titledPane.setContent(vBox);
         titledPane.setMinHeight(props.getInt("airfield.dialog.profile.height"));
         titledPane.setMaxHeight(props.getInt("airfield.dialog.profile.height"));
-        titledPane.setMinWidth(props.getInt("airfield.dialog.ready.width"));
-        titledPane.setMaxWidth(props.getInt("airfield.dialog.ready.width"));
+        titledPane.setMinWidth(props.getInt("airfield.dialog.profile.width"));
+        titledPane.setMaxWidth(props.getInt("airfield.dialog.profile.width"));
         return titledPane;
     }
 
@@ -138,7 +138,7 @@ public class SquadronSummaryView {
      */
     private void buildAttacks() {
         attackStats
-                .setWidth(props.getInt("airfield.dialog.ready.width"))
+                .setWidth(props.getInt("airfield.dialog.profile.width"))
                 .setStyleId("component-grid");
 
         ImageView imageView = imageResourceProvider.getImageView("info17x17.png");
@@ -162,7 +162,7 @@ public class SquadronSummaryView {
      */
     private void buildPerformance() {
         performanceStats
-                .setWidth(props.getInt("airfield.dialog.ready.width"))
+                .setWidth(props.getInt("airfield.dialog.profile.width"))
                 .setStyleId("component-grid");
 
         ImageView imageView = imageResourceProvider.getImageView("info17x17.png");

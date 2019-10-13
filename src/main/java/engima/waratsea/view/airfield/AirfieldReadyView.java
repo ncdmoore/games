@@ -88,10 +88,10 @@ public class AirfieldReadyView {
 
             ListView<Squadron> listView = new ListView<>();
             listView.getItems().addAll(list);
-            listView.setMaxHeight(props.getInt("airfield.dialog.ready.list.width"));
-            listView.setMinHeight(props.getInt("airfield.dialog.ready.list.width"));
-            listView.setMaxWidth(props.getInt("airfield.dialog.ready.width"));
-            listView.setMinWidth(props.getInt("airfield.dialog.ready.width"));
+            listView.setMaxHeight(props.getInt("airfield.dialog.ready.list.height"));
+            listView.setMinHeight(props.getInt("airfield.dialog.ready.list.height"));
+            listView.setMaxWidth(props.getInt("airfield.dialog.ready.list.width"));
+            listView.setMinWidth(props.getInt("airfield.dialog.ready.list.width"));
 
             readyLists.put(type, listView);
 
