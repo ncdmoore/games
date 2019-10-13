@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/B17E.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/B17E.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/airfieldDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/airfieldDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/properties/view.properties" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -58,66 +60,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/properties/view.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="721">
-              <caret line="59" column="35" selection-start-line="59" selection-start-column="35" selection-end-line="59" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/utility/Dice.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/B17E.json">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/ViewProps.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="675">
-              <caret line="50" column="21" selection-start-line="50" selection-start-column="21" selection-end-line="50" selection-end-column="21" />
-              <folding>
-                <element signature="e#1705#1706#0" expanded="true" />
-                <element signature="e#1745#1746#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldReadyView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="99" column="45" lean-forward="true" selection-start-line="99" selection-start-column="45" selection-end-line="99" selection-end-column="45" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="689">
-              <caret line="164" column="63" selection-start-line="164" selection-start-column="63" selection-end-line="164" selection-end-column="63" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="841">
+              <caret line="107" column="74" selection-start-line="107" selection-start-column="74" selection-end-line="107" selection-end-column="74" />
             </state>
           </provider>
         </entry>
@@ -125,29 +72,24 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/css/airfieldDetails.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="754">
-              <caret line="98" column="18" selection-start-line="98" selection-start-column="18" selection-end-line="98" selection-end-column="18" />
+            <state relative-caret-position="841">
+              <caret line="111" column="73" selection-start-line="111" selection-start-column="73" selection-end-line="111" selection-end-column="73" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="60" column="16" selection-start-line="60" selection-start-column="16" selection-end-line="60" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/properties/map.properties">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/css/shipDetails.css">
           <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/properties/view.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="801">
+              <caret line="65" column="36" selection-start-line="65" selection-start-column="36" selection-end-line="65" selection-end-column="36" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -246,19 +188,19 @@
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldPatrolView.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldDetailsView.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldSummaryView.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldReadyView.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/B17E.json" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java" />
         <option value="$PROJECT_DIR$/src/main/resources/bombAlley/css/airfieldDetails.css" />
         <option value="$PROJECT_DIR$/src/main/resources/properties/view.properties" />
-        <option value="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/B17E.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="961" />
+    <option name="x" value="1033" />
     <option name="y" value="24" />
-    <option name="width" value="1595" />
+    <option name="width" value="1523" />
     <option name="height" value="1338" />
   </component>
   <component name="ProjectView">
@@ -325,6 +267,27 @@
               <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="squadron" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -341,6 +304,15 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="bombAlley" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="coralSea" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -350,7 +322,7 @@
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="coralSea" type="462c0819:PsiDirectoryNode" />
-              <item name="aircraft" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
@@ -358,9 +330,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="coralSea" type="462c0819:PsiDirectoryNode" />
-              <item name="aircraft" type="462c0819:PsiDirectoryNode" />
-              <item name="allies" type="462c0819:PsiDirectoryNode" />
+              <item name="properties" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -428,7 +398,7 @@
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="engima.waratsea.Main" />
       <module name="worldWarTwoAtSea.main" />
-      <option name="PROGRAM_PARAMETERS" value="game=coralSea" />
+      <option name="PROGRAM_PARAMETERS" value="game=bombAlley" />
       <option name="VM_PARAMETERS" value="--module-path /Library/java/JavaVirtualMachines/javafx-sdk-12.0.2/lib --add-modules javafx.controls,javafx.fxml" />
       <extension name="coverage">
         <pattern>
@@ -567,13 +537,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00040" summary="Added a title field to the airfield to display on the GUI. Did this for the Malta-1940 case where the title and the name of the airfield are different.">
-      <created>1564197512251</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1564197512251</updated>
     </task>
     <task id="LOCAL-00041" summary="Added a title field to the airfield to display on the GUI. Did this for the Malta-1940 case where the title and the name of the airfield are different.">
       <created>1564272295087</created>
@@ -911,7 +874,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570924924631</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <task id="LOCAL-00089" summary="Handle negative modifiers for aircraft.">
+      <created>1570925413971</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1570925413971</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -947,7 +917,7 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="961" y="24" width="1595" height="1338" extended-state="0" />
+    <frame x="1033" y="24" width="1523" height="1338" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Image Layers" order="0" />
@@ -955,7 +925,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Designer" order="4" />
-      <window_info active="true" content_ui="combo" id="Project" order="5" sideWeight="0.4988345" visible="true" weight="0.26078558" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" sideWeight="0.4988345" visible="true" weight="0.27346388" />
       <window_info id="Structure" order="6" sideWeight="0.5011655" side_tool="true" weight="0.26501036" />
       <window_info anchor="bottom" id="Build" order="0" weight="0.32940185" />
       <window_info anchor="bottom" id="Terminal" order="1" />
@@ -996,7 +966,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add map menu items that control whether the airfield and port base markers are shown on the main game map." />
     <MESSAGE value="Handle seaplanes correctly and initial airfield dialog." />
     <MESSAGE value="Add US and Japanese airfield icons." />
     <MESSAGE value="Add landing type to aircraft carriers. This models aircraft carriers and seaplane carriers." />
@@ -1021,7 +990,8 @@
     <MESSAGE value="Add game rules and refactor game title to be an enum." />
     <MESSAGE value="Add patrols to airfield details dialog." />
     <MESSAGE value="Adjust the airfield dialog spacing." />
-    <option name="LAST_COMMIT_MESSAGE" value="Adjust the airfield dialog spacing." />
+    <MESSAGE value="Handle negative modifiers for aircraft." />
+    <option name="LAST_COMMIT_MESSAGE" value="Handle negative modifiers for aircraft." />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
@@ -1033,71 +1003,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/ShipRegistry.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="37" column="36" selection-start-line="37" selection-start-column="36" selection-end-line="37" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/SquadronProps.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="29" column="36" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="113" column="18" selection-start-line="113" selection-start-column="18" selection-end-line="113" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/GameType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/GameDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Asw.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/GameTitle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="32" column="58" lean-forward="true" selection-start-line="32" selection-start-column="58" selection-end-line="32" selection-end-column="58" />
-          <folding>
-            <element signature="e#811#812#0" expanded="true" />
-            <element signature="e#863#864#0" expanded="true" />
-            <element signature="e#1026#1027#0" expanded="true" />
-            <element signature="e#1064#1065#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Game.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3019">
-          <caret line="227" column="23" selection-start-line="227" selection-start-column="23" selection-end-line="227" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-200">
@@ -1359,9 +1264,6 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/properties/map.properties">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/css/shipDetails.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/ViewProps.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="675">
@@ -1383,37 +1285,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="689">
-          <caret line="164" column="63" selection-start-line="164" selection-start-column="63" selection-end-line="164" selection-end-column="63" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/css/airfieldDetails.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="754">
-          <caret line="98" column="18" selection-start-line="98" selection-start-column="18" selection-end-line="98" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="60" column="16" selection-start-line="60" selection-start-column="16" selection-end-line="60" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/properties/view.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="721">
-          <caret line="59" column="35" selection-start-line="59" selection-start-column="35" selection-end-line="59" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/utility/Dice.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -1425,6 +1296,68 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="192" column="54" selection-start-line="192" selection-start-column="54" selection-end-line="192" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/B25A.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/B26B.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/Catalina.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/Hudson.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/OS2U.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/SBD3.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/TBD.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/A24.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="12" lean-forward="true" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/properties/view.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="801">
+          <caret line="65" column="36" selection-start-line="65" selection-start-column="36" selection-end-line="65" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/css/shipDetails.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/css/airfieldDetails.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="841">
+          <caret line="111" column="73" selection-start-line="111" selection-start-column="73" selection-end-line="111" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="841">
+          <caret line="107" column="74" selection-start-line="107" selection-start-column="74" selection-end-line="107" selection-end-column="74" />
         </state>
       </provider>
     </entry>
