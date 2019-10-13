@@ -190,15 +190,15 @@ public class SquadronSummaryView {
     private Map<String, List<String>> getAttackStats(final Squadron squadron) {
         Map<String, List<String>> details = new LinkedHashMap<>();
 
-        String airToAir = squadron.getAirModifier() > 0
+        String airToAir = squadron.getAirModifier() != 0
                 ? squadron.getAirFactor() + " (" + squadron.getAirModifier() + ")"
                 : squadron.getAirFactor() + "";
 
-        String land = squadron.getLandModifier() > 0
+        String land = squadron.getLandModifier() != 0
                 ? squadron.getLandFactor() + " (" + squadron.getLandModifier() + ")"
                 : squadron.getLandFactor() + "";
 
-        String naval = squadron.getNavalModifier() > 0
+        String naval = squadron.getNavalModifier() != 0
                 ? squadron.getNavalFactor() + " (" + squadron.getNavalModifier() + ")"
                 : squadron.getNavalFactor() + "";
 
