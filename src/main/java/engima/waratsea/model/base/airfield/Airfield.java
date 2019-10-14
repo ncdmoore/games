@@ -395,17 +395,17 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     private void buildPatrols(final AirfieldData data) {
         PatrolData aswData = data.getAswPatrol();
 
-        aswData.setAirfield(this);
+        aswData.setAirbase(this);
         patrolMap.put(PatrolType.ASW, new AswPatrol(aswData));
 
         PatrolData capData = data.getCapPatrol();
 
-        capData.setAirfield(this);
+        capData.setAirbase(this);
         patrolMap.put(PatrolType.CAP, new CapPatrol(capData));
 
         PatrolData searchData = data.getSearchPatrol();
 
-        searchData.setAirfield(this);
+        searchData.setAirbase(this);
         patrolMap.put(PatrolType.SEARCH, new SearchPatrol(searchData));
     }
 

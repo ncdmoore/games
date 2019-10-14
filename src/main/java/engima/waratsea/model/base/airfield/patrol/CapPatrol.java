@@ -23,7 +23,7 @@ public class CapPatrol implements Patrol {
      */
     public CapPatrol(final PatrolData data) {
 
-        Map<String, Squadron> squadronMap = getSquadronMap(data.getAirfield().getSquadrons());
+        Map<String, Squadron> squadronMap = getSquadronMap(data.getAirbase().getSquadrons());
 
         squadrons = Optional.ofNullable(data.getSquadrons())
                 .orElseGet(Collections::emptyList)

@@ -4,6 +4,8 @@ import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.squadron.Squadron;
 
+import java.util.List;
+
 /**
  * Represents air bases.
  */
@@ -43,6 +45,13 @@ public interface Airbase extends Base {
      * @return True if any squadron is based at this airbase. False otherwise.
      */
     boolean areSquadronsPresent();
+
+    /**
+     * Get all the squadrons stationed at this airbase. This includes all nations.
+     *
+     * @return The list of all the squadrons stationed at this airbase.
+     */
+    List<Squadron> getSquadrons();
 
     /**
      * Add a squadron to this air base.
