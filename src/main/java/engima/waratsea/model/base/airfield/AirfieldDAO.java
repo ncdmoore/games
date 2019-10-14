@@ -12,7 +12,6 @@ import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -78,6 +77,7 @@ public class AirfieldDAO {
         airfields.forEach(airfield -> {
             String fileName = config.getSavedFileName(side, Airfield.class, airfield.getName() + ".json");
             PersistentUtility.save(fileName, airfield);
+            log.debug("Saving Airfield: '{}' with '{}' squadrons", airfield.getTitle(), airfield.getSquadrons().size());
         });
     }
 
@@ -119,23 +119,18 @@ public class AirfieldDAO {
         String airfieldName = airfieldId.getName();
         Side side = airfieldId.getSide();
 
-        try {
-            Path path = Paths.get(URLDecoder.decode(url.getPath(), "UTF-8"));
-            try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+        Path path = Paths.get(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8));
+        try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 
-                Gson gson = new Gson();
-                AirfieldData airfieldData = gson.fromJson(br, AirfieldData.class);
+            Gson gson = new Gson();
+            AirfieldData airfieldData = gson.fromJson(br, AirfieldData.class);
 
-                airfieldData.setSide(side);
+            airfieldData.setSide(side);
 
-                log.debug("load airfield {} for side {}", airfieldName, side);
+            log.debug("load airfield {} for side {}", airfieldName, side);
 
-                return airfieldData;
-            } catch (Exception ex) {                                                                                        // Catch any Gson errors.
-                log.error("Unable to load airfield {} for side: {}. {}", new Object[]{url.getPath(), side, ex});
-                return null;
-            }
-        } catch (UnsupportedEncodingException ex) {
+            return airfieldData;
+        } catch (Exception ex) {                                                                                        // Catch any Gson errors.
             log.error("Unable to load airfield {} for side: {}. {}", new Object[]{url.getPath(), side, ex});
             return null;
         }

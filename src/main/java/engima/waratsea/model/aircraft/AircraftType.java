@@ -10,24 +10,27 @@ import java.util.Comparator;
  */
 public enum AircraftType implements Comparator<AircraftType> {
     @SerializedName(value = "FIGHTER", alternate = {"Fighter", "fighter"})
-    FIGHTER("Fighter", AircraftBaseType.FIGHTER, "F", 1),
+    FIGHTER("Fighter", "Fighter", AircraftBaseType.FIGHTER, "F", 1),
 
     @SerializedName(value = "BOMBER", alternate = {"Bomber", "bomber"})
-    BOMBER("Bomber", AircraftBaseType.BOMBER, "B", 2),
+    BOMBER("Bomber", "Bomber", AircraftBaseType.BOMBER, "B", 2),
 
     @SerializedName(value = "POOR_NAVAL_BOMBER", alternate = {"Poor_Naval_Bomber", "poor_naval_bomber"})
-    POOR_NAVAL_BOMBER("Bomber", AircraftBaseType.BOMBER, "B", 2),
+    POOR_NAVAL_BOMBER("Bomber", "Bomber", AircraftBaseType.BOMBER, "B", 2),
 
     @SerializedName(value = "DIVE_BOMBER", alternate = {"Dive_Bomber", "dive_bomber", "Dive Bomber", "dive bomber"})
-    DIVE_BOMBER("Dive Bomber", AircraftBaseType.BOMBER, "DB", 3),
+    DIVE_BOMBER("Dive Bomber", "Dive Bomber", AircraftBaseType.BOMBER, "DB", 3),
 
     @SerializedName(value = "TORPEDO_BOMBER", alternate = {"Torpedo_Bomber", "torpedo_bomber", "Torpedo Bomber", "torpedo bomber"})
-    TORPEDO_BOMBER("Torpedo Bomber", AircraftBaseType.BOMBER, "TB", 4),
+    TORPEDO_BOMBER("Torpedo Bomber", "Torp. Bomber", AircraftBaseType.BOMBER, "TB", 4),
 
     @SerializedName(value = "RECONNAISSANCE", alternate = {"Reconnaissance", "reconnaissance"})
-    RECONNAISSANCE("Recon", AircraftBaseType.RECON, "R", 5);
+    RECONNAISSANCE("Recon", "Recon", AircraftBaseType.RECON, "R", 5);
 
     private String value;
+
+    @Getter
+    private String abbreviated;
 
     @Getter
     private AircraftBaseType baseType;
@@ -41,12 +44,14 @@ public enum AircraftType implements Comparator<AircraftType> {
      * Constructor.
      *
      * @param value The string value of the enum.
+     * @param abbreviated The string abbreviated value of the enum.
      * @param baseType The base aircraft baseType.
      * @param designation The aircraft designation. F for fighter, B for bomber, etc.
      * @param order The sort order of the enum.
      */
-    AircraftType(final String value, final AircraftBaseType baseType, final String designation, final int order) {
+    AircraftType(final String value, final String abbreviated, final AircraftBaseType baseType, final String designation, final int order) {
         this.value = value;
+        this.abbreviated = abbreviated;
         this.baseType = baseType;
         this.designation = designation;
         this.order = order;

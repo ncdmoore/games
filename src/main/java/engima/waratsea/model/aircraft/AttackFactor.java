@@ -23,6 +23,9 @@ public class AttackFactor {
     @Getter
     private final int sixth;
 
+    @Getter
+    private final boolean defensive;
+
     private final Map<SquadronStrength, Integer> factor = new HashMap<>();
 
     /**
@@ -35,6 +38,7 @@ public class AttackFactor {
         this.full = data.getFull();
         this.half = data.getHalf();
         this.sixth = data.getSixth();
+        this.defensive = data.isDefensive();
 
         factor.put(SquadronStrength.FULL, full);
         factor.put(SquadronStrength.HALF, half);

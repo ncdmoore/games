@@ -7,17 +7,18 @@
   "altitude": "HIGH",
   "landing": "LAND",
   "naval": {
-    "modifier": 0,
+    "modifier": -1,
     "full": 3,
     "half": 1
   },
   "land": {
-    "modifier": 1,
+    "modifier": 0,
     "full": 9,
     "half": 5
   },
   "air": {
     "modifier": 0,
+    "defensive": true,
     "full": 3,
     "half": 1
   },

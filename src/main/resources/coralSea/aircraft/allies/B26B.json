@@ -18,6 +18,7 @@
   },
   "air": {
     "modifier": 1,
+    "defensive": true,
     "full": 3,
     "half": 2
   },

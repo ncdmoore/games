@@ -12,18 +12,19 @@
     "half": 3
   },
   "land": {
-    "modifier": 1,
+    "modifier": 0,
     "full": 9,
     "half": 5
   },
   "air": {
     "modifier": 0,
+    "defensive": true,
     "full": 3,
     "half": 2
   },
   "range": {
-    "range": 15,
-    "endurance": 1
+    "range": 16,
+    "endurance": 2
   },
   "frame": {
     "frame": 3,

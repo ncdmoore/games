@@ -23,4 +23,8 @@ public class AttackFactorData {
     @Getter
     @Setter
     private int sixth;
+
+    @Getter
+    @Setter
+    private boolean defensive;
 }

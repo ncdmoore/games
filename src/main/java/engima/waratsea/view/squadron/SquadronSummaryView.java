@@ -145,7 +145,7 @@ public class SquadronSummaryView {
         HBox hbox = new HBox(imageView);
         hbox.setId("squadron-attack-data-title");
 
-        Tooltip tooltip = new Tooltip("Squadron Attack Data:\n\nFirst number is the attack factor.\nSecond number is the attack (modifier).\nThird number is the % chance of a single hit.");
+        Tooltip tooltip = new Tooltip("Squadron Attack Data:\n\nFirst number is the attack factor.\nSecond number is the attack (modifier).\nD indicates Defensive Only.\nThird number is the % chance of a single hit.");
 
         tooltip.setShowDelay(Duration.seconds(props.getDouble("tooltip.delay")));
         tooltip.setShowDuration(Duration.seconds(props.getDouble("tooltip.duration")));
@@ -192,6 +192,7 @@ public class SquadronSummaryView {
 
         String airToAir = squadron.getAirModifier() != 0
                 ? squadron.getAirFactor() + " (" + squadron.getAirModifier() + ")"
+                : squadron.isAirDefensive() ? squadron.getAirFactor() + " (D)"
                 : squadron.getAirFactor() + "";
 
         String land = squadron.getLandModifier() != 0
@@ -203,7 +204,7 @@ public class SquadronSummaryView {
                 : squadron.getNavalFactor() + "";
 
         List<String> type = new ArrayList<>();
-        type.add(squadron.getType().toString());
+        type.add(squadron.getType().getAbbreviated());
 
         List<String> strength = new ArrayList<>();
         strength.add(squadron.getStrength().toString());
@@ -242,12 +243,12 @@ public class SquadronSummaryView {
         details.put("Landing Type:", squadron.getAircraft().getLanding().toString());
         details.put("Altitude Rating:", squadron.getAircraft().getAltitude().toString());
         details.put(" ", "");
-        details.put("Range:", squadron.getAircraft().getRadius().get(0) + "");
+        details.put("Radius:", squadron.getAircraft().getRadius().get(0) + "");
 
         if (squadron.getAircraft().getRadius().size() > 1) {
-            details.put("Range (Drop Tanks):", squadron.getAircraft().getRadius().get(1) + "");
+            details.put("Radius (Drop Tanks):", squadron.getAircraft().getRadius().get(1) + "");
         } else {
-            details.put("Range (Drop Tanks):", "Not Supported");
+            details.put("Radius (Drop Tanks):", "Not Supported");
         }
 
         details.put("Endurance:", squadron.getAircraft().getRange().getEndurance() + "");

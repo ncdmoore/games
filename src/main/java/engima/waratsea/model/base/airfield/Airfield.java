@@ -318,7 +318,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @return The number of steps of aircraft of the given type based at this airfield.
      */
     public BigDecimal getStepsForType(final AircraftBaseType type) {
-        return  squadrons
+        return squadrons
                 .stream()
                 .filter(squadron -> squadron.getBaseType() == type)
                 .map(Squadron::getSteps)

@@ -108,12 +108,19 @@ public class AirfieldSummaryView {
      */
     private Map<String, String> getAirfieldDetails(final Nation nation) {
         Map<String, String> details = new LinkedHashMap<>();
-        if (airfield.getRegion(nation).getMax() != 0) {
+
+        if (airfield.getRegion(nation).getMax() == 0) {
+            details.put("Max Region Capacity:", "-");
+        } else {
             details.put("Max Region Capacity:", airfield.getRegion(nation).getMax() + "");
         }
-        if (airfield.getRegion(nation).getMin() != 0) {
+
+        if (airfield.getRegion(nation).getMin() == 0) {
+            details.put("Min Region Capacity:", "-");
+        } else {
             details.put("Min Region Capacity:", airfield.getRegion(nation).getMin() + "");
         }
+
         details.put("Max Capacity:", airfield.getMaxCapacity() + "");
         details.put("Current Capacity:", airfield.getCapacity() + "");
         details.put("Current deployed:", airfield.getCurrentSteps() + "");

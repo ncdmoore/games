@@ -27,7 +27,6 @@ public class SquadronDAO {
     private AllotmentDAO allotmentDAO;
     private SquadronFactory factory;
 
-
     private Map<Nation, Allotment> allotmentMap = new HashMap<>();
 
     /**

@@ -14,12 +14,13 @@
   },
   "land": {
     "modifier": 0,
-    "full": 0,
+    "full": 1,
     "half": 0,
     "sixth": 0
   },
   "air": {
     "modifier": 0,
+    "defensive": true,
     "full": 1,
     "half": 0,
     "sixth": 0

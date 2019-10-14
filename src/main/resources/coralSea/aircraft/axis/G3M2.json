@@ -20,6 +20,7 @@
   },
   "air": {
     "modifier": 0,
+    "defensive": true,
     "full": 1,
     "half": 0,
     "sixth": 0

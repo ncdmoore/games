@@ -7,12 +7,13 @@
   "altitude": "LOW",
   "landing": "CARRIER",
   "naval": {
-    "modifier": 1,
+    "modifier": 2,
     "full": 2,
     "half": 1
   },
   "land": {
     "modifier": 1,
+    "defensive": true,
     "full": 1,
     "half": 0
   },

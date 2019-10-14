@@ -214,6 +214,15 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     }
 
     /**
+     * Determine if the squadron's air-to-air attack is defensive only.
+     *
+     * @return True if the squadron's air-to-air attack is defensive only. False otherwise.
+     */
+    public boolean isAirDefensive() {
+        return aircraft.getAir().isDefensive();
+    }
+
+    /**
      * Get the squadron's air-to-air hit probability.
      *
      * @return The squadron's air-to-air hit probability.
