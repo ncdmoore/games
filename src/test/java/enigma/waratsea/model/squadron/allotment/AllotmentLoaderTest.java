@@ -1,4 +1,4 @@
-package enigma.waratsea.model.squadron;
+package enigma.waratsea.model.squadron.allotment;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

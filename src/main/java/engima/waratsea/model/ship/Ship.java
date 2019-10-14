@@ -118,7 +118,7 @@ public interface Ship extends Vessel, PersistentData<ShipData> {
      *
      * @return The ship's nationality.
      */
-    Nation getNationality();
+    Nation getNation();
 
     /**
      * Get the ship's victory points if sunk.

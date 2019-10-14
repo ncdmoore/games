@@ -17,6 +17,7 @@ import engima.waratsea.model.game.Rules;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.data.SquadronData;
+import engima.waratsea.model.squadron.state.SquadronState;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +66,9 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
 
     private static final Map<Side, Map<String, Integer>> DESIGNATION_MAP = new HashMap<>();
 
-
+    @Getter
+    @Setter
+    private SquadronState squadronState;
 
     static {
         DESIGNATION_MAP.put(Side.ALLIES, new HashMap<>());
@@ -105,6 +108,7 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
         this.model = data.getModel();
         this.strength = data.getStrength();
         this.name = data.getName();
+        this.squadronState = data.getSquadronState();
 
         try {
             AircraftId aircraftId = new AircraftId(model, side);
@@ -126,8 +130,6 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
         } catch (AviationPlantException ex) {
             log.error("Unable to build aircraft model: '{}' for side: {}", model, side);
         }
-
-        initializeAirbase(data.getAirfield());  // Station this squadron if a base name is known.
     }
 
     /**
@@ -138,11 +140,13 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     @Override
     public SquadronData getData() {
         SquadronData data = new SquadronData();
+        data.setNation(nation);
         data.setModel(model);
         data.setStrength(strength);
         data.setName(name);
         Optional.ofNullable(airfield)
                 .ifPresent(field -> data.setAirfield(field.getName()));
+        data.setSquadronState(squadronState);
         return data;
     }
 
@@ -293,6 +297,15 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     }
 
     /**
+     * Determine if the squadron is ready for go on patrol or fly a mission.
+     *
+     * @return True if the squadron is ready. False otherwise.
+     */
+    public boolean isReady() {
+        return squadronState == SquadronState.READY;
+    }
+
+    /**
      * Set the squadron's airbase.
      *
      * @param airbase The squadron's airbase.
@@ -409,22 +422,5 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     @Override
     public boolean isActive() {
         return true;
-    }
-
-    /**
-     * If this squadron is already stationed at an airbase, then make sure
-     * to set the airbase and add this squadron to that airbase. This happens
-     * for squadrons that are created from saved games.
-     *
-     * @param airbaseName The airbase name from the squadron JSON file.
-     */
-    private void initializeAirbase(final String airbaseName) {
-        Optional
-                .ofNullable(airbaseName)
-                .flatMap(baseName -> gameMap.getAirfield(side, baseName))
-                .ifPresent(airbase -> {
-                    setAirfield(airbase);
-                    airbase.addSquadron(this);
-                });
     }
 }

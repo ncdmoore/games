@@ -41,7 +41,7 @@ public class AircraftCarrier implements Ship, Airbase {
     private final String shipClass;
 
     @Getter
-    private final Nation nationality;
+    private final Nation nation;
 
     @Getter
     private final int victoryPoints;
@@ -110,7 +110,7 @@ public class AircraftCarrier implements Ship, Airbase {
         shipId = data.getShipId();
         type = data.getType();
         shipClass = data.getShipClass();
-        nationality = data.getNationality();
+        nation = data.getNationality();
         victoryPoints = data.getVictoryPoints();
 
         primary = buildGun("Primary", data.getPrimary());
@@ -159,7 +159,7 @@ public class AircraftCarrier implements Ship, Airbase {
         data.setShipId(shipId);
         data.setType(type);
         data.setShipClass(shipClass);
-        data.setNationality(nationality);
+        data.setNationality(nation);
         data.setVictoryPoints(victoryPoints);
 
         data.setSecondary(secondary.getData());
@@ -395,7 +395,7 @@ public class AircraftCarrier implements Ship, Airbase {
         squadrons = Optional.ofNullable(data)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(squadronData -> factory.create(shipId.getSide(), nationality, squadronData))
+                .map(squadronData -> factory.create(shipId.getSide(), nation, squadronData))
                 .collect(Collectors.toList());
 
         aircraftTypeMap = squadrons

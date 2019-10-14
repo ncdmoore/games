@@ -75,7 +75,7 @@ public class AirfieldReadyView {
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(e -> SquadronViewType.get(e.getKey()),
-                        Map.Entry::getValue,
+                        e -> filterReady(e.getValue()),
                         ListUtils::union,
                         LinkedHashMap::new));
 
@@ -140,5 +140,19 @@ public class AirfieldReadyView {
             }
 
         });
+    }
+
+    /**
+     * Get only the ready squadrons from the given list of squadrons.
+     *
+     * @param squadrons A list of squadrons.
+     * @return A list of squadrons that are in the "ready" state derived
+     * from the given list of squadrons.
+     */
+    private List<Squadron> filterReady(final List<Squadron> squadrons) {
+        return squadrons
+                .stream()
+                .filter(Squadron::isReady)
+                .collect(Collectors.toList());
     }
 }

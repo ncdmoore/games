@@ -44,6 +44,11 @@ public interface Player {
     Set<Nation> getNations();
 
     /**
+     * Set the player's nations.
+     */
+    void setNations();
+
+    /**
      * This sets the player's victory conditions.
      *
      * @param scenario The selected scenario.
@@ -80,6 +85,18 @@ public interface Player {
      * @param scenario The selected scenario.
      */
     void saveAssets(Scenario scenario);
+
+    /**
+     * Load the player's squadrons.
+     *
+     * @param scenario The selected scenario.
+     */
+    void loadSquadrons(Scenario scenario);
+
+    /**
+     * Set the player's squadrons. This is only called on existing games.
+     */
+    void setSquadrons();
 
     /**
      * This gets the player's task forces.

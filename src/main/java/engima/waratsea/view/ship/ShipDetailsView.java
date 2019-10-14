@@ -311,7 +311,7 @@ public class ShipDetailsView {
         details.put("Name:", ship.getTitle());
         details.put("Type:", ship.getType().toString());
         details.put("Class:", ship.getShipClass());
-        details.put("Nationality:", ship.getNationality().toString());
+        details.put("Nationality:", ship.getNation().toString());
         details.put("Victory Points:", ship.getVictoryPoints() + "");
         details.put("", "");
         return details;
@@ -448,7 +448,7 @@ public class ShipDetailsView {
      * @return The ship's prefix.
      */
     private String getPrefix(final Ship ship) {
-        return ship.getNationality().getShipPrefix() + " ";
+        return ship.getNation().getShipPrefix() + " ";
     }
 
     /**

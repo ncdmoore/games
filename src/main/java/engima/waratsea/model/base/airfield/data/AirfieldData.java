@@ -1,8 +1,10 @@
 package engima.waratsea.model.base.airfield.data;
 
 import engima.waratsea.model.aircraft.LandingType;
+import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
+import engima.waratsea.model.squadron.data.SquadronData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -49,4 +51,28 @@ public class AirfieldData {
     @Setter
     private String location;
 
+    @Getter
+    @Setter
+    private List<SquadronData> squadrons; //squadrons stationed at the airfield.
+
+    @Getter
+    @Setter
+    private PatrolData aswPatrol;
+
+    @Getter
+    @Setter
+    private PatrolData capPatrol;
+
+    @Getter
+    @Setter
+    private PatrolData searchPatrol;
+
+    /**
+     * Constructor.
+     */
+    public AirfieldData() {
+        aswPatrol = new PatrolData();
+        capPatrol = new PatrolData();
+        searchPatrol = new PatrolData();
+    }
 }

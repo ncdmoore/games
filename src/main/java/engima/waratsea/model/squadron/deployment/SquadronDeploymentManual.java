@@ -29,7 +29,7 @@ public class SquadronDeploymentManual {
     /**
      * Deploy the human player's squadrons.
      *
-     * @param gamePlayer The computer player.
+     * @param gamePlayer The human player.
      */
     public void deploy(final Player gamePlayer) {
         this.player = gamePlayer;

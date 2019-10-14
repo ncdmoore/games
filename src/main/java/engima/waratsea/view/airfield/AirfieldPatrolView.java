@@ -219,10 +219,18 @@ public class AirfieldPatrolView {
         lists.setAvailableTitle(patrolType.getValue() + " Available");
         lists.setAssignedTitle(patrolType.getValue() + " Assigned");
 
+        lists.clearAll();
+
         lists
                 .getAvailable()
                 .getItems()
-                .addAll(airfield.getCapableSquadrons(nation, patrolType));
+                .addAll(airfield.getReadySquadrons(nation, patrolType));
+
+        lists
+                .getAssigned()
+                .getItems()
+                .addAll(airfield.getPatrol(patrolType).getSquadrons(nation));
+
 
         lists.getAdd().setUserData(patrolType);
         lists.getRemove().setUserData(patrolType);

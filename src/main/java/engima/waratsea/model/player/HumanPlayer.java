@@ -12,6 +12,7 @@ import engima.waratsea.model.flotilla.FlotillaType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.model.minefield.MinefieldDAO;
 import engima.waratsea.model.scenario.Scenario;
@@ -31,6 +32,7 @@ import lombok.Setter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
@@ -79,7 +81,6 @@ public class HumanPlayer implements Player {
 
     private final Map<SquadronDeploymentType, BiConsumer<Scenario, Player>> deploymentMap = new HashMap<>();
 
-
     /**
      * Constructor called by guice.
      *
@@ -124,6 +125,13 @@ public class HumanPlayer implements Player {
     }
 
     /**
+     * Set the player's nations.
+     */
+    public void setNations() {
+        nations = gameMap.getNations(side);
+    }
+
+    /**
      * Build the player's victory conditions.
      *
      * @param scenario The selected scenario.
@@ -142,14 +150,12 @@ public class HumanPlayer implements Player {
     @Override
     public void buildAssets(final Scenario scenario) throws ScenarioException {
         //Note the airfields and ports used depend upon the map which is set by the scenario.
-        nations = gameMap.getNations(side);
-        airfields = gameMap.getAirfields(side);
-        ports = gameMap.getPorts(side);
+        airfields  = gameMap.getAirfields(side);
+        ports      = gameMap.getPorts(side);
         minefields = gameMap.getMinefields(side);
 
         scenario.setMinefieldForHumanSide(!minefields.isEmpty());
 
-        loadSquadrons(scenario);
         loadTaskForces(scenario);
         loadFlotillas(scenario);
 
@@ -193,7 +199,7 @@ public class HumanPlayer implements Player {
         airfieldDAO.save(scenario, side, airfields);
         minefieldDAO.save(scenario, side, minefields);
 
-        nations.forEach(nation -> aviationPlant.save(scenario, side, nation, squadrons.get(nation)));
+       // nations.forEach(nation -> aviationPlant.save(scenario, side, nation, squadrons.get(nation)));
 
     }
 
@@ -217,6 +223,37 @@ public class HumanPlayer implements Player {
     @Override
     public List<Flotilla> getFlotillas(final FlotillaType flotillaType) {
         return flotillas.get(flotillaType);
+    }
+
+    /**
+     * Set the player's squadrons. This is only called on existing games.
+     * The airfield contains the squadrons. So get the squadrons from
+     * the airfield.
+     *
+     * Once the squadrons are know, then the region requirements which
+     * depend upon the number of squadrons can be set.
+     */
+    @Override
+    public void setSquadrons() {
+        for (Nation nation: nations) {
+
+            List<Squadron> nationsSquadrons = airfields
+                    .stream()
+                    .flatMap(airfield -> airfield.getSquadrons(nation).stream())
+                    .collect(Collectors.toList());
+
+            squadrons.put(nation, nationsSquadrons);
+
+            List<Region> regions = airfields
+                    .stream()
+                    .map(airfield -> airfield.getRegion(nation))
+                    .filter(Objects::nonNull)
+                    .distinct()
+                    .collect(Collectors.toList());
+
+            regions.
+                    forEach(region -> region.setRequirements(nationsSquadrons));
+        }
     }
 
     /**
@@ -247,9 +284,8 @@ public class HumanPlayer implements Player {
      * Determine the nations for this scenario and side.
      *
      * @param scenario The selected scenario.
-     * @throws ScenarioException Indicates the squadrons could not be loaded.
      */
-    private void loadSquadrons(final Scenario scenario) throws ScenarioException {
+    public void loadSquadrons(final Scenario scenario) {
         for (Nation nation: nations) {
             loadNationSquadrons(scenario, nation);
         }
@@ -293,9 +329,8 @@ public class HumanPlayer implements Player {
      *
      * @param scenario The selected scenario.
      * @param nation The nation.
-     * @throws ScenarioException Indicates the squadrons could not be loaded.
      */
-    private void loadNationSquadrons(final Scenario scenario, final Nation nation) throws ScenarioException {
+    private void loadNationSquadrons(final Scenario scenario, final Nation nation) {
         squadrons.put(nation, aviationPlant.load(scenario, side, nation));
     }
 }

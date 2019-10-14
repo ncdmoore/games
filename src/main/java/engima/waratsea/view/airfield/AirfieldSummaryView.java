@@ -64,7 +64,7 @@ public class AirfieldSummaryView {
         ImageView airfieldView = imageResourceProvider.getImageView(nation + "Airfield" + airfieldType + "Details.png");
 
         TitledPane airfieldTitle = buildAirfieldTitle();
-        TitledGridPane airfieldDetails = buildAirfieldDetails();
+        TitledGridPane airfieldDetails = buildAirfieldDetails(nation);
         TitledGridPane airfieldSteps = buildAirfieldSteps(nation);
         TitledPane landingTypes = buildLandingTypes();
 
@@ -89,26 +89,34 @@ public class AirfieldSummaryView {
     /**
      * Build the airfield details.
      *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
      * @return A titled grid pane containing the airfield details.
      */
-    private TitledGridPane buildAirfieldDetails() {
+    private TitledGridPane buildAirfieldDetails(final Nation nation) {
         return new TitledGridPane()
                 .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
                 .setStyleId("component-grid")
                 .setTitle("Airfield Stats")
-                .buildPane(getAirfieldDetails());
+                .buildPane(getAirfieldDetails(nation));
     }
 
     /**
      * Get the airfield details.
      *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
      * @return A map of the airfield details.
      */
-    private Map<String, String> getAirfieldDetails() {
+    private Map<String, String> getAirfieldDetails(final Nation nation) {
         Map<String, String> details = new LinkedHashMap<>();
-        details.put("Max Step Capacity:", airfield.getMaxCapacity() + "");
-        details.put("Current Step Capacity:", airfield.getCapacity() + "");
-        details.put("Current Steps deployed:", airfield.getCurrentSteps() + "");
+        if (airfield.getRegion(nation).getMax() != 0) {
+            details.put("Max Region Capacity:", airfield.getRegion(nation).getMax() + "");
+        }
+        if (airfield.getRegion(nation).getMin() != 0) {
+            details.put("Min Region Capacity:", airfield.getRegion(nation).getMin() + "");
+        }
+        details.put("Max Capacity:", airfield.getMaxCapacity() + "");
+        details.put("Current Capacity:", airfield.getCapacity() + "");
+        details.put("Current deployed:", airfield.getCurrentSteps() + "");
         details.put("AA Rating:", airfield.getAntiAir() + "");
 
         return details;

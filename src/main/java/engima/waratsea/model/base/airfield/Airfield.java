@@ -9,17 +9,26 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
+import engima.waratsea.model.base.airfield.patrol.AswPatrol;
+import engima.waratsea.model.base.airfield.patrol.CapPatrol;
+import engima.waratsea.model.base.airfield.patrol.Patrol;
+import engima.waratsea.model.base.airfield.patrol.SearchPatrol;
+import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronFactory;
+import engima.waratsea.model.squadron.data.SquadronData;
+import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -70,13 +79,17 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
     private Map<AircraftType, List<Squadron>> squadronMap = new LinkedHashMap<>();
 
+    private Map<PatrolType, Patrol> patrolMap = new HashMap<>();
+
     /**
      * Constructor called by guice.
      *
      * @param data The airfield data read in from a JSON file.
+     * @param factory Squadron factory.
      */
     @Inject
-    public Airfield(@Assisted final AirfieldData data) {
+    public Airfield(@Assisted final AirfieldData data,
+                              final SquadronFactory factory) {
         this.side = data.getSide();
         name = data.getName();
         title = Optional.ofNullable(data.getTitle()).orElse(name);   // If no title is specified just use the name.
@@ -92,6 +105,9 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                 .of(AircraftType.values())
                 .sorted()
                 .forEach(type -> squadronMap.put(type, new ArrayList<>()));
+
+        buildSquadrons(data.getSquadrons(), factory);
+        buildPatrols(data);
     }
 
     /**
@@ -110,6 +126,12 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         data.setCapacity(capacity);
         data.setAntiAir(antiAir);
         data.setLocation(reference);
+
+        data.setSquadrons(PersistentUtility.getData(squadrons));
+        data.setAswPatrol(patrolMap.get(PatrolType.ASW).getData());
+        data.setCapPatrol(patrolMap.get(PatrolType.CAP).getData());
+        data.setSearchPatrol(patrolMap.get(PatrolType.SEARCH).getData());
+
         return data;
     }
 
@@ -182,12 +204,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         if (result == AirfieldOperation.SUCCESS) {
             Optional.ofNullable(squadron.getAirfield())
                     .ifPresent(airfield -> airfield.removeSquadron(squadron));
-            squadrons.add(squadron);
-            squadron.setAirfield(this);
-
-            squadronMap
-                    .get(squadron.getType())
-                    .add(squadron);
+            stationSquadron(squadron);
         }
 
         return result;
@@ -337,11 +354,59 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param patrolType The type of patrol.
      * @return A list of squadrons for the given nation that can perform the given patrol.
      */
-    public List<Squadron> getCapableSquadrons(final Nation nation, final PatrolType patrolType) {
+    public List<Squadron> getReadySquadrons(final Nation nation, final PatrolType patrolType) {
         return getSquadrons(nation)
                 .stream()
                 .filter(squadron -> squadron.canDoPatrol(patrolType))
+                .filter(Squadron::isReady)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Get a patrol given the patrol type.
+     *
+     * @param patrolType The type of patrol.
+     * @return The patrol corresponding to the given type.
+     */
+    public Patrol getPatrol(final PatrolType patrolType) {
+        return patrolMap.get(patrolType);
+    }
+
+    /**
+     * Build the airfield's squadrons. This is only valid for saved games where the airfield
+     * squadrons are already known.
+     *
+     * @param data A List of the squadron data.
+     * @param factory The squadron factory.
+     */
+    private void buildSquadrons(final List<SquadronData> data, final SquadronFactory factory) {
+        Optional.ofNullable(data)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(squadronData -> factory.create(side, squadronData.getNation(), squadronData))
+                .forEach(this::stationSquadron);
+    }
+
+    /**
+     * Build the airfield's ASW patrol.
+     *
+     * @param data The Airfield data read in from a JSON file.
+     */
+    private void buildPatrols(final AirfieldData data) {
+        PatrolData aswData = data.getAswPatrol();
+
+        aswData.setAirfield(this);
+        patrolMap.put(PatrolType.ASW, new AswPatrol(aswData));
+
+        PatrolData capData = data.getCapPatrol();
+
+        capData.setAirfield(this);
+        patrolMap.put(PatrolType.CAP, new CapPatrol(capData));
+
+        PatrolData searchData = data.getSearchPatrol();
+
+        searchData.setAirfield(this);
+        patrolMap.put(PatrolType.SEARCH, new SearchPatrol(searchData));
     }
 
     /**
@@ -388,6 +453,20 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         }
 
         return result;
+    }
+
+    /**
+     * Station a squadron at this airfield.
+     *
+     * @param squadron The squadron that is stationed.
+     */
+    private void stationSquadron(final Squadron squadron) {
+        squadrons.add(squadron);
+        squadron.setAirfield(this);
+
+        squadronMap
+                .get(squadron.getType())
+                .add(squadron);
     }
 
     /**

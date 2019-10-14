@@ -13,12 +13,9 @@ import lombok.Setter;
 /**
  * Represents a dialog view.
  */
-public class DialogView {
+public class DialogOkOnlyView {
     @Getter
     private final Button okButton = new Button("Ok");
-
-    @Getter
-    private final Button cancelButton = new Button("Cancel");
 
     @Setter
     private Node contents;
@@ -57,7 +54,7 @@ public class DialogView {
      * @return A node that contains the control buttons.
      */
     private Node buildControlButtons() {
-        HBox hBox = new HBox(cancelButton, okButton);
+        HBox hBox = new HBox(okButton);
         hBox.setAlignment(Pos.TOP_CENTER);
         hBox.setId("controls-pane");
         return hBox;

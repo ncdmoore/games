@@ -166,7 +166,7 @@ public class ShipyardTest {
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.MINELAYER, ship.getType());
-        Assert.assertEquals(Nation.BRITISH, ship.getNationality());
+        Assert.assertEquals(Nation.BRITISH, ship.getNation());
     }
 
     @Test
@@ -179,7 +179,7 @@ public class ShipyardTest {
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.MINESWEEPER, ship.getType());
-        Assert.assertEquals(Nation.BRITISH, ship.getNationality());
+        Assert.assertEquals(Nation.BRITISH, ship.getNation());
     }
 
     @Test
@@ -200,7 +200,7 @@ public class ShipyardTest {
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.AIRCRAFT_CARRIER, ship.getType());
-        Assert.assertEquals(nation, ship.getNationality());
+        Assert.assertEquals(nation, ship.getNation());
 
         Airbase carrier = (Airbase) ship;
         Assert.assertEquals(capacity, carrier.getCapacity());
@@ -213,7 +213,7 @@ public class ShipyardTest {
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.SEAPLANE_CARRIER, ship.getType());
-        Assert.assertEquals(nation, ship.getNationality());
+        Assert.assertEquals(nation, ship.getNation());
 
         Airbase seaplane = (Airbase) ship;
         Assert.assertEquals(capacity, seaplane.getCapacity());
@@ -226,7 +226,7 @@ public class ShipyardTest {
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.BATTLESHIP, ship.getType());
-        Assert.assertEquals(nation, ship.getNationality());
+        Assert.assertEquals(nation, ship.getNation());
     }
 
     private void testBuildBattleCruiser(final String shipName, final Nation nation) throws Exception {
@@ -236,7 +236,7 @@ public class ShipyardTest {
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.BATTLECRUISER, ship.getType());
-        Assert.assertEquals(nation, ship.getNationality());
+        Assert.assertEquals(nation, ship.getNation());
     }
 
     private void testBuildCruiser(final String shipName, final Nation nation) throws Exception {
@@ -246,7 +246,7 @@ public class ShipyardTest {
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.CRUISER, ship.getType());
-        Assert.assertEquals(nation, ship.getNationality());
+        Assert.assertEquals(nation, ship.getNation());
     }
 
     private void testBuildDestroyer(final String shipName, final Nation nation) throws Exception {
@@ -256,7 +256,7 @@ public class ShipyardTest {
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.DESTROYER, ship.getType());
-        Assert.assertEquals(nation, ship.getNationality());
+        Assert.assertEquals(nation, ship.getNation());
     }
 
     private void testBuildDestroyerEscort(final String shipName, final Nation nation) throws Exception {
@@ -266,7 +266,7 @@ public class ShipyardTest {
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.DESTROYER_ESCORT, ship.getType());
-        Assert.assertEquals(nation, ship.getNationality());
+        Assert.assertEquals(nation, ship.getNation());
     }
 
     private void testBuildTransport(final String shipName, final Nation nation) throws Exception {
@@ -276,7 +276,7 @@ public class ShipyardTest {
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.TRANSPORT, ship.getType());
-        Assert.assertEquals(nation, ship.getNationality());
+        Assert.assertEquals(nation, ship.getNation());
     }
 
     private void testBuildOiler(final String shipName, final Nation nation) throws Exception {
@@ -286,6 +286,6 @@ public class ShipyardTest {
 
         Assert.assertNotNull(ship);
         Assert.assertEquals(ShipType.OILER, ship.getType());
-        Assert.assertEquals(nation, ship.getNationality());
+        Assert.assertEquals(nation, ship.getNation());
     }
 }

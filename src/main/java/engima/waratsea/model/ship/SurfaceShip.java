@@ -38,7 +38,7 @@ public class SurfaceShip implements Ship {
     private final String shipClass;
 
     @Getter
-    private final Nation nationality;
+    private final Nation nation;
 
     @Getter
     private final int victoryPoints;
@@ -98,7 +98,7 @@ public class SurfaceShip implements Ship {
         shipId = data.getShipId();
         type = data.getType();
         shipClass = data.getShipClass();
-        nationality = data.getNationality();
+        nation = data.getNationality();
         victoryPoints = data.getVictoryPoints();
 
         primary = buildGun("Primary", data.getPrimary());
@@ -141,7 +141,7 @@ public class SurfaceShip implements Ship {
         data.setShipId(shipId);
         data.setType(type);
         data.setShipClass(shipClass);
-        data.setNationality(nationality);
+        data.setNationality(nation);
         data.setVictoryPoints(victoryPoints);
 
         data.setPrimary(primary.getData());
@@ -292,7 +292,7 @@ public class SurfaceShip implements Ship {
         squadrons =  Optional.ofNullable(data)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(squadronData -> factory.create(shipId.getSide(), nationality, squadronData))
+                .map(squadronData -> factory.create(shipId.getSide(), nation, squadronData))
                 .collect(Collectors.toList());
 
         aircraftTypeMap = squadrons

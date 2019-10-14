@@ -17,7 +17,9 @@ import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.ListUtils;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -36,6 +38,8 @@ public class AirfieldDetailsDialog {
     private Stage stage;
 
     private AirfieldDetailsView view;
+
+    private Airfield airfield;
 
     /**
      * Constructor called by guice.
@@ -60,9 +64,11 @@ public class AirfieldDetailsDialog {
     /**
      * Show the airfield details dialog.
      *
-     * @param airfield The airfield for which the details are shown.
+     * @param field The airfield for which the details are shown.
      */
-    public void show(final Airfield airfield) {
+    public void show(final Airfield field) {
+        airfield = field;
+
         DialogView dialog = dialogProvider.get();     // The dialog view that contains the airfield details view.
         view = viewProvider.get();
 
@@ -75,9 +81,10 @@ public class AirfieldDetailsDialog {
         dialog.setCss(cssResourceProvider.get(CSS_FILE));
         dialog.setContents(view.show(airfield));
 
-        registerHandlers(airfield);
+        registerHandlers();
 
-        dialog.getOkButton().setOnAction(event -> close());
+        dialog.getCancelButton().setOnAction(event -> cancel());
+        dialog.getOkButton().setOnAction(event -> ok());
 
         dialog.show(stage);
 
@@ -86,20 +93,16 @@ public class AirfieldDetailsDialog {
 
     /**
      * Register all handlers.
-     *
-     * @param airfield The airfield.
      */
-    private void registerHandlers(final Airfield airfield) {
-        registerPatrolHandlers(airfield);
-        registerReadyHandlers(airfield);
+    private void registerHandlers() {
+        registerPatrolHandlers();
+        registerReadyHandlers();
     }
 
     /**
      * Register the patrol handlers.
-     *
-     * @param airfield The airfield.
-     */
-    private void registerPatrolHandlers(final Airfield airfield) {
+     **/
+    private void registerPatrolHandlers() {
         airfield.getNations().forEach(nation -> {
 
             AirfieldPatrolView patrolView = view
@@ -132,10 +135,8 @@ public class AirfieldDetailsDialog {
 
     /**
      * Register handlers for when a squadron in a ready list is selected.
-     *
-     * @param airfield The airfield for which the details are shown.
-     **/
-    private void registerReadyHandlers(final Airfield airfield) {
+     ***/
+    private void registerReadyHandlers() {
         airfield.getNations().forEach(nation ->
             view
                     .getAirfieldReadyView()
@@ -151,7 +152,38 @@ public class AirfieldDetailsDialog {
     /**
      * Call back for the ok button.
      */
-    private void close() {
+    private void ok() {
+        airfield.getNations().forEach(nation ->
+            Stream.of(PatrolType.values()).forEach(patrolType -> {
+                List<Squadron> currentAssigned = view.getAirfieldPatrolView()
+                        .get(nation)
+                        .getAssignedList(patrolType)
+                        .getItems();
+
+                List<Squadron> previousAssigned = airfield
+                        .getPatrol(patrolType)
+                        .getSquadrons(nation);
+
+                List<Squadron> added = ListUtils.subtract(currentAssigned, previousAssigned);
+                List<Squadron> removed = ListUtils.subtract(previousAssigned, currentAssigned);
+
+                added.forEach(squadron -> airfield
+                        .getPatrol(patrolType)
+                        .addSquadron(squadron));
+
+                removed.forEach(squadron -> airfield
+                        .getPatrol(patrolType)
+                        .removeSquadron(squadron));
+            })
+        );
+
+        stage.close();
+    }
+
+    /**
+     * Call back for the cancel button.
+     */
+    private void cancel() {
         stage.close();
     }
 

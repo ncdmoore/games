@@ -163,8 +163,11 @@ public class Game implements PersistentData<GameData> {
     public void startNew() throws ScenarioException, MapException, VictoryException {                                   // New Game Step 4.
         GameEvent.init();
 
-        loadGameMap();
+        loadGameMap();     // Loads airfields and ports. They are part of the map.
         loadGameVictory();
+        setNations();
+        loadSquadrons();   // Loads the squadrons from the allotment.
+
         buildAssets();
         deployAssets();
     }
@@ -179,9 +182,17 @@ public class Game implements PersistentData<GameData> {
     public void startExisting() throws ScenarioException, MapException, VictoryException {                              // Saved Game Step 4.
         GameEvent.init();
 
-        loadGameMap();
+        loadGameMap();     // Loads airfields and ports. They are part of the  map.
         loadGameVictory();
+        setNations();
+
+        // No need to load squadrons. For saved games they are loaded with the airfields
+        // as part of the loadGameMap method above. This is similar to how carrier
+        // squadrons are loaded.
+
         buildAssets();
+        setSquadrons();
+
         // No need to deploy assets as this has already been done.
     }
 
@@ -228,6 +239,30 @@ public class Game implements PersistentData<GameData> {
     private void loadGameVictory() throws VictoryException {
         humanPlayer.buildVictory(scenario);
         computerPlayer.buildVictory(scenario);
+    }
+
+    /**
+     * Set the player's nations.
+     */
+    private void setNations() {
+        humanPlayer.setNations();
+        computerPlayer.setNations();
+    }
+
+    /**
+     * Load the player's squadrons. Only called for new games.
+     **/
+    private void loadSquadrons()  {
+        humanPlayer.loadSquadrons(scenario);
+        computerPlayer.loadSquadrons(scenario);
+    }
+
+    /**
+     * set the player's squadrons. Only called for existing games.
+     */
+    private void setSquadrons() {
+        humanPlayer.setSquadrons();
+        computerPlayer.setSquadrons();
     }
 
     /**

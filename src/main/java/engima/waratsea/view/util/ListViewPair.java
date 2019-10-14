@@ -165,4 +165,12 @@ public class ListViewPair<T> {
         // the value is guaranteed to change.
         assigned.getSelectionModel().clearSelection();
     }
+
+    /**
+     * Clear both lists.
+     */
+    public void clearAll() {
+        available.getItems().clear();
+        assigned.getItems().clear();
+    }
 }

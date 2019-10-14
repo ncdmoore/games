@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.motorTorpedoBoat.MotorTorpedoBoat;
 import engima.waratsea.utility.CssResourceProvider;
-import engima.waratsea.view.DialogView;
+import engima.waratsea.view.DialogOkOnlyView;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.motorTorpedoBoat.MotorTorpedoBoatDetailsView;
 import javafx.stage.Modality;
@@ -19,7 +19,7 @@ public class MotorTorpedoDetailsDialog {
     private static final String CSS_FILE = "subDetails.css";
 
     private CssResourceProvider cssResourceProvider;
-    private Provider<DialogView> dialogProvider;
+    private Provider<DialogOkOnlyView> dialogProvider;
     private Provider<MotorTorpedoBoatDetailsView> viewProvider;
     private ViewProps props;
 
@@ -35,7 +35,7 @@ public class MotorTorpedoDetailsDialog {
      */
     @Inject
     public MotorTorpedoDetailsDialog(final CssResourceProvider cssResourceProvider,
-                                     final Provider<DialogView> dialogProvider,
+                                     final Provider<DialogOkOnlyView> dialogProvider,
                                      final Provider<MotorTorpedoBoatDetailsView> viewProvider,
                                      final ViewProps props) {
         this.cssResourceProvider = cssResourceProvider;
@@ -51,7 +51,7 @@ public class MotorTorpedoDetailsDialog {
      */
     public void show(final MotorTorpedoBoat mtb) {
         MotorTorpedoBoatDetailsView view = viewProvider.get();    // The submarine details view.
-        DialogView dialog = dialogProvider.get();     // The dialog view that contains the ship details view.
+        DialogOkOnlyView dialog = dialogProvider.get();     // The dialog view that contains the ship details view.
 
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);

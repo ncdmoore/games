@@ -5,7 +5,7 @@ import com.google.inject.Provider;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.CssResourceProvider;
-import engima.waratsea.view.DialogView;
+import engima.waratsea.view.DialogOkOnlyView;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.ship.ShipDetailsView;
 import javafx.stage.Modality;
@@ -20,7 +20,7 @@ public class ShipDetailsDialog {
     private static final String CSS_FILE = "shipDetails.css";
 
     private CssResourceProvider cssResourceProvider;
-    private Provider<DialogView> dialogProvider;
+    private Provider<DialogOkOnlyView> dialogProvider;
     private Provider<ShipDetailsView> viewProvider;
     private ViewProps props;
 
@@ -37,7 +37,7 @@ public class ShipDetailsDialog {
      */
     @Inject
     public ShipDetailsDialog(final CssResourceProvider cssResourceProvider,
-                             final Provider<DialogView> dialogProvider,
+                             final Provider<DialogOkOnlyView> dialogProvider,
                              final Provider<ShipDetailsView> viewProvider,
                              final ViewProps props) {
         this.cssResourceProvider = cssResourceProvider;
@@ -53,7 +53,7 @@ public class ShipDetailsDialog {
      */
     public void show(final Ship ship) {
         view = viewProvider.get();    // The ship details view.
-        DialogView dialog = dialogProvider.get();     // The dialog view that contains the ship details view.
+        DialogOkOnlyView dialog = dialogProvider.get();     // The dialog view that contains the ship details view.
 
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
