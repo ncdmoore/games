@@ -91,10 +91,9 @@ public class AirfieldDetailsView {
     private Tab createNationTab(final Nation nation) {
 
         AirfieldSummaryView summaryView = airfieldSummaryViewProvider.get();
-        AirfieldPatrolView patrolView = airfieldPatrolViewProvider.get();
 
         airfieldSummaryView.put(nation, summaryView);
-        airfieldPatrolView.put(nation, patrolView);
+        airfieldPatrolView.put(nation, airfieldPatrolViewProvider.get());
         airfieldReadyView.put(nation, airfieldReadyViewProvider.get());
 
         Tab tab = new Tab(nation.toString());
