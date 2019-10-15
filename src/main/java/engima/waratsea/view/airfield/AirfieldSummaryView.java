@@ -5,17 +5,18 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.squadron.PatrolType;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronViewType;
 import engima.waratsea.view.util.TitledGridPane;
 import javafx.scene.Node;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
-import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,8 @@ public class AirfieldSummaryView {
     private final ViewProps props;
 
     private Airfield airfield;
+
+    private TitledGridPane airfieldPatrol;
 
     /**
      * Constructor called by guice.
@@ -65,13 +68,28 @@ public class AirfieldSummaryView {
 
         TitledPane airfieldTitle = buildAirfieldTitle();
         TitledGridPane airfieldDetails = buildAirfieldDetails(nation);
-        TitledGridPane airfieldSteps = buildAirfieldSteps(nation);
+        TitledGridPane airfieldSummary = buildAirfieldSummary(nation);
+        airfieldPatrol = buildAirfieldPatrol(nation);
         TitledPane landingTypes = buildLandingTypes();
 
-        VBox leftVBox = new VBox(airfieldTitle, airfieldView, airfieldDetails, airfieldSteps, landingTypes);
+        Accordion accordion = new Accordion();
+        accordion.getPanes().addAll(airfieldDetails, airfieldSummary, airfieldPatrol);
+        accordion.setExpandedPane(airfieldDetails);
+
+        VBox leftVBox = new VBox(airfieldTitle, airfieldView, accordion, landingTypes);
         leftVBox.setId("airfield-summary-vbox");
 
         return leftVBox;
+    }
+
+    /**
+     * Update the patrol summary.
+     *
+     * @param key The patrol type,
+     * @param value The number of squadrons on the patrol.
+     */
+    public void updatePatrolSummary(final PatrolType key, final int value) {
+        airfieldPatrol.updateGrid(key.getValue() + ":", value + "");
     }
 
     /**
@@ -96,7 +114,7 @@ public class AirfieldSummaryView {
         return new TitledGridPane()
                 .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
                 .setStyleId("component-grid")
-                .setTitle("Airfield Stats")
+                .setTitle("Airfield Step Stats")
                 .buildPane(getAirfieldDetails(nation));
     }
 
@@ -130,17 +148,31 @@ public class AirfieldSummaryView {
     }
 
     /**
-     * Build the airfield squadron step summary.
+     * Build the airfield squadron summary.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @return A titled grid pane containing the airfield step summary.
+     * @return A titled grid pane containing the airfield squadron summary.
      */
-    private TitledGridPane buildAirfieldSteps(final Nation nation) {
+    private TitledGridPane buildAirfieldSummary(final Nation nation) {
         return new TitledGridPane()
                 .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
                 .setStyleId("component-grid")
-                .setTitle("Airfield Step Summary")
-                .buildPane(getAirfieldSteps(nation));
+                .setTitle("Airfield Squadron Summary")
+                .buildPane(getAirfieldSummary(nation));
+    }
+
+    /**
+     * Build the airfield patrol summary.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return A titled grid pane containing the airfield patrol summary.
+     */
+    private TitledGridPane buildAirfieldPatrol(final Nation nation) {
+        return new TitledGridPane()
+                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
+                .setStyleId("component-grid")
+                .setTitle("Airfield Patrol Summary")
+                .buildPane(getAirfieldPatrolSummary(nation));
     }
 
     /**
@@ -184,29 +216,52 @@ public class AirfieldSummaryView {
     }
 
     /**
-     * Get the airfield step summary for each type of squadron.
+     * Get the airfield squadron summary for each type of squadron.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @return A map of the airfield steps where the key is the type
-     * of squadron and the value is the total number of steps of that
+     * @return A map of the airfield squadrons where the key is the type
+     * of squadron and the value is the total number of squadrons of that
      * type of squadron.
      */
-    private Map<String, String> getAirfieldSteps(final Nation nation) {
-        Map<SquadronViewType, BigDecimal> steps = airfield.getStepMap(nation)
-                .entrySet()
+    private Map<String, String> getAirfieldSummary(final Nation nation) {
+        Map<SquadronViewType, Integer> numMap = airfield.getSquadrons(nation)
                 .stream()
-                .collect(Collectors.toMap(e -> SquadronViewType.get(e.getKey()),
-                        Map.Entry::getValue,
-                        BigDecimal::add,
+                .collect(Collectors.toMap(squadron -> SquadronViewType.get(squadron.getType()),
+                        squadron -> 1,
+                        Integer::sum,
                         LinkedHashMap::new));
 
-        // Convert the map to a string key value pair for display on the GUI.
-        return steps
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(e -> e.getKey() + ":",
-                        e -> e.getValue().toString(),
+        // Add in zero's for the squadron types not present at this airfield.
+        Stream.of(SquadronViewType.values()).forEach(type -> {
+            if (!numMap.containsKey(type)) {
+                numMap.put(type, 0);
+            }
+        });
+
+        return Stream.of(SquadronViewType.values())
+                .sorted()
+                .collect(Collectors.toMap(type -> type.getValue() + ":",
+                        type -> numMap.get(type).toString(),
                         (oldValue, newValue) -> oldValue,
                         LinkedHashMap::new));
     }
+
+    /**
+     * Get the airfield squadron patrol summary.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return A map of patrol type to squadrons on the given patrol.
+     */
+    private Map<String, String> getAirfieldPatrolSummary(final Nation nation) {
+        return Stream.of(PatrolType.values()).sorted().collect(Collectors.toMap(
+                patrolType -> patrolType.getValue() + ":",
+                patrolType -> airfield
+                        .getPatrol(patrolType)
+                        .getSquadrons(nation)
+                        .size() + "",
+                (oldValue, newValue) -> oldValue,
+                LinkedHashMap::new));
+    }
+
+
 }

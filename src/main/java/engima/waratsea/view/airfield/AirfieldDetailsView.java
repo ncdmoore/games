@@ -33,6 +33,9 @@ public class AirfieldDetailsView {
     private final TabPane nationsTabPane = new TabPane();
 
     @Getter
+    private final Map<Nation, AirfieldSummaryView> airfieldSummaryView = new HashMap<>();
+
+    @Getter
     private final Map<Nation, AirfieldPatrolView> airfieldPatrolView = new HashMap<>();
 
     @Getter
@@ -42,7 +45,7 @@ public class AirfieldDetailsView {
      * Constructor called by guice.
      *
      * @param imageResourceProvider Provides images.
-     * @param airfieldSummaryViewProvider Provifes the airfield summary view.
+     * @param airfieldSummaryViewProvider Provides the airfield summary view.
      * @param airfieldPatrolViewProvider  Provides the airfield patrol view.
      * @param airfieldReadyViewProvider   Provides the airfield ready view.
      */
@@ -86,11 +89,17 @@ public class AirfieldDetailsView {
      * @return The nation's tab.
      */
     private Tab createNationTab(final Nation nation) {
-        buildDependentViews(nation);
+
+        AirfieldSummaryView summaryView = airfieldSummaryViewProvider.get();
+        AirfieldPatrolView patrolView = airfieldPatrolViewProvider.get();
+
+        airfieldSummaryView.put(nation, summaryView);
+        airfieldPatrolView.put(nation, patrolView);
+        airfieldReadyView.put(nation, airfieldReadyViewProvider.get());
 
         Tab tab = new Tab(nation.toString());
 
-        Node summary = airfieldSummaryViewProvider.get()
+        Node summary = summaryView
                 .setAirfield(airfield)
                 .show(nation);
 
@@ -112,16 +121,6 @@ public class AirfieldDetailsView {
         tab.setContent(hBox);
 
         return tab;
-    }
-
-    /**
-     * Build the nation maps.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc.
-     */
-    private void buildDependentViews(final Nation nation) {
-        airfieldPatrolView.put(nation, airfieldPatrolViewProvider.get());
-        airfieldReadyView.put(nation, airfieldReadyViewProvider.get());
     }
 
     /**

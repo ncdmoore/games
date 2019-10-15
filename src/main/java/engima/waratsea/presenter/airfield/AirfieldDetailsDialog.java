@@ -203,9 +203,18 @@ public class AirfieldDetailsDialog {
                 .get(nation)
                 .assignPatrol(type);
 
+        int numOnPatrol = view.getAirfieldPatrolView()
+                .get(nation)
+                .getNumSquadronsOnPatrol(type);
+
         view.getAirfieldReadyView()
                 .get(nation)
                 .remove(squadron);
+
+        view.getAirfieldSummaryView()
+                .get(nation)
+                .updatePatrolSummary(type, numOnPatrol);
+
     }
 
     /**
@@ -224,9 +233,17 @@ public class AirfieldDetailsDialog {
                 .get(nation)
                 .removePatrol(type);
 
+        int numOnPatrol = view.getAirfieldPatrolView()
+                .get(nation)
+                .getNumSquadronsOnPatrol(type);
+
         view.getAirfieldReadyView()
                 .get(nation)
                 .add(squadron);
+
+        view.getAirfieldSummaryView()
+                .get(nation)
+                .updatePatrolSummary(type, numOnPatrol);
     }
 
     /**

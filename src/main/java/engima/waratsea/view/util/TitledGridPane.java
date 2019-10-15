@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ public class TitledGridPane extends TitledPane {
     private int width;
     private String styleId;
 
+    private Map<String, Label> gridValues = new HashMap<>();
     /**
      * Set the titled pane's width.
      *
@@ -83,6 +85,16 @@ public class TitledGridPane extends TitledPane {
     }
 
     /**
+     * Update an individual grid value.
+     *
+     * @param key The grid key. The first columns's value.
+     * @param value The grid value. The secod columns's value.
+     */
+    public void updateGrid(final String key, final String value) {
+        gridValues.get(key).setText(value);
+    }
+
+    /**
      * Update the titled pane grid pane contents with the given data.
      *
      * @param data The data contained within the titled pane's grid pane.
@@ -104,8 +116,12 @@ public class TitledGridPane extends TitledPane {
         int i = 0;
         for (Map.Entry<String, String> entry : data.entrySet()) {
             Label keyLabel = new Label(entry.getKey());
+            Label valueLabel = new Label(entry.getValue());
+
+            gridValues.put(entry.getKey(), valueLabel);
+
             gridPane.add(keyLabel, 0, i);
-            gridPane.add(new Label(entry.getValue()), 1, i);
+            gridPane.add(valueLabel, 1, i);
             i++;
         }
 

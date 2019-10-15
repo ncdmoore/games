@@ -256,28 +256,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
-     * Get the number of steps stationed at this airfield for each aircraft type for the given nation.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @return The number of steps of the given aircraft type
-     * stationed at the base.
-     */
-    public Map<AircraftType, BigDecimal> getStepMap(final Nation nation) {
-        return squadronMap
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey,
-                                          entry -> entry
-                                                  .getValue()
-                                                  .stream()
-                                                  .filter(squadron -> squadron.ofNation(nation))
-                                                  .map(Squadron::getSteps)
-                                                  .reduce(BigDecimal.ZERO, BigDecimal::add),
-                                          (oldList, newList) -> oldList, // no collisions should occur. AircraftType is unique.
-                                          LinkedHashMap::new));
-    }
-
-    /**
      * Get the list of squadrons for the given nation.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
@@ -370,6 +348,16 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     public Patrol getPatrol(final PatrolType patrolType) {
         return patrolMap.get(patrolType);
+    }
+
+    /**
+     * Get the active state of the asset.
+     *
+     * @return True if the asset is active. False if the asset is not active.
+     */
+    @Override
+    public boolean isActive() {
+        return true;
     }
 
     /**
@@ -480,16 +468,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .intValue();
-    }
-
-    /**
-     * Get the active state of the asset.
-     *
-     * @return True if the asset is active. False if the asset is not active.
-     */
-    @Override
-    public boolean isActive() {
-        return true;
     }
 
     /**

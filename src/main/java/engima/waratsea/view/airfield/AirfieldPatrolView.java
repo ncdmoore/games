@@ -34,6 +34,7 @@ public class AirfieldPatrolView {
     private final Map<PatrolType, ListViewPair<Squadron>> patrolListMap = new HashMap<>();
     private final Map<PatrolType, SquadronSummaryView> patrolSquadronMap = new HashMap<>();
 
+
     /**
      * Constructor called by guice.
      *
@@ -145,6 +146,7 @@ public class AirfieldPatrolView {
                 .filter(type -> type != patrolType)
                 .forEach(type -> patrolListMap.get(type).removeFromAvailable(squadron));
 
+
         return squadron;
     }
 
@@ -197,6 +199,20 @@ public class AirfieldPatrolView {
 
         patrolSquadronMap.get(patrolType)
                 .setSelectedSquadron(squadron);
+    }
+
+    /**
+     * Get the number of squadrons for the given patrol type.
+     *
+     * @param patrolType The patrol type.
+     * @return The number of squadrons on the given patrol.
+     */
+    public int getNumSquadronsOnPatrol(final PatrolType patrolType) {
+        return patrolListMap
+                .get(patrolType)
+                .getAssigned()
+                .getItems()
+                .size();
     }
 
     /**
