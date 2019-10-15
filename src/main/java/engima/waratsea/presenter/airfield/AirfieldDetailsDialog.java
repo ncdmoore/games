@@ -203,18 +203,12 @@ public class AirfieldDetailsDialog {
                 .get(nation)
                 .assignPatrol(type);
 
-        int numOnPatrol = view.getAirfieldPatrolView()
-                .get(nation)
-                .getNumSquadronsOnPatrol(type);
-
         view.getAirfieldReadyView()
                 .get(nation)
                 .remove(squadron);
 
-        view.getAirfieldSummaryView()
-                .get(nation)
-                .updatePatrolSummary(type, numOnPatrol);
-
+        updatePatrolSummary(nation, type);
+        updateReadySummary(nation, squadron);
     }
 
     /**
@@ -233,17 +227,12 @@ public class AirfieldDetailsDialog {
                 .get(nation)
                 .removePatrol(type);
 
-        int numOnPatrol = view.getAirfieldPatrolView()
-                .get(nation)
-                .getNumSquadronsOnPatrol(type);
-
         view.getAirfieldReadyView()
                 .get(nation)
                 .add(squadron);
 
-        view.getAirfieldSummaryView()
-                .get(nation)
-                .updatePatrolSummary(type, numOnPatrol);
+        updatePatrolSummary(nation, type);
+        updateReadySummary(nation, squadron);
     }
 
     /**
@@ -328,5 +317,37 @@ public class AirfieldDetailsDialog {
                 .replace(" ", "_");
 
         return Nation.valueOf(selectedNation);
+    }
+
+    /**
+     * Update the Patrol summary.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @param patrolType The patrol type.
+     */
+    private void updatePatrolSummary(final Nation nation, final PatrolType patrolType) {
+        int numOnPatrol = view.getAirfieldPatrolView()
+                .get(nation)
+                .getNumSquadronsOnPatrol(patrolType);
+
+        view.getAirfieldSummaryView()
+                .get(nation)
+                .updatePatrolSummary(patrolType, numOnPatrol);
+    }
+
+    /**
+     * Update the ready summary.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @param squadron The squadron that triggers the ready update.
+     */
+    private void updateReadySummary(final Nation nation, final Squadron squadron) {
+        int numReady = view.getAirfieldReadyView()
+                .get(nation)
+                .getReady(SquadronViewType.get(squadron.getType()));
+
+        view.getAirfieldSummaryView()
+                .get(nation)
+                .updateReadySummary(SquadronViewType.get(squadron.getType()), numReady);
     }
 }

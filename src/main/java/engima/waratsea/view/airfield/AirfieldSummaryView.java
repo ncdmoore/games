@@ -6,6 +6,7 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.PatrolType;
+import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronViewType;
@@ -30,6 +31,7 @@ public class AirfieldSummaryView {
     private Airfield airfield;
 
     private TitledGridPane airfieldPatrol;
+    private TitledGridPane ready;
 
     /**
      * Constructor called by guice.
@@ -70,10 +72,11 @@ public class AirfieldSummaryView {
         TitledGridPane airfieldDetails = buildAirfieldDetails(nation);
         TitledGridPane airfieldSummary = buildAirfieldSummary(nation);
         airfieldPatrol = buildAirfieldPatrol(nation);
+        ready = buildReady(nation);
         TitledPane landingTypes = buildLandingTypes();
 
         Accordion accordion = new Accordion();
-        accordion.getPanes().addAll(airfieldDetails, airfieldSummary, airfieldPatrol);
+        accordion.getPanes().addAll(airfieldDetails, airfieldSummary, airfieldPatrol, ready);
         accordion.setExpandedPane(airfieldDetails);
 
         VBox leftVBox = new VBox(airfieldTitle, airfieldView, accordion, landingTypes);
@@ -90,6 +93,16 @@ public class AirfieldSummaryView {
      */
     public void updatePatrolSummary(final PatrolType key, final int value) {
         airfieldPatrol.updateGrid(key.getValue() + ":", value + "");
+    }
+
+    /**
+     * Update the ready summary.
+     *
+     * @param key The squadron view type.
+     * @param value The number of squadron ready.
+     */
+    public void updateReadySummary(final SquadronViewType key, final int value) {
+        ready.updateGrid(key.getValue() + ":", value + "");
     }
 
     /**
@@ -175,6 +188,19 @@ public class AirfieldSummaryView {
                 .buildPane(getAirfieldPatrolSummary(nation));
     }
 
+    /**
+     * Build the airfield ready summary.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return A titled grid pane containing the airfield ready summary.
+     */
+    private TitledGridPane buildReady(final Nation nation) {
+        return new TitledGridPane()
+                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
+                .setStyleId("component-grid")
+                .setTitle("Airfield Ready Summary")
+                .buildPane(getAirfieldReadySummary(nation));
+    }
     /**
      * Build landing types for the airfield.
      *
@@ -263,5 +289,32 @@ public class AirfieldSummaryView {
                 LinkedHashMap::new));
     }
 
+    /**
+     * Get the airfield ready squadron summary.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return A map of squadron view types to number of ready squadrons of that type.
+     */
+    private Map<String, String> getAirfieldReadySummary(final Nation nation) {
+         Map<SquadronViewType, Integer> readyMap = airfield.getSquadrons(nation, SquadronState.READY)
+                .stream()
+                .collect(Collectors.toMap(squadron -> SquadronViewType.get(squadron.getType()),
+                                          squadron -> 1,
+                                          Integer::sum,
+                                          LinkedHashMap::new));
 
+        // Add in zero's for the squadron types not present at this airfield.
+        Stream.of(SquadronViewType.values()).forEach(type -> {
+            if (!readyMap.containsKey(type)) {
+                readyMap.put(type, 0);
+            }
+        });
+
+        return Stream.of(SquadronViewType.values())
+                .sorted()
+                .collect(Collectors.toMap(type -> type.getValue() + ":",
+                        type -> readyMap.get(type).toString(),
+                        (oldValue, newValue) -> oldValue,
+                        LinkedHashMap::new));
+    }
 }

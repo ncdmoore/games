@@ -21,6 +21,7 @@ import engima.waratsea.model.squadron.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
 import engima.waratsea.model.squadron.data.SquadronData;
+import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
@@ -269,22 +270,39 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
-     * Get the squadron map.
+     * Get the list of squadrons for the given nation and given state.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @return The squadron map keyed by aircraft type.
+     * @param state The squadron state.
+     * @return A list of squadron for the given nation and given state.
      */
-    public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation nation) {
+    public List<Squadron> getSquadrons(final Nation nation, final SquadronState state) {
+        return squadrons
+                .stream()
+                .filter(squadron -> squadron.ofNation(nation))
+                .filter(squadron -> squadron.getSquadronState() == state)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get the squadron map for the given nation and given squadron state.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @param state The squadron state.
+     * @return The squadron map keyed by aircraft type for the given nation and given squadron state.
+     */
+    public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation nation, final SquadronState state) {
         return squadronMap
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
                                           entry -> entry
-                                                   .getValue()
-                                                   .stream()
-                                                   .filter(squadron -> squadron.ofNation(nation))
-                                                   .collect(Collectors.toList()),
-                                          (oldList, newList) -> oldList, // no collisions should occur. AircraftType is unique.
+                                                    .getValue()
+                                                    .stream()
+                                                    .filter(squadron -> squadron.ofNation(nation))
+                                                    .filter(squadron -> squadron.getSquadronState() == state)
+                                                    .collect(Collectors.toList()),
+                                          (oldList, newList) -> oldList,
                                           LinkedHashMap::new));
     }
 

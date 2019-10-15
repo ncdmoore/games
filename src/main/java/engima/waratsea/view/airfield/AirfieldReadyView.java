@@ -5,6 +5,7 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronSummaryView;
 import engima.waratsea.view.squadron.SquadronViewType;
@@ -71,11 +72,11 @@ public class AirfieldReadyView {
 
         titledPane.setText("Ready");
 
-        Map<SquadronViewType, List<Squadron>> squadrons = airfield.getSquadronMap(nation)
+        Map<SquadronViewType, List<Squadron>> squadrons = airfield.getSquadronMap(nation, SquadronState.READY)
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(e -> SquadronViewType.get(e.getKey()),
-                        e -> filterReady(e.getValue()),
+                        Map.Entry::getValue,
                         ListUtils::union,
                         LinkedHashMap::new));
 
@@ -143,16 +144,12 @@ public class AirfieldReadyView {
     }
 
     /**
-     * Get only the ready squadrons from the given list of squadrons.
+     * Get the number of ready squadron for the given type.
      *
-     * @param squadrons A list of squadrons.
-     * @return A list of squadrons that are in the "ready" state derived
-     * from the given list of squadrons.
+     * @param type The squadron view type.
+     * @return The number of squadrons for the given view type.
      */
-    private List<Squadron> filterReady(final List<Squadron> squadrons) {
-        return squadrons
-                .stream()
-                .filter(Squadron::isReady)
-                .collect(Collectors.toList());
+    public int getReady(final SquadronViewType type) {
+        return readyLists.get(type).getItems().size();
     }
 }
