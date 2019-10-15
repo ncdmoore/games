@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TaskForceDAO {
 
-    private Config config;
+    private Resource config;
     private TaskForceFactory taskForceFactory;
 
     /**
@@ -39,7 +39,7 @@ public class TaskForceDAO {
      * @param taskForceFactory Factory for creating task force objects.
      */
     @Inject
-    public TaskForceDAO(final Config config,
+    public TaskForceDAO(final Resource config,
                         final TaskForceFactory taskForceFactory) {
         this.config = config;
         this.taskForceFactory = taskForceFactory;

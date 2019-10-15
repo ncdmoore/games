@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.flotilla.data.FlotillaData;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.utility.PersistentUtility;
@@ -35,7 +35,7 @@ public class FlotillaDAO {
     // Flotilla type to flotilla factory map.
     private Map<FlotillaType, BiFunction<Side, FlotillaData, Flotilla>> factoryMap = new HashMap<>();
 
-    private Config config;
+    private Resource config;
 
     /**
      * The constructor. Called by guice.
@@ -44,7 +44,7 @@ public class FlotillaDAO {
      * @param factory Factory for creating flotilla objects.
      */
     @Inject
-    public FlotillaDAO(final Config config,
+    public FlotillaDAO(final Resource config,
                         final FlotillaFactory factory) {
         this.config = config;
 

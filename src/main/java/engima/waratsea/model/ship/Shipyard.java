@@ -3,7 +3,7 @@ package engima.waratsea.model.ship;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.utility.PersistentUtility;
@@ -32,7 +32,7 @@ public class Shipyard {
     //Each side has a map of ship class names to ship's data. This acts as a cash for data read in from JSON files.
     private Map<Side, Map<String, ShipData>> shipDataMap = new HashMap<>();
 
-    private Config config;
+    private Resource config;
     private ShipRegistry registry;
     private ShipFactory shipFactory;
 
@@ -44,7 +44,7 @@ public class Shipyard {
      * @param shipFactory A factory for creating ships.
      */
     @Inject
-    public Shipyard(final Config config,
+    public Shipyard(final Resource config,
                     final ShipRegistry registry,
                     final ShipFactory shipFactory) {
 

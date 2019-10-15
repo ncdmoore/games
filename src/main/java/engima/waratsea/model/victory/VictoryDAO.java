@@ -4,7 +4,7 @@ package engima.waratsea.model.victory;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.GameType;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
@@ -31,7 +31,7 @@ import java.nio.file.Paths;
 @Slf4j
 @Singleton
 public class VictoryDAO {
-    private Config config;
+    private Resource config;
     private VictoryConditionsFactory factory;
 
     /**
@@ -41,7 +41,7 @@ public class VictoryDAO {
      * @param factory The victory conditions factory.
      */
     @Inject
-    public VictoryDAO(final Config config,
+    public VictoryDAO(final Resource config,
                       final VictoryConditionsFactory factory) {
         this.config = config;
         this.factory = factory;

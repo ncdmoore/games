@@ -2,13 +2,11 @@ package engima.waratsea.model.squadron;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.game.Config;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.squadron.allotment.Allotment;
 import engima.waratsea.model.squadron.allotment.AllotmentDAO;
-import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -23,7 +21,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SquadronDAO {
 
-    private Config config;
     private AllotmentDAO allotmentDAO;
     private SquadronFactory factory;
 
@@ -32,15 +29,12 @@ public class SquadronDAO {
     /**
      * The constructor called by guice.
      *
-     * @param config The game config.
      * @param allotmentDAO Loads the squadron allotment data.
      * @param factory Builds squadrons.
      */
     @Inject
-    public SquadronDAO(final Config config,
-                       final AllotmentDAO allotmentDAO,
+    public SquadronDAO(final AllotmentDAO allotmentDAO,
                        final SquadronFactory factory) {
-        this.config = config;
         this.allotmentDAO = allotmentDAO;
         this.factory = factory;
     }
@@ -69,21 +63,6 @@ public class SquadronDAO {
     private List<Squadron> loadNew(final Scenario scenario, final Side side, final Nation nation) {
         loadNationAllotment(scenario, side, nation);
         return buildSquadrons(side, nation);
-    }
-
-    /**
-     * Save the squadrons. The allies and axis squadron data are saved in separate files.
-     *
-     * @param scenario The selected scenario.
-     * @param side  The side AlLIES of AXIS.
-     * @param nation The nation.
-     * @param squadrons The squadron data that is saved.
-     */
-    public void save(final Scenario scenario, final Side side, final Nation nation, final List<Squadron> squadrons) {
-        log.info("Saving squadrons, scenario: '{}', side: {}, nation: {}", new Object[]{scenario.getTitle(), side, nation});
-        log.info("Saving {} squadrons", squadrons.size());
-        String fileName = config.getSavedFileName(side, Squadron.class, nation + ".json");
-        PersistentUtility.save(fileName, squadrons);
     }
 
     /**

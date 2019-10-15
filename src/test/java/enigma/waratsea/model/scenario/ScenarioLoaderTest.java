@@ -2,7 +2,7 @@ package enigma.waratsea.model.scenario;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
@@ -26,7 +26,7 @@ import java.util.List;
 public class ScenarioLoaderTest {
 
     private static GameTitle gameTitle;
-    private static Config config;
+    private static Resource config;
     private static GameMap gameMap;
     private static Injector injector;
 
@@ -39,7 +39,7 @@ public class ScenarioLoaderTest {
         injector = Guice.createInjector(new TestModule());
 
         gameTitle = injector.getInstance(GameTitle.class);
-        config = injector.getInstance(Config.class);
+        config = injector.getInstance(Resource.class);
 
         gameMap = injector.getInstance(GameMap.class);
     }

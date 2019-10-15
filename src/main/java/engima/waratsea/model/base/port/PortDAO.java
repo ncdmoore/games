@@ -5,14 +5,13 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.base.BaseId;
 import engima.waratsea.model.base.port.data.PortData;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -30,7 +29,7 @@ import java.util.Optional;
 @Slf4j
 @Singleton
 public class PortDAO {
-    private Config config;
+    private Resource config;
     private PortFactory factory;
 
     private Map<String, Port> cache = new HashMap<>();
@@ -41,7 +40,7 @@ public class PortDAO {
      * @param factory The port factory.
      */
     @Inject
-    public PortDAO(final Config config,
+    public PortDAO(final Resource config,
                    final PortFactory factory) {
         this.config = config;
         this.factory = factory;
@@ -115,26 +114,23 @@ public class PortDAO {
     private PortData readPort(final URL url, final BaseId portId) {
         String portName = portId.getName();
         Side side = portId.getSide();
-        try {
-            Path path = Paths.get(URLDecoder.decode(url.getPath(), "UTF-8"));
-            try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 
-                Gson gson = new Gson();
-                PortData portData = gson.fromJson(br, PortData.class);
+        Path path = Paths.get(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8));
+        try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 
-                portData.setSide(side);
+            Gson gson = new Gson();
+            PortData portData = gson.fromJson(br, PortData.class);
 
-                log.debug("load port {} for side {}", portName, side);
+            portData.setSide(side);
 
-                return portData;
-            } catch (Exception ex) {                                                                                    // Catch any Gson errors.
-                log.error("Unable to load port {} for side: {}. {}", new Object[]{url.getPath(), side, ex});
-                return null;
-            }
-        } catch (UnsupportedEncodingException ex) {
+            log.debug("load port {} for side {}", portName, side);
+
+            return portData;
+        } catch (Exception ex) {                                                                                    // Catch any Gson errors.
             log.error("Unable to load port {} for side: {}. {}", new Object[]{url.getPath(), side, ex});
             return null;
         }
+
     }
 
     /**

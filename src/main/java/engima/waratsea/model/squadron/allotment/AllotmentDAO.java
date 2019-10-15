@@ -3,7 +3,7 @@ package engima.waratsea.model.squadron.allotment;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
@@ -26,7 +26,7 @@ import java.nio.file.Paths;
 @Slf4j
 @Singleton
 public class AllotmentDAO {
-    private Config config;
+    private Resource config;
     private SquadronProps props;
     private AllotmentFactory allotmentFactory;
 
@@ -38,7 +38,7 @@ public class AllotmentDAO {
      * @param allotmentFactory an allotment factory.
      */
     @Inject
-    public AllotmentDAO(final Config config,
+    public AllotmentDAO(final Resource config,
                         final SquadronProps props,
                         final AllotmentFactory allotmentFactory) {
         this.config = config;

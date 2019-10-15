@@ -3,7 +3,7 @@ package engima.waratsea.presenter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.map.MapException;
 import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.presenter.navigation.Navigate;
@@ -100,7 +100,7 @@ public class ScenarioPresenter implements Presenter {
         game.setNew();
         game.setScenario(selectedScenario);
         game.setHumanSide(side);
-        game.setSavedGameName(Config.DEFAULT_SAVED_GAME);
+        game.setSavedGameName(Resource.DEFAULT_SAVED_GAME);
 
         startGame();
 

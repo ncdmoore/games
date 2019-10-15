@@ -5,7 +5,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.base.BaseId;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.utility.PersistentUtility;
@@ -29,7 +29,7 @@ import java.util.Optional;
 @Slf4j
 @Singleton
 public class AirfieldDAO {
-    private Config config;
+    private Resource config;
     private AirfieldFactory factory;
 
 
@@ -42,7 +42,7 @@ public class AirfieldDAO {
      * @param factory The airfield factory.
      */
     @Inject
-    public AirfieldDAO(final Config config,
+    public AirfieldDAO(final Resource config,
                        final AirfieldFactory factory) {
         this.config = config;
         this.factory = factory;

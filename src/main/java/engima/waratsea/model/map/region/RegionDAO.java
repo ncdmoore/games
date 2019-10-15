@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.MapException;
 import engima.waratsea.model.map.region.data.RegionData;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Singleton
 public class RegionDAO {
-    private Config confg;
+    private Resource confg;
     private RegionFactory factory;
 
     /**
@@ -41,7 +41,7 @@ public class RegionDAO {
      * @param factory Factory for creating region objects.
      */
     @Inject
-    public RegionDAO(final Config config,
+    public RegionDAO(final Resource config,
                      final RegionFactory factory) {
         this.confg = config;
         this.factory = factory;

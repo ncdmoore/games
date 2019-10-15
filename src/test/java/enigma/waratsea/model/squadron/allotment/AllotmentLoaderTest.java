@@ -2,7 +2,7 @@ package enigma.waratsea.model.squadron.allotment;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Side;
@@ -19,14 +19,14 @@ import java.util.Calendar;
 
 public class AllotmentLoaderTest {
     private static AllotmentDAO allotmentDAO;
-    private static Config config;
+    private static Resource config;
 
     @BeforeClass
     public static void setup() {
         Injector injector = Guice.createInjector(new TestModule());
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
-        config = injector.getInstance(Config.class);
+        config = injector.getInstance(Resource.class);
         allotmentDAO = injector.getInstance(AllotmentDAO.class);
 
         gameTitle.setName(GameName.BOMB_ALLEY);

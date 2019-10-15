@@ -30,7 +30,7 @@ public class Game implements PersistentData<GameData> {
     @Getter
     private Player humanPlayer;
 
-    private Config config;
+    private Resource config;
     private ScenarioDAO scenarioDAO;
     private GameDAO gameDAO;
     private GameMap gameMap;
@@ -54,7 +54,7 @@ public class Game implements PersistentData<GameData> {
     @Inject
     public Game(final @Named("Computer") Player computerPlayer,
                 final @Named("Human") Player humanPlayer,
-                final Config config,
+                final Resource config,
                 final ScenarioDAO scenarioDAO,
                 final GameDAO gameDAO,
                 final GameMap gameMap) {
@@ -214,7 +214,7 @@ public class Game implements PersistentData<GameData> {
      * Save the default game.
      */
     public void save() {
-        config.setSavedGameName(Config.DEFAULT_SAVED_GAME);
+        config.setSavedGameName(Resource.DEFAULT_SAVED_GAME);
         gameDAO.save(this);
         humanPlayer.saveVictory(scenario);
         humanPlayer.saveAssets(scenario);

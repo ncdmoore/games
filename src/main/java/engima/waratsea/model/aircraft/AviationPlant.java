@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.aircraft.data.AircraftData;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Side;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,7 +31,7 @@ public class AviationPlant {
     //Each side has a map of aircraft model names to aircraft model data. This acts as a cash for data read in from JSON files.
     private Map<Side, Map<String, AircraftData>> aircraftDataMap = new HashMap<>();
 
-    private Config config;
+    private Resource config;
     private AircraftFactory factory;
 
     /**
@@ -41,7 +41,7 @@ public class AviationPlant {
      * @param factory The aircraft factory.
      */
     @Inject
-    public AviationPlant(final Config config,
+    public AviationPlant(final Resource config,
                          final AircraftFactory factory) {
         this.config = config;
         this.factory = factory;

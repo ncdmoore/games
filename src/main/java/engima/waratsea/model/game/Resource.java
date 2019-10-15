@@ -14,7 +14,6 @@ import engima.waratsea.model.minefield.deployment.MinefieldDeployment;
 import engima.waratsea.model.minefield.zone.MinefieldZone;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.ship.Ship;
-import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.allotment.Allotment;
 import engima.waratsea.model.squadron.deployment.SquadronDeployment;
 import engima.waratsea.model.taskForce.TaskForce;
@@ -37,7 +36,7 @@ import java.util.Optional;
  */
 @Slf4j
 @Singleton
-public final class Config {
+public final class Resource {
     private static final String SUMMARY_FILE_NAME = "summary.json";
     private static final String SCENARIO_DIRECTORY_NAME = "/scenarios";
 
@@ -63,8 +62,6 @@ public final class Config {
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Region.class.getSimpleName(),                   "/maps/axis/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Ship.class.getSimpleName(),                     "/ships/allies/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Ship.class.getSimpleName(),                     "/ships/axis/");
-        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Squadron.class.getSimpleName(),                 "/squadrons/allies/");
-        SIDE_FILE_MAP.put(Side.AXIS.toString(),       Squadron.class.getSimpleName(),                 "/squadrons/axis/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Allotment.class.getSimpleName(),                "/squadrons/allotment/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Allotment.class.getSimpleName(),                "/squadrons/allotment/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     SquadronDeployment.class.getSimpleName(),       "/squadrons/deployment/");
@@ -111,7 +108,7 @@ public final class Config {
      * @param gameTitle The game title.
      */
     @Inject
-    public Config(final GameTitle gameTitle) {
+    public Resource(final GameTitle gameTitle) {
         this.gameTitle = gameTitle;
         this.savedGameDirectory = System.getProperty("user.home") + "/WW2atSea/SavedGames/" + gameTitle.getValue() + "/";
         this.type = GameType.NEW;
@@ -181,7 +178,7 @@ public final class Config {
         return Optional
                 .ofNullable(getClass()
                 .getClassLoader()
-                .getResource(gameTitle.getValue() + Config.SCENARIO_DIRECTORY_NAME));
+                .getResource(gameTitle.getValue() + Resource.SCENARIO_DIRECTORY_NAME));
     }
 
     /**
@@ -242,23 +239,6 @@ public final class Config {
      */
     public Optional<URL> getSavedURL(final Side side, final Class<?> clazz) {
         String fileName = getSavedFileName(side, clazz);
-        Path path = Paths.get(fileName);
-
-        try {
-            return Optional.of(path.toUri().toURL());
-        } catch (MalformedURLException ex) {
-            log.error("Bad url '{}'", path);
-            return Optional.empty();
-        }
-    }
-
-    /** Get the saved URL of the given entity. This URL maps to a file in the current saved game directory.
-      *
-      * @param clazz The entity class.
-      * @return The URL of the entity.
-     */
-    public Optional<URL> getSavedURL(final Class<?> clazz) {
-        String fileName = getSavedFileName(clazz);
         Path path = Paths.get(fileName);
 
         try {

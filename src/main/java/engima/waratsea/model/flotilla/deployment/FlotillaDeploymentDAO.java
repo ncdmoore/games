@@ -4,13 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import engima.waratsea.model.flotilla.deployment.data.DeploymentData;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.ScenarioException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class FlotillaDeploymentDAO {
-    private Config config;
+    private Resource config;
 
     private FlotillaDeploymentFactory flotillaDeploymentFactory;
 
@@ -38,7 +37,7 @@ public class FlotillaDeploymentDAO {
      * @param flotillaDeploymentFactory The flotilla deployment factory.
      */
     @Inject
-    public FlotillaDeploymentDAO(final Config config,
+    public FlotillaDeploymentDAO(final Resource config,
                                  final FlotillaDeploymentFactory flotillaDeploymentFactory) {
         this.config = config;
         this.flotillaDeploymentFactory = flotillaDeploymentFactory;
@@ -90,24 +89,21 @@ public class FlotillaDeploymentDAO {
      * @return The data read from the JSON file.
      */
     private List<DeploymentData> readFlotilla(final URL url, final Side side) {
-        try {
-            Path path = Paths.get(URLDecoder.decode(url.getPath(), "UTF-8"));
-            try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-                Type collectionType = new TypeToken<List<DeploymentData>>() { }.getType();
+        Path path = Paths.get(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8));
+        try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+            Type collectionType = new TypeToken<List<DeploymentData>>() {
+            }.getType();
 
-                Gson gson = new Gson();
-                List<DeploymentData> deploymentData = gson.fromJson(br, collectionType);
+            Gson gson = new Gson();
+            List<DeploymentData> deploymentData = gson.fromJson(br, collectionType);
 
-                log.info("load flotilla deployment for side {}, deployment size: {}", side, deploymentData.size());
+            log.info("load flotilla deployment for side {}, deployment size: {}", side, deploymentData.size());
 
-                return deploymentData;
-            } catch (Exception ex) {                                                                                    // Catch any Gson errors.
-                log.error("Unable to load flotilla deployment '{}' for side: {}. {}", new Object[]{url.getPath(), side, ex});
-                return null;
-            }
-        } catch (UnsupportedEncodingException ex) {
+            return deploymentData;
+        } catch (Exception ex) {                                                                                    // Catch any Gson errors.
             log.error("Unable to load flotilla deployment '{}' for side: {}. {}", new Object[]{url.getPath(), side, ex});
             return null;
         }
+
     }
 }

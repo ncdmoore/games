@@ -3,7 +3,7 @@ package engima.waratsea.model.motorTorpedoBoat;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.motorTorpedoBoat.data.MotorTorpedoBoatData;
 import engima.waratsea.model.ship.Ship;
@@ -14,7 +14,6 @@ import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -34,7 +33,7 @@ public class MotorTorpedoBoatDAO {
     //Each side has a map of ship class names to ship's data. This acts as a cash for data read in from JSON files.
     private Map<Side, Map<String, MotorTorpedoBoatData>> boatDataMap = new HashMap<>();
 
-    private Config config;
+    private Resource config;
     private ShipRegistry registry;
     private MotorTorpedoBoatFactory boatFactory;
 
@@ -46,7 +45,7 @@ public class MotorTorpedoBoatDAO {
      * @param boatFactory A factory for creating motor torpedo boats.
      */
     @Inject
-    public MotorTorpedoBoatDAO(final Config config,
+    public MotorTorpedoBoatDAO(final Resource config,
                                final ShipRegistry registry,
                                final MotorTorpedoBoatFactory boatFactory) {
 
@@ -178,20 +177,15 @@ public class MotorTorpedoBoatDAO {
         String shipName = shipId.getName();
         Side side = shipId.getSide();
 
-        try {
-            Path path = Paths.get(URLDecoder.decode(url.getPath(), "UTF-8"));
-            try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+        Path path = Paths.get(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8));
+        try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 
-                log.debug("load sub class '{}' for boat '{}' and side '{}'", new Object[]{url.getPath(), shipName, side});
+            log.debug("load sub class '{}' for boat '{}' and side '{}'", new Object[]{url.getPath(), shipName, side});
 
-                Gson gson = new Gson();
-                return gson.fromJson(br, MotorTorpedoBoatData.class);
+            Gson gson = new Gson();
+            return gson.fromJson(br, MotorTorpedoBoatData.class);
 
-            } catch (Exception ex) {                                                                                        // Catch any Gson errors.
-                log.error("Unable to load sub class '{}' for boat '{}' and side: '{}'. {}", new Object[]{url.getPath(), shipName, side, ex});
-                return null;
-            }
-        } catch (UnsupportedEncodingException ex) {
+        } catch (Exception ex) {                                                                                        // Catch any Gson errors.
             log.error("Unable to load sub class '{}' for boat '{}' and side: '{}'. {}", new Object[]{url.getPath(), shipName, side, ex});
             return null;
         }

@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.AppProps;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Singleton
 public class ScenarioDAO {
-    private Config config;
+    private Resource config;
     private AppProps props;
 
     /**
@@ -39,7 +39,7 @@ public class ScenarioDAO {
      * @param props Application properties.
      */
     @Inject
-    public ScenarioDAO(final Config config,
+    public ScenarioDAO(final Resource config,
                        final AppProps props) {
         this.config = config;
         this.props = props;

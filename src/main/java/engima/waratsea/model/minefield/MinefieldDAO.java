@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.minefield.data.MinefieldData;
 import engima.waratsea.model.minefield.zone.MinefieldZone;
@@ -16,7 +16,6 @@ import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -39,7 +38,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Singleton
 public class MinefieldDAO {
-    private Config config;
+    private Resource config;
     private MinefieldZoneFactory zoneFactory;
     private MinefieldFactory minefieldFactory;
 
@@ -51,7 +50,7 @@ public class MinefieldDAO {
      * @param minefieldFactory The minefield zoneFactory.
      */
     @Inject
-    public MinefieldDAO(final Config config,
+    public MinefieldDAO(final Resource config,
                         final MinefieldZoneFactory zoneFactory,
                         final MinefieldFactory minefieldFactory) {
         this.config = config;
@@ -169,24 +168,20 @@ public class MinefieldDAO {
      * @return The data read from the JSON file.
      */
     private List<MinefieldData> readMinefield(final URL url, final Side side) {
-        try {
-            Path path = Paths.get(URLDecoder.decode(url.getPath(), "UTF-8"));
-            try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-                Type collectionType = new TypeToken<List<MinefieldData>>() { }.getType();
+        Path path = Paths.get(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8));
+        try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+            Type collectionType = new TypeToken<List<MinefieldData>>() {
+            }.getType();
 
-                Gson gson = new Gson();
-                List<MinefieldData> minefieldData = gson.fromJson(br, collectionType);
+            Gson gson = new Gson();
+            List<MinefieldData> minefieldData = gson.fromJson(br, collectionType);
 
-                log.debug("load minefields for side {}", side);
+            log.debug("load minefields for side {}", side);
 
-                minefieldData.forEach(data -> data.setSide(side));
+            minefieldData.forEach(data -> data.setSide(side));
 
-                return minefieldData;
-            } catch (Exception ex) {                                                                                    // Catch any Gson errors.
-                log.error("Unable to load minefields '{}' for side: {}. {}", new Object[]{url.getPath(), side, ex});
-                return null;
-            }
-        } catch (UnsupportedEncodingException ex) {
+            return minefieldData;
+        } catch (Exception ex) {                                                                                    // Catch any Gson errors.
             log.error("Unable to load minefields '{}' for side: {}. {}", new Object[]{url.getPath(), side, ex});
             return null;
         }
@@ -202,21 +197,16 @@ public class MinefieldDAO {
     private MinefieldZoneData readZone(final URL url, final MinefieldZoneId minefieldId) {
         String portName = minefieldId.getName();
         Side side = minefieldId.getSide();
-        try {
-            Path path = Paths.get(URLDecoder.decode(url.getPath(), "UTF-8"));
-            try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+        Path path = Paths.get(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8));
+        try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 
-                Gson gson = new Gson();
-                MinefieldZoneData minefieldData = gson.fromJson(br, MinefieldZoneData.class);
+            Gson gson = new Gson();
+            MinefieldZoneData minefieldData = gson.fromJson(br, MinefieldZoneData.class);
 
-                log.debug("load minefield zone {} for side {}", portName, side);
+            log.debug("load minefield zone {} for side {}", portName, side);
 
-                return minefieldData;
-            } catch (Exception ex) {                                                                                    // Catch any Gson errors.
-                log.error("Unable to load minefield zone {} for side: {}. {}", new Object[]{url.getPath(), side, ex});
-                return null;
-            }
-        } catch (UnsupportedEncodingException ex) {
+            return minefieldData;
+        } catch (Exception ex) {                                                                                    // Catch any Gson errors.
             log.error("Unable to load minefield zone {} for side: {}. {}", new Object[]{url.getPath(), side, ex});
             return null;
         }

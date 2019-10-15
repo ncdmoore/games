@@ -2,7 +2,7 @@ package enigma.waratsea.model.victory;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.GameType;
@@ -26,14 +26,14 @@ import static java.util.stream.Collectors.toList;
 
 public class VictoryLoaderTest {
     private static VictoryDAO victoryDAO;
-    private static Config config;
+    private static Resource config;
 
     @BeforeClass
     public static void setup() throws Exception {
         Injector injector = Guice.createInjector(new TestModule());
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
-        config = injector.getInstance(Config.class);
+        config = injector.getInstance(Resource.class);
         victoryDAO = injector.getInstance(VictoryDAO.class);
 
         gameTitle.setName(GameName.BOMB_ALLEY);

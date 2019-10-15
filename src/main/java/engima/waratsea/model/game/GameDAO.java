@@ -28,7 +28,7 @@ import java.util.stream.Stream;
  */
 @Slf4j
 public class GameDAO {
-    private Config config;
+    private Resource config;
 
     /**
      * The constructor. Called by guice.
@@ -36,7 +36,7 @@ public class GameDAO {
      * @param config The game's config.
      */
     @Inject
-    public GameDAO(final Config config) {
+    public GameDAO(final Resource config) {
         this.config = config;
     }
 

@@ -2,7 +2,7 @@ package enigma.waratsea.model.taskForce;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.GameType;
@@ -21,7 +21,7 @@ import java.util.List;
 
 public class TaskForceLoaderTest {
     private static TaskForceDAO taskForceDAO;
-    private static Config config;
+    private static Resource config;
     private static GameMap gameMap;
 
     @BeforeClass
@@ -29,7 +29,7 @@ public class TaskForceLoaderTest {
         Injector injector = Guice.createInjector(new TestModule());
 
         GameTitle gameTitle = injector.getInstance(GameTitle.class);
-        config = injector.getInstance(Config.class);
+        config = injector.getInstance(Resource.class);
         gameMap = injector.getInstance(GameMap.class);
         taskForceDAO = injector.getInstance(TaskForceDAO.class);
 

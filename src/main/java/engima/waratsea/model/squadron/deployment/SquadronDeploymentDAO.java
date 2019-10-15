@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.game.Config;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Singleton
 public class SquadronDeploymentDAO {
-    private Config config;
+    private Resource config;
     private SquadronProps props;
     private SquadronDeploymentFactory deploymentFactory;
 
@@ -43,7 +43,7 @@ public class SquadronDeploymentDAO {
      * @param deploymentFactory a deployment factory.
      */
     @Inject
-    public SquadronDeploymentDAO(final Config config,
+    public SquadronDeploymentDAO(final Resource config,
                                  final SquadronProps props,
                                  final SquadronDeploymentFactory deploymentFactory) {
         this.config = config;
