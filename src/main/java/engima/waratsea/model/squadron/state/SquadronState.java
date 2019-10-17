@@ -16,7 +16,7 @@ public enum SquadronState {
          * @param action The squadron action or event that occurred.
          * @return The new squadron state.
          */
-        public SquadronState transistion(final SquadronAction action) {
+        public SquadronState transition(final SquadronAction action) {
             return readyMap.getOrDefault(action, READY);
         }
     },
@@ -28,7 +28,7 @@ public enum SquadronState {
          * @param action The squadron action or event that occurred.
          * @return The new squadron state.
          */
-        public SquadronState transistion(final SquadronAction action) {
+        public SquadronState transition(final SquadronAction action) {
             return queuedForPatrolMap.getOrDefault(action, QUEUED_FOR_PATROL);
         }
     },
@@ -40,7 +40,7 @@ public enum SquadronState {
          * @param action The squadron action or event that occurred.
          * @return The new squadron state.
          */
-        public SquadronState transistion(final SquadronAction action) {
+        public SquadronState transition(final SquadronAction action) {
             return queuedForMissionMap.getOrDefault(action, QUEUED_FOR_PATROL);
         }
     },
@@ -52,7 +52,7 @@ public enum SquadronState {
          * @param action The squadron action or event that occurred.
          * @return The new squadron state.
          */
-        public SquadronState transistion(final SquadronAction action) {
+        public SquadronState transition(final SquadronAction action) {
             return onPatrolMap.getOrDefault(action, ON_PATROL);
         }
     },
@@ -64,7 +64,7 @@ public enum SquadronState {
          * @param action The squadron action or event that occurred.
          * @return The new squadron state.
          */
-        public SquadronState transistion(final SquadronAction action) {
+        public SquadronState transition(final SquadronAction action) {
             return onMissonMap.getOrDefault(action, ON_MISSION);
         }
     },
@@ -76,7 +76,7 @@ public enum SquadronState {
          * @param action The squadron action or event that occurred.
          * @return The new squadron state.
          */
-        public SquadronState transistion(final SquadronAction action) {
+        public SquadronState transition(final SquadronAction action) {
             return inHangerMap.getOrDefault(action, HANGER);
         }
     };
@@ -113,5 +113,5 @@ public enum SquadronState {
      * @param action The squadron action or event that occurred.
      * @return The new squadron state.
      */
-    public abstract SquadronState transistion(SquadronAction action);
+    public abstract SquadronState transition(SquadronAction action);
 }
