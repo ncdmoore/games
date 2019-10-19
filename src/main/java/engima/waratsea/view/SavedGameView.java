@@ -126,7 +126,7 @@ public class SavedGameView {
      */
     private void setScenarioDetails(final Scenario scenario) {
         turnValue.setText(Integer.toString(scenario.getMaxTurns()));
-        dateValue.setText(scenario.getDate());
+        dateValue.setText(scenario.getDateString());
         descriptionValue.setText(scenario.getDescription());
     }
 

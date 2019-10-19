@@ -74,7 +74,7 @@ public class CapPatrol implements Patrol {
     @Override
     public void addSquadron(final Squadron squadron) {
         squadrons.add(squadron);
-        SquadronState state = squadron.getSquadronState().transistion(SquadronAction.ASSIGN_TO_PATROL);
+        SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_PATROL);
         squadron.setSquadronState(state);
     }
 
@@ -86,7 +86,7 @@ public class CapPatrol implements Patrol {
     @Override
     public void removeSquadron(final Squadron squadron) {
         squadrons.remove(squadron);
-        SquadronState state = squadron.getSquadronState().transistion(SquadronAction.REMOVE_FROM_PATROL);
+        SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_PATROL);
         squadron.setSquadronState(state);
     }
 

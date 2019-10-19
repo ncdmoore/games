@@ -11,6 +11,7 @@ import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.scenario.ScenarioDAO;
 import engima.waratsea.model.victory.VictoryException;
+import engima.waratsea.model.weather.Weather;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +31,7 @@ public class Game implements PersistentData<GameData> {
     @Getter
     private Player humanPlayer;
 
-    private Resource config;
+    private Resource resource;
     private ScenarioDAO scenarioDAO;
     private GameDAO gameDAO;
     private GameMap gameMap;
@@ -41,29 +42,59 @@ public class Game implements PersistentData<GameData> {
     @Getter
     private Scenario scenario; // The selected scenario.
 
+    @Getter
+    private Weather weather;
+
+    @Getter
+    private Turn turn;
+
+
     /**
      * Constructor called by guice.
      *
+     * @param turn The game turn.
+     * @param weather The game weather.
      * @param computerPlayer The computer player.
      * @param humanPlayer The human player.
-     * @param config The game configuration.
+     * @param resource The game configuration.
      * @param scenarioDAO  The scenario data abstraction object.
      * @param gameDAO The game data abstraction object.
      * @param gameMap The game map.
      */
+    //CHECKSTYLE:OFF
     @Inject
-    public Game(final @Named("Computer") Player computerPlayer,
+    public Game(final Turn turn,
+                final Weather weather,
+                final @Named("Computer") Player computerPlayer,
                 final @Named("Human") Player humanPlayer,
-                final Resource config,
+                final Resource resource,
                 final ScenarioDAO scenarioDAO,
                 final GameDAO gameDAO,
                 final GameMap gameMap) {
+        //CHECKSTYLE:ON
+
+        this.turn = turn;
+        this.weather = weather;
         this.computerPlayer = computerPlayer;
         this.humanPlayer = humanPlayer;
-        this.config = config;
+        this.resource = resource;
         this.scenarioDAO = scenarioDAO;
         this.gameDAO = gameDAO;
         this.gameMap = gameMap;
+    }
+
+    /**
+     * Initialize the game from saved game data.
+     *
+     * @param data The persistent game data.
+     */
+    public void init(final GameData data) {
+        resource.setType(GameType.EXISTING);
+        setScenario(data.getScenario());
+        setHumanSide(data.getHumanSide());
+        getTurn().start(data.getTurn());
+        getWeather().setCurrent(data.getWeather());
+        setSavedGameName(data.getSavedGameName());
     }
 
     /**
@@ -75,7 +106,9 @@ public class Game implements PersistentData<GameData> {
         GameData data = new GameData();
         data.setHumanSide(humanSide);
         data.setScenario(scenario);
-        data.setSavedGameName(config.getSavedGameName());
+        data.setTurn(turn.getData());
+        data.setWeather(weather.getCurrent());
+        data.setSavedGameName(resource.getSavedGameName());
         return data;
     }
 
@@ -91,14 +124,7 @@ public class Game implements PersistentData<GameData> {
      * Set the game type as a new game.
      */
     public void setNew() {
-        config.setType(GameType.NEW);
-    }
-
-    /**
-     * Set the game type as an existing game.
-     */
-    public void setExisting() {
-        config.setType(GameType.EXISTING);
+        resource.setType(GameType.NEW);
     }
 
     /**
@@ -128,7 +154,7 @@ public class Game implements PersistentData<GameData> {
      */
     public void setScenario(final Scenario selectedScenario) {                                                          // New Game Step 2.
         scenario = selectedScenario;                                                                                    // Saved Game Step 2.
-        config.setScenario(scenario.getName());
+        resource.setScenario(scenario.getName());
     }
 
     /**
@@ -150,7 +176,7 @@ public class Game implements PersistentData<GameData> {
      * @param savedGameName The saved game name.
      */
     public void setSavedGameName(final String savedGameName) {
-        config.setSavedGameName(savedGameName);
+        resource.setSavedGameName(savedGameName);
     }
 
     /**
@@ -170,6 +196,9 @@ public class Game implements PersistentData<GameData> {
 
         buildAssets();
         deployAssets();
+
+        turn.start(scenario);
+        startWeather();
     }
 
     /**
@@ -202,7 +231,7 @@ public class Game implements PersistentData<GameData> {
      * @param savedGameName The name of the saved game.
      */
     public void save(final String savedGameName) {
-        config.setSavedGameName(savedGameName);
+        resource.setSavedGameName(savedGameName);
         gameDAO.save(this);
         humanPlayer.saveVictory(scenario);
         humanPlayer.saveAssets(scenario);
@@ -214,7 +243,7 @@ public class Game implements PersistentData<GameData> {
      * Save the default game.
      */
     public void save() {
-        config.setSavedGameName(Resource.DEFAULT_SAVED_GAME);
+        resource.setSavedGameName(Resource.DEFAULT_SAVED_GAME);
         gameDAO.save(this);
         humanPlayer.saveVictory(scenario);
         humanPlayer.saveAssets(scenario);
@@ -283,5 +312,13 @@ public class Game implements PersistentData<GameData> {
     private void deployAssets() throws ScenarioException {
         humanPlayer.deployAssets(scenario);
         computerPlayer.deployAssets(scenario);
+    }
+
+    /**
+     * Roll for the initial weather.
+     */
+    private void startWeather() {
+        weather.setCurrent(scenario.getWeather());
+        weather.determine();
     }
 }

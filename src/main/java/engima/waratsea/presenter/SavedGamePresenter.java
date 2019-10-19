@@ -3,10 +3,8 @@ package engima.waratsea.presenter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.game.Game;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.data.GameData;
 import engima.waratsea.model.map.MapException;
-import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.presenter.navigation.Navigate;
@@ -90,19 +88,8 @@ public class SavedGamePresenter implements Presenter {
      * Call back for the new game button.
      */
     private void continueButton() {
-
-        // get the selected scenario, side and saved game name from the game data.
-        Scenario selectedScenario = selectedSavedGame.getScenario();
-        Side side = selectedSavedGame.getHumanSide();
-        String savedGameName = selectedSavedGame.getSavedGameName();
-
-        game.setExisting();
-        game.setScenario(selectedScenario);
-        game.setHumanSide(side);
-        game.setSavedGameName(savedGameName);
-
+        game.init(selectedSavedGame);
         startGame();
-
         navigate.goNext(this.getClass(), stage);
     }
 

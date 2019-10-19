@@ -1,5 +1,6 @@
 package engima.waratsea.model.scenario;
 
+import engima.waratsea.model.game.TurnIndex;
 import engima.waratsea.model.squadron.deployment.SquadronDeploymentType;
 import engima.waratsea.model.weather.WeatherType;
 import lombok.Getter;
@@ -49,6 +50,10 @@ public class Scenario implements Comparable<Scenario> {
 
     @Getter
     @Setter
+    private TurnIndex turnIndex;
+
+    @Getter
+    @Setter
     private String map;
 
     @Getter
@@ -75,13 +80,22 @@ public class Scenario implements Comparable<Scenario> {
     }
 
     /**
+     * Get the scenario start date as a string.
+     *
+     * @return The scenario start date as a string.
+     */
+    public String getDateString() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
+        return simpleDateFormat.format(date);
+    }
+
+    /**
      * Get the scenario start date.
      *
      * @return The scenario start date.
      */
-    public String getDate() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
-        return simpleDateFormat.format(date);
+    public Date getDate() {
+        return new Date(date.getTime());
     }
 
     /**
