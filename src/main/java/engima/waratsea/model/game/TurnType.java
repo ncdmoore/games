@@ -71,4 +71,14 @@ public enum TurnType {
      */
     public abstract TurnType getTrue(Rules rules, int month);
 
+    /**
+     * Get the String representation of this enum.
+     *
+     * @return The String representation of this enum.
+     */
+    @Override
+    public String toString() {
+        return value;
+    }
+
 }

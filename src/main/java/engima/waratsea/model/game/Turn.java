@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.data.TurnData;
 import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.model.weather.Weather;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,25 +36,33 @@ public class Turn {
     @Getter
     private TurnType type;
 
+    @Getter
     private TurnIndex index;     //Used to determine the type of turn.
+
     private Date date;
 
     // A day consists of 3 day turns, 1 twilight turn and 2 night turns.
     private static final List<TurnType> DAY_TURNS = new ArrayList<>(Arrays.asList(DAY, DAY, DAY, TWILIGHT, NIGHT, NIGHT));
 
+    private Weather weather;
+
     /**
      * Constructor called by guice.
      *
      * @param rules The game rules.
+     * @param weather The game weather.
      */
     @Inject
-    public Turn(final Rules rules) {
+    public Turn(final Rules rules,
+                final Weather weather) {
         this.rules = rules;
 
         this.turn = 1;
         this.index = DAY_1;
 
         this.type = DAY_TURNS.get(index.getValue());
+
+        this.weather = weather;
     }
 
     /**
@@ -61,7 +70,7 @@ public class Turn {
      *
      * @param data The persistent turn data.
      */
-    public void start(final TurnData data) {
+    public void init(final TurnData data) {
         turn = data.getTurn();
         index = data.getIndex();
         date = data.getDate();
@@ -108,6 +117,8 @@ public class Turn {
         String dateString = simpleDateFormat.format(date);
 
         log.info("Starting Date: '{}', Turn:  {}, Type: {}", new Object[]{dateString, turn, type});
+
+        startWeather(scenario);
     }
 
     /**
@@ -122,6 +133,8 @@ public class Turn {
         }
 
         type = DAY_TURNS.get(index.getValue());
+
+        weather.determine(getMonth());
     }
 
     /**
@@ -141,7 +154,7 @@ public class Turn {
      *
      * @return The game's current month 1-12.
      */
-    public int getMonth() {
+    private int getMonth() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.get(Calendar.MONTH);
@@ -157,5 +170,15 @@ public class Turn {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             return calendar.getTime();
         }).orElse(null);
+    }
+
+    /**
+     * Roll for the initial weather.
+     *
+     * @param scenario The selected game scenario.
+     */
+    private void startWeather(final Scenario scenario) {
+        weather.setCurrent(scenario.getWeather());
+        weather.determine(getMonth());
     }
 }

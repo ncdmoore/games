@@ -9,14 +9,25 @@ import java.util.List;
  */
 public enum WeatherType {
 
-    CLEAR,
-    CLOUDY,
-    RAIN,
-    SQUALL,
-    STORM,
-    GALE;
+    CLEAR("Clear"),
+    CLOUDY("Cloudy"),
+    RAIN("Rain"),
+    SQUALL("Squall"),
+    STORM("Storm"),
+    GALE("Gale");
 
     private static List<WeatherType> values = new ArrayList<>(Arrays.asList(WeatherType.values()));
+
+    private String value;
+
+    /**
+     * The constructor.
+     *
+     * @param value The String representation of this enum.
+     */
+    WeatherType(final String value) {
+        this.value = value;
+    }
 
     /**
      * The weather has worsened.
@@ -55,5 +66,15 @@ public enum WeatherType {
      */
     public WeatherType noChange() {
         return this;
+    }
+
+    /**
+     * Get the String representation of this enum.
+     *
+     * @return The String representation of this enum.
+     */
+    @Override
+    public String toString() {
+        return value;
     }
 }

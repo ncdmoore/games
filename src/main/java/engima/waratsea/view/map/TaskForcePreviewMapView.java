@@ -320,17 +320,23 @@ public class TaskForcePreviewMapView {
      */
     public Node getLegendAirfield(final Nation nation) {
         int gridSize = props.getInt("taskforce.previewMap.gridSize");
+        final int col3 = 3;
 
         GridPane gridPane = new GridPane();
+
+        Node bothKey = AirfieldMarker.getLegendBoth(nation, 0, 0, gridSize);
+        gridPane.add(bothKey, 0, 0);
+        gridPane.add(new Label("Airfield/Port"), 1, 0);
+
+
         Node airfieldKey = AirfieldMarker.getLegendAirfield(nation, 0, 0, gridSize);
-        gridPane.add(airfieldKey, 0, 0);
-        gridPane.add(new Label("Airfield"), 1, 0);
+        gridPane.add(airfieldKey, 2, 0);
+        gridPane.add(new Label("Airfield"), col3, 0);
 
         Node seaplaneKey = AirfieldMarker.getLegendSeaplane(nation, 0, 0, gridSize);
 
-        final int row3 = 3;
-        gridPane.add(seaplaneKey, 2, 0);
-        gridPane.add(new Label("Seaplane"), row3, 0);
+        gridPane.add(seaplaneKey, 2, 1);
+        gridPane.add(new Label("Port"), col3, 1);
 
 
         Node rangeKey = SquadronRangeMarker.getLegend(0, 0, gridSize / 2);

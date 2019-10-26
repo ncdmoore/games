@@ -51,27 +51,49 @@
     -fx-spacing: 10;
 }
 
-
-.british-airfield-marker {
+.british-airfield-both-marker {
+    -fx-stroke: blue;
     -fx-fill: linear-gradient( to right bottom, silver, blue);
 }
 
-.british-seaplane-marker {
+.british-airfield-seaplane-marker {
     -fx-stroke: blue;
     -fx-fill: linear-gradient( to right bottom, white, white);
 }
 
-.german-airfield-marker {
+.british-airfield-land-marker {
+    -fx-stroke: black;
+    -fx-fill: linear-gradient( to right bottom, white, dodgerblue);
+}
+
+.german-airfield-both-marker {
+    -fx-stroke: black;
     -fx-fill: linear-gradient( to right bottom, silver, darkred);
 }
 
-.italian-airfield-marker {
-    -fx-fill: linear-gradient( to right bottom, silver, green);
+.german-airfield-land-marker {
+    -fx-stroke: darkred;
+    -fx-fill: linear-gradient( to right bottom, silver, red);
 }
 
-.italian-seaplane-marker {
+.german-airfield-seaplane-marker {
+    -fx-stroke: darkred;
+    -fx-fill: linear-gradient( to right bottom, white, white);
+}
+
+.italian-airfield-both-marker {
+    -fx-stroke: black;
+    -fx-fill: linear-gradient( to right bottom, silver, darkgreen);
+}
+
+.italian-airfield-seaplane-marker {
     -fx-stroke: green;
     -fx-fill: linear-gradient( to right bottom, white, white);
+}
+
+.italian-airfield-land-marker {
+    -fx-stroke: green;
+    -fx-fill: linear-gradient( to right bottom, white, lightseagreen);
 }
 
 
@@ -133,6 +155,16 @@
     -fx-tile-alignment: top-left;
     -fx-hgap: 4;
     -fx-vgap: 4;
+}
+
+#region-details-vbox {
+    -fx-padding: /* top */ 5 /* right */ 0 /* bottom */ 0 /* left */ 0;
+    -fx-background-color: whitesmoke;
+}
+
+#region-details-grid {
+   -fx-padding: /* top */ 5 /* right */ 0 /* bottom */ 10 /* left */ 10;
+   -fx-hgap: 10;
 }
 
 #airfield-details-vbox {

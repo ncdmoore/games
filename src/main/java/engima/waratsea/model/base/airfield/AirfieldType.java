@@ -4,9 +4,9 @@ package engima.waratsea.model.base.airfield;
 import lombok.Getter;
 
 public enum AirfieldType {
-    LAND("Land", "Airfield"),
-    SEAPLANE("Seaplane", "Seaplane Base"),
-    BOTH("Land-Seaplane", "Airfield");
+    LAND("land", "Airfield"),
+    SEAPLANE("seaplane", "Seaplane Base"),
+    BOTH("both", "Airfield");
 
     private String value;
 

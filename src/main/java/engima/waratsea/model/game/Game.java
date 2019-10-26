@@ -92,7 +92,7 @@ public class Game implements PersistentData<GameData> {
         resource.setType(GameType.EXISTING);
         setScenario(data.getScenario());
         setHumanSide(data.getHumanSide());
-        getTurn().start(data.getTurn());
+        getTurn().init(data.getTurn());
         getWeather().setCurrent(data.getWeather());
         setSavedGameName(data.getSavedGameName());
     }
@@ -198,7 +198,6 @@ public class Game implements PersistentData<GameData> {
         deployAssets();
 
         turn.start(scenario);
-        startWeather();
     }
 
     /**
@@ -312,13 +311,5 @@ public class Game implements PersistentData<GameData> {
     private void deployAssets() throws ScenarioException {
         humanPlayer.deployAssets(scenario);
         computerPlayer.deployAssets(scenario);
-    }
-
-    /**
-     * Roll for the initial weather.
-     */
-    private void startWeather() {
-        weather.setCurrent(scenario.getWeather());
-        weather.determine();
     }
 }

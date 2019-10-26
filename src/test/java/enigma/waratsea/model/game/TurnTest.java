@@ -8,6 +8,7 @@ import engima.waratsea.model.game.Turn;
 import engima.waratsea.model.game.TurnIndex;
 import engima.waratsea.model.game.TurnType;
 import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.model.weather.WeatherType;
 import enigma.waratsea.TestModule;
 import org.junit.Assert;
 import org.junit.Before;
@@ -36,6 +37,7 @@ public class TurnTest {
         Scenario scenario = new Scenario();
         scenario.setDate(new Date());
         scenario.setTurnIndex(TurnIndex.TWILIGHT);
+        scenario.setWeather(WeatherType.CLEAR);
 
         turn.start(scenario);
         Assert.assertSame(TurnType.NIGHT, turn.getTrue(Calendar.DECEMBER));
@@ -48,6 +50,7 @@ public class TurnTest {
         Scenario scenario = new Scenario();
         scenario.setDate(new Date());
         scenario.setTurnIndex(TurnIndex.TWILIGHT);
+        scenario.setWeather(WeatherType.CLEAR);
 
         turn.start(scenario);
         Assert.assertSame(TurnType.DAY, turn.getTrue(Calendar.JUNE));
@@ -59,6 +62,7 @@ public class TurnTest {
         Scenario scenario = new Scenario();
         scenario.setDate(new Date());
         scenario.setTurnIndex(TurnIndex.TWILIGHT);
+        scenario.setWeather(WeatherType.CLEAR);
 
         turn.start(scenario);
         Assert.assertSame(TurnType.NIGHT, turn.getTrue(Calendar.DECEMBER));
@@ -71,6 +75,7 @@ public class TurnTest {
         Scenario scenario = new Scenario();
         scenario.setDate(new Date());
         scenario.setTurnIndex(TurnIndex.TWILIGHT);
+        scenario.setWeather(WeatherType.CLEAR);
 
         turn.start(scenario);
         Assert.assertSame(TurnType.NIGHT, turn.getTrue(Calendar.JUNE));
@@ -84,6 +89,7 @@ public class TurnTest {
         Scenario scenario = new Scenario();
         scenario.setDate(date);
         scenario.setTurnIndex(TurnIndex.DAY_1);
+        scenario.setWeather(WeatherType.CLEAR);
 
         turn.start(scenario);
 

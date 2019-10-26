@@ -2,7 +2,6 @@ package engima.waratsea.view.map.marker.preview;
 
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.airfield.Airfield;
-import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.view.map.GridView;
@@ -67,9 +66,7 @@ public class AirfieldMarker {
 
         triangle.setViewOrder(ViewOrder.MARKER.getValue());
 
-        String style = ((Airfield) airfield).getAirfieldType() == AirfieldType.SEAPLANE
-                 ? convertNationName() + "-seaplane-marker"
-                 : convertNationName() + "-airfield-marker";
+        String style = convertNationName(nation) + "-airfield-" + ((Airfield) airfield).getAirfieldType() + "-marker";
 
         triangle.getStyleClass().add(style);
 
@@ -131,7 +128,7 @@ public class AirfieldMarker {
                 x + size, y + size,
                 x + size / 2, y);
 
-        String style = nation.toString().toLowerCase().replace(" ", "-") + "-airfield-marker";
+        String style = convertNationName(nation) + "-airfield-land-marker";
 
         triangle.getStyleClass().add(style);
         return triangle;
@@ -151,18 +148,42 @@ public class AirfieldMarker {
                 x + size, y + size,
                 x + size / 2, y);
 
-        String style = nation.toString().toLowerCase().replace(" ", "-") + "-seaplane-marker";
+        String style = convertNationName(nation) + "-airfield-seaplane-marker";
 
         triangle.getStyleClass().add(style);
         return triangle;
     }
 
     /**
+     * Get the map legend key for airfield's that support land and seaplanes.
+     * This is just a land and seaplane marker that is used in the map legend.
+     *
+     * @param nation The nation.
+     * @param x The marker's x coordinate.
+     * @param y The marker's y coordinate.
+     * @param size The size of the marker.
+     * @return The seaplane marker legend key.
+     */
+    public static Node getLegendBoth(final Nation nation, final double x, final double y, final double size) {
+        Polygon triangle = new Polygon(x, y + size,
+                x + size, y + size,
+                x + size / 2, y);
+
+        String style = convertNationName(nation) + "-airfield-both-marker";
+
+        triangle.getStyleClass().add(style);
+        return triangle;
+    }
+
+
+
+    /**
      * Convert the nation name to a CSS style name.
      *
+     * @param country The nation: BRITISH, ITALLIAN, etc ...
      * @return The CSS style version of the nation's name.
      */
-    private String convertNationName() {
-        return nation.toString().toLowerCase().replace(" ", "-");
+    private static String convertNationName(final Nation country) {
+        return country.toString().toLowerCase().replace(" ", "-");
     }
 }

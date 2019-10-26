@@ -18,3 +18,16 @@
 #map-base-grid-marker {
     -fx-opacity: 1.0;
 }
+
+#weather-pane {
+    -fx-background-color: whitesmoke;
+    -fx-alignment: top-center;
+}
+
+#turn-pane {
+    -fx-background-color: whitesmoke;
+}
+
+#turn-image-pane {
+    -fx-alignment: top-right;
+}

@@ -103,7 +103,6 @@ public class SquadronView {
     private Map<Nation, Label> regionMinimumValue = new HashMap<>();
     private Map<Nation, Label> regionMaximumValue = new HashMap<>();
     private Map<Nation, Label> airfieldMaximumValue = new HashMap<>();
-    private Map<Nation, Label> airfieldLandingTypeValue = new HashMap<>();
 
     @Getter
     private Map<Nation, Label> airfieldCurrentValue = new HashMap<>();
@@ -237,7 +236,6 @@ public class SquadronView {
     public void setSelectedAirfield(final Nation nation, final Airfield airfield) {
         String name = airfield.getName();
         taskForceMap.selectAirfieldMarker(name);
-        airfieldLandingTypeValue.get(nation).setText(airfield.getAirfieldType().toString());
         airfieldMaximumValue.get(nation).setText(airfield.getMaxCapacity() + "");
         airfieldCurrentValue.get(nation).setText(airfield.getCurrentSteps() + "");
 
@@ -316,18 +314,14 @@ public class SquadronView {
     }
 
     /**
-     * Build the task force state and mission details.
+     * Build the region details.
      *
      * @param nation The nation BRITISH, ITALIAN, etc ...
-     * @return A node containing the task foce state and mission details.
+     * @return A node containing the region details.
      */
-    private TitledPane buildAirfieldDetails(final Nation nation) {
-
+    private Node buildRegionDetails(final Nation nation) {
         Text regionMinimumLabel = new Text("Region Minimum:");
         Text regionMaximumLabel = new Text("Region Maximum:");
-        Text airfieldTypeLabel = new Text("Airfield Type:");
-        Text airfieldMaximumLabel = new Text("Airfield Maximum:");
-        Text airfieldCurrentLabel = new Text("Airfield Current:");
 
         Label regionMaximum = new Label();
         regionMaximumValue.put(nation, regionMaximum);
@@ -335,8 +329,31 @@ public class SquadronView {
         Label regionMinimum = new Label();
         regionMinimumValue.put(nation, regionMinimum);
 
-        Label airfieldType = new Label();
-        airfieldLandingTypeValue.put(nation, airfieldType);
+        GridPane gridPane = new GridPane();
+        gridPane.setId("region-details-grid");
+
+        gridPane.add(regionMinimumLabel, 0, 0);
+        gridPane.add(regionMinimum, 1, 0);
+        gridPane.add(regionMaximumLabel, 0, 1);
+        gridPane.add(regionMaximum, 1, 1);
+
+        VBox vBox = new VBox(gridPane);
+        vBox.setId("region-details-vbox");
+
+        return vBox;
+    }
+
+
+    /**
+     * Build the task force state and mission details.
+     *
+     * @param nation The nation BRITISH, ITALIAN, etc ...
+     * @return A node containing the airfield details.
+     */
+    private TitledPane buildAirfieldDetails(final Nation nation) {
+
+        Text airfieldMaximumLabel = new Text("Airfield Maximum:");
+        Text airfieldCurrentLabel = new Text("Airfield Current:");
 
         Label airfieldMaximum = new Label();
         airfieldMaximumValue.put(nation, airfieldMaximum);
@@ -344,20 +361,13 @@ public class SquadronView {
         Label airfieldCurrent = new Label();
         airfieldCurrentValue.put(nation, airfieldCurrent);
 
-        final int row3 = 3;
-        final int row4 = 4;
         GridPane gridPane = new GridPane();
         gridPane.setId("airfield-details-grid");
-        gridPane.add(regionMinimumLabel, 0, 0);
-        gridPane.add(regionMinimum, 1, 0);
-        gridPane.add(regionMaximumLabel, 0, 1);
-        gridPane.add(regionMaximum, 1, 1);
-        gridPane.add(airfieldTypeLabel, 0, 2);
-        gridPane.add(airfieldType, 1, 2);
-        gridPane.add(airfieldMaximumLabel, 0, row3);
-        gridPane.add(airfieldMaximum, 1, row3);
-        gridPane.add(airfieldCurrentLabel, 0, row4);
-        gridPane.add(airfieldCurrent, 1, row4);
+
+        gridPane.add(airfieldMaximumLabel, 0, 0);
+        gridPane.add(airfieldMaximum, 1, 0);
+        gridPane.add(airfieldCurrentLabel, 0, 1);
+        gridPane.add(airfieldCurrent, 1, 1);
 
         VBox vBox = new VBox(gridPane);
         vBox.setId("airfield-details-vbox");
@@ -467,7 +477,10 @@ public class SquadronView {
         regionChoiceBox.getItems().addAll(gameMap.getNationRegions(side, nation));
         regionChoiceBox.setMinWidth(props.getInt("squadron.tabPane.width"));
         regionChoiceBox.setMaxWidth(props.getInt("squadron.tabPane.width"));
-        VBox regionVBox = new VBox(regionLabel, regionChoiceBox);
+
+        Node regionDetails = buildRegionDetails(nation);
+
+        VBox regionVBox = new VBox(regionLabel, regionChoiceBox, regionDetails);
 
         regions.put(nation, regionChoiceBox);
 

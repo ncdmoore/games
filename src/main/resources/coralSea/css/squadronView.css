@@ -52,29 +52,32 @@
 }
 
 
-.united-states-airfield-marker {
+.united-states-airfield-both-marker {
+    -fx-stroke: navy;
     -fx-fill: linear-gradient( to right bottom, silver, navy);
 }
 
-.united-states-seaplane-marker {
+.united-states-airfield-seaplane-marker {
     -fx-stroke: navy;
     -fx-fill: linear-gradient( to right bottom, white, white);
 }
 
-.australian-airfield-marker {
+.australian-airfield-both-marker {
+    -fx-stroke: blue;
     -fx-fill: linear-gradient( to right bottom, silver, blue);
 }
 
-.australian-seaplane-marker {
+.australian-airfield-seaplane-marker {
     -fx-stroke: blue;
     -fx-fill: linear-gradient( to right bottom, white, white);
 }
 
-.japanese-airfield-marker {
+.japanese-airfield-both-marker {
+    -fx-stroke: red;
     -fx-fill: linear-gradient( to right bottom, silver, red);
 }
 
-.japanese-seaplane-marker {
+.japanese-airfield-seaplane-marker {
     -fx-stroke: red;
     -fx-fill: linear-gradient( to right bottom, white, white);
 }
