@@ -29,7 +29,9 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -67,7 +69,7 @@ public class SquadronView {
     private Map<Nation, ChoiceBox<Airfield>> airfields = new HashMap<>();
 
     @Getter
-    private TableView<Deployment> deploymentStats = new TableView<>();
+    private Map<Nation, TableView<Deployment>> deploymentStats = new HashMap<>();
 
     @Getter
     private ListView<Squadron> availableSquadrons = new ListView<>();
@@ -103,12 +105,15 @@ public class SquadronView {
     private Map<Nation, Label> regionMinimumValue = new HashMap<>();
     private Map<Nation, Label> regionMaximumValue = new HashMap<>();
     private Map<Nation, Label> airfieldMaximumValue = new HashMap<>();
+    private Map<Nation, Map<String, ImageView>> regionDeployedValue = new HashMap<>();
 
     @Getter
     private Map<Nation, Label> airfieldCurrentValue = new HashMap<>();
 
     @Getter
     private Map<Nation, Map<AircraftBaseType, Label>> airfieldSteps = new HashMap<>();
+
+    private Map<Boolean, Image> imageMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -142,15 +147,23 @@ public class SquadronView {
         flags.put(Nation.UNITED_STATES, "alliesFlag50x34.png");
         flags.put(Nation.JAPANESE, "axisFlag50x34.png");
         flags.put(Nation.AUSTRALIAN, "australian50x34.png");
+
+        Image redX = imageResourceProvider.getImage("red-x18x18.png");
+        Image greenCheck = imageResourceProvider.getImage("greenCheck18x18.png");
+
+        imageMap.put(true, greenCheck);
+        imageMap.put(false, redX);
     }
 
     /**
      * Bind the deployment stats table to the deployment stats.
      *
+     * @param nation The nation BRITISH, ITALIAN, etc ...
      * @param deployment A list of deployment stats per aircraft landing type.
      */
-    public void bindDeploymentStats(final List<Deployment> deployment) {
-        deploymentStats.setItems(FXCollections.observableArrayList(deployment));
+    public void bindDeploymentStats(final Nation nation, final List<Deployment> deployment) {
+        deploymentStats.put(nation, new TableView<>());
+        deploymentStats.get(nation).setItems(FXCollections.observableArrayList(deployment));
     }
 
     /**
@@ -172,12 +185,15 @@ public class SquadronView {
 
         Node map = taskForceMap.draw();
 
-        HBox mapPane = new HBox(nationTabPane, map);
-        mapPane.setId("map-pane");
 
         Node squadronsPane = buildSquadronsPane();
 
-        VBox vBox = new VBox(titlePane, objectivesPane, mapPane, squadronsPane, pushButtons);
+        VBox rightVBox = new VBox(map, squadronsPane);
+
+        HBox mainPain = new HBox(nationTabPane, rightVBox);
+        mainPain.setId("map-pane");
+
+        VBox vBox = new VBox(titlePane, objectivesPane, mainPain, pushButtons);
 
         int sceneWidth = props.getInt("taskForce.scene.width");
         int sceneHeight = props.getInt("taskForce.scene.height");
@@ -270,6 +286,20 @@ public class SquadronView {
     public void removeAirfield(final Airfield airfield) {
         String name = airfield.getName();
         taskForceMap.removeAirfieldMarker(name);
+    }
+
+    /**
+     * Update the region's currently deployed steps.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc ...
+     */
+    public void updateRegion(final Nation nation) {
+        gameMap.getNationRegions(game.getHumanSide(), nation).forEach(region -> {
+            if (regionDeployedValue.get(nation).containsKey(region.getName())) {
+                ImageView imageView = regionDeployedValue.get(nation).get(region.getName());
+                imageView.setImage(imageMap.get(region.minimumSatisfied()));
+            }
+        });
     }
 
     /**
@@ -435,6 +465,7 @@ public class SquadronView {
 
         titledPane.setMaxWidth(props.getInt("taskForce.details.width"));
         titledPane.setMinWidth(props.getInt("taskForce.details.width"));
+        titledPane.setId("map-legend-pane");
 
         return titledPane;
     }
@@ -499,8 +530,9 @@ public class SquadronView {
         accordion.getPanes().addAll(airfieldDetails, squadronSummary);
         accordion.setExpandedPane(airfieldDetails);
 
-        VBox vBox = new VBox(regionVBox, airfieldVBox, accordion, buildLegend(nation));
+        VBox vBox = new VBox(regionVBox, airfieldVBox, accordion, buildLegend(nation), buildDeployment(nation),  buildRegionDeployment(nation));
         vBox.setId("squadron-vbox");
+        vBox.setMinHeight(props.getInt("squadron.left.vbox.length"));
 
         tab.setContent(vBox);
 
@@ -513,9 +545,10 @@ public class SquadronView {
     /**
      * Build the deployment summary deploymentStats.
      *
+     * @param nation The nation: BRITISH, ITALIAN, etc ...
      * @return The deployment summary deploymentStats.
      */
-    private Node buildDeployment() {
+    private Node buildDeployment(final Nation nation) {
         Label label = new Label("Squadron Step Summary:");
 
         TableColumn<Deployment, String> typeColumn = new TableColumn<>("Type");
@@ -527,22 +560,73 @@ public class SquadronView {
         TableColumn<Deployment, String> deployedColumn = new TableColumn<>("Deployed\nSteps");
         deployedColumn.setCellValueFactory(new PropertyValueFactory<>("deployedSteps"));
 
-        deploymentStats.getColumns().add(typeColumn);
-        deploymentStats.getColumns().add(totalColumn);
-        deploymentStats.getColumns().add(deployedColumn);
-        deploymentStats.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);   // Needed to keep extra space from being seen after the last column.
-        deploymentStats.setFixedCellSize(props.getInt("squadron.summary.table.cell.size"));
-        deploymentStats.prefHeightProperty()
-                .bind(Bindings.size(deploymentStats.getItems())
-                        .multiply(deploymentStats.getFixedCellSize())
+        TableView<Deployment> stats = deploymentStats.get(nation);
+
+        stats.getColumns().add(typeColumn);
+        stats.getColumns().add(totalColumn);
+        stats.getColumns().add(deployedColumn);
+        stats.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);   // Needed to keep extra space from being seen after the last column.
+        stats.setFixedCellSize(props.getInt("squadron.summary.table.cell.size"));
+        stats.prefHeightProperty()
+                .bind(Bindings.size(stats.getItems())
+                        .multiply(stats.getFixedCellSize())
                         .add(props.getInt("squadron.summary.table.cell.header.size")));
-        deploymentStats.minHeightProperty().bind(deploymentStats.prefHeightProperty());
-        deploymentStats.maxHeightProperty().bind(deploymentStats.prefHeightProperty());
+        stats.minHeightProperty().bind(stats.prefHeightProperty());
+        stats.maxHeightProperty().bind(stats.prefHeightProperty());
 
-        deploymentStats.setMinWidth(props.getInt("squadron.summary.width"));
-        deploymentStats.setMaxWidth(props.getInt("squadron.summary.width"));
+        stats.setMinWidth(props.getInt("squadron.summary.width"));
+        stats.setMaxWidth(props.getInt("squadron.summary.width"));
 
-        return new VBox(label, deploymentStats);
+        return new VBox(label, stats);
+    }
+
+
+    /**
+     * Build the region deployment.
+     *
+     * @param nation The nation BRITISH, ITALIAN, etc ...
+     * @return The node containing the region deployment.
+     */
+    private Node buildRegionDeployment(final Nation nation) {
+        List<Region> regionsWithMinimum = gameMap
+                .getNationRegions(game.getHumanSide(), nation)
+                .stream()
+                .filter(Region::hasMinimumRequirement)
+                .collect(Collectors.toList());
+
+        Map<String, ImageView> deployedMap = new HashMap<>();
+
+        regionDeployedValue.put(nation, deployedMap);
+
+        VBox vBox = new VBox();
+
+        if (regionsWithMinimum.size() > 0) {
+
+            GridPane gridPane = new GridPane();
+            gridPane.setId("region-status-grid");
+
+            int row = 0;
+            for (Region region : regionsWithMinimum) {
+                Label name = new Label(region.getName() + ":");
+                Image image = imageMap.get(region.minimumSatisfied());
+                ImageView deployed = new ImageView(image);
+                name.setTooltip(new Tooltip("Indicates if region minimum squadron deployment satisfied"));
+
+                gridPane.add(name, 0, row);
+                gridPane.add(deployed, 1, row);
+
+                deployedMap.put(region.getName(), deployed);
+
+                row++;
+            }
+
+            Label label = new Label("Region Mininum Requirements:");
+            VBox grid = new VBox(gridPane);
+            vBox.getChildren().addAll(label, grid);
+            grid.setId("region-status-vbox");
+        }
+
+        return vBox;
     }
 
     /**
@@ -581,7 +665,7 @@ public class SquadronView {
 
         VBox airfieldVBox = new VBox(squadronAirfieldLabel, airfieldSquadrons);
 
-        HBox hBox = new HBox(buildDeployment(), availableVBox, buttonVBox, airfieldVBox);
+        HBox hBox = new HBox(availableVBox, buttonVBox, airfieldVBox);
         hBox.setId("squadron-pane");
 
         return hBox;

@@ -325,19 +325,23 @@ public class TaskForcePreviewMapView {
         GridPane gridPane = new GridPane();
 
         Node bothKey = AirfieldMarker.getLegendBoth(nation, 0, 0, gridSize);
+        Label bothLabel = new Label("Airfield/Port");
         gridPane.add(bothKey, 0, 0);
-        gridPane.add(new Label("Airfield/Port"), 1, 0);
+        gridPane.add(bothLabel, 1, 0);
+        bothLabel.setTooltip(new Tooltip("Can station both land-based and seaplane squadrons"));
 
 
         Node airfieldKey = AirfieldMarker.getLegendAirfield(nation, 0, 0, gridSize);
+        Label airfieldLabel = new Label("Airfield");
         gridPane.add(airfieldKey, 2, 0);
-        gridPane.add(new Label("Airfield"), col3, 0);
+        gridPane.add(airfieldLabel, col3, 0);
+        airfieldLabel.setTooltip(new Tooltip("Can station only land-based squadrons"));
 
         Node seaplaneKey = AirfieldMarker.getLegendSeaplane(nation, 0, 0, gridSize);
-
+        Label seaplaneLabel = new Label("Port");
         gridPane.add(seaplaneKey, 2, 1);
-        gridPane.add(new Label("Port"), col3, 1);
-
+        gridPane.add(seaplaneLabel, col3, 1);
+        seaplaneLabel.setTooltip(new Tooltip("Can station only seaplane squadrons"));
 
         Node rangeKey = SquadronRangeMarker.getLegend(0, 0, gridSize / 2);
         Label rangeLabel = new Label("Combat Radius");

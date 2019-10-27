@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,11 +53,13 @@ public class SquadronPresenter implements Presenter {
 
     private Navigate navigate;
 
+    private List<Nation> nations;
+
     private Airfield selectedAirfield;
     private Squadron selectedAvailableSquadron;
     private Squadron selectedAirfieldSquadron;
 
-    private Map<LandingType, Deployment> deployment = new LinkedHashMap<>();
+    private Map<Nation, Map<LandingType, Deployment>> deployment = new LinkedHashMap<>();
 
     /**
      * This is the constructor.
@@ -81,9 +84,6 @@ public class SquadronPresenter implements Presenter {
         this.squadronDetailsDialogProvider = squadronDetailsDialogProvider;
         this.warnDialogProvider = warnDialogProvider;
         this.navigate = navigate;
-
-        deployment.put(LandingType.LAND, new Deployment(LandingType.LAND));
-        deployment.put(LandingType.SEAPLANE, new Deployment(LandingType.SEAPLANE));
     }
 
     /**
@@ -95,7 +95,7 @@ public class SquadronPresenter implements Presenter {
     public void show(final Stage primaryStage) {
         view = viewProvider.get();
 
-        view.bindDeploymentStats(new ArrayList<>(deployment.values()));
+        initializeDeployment();
 
         this.stage = primaryStage;
 
@@ -121,6 +121,33 @@ public class SquadronPresenter implements Presenter {
     @Override
     public void reShow(final Stage primaryStage) {
         show(primaryStage);
+    }
+
+    /**
+     * Initialize the deployment data.
+     */
+    private void initializeDeployment() {
+        nations = game
+                .getHumanPlayer()
+                .getNations()
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
+
+        nations.forEach(nation -> {
+            Map<LandingType, Deployment> deploymentMap = new HashMap<>();
+
+            deploymentMap.put(LandingType.LAND, new Deployment(LandingType.LAND));
+            deploymentMap.put(LandingType.SEAPLANE, new Deployment(LandingType.SEAPLANE));
+
+            deployment.put(nation, deploymentMap);
+        });
+
+        nations
+                .forEach(nation -> view.bindDeploymentStats(nation,
+                        new ArrayList<>(deployment
+                                .get(nation)
+                                .values())));
     }
 
     /**
@@ -182,11 +209,11 @@ public class SquadronPresenter implements Presenter {
             selectedAirfield = airfield;
         }
 
-        updateDeployment(newNation, LandingType.LAND);
-        updateDeployment(newNation, LandingType.SEAPLANE);
-
         selectFirstRegion(newNation);
         selectFirstAirfield(newNation);
+
+        updateDeployment(newNation, LandingType.LAND);
+        updateDeployment(newNation, LandingType.SEAPLANE);
 
         //If the airfield does not change then the select airfield doesn't trigger a callback.
         //Thus, we set the available squadrons explicitly.
@@ -198,13 +225,6 @@ public class SquadronPresenter implements Presenter {
      * Register callbacks for the region and airfield selection lists for all nations.
      */
     private void registerCallbacks() {
-        List<Nation> nations = game
-                .getHumanPlayer()
-                .getNations()
-                .stream()
-                .sorted()
-                .collect(Collectors.toList());
-
         nations.forEach(this::registerSelections);
 
         selectedAirfieldSquadron = null;
@@ -277,10 +297,11 @@ public class SquadronPresenter implements Presenter {
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        deployment.get(landingType).setTotalSteps(total);
-        deployment.get(landingType).setDeployedSteps(deployed);
+        deployment.get(nation).get(landingType).setTotalSteps(total);
+        deployment.get(nation).get(landingType).setDeployedSteps(deployed);
 
-        view.getDeploymentStats().refresh();
+        view.getDeploymentStats().get(nation).refresh();
+
     }
 
 
@@ -563,6 +584,8 @@ public class SquadronPresenter implements Presenter {
                 updateDeployment(squadron.getNation(), LandingType.LAND);
                 updateDeployment(squadron.getNation(), LandingType.SEAPLANE);
 
+                view.updateRegion(determineNation());
+
                 selectedAirfield.getNations().forEach(nation -> {
                     view.getAirfieldCurrentValue().get(nation).setText(selectedAirfield.getCurrentSteps() + "");
                     view.getAirfieldSteps().get(nation).get(type).setText(selectedAirfield.getStepsForType(type) + "");
@@ -588,6 +611,8 @@ public class SquadronPresenter implements Presenter {
 
             updateDeployment(squadron.getNation(), LandingType.LAND);
             updateDeployment(squadron.getNation(), LandingType.SEAPLANE);
+
+            view.updateRegion(determineNation());
 
             if (squadron.getNation() == determineNation()) {
                 view.getAvailableSquadrons().getItems().add(squadron);

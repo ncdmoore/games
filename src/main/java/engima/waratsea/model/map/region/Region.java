@@ -50,10 +50,10 @@ public class Region {
     private final List<Port> ports;
 
     @Getter
-    private int min;
+    private int min;  // in steps.
 
     @Getter
-    private int max;
+    private int max;  // in steps.
 
     /**
      * Constructor of Region called by guice.

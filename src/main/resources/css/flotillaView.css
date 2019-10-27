@@ -92,6 +92,9 @@
     -fx-text-fill: red;
 }
 
+#flotilla-details-pane {
+    -fx-collapsible: false;
+}
 
 #flotilla-details-vbox {
     -fx-background-color: whitesmoke;
@@ -99,6 +102,10 @@
 
 #flotilla-details-grid {
     -fx-hgap: 10;
+}
+
+#map-legend-pane {
+    -fx-collapsible: false;
 }
 
 #map-legend-vbox {

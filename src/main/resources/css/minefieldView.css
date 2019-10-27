@@ -44,6 +44,10 @@
     -fx-fill: radial-gradient(center 50% 50%, radius 60%, white, sienna, black);
 }
 
+#mindfield-details-pane {
+    -fx-collapsible: false;
+}
+
 #minefield-vbox {
     -fx-spacing: 30;
 }
@@ -54,6 +58,10 @@
 
 #minefield-details-grid {
     -fx-hgap: 10;
+}
+
+#map-legend-pane {
+    -fx-collapsible: false;
 }
 
 #map-legend-vbox {

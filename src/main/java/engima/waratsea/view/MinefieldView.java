@@ -255,6 +255,7 @@ public class MinefieldView {
 
         titledPane.setMaxWidth(props.getInt("minefield.details.width"));
         titledPane.setMinWidth(props.getInt("minefield.details.width"));
+        titledPane.setId("map-legend-pane");
 
         return titledPane;
     }

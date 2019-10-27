@@ -251,6 +251,7 @@ public class TaskForceView {
 
         titledPane.setMaxWidth(props.getInt("taskForce.details.width"));
         titledPane.setMinWidth(props.getInt("taskForce.details.width"));
+        titledPane.setId("map-legend-pane");
 
         return titledPane;
     }

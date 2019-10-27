@@ -212,7 +212,7 @@ public class ImageResourceProvider {
      * @param resourceName The resource file name.
      * @return The image if it exists.
      */
-    private Image getImage(final String resourceName) {
+    public Image getImage(final String resourceName) {
         return getGameSpecificImage(resourceName)
                 .orElseGet(() -> getDefaultImage(resourceName));
     }

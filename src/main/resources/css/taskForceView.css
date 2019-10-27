@@ -114,6 +114,10 @@
     -fx-text-fill: red;
 }
 
+#map-legend-pane {
+    -fx-collapsible: false;
+}
+
 #map-legend-vbox {
     -fx-background-color: whitesmoke;
 }
@@ -128,6 +132,10 @@
     -fx-tile-alignment: top-left;
     -fx-hgap: 4;
     -fx-vgap: 4;
+}
+
+#taskforce-details-pane {
+    -fx-collapsible: false;
 }
 
 #taskforce-details-vbox {

@@ -347,6 +347,7 @@ public class FlotillaView {
 
         titledPane.setMaxWidth(props.getInt("taskForce.details.width"));
         titledPane.setMinWidth(props.getInt("taskForce.details.width"));
+        titledPane.setId("map-legend-pane");
 
         return titledPane;
     }

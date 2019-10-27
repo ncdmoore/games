@@ -141,6 +141,10 @@
     -fx-text-fill: red;
 }
 
+#map-legend-pane {
+    -fx-collapsible: false;
+}
+
 #map-legend-vbox {
     -fx-background-color: whitesmoke;
 }
@@ -159,6 +163,7 @@
 
 #region-details-vbox {
     -fx-padding: /* top */ 5 /* right */ 0 /* bottom */ 0 /* left */ 0;
+    -fx-border-color: silver;
     -fx-background-color: whitesmoke;
 }
 
@@ -167,10 +172,21 @@
    -fx-hgap: 10;
 }
 
+#region-status-vbox {
+    -fx-padding: /* top */ 5 /* right */ 0 /* bottom */ 0 /* left */ 0;
+    -fx-border-color: silver;
+    -fx-background-color: whitesmoke;
+}
+
+#region-status-grid {
+    -fx-padding: /* top */ 5 /* right */ 0 /* bottom */ 10 /* left */ 10;
+    -fx-hgap: 50;
+    -fx-vgap: 5;
+}
+
 #airfield-details-vbox {
     -fx-spacing: 15;
     -fx-background-color: whitesmoke;
-
 }
 
 #airfield-details-grid {
