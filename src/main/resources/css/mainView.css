@@ -31,3 +31,27 @@
 #turn-image-pane {
     -fx-alignment: top-right;
 }
+
+#patrol-radius-search {
+    -fx-fill: radial-gradient(radius 100%, white, silver);
+    -fx-opacity: 0.7;
+    -fx-stroke-width: 0.5;
+}
+
+#patrol-radius-asw {
+    -fx-fill: radial-gradient(radius 100%, white, lightgrey);
+    -fx-opacity: 0.7;
+    -fx-stroke-width: 0.5;
+}
+
+#patrol-radius-cap {
+    -fx-fill: radial-gradient(radius 100%, white, silver, darkgrey);
+    -fx-opacity: 0.7;
+    -fx-stroke-width: 0.5;
+}
+
+#patrol-radius-label {
+    -fx-border-color: black;
+    -fx-background-color: whitesmoke;
+    -fx-padding: /* top */ 5 /* right */ 5 /* bottom */ 5 /* left */ 5;
+}

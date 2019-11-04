@@ -23,9 +23,11 @@ import engima.waratsea.model.squadron.SquadronFactory;
 import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.utility.PersistentUtility;
+import javafx.util.Pair;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.ListUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -368,6 +370,22 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         return patrolMap.get(patrolType);
     }
 
+
+    /**
+     * Get a map of patrol maximum radius to patrol.
+     *
+     * @return A map containing the patrol maximum radius as key and the patrol as the value.
+     * Note, that if all the patrol types have the same maximum radius value then this map
+     * will contain a single entry.
+     */
+    public Map<Integer, List<Patrol>> getPatrolRadiiMap() {
+        return Stream.of(PatrolType.values())
+                .map(this::getPatrolRadii)
+                .collect(Collectors.toMap(Pair::getKey,
+                                          this::createList,
+                                          ListUtils::union));
+    }
+
     /**
      * Get the active state of the asset.
      *
@@ -499,5 +517,32 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         }
 
         return landingType.contains(LandingType.LAND) ? AirfieldType.LAND : AirfieldType.SEAPLANE;
+    }
+
+    /**
+     * Get a Pair of max radius to patrol.
+     *
+     * @param patrolType The type of patrol.
+     * @return A Pair of radius, patrol.
+     */
+    private Pair<Integer, Patrol> getPatrolRadii(final PatrolType patrolType) {
+        int radius = patrolMap
+                .get(patrolType)
+                .getMaxRadius();
+
+        return new Pair<>(radius, patrolMap.get(patrolType));
+    }
+
+    /**
+     * Create a list of Patrols from a pair of radius, patrol.
+     *
+     * @param pair  A radius, patrol pair.
+     * @return A list of Patrols.
+     */
+    private  List<Patrol> createList(final Pair<Integer, Patrol> pair) {
+        Patrol patrol = pair.getValue();
+        List<Patrol> list = new ArrayList<>();
+        list.add(patrol);
+        return list;
     }
 }

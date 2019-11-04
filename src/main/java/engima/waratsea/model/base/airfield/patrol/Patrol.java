@@ -1,5 +1,6 @@
 package engima.waratsea.model.base.airfield.patrol;
 
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
@@ -13,6 +14,13 @@ public interface Patrol {
      * @return The Patrol data.
      */
     PatrolData getData();
+
+    /**
+     * Get the air base of this patrol.
+     *
+     * @return This patrol's air base.
+     */
+    Airbase getAirbase();
 
     /**
      * Get the squadrons on patrol.
@@ -35,4 +43,12 @@ public interface Patrol {
      * @param squadron The squadron removed from the patrol.
      */
     void removeSquadron(Squadron squadron);
+
+
+    /**
+     * Get the Patrol's maximum squadron radius.
+     *
+     * @return The Patrol's maximum squadron radius.
+     */
+    int getMaxRadius();
 }

@@ -270,10 +270,10 @@ public class MapView {
         mapRefNode.setLayoutX(gridView.getX() + 1);
         mapRefNode.setLayoutY(gridView.getY() + 1);
         text.setViewOrder(ViewOrder.GRID_DECORATION.getValue());
+        mapRefNode.setViewOrder(ViewOrder.GRID_DECORATION.getValue());
 
         text.getStyleClass().add("map-ref-text");
 
         add(mapRefNode);
     }
-
 }

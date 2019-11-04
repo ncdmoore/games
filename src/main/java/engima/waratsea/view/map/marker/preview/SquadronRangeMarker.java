@@ -1,4 +1,4 @@
-package engima.waratsea.view.map.marker;
+package engima.waratsea.view.map.marker.preview;
 
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.squadron.Squadron;

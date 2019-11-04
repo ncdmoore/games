@@ -3,6 +3,7 @@ package engima.waratsea.view.map;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.BaseGrid;
 import engima.waratsea.model.map.BaseGridType;
@@ -13,6 +14,7 @@ import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.marker.main.BaseMarker;
 import engima.waratsea.view.map.marker.main.BaseMarkerFactory;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -34,6 +36,7 @@ import java.util.Map;
 @Singleton
 public class MainMapView {
 
+    private ImageResourceProvider imageResourceProvider;
     private GameMap gameMap;
     private ViewProps props;
     private Provider<MainMenu> menuProvider;
@@ -43,9 +46,15 @@ public class MainMapView {
     @Getter
     private StackPane map;
 
+    @Getter
+    private ImageView mapImageView;
+
     private MapView mapView;
 
     private Map<Side, List<BaseMarker>> baseMarkers = new HashMap<>();
+
+
+    private Map<Airfield, BaseMarker> airfields = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -65,25 +74,36 @@ public class MainMapView {
                        final MapView mapView) {
         this.gameMap = gameMap;
         this.props = props;
+        this.imageResourceProvider = imageResourceProvider;
         this.menuProvider = menuProvider;
         this.markerFactory = markerFactory;
         this.mapView = mapView;
 
         baseMarkers.put(Side.ALLIES, new ArrayList<>());
         baseMarkers.put(Side.AXIS, new ArrayList<>());
+    }
 
-        ImageView mapImageView = imageResourceProvider.getImageView("mainMap.png");
+    /**
+     * Build the view.
+     *
+     * @return The node that contians the map.
+     */
+    public Node build() {
+
+        mapImageView = imageResourceProvider.getImageView("mainMap.png");
         int gridSize = props.getInt("taskforce.mainMap.gridSize");
 
         Node mapGrid = mapView.draw(mapImageView, gridSize);
 
-        buildBaseMarkers(Side.ALLIES);
-        buildBaseMarkers(Side.AXIS);
+        drawBaseMarkers(Side.ALLIES);
+        drawBaseMarkers(Side.AXIS);
 
         mapView.registerMouseClick(this::mouseClicked);
 
         map = new StackPane(mapImageView, mapGrid);
         map.setAlignment(Pos.TOP_LEFT);
+
+        return map;
     }
 
     /**
@@ -94,6 +114,34 @@ public class MainMapView {
      */
     public void setBaseClickHandler(final Side side, final EventHandler<? super MouseEvent> handler) {
         baseMarkers.get(side).forEach(baseMarker -> baseMarker.setBaseClickHandler(handler));
+    }
+
+    /**
+     * Set the base grid's context airfield menu item.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @param handler The airfield menu item handler.
+     */
+    public void setAirfieldMenuHandler(final Side side, final EventHandler<ActionEvent> handler) {
+        baseMarkers.get(side).forEach(baseMarker -> baseMarker.setAirfieldMenuHandler(handler));
+    }
+
+    /**
+     * Draw the given base's marker patrol radii.
+     *
+     * @param baseMarker A base marker.
+     */
+    public void selectMarker(final BaseMarker baseMarker) {
+        baseMarker.selectMarker();
+    }
+
+    /**
+     * Draw the given airfields patrol radii.
+     *
+     * @param airfield An airfield.
+     */
+    public void drawPatrolRadii(final Airfield airfield) {
+        airfields.get(airfield).drawPatrolRadii();
     }
 
     /**
@@ -110,8 +158,8 @@ public class MainMapView {
      *
      * @param side The side ALLIES or AXIS.
      */
-    private void buildBaseMarkers(final Side side) {
-        gameMap.getBaseGrids(side).forEach(this::buildBaseMarker);
+    private void drawBaseMarkers(final Side side) {
+        gameMap.getBaseGrids(side).forEach(this::drawBaseMarker);
     }
 
     /**
@@ -119,15 +167,21 @@ public class MainMapView {
      *
      * @param baseGrid The base grid of the base marker.
      */
-    private void buildBaseMarker(final BaseGrid baseGrid) {
+    private void drawBaseMarker(final BaseGrid baseGrid) {
         BaseGridType type = baseGrid.getType();
 
         int gridSize = props.getInt("taskforce.mainMap.gridSize");
-        BaseMarker baseMarker = markerFactory.create(baseGrid, new GridView(gridSize, baseGrid.getGameGrid()));
+        BaseMarker baseMarker = markerFactory.create(baseGrid, new GridView(gridSize, baseGrid.getGameGrid()), mapView);
         baseMarkers.get(baseGrid.getSide()).add(baseMarker);
 
+        // Save the airfield in a map for easy access.
+        baseMarker
+                .getBaseGrid()
+                .getAirfield()
+                .ifPresent(airfield -> airfields.put(airfield, baseMarker));
+
         if (displayBaseMarker(type)) {
-            baseMarker.draw(mapView);
+            baseMarker.draw();
         }
     }
 
@@ -152,9 +206,9 @@ public class MainMapView {
      */
     private void toggleMarker(final BaseMarker baseMarker) {
         if (displayBaseMarker(baseMarker.getBaseGrid().getType())) {
-            baseMarker.draw(mapView);
+            baseMarker.draw();
         } else {
-            baseMarker.hide(mapView);
+            baseMarker.hide();
         }
     }
 

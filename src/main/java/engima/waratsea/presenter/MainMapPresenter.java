@@ -11,9 +11,14 @@ import engima.waratsea.presenter.airfield.AirfieldDetailsDialog;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
+import javafx.event.ActionEvent;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Optional;
 
 /**
  * This class handles all interaction with the main game map.
@@ -56,9 +61,11 @@ public class MainMapPresenter {
         mainMenu.getShowAirfields().setOnAction(event -> toggleMarkers());
         mainMenu.getShowPorts().setOnAction(event -> toggleMarkers());
 
-        Side humanSide =  game.getHumanPlayer().getSide();
+        Side humanSide =  game.getHumanSide();
         mainMapView.setBaseClickHandler(humanSide, this::humanBaseClickHandler);
         mainMapView.setBaseClickHandler(humanSide.opposite(), this::computerBaseClickHandler);
+
+        mainMapView.setAirfieldMenuHandler(humanSide, this::airfieldHandler);
     }
 
     /**
@@ -75,19 +82,11 @@ public class MainMapPresenter {
      * @param event The mouse event.
      */
     private void humanBaseClickHandler(final MouseEvent event) {
-        ImageView imageView = (ImageView) event.getSource();
-
-        BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
-
-        String portName = baseMarker.getBaseGrid().getPort().map(Port::getName).orElse("");
-        String airfieldName = baseMarker.getBaseGrid().getAirfield().map(Airfield::getName).orElse("");
-
-        log.info("Human: Base port: '{}', airfield: '{}'", portName, airfieldName);
-
-        baseMarker
-                .getBaseGrid()
-                .getAirfield()
-                .ifPresent(airfield -> airfieldDetailsDialogProvider.get().show(airfield));
+        if (event.getButton() == MouseButton.PRIMARY) {
+            ImageView imageView = (ImageView) event.getSource();
+            BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
+            mainMapView.selectMarker(baseMarker);
+        }
     }
 
     /**
@@ -104,5 +103,17 @@ public class MainMapPresenter {
         String airfieldName = baseMarker.getBaseGrid().getAirfield().map(Airfield::getName).orElse("");
 
         log.info("Computer: Base port: '{}', airfield: '{}'", portName, airfieldName);
+    }
+
+    /**
+     * Callback for when the airfield menu item of the base marker's context menu is selected.
+     *
+     * @param event The click event.
+     */
+    @SuppressWarnings("unchecked")
+    private void airfieldHandler(final ActionEvent event) {
+        MenuItem item = (MenuItem) event.getSource();
+        Optional<Airfield> airfield = (Optional<Airfield>) item.getUserData();
+        airfield.ifPresent(a -> airfieldDetailsDialogProvider.get().show(a));
     }
 }

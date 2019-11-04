@@ -8,7 +8,7 @@ import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.marker.preview.AirfieldMarker;
-import engima.waratsea.view.map.marker.SquadronRangeMarker;
+import engima.waratsea.view.map.marker.preview.SquadronRangeMarker;
 import engima.waratsea.view.map.marker.preview.TargetMarker;
 import engima.waratsea.view.map.marker.preview.TaskForceMarker;
 import javafx.geometry.Pos;

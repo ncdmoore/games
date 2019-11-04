@@ -1,0 +1,112 @@
+package engima.waratsea.view.map.marker.main;
+
+import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.airfield.patrol.Patrol;
+import engima.waratsea.model.map.BaseGrid;
+import engima.waratsea.view.map.GridView;
+import engima.waratsea.view.map.MapView;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.ListUtils;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@Slf4j
+public class PatrolRadii {
+    private List<PatrolRadius> radii = Collections.emptyList();
+
+    private MapView mapView;
+    private BaseGrid baseGrid;
+    private GridView gridView;
+
+    /**
+     * Constructor.
+     *
+     * @param mapView The map view.
+     * @param baseGrid The base grid of the patrol radii.
+     * @param gridView The grid view of the base grid.
+     */
+    public PatrolRadii(final MapView mapView, final BaseGrid baseGrid, final GridView gridView) {
+        this.mapView = mapView;
+        this.baseGrid = baseGrid;
+        this.gridView = gridView;
+    }
+
+    /**
+     * Draw all the airbase's patrol radii.
+     */
+    public void drawRadii() {
+        List<PatrolRadius> newRadii = baseGrid
+                .getAirfield()
+                .map(Airfield::getPatrolRadiiMap)
+                .map(patrolMap -> patrolMap
+                        .entrySet()
+                        .stream()
+                        .filter(this::filterZeroRadius)
+                        .map(this::draw)
+                        .collect(Collectors.toList()))
+                .orElseGet(Collections::emptyList);
+
+        // Get any circles that are no longer needed.
+        List<PatrolRadius> removed = ListUtils.subtract(radii, newRadii);
+
+        // Remove the uneeded circles.
+        removed.forEach(PatrolRadius::remove);
+
+        radii = newRadii;
+    }
+
+    /**
+     * Remove the circle representing the patrols's radius from the map.
+     */
+    public void hideRadii() {
+        radii.forEach(PatrolRadius::remove);
+    }
+
+    /**
+     * Don't draw any circles with with zero radius.
+     *
+     * @param entry An entry in the airbase's patrol map. It contains the max radius -> List of Patrols.
+     * @return True if the patrols radius is not zero. False if the patrols radius is zero.
+     */
+    private boolean filterZeroRadius(final Map.Entry<Integer, List<Patrol>> entry) {
+        return entry.getKey() != 0;
+    }
+
+    /**
+     * Draw the patrol's radius circle.
+     *
+     * @param entry A map entry of circle's radius => list of patrols.
+     * @return The circle representing the patrols radius.
+     */
+    private PatrolRadius draw(final Map.Entry<Integer, List<Patrol>> entry) {
+
+        int radius = entry.getKey() * gridView.getSize();
+
+        // Either get an existing radius or draw a new radius.
+        PatrolRadius patrolRadius = radii
+                .stream()
+                .filter(existingPatrolRadius -> existingPatrolRadius.matches(radius))
+                .findAny()
+                .orElseGet(() -> buildPatrolRadius(entry));
+
+        patrolRadius.add();
+        patrolRadius.setData(entry.getValue());
+
+        return patrolRadius;
+    }
+
+    /**
+     * Build a new patrol radius for this base.
+     *
+     * @param entry An entry in the airbase's patrol map. It contains the max radius -> List of Patrols.
+     * @return The new patrol radius.
+     */
+    private PatrolRadius buildPatrolRadius(final Map.Entry<Integer, List<Patrol>> entry) {
+        PatrolRadius newPatrolRadius = new PatrolRadius(mapView, gridView);
+        newPatrolRadius.drawRadius(entry.getKey(), entry.getValue());
+        return newPatrolRadius;
+    }
+}

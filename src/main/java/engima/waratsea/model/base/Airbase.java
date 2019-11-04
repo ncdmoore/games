@@ -19,6 +19,13 @@ public interface Airbase extends Base {
     String getName();
 
     /**
+     * The title of the air base.
+     *
+     * @return The title of the air base.
+     */
+    String getTitle();
+
+    /**
      * The side of the air base.
      *
      * @return The air base side: ALLIES or AXIS.

@@ -2,6 +2,7 @@ package engima.waratsea.view;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engima.waratsea.model.game.Game;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.turn.TurnView;
@@ -26,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 public class MainView {
     private static final String CSS_FILE = "mainView.css";
 
+    private Game game;
+
     private CssResourceProvider cssResourceProvider;
     private MainMapView mainMapView;
     private MainMenu mainMenu;
@@ -35,6 +38,7 @@ public class MainView {
     /**
      * Constructor called by guice.
      * @param cssResourceProvider Utility to provide css files.
+     * @param game The game.
      * @param mainMapView The main game map view.
      * @param mainMenu The main game menu.
      * @param weatherView The weather view.
@@ -42,11 +46,13 @@ public class MainView {
      */
     @Inject
     public MainView(final CssResourceProvider cssResourceProvider,
+                    final Game game,
                     final MainMapView mainMapView,
                     final MainMenu mainMenu,
                     final WeatherView weatherView,
                     final TurnView turnView) {
         this.cssResourceProvider = cssResourceProvider;
+        this.game = game;
         this.mainMapView = mainMapView;
         this.mainMenu = mainMenu;
         this.weatherView = weatherView;
@@ -54,7 +60,8 @@ public class MainView {
     }
 
     /**
-     * Show the task forces summary view.
+     * Show  view.
+     *
      * @param stage The stage on which the task force scene is set.
      */
     public void show(final Stage stage) {
@@ -66,16 +73,16 @@ public class MainView {
         stage.setWidth(primaryScreenBounds.getWidth());
         stage.setHeight(primaryScreenBounds.getHeight());
 
+        stage.setTitle(stage.getTitle() + " : " + game.getScenario().getTitle());
+
         BorderPane mainPane = new BorderPane();
 
         MenuBar menuBar = mainMenu.getMenuBar();
-        Node map = mainMapView.getMap();
-
+        Node map = mainMapView.build();
         Node weather = weatherView.build();
         Node turn = turnView.build();
 
         VBox leftVbox = new VBox(weather, turn);
-
         VBox mapVbox = new VBox(map);
 
         ScrollPane sp = new ScrollPane();
