@@ -14,10 +14,14 @@ import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.ImageView;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,15 +29,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BaseMarker {
 
+    private static final int SHADOW_RADIUS = 3;
+
     @Getter
     private final BaseGrid baseGrid;
 
     private final MapView mapView;
     private final Game game;
-    private final ImageView imageView;
-    private final ImageView roundel;
-    private final ImageView flag;
-    private final PatrolRadii patrolRadius;
+    private final VBox imageView;
+    private final VBox roundel;
+    private final VBox flag;
+    private final Node title;
+
+    @Getter
+    private final PatrolRadii patrolRadii;
 
     @Getter
     private MenuItem airfieldMenuItem;
@@ -69,27 +78,33 @@ public class BaseMarker {
         BaseGridType type = baseGrid.getType();
 
         final String imagePrefix = baseGrid.getSide().getValue().toLowerCase();
-        this.imageView = imageResourceProvider.getImageView(scenarioName, imagePrefix + type.getValue() + ".png");
-        this.roundel = imageResourceProvider.getImageView(scenarioName, imagePrefix + "Roundel12x12.png");
-        this.flag = imageResourceProvider.getImageView(scenarioName, imagePrefix + "Flag18x12.png");
+        this.imageView = new VBox(imageResourceProvider.getImageView(scenarioName, imagePrefix + type.getValue() + ".png"));
+        this.roundel = new VBox(imageResourceProvider.getImageView(scenarioName, imagePrefix + "Roundel12x12.png"));
+        this.flag = new VBox(imageResourceProvider.getImageView(scenarioName, imagePrefix + "Flag18x12.png"));
 
-        imageView.setX(gridView.getX());
-        imageView.setY(gridView.getY());
+        imageView.setLayoutX(gridView.getX());
+        imageView.setLayoutY(gridView.getY());
         imageView.setViewOrder(ViewOrder.MARKER.getValue());
         imageView.setUserData(this);
         imageView.setId("map-base-grid-marker");
 
-        roundel.setX(gridView.getX() + props.getInt("main.map.base.marker.roudel.x.offset"));
-        roundel.setY(gridView.getY() + 1);
+        InnerShadow innerShadow = new InnerShadow(SHADOW_RADIUS, Color.WHITE);
+        imageView.setEffect(innerShadow);
+
+        roundel.setLayoutX(gridView.getX() + props.getInt("main.map.base.marker.roudel.x.offset"));
+        roundel.setLayoutY(gridView.getY() + 1);
         roundel.setViewOrder(ViewOrder.MARKER_DECORATION.getValue());
         roundel.setUserData(this);
 
-        flag.setX(gridView.getX() + 1);
-        flag.setY(gridView.getY() + props.getInt("main.map.base.marker.flag.y.offset"));
+        flag.setLayoutX(gridView.getX() + 1);
+        flag.setLayoutY(gridView.getY() + props.getInt("main.map.base.marker.flag.y.offset"));
         flag.setViewOrder(ViewOrder.MARKER_DECORATION.getValue());
         flag.setUserData(this);
 
-        patrolRadius = new PatrolRadii(mapView, baseGrid, gridView);
+        title = buildTitle(gridView);
+
+        patrolRadii = new PatrolRadii(mapView, baseGrid, gridView);
+
 
         if (baseGrid.getSide()  == game.getHumanSide()) {
 
@@ -129,6 +144,16 @@ public class BaseMarker {
      */
     public void selectMarker() {
         selected = !selected;
+
+        if (selected) {
+            imageView.setEffect(null);
+            showTitle();
+        } else {
+            InnerShadow innerShadow = new InnerShadow(SHADOW_RADIUS, Color.WHITE);
+            imageView.setEffect(innerShadow);
+            hideTitle();
+        }
+
         drawPatrolRadii();
     }
 
@@ -138,9 +163,9 @@ public class BaseMarker {
     public void drawPatrolRadii() {
 
         if (selected) {
-            patrolRadius.drawRadii();
+            patrolRadii.drawRadii();
         } else {
-            patrolRadius.hideRadii();
+            patrolRadii.hideRadii();
         }
     }
 
@@ -172,6 +197,31 @@ public class BaseMarker {
     }
 
     /**
+     * Set the base patrol radius clicked handler.
+     *
+     * @param handler The mouse click handler.
+     */
+    public void setPatrolRadiusClickHandler(final EventHandler<? super MouseEvent> handler) {
+        patrolRadii.setRadiusMouseHandler(handler);
+    }
+
+    /**
+     * Highlight a patrol radius for this base.
+     *
+     * @param radius The radius to highlight.
+     */
+    public void highlightRadius(final int radius) {
+        patrolRadii.highlightRadius(radius);
+    }
+
+    /**
+     * Revmove this base's highlighted patrol radius.
+     */
+    public void unhighlightRadius() {
+        patrolRadii.unhighlightRadius();
+    }
+
+    /**
      * Determine if any squadrons are present at the this marker's airfield, if
      * this marker contains an airfield.
      *
@@ -195,5 +245,34 @@ public class BaseMarker {
                 .getPort()
                 .map(Port::areTaskForcesPresent)
                 .orElse(false);
+    }
+
+    /**
+     * Build the base's title.
+     *
+     * @param gridView The grid view of this base.
+     * @return A node containing the base's title.
+     */
+    private Node buildTitle(final GridView gridView) {
+        Label label = new Label(baseGrid.getTitle());
+        VBox vBox = new VBox(label);
+        vBox.setLayoutY(gridView.getY() + gridView.getSize());
+        vBox.setLayoutX(gridView.getX());
+        vBox.setId("basemarker-title");
+        return vBox;
+    }
+
+    /**
+     * Show this base's title.
+     */
+    private void showTitle() {
+        mapView.add(title);
+    }
+
+    /**
+     * Hide this base's title.
+     */
+    private void hideTitle() {
+        mapView.remove(title);
     }
 }

@@ -3,7 +3,7 @@ package engima.waratsea.view.map;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.BaseGrid;
 import engima.waratsea.model.map.BaseGridType;
@@ -54,7 +54,7 @@ public class MainMapView {
     private Map<Side, List<BaseMarker>> baseMarkers = new HashMap<>();
 
 
-    private Map<Airfield, BaseMarker> airfields = new HashMap<>();
+    private Map<Airbase, BaseMarker> airbases = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -127,6 +127,16 @@ public class MainMapView {
     }
 
     /**
+     * Set the base grid's patrol radius click handler.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @param handler The base patrol radius click handler.
+     */
+    public void setPatrolRadiusClickHandler(final Side side, final EventHandler<? super MouseEvent> handler) {
+        baseMarkers.get(side).forEach(baseMarker -> baseMarker.setPatrolRadiusClickHandler(handler));
+    }
+
+    /**
      * Draw the given base's marker patrol radii.
      *
      * @param baseMarker A base marker.
@@ -136,12 +146,31 @@ public class MainMapView {
     }
 
     /**
-     * Draw the given airfields patrol radii.
+     * Draw the given airbase patrol radii.
      *
-     * @param airfield An airfield.
+     * @param airbase An airbase.
      */
-    public void drawPatrolRadii(final Airfield airfield) {
-        airfields.get(airfield).drawPatrolRadii();
+    public void drawPatrolRadii(final Airbase airbase) {
+        airbases.get(airbase).drawPatrolRadii();
+    }
+
+    /**
+     * Highlight a patrol radius.
+     *
+     * @param airbase The airbase that has one of its patrol radii highlighted.
+     * @param radius The radius that is highlighted.
+     */
+    public void highlightPatrolRadius(final Airbase airbase, final int radius) {
+        airbases.get(airbase).highlightRadius(radius);
+    }
+
+    /**
+     * Remove a highlight from a patrol radius.
+     *
+     * @param airbase The airbase that has one of its patrol raddi highlight removed.
+     */
+    public void unhighlightPatrolRadius(final Airbase airbase) {
+        airbases.get(airbase).unhighlightRadius();
     }
 
     /**
@@ -178,7 +207,7 @@ public class MainMapView {
         baseMarker
                 .getBaseGrid()
                 .getAirfield()
-                .ifPresent(airfield -> airfields.put(airfield, baseMarker));
+                .ifPresent(airfield -> airbases.put(airfield, baseMarker));
 
         if (displayBaseMarker(type)) {
             baseMarker.draw();

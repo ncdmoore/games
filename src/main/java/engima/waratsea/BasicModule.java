@@ -11,6 +11,13 @@ import engima.waratsea.model.aircraft.Fighter;
 import engima.waratsea.model.aircraft.PoorNavalBomber;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
+import engima.waratsea.model.base.airfield.patrol.AirSearchRules;
+import engima.waratsea.model.base.airfield.patrol.AirSearchRulesFactory;
+import engima.waratsea.model.base.airfield.patrol.AswPatrol;
+import engima.waratsea.model.base.airfield.patrol.CapPatrol;
+import engima.waratsea.model.base.airfield.patrol.Patrol;
+import engima.waratsea.model.base.airfield.patrol.PatrolFactory;
+import engima.waratsea.model.base.airfield.patrol.SearchPatrol;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.base.port.PortFactory;
 import engima.waratsea.model.flotilla.Flotilla;
@@ -118,6 +125,7 @@ public class BasicModule extends AbstractModule {
                 .implement(Aircraft.class, Names.named("poorNaval"), PoorNavalBomber.class)
                 .build(AircraftFactory.class));
 
+
         install(new FactoryModuleBuilder().implement(Region.class, Region.class).build(RegionFactory.class));
 
         install(new FactoryModuleBuilder().implement(VictoryConditions.class, VictoryConditions.class).build(VictoryConditionsFactory.class));
@@ -137,7 +145,17 @@ public class BasicModule extends AbstractModule {
 
 
         install(new FactoryModuleBuilder().implement(Airfield.class, Airfield.class).build(AirfieldFactory.class));
+        install(new FactoryModuleBuilder()
+                .implement(Patrol.class, Names.named("search"), SearchPatrol.class)
+                .implement(Patrol.class, Names.named("asw"), AswPatrol.class)
+                .implement(Patrol.class, Names.named("cap"), CapPatrol.class)
+                .build(PatrolFactory.class));
+
+        install(new FactoryModuleBuilder().implement(AirSearchRules.class, AirSearchRules.class).build(AirSearchRulesFactory.class));
+
         install(new FactoryModuleBuilder().implement(Port.class, Port.class).build(PortFactory.class));
+
+
 
         install(new FactoryModuleBuilder().implement(Minefield.class, Minefield.class).build(MinefieldFactory.class));
         install(new FactoryModuleBuilder().implement(MinefieldZone.class, MinefieldZone.class).build(MinefieldZoneFactory.class));

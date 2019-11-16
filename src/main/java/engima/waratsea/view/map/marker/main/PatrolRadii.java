@@ -5,21 +5,37 @@ import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.map.BaseGrid;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
+import javafx.event.EventHandler;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.ListUtils;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class PatrolRadii {
+    @Getter
     private List<PatrolRadius> radii = Collections.emptyList();
 
     private MapView mapView;
     private BaseGrid baseGrid;
     private GridView gridView;
+
+    @Setter
+    private EventHandler<? super MouseEvent> radiusMouseHandler;
+
+    private Circle highlighted;
 
     /**
      * Constructor.
@@ -66,6 +82,22 @@ public class PatrolRadii {
     }
 
     /**
+     * Highlight the base's patrol radius.
+     *
+     * @param radius The radius to highlight.
+     */
+    public void highlightRadius(final int radius) {
+        drawHighlightedRadius(radius);
+    }
+
+    /**
+     * Remove the base's highligted patrol radius.
+     */
+    public void unhighlightRadius() {
+        removeHighlightedRadius();
+    }
+
+    /**
      * Don't draw any circles with with zero radius.
      *
      * @param entry An entry in the airbase's patrol map. It contains the max radius -> List of Patrols.
@@ -94,6 +126,7 @@ public class PatrolRadii {
 
         patrolRadius.add();
         patrolRadius.setData(entry.getValue());
+        patrolRadius.setClickHandler(radiusMouseHandler);
 
         return patrolRadius;
     }
@@ -109,4 +142,40 @@ public class PatrolRadii {
         newPatrolRadius.drawRadius(entry.getKey(), entry.getValue());
         return newPatrolRadius;
     }
+
+    /**
+     * Draw the base's highlighted range circle.
+     *
+     * @param gridRadius The radius in grids of the highlighted circle.
+     */
+    private void drawHighlightedRadius(final int gridRadius) {
+        int offset = gridView.getSize() / 2;
+
+        int radius = gridRadius * gridView.getSize();
+
+        Circle circle = new Circle(gridView.getX() + offset, gridView.getY() + offset, radius);
+        circle.setStroke(Color.RED);
+        circle.setFill(null);
+
+        // Clip the circle with the main map rectangle to prevent the circles near the edges from flowing over the map
+        // boundaries.
+        ImageView mapImageView = mapView.getBackground();
+        Image image = mapImageView.getImage();
+        circle.setClip(new Rectangle(mapImageView.getX(), mapImageView.getY(), image.getWidth(), image.getHeight()));
+
+        mapView.add(circle);
+
+        highlighted = circle;
+    }
+
+    /**
+     * Remvoe the base's highlighted range circle.
+     *
+     */
+    private void removeHighlightedRadius() {
+        Optional
+                .ofNullable(highlighted)
+                .ifPresent(circle -> mapView.remove(circle));
+    }
+
 }

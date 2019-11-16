@@ -15,11 +15,18 @@ public enum PatrolType {
     SEARCH("Search");
 
     private static Map<Class<?>, String> titleMap = new HashMap<>();
+    private static Map<Class<?>, PatrolType> typeMap = new HashMap<>();
 
     static {
         titleMap.put(AswPatrol.class, "ASW");
         titleMap.put(CapPatrol.class, "CAP");
         titleMap.put(SearchPatrol.class, "Search");
+    }
+
+    static {
+        typeMap.put(AswPatrol.class, ASW);
+        typeMap.put(CapPatrol.class, CAP);
+        typeMap.put(SearchPatrol.class, SEARCH);
     }
 
     /**
@@ -30,6 +37,16 @@ public enum PatrolType {
      */
     public static String getTitle(final Patrol patrol) {
         return titleMap.get(patrol.getClass());
+    }
+
+    /**
+     * Get the patrol's type from its class.
+     *
+     * @param patrol A patrol.
+     * @return The corresponding enum.
+     */
+    public static PatrolType getType(final Patrol patrol) {
+        return typeMap.get(patrol.getClass());
     }
 
     @Getter

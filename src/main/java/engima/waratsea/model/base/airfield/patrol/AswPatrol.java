@@ -1,5 +1,7 @@
 package engima.waratsea.model.base.airfield.patrol;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.game.Nation;
@@ -11,11 +13,14 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 
+import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Represents an airbase's ASW patrol.
@@ -34,13 +39,20 @@ public class AswPatrol implements Patrol {
     @Getter
     private int maxRadius;
 
+    private final AirAswRules airAsw;
+
     /**
      * The constructor.
      *
      * @param data The ASW patrol data read in from a JSON file.
+     * @param airAswRules The air ASW rules.
      */
-    public AswPatrol(final PatrolData data) {
+    @Inject
+    public AswPatrol(@Assisted final PatrolData data,
+                               final AirAswRules airAswRules) {
         airbase = data.getAirbase();
+
+        airAsw = airAswRules;
 
         Map<String, Squadron> squadronMap = getSquadronMap(data.getAirbase().getSquadrons());
 
@@ -116,6 +128,83 @@ public class AswPatrol implements Patrol {
         SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_PATROL);
         squadron.setSquadronState(state);
         updateMaxRadius();
+    }
+
+    /**
+     * Determine which squadrons on patrol can reach the given target radius.
+     *
+     * @param targetRadius A patrol radius for which each squadron on patrol is
+     *                     checked to determine if the squadron can reach the
+     *                     radius.
+     * @return A list of squadrons on patrol that can reach the given target radius.
+     */
+    @Override
+    public List<Squadron> getSquadrons(final int targetRadius) {
+        return squadrons
+                .stream()
+                .filter(squadron -> squadron
+                        .getRadius()
+                        .stream()
+                        .anyMatch(radius -> radius >= targetRadius))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get the search success rate of the patrol given the distance to the target.
+     *
+     * @param distance The distance to the target.
+     * @return The success rate of finding a submarine flotilla. An integer percentage.
+     */
+    @Override
+    public int getSuccessRate(final int distance) {
+        return airAsw.getBaseSearchSuccess(distance, squadrons);
+    }
+
+    /**
+     * Get the patrol data.
+     *
+     * @return A map of data for this patrol.
+     */
+    @Override
+    public Map<Integer, Map<String, String>> getPatrolData() {
+        return IntStream
+                .range(1, maxRadius + 1)
+                .boxed()
+                .collect(Collectors.toMap(radius -> radius, this::getPatrolData));
+    }
+
+    /**
+     * Get the patrol data that corresponds to the given radius. This is the
+     * data for a patrol that takes place at the given radius.
+     *
+     * @param radius The patrol radius.
+     * @return A map of data for this patrol that corresponds to the given radius.
+     */
+    private Map<String, String> getPatrolData(final int radius) {
+        List<Squadron> inRange = getSquadrons(radius);
+
+        Map<String, String> data = new LinkedHashMap<>();
+        data.put("Squadrons", inRange.size() + "");
+        data.put("Steps", inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add) + "");
+        data.put("Success", getSuccessRate(radius) + " %");
+        data.put("No Weather", airAsw.getBaseSearchSuccessNoWeather(radius, squadrons) + "%");
+
+        return data;
+    }
+
+    /**
+     * Get the patrol's true maximum squadron radius. This is the maximum radius
+     * at which the patrol has a greater than 0 % chance to be successful.
+     *
+     * @return The patrol's true maximum radius.
+     */
+    @Override
+    public int getTrueMaxRadius() {
+        return IntStream.range(1, maxRadius + 1)
+                .boxed()
+                .sorted(Collections.reverseOrder())
+                .filter(radius -> getSuccessRate(radius) > 0)
+                .findFirst().orElse(0);
     }
 
     /**

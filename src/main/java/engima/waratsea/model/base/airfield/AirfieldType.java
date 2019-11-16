@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum AirfieldType {
     LAND("land", "Airfield"),
     SEAPLANE("seaplane", "Seaplane Base"),
-    BOTH("both", "Airfield");
+    BOTH("both", "Airfield"),
+    TASKFORCE("taskforce", "Task Force");
 
     private String value;
 

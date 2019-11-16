@@ -6,6 +6,7 @@ import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
+import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.ship.data.GunData;
@@ -39,6 +40,9 @@ public class AircraftCarrier implements Ship, Airbase {
 
     @Getter
     private final String shipClass;
+
+    @Getter
+    private final AirfieldType airfieldType = AirfieldType.TASKFORCE;
 
     @Getter
     private final Nation nation;

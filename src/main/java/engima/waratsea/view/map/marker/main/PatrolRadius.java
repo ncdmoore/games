@@ -7,9 +7,11 @@ import engima.waratsea.model.squadron.PatrolType;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -69,6 +71,7 @@ public class PatrolRadius {
         circle.setId(id);
         circle.setViewOrder(ViewOrder.RADIUS.getValue() + gridRadius);
 
+
         drawLabel(patrols);
     }
 
@@ -115,6 +118,15 @@ public class PatrolRadius {
     }
 
     /**
+     * Set the radius's click handler.
+     *
+     * @param handler The handler called when the radius is clicked.
+     */
+    public void setClickHandler(final EventHandler<? super MouseEvent> handler) {
+        circle.setOnMouseClicked(handler);
+    }
+
+    /**
      * Determine the style of the circle. Since more than one patrol may be associated with a given circle.
      * We define a precedence order of styles. If a search patrol is present then search style is used. If
      * a ASW patrol is present (no search), then ASW style is used. If only a CAP patrol is present, then
@@ -155,7 +167,15 @@ public class PatrolRadius {
         double offset = gridView.getSize() / 2.0;
 
         vBox.setLayoutX(circle.getCenterX() - offset);
-        vBox.setLayoutY(circle.getCenterY() - circle.getRadius() + mapView.getGridSize());
+
+        double y = circle.getCenterY() - circle.getRadius() + mapView.getGridSize() / 2.0;
+
+        //Make sure the y coordinate is not off the map.
+        if (y < 0) {
+            y = mapView.getGridSize();
+        }
+
+        vBox.setLayoutY(y);
         vBox.setId("patrol-radius-label");
     }
 }

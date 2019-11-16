@@ -1,6 +1,7 @@
 package engima.waratsea.model.base;
 
 import engima.waratsea.model.base.airfield.AirfieldOperation;
+import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.squadron.Squadron;
 
@@ -10,6 +11,13 @@ import java.util.List;
  * Represents air bases.
  */
 public interface Airbase extends Base {
+
+    /**
+     * Get the type of airbase.
+     *
+     * @return The type of airbase.
+     */
+    AirfieldType getAirfieldType();
 
     /**
      * The name of the air base.

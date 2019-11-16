@@ -51,6 +51,19 @@ public class BaseGrid {
     }
 
     /**
+     * Get the title of the base. Use the airfield title if it exists; otherwise use the port title.
+     *
+     * @return The base title.
+     */
+    public String getTitle() {
+        return getAirfield()
+                .map(Airfield::getTitle)
+                .orElseGet(() -> getPort()
+                        .map(Port::getName)
+                        .orElse("Unknown"));
+    }
+
+    /**
      * Get an optional airfield for this base marker.
      *
      * @return An optional airfield.

@@ -1,5 +1,7 @@
 package engima.waratsea.model.base.airfield.patrol;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.game.Nation;
@@ -10,15 +12,19 @@ import engima.waratsea.model.squadron.state.SquadronState;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 public class CapPatrol implements Patrol {
-    private static final int RADIUS = 3;
+    private static final int RADIUS = 2;
+    private final AirCapRules airCapRules;
 
     private List<Squadron> squadrons;
 
@@ -32,8 +38,13 @@ public class CapPatrol implements Patrol {
      * The constructor.
      *
      * @param data The CAP patrol data read in from a JSON file.
+     * @param airCapRules The air CAP patrol rules.
      */
-    public CapPatrol(final PatrolData data) {
+    @Inject
+    public CapPatrol(@Assisted final PatrolData data,
+                               final AirCapRules airCapRules) {
+        this.airCapRules = airCapRules;
+
         airbase = data.getAirbase();
 
         Map<String, Squadron> squadronMap = getSquadronMap(data.getAirbase().getSquadrons());
@@ -116,6 +127,77 @@ public class CapPatrol implements Patrol {
             maxRadius = 0;
         }
     }
+
+    /**
+     * Determine which squadrons on patrol can reach the given target radius.
+     *
+     * @param targetRadius A patrol radius for which each squadron on patrol is
+     *                     checked to determine if the squadron can reach the
+     *                     radius.
+     * @return A list of squadrons on patrol that can reach the given target radius.
+     */
+    @Override
+    public List<Squadron> getSquadrons(final int targetRadius) {
+        return (targetRadius <= RADIUS) ?  squadrons : Collections.emptyList();
+    }
+
+    /**
+     * Get the search success rate of the patrol given the distance to the target.
+     *
+     * @param distance The distance to the target.
+     * @return The success rate.
+     */
+    @Override
+    public int getSuccessRate(final int distance) {
+        return airCapRules.getBaseSearchSuccess(distance);
+    }
+
+    /**
+     * Get the patrol data.
+     *
+     * @return A map of data for this patrol.
+     */
+    @Override
+    public Map<Integer, Map<String, String>> getPatrolData() {
+        return IntStream
+                .range(0, maxRadius + 1)
+                .boxed()
+                .collect(Collectors.toMap(radius -> radius, this::getPatrolData));
+    }
+
+    /**
+     * Get the patrol data that corresponds to the given radius. This is the
+     * data for a patrol that takes place at the given radius.
+     *
+     * @param radius The patrol radius.
+     * @return A map of data for this patrol that corresponds to the given radius.
+     */
+    private Map<String, String> getPatrolData(final int radius) {
+        List<Squadron> inRange = getSquadrons(radius);
+
+        Map<String, String> data = new LinkedHashMap<>();
+        data.put("Squadrons", inRange.size() + "");
+        data.put("Steps", inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add) + "");
+        data.put("Success", getSuccessRate(radius) + " %");
+        data.put("No Weather", airCapRules.getBaseSearchSuccessNoWeather(radius) + "%");
+
+        return data;
+    }
+
+    /**
+     * Get the patrol's true maximum squadron radius. This is the maximum radius
+     * at which the patrol has a greater than 0 % chance to be successful.
+     *
+     * @return The patrol's true maximum radius.
+     */
+    @Override
+    public int getTrueMaxRadius() {
+        return IntStream.range(0, maxRadius + 1)
+                .boxed()
+                .sorted(Collections.reverseOrder())
+                .filter(radius -> getSuccessRate(radius) > 0)
+                .findFirst().orElse(0);    }
+
 
     /**
      * Get a squadron map to aid in determine which squadrons of the airfield

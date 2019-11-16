@@ -24,6 +24,6 @@ public class Range {
     public Range(final RangeData data) {
         this.ferryDistance = data.getRange();
         this.endurance = data.getEndurance();
-        this.radius = (ferryDistance * endurance) / 2 + (ferryDistance % 2) * endurance;
+        this.radius = (ferryDistance * endurance) / 2 + ((ferryDistance % 2) * endurance) / 2;
     }
 }

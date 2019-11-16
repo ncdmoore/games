@@ -17,6 +17,9 @@ public class DialogOkOnlyView {
     @Getter
     private final Button okButton = new Button("Ok");
 
+    @Getter
+    private Scene scene;
+
     @Setter
     private Node contents;
 
@@ -40,7 +43,7 @@ public class DialogOkOnlyView {
         borderPane.setCenter(contents);
         borderPane.setBottom(buildControlButtons());
 
-        Scene scene = new Scene(borderPane, width, height);
+        scene = new Scene(borderPane, width, height);
 
         scene.getStylesheets().add(css);
 

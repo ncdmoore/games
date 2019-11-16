@@ -19,6 +19,8 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
 import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.squadron.data.SquadronData;
+import engima.waratsea.model.weather.Weather;
+import engima.waratsea.model.weather.WeatherType;
 import enigma.waratsea.TestModule;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -46,6 +48,9 @@ public class airfieldTest {
         airfieldFactory = injector.getInstance(AirfieldFactory.class);
         squadronFactory = injector.getInstance(SquadronFactory.class);
         regionFactory = injector.getInstance(RegionFactory.class);
+
+        Weather weather = injector.getInstance(Weather.class);
+        weather.setCurrent(WeatherType.CLEAR);
     }
 
     @Test
@@ -355,9 +360,6 @@ public class airfieldTest {
         Squadron reconSquadron = buildSquadronSeaplaneRecon();
         Squadron fighterSquadron = buildSquadronLandFighter();
 
-        int fighterRadius = fighterSquadron.getRadius().stream().max(Integer::compareTo).orElse(0);
-        int reconRadius = reconSquadron.getRadius().stream().max(Integer::compareTo).orElse(0);
-
         airfield.addSquadron(reconSquadron);
         airfield.addSquadron(fighterSquadron);
 
@@ -369,23 +371,19 @@ public class airfieldTest {
 
         Set<Integer> radii = radiiMap.keySet();
 
-        boolean result = radii.contains(reconRadius);
+        boolean result = radii.contains(airfield.getPatrol(PatrolType.SEARCH).getTrueMaxRadius());
 
-        Assert.assertTrue(result);  // Recon has the bigger radius, so only is should be in the map.
-
-        result = radii.contains(fighterRadius);
-
-        Assert.assertFalse(result);  // Fighter radius is smaller and should not be in the map.
+        Assert.assertTrue(result);
 
         airfield.getPatrol(PatrolType.CAP).addSquadron(fighterSquadron);
 
-        result = radii.contains(airfield.getPatrol(PatrolType.CAP).getMaxRadius());
+        radiiMap = airfield.getPatrolRadiiMap();
+
+        radii = radiiMap.keySet();
+
+        result = radii.contains(airfield.getPatrol(PatrolType.CAP).getTrueMaxRadius());
 
         Assert.assertTrue(result);  // Fighter is on CAP so its radius should be in the map.
-
-        result = radiiMap.get(reconRadius).size() == 2;
-
-        Assert.assertTrue(result);  // ASW and Search have the same radius.
     }
 
     private Region buildRegion() {

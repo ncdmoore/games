@@ -32,6 +32,12 @@
     -fx-alignment: top-right;
 }
 
+#basemarker-title {
+    -fx-border-color: dodgerblue;
+    -fx-background-color: linear-gradient(to right, silver 0%, white 50%, silver);
+    -fx-padding: /* top */ 5 /* right */ 5 /* bottom */ 5 /* left */ 5;
+}
+
 #patrol-radius-search {
     -fx-fill: radial-gradient(radius 100%, white, silver);
     -fx-opacity: 0.7;
@@ -39,7 +45,7 @@
 }
 
 #patrol-radius-asw {
-    -fx-fill: radial-gradient(radius 100%, white, lightgrey);
+    -fx-fill: radial-gradient(radius 100%, white, lightsteelblue, lightslategray);
     -fx-opacity: 0.7;
     -fx-stroke-width: 0.5;
 }
@@ -51,6 +57,7 @@
 }
 
 #patrol-radius-label {
+    -fx-font: normal 8pt "Lucida Grande";
     -fx-border-color: black;
     -fx-background-color: whitesmoke;
     -fx-padding: /* top */ 5 /* right */ 5 /* bottom */ 5 /* left */ 5;

@@ -9,10 +9,8 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
-import engima.waratsea.model.base.airfield.patrol.AswPatrol;
-import engima.waratsea.model.base.airfield.patrol.CapPatrol;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
-import engima.waratsea.model.base.airfield.patrol.SearchPatrol;
+import engima.waratsea.model.base.airfield.patrol.PatrolFactory;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -88,11 +86,13 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * Constructor called by guice.
      *
      * @param data The airfield data read in from a JSON file.
-     * @param factory Squadron factory.
+     * @param squadronFactory Squadron factory.
+     * @param patrolFactory Patrol factory.
      */
     @Inject
     public Airfield(@Assisted final AirfieldData data,
-                              final SquadronFactory factory) {
+                    final SquadronFactory squadronFactory,
+                    final PatrolFactory patrolFactory) {
         this.side = data.getSide();
         name = data.getName();
         title = Optional.ofNullable(data.getTitle()).orElse(name);   // If no title is specified just use the name.
@@ -109,8 +109,8 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                 .sorted()
                 .forEach(type -> squadronMap.put(type, new ArrayList<>()));
 
-        buildSquadrons(data.getSquadrons(), factory);
-        buildPatrols(data);
+        buildSquadrons(data.getSquadrons(), squadronFactory);
+        buildPatrols(data, patrolFactory);
     }
 
     /**
@@ -372,11 +372,12 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
 
     /**
-     * Get a map of patrol maximum radius to patrol.
+     * Get a map of patrol maximum radius to list of patrols.
      *
      * @return A map containing the patrol maximum radius as key and the patrol as the value.
      * Note, that if all the patrol types have the same maximum radius value then this map
-     * will contain a single entry.
+     * will contain a single entry where the single maximum radius maps to all three types
+     * of patrols.
      */
     public Map<Integer, List<Patrol>> getPatrolRadiiMap() {
         return Stream.of(PatrolType.values())
@@ -415,22 +416,23 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * Build the airfield's ASW patrol.
      *
      * @param data The Airfield data read in from a JSON file.
+     * @param factory The factory that creates the patrols.
      */
-    private void buildPatrols(final AirfieldData data) {
+    private void buildPatrols(final AirfieldData data, final PatrolFactory factory) {
         PatrolData aswData = data.getAswPatrol();
 
         aswData.setAirbase(this);
-        patrolMap.put(PatrolType.ASW, new AswPatrol(aswData));
+        patrolMap.put(PatrolType.ASW, factory.createAswPatrol(aswData));
 
         PatrolData capData = data.getCapPatrol();
 
         capData.setAirbase(this);
-        patrolMap.put(PatrolType.CAP, new CapPatrol(capData));
+        patrolMap.put(PatrolType.CAP, factory.createCapPatrol(capData));
 
         PatrolData searchData = data.getSearchPatrol();
 
         searchData.setAirbase(this);
-        patrolMap.put(PatrolType.SEARCH, new SearchPatrol(searchData));
+        patrolMap.put(PatrolType.SEARCH, factory.createSearchPatrol(searchData));
     }
 
     /**
@@ -528,7 +530,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     private Pair<Integer, Patrol> getPatrolRadii(final PatrolType patrolType) {
         int radius = patrolMap
                 .get(patrolType)
-                .getMaxRadius();
+                .getTrueMaxRadius();
 
         return new Pair<>(radius, patrolMap.get(patrolType));
     }

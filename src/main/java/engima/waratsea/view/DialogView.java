@@ -15,6 +15,9 @@ import lombok.Setter;
  */
 public class DialogView {
     @Getter
+    private Scene scene;
+
+    @Getter
     private final Button okButton = new Button("Ok");
 
     @Getter
@@ -43,7 +46,7 @@ public class DialogView {
         borderPane.setCenter(contents);
         borderPane.setBottom(buildControlButtons());
 
-        Scene scene = new Scene(borderPane, width, height);
+        scene = new Scene(borderPane, width, height);
 
         scene.getStylesheets().add(css);
 

@@ -153,6 +153,41 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AirAsw.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AirAswRules.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AirCapRules.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AirRulesFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AirSearch.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AirSearchRules.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AirSearchRulesFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AswPatrol.java">
           <value>
             <set />
@@ -164,6 +199,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/Patrol.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/PatrolFactory.java">
           <value>
             <set />
           </value>
@@ -698,6 +738,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/PatrolDetailsDialog.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/AirfieldDTO.java">
           <value>
             <set />
@@ -864,6 +909,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldView.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/PatrolDetailsView.java">
           <value>
             <set />
           </value>
@@ -1893,6 +1943,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/css/patrolDetails.css">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/css/savedGameView.css">
           <value>
             <set />
@@ -1944,6 +1999,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/airfieldTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/patrol/PatrolTest.java">
           <value>
             <set />
           </value>

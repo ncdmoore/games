@@ -58,6 +58,8 @@ public class Dice {
         double den = Math.pow(DICE_SIX_SIDED, numberDiceToRoll);
 
         final int percentage = 100;
-        return (int) ((1.0 - (num / den)) * percentage);
+        int result = (int) ((1.0 - (num / den)) * percentage);
+
+        return (result > 0) ? result : 0;   // any negative results are set to 0.
     }
 }

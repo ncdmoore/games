@@ -4,20 +4,24 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.presenter.airfield.AirfieldDetailsDialog;
+import engima.waratsea.presenter.airfield.PatrolDetailsDialog;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
 import javafx.event.ActionEvent;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -32,6 +36,7 @@ public class MainMapPresenter {
     private MainMenu mainMenu;
 
     private Provider<AirfieldDetailsDialog> airfieldDetailsDialogProvider;
+    private Provider<PatrolDetailsDialog> patrolDetailsDialogProvider;
 
     /**
      * The constructor called by guice.
@@ -40,18 +45,21 @@ public class MainMapPresenter {
      * @param viewProvider Provides the main map view.
      * @param menuProvider Provides the main menu.
      * @param airfieldDetailsDialogProvider Provides airfield details dialog.
+     * @param patrolDetailsDialogProvider Provides partol radius details dialog.
      */
     @Inject
     public MainMapPresenter(final Game game,
                             final Provider<MainMapView> viewProvider,
                             final Provider<MainMenu> menuProvider,
-                            final Provider<AirfieldDetailsDialog> airfieldDetailsDialogProvider) {
+                            final Provider<AirfieldDetailsDialog> airfieldDetailsDialogProvider,
+                            final Provider<PatrolDetailsDialog> patrolDetailsDialogProvider) {
         this.game = game;
 
         mainMapView = viewProvider.get();
         mainMenu = menuProvider.get();
 
         this.airfieldDetailsDialogProvider = airfieldDetailsDialogProvider;
+        this.patrolDetailsDialogProvider = patrolDetailsDialogProvider;
     }
 
     /**
@@ -64,6 +72,8 @@ public class MainMapPresenter {
         Side humanSide =  game.getHumanSide();
         mainMapView.setBaseClickHandler(humanSide, this::humanBaseClickHandler);
         mainMapView.setBaseClickHandler(humanSide.opposite(), this::computerBaseClickHandler);
+
+        mainMapView.setPatrolRadiusClickHandler(humanSide, this::patrolRadiusClickHandler);
 
         mainMapView.setAirfieldMenuHandler(humanSide, this::airfieldHandler);
     }
@@ -83,7 +93,7 @@ public class MainMapPresenter {
      */
     private void humanBaseClickHandler(final MouseEvent event) {
         if (event.getButton() == MouseButton.PRIMARY) {
-            ImageView imageView = (ImageView) event.getSource();
+            VBox imageView = (VBox) event.getSource();
             BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
             mainMapView.selectMarker(baseMarker);
         }
@@ -95,7 +105,7 @@ public class MainMapPresenter {
      * @param event The mouse event.
      */
     private void computerBaseClickHandler(final MouseEvent event) {
-        ImageView imageView = (ImageView) event.getSource();
+        VBox imageView = (VBox) event.getSource();
 
         BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
 
@@ -115,5 +125,17 @@ public class MainMapPresenter {
         MenuItem item = (MenuItem) event.getSource();
         Optional<Airfield> airfield = (Optional<Airfield>) item.getUserData();
         airfield.ifPresent(a -> airfieldDetailsDialogProvider.get().show(a));
+    }
+
+    /**
+     * Callback for when an airfield's patrol radius is clicked.
+     *
+     * @param event The click event.
+     */
+    @SuppressWarnings("unchecked")
+    private void patrolRadiusClickHandler(final MouseEvent event) {
+        Circle circle = (Circle) event.getSource();
+        List<Patrol> patrols = (List<Patrol>) circle.getUserData();
+        patrolDetailsDialogProvider.get().show(patrols);
     }
 }
