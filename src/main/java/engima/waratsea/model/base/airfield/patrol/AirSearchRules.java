@@ -21,6 +21,8 @@ import java.util.Map;
 public class AirSearchRules {
     private static final int SHIP_SEARCH_FACTOR = 3;
     private static final int SUB_SEARCH_FACTOR = 1;
+    private static final int DEFAULT_STEP_FACTOR = 3;
+    private static final int DEFUALT_DISTANCE_FACTOR = -4;
 
     private static final Map<AssetType, Integer> ASSET_MAP = new HashMap<>();
 
@@ -79,9 +81,9 @@ public class AirSearchRules {
 
         fighterFactor.put(false, 0);
         fighterFactor.put(true, -1);
+        //CHECKSTYLE:ON: MagicNumber
 
         searchFactor = ASSET_MAP.get(assetType);
-
     }
 
     /**
@@ -161,7 +163,7 @@ public class AirSearchRules {
      * @return The step factor.
      */
     private int getStepFactor(final int steps) {
-        return stepFactor.getOrDefault(steps, 3);
+        return stepFactor.getOrDefault(steps, DEFAULT_STEP_FACTOR);
     }
 
     /**
@@ -180,7 +182,7 @@ public class AirSearchRules {
      * @return The distance factor.
      */
     private int getDistanceFactor(final int distance) {
-        return distanceFactor.getOrDefault(distance, -4);
+        return distanceFactor.getOrDefault(distance, DEFUALT_DISTANCE_FACTOR);
     }
 
     /**
@@ -192,7 +194,4 @@ public class AirSearchRules {
     private int getFighterFactor(final boolean present) {
         return fighterFactor.get(present);
     }
-
-    //CHECKSTYLE:ON: MagicNumber
-
 }

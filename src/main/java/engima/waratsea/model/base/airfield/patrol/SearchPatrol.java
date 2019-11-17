@@ -195,7 +195,7 @@ public class SearchPatrol implements Patrol {
         Map<String, String> data = new LinkedHashMap<>();
         data.put("Squadrons", inRange.size() + "");
         data.put("Steps", inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add) + "");
-        data.put("Success", getSuccessRate(radius) + " %");
+        data.put("Search", getSuccessRate(radius) + " %");
         data.put("No Weather", airSearch.getBaseSearchSuccessNoWeather(radius, squadrons) + "%");
 
         return data;

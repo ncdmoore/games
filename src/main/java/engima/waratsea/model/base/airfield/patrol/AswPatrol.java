@@ -186,8 +186,9 @@ public class AswPatrol implements Patrol {
         Map<String, String> data = new LinkedHashMap<>();
         data.put("Squadrons", inRange.size() + "");
         data.put("Steps", inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add) + "");
-        data.put("Success", getSuccessRate(radius) + " %");
-        data.put("No Weather", airAsw.getBaseSearchSuccessNoWeather(radius, squadrons) + "%");
+        data.put("Search", getSuccessRate(radius) + " %");
+        //data.put("No Weather", airAsw.getBaseSearchSuccessNoWeather(radius, squadrons) + "%");
+        data.put("Attack", airAsw.getBaseAswAttackSuccess(radius, squadrons) + "%");
 
         return data;
     }

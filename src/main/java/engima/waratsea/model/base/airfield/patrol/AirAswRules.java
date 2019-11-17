@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @Singleton
 public class AirAswRules {
-    private static final int BASE_FACTOR = 1;
+    private static final int ATTACK_FACTOR = 1;
 
     private static final int STEP_FACTOR = 5;
 
@@ -59,13 +59,14 @@ public class AirAswRules {
     /**
      * Get the ASW attack success rate.
      *
+     * @param distance The distance from the patrol base to the target in grids.
      * @param squadrons The squadrons on ASW patrol.
      * @return An integer indicating the percentage chance of success.
      */
-    public int getBaseAswAttackSuccess(final List<Squadron> squadrons) {
+    public int getBaseAswAttackSuccess(final int distance, final List<Squadron> squadrons) {
         int factor = getBaseFactor(squadrons);
-
-        return dice.probability6(factor + BASE_FACTOR, 1);
+        int canSearch = getBaseSearchSuccess(distance, squadrons);
+        return canSearch > 0 ? dice.probability6(factor + ATTACK_FACTOR, 1) : 0;
     }
 
     /**
