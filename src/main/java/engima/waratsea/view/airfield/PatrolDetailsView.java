@@ -20,6 +20,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Represents the patrol details view. Displayed when a patrol radius circle is clicked on the game map.
+ */
 public class PatrolDetailsView {
     private final ViewProps props;
 

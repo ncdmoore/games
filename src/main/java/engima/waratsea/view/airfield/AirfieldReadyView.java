@@ -25,6 +25,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * The Ready View of the Airfield details dialog.
+ */
 public class AirfieldReadyView {
     private final ViewProps props;
 

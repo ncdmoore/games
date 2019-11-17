@@ -24,6 +24,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * The patrol view of the airfield details dialog.
+ */
 public class AirfieldPatrolView {
 
     private final ImageResourceProvider imageResourceProvider;

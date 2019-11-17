@@ -24,6 +24,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Represents the Airfield summary on the left side of the airfield details dialog.
+ */
 public class AirfieldSummaryView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;

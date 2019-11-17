@@ -18,6 +18,9 @@ import lombok.Getter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The airfield detials dialog view.
+ */
 public class AirfieldDetailsView {
     private static final String ROUNDEL_SIZE = "20x20.png";
 
