@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
+import engima.waratsea.model.base.airfield.patrol.rules.AirRules;
+import engima.waratsea.model.base.airfield.patrol.rules.AirRulesFactory;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
@@ -39,20 +41,20 @@ public class AswPatrol implements Patrol {
     @Getter
     private int maxRadius;
 
-    private final AirAswRules airAsw;
+    private final AirRules airAsw;
 
     /**
      * The constructor.
      *
      * @param data The ASW patrol data read in from a JSON file.
-     * @param airAswRules The air ASW rules.
+     * @param airRulesFactory The air rules factory.
      */
     @Inject
     public AswPatrol(@Assisted final PatrolData data,
-                               final AirAswRules airAswRules) {
+                               final AirRulesFactory airRulesFactory) {
         airbase = data.getAirbase();
 
-        airAsw = airAswRules;
+        airAsw = airRulesFactory.createAsw();
 
         Map<String, Squadron> squadronMap = getSquadronMap(data.getAirbase().getSquadrons());
 
@@ -157,7 +159,8 @@ public class AswPatrol implements Patrol {
      */
     @Override
     public int getSuccessRate(final int distance) {
-        return airAsw.getBaseSearchSuccess(distance, squadrons);
+        List<Squadron> inRange = getSquadrons(distance);
+        return airAsw.getBaseSearchSuccess(distance, inRange);
     }
 
     /**
@@ -166,31 +169,11 @@ public class AswPatrol implements Patrol {
      * @return A map of data for this patrol.
      */
     @Override
-    public Map<Integer, Map<String, String>> getPatrolData() {
+    public Map<Integer, Map<String, String>> getPatrolStats() {
         return IntStream
                 .range(1, maxRadius + 1)
                 .boxed()
-                .collect(Collectors.toMap(radius -> radius, this::getPatrolData));
-    }
-
-    /**
-     * Get the patrol data that corresponds to the given radius. This is the
-     * data for a patrol that takes place at the given radius.
-     *
-     * @param radius The patrol radius.
-     * @return A map of data for this patrol that corresponds to the given radius.
-     */
-    private Map<String, String> getPatrolData(final int radius) {
-        List<Squadron> inRange = getSquadrons(radius);
-
-        Map<String, String> data = new LinkedHashMap<>();
-        data.put("Squadrons", inRange.size() + "");
-        data.put("Steps", inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add) + "");
-        data.put("Search", getSuccessRate(radius) + " %");
-        //data.put("No Weather", airAsw.getBaseSearchSuccessNoWeather(radius, squadrons) + "%");
-        data.put("Attack", airAsw.getBaseAswAttackSuccess(radius, squadrons) + "%");
-
-        return data;
+                .collect(Collectors.toMap(radius -> radius, this::getPatrolStat));
     }
 
     /**
@@ -206,6 +189,25 @@ public class AswPatrol implements Patrol {
                 .sorted(Collections.reverseOrder())
                 .filter(radius -> getSuccessRate(radius) > 0)
                 .findFirst().orElse(0);
+    }
+
+    /**
+     * Get the patrol data that corresponds to the given radius. This is the
+     * data for a patrol that takes place at the given radius.
+     *
+     * @param radius The patrol radius.
+     * @return A map of data for this patrol that corresponds to the given radius.
+     */
+    private Map<String, String> getPatrolStat(final int radius) {
+        List<Squadron> inRange = getSquadrons(radius);
+
+        Map<String, String> data = new LinkedHashMap<>();
+        data.put("Squadrons", inRange.size() + "");
+        data.put("Steps", inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add) + "");
+        data.put("Search", getSuccessRate(radius) + " %");
+        data.put("Attack", airAsw.getBaseAttackSuccess(radius, inRange) + "%");
+
+        return data;
     }
 
     /**

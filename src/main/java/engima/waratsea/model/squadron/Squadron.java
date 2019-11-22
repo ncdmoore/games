@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -401,6 +402,20 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      */
     public List<Integer> getRadius() {
         return aircraft.getRadius();
+    }
+
+    /**
+     * Get the squadron's maximum radius. Some aircraft may equip with drop tanks and have two radii.
+     * This method gets the maximum of the two radii.
+     *
+     * @return The squadron's maximum radius.
+     */
+    public int getMaxRadius() {
+        return aircraft
+                .getRadius()
+                .stream()
+                .max(Comparator.comparing(radius -> radius))
+                .orElse(0);
     }
 
     /**

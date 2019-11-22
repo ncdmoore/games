@@ -68,7 +68,7 @@ public interface Patrol {
      *
      * @return A map of data for this patrol.
      */
-    Map<Integer, Map<String, String>> getPatrolData();
+    Map<Integer, Map<String, String>> getPatrolStats();
 
     /**
      * Get the Patrol's maximum squadron radius. This is the radius of the squadron

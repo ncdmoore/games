@@ -3,8 +3,6 @@ package enigma.waratsea.model.base.airfield.patrol;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.aircraft.LandingType;
-import engima.waratsea.model.asset.Asset;
-import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
@@ -72,7 +70,7 @@ public class PatrolTest {
         data.setAirbase(airfield);
         data.setSquadrons(Collections.singletonList(squadron.getName()));
 
-        Patrol patrol = patrolFactory.createSearchPatrol(data);
+        Patrol patrol = patrolFactory.createSearch(data);
 
         int rate = patrol.getSuccessRate(squadron.getRadius().stream().max(Integer::compare).orElse(0));
 
@@ -101,7 +99,7 @@ public class PatrolTest {
         data.setAirbase(airfield);
         data.setSquadrons(Collections.singletonList(squadron.getName()));
 
-        Patrol patrol = patrolFactory.createSearchPatrol(data);
+        Patrol patrol = patrolFactory.createSearch(data);
 
         int maxRadius = patrol.getTrueMaxRadius();
 

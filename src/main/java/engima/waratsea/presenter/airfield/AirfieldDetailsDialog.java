@@ -3,6 +3,7 @@ package engima.waratsea.presenter.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.airfield.patrol.PatrolFactory;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
@@ -35,8 +36,10 @@ public class AirfieldDetailsDialog {
     private Provider<DialogView> dialogProvider;
     private Provider<AirfieldDetailsView> viewProvider;
     private Provider<MainMapView> mapViewProvider;
+    private PatrolFactory patrolFactory;
 
     private ViewProps props;
+
 
     private Stage stage;
 
@@ -53,6 +56,7 @@ public class AirfieldDetailsDialog {
      * @param viewProvider Provides the view contents for this dialog.
      * @param mapViewProvider Provides the view of the main game map.
      * @param props The view properties.
+     * @param patrolFactory The patrol factory.
      */
 
     @Inject
@@ -60,12 +64,14 @@ public class AirfieldDetailsDialog {
                                  final Provider<DialogView> dialogProvider,
                                  final Provider<AirfieldDetailsView> viewProvider,
                                  final Provider<MainMapView> mapViewProvider,
-                                 final ViewProps props) {
+                                 final ViewProps props,
+                                 final PatrolFactory patrolFactory) {
         this.cssResourceProvider = cssResourceProvider;
         this.dialogProvider = dialogProvider;
         this.viewProvider = viewProvider;
         this.mapViewProvider = mapViewProvider;
         this.props = props;
+        this.patrolFactory = patrolFactory;
     }
 
     /**
@@ -219,6 +225,7 @@ public class AirfieldDetailsDialog {
 
         updatePatrolSummary(nation, type);
         updateReadySummary(nation, squadron);
+        updatePatrolStats(nation, type);
     }
 
     /**
@@ -243,6 +250,7 @@ public class AirfieldDetailsDialog {
 
         updatePatrolSummary(nation, type);
         updateReadySummary(nation, squadron);
+        updatePatrolStats(nation, type);
     }
 
     /**
@@ -360,4 +368,19 @@ public class AirfieldDetailsDialog {
                 .get(nation)
                 .updateReadySummary(SquadronViewType.get(squadron.getType()), numReady);
     }
+
+    /**
+     * Update the patrol's stats.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @param patrolType The type of patrol.
+     */
+    private void updatePatrolStats(final Nation nation, final PatrolType patrolType) {
+        view
+                .getAirfieldPatrolView()
+                .get(nation)
+                .updatePatrolStats(nation, patrolType);
+    }
+
+
 }

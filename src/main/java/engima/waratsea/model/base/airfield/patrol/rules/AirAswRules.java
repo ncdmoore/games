@@ -1,7 +1,6 @@
-package engima.waratsea.model.base.airfield.patrol;
+package engima.waratsea.model.base.airfield.patrol.rules;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.weather.Weather;
@@ -17,8 +16,7 @@ import java.util.Map;
  * A singleton that calculates air ASW results.
  *
  */
-@Singleton
-public class AirAswRules {
+public class AirAswRules implements AirRules {
     private static final int ATTACK_FACTOR = 1;
 
     private static final int STEP_FACTOR = 5;
@@ -27,22 +25,20 @@ public class AirAswRules {
 
     private final Weather weather;
     private final Dice dice;
-    private final AirSearchRules airSearchRules;
+    private final SearchRules searchRules;
 
     /**
      * Constructor called by guice.
      *
      * @param weather The game's weather.
      * @param dice A dice utility.
-     * @param airSearchRulesFactory The air search rules factory.
      */
     @Inject
     public AirAswRules(final Weather weather,
-                       final Dice dice,
-                       final AirSearchRulesFactory airSearchRulesFactory) {
+                       final Dice dice) {
         this.weather = weather;
         this.dice = dice;
-        this.airSearchRules = airSearchRulesFactory.create(AssetType.SUB);
+        this.searchRules = new SearchRules(AssetType.SUB, weather, dice);
 
         //CHECKSTYLE:OFF: checkstyle:magicnumber
 
@@ -63,7 +59,7 @@ public class AirAswRules {
      * @param squadrons The squadrons on ASW patrol.
      * @return An integer indicating the percentage chance of success.
      */
-    public int getBaseAswAttackSuccess(final int distance, final List<Squadron> squadrons) {
+    public int getBaseAttackSuccess(final int distance, final List<Squadron> squadrons) {
         int factor = getBaseFactor(squadrons);
         int canSearch = getBaseSearchSuccess(distance, squadrons);
         return canSearch > 0 ? dice.probability6(factor + ATTACK_FACTOR, 1) : 0;
@@ -77,7 +73,7 @@ public class AirAswRules {
      * @return An integer indicating the percentage chance of success.
      */
     public int getBaseSearchSuccess(final int distance, final List<Squadron> squadrons) {
-        return airSearchRules.getBaseSearchSuccess(distance, squadrons);
+        return searchRules.getBaseSearchSuccess(distance, squadrons);
     }
 
     /**
@@ -88,7 +84,7 @@ public class AirAswRules {
      * @return An integer indicating the percentage chance of success excluding the current weather conditions.
      */
     public int getBaseSearchSuccessNoWeather(final int distance, final List<Squadron> squadrons) {
-        return airSearchRules.getBaseSearchSuccessNoWeather(distance, squadrons);
+        return searchRules.getBaseSearchSuccessNoWeather(distance, squadrons);
     }
 
     /**

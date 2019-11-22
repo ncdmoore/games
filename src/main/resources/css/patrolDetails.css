@@ -31,3 +31,7 @@
     -fx-text-fill: black;
     -fx-alignment: top-center;
 }
+
+#controls-pane {
+    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 10 /* left */ 0;
+}

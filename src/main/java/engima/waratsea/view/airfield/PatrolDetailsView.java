@@ -79,7 +79,7 @@ public class PatrolDetailsView {
 
         labelMap.get(PatrolType.getType(patrol)).clear();
 
-        Map<Integer, Map<String, String>> data = patrol.getPatrolData();
+        Map<Integer, Map<String, String>> data = patrol.getPatrolStats();
 
         buildHeaders(gridPane, data.get(1));
 

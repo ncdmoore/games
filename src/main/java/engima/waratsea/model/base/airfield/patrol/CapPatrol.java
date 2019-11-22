@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
+import engima.waratsea.model.base.airfield.patrol.rules.AirRules;
+import engima.waratsea.model.base.airfield.patrol.rules.AirRulesFactory;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +27,8 @@ import java.util.stream.IntStream;
 @Slf4j
 public class CapPatrol implements Patrol {
     private static final int RADIUS = 2;
-    private final AirCapRules airCapRules;
+
+    private final AirRules airCap;
 
     private List<Squadron> squadrons;
 
@@ -38,12 +42,12 @@ public class CapPatrol implements Patrol {
      * The constructor.
      *
      * @param data The CAP patrol data read in from a JSON file.
-     * @param airCapRules The air CAP patrol rules.
+     * @param airRulesFactory The air rules factory.
      */
     @Inject
     public CapPatrol(@Assisted final PatrolData data,
-                               final AirCapRules airCapRules) {
-        this.airCapRules = airCapRules;
+                               final AirRulesFactory airRulesFactory) {
+        this.airCap = airRulesFactory.createCap();
 
         airbase = data.getAirbase();
 
@@ -149,7 +153,8 @@ public class CapPatrol implements Patrol {
      */
     @Override
     public int getSuccessRate(final int distance) {
-        return airCapRules.getBaseSearchSuccess(distance);
+        List<Squadron> inRange = getSquadrons(distance);
+        return airCap.getBaseSearchSuccess(distance, inRange);
     }
 
     /**
@@ -158,11 +163,16 @@ public class CapPatrol implements Patrol {
      * @return A map of data for this patrol.
      */
     @Override
-    public Map<Integer, Map<String, String>> getPatrolData() {
+    public Map<Integer, Map<String, String>> getPatrolStats() {
+
+        if (squadrons.isEmpty()) {
+            return new HashMap<>();
+        }
+
         return IntStream
                 .range(0, maxRadius + 1)
                 .boxed()
-                .collect(Collectors.toMap(radius -> radius, this::getPatrolData));
+                .collect(Collectors.toMap(radius -> radius, this::getPatrolStat));
     }
 
     /**
@@ -172,14 +182,14 @@ public class CapPatrol implements Patrol {
      * @param radius The patrol radius.
      * @return A map of data for this patrol that corresponds to the given radius.
      */
-    private Map<String, String> getPatrolData(final int radius) {
+    private Map<String, String> getPatrolStat(final int radius) {
         List<Squadron> inRange = getSquadrons(radius);
 
         Map<String, String> data = new LinkedHashMap<>();
         data.put("Squadrons", inRange.size() + "");
         data.put("Steps", inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add) + "");
         data.put("Intercept", getSuccessRate(radius) + " %");
-        data.put("No Weather", airCapRules.getBaseSearchSuccessNoWeather(radius) + "%");
+        data.put("No Weather", airCap.getBaseSearchSuccessNoWeather(radius, inRange) + "%");
 
         return data;
     }

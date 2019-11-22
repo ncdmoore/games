@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ListViewPair<T> {
@@ -53,6 +54,8 @@ public class ListViewPair<T> {
      */
     public ListViewPair(final String name) {
         this.name = name;
+        add.setDisable(true);
+        remove.setDisable(true);
     }
 
     /**
@@ -103,6 +106,12 @@ public class ListViewPair<T> {
         Optional.ofNullable(t).ifPresent(element -> {
             available.getItems().remove(t);
             assigned.getItems().add(t);
+            remove.setDisable(false);
+
+            if (available.getItems().isEmpty()) {
+                add.setDisable(true);
+            }
+
         });
     }
 
@@ -115,6 +124,11 @@ public class ListViewPair<T> {
         Optional.ofNullable(t).ifPresent(element -> {
             assigned.getItems().remove(t);
             available.getItems().add(t);
+            add.setDisable(false);
+
+            if (assigned.getItems().isEmpty()) {
+                remove.setDisable(true);
+            }
         });
     }
 
@@ -126,7 +140,13 @@ public class ListViewPair<T> {
     public void removeFromAvailable(final T t) {
         Optional
                 .ofNullable(t)
-                .ifPresent(element -> available.getItems().remove(element));
+                .ifPresent(element -> {
+                    available.getItems().remove(element);
+
+                    if (available.getItems().isEmpty()) {
+                        add.setDisable(true);
+                    }
+                });
     }
 
     /**
@@ -137,7 +157,34 @@ public class ListViewPair<T> {
     public void addToAvailable(final T t) {
         Optional
                 .ofNullable(t)
-                .ifPresent(element -> available.getItems().add(element));
+                .ifPresent(element -> {
+                    available.getItems().add(element);
+                    add.setDisable(false);
+                });
+    }
+
+    /**
+     * Add the given list to the available list.
+     *
+     * @param t The list to add.
+     */
+    public void addAllToAvailable(final List<T> t) {
+        available.getItems().addAll(t);
+        if (!t.isEmpty()) {
+            add.setDisable(false);
+        }
+    }
+
+    /**
+     * Add the given list to the assigned list.
+     *
+     * @param t The list to add.
+     */
+    public void addAllToAssigned(final List<T> t) {
+        assigned.getItems().addAll(t);
+        if (!t.isEmpty()) {
+            remove.setDisable(false);
+        }
     }
 
     /**
@@ -172,5 +219,7 @@ public class ListViewPair<T> {
     public void clearAll() {
         available.getItems().clear();
         assigned.getItems().clear();
+        add.setDisable(true);
+        remove.setDisable(true);
     }
 }

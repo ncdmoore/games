@@ -16,7 +16,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,18 +36,20 @@ public class AirfieldPatrolView {
 
     private final Map<PatrolType, ListViewPair<Squadron>> patrolListMap = new HashMap<>();
     private final Map<PatrolType, SquadronSummaryView> patrolSquadronMap = new HashMap<>();
-
+    private final Map<PatrolType, AirfieldPatrolStatsView> patrolStatsMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
      *
      * @param imageResourceProvider Provides images.
      * @param props View properties.
+     * @param airfieldPatrolStatsViewProvider Provides patrol stats view.
      * @param squadronSummaryViewProvider Provides the squadron summary view.
      */
     @Inject
     public AirfieldPatrolView(final ImageResourceProvider imageResourceProvider,
                               final ViewProps props,
+                              final Provider<AirfieldPatrolStatsView> airfieldPatrolStatsViewProvider,
                               final Provider<SquadronSummaryView> squadronSummaryViewProvider) {
         this.imageResourceProvider = imageResourceProvider;
         this.props = props;
@@ -55,6 +57,7 @@ public class AirfieldPatrolView {
         Stream.of(PatrolType.values()).forEach(patrolType -> {
             patrolListMap.put(patrolType, new ListViewPair<>("patrol"));
             patrolSquadronMap.put(patrolType, squadronSummaryViewProvider.get());
+            patrolStatsMap.put(patrolType, airfieldPatrolStatsViewProvider.get());
         });
     }
 
@@ -66,6 +69,12 @@ public class AirfieldPatrolView {
      */
     public AirfieldPatrolView setAirfield(final Airfield field) {
         this.airfield = field;
+
+        patrolStatsMap.forEach((type, view) -> {
+            view.setAirfield(airfield);
+            view.setPatrolType(type);
+        });
+
         return this;
     }
 
@@ -219,6 +228,23 @@ public class AirfieldPatrolView {
     }
 
     /**
+     * Update the patrol stats.
+     *
+     * @param nation The nation: BRITSH, ITALIAN, etc...
+     * @param patrolType The patrol type.
+     */
+    public void updatePatrolStats(final Nation nation, final PatrolType patrolType) {
+            List<Squadron> assigned = patrolListMap
+                    .get(patrolType)
+                    .getAssigned()
+                    .getItems();
+
+            patrolStatsMap
+                    .get(patrolType)
+                    .updatePatrolStats(nation, assigned);
+    }
+
+    /**
      * Build a patrol tab.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
@@ -239,20 +265,13 @@ public class AirfieldPatrolView {
         lists.setAssignedTitle(patrolType.getValue() + " Assigned");
 
         lists.clearAll();
-
-        lists
-                .getAvailable()
-                .getItems()
-                .addAll(airfield.getReadySquadrons(nation, patrolType));
-
-        lists
-                .getAssigned()
-                .getItems()
-                .addAll(airfield.getPatrol(patrolType).getSquadrons(nation));
-
+        lists.addAllToAvailable(airfield.getReadySquadrons(nation, patrolType));
+        lists.addAllToAssigned(airfield.getPatrol(patrolType).getSquadrons(nation));
 
         lists.getAdd().setUserData(patrolType);
         lists.getRemove().setUserData(patrolType);
+
+        Node patrolStatsView = buildPatrolStats(nation, patrolType);
 
         Node squadronSummaryView = patrolSquadronMap
                 .get(patrolType)
@@ -260,10 +279,15 @@ public class AirfieldPatrolView {
 
         Node listNode = lists.build();
 
-        VBox vBox = new VBox(listNode, squadronSummaryView);
-        vBox.setId("patrol-main-pane");
 
-        tab.setContent(vBox);
+        BorderPane borderPane = new BorderPane();
+
+        borderPane.setTop(listNode);
+        borderPane.setCenter(patrolStatsView);
+        borderPane.setBottom(squadronSummaryView);
+        borderPane.setId("patrol-main-pane");
+
+        tab.setContent(borderPane);
 
         return tab;
     }
@@ -294,5 +318,23 @@ public class AirfieldPatrolView {
                 .getAssigned()
                 .getSelectionModel()
                 .getSelectedItem();
+    }
+
+    /**
+     * Build patrol stats.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @param patrolType The type of patrol.
+     * @return A node containing the patrol stats.
+     */
+    private Node buildPatrolStats(final Nation nation, final PatrolType patrolType) {
+        List<Squadron> assigned = patrolListMap
+                .get(patrolType)
+                .getAssigned()
+                .getItems();
+
+        return patrolStatsMap
+                .get(patrolType)
+                .buildPatrolStats(nation, assigned);
     }
 }

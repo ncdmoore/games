@@ -45,6 +45,8 @@ import java.util.stream.Stream;
 @Slf4j
 public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
+    private final PatrolFactory patrolFactory;
+
     @Getter
     private final Side side;
 
@@ -93,6 +95,9 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     public Airfield(@Assisted final AirfieldData data,
                     final SquadronFactory squadronFactory,
                     final PatrolFactory patrolFactory) {
+
+        this.patrolFactory = patrolFactory;
+
         this.side = data.getSide();
         name = data.getName();
         title = Optional.ofNullable(data.getTitle()).orElse(name);   // If no title is specified just use the name.
@@ -110,7 +115,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                 .forEach(type -> squadronMap.put(type, new ArrayList<>()));
 
         buildSquadrons(data.getSquadrons(), squadronFactory);
-        buildPatrols(data, patrolFactory);
+        buildPatrols(data);
     }
 
     /**
@@ -387,6 +392,40 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                                           ListUtils::union));
     }
 
+
+    /**
+     * This is a utility function to aid in determining patrol stats for squadrons that are
+     * selected for a given patrol type but not necessarily committed to the patrol yet.
+     *
+     * @param patrolType The type of patrol.
+     * @param squadronOnPatrol A list of potential squadrons on patrol.
+     * @return A patrol consisting of the given squadrons.
+     */
+    public Patrol getTemporaryPatrol(final PatrolType patrolType, final List<Squadron> squadronOnPatrol) {
+        PatrolData data = new PatrolData();
+        data.setAirbase(this);
+        data.setSquadrons(squadronOnPatrol
+                .stream()
+                .map(Squadron::getName)
+                .collect(Collectors.toList()));
+
+        Patrol patrol;
+        switch (patrolType) {
+            case SEARCH:
+                patrol =  patrolFactory.createSearch(data);
+                break;
+            case ASW:
+                patrol =  patrolFactory.createAsw(data);
+                break;
+            default:
+                patrol =  patrolFactory.createCap(data);
+                break;
+        }
+
+        return patrol;
+    }
+
+
     /**
      * Get the active state of the asset.
      *
@@ -416,23 +455,22 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * Build the airfield's ASW patrol.
      *
      * @param data The Airfield data read in from a JSON file.
-     * @param factory The factory that creates the patrols.
      */
-    private void buildPatrols(final AirfieldData data, final PatrolFactory factory) {
+    private void buildPatrols(final AirfieldData data) {
         PatrolData aswData = data.getAswPatrol();
 
         aswData.setAirbase(this);
-        patrolMap.put(PatrolType.ASW, factory.createAswPatrol(aswData));
+        patrolMap.put(PatrolType.ASW, patrolFactory.createAsw(aswData));
 
         PatrolData capData = data.getCapPatrol();
 
         capData.setAirbase(this);
-        patrolMap.put(PatrolType.CAP, factory.createCapPatrol(capData));
+        patrolMap.put(PatrolType.CAP, patrolFactory.createCap(capData));
 
         PatrolData searchData = data.getSearchPatrol();
 
         searchData.setAirbase(this);
-        patrolMap.put(PatrolType.SEARCH, factory.createSearchPatrol(searchData));
+        patrolMap.put(PatrolType.SEARCH, patrolFactory.createSearch(searchData));
     }
 
     /**

@@ -29,7 +29,6 @@ public class AirfieldDetailsView {
     private final Provider<AirfieldPatrolView> airfieldPatrolViewProvider;
     private final Provider<AirfieldReadyView> airfieldReadyViewProvider;
 
-
     private Airfield airfield;
 
     @Getter
@@ -167,5 +166,4 @@ public class AirfieldDetailsView {
                 .setAirfield(airfield)
                 .show(nation);
     }
-
 }

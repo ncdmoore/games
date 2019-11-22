@@ -1,7 +1,6 @@
-package engima.waratsea.model.base.airfield.patrol;
+package engima.waratsea.model.base.airfield.patrol.rules;
 
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.squadron.Squadron;
@@ -15,10 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A singleton that calculates air search results.
- *
+ * A utility class for air search.
  */
-public class AirSearchRules {
+public class SearchRules {
     private static final int SHIP_SEARCH_FACTOR = 3;
     private static final int SUB_SEARCH_FACTOR = 1;
     private static final int DEFAULT_STEP_FACTOR = 3;
@@ -41,16 +39,16 @@ public class AirSearchRules {
     private final int searchFactor;
 
     /**
-     * Constructor called by guice.
+     * Constructor.
      *
      * @param assetType The type of asset searched for.
      * @param weather The game's weather.
      * @param dice A dice utility.
      */
     @Inject
-    public AirSearchRules(@Assisted final AssetType assetType,
-                                    final Weather weather,
-                                    final Dice dice) {
+    public SearchRules(final AssetType assetType,
+                       final Weather weather,
+                       final Dice dice) {
         this.weather = weather;
         this.dice = dice;
 

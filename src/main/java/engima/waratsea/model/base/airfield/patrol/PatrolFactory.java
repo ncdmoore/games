@@ -14,7 +14,7 @@ public interface PatrolFactory {
      * @return The patrol.
      */
     @Named("search")
-    Patrol createSearchPatrol(PatrolData data);
+    Patrol createSearch(PatrolData data);
 
     /**
      * Creates a ASW patrol.
@@ -23,7 +23,7 @@ public interface PatrolFactory {
      * @return The patrol.
      */
     @Named("asw")
-    Patrol createAswPatrol(PatrolData data);
+    Patrol createAsw(PatrolData data);
 
     /**
      * Creates a CAP patrol.
@@ -32,5 +32,5 @@ public interface PatrolFactory {
      * @return The patrol.
      */
     @Named("cap")
-    Patrol createCapPatrol(PatrolData data);
+    Patrol createCap(PatrolData data);
 }

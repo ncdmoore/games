@@ -52,6 +52,35 @@
     -fx-spacing: 10;
 }
 
+#patrol-details-header {
+    -fx-font: bold normal 10pt "Lucida Grande";
+    -fx-background-color: lightsteelblue;
+    -fx-alignment: top-center;
+    -fx-padding: /* top */ 2 /* right */ 2 /* bottom */ 2 /* left */ 2;
+}
+
+#patrol-details-row-header {
+    -fx-font: bold normal 10pt "Lucida Grande";
+    -fx-background-color: lightsteelblue;
+    -fx-alignment: top-center;
+}
+
+#patrol-stats-pane {
+    -fx-padding: /* top */ 20 /* right */ 0 /* bottom */ 0 /* left */ 0;
+}
+
+#patrol-stats-grid {
+    -fx-padding: /* top */ 5 /* right */ 0 /* bottom */ 0 /* left */ 0;
+    -fx-alignment: top-center;
+    -fx-hgap: 1;
+    -fx-vgap: 1;
+}
+
+#patrol-stats-cell {
+    -fx-background-color: whitesmoke;
+    -fx-text-fill: black;
+    -fx-alignment: top-center;
+}
 
 #ready-tile-pane {
     -fx-pref-columns: 3;
@@ -88,7 +117,7 @@
 }
 
 #summary-pane {
-    -fx-padding: /* top: */ 100 /* right: */ 0 /* bottom: */ 0 /* left */ 0;
+    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 10 /* left */ 0;
 }
 
 #summary-vbox {
@@ -110,4 +139,9 @@
 
 #squadron-performance-data-title {
     -fx-padding: /* top: */ 0 /* right: */ 0 /* bottom: */ 0 /* left */ 38;
+}
+
+#controls-pane {
+    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 10 /* left */ 0;
+    -fx-spacing: 20;
 }

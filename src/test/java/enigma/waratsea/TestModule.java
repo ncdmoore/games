@@ -11,8 +11,11 @@ import engima.waratsea.model.aircraft.Fighter;
 import engima.waratsea.model.aircraft.PoorNavalBomber;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
-import engima.waratsea.model.base.airfield.patrol.AirSearchRules;
-import engima.waratsea.model.base.airfield.patrol.AirSearchRulesFactory;
+import engima.waratsea.model.base.airfield.patrol.rules.AirAswRules;
+import engima.waratsea.model.base.airfield.patrol.rules.AirCapRules;
+import engima.waratsea.model.base.airfield.patrol.rules.AirRules;
+import engima.waratsea.model.base.airfield.patrol.rules.AirSearchRules;
+import engima.waratsea.model.base.airfield.patrol.rules.AirRulesFactory;
 import engima.waratsea.model.base.airfield.patrol.AswPatrol;
 import engima.waratsea.model.base.airfield.patrol.CapPatrol;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
@@ -141,8 +144,11 @@ public class TestModule extends AbstractModule {
                 .implement(Patrol.class, Names.named("cap"), CapPatrol.class)
                 .build(PatrolFactory.class));
 
-        install(new FactoryModuleBuilder().implement(AirSearchRules.class, AirSearchRules.class).build(AirSearchRulesFactory.class));
-
+        install(new FactoryModuleBuilder()
+                .implement(AirRules.class, Names.named("search"), AirSearchRules.class)
+                .implement(AirRules.class, Names.named("asw"), AirAswRules.class)
+                .implement(AirRules.class, Names.named("cap"), AirCapRules.class)
+                .build(AirRulesFactory.class));
 
         install(new FactoryModuleBuilder().implement(Port.class, Port.class).build(PortFactory.class));
 

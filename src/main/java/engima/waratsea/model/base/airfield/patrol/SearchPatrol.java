@@ -4,7 +4,8 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
-import engima.waratsea.model.game.AssetType;
+import engima.waratsea.model.base.airfield.patrol.rules.AirRules;
+import engima.waratsea.model.base.airfield.patrol.rules.AirRulesFactory;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
@@ -33,19 +34,19 @@ public class SearchPatrol implements Patrol {
     @Getter
     private int maxRadius;
 
-    private AirSearchRules airSearch;
+    private AirRules airSearch;
 
     /**
      * The constructor.
      *
      * @param data The search patrol data read in from a JSON file.
-     * @param airSearchRulesFactory The air search rules factory.
+     * @param airRulesFactory The air search rules factory.
      */
     @Inject
     public SearchPatrol(@Assisted final PatrolData data,
-                                  final AirSearchRulesFactory airSearchRulesFactory) {
+                                  final AirRulesFactory airRulesFactory) {
 
-        this.airSearch = airSearchRulesFactory.create(AssetType.SHIP);
+        this.airSearch = airRulesFactory.createSearch();
 
         airbase = data.getAirbase();
 
@@ -166,7 +167,8 @@ public class SearchPatrol implements Patrol {
      */
     @Override
     public int getSuccessRate(final int radius) {
-        return airSearch.getBaseSearchSuccess(radius, squadrons);
+        List<Squadron> inRange = getSquadrons(radius);
+        return airSearch.getBaseSearchSuccess(radius, inRange);
     }
 
     /**
@@ -175,11 +177,11 @@ public class SearchPatrol implements Patrol {
      * @return A map of data for this patrol.
      */
     @Override
-    public Map<Integer, Map<String, String>> getPatrolData() {
+    public Map<Integer, Map<String, String>> getPatrolStats() {
         return IntStream
                 .range(1, maxRadius + 1)
                 .boxed()
-                .collect(Collectors.toMap(radius -> radius, this::getPatrolData));
+                .collect(Collectors.toMap(radius -> radius, this::getPatrolStat));
     }
 
     /**
@@ -189,14 +191,14 @@ public class SearchPatrol implements Patrol {
      * @param radius The patrol radius.
      * @return A map of data for this patrol that corresponds to the given radius.
      */
-    private Map<String, String> getPatrolData(final int radius) {
+    private Map<String, String> getPatrolStat(final int radius) {
         List<Squadron> inRange = getSquadrons(radius);
 
         Map<String, String> data = new LinkedHashMap<>();
         data.put("Squadrons", inRange.size() + "");
         data.put("Steps", inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add) + "");
         data.put("Search", getSuccessRate(radius) + " %");
-        data.put("No Weather", airSearch.getBaseSearchSuccessNoWeather(radius, squadrons) + "%");
+        data.put("No Weather", airSearch.getBaseSearchSuccessNoWeather(radius, inRange) + "%");
 
         return data;
     }

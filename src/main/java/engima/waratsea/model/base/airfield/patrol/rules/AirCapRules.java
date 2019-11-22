@@ -1,14 +1,16 @@
-package engima.waratsea.model.base.airfield.patrol;
+package engima.waratsea.model.base.airfield.patrol.rules;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.weather.Weather;
 import engima.waratsea.model.weather.WeatherType;
 import engima.waratsea.utility.Dice;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class AirCapRules {
+public class AirCapRules implements AirRules {
     private static final int INTERCEPT_FACTOR = 3;
 
     private final Map<WeatherType, Integer> weatherFactor = new HashMap<>();
@@ -48,10 +50,10 @@ public class AirCapRules {
      * @param distance The distance intercept takes place from the air base.
      * @return An integer indicating the percentage chance of success.
      */
-    public int getBaseSearchSuccess(final int distance) {
-        int factor = getBaseFactor(distance);
+    public int getBaseSearchSuccess(final int distance, final List<Squadron> squadrons) {
+        int factor = squadrons.isEmpty() ? 0 : getBaseFactor(distance) + INTERCEPT_FACTOR;
 
-        return dice.probability6(factor + INTERCEPT_FACTOR, 1);
+        return dice.probability6(factor, 1);
     }
 
     /**
@@ -60,10 +62,15 @@ public class AirCapRules {
      * @param distance The distance intercept takes place from the air base.
      * @return An integer indicating the percentage chance of success.
      */
-    public int getBaseSearchSuccessNoWeather(final int distance) {
-        int factor = getBaseFactorNoWeather(distance);
+    public int getBaseSearchSuccessNoWeather(final int distance, final List<Squadron> squadrons) {
+        int factor = squadrons.isEmpty() ? 0 : getBaseFactorNoWeather(distance) + INTERCEPT_FACTOR;
 
-        return dice.probability6(factor + INTERCEPT_FACTOR, 1);
+        return dice.probability6(factor, 1);
+    }
+
+    @Override
+    public int getBaseAttackSuccess(final int distance, final List<Squadron> squadrons) {
+        return 0;
     }
 
     /**
