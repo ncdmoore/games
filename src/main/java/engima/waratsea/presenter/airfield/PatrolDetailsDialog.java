@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
-import engima.waratsea.model.squadron.PatrolType;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogOkOnlyView;
 import engima.waratsea.view.ViewProps;

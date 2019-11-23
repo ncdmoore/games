@@ -1,9 +1,5 @@
-package engima.waratsea.model.squadron;
+package engima.waratsea.model.base.airfield.patrol;
 
-import engima.waratsea.model.base.airfield.patrol.AswPatrol;
-import engima.waratsea.model.base.airfield.patrol.CapPatrol;
-import engima.waratsea.model.base.airfield.patrol.Patrol;
-import engima.waratsea.model.base.airfield.patrol.SearchPatrol;
 import lombok.Getter;
 
 import java.util.HashMap;

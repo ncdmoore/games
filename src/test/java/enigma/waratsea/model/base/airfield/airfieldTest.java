@@ -14,7 +14,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.map.region.RegionFactory;
 import engima.waratsea.model.map.region.data.RegionData;
-import engima.waratsea.model.squadron.PatrolType;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
 import engima.waratsea.model.squadron.SquadronStrength;

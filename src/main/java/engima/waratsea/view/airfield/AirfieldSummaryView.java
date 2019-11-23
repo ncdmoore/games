@@ -5,7 +5,7 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.PatrolType;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;

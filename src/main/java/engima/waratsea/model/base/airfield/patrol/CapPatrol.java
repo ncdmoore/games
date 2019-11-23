@@ -7,7 +7,6 @@ import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.base.airfield.patrol.rules.AirRules;
 import engima.waratsea.model.base.airfield.patrol.rules.AirRulesFactory;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronAction;
 import engima.waratsea.model.squadron.state.SquadronState;

@@ -3,7 +3,7 @@ package engima.waratsea.view.map.marker.main;
 import engima.waratsea.model.base.airfield.patrol.AswPatrol;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.SearchPatrol;
-import engima.waratsea.model.squadron.PatrolType;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;

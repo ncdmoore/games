@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.PatrolType;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.weather.Weather;
 import engima.waratsea.utility.ImageResourceProvider;

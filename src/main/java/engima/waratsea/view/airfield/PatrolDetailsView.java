@@ -2,7 +2,7 @@ package engima.waratsea.view.airfield;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
-import engima.waratsea.model.squadron.PatrolType;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.Label;

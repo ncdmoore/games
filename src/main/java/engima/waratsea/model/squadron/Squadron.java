@@ -12,6 +12,7 @@ import engima.waratsea.model.aircraft.AviationPlantException;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Rules;
 import engima.waratsea.model.game.Side;
