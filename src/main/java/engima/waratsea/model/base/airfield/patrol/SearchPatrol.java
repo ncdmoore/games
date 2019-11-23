@@ -34,7 +34,7 @@ public class SearchPatrol implements Patrol {
     @Getter
     private int maxRadius;
 
-    private AirRules airSearch;
+    private AirRules rules;
 
     /**
      * The constructor.
@@ -46,7 +46,7 @@ public class SearchPatrol implements Patrol {
     public SearchPatrol(@Assisted final PatrolData data,
                                   final AirRulesFactory airRulesFactory) {
 
-        this.airSearch = airRulesFactory.createSearch();
+        this.rules = airRulesFactory.createSearch();
 
         airbase = data.getAirbase();
 
@@ -160,6 +160,16 @@ public class SearchPatrol implements Patrol {
     }
 
     /**
+     * Determine if the patrol is adversely affected by the current weather conditions.
+     *
+     * @return True if the patrol is affected by the current weather conditions. False otherwise.
+     */
+    @Override
+    public boolean isAffectedByWeather() {
+        return rules.isAffectedByWeather();
+    }
+
+    /**
      * Get the rate of success for this patrol's air search.
      *
      * @param radius The distance the target is from the patrol's base.
@@ -168,7 +178,7 @@ public class SearchPatrol implements Patrol {
     @Override
     public int getSuccessRate(final int radius) {
         List<Squadron> inRange = getSquadrons(radius);
-        return airSearch.getBaseSearchSuccess(radius, inRange);
+        return rules.getBaseSearchSuccess(radius, inRange);
     }
 
     /**
@@ -198,7 +208,7 @@ public class SearchPatrol implements Patrol {
         data.put("Squadrons", inRange.size() + "");
         data.put("Steps", inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add) + "");
         data.put("Search", getSuccessRate(radius) + " %");
-        data.put("No Weather", airSearch.getBaseSearchSuccessNoWeather(radius, inRange) + "%");
+        data.put("No Weather", rules.getBaseSearchSuccessNoWeather(radius, inRange) + "%");
 
         return data;
     }

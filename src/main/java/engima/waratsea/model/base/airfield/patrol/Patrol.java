@@ -85,4 +85,11 @@ public interface Patrol {
      * @return The patrol's true or effective maximum radius.
      */
     int getTrueMaxRadius();
+
+    /**
+     * Determine if the patrol is adversely affected by the current weather conditions.
+     *
+     * @return True if the patrol is affected by the current weather conditions. False otherwise.
+     */
+    boolean isAffectedByWeather();
 }

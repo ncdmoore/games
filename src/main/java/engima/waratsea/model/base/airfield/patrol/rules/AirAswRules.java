@@ -66,6 +66,16 @@ public class AirAswRules implements AirRules {
     }
 
     /**
+     * Determine if the current weather affects a patrol.
+     *
+     * @return True if the weather affects the patrol. False otherwise.
+     */
+    @Override
+    public boolean isAffectedByWeather() {
+        return weatherFactor.get(weather.getCurrent()) < 0 || searchRules.isAffectedByWeather();
+    }
+
+    /**
      * Get the ASW search success rate.
      *
      * @param distance The distance from the patrol base to the target in grids.

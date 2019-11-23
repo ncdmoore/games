@@ -111,6 +111,15 @@ public class SearchRules {
     }
 
     /**
+     * Determine if the search patrol is affected by the current weather.
+     *
+     * @return True if the patrol is adversely affected by the current weather. False otherwise.
+     */
+    public boolean isAffectedByWeather() {
+        return weatherFactor.get(weather.getCurrent()) < 0;
+    }
+
+    /**
      * Get the base air search factor. The base search factor does not take into account the type of target, nor
      * the actions of the target (Like unloading). The base air search factor is used to give an indication of
      * the chance of successfully spotting an enemy task force.

@@ -28,7 +28,7 @@ import java.util.stream.IntStream;
 public class CapPatrol implements Patrol {
     private static final int RADIUS = 2;
 
-    private final AirRules airCap;
+    private final AirRules rules;
 
     private List<Squadron> squadrons;
 
@@ -47,7 +47,7 @@ public class CapPatrol implements Patrol {
     @Inject
     public CapPatrol(@Assisted final PatrolData data,
                                final AirRulesFactory airRulesFactory) {
-        this.airCap = airRulesFactory.createCap();
+        this.rules = airRulesFactory.createCap();
 
         airbase = data.getAirbase();
 
@@ -154,7 +154,7 @@ public class CapPatrol implements Patrol {
     @Override
     public int getSuccessRate(final int distance) {
         List<Squadron> inRange = getSquadrons(distance);
-        return airCap.getBaseSearchSuccess(distance, inRange);
+        return rules.getBaseSearchSuccess(distance, inRange);
     }
 
     /**
@@ -189,7 +189,7 @@ public class CapPatrol implements Patrol {
         data.put("Squadrons", inRange.size() + "");
         data.put("Steps", inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add) + "");
         data.put("Intercept", getSuccessRate(radius) + " %");
-        data.put("No Weather", airCap.getBaseSearchSuccessNoWeather(radius, inRange) + "%");
+        data.put("No Weather", rules.getBaseSearchSuccessNoWeather(radius, inRange) + "%");
 
         return data;
     }
@@ -207,6 +207,16 @@ public class CapPatrol implements Patrol {
                 .sorted(Collections.reverseOrder())
                 .filter(radius -> getSuccessRate(radius) > 0)
                 .findFirst().orElse(0);    }
+
+    /**
+     * Determine if the patrol is adversely affected by the current weather conditions.
+     *
+     * @return True if the patrol is affected by the current weather conditions. False otherwise.
+     */
+    @Override
+    public boolean isAffectedByWeather() {
+        return rules.isAffectedByWeather();
+    }
 
 
     /**

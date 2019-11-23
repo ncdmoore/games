@@ -60,4 +60,14 @@ public class AirSearchRules implements AirRules {
     public int getBaseAttackSuccess(final int distance, final List<Squadron> squadrons) {
         return 0;
     }
+
+    /**
+     * Determine if the current weather affects a patrol.
+     *
+     * @return True if the weather affects the patrol. False otherwise.
+     */
+    @Override
+    public boolean isAffectedByWeather() {
+        return searchRules.isAffectedByWeather();
+    }
 }

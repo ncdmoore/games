@@ -69,8 +69,13 @@
     -fx-padding: /* top */ 20 /* right */ 0 /* bottom */ 0 /* left */ 0;
 }
 
+#patrol-stats-hbox {
+    -fx-alignment: top-center;
+    -fx-padding: /* top */ 5 /* right */ 0 /* bottom */ 0 /* left */ 10;
+    -fx-spacing: 10;
+}
+
 #patrol-stats-grid {
-    -fx-padding: /* top */ 5 /* right */ 0 /* bottom */ 0 /* left */ 0;
     -fx-alignment: top-center;
     -fx-hgap: 1;
     -fx-vgap: 1;
@@ -80,6 +85,13 @@
     -fx-background-color: whitesmoke;
     -fx-text-fill: black;
     -fx-alignment: top-center;
+}
+
+#patrol-weather-box {
+    -fx-border-color: black;
+    -fx-background-color: whitesmoke;
+    -fx-alignment: top-center;
+    -fx-padding: /* top: */ 5 /* right: */ 10 /* bottom: */ 0 /* left: */ 10;
 }
 
 #ready-tile-pane {

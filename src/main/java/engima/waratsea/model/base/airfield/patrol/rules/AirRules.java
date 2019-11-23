@@ -33,4 +33,10 @@ public interface AirRules  {
      */
     int getBaseAttackSuccess(int distance, List<Squadron> squadrons);
 
+    /**
+     * Determine if the current weather affects a patrol.
+     *
+     * @return True if the weather affects the patrol. False otherwise.
+     */
+    boolean isAffectedByWeather();
 }

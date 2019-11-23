@@ -74,6 +74,16 @@ public class AirCapRules implements AirRules {
     }
 
     /**
+     * Determine if the current weather affects a patrol.
+     *
+     * @return True if the weather affects the patrol. False otherwise.
+     */
+    @Override
+    public boolean isAffectedByWeather() {
+        return weatherFactor.get(weather.getCurrent()) < 0;
+    }
+
+    /**
      * Get the base air cap intercept factor. The base air intercept factor is used to give an indication of
      * the chance of successfully intercepting an enemy air mission.
      *

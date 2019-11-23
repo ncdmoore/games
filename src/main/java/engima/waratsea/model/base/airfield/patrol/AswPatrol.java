@@ -41,7 +41,7 @@ public class AswPatrol implements Patrol {
     @Getter
     private int maxRadius;
 
-    private final AirRules airAsw;
+    private final AirRules rules;
 
     /**
      * The constructor.
@@ -54,7 +54,7 @@ public class AswPatrol implements Patrol {
                                final AirRulesFactory airRulesFactory) {
         airbase = data.getAirbase();
 
-        airAsw = airRulesFactory.createAsw();
+        rules = airRulesFactory.createAsw();
 
         Map<String, Squadron> squadronMap = getSquadronMap(data.getAirbase().getSquadrons());
 
@@ -160,7 +160,7 @@ public class AswPatrol implements Patrol {
     @Override
     public int getSuccessRate(final int distance) {
         List<Squadron> inRange = getSquadrons(distance);
-        return airAsw.getBaseSearchSuccess(distance, inRange);
+        return rules.getBaseSearchSuccess(distance, inRange);
     }
 
     /**
@@ -192,6 +192,16 @@ public class AswPatrol implements Patrol {
     }
 
     /**
+     * Determine if the patrol is adversely affected by the current weather conditions.
+     *
+     * @return True if the patrol is affected by the current weather conditions. False otherwise.
+     */
+    @Override
+    public boolean isAffectedByWeather() {
+        return rules.isAffectedByWeather();
+    }
+
+    /**
      * Get the patrol data that corresponds to the given radius. This is the
      * data for a patrol that takes place at the given radius.
      *
@@ -205,7 +215,7 @@ public class AswPatrol implements Patrol {
         data.put("Squadrons", inRange.size() + "");
         data.put("Steps", inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add) + "");
         data.put("Search", getSuccessRate(radius) + " %");
-        data.put("Attack", airAsw.getBaseAttackSuccess(radius, inRange) + "%");
+        data.put("Attack", rules.getBaseAttackSuccess(radius, inRange) + "%");
 
         return data;
     }

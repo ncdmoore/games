@@ -6,12 +6,18 @@ import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.weather.Weather;
+import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import lombok.Setter;
 
 import java.util.LinkedHashMap;
@@ -22,6 +28,7 @@ import java.util.Set;
 public class AirfieldPatrolStatsView {
 
     private final ViewProps props;
+    private final ImageResourceProvider imageProvider;
 
     @Setter
     private Airfield airfield;
@@ -29,18 +36,28 @@ public class AirfieldPatrolStatsView {
     @Setter
     private PatrolType patrolType;
 
+    private final Weather weather;
+
     private VBox vBox = new VBox();
+    private HBox hBox = new HBox();
     private GridPane gridPane = new GridPane();
 
     /**
      * Constructor called by guice.
      *
      * @param props The view properties.
+     * @param imageProvider Provides images.
+     * @param weather The current weather.
      */
     @Inject
-    public AirfieldPatrolStatsView(final ViewProps props) {
+    public AirfieldPatrolStatsView(final ViewProps props,
+                                   final ImageResourceProvider imageProvider,
+                                   final Weather weather) {
         this.props = props;
+        this.imageProvider = imageProvider;
+        this.weather = weather;
         vBox.setId("patrol-stats-pane");
+        hBox.setId("patrol-stats-hbox");
         gridPane.setId("patrol-stats-grid");
     }
 
@@ -58,6 +75,7 @@ public class AirfieldPatrolStatsView {
         Map<Integer, Map<String, String>> stats = patrol.getPatrolStats();
 
         vBox.getChildren().clear();
+        hBox.getChildren().clear();
 
         if (!stats.isEmpty()) {
             StackPane titlePane = new StackPane(new Label("Patrol Average Statistics"));
@@ -81,7 +99,12 @@ public class AirfieldPatrolStatsView {
 
             buildRows(stats, ranges);
 
-            vBox.getChildren().addAll(titlePane, gridPane);
+            Node imageBox = buildWeather(patrol);
+
+            hBox.getChildren().add(gridPane);
+            hBox.getChildren().add(imageBox);
+
+            vBox.getChildren().addAll(titlePane, hBox);
         }
 
         return vBox;
@@ -96,6 +119,28 @@ public class AirfieldPatrolStatsView {
     public void updatePatrolStats(final Nation nation, final List<Squadron> assigned) {
         gridPane.getChildren().clear();
         buildPatrolStats(nation, assigned);
+    }
+
+    /**
+     * Build the weather image.
+     *
+     * @param patrol The patrol.
+     *  @return The node containing the weather image.
+     */
+    private Node buildWeather(final Patrol patrol) {
+
+        boolean affectedByWeather = patrol.isAffectedByWeather();
+        String text = affectedByWeather ? "Affected by Weather" : "No Weather Affect";
+        Label label = new Label(text);
+        Paint paint = affectedByWeather ? Color.RED : Color.BLACK;
+        label.setTextFill(paint);
+
+        ImageView image = imageProvider.getImageView(weather.getCurrent().toString().toLowerCase() + "50x50.png");
+        VBox imageBox = new VBox(label, image);
+
+        imageBox.setId("patrol-weather-box");
+
+        return imageBox;
     }
 
     /**
