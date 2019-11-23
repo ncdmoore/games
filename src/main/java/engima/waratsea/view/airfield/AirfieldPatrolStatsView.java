@@ -95,7 +95,9 @@ public class AirfieldPatrolStatsView {
             if (med > 0 && med != min && med != max) {
                 ranges.put("Median", med);
             }
-            ranges.put("Maximum", max);
+            if (max > 0) {
+                ranges.put("Maximum", max);
+            }
 
             buildRows(stats, ranges);
 
