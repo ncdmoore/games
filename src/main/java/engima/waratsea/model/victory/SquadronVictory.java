@@ -11,6 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Represents a squadron victory condition.
+ *
+ * Typically, an event occurs for each step that results in victory conditions being awarded.
+ * For example, by default any step of enemy aircraft destroyed in combat results in 6
+ * victory points being awarded. Thus, if a full squadron is destroyed in combat then 2
+ * squadron victory events should be fired: one for each step. This results in 12 total
+ * victory points.
  */
 @Slf4j
 public class SquadronVictory implements VictoryCondition<SquadronEvent, SquadronVictoryData> {

@@ -1,0 +1,102 @@
+{
+  "objectives": "Unload Convoy at Malta. Ferry the Hurricanes and Fulmars to Malta. Bombard Tripoli. Evacuate ships at Athens and AW22 to Alexandria.",
+  "scenarioSquadron": [
+    {
+      "event": {
+        "side": "ALLIES",
+        "action": "ARRIVAL",
+        "aircraftModel": "Hurricane-1",
+        "startingLocation": "CV04 Ark Royal-2",
+        "location": "Malta"
+      },
+      "points": 4
+    },
+    {
+      "event": {
+        "side": "ALLIES",
+        "action": "ARRIVAL",
+        "aircraftModel": "Fulmar",
+        "startingLocation": "CV04 Ark Royal-2",
+        "location": "Malta"
+      },
+      "points": 4
+    }
+  ],
+  "scenarioShip": [
+    {
+      "event": {
+        "side": "ALLIES",
+        "nation": "BRITISH",
+        "action": "CARGO_UNLOADED",
+        "shipType": "CRUISER, DESTROYER, TRANSPORT",
+        "startingLocation": "Athens, AW22",
+        "location": "Alexandria"
+      },
+      "requiredPoints": 20
+    },
+    {
+      "event": {
+        "side": "ALLIES",
+        "nation": "GREEK",
+        "action": "CARGO_UNLOADED",
+        "shipType": "CRUISER",
+        "startingLocation": "Athens",
+        "location": "Alexandria"
+      },
+      "points": 6
+    },
+    {
+      "event": {
+        "side": "ALLIES",
+        "nation": "GREEK",
+        "action": "CARGO_UNLOADED",
+        "shipType": "DESTROYER",
+        "startingLocation": "Athens",
+        "location": "Alexandria"
+      },
+      "points": 2
+    },
+    {
+      "event": {
+        "side": "ALLIES",
+        "nation": "BRITISH",
+        "action": "CARGO_UNLOADED",
+        "shipType": "CRUISER, DESTROYER",
+        "startingLocation": "Gibraltar",
+        "location": "Malta"
+      }
+    },
+    {
+      "event": {
+        "side": "ALLIES",
+        "action": "ARRIVAL",
+        "shipType": "CRUISER",
+        "name": "CL47 Dido",
+        "location": "Alexandria",
+        "startingLocation": "Gibraltar, Malta"
+      },
+      "points": 2
+    },
+    {
+      "event": {
+        "side": "ALLIES",
+        "action": "ARRIVAL",
+        "shipType": "CRUISER",
+        "name": "ML02 Abdiel",
+        "location": "Alexandria",
+        "startingLocation": "Gibraltar, Malta"
+      },
+      "points": 2
+    },
+    {
+      "event": {
+        "side": "ALLIES",
+        "action": "BOMBARDMENT",
+        "shipType": "BATTLESHIP",
+        "location": "Tripoli"
+      },
+      "points": 15,
+      "requiredOccurrences": 2
+    }
+  ]
+}

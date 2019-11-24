@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.AssetType;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.data.ShipMatchData;
 import engima.waratsea.model.map.GameMap;
@@ -34,6 +35,9 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
 
     @Getter
     private final Side side; // The side to match.
+
+    @Getter
+    private final Nation nation; // The nation to match.
 
     @Getter
     private final String taskForceName; // The task force name to match.
@@ -68,6 +72,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
         action = data.getAction();
         names = parseNames(data.getName());
         side = data.getSide();
+        nation = data.getNation();
         taskForceName = data.getTaskForceName();
         shipTypes = parseShipType(data.getShipType());
         locations = parseLocation(data.getLocation());
@@ -86,6 +91,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
         data.setAction(action);
         data.setName(Optional.ofNullable(names).map(n -> String.join(",", n)).orElse(null));
         data.setSide(side);
+        data.setNation(nation);
         data.setTaskForceName(taskForceName);
         data.setShipType(Optional.ofNullable(shipTypes).map(this::getShipTypes).orElse(null));
         data.setLocation(Optional.ofNullable(locations).map(l -> String.join(",", l)).orElse(null));
@@ -147,6 +153,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
         log.debug("Match action {}", logValue(action));
         log.debug("Match name {}", logName(names));
         log.debug("Match side {}", logValue(side));
+        log.debug("Match nation {}", logValue(nation));
         log.debug("Match task force name {}", logValue(taskForceName));
         log.debug("Match ship type {}", logShip(shipTypes));
         log.debug("Match starting reference {}", logLocation(portOrigins));
@@ -228,6 +235,17 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
                 .filter(Objects::nonNull)
                 .map(gameMap::convertPortReferenceToName)
                 .collect(Collectors.joining(", "));
+    }
+
+    /**
+     * Determine if the fired event ship nation matches the desired ship nation.
+     *
+     * @param ship THe ship of the fired event.
+     * @return True if the nation of the fired event matches. False otherwise.
+     */
+    private boolean isNationEqual(final Ship ship) {
+        return nation == null
+                || nation == ship.getNation();
     }
 
     /**

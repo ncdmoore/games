@@ -40,8 +40,10 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
                                      // This value is reset every time the required number of occurrences are reached.
 
     @Getter
-    private boolean requirementMet;
+    private boolean requirementMet;  // Indicates if this victory condition is satisfied.
 
+    // All events have a default victory calculation, that can be overridden. To override the victory conditions specify
+    // the points in the event json.
     private static BiFunction<Integer, ShipEvent, Integer> getShip = (p, e) -> p == 0 ? e.getShip().getVictoryPoints() : p;
     private static BiFunction<Integer, ShipEvent, Integer> getOutOfFuel = (p, e) -> e.getShip().getVictoryPoints() / OUT_OF_FUEL_FACTOR;
     private static BiFunction<Integer, ShipEvent, Integer> getCargoUnloaded = (p, e) -> p == 0 ? e.getShip().getCargo().getCapacity() * CARGO_CAPACITY_UNLOAD_FACTOR : p;

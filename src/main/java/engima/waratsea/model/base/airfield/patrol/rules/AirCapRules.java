@@ -44,6 +44,10 @@ public class AirCapRules implements AirRules {
 
     }
 
+    // public int getSuccess(final Target target, final List<Squadron> squadrons)
+    // target yields location -> distance
+
+
     /**
      * Get the chance of a intercepting an enemy air mission.
      *

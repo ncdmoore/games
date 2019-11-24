@@ -1,6 +1,7 @@
 package engima.waratsea.model.game.event.ship.data;
 
 import engima.waratsea.model.game.AssetType;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,10 @@ public class ShipMatchData {
     @Getter
     @Setter
     private Side side;
+
+    @Getter
+    @Setter
+    private Nation nation;
 
     @Getter
     @Setter

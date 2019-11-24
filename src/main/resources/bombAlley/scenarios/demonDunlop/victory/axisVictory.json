@@ -1,0 +1,14 @@
+{
+  "objectives": "Unload the cargo carried by the convoys in Tripoli. Sink any ship involved in the evacuation of Greece.",
+  "scenarioShip": [
+    {
+      "event": {
+        "side": "AXIS",
+        "action": "CARGO_UNLOADED",
+        "shipType": "TRANSPORT",
+        "location": "Tripoli",
+        "startingLocation": "Naples, Palermo"
+      }
+    }
+  ]
+}
