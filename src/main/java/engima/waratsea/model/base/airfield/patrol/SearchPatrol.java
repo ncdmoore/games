@@ -246,6 +246,5 @@ public class SearchPatrol implements Patrol {
                 .flatMap(s -> s.getRadius().stream())
                 .max(Integer::compare)
                 .orElse(0);
-
     }
 }

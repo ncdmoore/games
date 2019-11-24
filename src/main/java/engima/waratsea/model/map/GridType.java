@@ -8,7 +8,8 @@ package engima.waratsea.model.map;
  *   or both Sea and Land
  */
 public enum GridType {
-    SEA,
+    SEA_DEEP,
+    SEA_SHALLOW,
     LAND,
     BOTH
 }

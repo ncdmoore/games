@@ -1,0 +1,58 @@
+{
+  "type": "AIRCRAFT_CARRIER",
+  "shipClass": "Ark Royal",
+  "nationality": "BRITISH",
+  "flightDeck":
+  {
+    "armour": "NONE",
+    "capacityList": [0, 3, 5, 9]
+  },
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 5
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 10,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 384
+  },
+  "movement": {
+    "maxEven": 3,
+    "maxOdd": 3
+  },
+  "aircraft": [
+    {
+      "model": "Fulmar",
+      "strength": "full"
+    },
+    {
+      "model": "Fulmar",
+      "strength": "Half"
+    },
+    {
+      "model": "Hurricane-1",
+      "strength": "full"
+    },
+    {
+      "model": "Hurricane-1",
+      "strength": "full"
+    },
+    {
+      "model": "Hurricane-1",
+      "strength": "full"
+    }
+  ],
+  "landingType":[
+    "CARRIER"
+  ],
+  "victoryPoints": 98
+}

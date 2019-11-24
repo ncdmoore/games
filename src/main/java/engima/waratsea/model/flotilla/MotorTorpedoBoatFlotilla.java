@@ -62,6 +62,30 @@ public class MotorTorpedoBoatFlotilla implements Flotilla {
     }
 
     /**
+     * Get the persistent data.
+     *
+     * @return The persistent data.
+     */
+    @Override
+    public FlotillaData getData() {
+        FlotillaData data = new FlotillaData();
+        data.setName(name);
+        data.setLocation(reference);
+        data.setBoats(getBoatNames(boats));
+
+        return data;
+    }
+
+    /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
+        boats.forEach(submarine -> boatDAO.save(submarine));
+    }
+
+    /**
      * Get the flotilla's title.
      *
      * @return The flotilla's title.
@@ -128,29 +152,6 @@ public class MotorTorpedoBoatFlotilla implements Flotilla {
     @Override
     public String toString() {
         return name;
-    }
-
-    /**
-     * Get the persistent data.
-     *
-     * @return The persistent data.
-     */
-    @Override
-    public FlotillaData getData() {
-        FlotillaData data = new FlotillaData();
-        data.setName(name);
-        data.setLocation(reference);
-        data.setBoats(getBoatNames(boats));
-
-        return data;
-    }
-
-    /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
     }
 
     /**

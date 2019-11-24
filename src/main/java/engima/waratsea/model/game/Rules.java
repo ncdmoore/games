@@ -134,6 +134,7 @@ public class Rules {
      * Build the patrol rules.
      */
     private void buildPatrolRules() {
+        // In bomb Alley land based planes may not do ASW patrols. Note, any carrier based plane may do an ASW patrol.
         Function<Squadron, Boolean> bombAlleyAswFilter = (squadron) -> squadron.getLandingType() != LandingType.LAND;
         Function<Squadron, Boolean> coralSeaAswFilter = (squadron) -> true;
 

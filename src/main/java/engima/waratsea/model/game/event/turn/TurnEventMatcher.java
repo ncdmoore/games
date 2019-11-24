@@ -80,7 +80,7 @@ public class TurnEventMatcher implements PersistentData<TurnMatchData> {
         }
 
         if (turnGreaterThan != 0) {
-            explanation = "potentially on or after turn " + turn + ".";
+            explanation = "potentially on or after turn " + turnGreaterThan + ".";
         }
 
         return explanation;

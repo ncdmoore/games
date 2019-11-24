@@ -463,6 +463,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/RegionDAO.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/minefield/Minefield.java">
           <value>
             <set />
@@ -1328,6 +1333,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Kalamata.json">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Luqa-1940.json">
           <value>
             <set />
@@ -1588,6 +1598,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/maps/allies/april1941.json">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/maps/allies/january1941.json">
           <value>
             <set />
@@ -1598,12 +1613,27 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/maps/axis/april1941.json">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/maps/axis/january1941.json">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/maps/axis/june1940.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/minefields/axis/Rhodes.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ports/allies/Athens.json">
           <value>
             <set />
           </value>
@@ -1628,6 +1658,61 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/flotilla/alliesSubmarineFlotilla.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/flotilla/axisMTBFlotilla.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/flotilla/axisSubmarineFlotilla.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/flotilla/deployment/axisFlotilla.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/minefield/alliesMinefields.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/minefield/axisMinefields.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/minefield/deployment/axisMinefield.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/squadrons/allotment/early1941/axis/German.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/summary.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/taskforce/alliesTaskForces.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/taskforce/axisTaskForces.json">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/taskforce/axisTaskForces.json">
           <value>
             <set />
@@ -1644,6 +1729,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/taskforce/alliesTaskForces.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/taskforce/axisTaskForces.json">
           <value>
             <set />
           </value>
@@ -1708,6 +1798,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/puntaStilo/taskforce/axisTaskForces.json">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/soldiersForMalta/taskforce/alliesTaskForces.json">
           <value>
             <set />
@@ -1718,12 +1813,27 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Aetos.json">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Argus-1.json">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Ark Royal-1.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Ark Royal-2.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Averoff.json">
           <value>
             <set />
           </value>
@@ -1753,12 +1863,37 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Illustrious-2.json">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Indomitable-1.json">
           <value>
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Kilkis.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Psara.json">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/T-Sub.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Vasilefs Georgios.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/alliedShip.properties">
           <value>
             <set />
           </value>
@@ -1789,6 +1924,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/R-Sub.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/San Giorgio.json">
           <value>
             <set />
           </value>

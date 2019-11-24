@@ -1,0 +1,148 @@
+[
+  {
+    "name": "TF1",
+    "title": "Convoy-1",
+    "location": "Naples",
+    "state": "ACTIVE",
+    "mission": "TRANSPORT",
+    "targets": [
+      {"location": "Tripoli"}
+    ],
+    "ships": [
+      "DD14 Dardo",
+      "DD23 Grecale",
+      "DD30 Aviere",
+      "DD32 Geniere",
+      "TR01",
+      "TR02",
+      "TR03",
+      "TR04",
+      "TR05"
+    ],
+    "cargoShips": [
+      "TR01",
+      "TR02",
+      "TR03",
+      "TR04",
+      "TR05"
+  ]
+  },
+  {
+    "name": "TF2",
+    "title": "Distant Escort",
+    "location":  "Naples",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "CL03 Bande Nere",
+      "CL05 Luigi Cadorna",
+      "CA04 Pola",
+      "DD06 Pancaldo",
+      "DD10 Usodimare"
+    ]
+  },
+  {
+    "name": "TF3",
+    "title": "Cruiser Division 7",
+    "location": "Messina",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "CL07 Raimondo Montecuccoli",
+      "CL08 Muzio Attendolo",
+      "CL10 Eugenio di Savoia",
+      "CL09 Duca d Aosta",
+      "DD03 Da Recco",
+      "DD01 Da Mosto",
+      "DD07 Pessagno",
+      "DD04 Da Verrazzano",
+      "DD12 Zeno",
+      "DD08 Pigafetta"
+    ]
+  },
+  {
+    "name": "TF4",
+    "title": "Convoy-2",
+    "location": "Palermo",
+    "state": "ACTIVE",
+    "mission": "TRANSPORT",
+    "ships": [
+      "DD20 Fulmine",
+      "DD36 Carabiniere",
+      "DD37 Ascari",
+      "DD39 Alpino",
+      "DE46 Spica-1",
+      "DE47 Spica-2",
+      "DE48 Spica-3",
+      "TR13",
+      "TR14",
+      "TR15",
+      "TR16"
+    ],
+    "cargoShips": [
+      "TR13",
+      "TR14",
+      "TR15",
+      "TR16"
+    ]
+  },
+  {
+    "name": "TF5",
+    "title": "Convoy-3",
+    "location": "Palermo",
+    "state": "ACTIVE",
+    "mission": "TRANSPORT",
+    "ships": [
+      "DE49 Spica-4",
+      "DE50 Spica-5",
+      "DE51 Spica-6",
+      "DE52 Spica-7",
+      "DE53 Spica-8",
+      "DE54 Spica-9",
+      "DE55 Spica-10",
+      "DE56 Spica-11",
+      "DE57 Spica-12",
+      "DE58 Spica-13",
+      "DE59 Spica-14",
+      "DE60 Spica-15",
+      "DE61 Spica-16",
+      "DE62 Spica-17",
+      "DE63 Spica-18",
+      "TR17",
+      "TR18",
+      "TR19",
+      "TR20",
+      "TR21"
+    ],
+    "cargoShips": [
+      "TR17",
+      "TR18",
+      "TR19",
+      "TR20",
+      "TR21"
+    ]
+  },
+  {
+    "name": "TF6",
+    "title": "Emergency Force",
+    "location": "Taranto",
+    "state": "RESERVE",
+    "mission": "INTERCEPT",
+    "releaseShipEvents": [
+      {
+        "action": "SPOTTED",
+        "side": "ALLIES",
+        "shipType": "BATTLESHIP"
+      }
+    ],
+    "ships": [
+      "BB02 Giulio Cesare",
+      "BB03 Andrea Doria",
+      "DD25 Oriani",
+      "DD33 Granatiere",
+      "DD35 Bersagliere",
+      "DD38 Fuciliere",
+      "DD39 Alpino"
+    ]
+  }
+]

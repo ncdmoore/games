@@ -1,0 +1,39 @@
+{
+  "type": "CRUISER",
+  "shipClass": "Mississippi",
+  "nationality": "GREEK",
+  "primary":
+  {
+    "armour": "LIGHT",
+    "maxHealth": 2
+  },
+  "secondary":
+  {
+    "armour": "LIGHT",
+    "maxHealth": 2
+  },
+  "tertiary":
+  {
+    "armour": "LIGHT",
+    "maxHealth": 2
+  },
+  "antiAir": {
+    "maxHealth": 3
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 5,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 192
+  },
+  "movement": {
+    "maxEven": 1,
+    "maxOdd": 1
+  },
+  "cargo": {
+    "capacity": 3
+  },
+  "victoryPoints": 20
+}

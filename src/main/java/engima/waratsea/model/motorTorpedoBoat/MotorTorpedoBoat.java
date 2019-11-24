@@ -81,6 +81,8 @@ public class MotorTorpedoBoat  implements Vessel, PersistentData<MotorTorpedoBoa
         data.setNationality(nationality);
         data.setVictoryPoints(victoryPoints);
         data.setTorpedo(torpedo.getData());
+        data.setMovement(movement.getData());
+        data.setFuel(fuel.getData());
         return data;
     }
 

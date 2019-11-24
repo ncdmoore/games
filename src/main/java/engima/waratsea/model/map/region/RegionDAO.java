@@ -92,7 +92,7 @@ public class RegionDAO {
         return confg
                 .getGameURL(side, Region.class, scenario.getMap() + ".json")
                 .map(url -> readRegions(scenario, url, side))
-                .orElseThrow(() -> new MapException("Unable to load map for '" + scenario.getTitle() + "' for " + side));
+                .orElseThrow(() -> new MapException("Unable to load map: '" + scenario.getMap() + ".json' for '" + scenario.getTitle() + "' for " + side));
     }
 
     /**

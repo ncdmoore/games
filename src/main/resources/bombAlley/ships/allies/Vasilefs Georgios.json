@@ -1,0 +1,38 @@
+{
+  "type": "DESTROYER",
+  "shipClass": "Vasilefs Georgios",
+  "nationality": "GREEK",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "torpedo": {
+    "maxHealth": 2,
+    "maxNumber": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 1
+  },
+  "asw": {
+    "capable": true
+  },
+  "hull": {
+    "armour": "NONE",
+    "maxHealth" : 1,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 144
+  },
+  "movement": {
+    "maxEven": 4,
+    "maxOdd": 3
+  },
+  "cargo": {
+    "capacity": 1
+  },
+  "victoryPoints": 5
+}

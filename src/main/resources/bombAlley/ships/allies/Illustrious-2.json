@@ -1,0 +1,50 @@
+{
+  "type": "AIRCRAFT_CARRIER",
+  "shipClass": "Illustrious",
+  "nationality": "BRITISH",
+  "flightDeck":
+  {
+    "armour": "LIGHT",
+    "capacityList": [0, 3, 4, 6]
+  },
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 2
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 6
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 10,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 384
+  },
+  "movement": {
+    "maxEven": 3,
+    "maxOdd": 3
+  },
+  "aircraft": [
+    {
+      "model": "Fulmar",
+      "strength": "full"
+    },
+    {
+      "model": "Albacore",
+      "strength": "full"
+    },
+    {
+      "model": "Albacore",
+      "strength": "full"
+    }
+  ],
+  "landingType": [
+    "CARRIER"
+  ],
+  "victoryPoints": 73
+}

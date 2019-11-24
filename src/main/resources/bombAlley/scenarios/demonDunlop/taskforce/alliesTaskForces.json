@@ -1,0 +1,238 @@
+[
+  {
+    "name": "TF1",
+    "title": "Force H",
+    "location": "Gibraltar",
+    "state": "ACTIVE",
+    "mission": "FERRY_AIRCRAFT",
+    "targets": [
+      {"location": "Malta"}
+    ],
+    "ships": [
+      "BC01 Renown",
+      "CV04 Ark Royal-2",
+      "CL36 Sheffield",
+      "CL56 Fiji",
+      "DD53 Faulknor",
+      "DD54 Fearless",
+      "DD57 Foresight",
+      "DD58 Fortune",
+      "DD60 Fury"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "Malta Convoy",
+    "location": "Gibraltar",
+    "state": "ACTIVE",
+    "mission": "TRANSPORT",
+    "targets": [
+      {"location": "Malta"}
+    ],
+    "ships": [
+      "CL47 Dido",
+      "ML02 Abdiel",
+      "DD112 Jackal",
+      "DD116 Jersey",
+      "DD121 Kashmir",
+      "DD122 Kelly",
+      "DD123 Kelvin",
+      "DD127 Kipling"
+    ],
+    "cargoShips": [
+      "CL47 Dido",
+      "DD112 Jackal",
+      "DD116 Jersey",
+      "DD121 Kashmir",
+      "DD122 Kelly",
+      "DD123 Kelvin",
+      "DD127 Kipling"
+    ]
+  },
+  {
+    "name": "TF3",
+    "title": "Force K",
+    "location": "Malta",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "CL38 Gloucester",
+      "DD114 Janus",
+      "DD117 Jervis",
+      "DD106 Nubian"
+    ]
+  },
+  {
+    "name": "TF4",
+    "title": "Mediterranean Fleet",
+    "location": "Alexandria",
+    "state": "ACTIVE",
+    "mission": "PATROL",
+    "ships": [
+      "BB02 Warspite",
+      "BB03 Valiant",
+      "BB04 Barham",
+      "CV07 Formidable-2",
+      "CL10 Calcutta",
+      "CL51 Phoebe",
+      "DD67 Greyhound",
+      "DD68 Griffin",
+      "DD69 Hasty",
+      "DD70 Havock",
+      "DD71 Hereward",
+      "DD74 Hotspur",
+      "DD78 Ilex",
+      "DD105 Mohawk",
+      "DD01 Stuart",
+      "TR01"
+    ]
+  },
+  {
+    "name": "TF5",
+    "title": "Athens Force",
+    "location": "Athens",
+    "state": "RESERVE",
+    "mission": "TRANSPORT",
+    "targets": [
+      {"location": "Alexandria"}
+    ],
+    "releaseTurnEvents" : [
+      {
+        "turnGreaterThan": 16,
+        "values": [1]
+      }
+    ],
+    "ships": [
+      "CL06 Coventry",
+      "CL10 Calcutta",
+      "CL11 Carlisle",
+      "CL28 Orion",
+      "CL25 Ajax",
+      "CL51 Phoebe",
+      "DD37 Decoy",
+      "DD38 Defender",
+      "DD40 Diamond",
+      "DD72 Hero",
+      "DD83 Isis",
+      "DD120 Kandahar",
+      "DD125 Kimberly",
+      "DD126 Kingston",
+      "TR13",
+      "TR14",
+      "TR15",
+      "TR16",
+      "TR17",
+      "TR18",
+      "TR19",
+      "TR20",
+      "TR21",
+      "TR22",
+      "TR23",
+      "TR24",
+      "TR25",
+      "TR26",
+      "DE01 V&W-1",
+      "DE02 V&W-2",
+      "DE03 V&W-3",
+      "DE04 V&W-4",
+      "DE05 V&W-5",
+      "DE06 V&W-6",
+      "DE07 V&W-7",
+      "DE08 V&W-8",
+      "DE09 V&W-9",
+      "DE10 V&W-10",
+      "DE11 V&W-11",
+      "DE12 V&W-12",
+      "DE13 V&W-13",
+      "DE14 V&W-14",
+      "DE15 V&W-15",
+      "DE97 Flower-1",
+      "DE98 Flower-2",
+      "DE99 Flower-3",
+      "DE100 Flower-4",
+      "DE101 Flower-5",
+      "DE102 Flower-6",
+      "CD01 Kilkis",
+      "AC01 Averoff",
+      "DD09 Vasilefs Georgios",
+      "DD10 Vasilissa Olga",
+      "DD01 Aetos",
+      "DD02 Lerax",
+      "DD03 Leon",
+      "DD04 Panther",
+      "DD05 Kountouriotis",
+      "DD06 Psara",
+      "DD07 Spetsai",
+      "DD08 Hydra"
+    ],
+    "cargoShips": [
+      "TR13",
+      "TR14",
+      "TR15",
+      "TR16",
+      "TR17",
+      "TR18",
+      "TR19",
+      "TR20",
+      "TR21",
+      "TR22",
+      "TR23",
+      "TR24",
+      "TR25",
+      "TR26",
+      "CD01 Kilkis",
+      "AC01 Averoff",
+      "DD09 Vasilefs Georgios",
+      "DD10 Vasilissa Olga",
+      "DD01 Aetos",
+      "DD02 Lerax",
+      "DD03 Leon",
+      "DD04 Panther",
+      "DD05 Kountouriotis",
+      "DD06 Psara",
+      "DD07 Spetsai",
+      "DD08 Hydra"
+    ]
+  },
+  {
+    "name": "TF6",
+    "title": "Kalamata Force",
+    "location": "AW22",
+    "state": "RESERVE",
+    "mission": "TRANSPORT",
+    "targets": [
+      {"location": "Alexandria"}
+    ],
+    "releaseTurnEvents" : [
+      {
+        "turnGreaterThan": 16,
+        "values": [1]
+      }
+    ],
+    "ships": [
+      "DE01 Yarra-1",
+      "DE02 Yarra-2",
+      "DE03 Yarra-3",
+      "DE04 Yarra-4",
+      "DE05 Yarra-5",
+      "DE06 Yarra-6",
+      "DE07 Yarra-7",
+      "DE08 Yarra-8",
+      "DE09 Yarra-9",
+      "TR27",
+      "TR28",
+      "TR29",
+      "TR30",
+      "TR31",
+      "TR32"
+    ],
+    "cargoShips": [
+      "TR27",
+      "TR28",
+      "TR29",
+      "TR30",
+      "TR31",
+      "TR32"
+    ]
+  }
+]
