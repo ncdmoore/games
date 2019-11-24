@@ -9,6 +9,105 @@
         "location": "Tripoli",
         "startingLocation": "Naples, Palermo"
       }
+    },
+    {
+      "event": {
+        "side": "ALLIES",
+        "nation": "GREEK",
+        "action": "SUNK",
+        "name": "CD01 Kilkis"
+      },
+      "points": 10
+    },
+    {
+      "event": {
+        "side": "ALLIES",
+        "nation": "GREEK",
+        "action": "SUNK",
+        "name": "AC01 Averoff"
+      },
+      "points": 12
+    },
+    {
+      "event": {
+        "side": "ALLIES",
+        "nation": "GREEK",
+        "action": "SUNK",
+        "name": "DD01 Aetos"
+      },
+      "points": 2
+    },{
+      "event": {
+        "side": "ALLIES",
+        "nation": "GREEK",
+        "action": "SUNK",
+        "name": "DD02 lerax"
+      },
+      "points": 2
+    },{
+      "event": {
+        "side": "ALLIES",
+        "nation": "GREEK",
+        "action": "SUNK",
+        "name": "DD03 Leon"
+      },
+      "points": 2
+    },{
+      "event": {
+        "side": "ALLIES",
+        "nation": "GREEK",
+        "action": "SUNK",
+        "name": "DD04 Panther"
+      },
+      "points": 2
+    },{
+      "event": {
+        "side": "ALLIES",
+        "nation": "GREEK",
+        "action": "SUNK",
+        "name": "DD05 Kountouriotis"
+      },
+      "points": 2
+    },{
+      "event": {
+        "side": "ALLIES",
+        "nation": "GREEK",
+        "action": "SUNK",
+        "name": "DD06 Psara"
+      },
+      "points": 2
+    },{
+      "event": {
+        "side": "ALLIES",
+        "nation": "GREEK",
+        "action": "SUNK",
+        "name": "DD07 Spetsai"
+      },
+      "points": 2
+    },{
+      "event": {
+        "side": "ALLIES",
+        "nation": "GREEK",
+        "action": "SUNK",
+        "name": "DD08 Hydra"
+      },
+      "points": 2
+    },{
+      "event": {
+        "side": "ALLIES",
+        "nation": "GREEK",
+        "action": "SUNK",
+        "name": "DD09 Vasilefs Georgios"
+      },
+      "points": 3
+    },{
+      "event": {
+        "side": "ALLIES",
+        "nation": "GREEK",
+        "action": "SUNK",
+        "name": "DD10 Vasilissa Olga"
+      },
+      "points": 3
     }
   ]
 }
