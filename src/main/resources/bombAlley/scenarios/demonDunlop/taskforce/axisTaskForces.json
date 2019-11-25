@@ -46,7 +46,24 @@
     "title": "Cruiser Division 7",
     "location": "Messina",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": "MINELAYING",
+    "targets": [
+      {"location": "AC21"},
+      {"location": "AD20"},
+      {"location": "AE21"},
+      {"location": "AE22"},
+      {"location": "AF21"},
+      {"location": "AF22"},
+      {"location": "AE23"},
+      {"location": "AE24"},
+      {"location": "AF23"},
+      {"location": "AF24"},
+      {"location": "AF25"},
+      {"location": "AE26"},
+      {"location": "AE27"},
+      {"location": "AF27"},
+      {"location": "AF28"}
+    ],
     "ships": [
       "CL07 Raimondo Montecuccoli",
       "CL08 Muzio Attendolo",
@@ -66,6 +83,9 @@
     "location": "Palermo",
     "state": "ACTIVE",
     "mission": "TRANSPORT",
+    "targets": [
+      {"location": "Tripoli"}
+    ],
     "ships": [
       "DD20 Fulmine",
       "DD36 Carabiniere",
@@ -92,6 +112,9 @@
     "location": "Palermo",
     "state": "ACTIVE",
     "mission": "TRANSPORT",
+    "targets": [
+      {"location": "Tripoli"}
+    ],
     "ships": [
       "DE49 Spica-4",
       "DE50 Spica-5",

@@ -1,5 +1,5 @@
 {
-  "objectives": "Unload the cargo carried by the convoys in Tripoli. Sink any ship involved in the evacuation of Greece.",
+  "objectives": "Unload the cargo carried by the convoys in Tripoli. Sink any ship involved in the evacuation of Greece. Mine the Tunisian Coast",
   "scenarioShip": [
     {
       "event": {
@@ -36,7 +36,8 @@
         "name": "DD01 Aetos"
       },
       "points": 2
-    },{
+    },
+    {
       "event": {
         "side": "ALLIES",
         "nation": "GREEK",
@@ -44,7 +45,8 @@
         "name": "DD02 lerax"
       },
       "points": 2
-    },{
+    },
+    {
       "event": {
         "side": "ALLIES",
         "nation": "GREEK",
@@ -52,7 +54,8 @@
         "name": "DD03 Leon"
       },
       "points": 2
-    },{
+    },
+    {
       "event": {
         "side": "ALLIES",
         "nation": "GREEK",
@@ -60,7 +63,8 @@
         "name": "DD04 Panther"
       },
       "points": 2
-    },{
+    },
+    {
       "event": {
         "side": "ALLIES",
         "nation": "GREEK",
@@ -68,7 +72,8 @@
         "name": "DD05 Kountouriotis"
       },
       "points": 2
-    },{
+    },
+    {
       "event": {
         "side": "ALLIES",
         "nation": "GREEK",
@@ -76,7 +81,8 @@
         "name": "DD06 Psara"
       },
       "points": 2
-    },{
+    },
+    {
       "event": {
         "side": "ALLIES",
         "nation": "GREEK",
@@ -84,7 +90,8 @@
         "name": "DD07 Spetsai"
       },
       "points": 2
-    },{
+    },
+    {
       "event": {
         "side": "ALLIES",
         "nation": "GREEK",
@@ -92,7 +99,8 @@
         "name": "DD08 Hydra"
       },
       "points": 2
-    },{
+    },
+    {
       "event": {
         "side": "ALLIES",
         "nation": "GREEK",
@@ -100,7 +108,8 @@
         "name": "DD09 Vasilefs Georgios"
       },
       "points": 3
-    },{
+    },
+    {
       "event": {
         "side": "ALLIES",
         "nation": "GREEK",
@@ -108,6 +117,14 @@
         "name": "DD10 Vasilissa Olga"
       },
       "points": 3
+    },
+    {
+      "event": {
+        "side": "AXIS",
+        "action": "MINEFIELD_LAID",
+        "location": "AC21, AD20, AE21, AE22, AF21, AF22, AE23, AE24, AF23, AF24, AF25, AE26, AE27, AF27, AF28"
+      },
+      "points": 1
     }
   ]
 }

@@ -77,7 +77,7 @@
     "title": "Otranto Support Force",
     "location": "AN13",
     "state": "RESERVE",
-    "mission": "PATROL",
+    "mission": "INTERCEPT",
     "releaseShipEvents" : [
       {
         "action": "ATTACKED",

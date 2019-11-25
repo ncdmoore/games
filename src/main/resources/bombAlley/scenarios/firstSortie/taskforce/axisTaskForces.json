@@ -61,7 +61,7 @@
     "title": "Emergency Force",
     "location": "Taranto",
     "state": "RESERVE",
-    "mission": "PATROL",
+    "mission": "INTERCEPT",
     "releaseShipEvents": [
       {
         "action": "SPOTTED",
