@@ -138,6 +138,17 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
     }
 
     /**
+     * Indicates if the victory condition total point requirement is met.
+     *
+     * @param awardedPoints The points awarded for the event.
+     * @return True if the point requirement is met. False otherwise.
+     */
+    @Override
+    public boolean isPointRequirementMet(final int awardedPoints) {
+        return true;
+    }
+
+    /**
      * Determine the victory points.
      *
      * @param event The fired ship event.

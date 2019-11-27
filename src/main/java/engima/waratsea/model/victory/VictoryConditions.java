@@ -198,9 +198,6 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
     private void handleShipEvent(final ShipEvent event) {
         log.debug("Handle ship event for ship '{}' {}", event.getShip().getName(), event.getAction());
 
-        //Send the ship event to the required victory conditions.
-        checkRequired(requiredShips, event);
-
         //Get the scenario specific event victory points that were awarded.
         log.debug("Check specific scenario victory conditions.");
         Result result = getPoints(scenarioShips, event);
@@ -211,6 +208,11 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
             //get the points for the default victory conditions.
             result = getPoints(defaultShips, event);
         }
+
+        //Send the ship event to the required victory conditions.
+        //The points awarded is needed to see if the total required points for the event are satisfied.
+        //Note not all conditions will specify a point requirement.
+        checkRequired(requiredShips, event, result.getPoints());
 
         saveHistory(event, result.getPoints());
     }
@@ -288,11 +290,16 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
      * @param <D> The JSON data type.
      * @param victoryConditions  List of victory conditions.
      * @param event The fired event.
+     * @param pointsAwarded The points awarded for this event.
      */
-    private <E, D> void checkRequired(final List<VictoryCondition<E, D>> victoryConditions, final E event) {
-        Optional.ofNullable(victoryConditions)
+    private <E, D> void checkRequired(final List<VictoryCondition<E, D>> victoryConditions, final E event, final int pointsAwarded) {
+        List<VictoryCondition<E, D>> matched = Optional.ofNullable(victoryConditions)
                 .orElseGet(Collections::emptyList)
-                .forEach(condition -> condition.match(event));
+                .stream()
+                .filter(condition -> condition.match(event))
+                .collect(Collectors.toList());
+
+        matched.forEach(condition -> condition.isPointRequirementMet(pointsAwarded));
     }
 
     /**

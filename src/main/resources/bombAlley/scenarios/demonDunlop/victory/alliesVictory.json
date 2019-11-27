@@ -31,8 +31,7 @@
         "shipType": "CRUISER, DESTROYER, TRANSPORT",
         "startingLocation": "Athens, AW22",
         "location": "Alexandria"
-      },
-      "requiredPoints": 20
+      }
     },
     {
       "event": {
@@ -97,6 +96,20 @@
       },
       "points": 15,
       "requiredOccurrences": 2
+    }
+  ],
+  "requiredShip": [
+    {
+      "events": [
+        {
+          "action": "CARGO_UNLOADED",
+          "side": "ALLIES",
+          "by": "SHIP",
+          "location": "Alexandria",
+          "startingLocation": "Athens, AW22"
+        }
+      ],
+      "requiredPoints": 20
     }
   ]
 }

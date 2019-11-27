@@ -18,6 +18,14 @@ public interface VictoryCondition<E, D> extends PersistentData<D> {
     boolean isRequirementMet();
 
     /**
+     * Indicates if the victory condition total point requirement is met.
+     *
+     * @param awardedPoints The points awarded for the event.
+     * @return True if the point requirement is met. False otherwise.
+     */
+    boolean isPointRequirementMet(int awardedPoints);
+
+    /**
      * Get the points awarded for this condition.
      *
      * @param event The fired event that triggers the victory award.

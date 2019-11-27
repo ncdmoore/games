@@ -5,6 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
 import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.victory.data.ShipVictoryData;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
@@ -19,7 +20,13 @@ import java.util.stream.Collectors;
 @Slf4j
 public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData> {
 
+    private final GameMap gameMap;
+
     private List<ShipEventMatcher> matchers;
+
+    private int totalPoints;      //Used just to ensure the required points are met. This does not count toward total victory score.
+                                  //The ship victory points will be stored in the ShipVictory class.
+    private int requiredPoints;   //The number of points required for this victory condition to be satisfied.
 
     @Getter
     private boolean requirementMet;
@@ -29,15 +36,21 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
      *
      * @param data The victory condition data as read from a JSON file.
      * @param factory Factory for creating ship event matchers.
+     * @param gameMap The game map.
      */
     @Inject
     public RequiredShipVictory(@Assisted final ShipVictoryData data,
-                                         final ShipEventMatcherFactory factory) {
+                                         final ShipEventMatcherFactory factory,
+                                         final GameMap gameMap) {
+        this.gameMap = gameMap;
 
         matchers = data.getEvents()
                 .stream()
                 .map(factory::create)
                 .collect(Collectors.toList());
+
+        totalPoints = data.getTotalPoints();
+        requiredPoints = data.getRequiredPoints();
 
         requirementMet = data.isRequirementMet();
 
@@ -56,6 +69,8 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
         ShipVictoryData data = new ShipVictoryData();
         data.setEvents(PersistentUtility.getData(matchers));
         data.setRequirementMet(requirementMet);
+        data.setTotalPoints(totalPoints);
+        data.setRequiredPoints(requiredPoints);
         return data;
     }
 
@@ -77,13 +92,34 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
     public boolean match(final ShipEvent event) {
         // Check all event matchers. If any one event matcher matches the fired event
         // then the victory condition is met.
-        requirementMet = matchers
+        boolean matched = matchers
                 .stream()
                 .anyMatch(matcher -> matcher.match(event));
 
-        String location = event.getShip().getTaskForce().getName();
-        log.info("Ship '{}' '{}' at reference '{}' results in requirement met: {}",
-                new Object[] {event.getShip().getName(), event.getAction(), location, requirementMet});
+
+
+        String location = gameMap.convertPortReferenceToName(event.getShip().getTaskForce().getReference());
+
+        log.info("Ship '{}' '{}' at reference '{}' matched: '{}'",
+                new Object[] {event.getShip().getName(), event.getAction(), location, matched});
+
+        return matched;
+    }
+
+    /**
+     * Indicates if the victory condition total point requirement is met.
+     *
+     * @param awardedPoints The points awarded for the event.
+     * @return True if the point requirement is met. False otherwise.
+     */
+    @Override
+    public boolean isPointRequirementMet(final int awardedPoints) {
+        totalPoints += awardedPoints;
+
+        requirementMet = totalPoints >= requiredPoints;
+
+        log.info("Points awarded: '{}', New total points: '{}', Required total points: '{}', met: '{}'",
+                new Object[] {awardedPoints, totalPoints, requiredPoints, requirementMet});
 
         return requirementMet;
     }

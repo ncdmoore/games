@@ -313,6 +313,265 @@ public class ShipVictoryTest {
         Assert.assertTrue(victory.requirementsMet());
     }
 
+    @Test
+    public void testShipRequiredVictoryPointsAchieved() {
+        ShipMatchData shipMatchData = new ShipMatchData();
+        shipMatchData.setAction("CARGO_UNLOADED");
+        shipMatchData.setShipType("CRUISER");
+        shipMatchData.setName("CL47 Dido");
+        shipMatchData.setLocation("Malta");
+        shipMatchData.setSide(Side.ALLIES);
+
+        int requiredPoints = 10;
+
+        List<ShipMatchData> matchers = new ArrayList<>();
+        matchers.add(shipMatchData);
+
+        ShipVictoryData shipRequiredVictoryData = new ShipVictoryData();
+        shipRequiredVictoryData.setEvent(shipMatchData);
+        shipRequiredVictoryData.setEvents(matchers);
+        shipRequiredVictoryData.setRequiredPoints(requiredPoints);
+
+        List<ShipVictoryData> required = new ArrayList<>();
+        required.add(shipRequiredVictoryData);
+
+        VictoryConditionsData victoryData = new VictoryConditionsData();
+        victoryData.setDefaultShip(required);
+        victoryData.setRequiredShip(required);
+
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+
+        Assert.assertFalse(victory.requirementsMet());
+
+        taskForce.setReference("Malta");
+
+        ShipEvent event = new ShipEvent();
+        event.setAction(ShipEventAction.CARGO_UNLOADED);
+        event.setShip(taskForce.getShip("CL47 Dido"));
+
+        event.fire();
+
+        Assert.assertTrue(victory.requirementsMet());
+    }
+
+    @Test
+    public void testShipRequiredVictoryPointsAchievedMultipleEvents() {
+        int victoryPoints = 4;
+        int requiredPoints = 8;
+
+        taskForce.setReference("Malta");
+
+        ShipMatchData shipMatchData1 = new ShipMatchData();
+        shipMatchData1.setAction("CARGO_UNLOADED");
+        shipMatchData1.setShipType("CRUISER");
+        shipMatchData1.setName("CL47 Dido");
+        shipMatchData1.setLocation("Malta");
+        shipMatchData1.setSide(Side.ALLIES);
+
+        ShipMatchData shipMatchData2 = new ShipMatchData();
+        shipMatchData2.setAction("CARGO_UNLOADED");
+        shipMatchData2.setShipType("CRUISER");
+        shipMatchData2.setName("CA12 York");
+        shipMatchData2.setLocation("Malta");
+        shipMatchData2.setSide(Side.ALLIES);
+
+        ShipMatchData shipMatchDataAll = new ShipMatchData();
+        shipMatchDataAll.setAction("CARGO_UNLOADED");
+        shipMatchDataAll.setShipType("CRUISER");
+        shipMatchDataAll.setLocation("Malta");
+        shipMatchDataAll.setSide(Side.ALLIES);
+
+        List<ShipMatchData> matchers = new ArrayList<>();
+        matchers.add(shipMatchDataAll);
+
+        ShipVictoryData shipVictoryData1 = new ShipVictoryData();
+        shipVictoryData1.setEvent(shipMatchData1);
+        shipVictoryData1.setPoints(victoryPoints);
+
+        ShipVictoryData shipVictoryData2 = new ShipVictoryData();
+        shipVictoryData2.setEvent(shipMatchData2);
+        shipVictoryData2.setPoints(victoryPoints);
+
+        List<ShipVictoryData> shipData = new ArrayList<>();
+        shipData.add(shipVictoryData1);
+        shipData.add(shipVictoryData2);
+
+        ShipVictoryData shipRequiredVictoryData = new ShipVictoryData();
+        shipRequiredVictoryData.setEvents(matchers);
+        shipRequiredVictoryData.setRequiredPoints(requiredPoints);
+
+        List<ShipVictoryData> requiredShipData = new ArrayList<>();
+        requiredShipData.add(shipRequiredVictoryData);
+
+        VictoryConditionsData victoryData = new VictoryConditionsData();
+        victoryData.setDefaultShip(shipData);
+        victoryData.setRequiredShip(requiredShipData);
+
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+
+        // No ships have unloaded total victory should be 0.
+        Assert.assertEquals(0, victory.getTotalVictoryPoints());
+
+        taskForce.setReference("Malta");
+
+        ShipEvent event1 = new ShipEvent();
+        event1.setAction(ShipEventAction.CARGO_UNLOADED);
+        event1.setShip(taskForce.getShip("CL47 Dido"));
+
+        event1.fire();
+
+        // One ship has unloaded.
+        Assert.assertEquals(victoryPoints, victory.getTotalVictoryPoints());
+
+        ShipEvent event2 = new ShipEvent();
+        event2.setAction(ShipEventAction.CARGO_UNLOADED);
+        event2.setShip(taskForce.getShip("CA12 York"));
+
+        event2.fire();
+
+        // Two ships have now unloaded.
+        Assert.assertEquals(victoryPoints * 2, victory.getTotalVictoryPoints());
+
+        Assert.assertTrue(victory.requirementsMet());
+
+    }
+
+    @Test
+    public void testShipRequiredVictoryPointsNotAchievedMultipleEvents() {
+        int victoryPoints = 4;
+        int requiredPoints = 8;
+
+        taskForce.setReference("Malta");
+
+        ShipMatchData shipMatchData1 = new ShipMatchData();
+        shipMatchData1.setAction("CARGO_UNLOADED");
+        shipMatchData1.setShipType("CRUISER");
+        shipMatchData1.setName("CL47 Dido");
+        shipMatchData1.setLocation("Malta");
+        shipMatchData1.setSide(Side.ALLIES);
+
+        ShipMatchData shipMatchData2 = new ShipMatchData();
+        shipMatchData2.setAction("CARGO_UNLOADED");
+        shipMatchData2.setShipType("CRUISER");
+        shipMatchData2.setName("CA12 York");
+        shipMatchData2.setLocation("Alexandria");
+        shipMatchData2.setSide(Side.ALLIES);
+
+        ShipMatchData shipMatchDataAll = new ShipMatchData();
+        shipMatchDataAll.setAction("CARGO_UNLOADED");
+        shipMatchDataAll.setShipType("CRUISER");
+        shipMatchDataAll.setLocation("Malta");
+        shipMatchDataAll.setSide(Side.ALLIES);
+
+        List<ShipMatchData> matchers = new ArrayList<>();
+        matchers.add(shipMatchDataAll);
+
+        ShipVictoryData shipVictoryData1 = new ShipVictoryData();
+        shipVictoryData1.setEvent(shipMatchData1);
+        shipVictoryData1.setPoints(victoryPoints);
+
+        ShipVictoryData shipVictoryData2 = new ShipVictoryData();
+        shipVictoryData2.setEvent(shipMatchData2);
+        shipVictoryData2.setPoints(victoryPoints);
+
+        List<ShipVictoryData> shipData = new ArrayList<>();
+        shipData.add(shipVictoryData1);
+        shipData.add(shipVictoryData2);
+
+        ShipVictoryData shipRequiredVictoryData = new ShipVictoryData();
+        shipRequiredVictoryData.setEvents(matchers);
+        shipRequiredVictoryData.setRequiredPoints(requiredPoints);
+
+        List<ShipVictoryData> requiredShipData = new ArrayList<>();
+        requiredShipData.add(shipRequiredVictoryData);
+
+        VictoryConditionsData victoryData = new VictoryConditionsData();
+        victoryData.setDefaultShip(shipData);
+        victoryData.setRequiredShip(requiredShipData);
+
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+
+        //No ships have unloaded. Victory should be 0.
+        Assert.assertEquals(0, victory.getTotalVictoryPoints());
+
+        taskForce.setReference("Malta");
+
+        ShipEvent event1 = new ShipEvent();
+        event1.setAction(ShipEventAction.CARGO_UNLOADED);
+        event1.setShip(taskForce.getShip("CL47 Dido"));
+
+        event1.fire();
+
+        // One ship has unloaded. Total victory should equal the victory points awarded for a
+        // single ship unloading.
+        Assert.assertEquals(victoryPoints, victory.getTotalVictoryPoints());
+
+        // Move the task force to a place where unloading should not result in any victory.
+        // that satifies the overal required victory.
+        taskForce.setReference("Alexandria");
+
+        ShipEvent event2 = new ShipEvent();
+        event2.setAction(ShipEventAction.CARGO_UNLOADED);
+        event2.setShip(taskForce.getShip("CA12 York"));
+
+        event2.fire();
+
+        // Two ships have unloaded..
+        Assert.assertEquals(victoryPoints * 2, victory.getTotalVictoryPoints());
+
+        // The required victory conditions of 8 total points from unloading at Malta have not been met.
+        // 4 victory points awarded at Malta. 4 victory points awarded at Alexandria.
+        // The points awarded at Alexandria do not help met the Malta requirement.
+        Assert.assertFalse(victory.requirementsMet());
+    }
+
+    @Test
+    public void testShipRequiredVictoryPointsNotAchieved() {
+        ShipMatchData shipMatchData = new ShipMatchData();
+        shipMatchData.setAction("CARGO_UNLOADED");
+        shipMatchData.setShipType("CRUISER");
+        shipMatchData.setName("CL47 Dido");
+        shipMatchData.setLocation("Malta");
+        shipMatchData.setSide(Side.ALLIES);
+
+        int requiredPoints = 300;
+
+        List<ShipMatchData> matchers = new ArrayList<>();
+        matchers.add(shipMatchData);
+
+        ShipVictoryData shipRequiredVictoryData = new ShipVictoryData();
+        shipRequiredVictoryData.setEvent(shipMatchData);
+        shipRequiredVictoryData.setEvents(matchers);
+        shipRequiredVictoryData.setRequiredPoints(requiredPoints);
+
+        List<ShipVictoryData> required = new ArrayList<>();
+        required.add(shipRequiredVictoryData);
+
+        VictoryConditionsData victoryData = new VictoryConditionsData();
+        victoryData.setDefaultShip(required);
+        victoryData.setRequiredShip(required);
+
+        VictoryConditions victory = victoryConditionsFactory.create(victoryData, Side.ALLIES);
+
+        Assert.assertFalse(victory.requirementsMet());
+
+        taskForce.setReference("Malta");
+
+        ShipEvent event = new ShipEvent();
+        event.setAction(ShipEventAction.CARGO_UNLOADED);
+        event.setShip(taskForce.getShip("CL47 Dido"));
+
+        event.fire();
+
+        ShipEvent nonMatchedEvent = new ShipEvent();
+        nonMatchedEvent.setAction(ShipEventAction.CARGO_UNLOADED);
+        nonMatchedEvent.setShip(taskForce.getShip("CA12 York"));
+
+        nonMatchedEvent.fire();
+
+        Assert.assertFalse(victory.requirementsMet());
+    }
+
     /**
      * This test a scenario specific event that overrides the default victory condition.
      */
