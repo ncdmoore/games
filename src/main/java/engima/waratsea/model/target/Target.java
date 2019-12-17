@@ -1,54 +1,31 @@
 package engima.waratsea.model.target;
 
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
-import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.target.data.TargetData;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * A task force or air strike targets.
  */
-public class Target implements PersistentData<TargetData> {
-
-    @Getter
-    @Setter
-    private String location;
-
-    //private int priority;
-
+public interface Target extends PersistentData<TargetData> {
     /**
-     * Constructor called by guice.
+     * Get the name of the target.
      *
-     * @param data The target data read in from a JSON file.
-     * @param gameMap Game's map.
+     * @return The target's name.
      */
-    @Inject
-    public Target(@Assisted final TargetData data,
-                            final GameMap gameMap) {
-        location = gameMap.convertNameToReference(data.getLocation());
-    }
+    String getName();
 
     /**
-     * Get the target data that is persisted.
+     * Get the location of the target.
      *
-     * @return The persistent target data.
+     * @return The target's location.
      */
-    @Override
-    public TargetData getData() {
-        TargetData data = new TargetData();
-        data.setLocation(location);
-        return data;
-    }
+    String getLocation();
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
+     * Get the target persistent data.
+     *
+     * @return The target's persistent data.
      */
-    @Override
-    public void saveChildrenData() {
-    }
+    TargetData getData();
 }

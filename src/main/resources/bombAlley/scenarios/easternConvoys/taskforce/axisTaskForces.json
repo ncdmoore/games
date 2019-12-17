@@ -6,7 +6,10 @@
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "Benghazi"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Benghazi"
+      }
     ],
     "ships": [
       "DE88 Sella-1",

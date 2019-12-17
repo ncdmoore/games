@@ -20,7 +20,7 @@ import engima.waratsea.model.ship.ShipType;
 import engima.waratsea.model.ship.Shipyard;
 import engima.waratsea.model.ship.ShipyardException;
 import engima.waratsea.model.target.Target;
-import engima.waratsea.model.target.TargetFactory;
+import engima.waratsea.model.target.TargetDAO;
 import engima.waratsea.model.target.data.TargetData;
 import engima.waratsea.model.taskForce.data.TaskForceData;
 import engima.waratsea.utility.PersistentUtility;
@@ -92,7 +92,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
 
     private Shipyard shipyard;
     private ShipEventMatcherFactory shipEventMatcherFactory;
-    private TargetFactory targetFactory;
+    private TargetDAO targetDAO;
     private GameMap gameMap;
 
     /**
@@ -102,7 +102,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
      * @param data The task force data read from a JSON file.
      * @param shipyard builds ships from ship names and side.
      * @param shipEventMatcherFactory Factory for creating ship event matchers.
-     * @param targetFactory Factory for creating ship targets.
+     * @param targetDAO target data access object, loads targets.
      * @param gameMap The game's map.
      */
     @Inject
@@ -110,11 +110,11 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
                      @Assisted final TaskForceData data,
                                final Shipyard shipyard,
                                final ShipEventMatcherFactory shipEventMatcherFactory,
-                               final TargetFactory targetFactory,
+                               final TargetDAO targetDAO,
                                final GameMap gameMap) {
 
         this.shipEventMatcherFactory = shipEventMatcherFactory;
-        this.targetFactory = targetFactory;
+        this.targetDAO = targetDAO;
         this.gameMap = gameMap;
 
         this.side = side;
@@ -177,7 +177,8 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
         return Optional.ofNullable(targetData)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(targetFactory::create)
+                .map(this::addSideToTarget)
+                .map(targetDAO::load)
                 .collect(Collectors.toList());
     }
 
@@ -443,5 +444,16 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
             log.error("Invalid cargo ship name: '{}'", shipName);
             return null;
         }
+    }
+
+    /**
+     * Add the side to the target data.
+     *
+     * @param data target data.
+     * @return target data with the side added.
+     */
+    private TargetData addSideToTarget(final TargetData data) {
+        data.setSide(side);
+        return data;
     }
 }

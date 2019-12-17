@@ -17,7 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class represents the game. It contains the game rules, game players etc.
@@ -30,6 +32,8 @@ public class Game implements PersistentData<GameData> {
 
     @Getter
     private Player humanPlayer;
+
+    private Map<Side, Player> playerMap = new HashMap<>();
 
     private Resource resource;
     private ScenarioDAO scenarioDAO;
@@ -121,6 +125,16 @@ public class Game implements PersistentData<GameData> {
     }
 
     /**
+     * Get the player for the given side.
+     *
+     * @param side The side: ALLIES or AXIS.
+     * @return The corresponding player for the given side.
+     */
+    public Player getPlayer(final Side side) {
+        return playerMap.get(side);
+    }
+
+    /**
      * Set the game type as a new game.
      */
     public void setNew() {
@@ -163,11 +177,12 @@ public class Game implements PersistentData<GameData> {
      * @param side The human player humanSide.
      */
     public void setHumanSide(final Side side) {                                                                         // New Game Step 3.
-        log.debug("Human side: {}", side);                                                                              // Saved Game Step 3.
-
-        humanSide = side;
+        humanSide = side;                                                                                               // Saved Game Step 3.
         humanPlayer.setSide(humanSide);
         computerPlayer.setSide(humanSide.opposite());
+
+        playerMap.put(side, humanPlayer);
+        playerMap.put(side.opposite(), computerPlayer);
     }
 
     /**
@@ -197,6 +212,8 @@ public class Game implements PersistentData<GameData> {
         buildAssets();
         deployAssets();
 
+        buildViews();
+
         turn.start(scenario);
     }
 
@@ -220,8 +237,9 @@ public class Game implements PersistentData<GameData> {
 
         buildAssets();
         setSquadrons();
-
         // No need to deploy assets as this has already been done.
+
+        buildViews();
     }
 
     /**
@@ -294,7 +312,7 @@ public class Game implements PersistentData<GameData> {
     }
 
     /**
-     * Load the task forces.
+     * Load the player's assets.
      *
      * @throws ScenarioException Indicates the task forces could not be loaded.
      */
@@ -311,5 +329,13 @@ public class Game implements PersistentData<GameData> {
     private void deployAssets() throws ScenarioException {
         humanPlayer.deployAssets(scenario);
         computerPlayer.deployAssets(scenario);
+    }
+
+    /**
+     * Load the player's view of the enemy assets.
+     */
+    private void buildViews() {
+        humanPlayer.buildViews();
+        computerPlayer.buildViews();
     }
 }

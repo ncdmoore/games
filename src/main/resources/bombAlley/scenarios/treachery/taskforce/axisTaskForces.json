@@ -6,8 +6,14 @@
     "state": "RESERVE",
     "mission": "FERRY",
     "targets": [
-      {"location": "Toulon"},
-      {"location": "Marseille"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Toulon"
+      },
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Marseille"
+      }
     ],
     "releaseShipEvents": [
       {

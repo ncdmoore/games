@@ -6,7 +6,10 @@
     "state": "ACTIVE",
     "mission": "FERRY_AIRCRAFT",
     "targets": [
-      {"location": "Malta"}
+      {
+        "type": "FRIENDLY_AIRFIELD",
+        "name": "Luqa"
+      }
     ],
     "ships": [
       "BC01 Renown",
@@ -27,7 +30,10 @@
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "Malta"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Malta"
+      }
     ],
     "ships": [
       "CL47 Dido",
@@ -94,7 +100,10 @@
     "state": "RESERVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "Alexandria"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Alexandria"
+      }
     ],
     "releaseTurnEvents" : [
       {
@@ -215,7 +224,11 @@
     "state": "RESERVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "Alexandria"}
+      {
+
+        "type": "FRIENDLY_PORT",
+        "name": "Alexandria"
+      }
     ],
     "releaseTurnEvents" : [
       {

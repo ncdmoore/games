@@ -6,8 +6,14 @@
     "state": "ACTIVE",
     "mission": "BOMBARDMENT",
     "targets": [
-      {"location": "Rhodes"},
-      {"location": "Tobruk"}
+      {
+        "type": "ENEMY_PORT",
+        "name": "Rhodes"
+      },
+      {
+        "type": "ENEMY_PORT",
+        "name": "Tobruk"
+      }
     ],
     "ships": [
       "BB02 Warspite",

@@ -23,6 +23,10 @@ import engima.waratsea.model.base.airfield.patrol.PatrolFactory;
 import engima.waratsea.model.base.airfield.patrol.SearchPatrol;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.base.port.PortFactory;
+import engima.waratsea.model.enemy.views.airfield.AirfieldView;
+import engima.waratsea.model.enemy.views.airfield.AirfieldViewFactory;
+import engima.waratsea.model.enemy.views.port.PortView;
+import engima.waratsea.model.enemy.views.port.PortViewFactory;
 import engima.waratsea.model.flotilla.Flotilla;
 import engima.waratsea.model.flotilla.FlotillaFactory;
 import engima.waratsea.model.flotilla.MotorTorpedoBoatFlotilla;
@@ -66,7 +70,12 @@ import engima.waratsea.model.squadron.deployment.SquadronDeploymentFactory;
 import engima.waratsea.model.submarine.Submarine;
 import engima.waratsea.model.submarine.SubmarineFactory;
 import engima.waratsea.model.target.Target;
+import engima.waratsea.model.target.TargetEnemyAirfield;
 import engima.waratsea.model.target.TargetFactory;
+import engima.waratsea.model.target.TargetEnemyPort;
+import engima.waratsea.model.target.TargetFriendlyAirfield;
+import engima.waratsea.model.target.TargetFriendlyPort;
+import engima.waratsea.model.target.TargetSeaGrid;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.victory.AirfieldVictory;
@@ -156,7 +165,13 @@ public class TestModule extends AbstractModule {
         install(new FactoryModuleBuilder().implement(MinefieldZone.class, MinefieldZone.class).build(MinefieldZoneFactory.class));
         install(new FactoryModuleBuilder().implement(MinefieldDeployment.class, MinefieldDeployment.class).build(MinefieldDeploymentFactory.class));
 
-        install(new FactoryModuleBuilder().implement(Target.class, Target.class).build(TargetFactory.class));
+        install(new FactoryModuleBuilder()
+                .implement(Target.class, Names.named("enemyAirfield"), TargetEnemyAirfield.class)
+                .implement(Target.class, Names.named("friendlyAirfield"), TargetFriendlyAirfield.class)
+                .implement(Target.class, Names.named("enemyPort"), TargetEnemyPort.class)
+                .implement(Target.class, Names.named("friendlyPort"), TargetFriendlyPort.class)
+                .implement(Target.class, Names.named("seaGrid"), TargetSeaGrid.class)
+                .build(TargetFactory.class));
 
         install(new FactoryModuleBuilder().implement(ShipEventMatcher.class, ShipEventMatcher.class).build(ShipEventMatcherFactory.class));
         install(new FactoryModuleBuilder().implement(SquadronEventMatcher.class, SquadronEventMatcher.class).build(SquadronEventMatcherFactory.class));
@@ -164,6 +179,10 @@ public class TestModule extends AbstractModule {
 
 
         install(new FactoryModuleBuilder().implement(BaseMarker.class, BaseMarker.class).build(BaseMarkerFactory.class));
+
+
+        install(new FactoryModuleBuilder().implement(AirfieldView.class, AirfieldView.class).build(AirfieldViewFactory.class));
+        install(new FactoryModuleBuilder().implement(PortView.class, PortView.class).build(PortViewFactory.class));
 
     }
 }

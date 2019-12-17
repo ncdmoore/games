@@ -3,6 +3,7 @@ package engima.waratsea.model.base.port;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
+import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Base;
 import engima.waratsea.model.base.port.data.PortData;
 import engima.waratsea.model.game.Side;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * Represents a port within the game.
  */
-public class Port implements Base, PersistentData<PortData> {
+public class Port implements Asset, Base, PersistentData<PortData> {
     @Getter
     private final Side side;
 
@@ -96,5 +97,25 @@ public class Port implements Base, PersistentData<PortData> {
      */
     public boolean areTaskForcesPresent() {
         return !taskForces.isEmpty();
+    }
+
+    /**
+     * Get the title of the asset that is displayed on the GUI.
+     *
+     * @return The asset title.
+     */
+    @Override
+    public String getTitle() {
+        return name;
+    }
+
+    /**
+     * Get the active state of the asset.
+     *
+     * @return True if the asset is active. False if the asset is not active.
+     */
+    @Override
+    public boolean isActive() {
+        return true;
     }
 }

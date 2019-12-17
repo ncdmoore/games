@@ -45,7 +45,6 @@ public class AssetMarkerDTO implements PopUpDTO {
     @Setter
     private EventHandler<? super MouseEvent> popupEventHandler;
 
-    @Getter
     private GameGrid grid;
 
     @Getter
@@ -80,7 +79,7 @@ public class AssetMarkerDTO implements PopUpDTO {
     }
 
     /**
-     * Set the game map which allows the grid to be determined from the task force's map reference.
+     * Set the game map which allows the grid to be determined from the asset's map reference.
      *
      * @param gameMap The game map.
      */
@@ -89,7 +88,7 @@ public class AssetMarkerDTO implements PopUpDTO {
     }
 
     /**
-     * Set the map view which allows the grid view to be determined from the task force's grid reference.
+     * Set the map view which allows the grid view to be determined from the asset's grid reference.
      *
      * @param map The map view.
      */

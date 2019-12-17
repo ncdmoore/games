@@ -6,7 +6,10 @@
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "Alexandria"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Alexandria"
+      }
     ],
     "ships": [
       "CL01a Caledon 39",
@@ -56,7 +59,10 @@
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "Malta"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Malta"
+      }
     ],
     "ships": [
       "CL28 Orion",

@@ -6,7 +6,10 @@
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "Tripoli"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Tripoli"
+      }
     ],
     "ships": [
       "DD14 Dardo",
@@ -48,21 +51,66 @@
     "state": "ACTIVE",
     "mission": "MINELAYING",
     "targets": [
-      {"location": "AC21"},
-      {"location": "AD20"},
-      {"location": "AE21"},
-      {"location": "AE22"},
-      {"location": "AF21"},
-      {"location": "AF22"},
-      {"location": "AE23"},
-      {"location": "AE24"},
-      {"location": "AF23"},
-      {"location": "AF24"},
-      {"location": "AF25"},
-      {"location": "AE26"},
-      {"location": "AE27"},
-      {"location": "AF27"},
-      {"location": "AF28"}
+      {
+        "type": "SEA_GRID",
+        "location": "AC21"
+      },
+      {
+        "type": "SEA_GRID",
+        "location": "AD20"
+      },
+      {
+        "type": "SEA_GRID",
+        "location": "AE21"
+      },
+      {
+        "type": "SEA_GRID",
+        "location": "AE22"
+      },
+      {
+        "type": "SEA_GRID",
+        "location": "AF21"
+      },
+      {
+        "type": "SEA_GRID",
+        "location": "AF22"
+      },
+      {
+        "type": "SEA_GRID",
+        "location": "AE23"
+      },
+      {
+        "type": "SEA_GRID",
+        "location": "AE24"
+      },
+      {
+        "type": "SEA_GRID",
+        "location": "AF23"
+      },
+      {
+        "type": "SEA_GRID",
+        "location": "AF24"
+      },
+      {
+        "type": "SEA_GRID",
+        "location": "AF25"
+      },
+      {
+        "type": "SEA_GRID",
+        "location": "AE26"
+      },
+      {
+        "type": "SEA_GRID",
+        "location": "AE27"
+      },
+      {
+        "type": "SEA_GRID",
+        "location": "AF27"
+      },
+      {
+        "type": "SEA_GRID",
+        "location": "AF28"
+      }
     ],
     "ships": [
       "CL07 Raimondo Montecuccoli",
@@ -84,7 +132,10 @@
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "Tripoli"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Tripoli"
+      }
     ],
     "ships": [
       "DD20 Fulmine",
@@ -113,7 +164,10 @@
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "Tripoli"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Tripoli"
+      }
     ],
     "ships": [
       "DE49 Spica-4",

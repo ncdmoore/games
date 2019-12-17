@@ -116,6 +116,9 @@ public class PopUp {
      * @param map The map that contains this popup.
      */
     public void display(final MapView map) {
+
+        log.info("display {}", names.get(0));
+
         map.remove(popUp);
         map.add(popUp);
     }

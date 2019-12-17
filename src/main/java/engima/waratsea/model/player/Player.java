@@ -2,6 +2,8 @@ package engima.waratsea.model.player;
 
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.port.Port;
+import engima.waratsea.model.enemy.views.airfield.AirfieldView;
+import engima.waratsea.model.enemy.views.port.PortView;
 import engima.waratsea.model.flotilla.Flotilla;
 import engima.waratsea.model.flotilla.FlotillaType;
 import engima.waratsea.model.game.Nation;
@@ -14,6 +16,7 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.victory.VictoryException;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -71,6 +74,11 @@ public interface Player {
      * @throws ScenarioException Indicates the assets could not be loaded.
      */
     void deployAssets(Scenario scenario) throws ScenarioException;
+
+    /**
+     * This sets the player's views of the enemy assets.
+     */
+    void buildViews();
 
     /**
      * This saves the player's victory conditions.
@@ -144,11 +152,39 @@ public interface Player {
     List<Airfield> getAirfields();
 
     /**
+     * Get the player's airfield map. Airfield name to airfield.
+     *
+     * @return The airfield map.
+     */
+    Map<String, Airfield> getAirfieldMap();
+
+    /**
+     * This gets the enemy player's airfield map.
+     *
+     * @return The enemy player's airfield map.
+     */
+    Map<String, AirfieldView> getEnemyAirfieldMap();
+
+    /**
      * This gets the player's ports.
      *
      * @return The player's ports.
      */
     List<Port> getPorts();
+
+    /**
+     * Get the player's port map. Port name to port.
+     *
+     * @return The port map.
+     */
+    Map<String, Port> getPortMap();
+
+    /**
+     * Get the enemy player's port map. Port name to Port view.
+     *
+     * @return The enemy player's port map.
+     */
+    Map<String, PortView> getEnemyPortMap();
 
     /**
      * This gets the player's minefields.

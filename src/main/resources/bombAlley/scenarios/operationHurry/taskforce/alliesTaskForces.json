@@ -6,7 +6,10 @@
     "state": "ACTIVE",
     "mission": "AIR_RAID",
     "targets": [
-      {"location":  "Cagliari"}
+      {
+        "type": "ENEMY_AIRFIELD",
+        "name":  "Cagliari"
+      }
     ],
     "ships": [
       "BB03 Valiant",
@@ -34,7 +37,10 @@
     "state": "ACTIVE",
     "mission": "FERRY_AIRCRAFT",
     "targets": [
-      {"location": "Malta"}
+      {
+        "type": "FRIENDLY_AIRFIELD",
+        "name": "Luqa-1940"
+      }
     ],
     "ships": [
       "CVL01 Argus-1",

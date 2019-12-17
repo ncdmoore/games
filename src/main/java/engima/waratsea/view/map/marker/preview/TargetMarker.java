@@ -9,13 +9,17 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * A target marker on the preview map.
  */
+@Slf4j
 public class TargetMarker {
 
     private static final double OPACITY = 1.0;
+
+    private final String name;
 
     private final GridView gridView;
     private final EventHandler<? super MouseEvent> eventHandler;
@@ -29,6 +33,7 @@ public class TargetMarker {
      * @param dto All the data needed to create a marker.
      */
     public TargetMarker(final TargetMarkerDTO dto) {
+        this.name = dto.getName();
         this.gridView = dto.getGridView();
         this.eventHandler = dto.getMarkerEventHandler();
         dto.setStyle("popup-target");
@@ -53,6 +58,10 @@ public class TargetMarker {
 
             circle.setViewOrder(ViewOrder.MARKER.getValue());
 
+
+            circle.setUserData(this);
+
+
             setOnMouseClicked(eventHandler);
         }
 
@@ -65,13 +74,14 @@ public class TargetMarker {
      * Select this marker. The marker is now the currently selected marker.
      * @param map The game map.
      */
-    public void
-    select(final MapView map) {
+    public void select(final MapView map) {
         if (circle != null) {
             map.remove(circle);
             map.add(circle);
             circle.setOpacity(1.0);
         }
+
+        log.info("display target marker: '{}'", name);
 
         popUp.display(map);
     }

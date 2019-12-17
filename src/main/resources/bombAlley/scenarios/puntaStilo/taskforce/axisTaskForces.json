@@ -6,8 +6,14 @@
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "Benghazi"},
-      {"location": "Tripoli"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Benghazi"
+      },
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Tripoli"
+      }
     ],
     "ships": [
       "CL03 Bande Nere",

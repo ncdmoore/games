@@ -6,7 +6,10 @@
     "state": "ACTIVE",
     "mission": "FERRY",
     "targets": [
-      {"location": "Gibraltar"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Gibraltar"
+      }
     ],
     "ships": [
       "BB10 Ramillies",
@@ -79,7 +82,10 @@
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "Malta"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Malta"
+      }
     ],
     "ships": [
       "CL06 Coventry",
@@ -107,7 +113,10 @@
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "Malta"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Malta"
+      }
     ],
     "ships": [
       "CL37 Southampton",

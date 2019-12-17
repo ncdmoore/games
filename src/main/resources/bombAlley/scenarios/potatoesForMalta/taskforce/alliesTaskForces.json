@@ -6,7 +6,10 @@
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "Malta"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Malta"
+      }
     ],
     "ships": [
       "CL44 Bonaventure",
@@ -51,7 +54,10 @@
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "Malta"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Malta"
+      }
     ],
     "ships": [
       "CL37 Southampton",
@@ -91,7 +97,10 @@
     "state": "ACTIVE",
     "mission": "TRANSPORT",
     "targets": [
-      {"location": "Malta"}
+      {
+        "type": "FRIENDLY_PORT",
+        "name": "Malta"
+      }
     ],
     "ships": [
       "CL10 Calcutta",

@@ -6,7 +6,10 @@
     "state": "ACTIVE",
     "mission": "BOMBARDMENT",
     "targets": [
-      {"location": "Oran"}
+      {
+        "type": "ENEMY_PORT",
+        "name": "Oran"
+      }
     ],
     "ships": [
       "BB03 Valiant",

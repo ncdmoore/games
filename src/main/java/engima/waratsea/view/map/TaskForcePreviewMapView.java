@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class TaskForcePreviewMapView {
     private Map<String, TaskForceMarker> mapRefMarkerMap = new HashMap<>();          //map reference -> grid.
 
     private Map<String, List<TargetMarker>> targetMap = new HashMap<>();             //marker name (task force name) -> grid.
-    private Map<String, TargetMarker> mapRefTargetMap = new HashMap<>();             //map reference -> grid.
+    private List<TargetMarker> targetMarkers = new ArrayList<>();
 
     private Map<String, AirfieldMarker> airfieldMarkerMap = new HashMap<>();
 
@@ -123,7 +124,6 @@ public class TaskForcePreviewMapView {
         airfieldMarkerMap.put(dto.getName(), marker);
     }
 
-
     /**
      * Place the target marker on the map.
      *
@@ -134,27 +134,19 @@ public class TaskForcePreviewMapView {
         dto.setGameMap(gameMap);
         dto.setMapView(mapView);
 
-        TargetMarker marker;
-        // If the target marker occupies the same grid as an
-        // existing target marker, then just add this target
-        // marker to the list of markers at this grid.
-        // This is needed for different task forces that have the
-        // same target marker.
-        if (mapRefTargetMap.containsKey(dto.getMapReference())) {
-            marker = mapRefTargetMap.get(dto.getMapReference());
-            addTargetMarker(dto, marker);
-        } else {
-            marker = new TargetMarker(dto);
+        TargetMarker marker = new TargetMarker(dto);
 
-            //If the target marker occupies the same space as a task force marker
-            //then make the target marker inactive.
-            boolean active = !mapRefMarkerMap.containsKey(dto.getMapReference());
-            dto.setActive(active);
+        //If the target marker occupies the same space as a task force marker
+        //then make the target marker inactive. This is done so that the
+        // task force marker is never hidden.
+        boolean active = !mapRefMarkerMap.containsKey(dto.getMapReference());
+        dto.setActive(active);
 
-            marker.draw(dto);
-            mapRefTargetMap.put(dto.getMapReference(), marker);
-            addTargetMarker(dto, marker);
-        }
+        marker.draw(dto);
+
+        targetMarkers.add(marker);
+
+        addTargetMarker(dto, marker);
 
         return marker;
     }
@@ -197,9 +189,8 @@ public class TaskForcePreviewMapView {
             marker.adjustY(yPopUpOffset, yBottomThreshold);
         });
 
-
         airfieldMarkerMap.values().forEach(marker -> marker.adjustY(yPopUpOffset1, yBottomThreshold));
-        mapRefTargetMap.values().forEach(marker -> marker.adjustY(yPopUpOffset1, yBottomThreshold));
+        targetMarkers.forEach(marker -> marker.adjustY(yPopUpOffset1, yBottomThreshold));
     }
 
     /**
@@ -211,7 +202,7 @@ public class TaskForcePreviewMapView {
         markerMap.get(name).select(mapView, name);                                                                      //Show the task force marker.
 
         Optional.ofNullable(targetMap.get(name))
-                .ifPresent(targetMarkers -> targetMarkers.forEach(targetMarker -> targetMarker.select(mapView)));       //Show this task force's target markers if any exist.
+                .ifPresent(markers -> markers.forEach(targetMarker -> targetMarker.select(mapView)));       //Show this task force's target markers if any exist.
     }
 
     /**
@@ -223,7 +214,7 @@ public class TaskForcePreviewMapView {
         markerMap.get(name).clear(mapView);                                                                             //Hide the task force marker.
 
         Optional.ofNullable(targetMap.get(name))
-                .ifPresent(targetMarkers -> targetMarkers.forEach(targetMarker -> targetMarker.clear(mapView)));        //Hide any target marker's if any exist.
+                .ifPresent(markers -> markers.forEach(targetMarker -> targetMarker.clear(mapView)));        //Hide any target marker's if any exist.
     }
 
     /**
@@ -232,11 +223,9 @@ public class TaskForcePreviewMapView {
      * @param clickedMarker represents the marker.
      */
     public void selectTargetMarker(final Object clickedMarker) {
-        mapRefTargetMap.entrySet().stream()
-                .filter(entry -> entry.getValue().wasClicked(clickedMarker))
-                .findFirst()
-                .map(Map.Entry::getValue)
-                .ifPresent(targetMarker -> targetMarker.select(mapView));
+        Circle circle = (Circle) clickedMarker;
+        TargetMarker marker = (TargetMarker) circle.getUserData();
+        marker.select(mapView);
     }
 
     /**
@@ -329,7 +318,6 @@ public class TaskForcePreviewMapView {
         gridPane.add(bothKey, 0, 0);
         gridPane.add(bothLabel, 1, 0);
         bothLabel.setTooltip(new Tooltip("Can station both land-based and seaplane squadrons"));
-
 
         Node airfieldKey = AirfieldMarker.getLegendAirfield(nation, 0, 0, gridSize);
         Label airfieldLabel = new Label("Airfield");

@@ -5,6 +5,10 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldDAO;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.base.port.PortDAO;
+import engima.waratsea.model.enemy.views.airfield.AirfieldView;
+import engima.waratsea.model.enemy.views.airfield.AirfieldViewDAO;
+import engima.waratsea.model.enemy.views.port.PortView;
+import engima.waratsea.model.enemy.views.port.PortViewDAO;
 import engima.waratsea.model.flotilla.Flotilla;
 import engima.waratsea.model.flotilla.FlotillaAI;
 import engima.waratsea.model.flotilla.FlotillaDAO;
@@ -48,7 +52,9 @@ public class HumanPlayer implements Player {
     private final TaskForceDAO taskForceDAO;
     private final FlotillaDAO flotillaDAO;
     private final AirfieldDAO airfieldDAO;
+    private final AirfieldViewDAO airfieldViewDAO;
     private final PortDAO portDAO;
+    private final PortViewDAO portViewDAO;
     private final SquadronDAO aviationPlant;
     private final MinefieldDAO minefieldDAO;
 
@@ -74,7 +80,25 @@ public class HumanPlayer implements Player {
     private List<Airfield> airfields;
 
     @Getter
+    private Map<String, Airfield> airfieldMap = new HashMap<>();
+
+    @Getter
+    private List<AirfieldView> enemyAirfields;
+
+    @Getter
+    private Map<String, AirfieldView> enemyAirfieldMap = new HashMap<>();
+
+    @Getter
     private List<Port> ports;
+
+    @Getter
+    private Map<String, Port> portMap = new HashMap<>();
+
+    @Getter
+    private List<PortView> enemyPorts;
+
+    @Getter
+    private Map<String, PortView> enemyPortMap = new HashMap<>();
 
     @Getter
     private List<Minefield> minefields;
@@ -89,7 +113,9 @@ public class HumanPlayer implements Player {
      * @param taskForceDAO Loads task force data.
      * @param flotillaDAO Loads flotilla data.
      * @param airfieldDAO Loads airfield data.
+     * @param airfieldViewDAO Loads enemy airfield view data.
      * @param portDAO Loads port data.
+     * @param portViewDAO Loads enemy port view data.
      * @param minefieldDAO Loads minefield data.
      * @param aviationPlant Loads squadron data.
      * @param flotillaAI Flotilla AI. Human Flotillas are deployed by the AI.
@@ -102,7 +128,9 @@ public class HumanPlayer implements Player {
                        final TaskForceDAO taskForceDAO,
                        final FlotillaDAO flotillaDAO,
                        final AirfieldDAO airfieldDAO,
+                       final AirfieldViewDAO airfieldViewDAO,
                        final PortDAO portDAO,
+                       final PortViewDAO portViewDAO,
                        final MinefieldDAO minefieldDAO,
                        final SquadronDAO aviationPlant,
                        final FlotillaAI flotillaAI,
@@ -114,7 +142,9 @@ public class HumanPlayer implements Player {
         this.taskForceDAO = taskForceDAO;
         this.flotillaDAO = flotillaDAO;
         this.airfieldDAO = airfieldDAO;
+        this.airfieldViewDAO = airfieldViewDAO;
         this.portDAO = portDAO;
+        this.portViewDAO = portViewDAO;
         this.minefieldDAO = minefieldDAO;
         this.aviationPlant = aviationPlant;
 
@@ -150,8 +180,19 @@ public class HumanPlayer implements Player {
     @Override
     public void buildAssets(final Scenario scenario) throws ScenarioException {
         //Note the airfields and ports used depend upon the map which is set by the scenario.
-        airfields  = gameMap.getAirfields(side);
-        ports      = gameMap.getPorts(side);
+        airfields = gameMap.getAirfields(side);
+
+        airfieldMap = airfields
+                .stream()
+                .collect(Collectors.toMap(Airfield::getName, airfield -> airfield));
+
+        ports = gameMap.getPorts(side);
+
+        portMap = ports
+                .stream()
+                .collect(Collectors.toMap(Port::getName, port -> port));
+
+
         minefields = gameMap.getMinefields(side);
 
         scenario.setMinefieldForHumanSide(!minefields.isEmpty());
@@ -160,6 +201,24 @@ public class HumanPlayer implements Player {
         loadFlotillas(scenario);
 
         scenario.setFlotillasForHumanSide(areFlotillasPresent());
+    }
+
+    /**
+     * This builds the player's list of known targets.
+     *
+     * This must be called after buildAssets.
+     */
+    @Override
+    public void buildViews() {
+        enemyPorts = portViewDAO.load(gameMap.getPorts(side.opposite()));
+        enemyPortMap = enemyPorts
+                .stream()
+                .collect(Collectors.toMap(PortView::getName, pv -> pv));
+
+        enemyAirfields = airfieldViewDAO.load(gameMap.getAirfields(side.opposite()));
+        enemyAirfieldMap = enemyAirfields
+                .stream()
+                .collect(Collectors.toMap(AirfieldView::getName, av -> av));
     }
 
     /**
@@ -199,8 +258,8 @@ public class HumanPlayer implements Player {
         airfieldDAO.save(scenario, side, airfields);
         minefieldDAO.save(scenario, side, minefields);
 
-       // nations.forEach(nation -> aviationPlant.save(scenario, side, nation, squadrons.get(nation)));
-
+        airfieldViewDAO.save(scenario, side, enemyAirfields);
+        portViewDAO.save(scenario, side, enemyPorts);
     }
 
     /**
