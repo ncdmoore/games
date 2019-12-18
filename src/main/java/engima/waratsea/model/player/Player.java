@@ -77,8 +77,10 @@ public interface Player {
 
     /**
      * This sets the player's views of the enemy assets.
+     *
+     * @param opposingPlayer The opposing player.
      */
-    void buildViews();
+    void buildViews(Player opposingPlayer);
 
     /**
      * This saves the player's victory conditions.

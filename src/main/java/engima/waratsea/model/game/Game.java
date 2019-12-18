@@ -333,9 +333,9 @@ public class Game implements PersistentData<GameData> {
 
     /**
      * Load the player's view of the enemy assets.
-     */
+     **/
     private void buildViews() {
-        humanPlayer.buildViews();
-        computerPlayer.buildViews();
+        humanPlayer.buildViews(computerPlayer);
+        computerPlayer.buildViews(humanPlayer);
     }
 }

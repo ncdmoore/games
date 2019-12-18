@@ -9,6 +9,8 @@ import engima.waratsea.model.enemy.views.airfield.AirfieldView;
 import engima.waratsea.model.enemy.views.airfield.AirfieldViewDAO;
 import engima.waratsea.model.enemy.views.port.PortView;
 import engima.waratsea.model.enemy.views.port.PortViewDAO;
+import engima.waratsea.model.enemy.views.taskForce.TaskForceView;
+import engima.waratsea.model.enemy.views.taskForce.TaskForceViewDAO;
 import engima.waratsea.model.flotilla.Flotilla;
 import engima.waratsea.model.flotilla.FlotillaAI;
 import engima.waratsea.model.flotilla.FlotillaDAO;
@@ -49,6 +51,7 @@ public class ComputerPlayer implements Player {
     private final GameMap gameMap;
     private final VictoryDAO victoryDAO;
     private final TaskForceDAO taskForceDAO;
+    private final TaskForceViewDAO taskForceViewDAO;
     private final FlotillaDAO flotillaDAO;
     private final AirfieldDAO airfieldDAO;
     private final AirfieldViewDAO airfieldViewDAO;
@@ -72,6 +75,9 @@ public class ComputerPlayer implements Player {
 
     @Getter
     private List<TaskForce> taskForces;
+
+    @Getter
+    private List<TaskForceView> taskForceViews;
 
     private final Map<FlotillaType, List<Flotilla>> flotillas = new HashMap<>();
 
@@ -109,7 +115,8 @@ public class ComputerPlayer implements Player {
      *
      * @param gameMap The game map.
      * @param victoryDAO Loads the computer player's victory conditions.
-     * @param taskForceDAO Loads scenario data.
+     * @param taskForceDAO Loads task force data.
+     * @param taskForceViewDAO Loads the task force view data.
      * @param flotillaDAO Loads flotilla data.
      * @param airfieldDAO Loads airfield data.
      * @param airfieldViewDAO Loads enemy airfield view data.
@@ -126,6 +133,7 @@ public class ComputerPlayer implements Player {
     public ComputerPlayer(final GameMap gameMap,
                           final VictoryDAO victoryDAO,
                           final TaskForceDAO taskForceDAO,
+                          final TaskForceViewDAO taskForceViewDAO,
                           final FlotillaDAO flotillaDAO,
                           final AirfieldDAO airfieldDAO,
                           final AirfieldViewDAO airfieldViewDAO,
@@ -140,6 +148,7 @@ public class ComputerPlayer implements Player {
 
         this.gameMap = gameMap;
         this.victoryDAO = victoryDAO;
+        this.taskForceViewDAO = taskForceViewDAO;
         this.taskForceDAO = taskForceDAO;
         this.flotillaDAO = flotillaDAO;
         this.airfieldDAO = airfieldDAO;
@@ -200,9 +209,11 @@ public class ComputerPlayer implements Player {
 
     /**
      * This builds the player's list of known targets.
+     *
+     * @param opposingPlayer The opposing player.
      */
     @Override
-    public void buildViews() {
+    public void buildViews(final Player opposingPlayer) {
         enemyPorts = portViewDAO.load(gameMap.getPorts(side.opposite()));
         enemyPortMap = enemyPorts
                 .stream()
@@ -212,6 +223,8 @@ public class ComputerPlayer implements Player {
         enemyAirfieldMap = enemyAirfields
                 .stream()
                 .collect(Collectors.toMap(AirfieldView::getName, av -> av));
+
+        taskForceViews = taskForceViewDAO.load(opposingPlayer.getTaskForces());
     }
 
     /**
