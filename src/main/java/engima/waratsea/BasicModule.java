@@ -27,6 +27,8 @@ import engima.waratsea.model.enemy.views.airfield.AirfieldView;
 import engima.waratsea.model.enemy.views.airfield.AirfieldViewFactory;
 import engima.waratsea.model.enemy.views.port.PortView;
 import engima.waratsea.model.enemy.views.port.PortViewFactory;
+import engima.waratsea.model.enemy.views.taskForce.TaskForceView;
+import engima.waratsea.model.enemy.views.taskForce.TaskForceViewFactory;
 import engima.waratsea.model.flotilla.Flotilla;
 import engima.waratsea.model.flotilla.FlotillaFactory;
 import engima.waratsea.model.flotilla.MotorTorpedoBoatFlotilla;
@@ -200,6 +202,7 @@ public class BasicModule extends AbstractModule {
 
         install(new FactoryModuleBuilder().implement(AirfieldView.class, AirfieldView.class).build(AirfieldViewFactory.class));
         install(new FactoryModuleBuilder().implement(PortView.class, PortView.class).build(PortViewFactory.class));
+        install(new FactoryModuleBuilder().implement(TaskForceView.class, TaskForceView.class).build(TaskForceViewFactory.class));
 
     }
 }

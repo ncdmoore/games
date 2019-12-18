@@ -7,6 +7,7 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.enemy.views.airfield.AirfieldView;
 import engima.waratsea.model.enemy.views.port.PortView;
+import engima.waratsea.model.enemy.views.taskForce.TaskForceView;
 import engima.waratsea.model.flotilla.MotorTorpedoBoatFlotilla;
 import engima.waratsea.model.flotilla.SubmarineFlotilla;
 import engima.waratsea.model.flotilla.deployment.FlotillaDeployment;
@@ -64,6 +65,8 @@ public final class Resource {
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Airfield.class.getSimpleName(),                 "/airfields/axis/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     AirfieldView.class.getSimpleName(),             "/enemy/airfields/allies/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       AirfieldView.class.getSimpleName(),             "/enemy/airfields/axis/");
+        SIDE_FILE_MAP.put(Side.ALLIES.toString(),     TaskForceView.class.getSimpleName(),            "/enemy/taskforces/allies/");
+        SIDE_FILE_MAP.put(Side.AXIS.toString(),       TaskForceView.class.getSimpleName(),            "/enemy/taskforces/axis/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Region.class.getSimpleName(),                   "/maps/allies/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Region.class.getSimpleName(),                   "/maps/axis/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Ship.class.getSimpleName(),                     "/ships/allies/");
