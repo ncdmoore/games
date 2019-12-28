@@ -76,7 +76,13 @@ public class HumanPlayer implements Player {
     private List<TaskForce> taskForces;
 
     @Getter
-    private List<TaskForceView> taskForceViews;
+    private Map<String, TaskForce> taskForceMap = new HashMap<>();
+
+    @Getter
+    private List<TaskForceView> enemyTaskForces;
+
+    @Getter
+    private Map<String, TaskForceView> enemyTaskForceMap = new HashMap<>();
 
     private final Map<FlotillaType, List<Flotilla>> flotillas = new HashMap<>();
 
@@ -231,7 +237,10 @@ public class HumanPlayer implements Player {
                 .stream()
                 .collect(Collectors.toMap(AirfieldView::getName, av -> av));
 
-        taskForceViews = taskForceViewDAO.load(opposingPlayer.getTaskForces());
+        enemyTaskForces = taskForceViewDAO.load(opposingPlayer.getTaskForces());
+        enemyTaskForceMap = enemyTaskForces
+                .stream()
+                .collect(Collectors.toMap(TaskForceView::getName, tfv -> tfv));
     }
 
     /**
@@ -371,6 +380,10 @@ public class HumanPlayer implements Player {
      */
     private void loadTaskForces(final Scenario scenario) throws ScenarioException {
         taskForces = taskForceDAO.load(scenario, side);
+
+        taskForceMap = taskForces
+                .stream()
+                .collect(Collectors.toMap(TaskForce::getName, taskForce -> taskForce));
     }
 
     /**

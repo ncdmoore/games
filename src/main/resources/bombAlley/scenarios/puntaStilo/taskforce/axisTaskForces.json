@@ -52,6 +52,12 @@
     "location":  "Naples",
     "state": "ACTIVE",
     "mission": "ESCORT",
+    "targets": [
+      {
+        "type": "FRIENDLY_TASK_FORCE",
+        "name": "TF1"
+      }
+    ],
     "ships": [
       "CA01 Trento",
       "CA02 Trieste",

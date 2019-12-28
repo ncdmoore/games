@@ -2,7 +2,7 @@ package engima.waratsea.model.target;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import engima.waratsea.model.base.port.Port;
+import engima.waratsea.model.enemy.views.taskForce.TaskForceView;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.target.data.TargetData;
@@ -12,18 +12,16 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Optional;
 
 @Slf4j
-public class TargetFriendlyPort implements Target {
+public class TargetEnemyTaskForce implements Target {
 
-    private final Game game;
+    private Game game;
 
     @Getter
-    private final String name;
+    private String name;
 
-    private final Side side;
+    private Side side;
 
-    //private int priority;`
-
-    private Port port;
+    private TaskForceView taskForceView;
 
     /**
      * Constructor called by guice.
@@ -32,8 +30,8 @@ public class TargetFriendlyPort implements Target {
      * @param game The game.
      */
     @Inject
-    public TargetFriendlyPort(@Assisted final TargetData data,
-                                        final Game game) {
+    public TargetEnemyTaskForce(@Assisted final TargetData data,
+                                          final Game game) {
         this.game = game;
 
         name = data.getName();
@@ -48,21 +46,21 @@ public class TargetFriendlyPort implements Target {
     @Override
     public String getLocation() {
         return Optional
-                .ofNullable(port)
-                .orElseGet(this::getPort)
-                .getReference();
+                .ofNullable(taskForceView)
+                .orElseGet(this::getTaskForceViewView)
+                .getLocation();
     }
 
     /**
-     * Get the target data that is persisted.
+     * Get the target persistent data.
      *
-     * @return The persistent target data.
+     * @return The target's persistent data.
      */
     @Override
     public TargetData getData() {
         TargetData data = new TargetData();
         data.setName(name);
-        data.setType(TargetType.FRIENDLY_PORT);
+        data.setType(TargetType.ENEMY_TASK_FORCE);
         data.setSide(side);
         return data;
     }
@@ -73,6 +71,7 @@ public class TargetFriendlyPort implements Target {
      */
     @Override
     public void saveChildrenData() {
+
     }
 
     /**
@@ -80,16 +79,15 @@ public class TargetFriendlyPort implements Target {
      *
      * @return This target's port view.
      */
-    private Port getPort() {
-        port = game.getPlayer(side)
-                .getPortMap()
+    private TaskForceView getTaskForceViewView() {
+        taskForceView = game.getPlayer(side)
+                .getEnemyTaskForceMap()
                 .get(name);
 
-        if (port == null) {
-            log.error("Cannot find port: '{}' for side: '{}'", name, side);
+        if (taskForceView == null) {
+            log.error("Cannot find task force view: '{}' for side: '{}'", name, side);
         }
 
-        return port;
+        return taskForceView;
     }
-
 }

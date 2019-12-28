@@ -29,6 +29,8 @@ public class TargetDAO {
         factoryMap.put(TargetType.FRIENDLY_AIRFIELD, factory::createFriendlyAirfieldTarget);
         factoryMap.put(TargetType.ENEMY_PORT, factory::createEnemyPortTarget);
         factoryMap.put(TargetType.FRIENDLY_PORT, factory::createFriendlyPortTarget);
+        factoryMap.put(TargetType.ENEMY_TASK_FORCE, factory::createEnemyTaskForceTarget);
+        factoryMap.put(TargetType.FRIENDLY_TASK_FORCE, factory::createFriendlyTaskForceTarget);
         factoryMap.put(TargetType.SEA_GRID, factory::createSeaGrid);
     }
 

@@ -753,6 +753,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyTaskForce.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFactory.java">
           <value>
             <set />
@@ -764,6 +769,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyPort.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyTaskForce.java">
           <value>
             <set />
           </value>

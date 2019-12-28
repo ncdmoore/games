@@ -39,7 +39,7 @@
     "title": "Mediterranean Force",
     "location": "Alexandria",
     "state": "RESERVE",
-    "mission": "PATROL",
+    "mission": "INTERCEPT",
     "releaseTurnEvents" : [
       {
         "turn": 8
@@ -69,6 +69,12 @@
     "location": "Alexandria",
     "state": "ACTIVE",
     "mission": "ESCORT",
+    "targets": [
+      {
+        "type": "FRIENDLY_TASK_FORCE",
+        "name": "TF5"
+      }
+    ],
     "ships": [
       "CL34 Glasgow",
       "CL38 Gloucester",

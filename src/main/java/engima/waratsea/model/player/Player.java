@@ -4,6 +4,7 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.enemy.views.airfield.AirfieldView;
 import engima.waratsea.model.enemy.views.port.PortView;
+import engima.waratsea.model.enemy.views.taskForce.TaskForceView;
 import engima.waratsea.model.flotilla.Flotilla;
 import engima.waratsea.model.flotilla.FlotillaType;
 import engima.waratsea.model.game.Nation;
@@ -114,6 +115,20 @@ public interface Player {
      * @return The player's task forces.
      */
     List<TaskForce> getTaskForces();
+
+    /**
+     * Get the player's task force map. Task force name to task force.
+     *
+     * @return The task force map.
+     */
+    Map<String, TaskForce> getTaskForceMap();
+
+    /**
+     * This gets the enemy player's task force map.
+     *
+     * @return The enemy player's task force map.
+     */
+    Map<String, TaskForceView> getEnemyTaskForceMap();
 
     /**
      * Determines if the player has any flotilla's of the given type.

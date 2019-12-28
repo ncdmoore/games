@@ -33,7 +33,7 @@ public class TargetFriendlyAirfield implements Target {
      */
     @Inject
     public TargetFriendlyAirfield(@Assisted final TargetData data,
-                                  final Game game) {
+                                            final Game game) {
         this.game = game;
 
         name = data.getName();
@@ -84,7 +84,7 @@ public class TargetFriendlyAirfield implements Target {
                 .get(name);
 
         if (airfield == null) {
-            log.error("Cannot found airfield view: '{}'", name);
+            log.error("Cannot find airfield view: '{}'", name);
         }
 
         return airfield;

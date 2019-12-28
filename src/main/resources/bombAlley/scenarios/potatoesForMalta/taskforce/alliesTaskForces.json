@@ -34,6 +34,12 @@
     "location": "Gibraltar",
     "state": "ACTIVE",
     "mission": "ESCORT",
+    "targets": [
+      {
+        "type": "FRIENDLY_TASK_FORCE",
+        "name": "TF1"
+      }
+    ],
     "ships": [
       "BB05 Malaya",
       "BC01 Renown",
@@ -76,6 +82,12 @@
     "location": "Alexandria",
     "state": "ACTIVE",
     "mission": "ESCORT",
+    "targets": [
+      {
+        "type": "FRIENDLY_TASK_FORCE",
+        "name": "TF5"
+      }
+    ],
     "ships": [
       "BB02 Warspite",
       "BB03 Valiant",

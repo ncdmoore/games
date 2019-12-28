@@ -86,6 +86,12 @@
     "location": "BG31",
     "state": "ACTIVE",
     "mission": "ESCORT",
+    "targets": [
+      {
+        "type": "FRIENDLY_TASK_FORCE",
+        "name": "TF3"
+      }
+    ],
     "ships": [
       "BB08 Royal Sovereign",
       "BB10 Ramillies",

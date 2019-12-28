@@ -20,17 +20,10 @@ public class TargetMarkerDTO implements PopUpDTO {
     private final String mapReference;
 
     @Getter
-    private final String taskForceName;
-
-    @Getter
     @Setter
     private boolean active;
 
-    @Getter
-    private final String name;
-
-    @Getter
-    private final String title;
+    private final TaskForce taskForce;
 
     @Getter
     @Setter
@@ -64,10 +57,35 @@ public class TargetMarkerDTO implements PopUpDTO {
      * @param target The targets.
      */
     public TargetMarkerDTO(final TaskForce taskForce, final Target target) {
+        this.taskForce = taskForce;
         this.mapReference = target.getLocation();
-        this.taskForceName = taskForce.getName();
-        this.name = taskForce.getMission().toString();
-        this.title = taskForce.getMission().toString();
+    }
+
+    /**
+     * Get the target's name.
+     *
+     * @return The target's name.
+     */
+    public String getName() {
+        return taskForce.getMission().toString();
+    }
+
+    /**
+     * Get the task force's name.
+     *
+     * @return The task force's name.
+     */
+    public String getTaskForceName() {
+        return taskForce.getName();
+    }
+
+    /**
+     * Get the target's title.
+     *
+     * @return The target's title.
+     */
+    public String getTitle() {
+        return taskForce.getMission().toString();
     }
 
     /**

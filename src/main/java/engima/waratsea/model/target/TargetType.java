@@ -15,8 +15,11 @@ public enum TargetType {
     @SerializedName(value = "FRIENDLY_PORT", alternate = {"Friendly_Port", "enemy_port"})
     FRIENDLY_PORT,
 
-    @SerializedName(value = "TASK_FORCE", alternate = {"Task_Force", "task_force"})
-    TASK_FORCE,
+    @SerializedName(value = "ENEMY_TASK_FORCE", alternate = {"Enemy_Task_Force", "enemy_task_force"})
+    ENEMY_TASK_FORCE,
+
+    @SerializedName(value = "FRIENDLY_TASK_FORCE", alternate = {"Friendly_Task_Force", "friendly_task_force"})
+    FRIENDLY_TASK_FORCE,
 
     @SerializedName(value = "LAND_GRID", alternate = {"Land_Grid", "land_grid"})
     LAND_GRID,

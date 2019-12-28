@@ -35,7 +35,13 @@
     "title": "Distant Escort",
     "location":  "Naples",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": "ESCORT",
+    "targets": [
+      {
+        "type": "FRIENDLY_TASK_FORCE",
+        "name": "TF1"
+      }
+    ],
     "ships": [
       "CL03 Bande Nere",
       "CL05 Luigi Cadorna",

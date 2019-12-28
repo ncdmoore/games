@@ -47,21 +47,17 @@ public class TargetMarker {
      * @param dto Data transfer object.2
      */
     public void draw(final TargetMarkerDTO dto) {
-        //indicates whether the popup contents are active or inactive. A target marker will be inactive
-        //if it occupies the same space as a task force marker.
+        //indicates target marker is active or inactive. A target marker will be inactive
+        //if it occupies the same space as a task force marker. Inactive target markers
+        //are not drawn.
         boolean active = dto.isActive();
 
         if (active) {
             double radius = (double) gridView.getSize() / 2;
             circle = new Circle(gridView.getX() + radius, gridView.getY() + radius, radius);
             circle.getStyleClass().add("target-marker");
-
             circle.setViewOrder(ViewOrder.MARKER.getValue());
-
-
             circle.setUserData(this);
-
-
             setOnMouseClicked(eventHandler);
         }
 
@@ -97,15 +93,6 @@ public class TargetMarker {
         }
 
         popUp.hide(map);
-    }
-
-    /**
-     * Determine if this marker was clicked.
-     * @param clickedMarker The marker that was clicked.
-     * @return True if this marker was the marker that was clicked. False otherwise.
-     */
-    public boolean wasClicked(final Object clickedMarker) {
-        return this.circle == clickedMarker;
     }
 
     /**

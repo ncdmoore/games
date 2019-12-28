@@ -73,10 +73,12 @@ import engima.waratsea.model.submarine.Submarine;
 import engima.waratsea.model.submarine.SubmarineFactory;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.target.TargetEnemyAirfield;
+import engima.waratsea.model.target.TargetEnemyTaskForce;
 import engima.waratsea.model.target.TargetFactory;
 import engima.waratsea.model.target.TargetEnemyPort;
 import engima.waratsea.model.target.TargetFriendlyAirfield;
 import engima.waratsea.model.target.TargetFriendlyPort;
+import engima.waratsea.model.target.TargetFriendlyTaskForce;
 import engima.waratsea.model.target.TargetSeaGrid;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
@@ -172,6 +174,8 @@ public class TestModule extends AbstractModule {
                 .implement(Target.class, Names.named("friendlyAirfield"), TargetFriendlyAirfield.class)
                 .implement(Target.class, Names.named("enemyPort"), TargetEnemyPort.class)
                 .implement(Target.class, Names.named("friendlyPort"), TargetFriendlyPort.class)
+                .implement(Target.class, Names.named("enemyTaskForce"), TargetEnemyTaskForce.class)
+                .implement(Target.class, Names.named("friendlyTaskForce"), TargetFriendlyTaskForce.class)
                 .implement(Target.class, Names.named("seaGrid"), TargetSeaGrid.class)
                 .build(TargetFactory.class));
 

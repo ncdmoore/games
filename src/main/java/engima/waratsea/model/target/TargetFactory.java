@@ -44,6 +44,25 @@ public interface TargetFactory {
     Target createFriendlyPortTarget(TargetData data);
 
     /**
+     * Creates an enemy task force target.
+     *
+     * @param data Target data read from a JSON file.
+     * @return A Target initialized with the data from the JSON file.
+     */
+    @Named("enemyTaskForce")
+    Target createEnemyTaskForceTarget(TargetData data);
+
+    /**
+     * Creates a friendly task force target.
+     *
+     * @param data Target data read from a JSON file.
+     * @return A Target initialized with the data from the JSON file.
+     */
+    @Named("friendlyTaskForce")
+    Target createFriendlyTaskForceTarget(TargetData data);
+
+
+    /**
      * Creates a sea grid target. This is used in mine laying or clearing.
      *
      * @param data Target data read from a JSON file.

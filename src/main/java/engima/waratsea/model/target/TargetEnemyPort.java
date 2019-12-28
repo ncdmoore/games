@@ -33,7 +33,7 @@ public class TargetEnemyPort implements Target {
      */
     @Inject
     public TargetEnemyPort(@Assisted final TargetData data,
-                           final Game game) {
+                                     final Game game) {
         this.game = game;
 
         name = data.getName();
@@ -86,7 +86,7 @@ public class TargetEnemyPort implements Target {
                 .get(name);
 
         if (portView == null) {
-            log.error("Cannot found port view: '{}' for side: '{}'", name, side);
+            log.error("Cannot find port view: '{}' for side: '{}'", name, side);
         }
 
         return portView;

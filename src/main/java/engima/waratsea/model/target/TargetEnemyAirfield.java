@@ -83,7 +83,7 @@ public class TargetEnemyAirfield implements Target {
                 .get(name);
 
         if (airfieldView == null) {
-            log.error("Cannot found port view: '{}'", name);
+            log.error("Cannot find port view: '{}'", name);
         }
 
         return airfieldView;
