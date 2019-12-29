@@ -50,11 +50,7 @@ public class TargetFriendlyTaskForce implements Target {
         return Optional
                 .ofNullable(taskForce)
                 .orElseGet(this::getTaskForce)
-                .getTargets()
-                .stream()
-                .findFirst()
-                .map(Target::getLocation)
-                .orElse(null);
+                .getReference();
     }
 
     /**

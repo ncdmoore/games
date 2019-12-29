@@ -2,6 +2,7 @@ package engima.waratsea.presenter.dto.map;
 
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.GameGrid;
+import engima.waratsea.model.target.TargetFriendlyTaskForce;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.view.map.GridView;
@@ -19,11 +20,12 @@ public class TargetMarkerDTO implements PopUpDTO {
     @Getter
     private final String mapReference;
 
+    private final Target target;
+    private final TaskForce taskForce;
+
     @Getter
     @Setter
     private boolean active;
-
-    private final TaskForce taskForce;
 
     @Getter
     @Setter
@@ -31,7 +33,7 @@ public class TargetMarkerDTO implements PopUpDTO {
 
     @Getter
     @Setter
-    private  EventHandler<? super MouseEvent> popupEventHandler;
+    private EventHandler<? super MouseEvent> popupEventHandler;
 
     @Getter
     private GameGrid grid;
@@ -53,11 +55,13 @@ public class TargetMarkerDTO implements PopUpDTO {
 
     /**
      * Construct the target marker DTO.
+     *
      * @param taskForce The task force that has this target.
-     * @param target The targets.
+     * @param target    The targets.
      */
     public TargetMarkerDTO(final TaskForce taskForce, final Target target) {
         this.taskForce = taskForce;
+        this.target = target;
         this.mapReference = target.getLocation();
     }
 
@@ -90,6 +94,7 @@ public class TargetMarkerDTO implements PopUpDTO {
 
     /**
      * Set the game map which allows the grid to be determined.
+     *
      * @param gameMap The game map.
      */
     public void setGameMap(final GameMap gameMap) {
@@ -98,6 +103,7 @@ public class TargetMarkerDTO implements PopUpDTO {
 
     /**
      * Set the map view which allows the grid view to be determined.
+     *
      * @param mapView The view of the map.
      */
     public void setMapView(final MapView mapView) {
@@ -111,5 +117,18 @@ public class TargetMarkerDTO implements PopUpDTO {
      */
     public boolean isPopupShared() {
         return popup != null;
+    }
+
+    /**
+     * Indicates if the popup should be shown.
+     *
+     * Currently task forces on escort missions target is another task force.
+     * We prevent the popup for friendly task forces as it obscures the
+     * task force popup.
+     *
+     * @return True if the popup should be shown. False otherwise.
+     */
+    public boolean showPopup() {
+        return target.getClass() != TargetFriendlyTaskForce.class;
     }
 }

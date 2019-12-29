@@ -19,8 +19,6 @@ public class TargetMarker {
 
     private static final double OPACITY = 1.0;
 
-    private final String name;
-
     private final GridView gridView;
     private final EventHandler<? super MouseEvent> eventHandler;
     private Circle circle;
@@ -33,7 +31,6 @@ public class TargetMarker {
      * @param dto All the data needed to create a marker.
      */
     public TargetMarker(final TargetMarkerDTO dto) {
-        this.name = dto.getName();
         this.gridView = dto.getGridView();
         this.eventHandler = dto.getMarkerEventHandler();
         dto.setStyle("popup-target");
@@ -47,12 +44,8 @@ public class TargetMarker {
      * @param dto Data transfer object.2
      */
     public void draw(final TargetMarkerDTO dto) {
-        //indicates target marker is active or inactive. A target marker will be inactive
-        //if it occupies the same space as a task force marker. Inactive target markers
-        //are not drawn.
-        boolean active = dto.isActive();
 
-        if (active) {
+        if (dto.showPopup()) {
             double radius = (double) gridView.getSize() / 2;
             circle = new Circle(gridView.getX() + radius, gridView.getY() + radius, radius);
             circle.getStyleClass().add("target-marker");
@@ -61,7 +54,7 @@ public class TargetMarker {
             setOnMouseClicked(eventHandler);
         }
 
-        if (!dto.isPopupShared()) {
+        if (!dto.isPopupShared() && dto.showPopup()) {
             popUp.draw(dto);
         }
     }
@@ -76,8 +69,6 @@ public class TargetMarker {
             map.add(circle);
             circle.setOpacity(1.0);
         }
-
-        log.info("display target marker: '{}'", name);
 
         popUp.display(map);
     }
