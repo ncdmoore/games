@@ -261,7 +261,7 @@ public class ComputerPlayer implements Player {
 
         airfieldViewDAO.save(scenario, side, enemyAirfields);
         portViewDAO.save(scenario, side, enemyPorts);
-
+        taskForceViewDAO.save(scenario, side, enemyTaskForces);
     }
 
     /**
