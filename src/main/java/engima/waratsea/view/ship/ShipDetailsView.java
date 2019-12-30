@@ -292,7 +292,6 @@ public class ShipDetailsView {
      * @return The titled pane.
      */
     private TitledGridPane buildPane(final String title, final Map<String, String> data) {
-
         return new TitledGridPane()
                 .setWidth(props.getInt("ship.dialog.detailsPane.width"))
                 .setStyleId("component-grid")
@@ -478,10 +477,7 @@ public class ShipDetailsView {
      * @return A string value that represents the total number of steps of the aircraft type.
      */
     private String formatSteps(final BigDecimal steps) {
-
         String stepString = steps + "";
-
-        log.info(stepString);
 
         BigDecimal oneThird = new BigDecimal(ONE_THIRD);
         BigDecimal twoThirds = new BigDecimal(TWO_THIRDS);

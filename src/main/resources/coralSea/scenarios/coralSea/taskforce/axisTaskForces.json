@@ -22,7 +22,13 @@
     "location": "G1",
     "state": "ACTIVE",
     "mission": {
-      "type": "INVASION"
+      "type": "INVASION",
+      "targets": [
+        {
+          "type": "ENEMY_AIRFIELD",
+          "name": "Tulagi"
+        }
+      ]
     },
     "ships": [
       "DD31 Kikutzuki",
@@ -44,7 +50,13 @@
     "location": "Rabaul",
     "state": "ACTIVE",
     "mission": {
-      "type": "INVASION"
+      "type": "INVASION",
+      "targets": [
+        {
+          "type": "ENEMY_PORT",
+          "name": "Port Moresby"
+        }
+      ]
     },
     "ships": [
       "CL17 Yubari",
