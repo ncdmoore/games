@@ -4,13 +4,15 @@
     "title": "Detached Force",
     "location": "Alexandria",
     "state": "ACTIVE",
-    "mission": "FERRY",
-    "targets": [
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Gibraltar"
-      }
-    ],
+    "mission": {
+      "type": "FERRY",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Gibraltar"
+        }
+      ]
+    },
     "ships": [
       "BB10 Ramillies",
       "CA01 Berwick",
@@ -27,7 +29,9 @@
     "title": "Covering Force",
     "location": "Alexandria",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "CVL04 Eagle-1",
       "BB04 Barham",
@@ -39,7 +43,9 @@
     "title": "Mediterranean Force",
     "location": "Alexandria",
     "state": "RESERVE",
-    "mission": "INTERCEPT",
+    "mission": {
+      "type": "INTERCEPT"
+    },
     "releaseTurnEvents" : [
       {
         "turn": 8
@@ -68,13 +74,15 @@
     "title": "Malta Convoy Escort",
     "location": "Alexandria",
     "state": "ACTIVE",
-    "mission": "ESCORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_TASK_FORCE",
-        "name": "TF5"
-      }
-    ],
+    "mission": {
+      "type": "ESCORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_TASK_FORCE",
+          "name": "TF5"
+        }
+      ]
+    },
     "ships": [
       "CL34 Glasgow",
       "CL38 Gloucester",
@@ -86,13 +94,15 @@
     "title": "Westbound Convoy",
     "location": "Alexandria",
     "state": "ACTIVE",
-    "mission": "TRANSPORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Malta"
-      }
-    ],
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Malta"
+        }
+      ]
+    },
     "ships": [
       "CL06 Coventry",
       "CL10 Calcutta",
@@ -117,13 +127,15 @@
     "title": "Eastbound Convoy",
     "location": "Gibraltar",
     "state": "ACTIVE",
-    "mission": "TRANSPORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Malta"
-      }
-    ],
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Malta"
+        }
+      ]
+    },
     "ships": [
       "CL37 Southampton",
       "CL40 Manchester",
@@ -149,7 +161,9 @@
     "title": "Covering Group",
     "location": "Gibraltar",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "BC01 Renown",
       "CV04 Ark Royal-1",

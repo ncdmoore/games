@@ -17,6 +17,8 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.taskForce.TaskForceState;
 import engima.waratsea.model.taskForce.data.TaskForceData;
+import engima.waratsea.model.taskForce.mission.MissionType;
+import engima.waratsea.model.taskForce.mission.data.MissionData;
 import engima.waratsea.model.victory.VictoryConditions;
 import engima.waratsea.model.victory.VictoryConditionsFactory;
 import engima.waratsea.model.victory.data.ShipVictoryData;
@@ -60,8 +62,11 @@ public class ShipVictoryTest {
         battleShip = shipyard.load(shipId);
 
         TaskForceFactory taskForceFactory = injector.getInstance(TaskForceFactory.class);
+        MissionData missionData = new MissionData();
+        missionData.setType(MissionType.PATROL);
 
         TaskForceData data = new TaskForceData();
+        data.setMission(missionData);
         data.setLocation("Tobruk");
         data.setState(TaskForceState.ACTIVE);
         data.setShips(new ArrayList<>(Arrays.asList("BB11 Nelson", "BB12 Rodney", "BB08 Royal Sovereign", "CL47 Dido", "CA12 York")));

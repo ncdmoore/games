@@ -4,7 +4,9 @@
     "title": "Naples Force",
     "location": "Naples",
     "state": "RESERVE",
-    "mission": "INTERCEPT",
+    "mission": {
+      "type": "INTERCEPT"
+    },
     "releaseShipEvents": [
       {
         "action": "SPOTTED",
@@ -36,7 +38,9 @@
     "title": "Taranto Force",
     "location":  "Taranto",
     "state": "RESERVE",
-    "mission": "INTERCEPT",
+    "mission": {
+      "type": "INTERCEPT"
+    },
     "releaseShipEvents": [
       {
         "action": "SPOTTED",

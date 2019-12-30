@@ -4,7 +4,9 @@
     "title": "Taranto Force",
     "location": "Taranto",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "BB01 Conte di Cavour",
       "BB02 Giulio Cesare",
@@ -39,7 +41,9 @@
     "title": "Messina Force",
     "location":  "Messina",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "CL11 Duca degli Abruzzi",
       "CL12 Giuseppe Garibaldi",

@@ -1,11 +1,11 @@
-package engima.waratsea.model.taskForce;
+package engima.waratsea.model.taskForce.mission;
 
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Represents a task force's mission.
  */
-public enum TaskForceMission {
+public enum MissionType {
     @SerializedName(value = "AIR_RAID", alternate = {"Air_Raid", "air_raid"})
     AIR_RAID("Air Raid"),
 
@@ -33,9 +33,6 @@ public enum TaskForceMission {
     @SerializedName(value = "PATROL", alternate = {"Patrol", "patrol"})
     PATROL("Patrol"),
 
-    @SerializedName(value = "WAIT_IN_PORT", alternate = {"Wait_in_port", "wait_in_port"})
-    WAIT_IN_PORT("Wait in port"),
-
     @SerializedName(value = "RETREAT", alternate = {"Retreat", "retreat"})
     RETREAT("Retreat"),
 
@@ -51,7 +48,7 @@ public enum TaskForceMission {
      * Construct a task force mission type.
      * @param value The string value. Used in the GUI.
      */
-    TaskForceMission(final String value) {
+    MissionType(final String value) {
         this.value = value;
     }
 

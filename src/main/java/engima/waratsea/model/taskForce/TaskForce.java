@@ -19,10 +19,9 @@ import engima.waratsea.model.ship.ShipId;
 import engima.waratsea.model.ship.ShipType;
 import engima.waratsea.model.ship.Shipyard;
 import engima.waratsea.model.ship.ShipyardException;
-import engima.waratsea.model.target.Target;
-import engima.waratsea.model.target.TargetDAO;
-import engima.waratsea.model.target.data.TargetData;
 import engima.waratsea.model.taskForce.data.TaskForceData;
+import engima.waratsea.model.taskForce.mission.Mission;
+import engima.waratsea.model.taskForce.mission.MissionDAO;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
@@ -54,14 +53,10 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
 
     @Getter
     @Setter
-    private TaskForceMission mission;
+    private Mission mission;
 
     @Getter
     private String reference; //This is always a map reference and never a name.
-
-    @Getter
-    @Setter
-    private List<Target> targets;
 
     @Getter
     @Setter
@@ -92,7 +87,6 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
 
     private Shipyard shipyard;
     private ShipEventMatcherFactory shipEventMatcherFactory;
-    private TargetDAO targetDAO;
     private GameMap gameMap;
 
     /**
@@ -102,7 +96,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
      * @param data The task force data read from a JSON file.
      * @param shipyard builds ships from ship names and side.
      * @param shipEventMatcherFactory Factory for creating ship event matchers.
-     * @param targetDAO target data access object, loads targets.
+     * @param missionDAO mission data access object, loads missions.
      * @param gameMap The game's map.
      */
     @Inject
@@ -110,18 +104,19 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
                      @Assisted final TaskForceData data,
                                final Shipyard shipyard,
                                final ShipEventMatcherFactory shipEventMatcherFactory,
-                               final TargetDAO targetDAO,
+                               final MissionDAO missionDAO,
                                final GameMap gameMap) {
 
         this.shipEventMatcherFactory = shipEventMatcherFactory;
-        this.targetDAO = targetDAO;
         this.gameMap = gameMap;
 
         this.side = side;
         name = data.getName();
         title = data.getTitle();
-        mission = data.getMission();
-        targets = createTargets(data.getTargets());
+
+        data.getMission().setSide(side);
+
+        mission = missionDAO.load(data.getMission());
         state = data.getState();
 
         this.shipyard = shipyard;
@@ -147,8 +142,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
         TaskForceData data = new TaskForceData();
         data.setName(name);
         data.setTitle(title);
-        data.setMission(mission);
-        data.setTargets(PersistentUtility.getData(targets));
+        data.setMission(mission.getData());
         data.setState(state);
         data.setLocation(reference);
         data.setShips(getShipNames(ships));
@@ -167,20 +161,6 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
         ships.forEach(ship -> shipyard.save(ship));
     }
 
-    /**
-     * Create the task force targets.
-     *
-     * @param targetData Task force target data read in from a JSON file.
-     * @return A list of Task force targets.
-     */
-    private List<Target> createTargets(final List<TargetData> targetData) {
-        return Optional.ofNullable(targetData)
-                .orElseGet(Collections::emptyList)
-                .stream()
-                .map(this::addSideToTarget)
-                .map(targetDAO::load)
-                .collect(Collectors.toList());
-    }
 
     /**
      * The string representation of this object.
@@ -444,16 +424,5 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
             log.error("Invalid cargo ship name: '{}'", shipName);
             return null;
         }
-    }
-
-    /**
-     * Add the side to the target data.
-     *
-     * @param data target data.
-     * @return target data with the side added.
-     */
-    private TargetData addSideToTarget(final TargetData data) {
-        data.setSide(side);
-        return data;
     }
 }

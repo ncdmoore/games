@@ -4,7 +4,9 @@
     "title": "Gibraltar Force",
     "location": "Gibraltar",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "BB03 Valiant",
       "BB07 Resolution",
@@ -36,7 +38,9 @@
     "title": "MS Escort",
     "location": "AJ24",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "DD40 Diamond",
       "DD70 Havock",
@@ -49,13 +53,15 @@
     "title": "MS Convoy",
     "location": "Malta",
     "state": "ACTIVE",
-    "mission": "TRANSPORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Alexandria"
-      }
-    ],
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Alexandria"
+        }
+      ]
+    },
     "ships": [
       "DE10 V&W-10",
       "DE11 V&W-11",
@@ -85,13 +91,15 @@
     "title": "MF Convoy",
     "location": "BE30",
     "state": "ACTIVE",
-    "mission": "TRANSPORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Malta"
-      }
-    ],
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Malta"
+        }
+      ]
+    },
     "ships": [
       "CL27 Neptune",
       "CL28 Orion",
@@ -119,7 +127,9 @@
     "title": "MF Escort",
     "location": "BG31",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": {
+      "type" : "PATROL"
+    },
     "ships": [
       "BB02 Warspite",
       "DD37 Decoy",
@@ -134,7 +144,9 @@
     "title": "Distant Escort",
     "location": "BF31",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "BB05 Malaya",
       "BB08 Royal Sovereign",
@@ -157,7 +169,9 @@
     "title": "Tobruk Patrol",
     "location": "AY29",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "CL12 Capetown",
       "DD78 Ilex",

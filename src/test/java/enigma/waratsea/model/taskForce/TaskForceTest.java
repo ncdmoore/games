@@ -20,6 +20,8 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.data.TaskForceData;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.taskForce.TaskForceState;
+import engima.waratsea.model.taskForce.mission.MissionType;
+import engima.waratsea.model.taskForce.mission.data.MissionData;
 import enigma.waratsea.TestModule;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -59,10 +61,14 @@ public class TaskForceTest {
 
     @Test
     public void testTaskForceCarrierGrouping() {
+        MissionData missionData = new MissionData();
+        missionData.setType(MissionType.PATROL);
+
         TaskForceData data = new TaskForceData();
 
         List<String> shipNames = new ArrayList<>(Arrays.asList("BC01 Renown", "CV04 Ark Royal-1", "CL17 Despatch","CL36 Sheffield", "DD53 Faulknor"));
 
+        data.setMission(missionData);
         data.setShips(shipNames);
         data.setLocation("Alexandria");
 
@@ -74,11 +80,15 @@ public class TaskForceTest {
 
     @Test
     public void testCargoShips() {
+        MissionData missionData = new MissionData();
+        missionData.setType(MissionType.PATROL);
+
         TaskForceData data = new TaskForceData();
 
         List<String> shipNames = new ArrayList<>(Arrays.asList("CL36 Sheffield", "DD53 Faulknor"));
         List<String> cargoShipNames = new ArrayList<>(Collections.singletonList("DD53 Faulknor"));
 
+        data.setMission(missionData);
         data.setShips(shipNames);
         data.setCargoShips(cargoShipNames);
         data.setLocation("Alexandria");
@@ -91,6 +101,9 @@ public class TaskForceTest {
 
     @Test
     public void testSetSail() {
+        MissionData missionData = new MissionData();
+        missionData.setType(MissionType.PATROL);
+
         TaskForceData data = new TaskForceData();
 
         List<String> shipNames = new ArrayList<>(Arrays.asList("CL36 Sheffield", "DD53 Faulknor"));
@@ -98,6 +111,7 @@ public class TaskForceTest {
 
         String portOrigin = "Alexandria";
 
+        data.setMission(missionData);
         data.setShips(shipNames);
         data.setCargoShips(cargoShipNames);
         data.setLocation("Alexandria");
@@ -112,10 +126,15 @@ public class TaskForceTest {
 
     @Test
     public void testNoCargoShips() {
+
+        MissionData missionData = new MissionData();
+        missionData.setType(MissionType.PATROL);
+
         TaskForceData data = new TaskForceData();
 
         List<String> shipNames = new ArrayList<>(Arrays.asList("CL36 Sheffield", "DD53 Faulknor"));
 
+        data.setMission(missionData);
         data.setShips(shipNames);
         data.setLocation("Alexandria");
 
@@ -127,7 +146,12 @@ public class TaskForceTest {
     @Test
     public void testTaskForceActivateShipEvent() throws Exception {
 
+        MissionData missionData = new MissionData();
+        missionData.setType(MissionType.PATROL);
+
         TaskForceData data = new TaskForceData();
+
+        data.setMission(missionData);
         data.setLocation("Alexandria");
         data.setState(TaskForceState.RESERVE);
         data.setShips(new ArrayList<>());
@@ -163,7 +187,12 @@ public class TaskForceTest {
 
     @Test
     public void testTaskForceNonActivationShipEvent() throws Exception {
+        MissionData missionData = new MissionData();
+        missionData.setType(MissionType.PATROL);
+
         TaskForceData data = new TaskForceData();
+
+        data.setMission(missionData);
         data.setLocation("Alexandria");
         data.setState(TaskForceState.RESERVE);
         data.setShips(new ArrayList<>());
@@ -212,7 +241,12 @@ public class TaskForceTest {
 
     @Test
     public void testTaskForceActivateTurnEvent() {
+        MissionData missionData = new MissionData();
+        missionData.setType(MissionType.PATROL);
+
         TaskForceData data = new TaskForceData();
+
+        data.setMission(missionData);
         data.setLocation("Malta");
         data.setState(TaskForceState.RESERVE);
         data.setShips(new ArrayList<>());
@@ -241,7 +275,12 @@ public class TaskForceTest {
 
     @Test
     public void testTaskForceNonActivationTurnEvent() {
+        MissionData missionData = new MissionData();
+        missionData.setType(MissionType.PATROL);
+
         TaskForceData data = new TaskForceData();
+
+        data.setMission(missionData);
         data.setLocation("Alexandria");
         data.setState(TaskForceState.RESERVE);
         data.setShips(new ArrayList<>());
@@ -278,7 +317,11 @@ public class TaskForceTest {
 
         gameMap.load(scenario);
 
+        MissionData missionData = new MissionData();
+        missionData.setType(MissionType.PATROL);
+
         TaskForceData data = new TaskForceData();
+        data.setMission(missionData);
         data.setLocation("Alexandria");
         data.setState(TaskForceState.RESERVE);
         data.setShips(new ArrayList<>());

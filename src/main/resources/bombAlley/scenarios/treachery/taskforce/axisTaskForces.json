@@ -4,17 +4,19 @@
     "title": "Oran Force",
     "location": "Oran",
     "state": "RESERVE",
-    "mission": "FERRY",
-    "targets": [
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Toulon"
-      },
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Marseille"
-      }
-    ],
+    "mission": {
+      "type": "FERRY",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Toulon"
+        },
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Marseille"
+        }
+      ]
+    },
     "releaseShipEvents": [
       {
         "action": "ATTACKED",

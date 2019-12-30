@@ -4,17 +4,19 @@
     "title": "Alexandria Force",
     "location": "Alexandria",
     "state": "ACTIVE",
-    "mission": "BOMBARDMENT",
-    "targets": [
-      {
-        "type": "ENEMY_PORT",
-        "name": "Rhodes"
-      },
-      {
-        "type": "ENEMY_PORT",
-        "name": "Tobruk"
-      }
-    ],
+    "mission": {
+      "type": "BOMBARDMENT",
+      "targets": [
+        {
+          "type": "ENEMY_PORT",
+          "name": "Rhodes"
+        },
+        {
+          "type": "ENEMY_PORT",
+          "name": "Tobruk"
+        }
+      ]
+    },
     "ships": [
       "BB02 Warspite",
       "BB05 Malaya",

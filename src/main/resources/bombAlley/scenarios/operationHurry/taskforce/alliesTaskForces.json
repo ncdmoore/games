@@ -4,13 +4,15 @@
     "title": "Force H",
     "location": "Gibraltar",
     "state": "ACTIVE",
-    "mission": "AIR_RAID",
-    "targets": [
-      {
-        "type": "ENEMY_AIRFIELD",
-        "name":  "Cagliari"
-      }
-    ],
+    "mission": {
+      "type": "AIR_RAID",
+      "targets": [
+        {
+          "type": "ENEMY_AIRFIELD",
+          "name":  "Cagliari"
+        }
+      ]
+    },
     "ships": [
       "BB03 Valiant",
       "BC03 Hood",
@@ -35,13 +37,15 @@
     "title": "Replenishment Force",
     "location": "Gibraltar",
     "state": "ACTIVE",
-    "mission": "FERRY_AIRCRAFT",
-    "targets": [
-      {
-        "type": "FRIENDLY_AIRFIELD",
-        "name": "Luqa-1940"
-      }
-    ],
+    "mission": {
+      "type": "FERRY_AIRCRAFT",
+      "targets": [
+        {
+          "type": "FRIENDLY_AIRFIELD",
+          "name": "Luqa-1940"
+        }
+      ]
+    },
     "ships": [
       "CVL01 Argus-1",
       "DD46 Encounter",

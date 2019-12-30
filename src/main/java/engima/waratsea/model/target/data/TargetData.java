@@ -18,11 +18,20 @@ public class TargetData {
     private String name;
 
     @Getter
-    @Setter
     private Side side;
 
     @Getter
     @Setter
     private String location;
 
+    /**
+     * Set the target's side.
+     *
+     * @param targetSide The target's side.
+     * @return This target data.
+     */
+    public TargetData setSide(final Side targetSide) {
+        this.side = targetSide;
+        return this;
+    }
 }

@@ -18,6 +18,8 @@ import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.taskForce.data.TaskForceData;
+import engima.waratsea.model.taskForce.mission.MissionType;
+import engima.waratsea.model.taskForce.mission.data.MissionData;
 import engima.waratsea.model.victory.VictoryConditions;
 import engima.waratsea.model.victory.VictoryConditionsFactory;
 import engima.waratsea.model.victory.data.SquadronVictoryData;
@@ -210,8 +212,13 @@ public class SquadronVictoryTest {
         event.setAction(SquadronEventAction.ARRIVAL);
         event.setSquadron(alliedSquadron);
 
+        MissionData missionData = new MissionData();
+        missionData.setType(MissionType.PATROL);
+
         TaskForceData data = new TaskForceData();
         List<String> shipNames = new ArrayList<>(Arrays.asList("BC01 Renown", "CVL01 Argus-1", "CV06 Victorious-1", "CL17 Despatch","CL36 Sheffield", "DD53 Faulknor"));
+
+        data.setMission(missionData);
         data.setShips(shipNames);
         data.setLocation("F12");
 

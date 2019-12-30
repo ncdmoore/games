@@ -4,13 +4,15 @@
     "title": "Supply Force",
     "location": "Taranto",
     "state": "ACTIVE",
-    "mission": "TRANSPORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Benghazi"
-      }
-    ],
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Benghazi"
+        }
+      ]
+    },
     "ships": [
       "DE88 Sella-1",
       "DE89 Sella-2",
@@ -33,7 +35,9 @@
     "title": "Reaction Force",
     "location":  "Naples",
     "state": "RESERVE",
-    "mission": "INTERCEPT",
+    "mission": {
+      "type" : "INTERCEPT"
+    },
     "releaseShipEvents": [
       {
         "action": "SPOTTED",

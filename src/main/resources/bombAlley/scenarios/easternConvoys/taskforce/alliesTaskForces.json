@@ -4,13 +4,15 @@
     "title": "Dardanelles Convoy",
     "location": "BB15",
     "state": "ACTIVE",
-    "mission": "TRANSPORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Alexandria"
-      }
-    ],
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Alexandria"
+        }
+      ]
+    },
     "ships": [
       "CL01a Caledon 39",
       "CL12 Capetown",
@@ -41,7 +43,9 @@
     "title": "Patrol Force",
     "location": "AZ26",
     "state": "ACTIVE",
-    "mission": "ESCORT",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "DD35 Dainty",
       "DD37 Decoy",
@@ -57,13 +61,15 @@
     "title": "Malta Convoy",
     "location": "BE30",
     "state": "ACTIVE",
-    "mission": "TRANSPORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Malta"
-      }
-    ],
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Malta"
+        }
+      ]
+    },
     "ships": [
       "CL28 Orion",
       "CL27 Neptune",
@@ -85,13 +91,15 @@
     "title": "Malta Convoy Escort",
     "location": "BG31",
     "state": "ACTIVE",
-    "mission": "ESCORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_TASK_FORCE",
-        "name": "TF3"
-      }
-    ],
+    "mission": {
+      "type": "ESCORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_TASK_FORCE",
+          "name": "TF3"
+        }
+      ]
+    },
     "ships": [
       "BB08 Royal Sovereign",
       "BB10 Ramillies",

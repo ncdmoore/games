@@ -4,13 +4,15 @@
     "title": "Troop Convoy",
     "location": "Alexandria",
     "state": "ACTIVE",
-    "mission": "TRANSPORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Malta"
-      }
-    ],
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Malta"
+        }
+      ]
+    },
     "ships": [
       "CL38 Gloucester",
       "CL39 Liverpool"
@@ -25,13 +27,15 @@
     "title": "Escort Force",
     "location": "Alexandria",
     "state": "ACTIVE",
-    "mission": "ESCORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_TASK_FORCE",
-        "name": "TF1"
-      }
-    ],
+    "mission": {
+      "type": "ESCORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_TASK_FORCE",
+          "name": "TF1"
+        }
+      ]
+    },
     "ships": [
       "BB02 Warspite",
       "BB03 Valiant",

@@ -4,7 +4,9 @@
     "title": "Yorktown Force",
     "location": "Espiritu Santo",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "CV05 Yorktown-1",
       "CA27 Chester",
@@ -21,7 +23,9 @@
     "title": "Lexington Force",
     "location": "Z20",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "CV02 Lexington-1",
       "CA32 New Orleans",
@@ -38,7 +42,9 @@
     "title": "Support Force",
     "location": "V28",
     "state": "ACTIVE",
-    "mission": "SUPPORT",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "DD352 Worden",
       "DD409 Sims",
@@ -51,7 +57,9 @@
     "title": "Scout Force",
     "location": "BB31",
     "state": "ACTIVE",
-    "mission": "SUPPORT",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "CVS08 Tangier-1"
     ]
@@ -61,7 +69,9 @@
     "title": "Reserve Force",
     "location": "BB20",
     "state": "RESERVE",
-    "mission": "INTERCEPT",
+    "mission": {
+      "type": "INTERCEPT"
+    },
     "releaseTurnEvents" : [
       {
         "turn": 15

@@ -4,13 +4,15 @@
     "title": "Excess Convoy",
     "location": "Gibraltar",
     "state": "ACTIVE",
-    "mission": "TRANSPORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Malta"
-      }
-    ],
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Malta"
+        }
+      ]
+    },
     "ships": [
       "CL44 Bonaventure",
       "DD69 Hasty",
@@ -33,13 +35,15 @@
     "title": "Covering Force",
     "location": "Gibraltar",
     "state": "ACTIVE",
-    "mission": "ESCORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_TASK_FORCE",
-        "name": "TF1"
-      }
-    ],
+    "mission": {
+      "type": "ESCORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_TASK_FORCE",
+          "name": "TF1"
+        }
+      ]
+    },
     "ships": [
       "BB05 Malaya",
       "BC01 Renown",
@@ -58,13 +62,15 @@
     "title": "Fast Convoy",
     "location": "Athens",
     "state": "ACTIVE",
-    "mission": "TRANSPORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Malta"
-      }
-    ],
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Malta"
+        }
+      ]
+    },
     "ships": [
       "CL37 Southampton",
       "CL38 Gloucester",
@@ -81,13 +87,15 @@
     "title": "Alexandria Force",
     "location": "Alexandria",
     "state": "ACTIVE",
-    "mission": "ESCORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_TASK_FORCE",
-        "name": "TF5"
-      }
-    ],
+    "mission": {
+      "type": "ESCORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_TASK_FORCE",
+          "name": "TF5"
+        }
+      ]
+    },
     "ships": [
       "BB02 Warspite",
       "BB03 Valiant",
@@ -107,13 +115,15 @@
     "title": "Convoy MW.5",
     "location": "Alexandria",
     "state": "ACTIVE",
-    "mission": "TRANSPORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Malta"
-      }
-    ],
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Malta"
+        }
+      ]
+    },
     "ships": [
       "CL10 Calcutta",
       "DD38 Defender",
@@ -143,7 +153,9 @@
     "title": "Emergency Force",
     "location": "Alexandria",
     "state": "RESERVE",
-    "mission": "INTERCEPT",
+    "mission": {
+      "type": "INTERCEPT"
+    },
     "releaseShipEvents": [
       {
         "action": "DAMAGED",
@@ -172,7 +184,9 @@
     "title": "Suda Bay Force",
     "location": "Suda Bay",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "CA12 York",
       "CL25 Ajax",
@@ -198,7 +212,9 @@
     "title": "Malta Force",
     "location": "Malta",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "CL03 Sydney",
       "DD01 Stuart"

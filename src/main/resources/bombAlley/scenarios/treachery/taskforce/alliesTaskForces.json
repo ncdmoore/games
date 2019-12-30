@@ -4,13 +4,15 @@
     "title": "Gibraltar Force",
     "location": "Gibraltar",
     "state": "ACTIVE",
-    "mission": "BOMBARDMENT",
-    "targets": [
-      {
-        "type": "ENEMY_PORT",
-        "name": "Oran"
-      }
-    ],
+    "mission": {
+      "type": "BOMBARDMENT",
+      "targets": [
+        {
+          "type": "ENEMY_PORT",
+          "name": "Oran"
+        }
+      ]
+    },
     "ships": [
       "BB03 Valiant",
       "BB07 Resolution",

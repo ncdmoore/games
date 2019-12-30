@@ -325,7 +325,7 @@ public class TaskForceView {
 
         stateValue.setText(taskForce.getState().toString());
         setStateColor(taskForce);
-        missionValue.setText(taskForce.getMission().toString());
+        missionValue.setText(taskForce.getMission().getType().toString());
 
         String prefix = taskForce.atFriendlyBase() ? "At port " : "At sea zone ";
 

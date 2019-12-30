@@ -4,7 +4,9 @@
     "title": "Support Force",
     "location": "O1",
     "state": "ACTIVE",
-    "mission": "SUPPORT",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "CVL01 Shoho-1",
       "CA01 Kako",
@@ -19,7 +21,9 @@
     "title": "Tulagi Invasion Force",
     "location": "G1",
     "state": "ACTIVE",
-    "mission": "INVASION",
+    "mission": {
+      "type": "INVASION"
+    },
     "ships": [
       "DD31 Kikutzuki",
       "DD34 Yuzuki",
@@ -39,7 +43,9 @@
     "title": "Moresby Invasion Force",
     "location": "Rabaul",
     "state": "ACTIVE",
-    "mission": "INVASION",
+    "mission": {
+      "type": "INVASION"
+    },
     "ships": [
       "CL17 Yubari",
       "DD11 Oite",
@@ -65,7 +71,9 @@
     "title": "Scout Force",
     "location": "V19",
     "state": "ACTIVE",
-    "mission": "SUPPORT",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "CL01 Tenryu",
       "CL02 Tatsuta",
@@ -77,7 +85,9 @@
     "title": "Reserve Force",
     "location": "M1",
     "state": "RESERVE",
-    "mission": "INTERCEPT",
+    "mission": {
+      "type": "INTERCEPT"
+    },
     "releaseTurnEvents" : [
       {
         "turn": 20

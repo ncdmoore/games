@@ -4,13 +4,15 @@
     "title": "Force H",
     "location": "Gibraltar",
     "state": "ACTIVE",
-    "mission": "FERRY_AIRCRAFT",
-    "targets": [
-      {
-        "type": "FRIENDLY_AIRFIELD",
-        "name": "Luqa"
-      }
-    ],
+    "mission": {
+      "type":  "FERRY_AIRCRAFT",
+      "targets": [
+        {
+          "type": "FRIENDLY_AIRFIELD",
+          "name": "Luqa"
+        }
+      ]
+    },
     "ships": [
       "BC01 Renown",
       "CV04 Ark Royal-2",
@@ -28,13 +30,15 @@
     "title": "Malta Convoy",
     "location": "Gibraltar",
     "state": "ACTIVE",
-    "mission": "TRANSPORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Malta"
-      }
-    ],
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Malta"
+        }
+      ]
+    },
     "ships": [
       "CL47 Dido",
       "ML02 Abdiel",
@@ -60,7 +64,9 @@
     "title": "Force K",
     "location": "Malta",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "CL38 Gloucester",
       "DD114 Janus",
@@ -73,7 +79,9 @@
     "title": "Mediterranean Fleet",
     "location": "Alexandria",
     "state": "ACTIVE",
-    "mission": "PATROL",
+    "mission": {
+      "type": "PATROL"
+    },
     "ships": [
       "BB02 Warspite",
       "BB03 Valiant",
@@ -98,13 +106,15 @@
     "title": "Athens Force",
     "location": "Athens",
     "state": "RESERVE",
-    "mission": "TRANSPORT",
-    "targets": [
-      {
-        "type": "FRIENDLY_PORT",
-        "name": "Alexandria"
-      }
-    ],
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Alexandria"
+        }
+      ]
+    },
     "releaseTurnEvents" : [
       {
         "turnGreaterThan": 16,
@@ -222,14 +232,16 @@
     "title": "Kalamata Force",
     "location": "AW22",
     "state": "RESERVE",
-    "mission": "TRANSPORT",
-    "targets": [
-      {
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
 
-        "type": "FRIENDLY_PORT",
-        "name": "Alexandria"
-      }
-    ],
+          "type": "FRIENDLY_PORT",
+          "name": "Alexandria"
+        }
+      ]
+    },
     "releaseTurnEvents" : [
       {
         "turnGreaterThan": 16,

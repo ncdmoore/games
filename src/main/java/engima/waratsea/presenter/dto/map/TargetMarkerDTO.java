@@ -71,7 +71,7 @@ public class TargetMarkerDTO implements PopUpDTO {
      * @return The target's name.
      */
     public String getName() {
-        return taskForce.getMission().toString();
+        return taskForce.getMission().getType().toString();
     }
 
     /**
@@ -89,7 +89,7 @@ public class TargetMarkerDTO implements PopUpDTO {
      * @return The target's title.
      */
     public String getTitle() {
-        return taskForce.getMission().toString();
+        return taskForce.getMission().getType().toString();
     }
 
     /**

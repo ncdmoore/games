@@ -82,6 +82,17 @@ import engima.waratsea.model.target.TargetFriendlyTaskForce;
 import engima.waratsea.model.target.TargetSeaGrid;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
+import engima.waratsea.model.taskForce.mission.AirRaid;
+import engima.waratsea.model.taskForce.mission.Bombardment;
+import engima.waratsea.model.taskForce.mission.Escort;
+import engima.waratsea.model.taskForce.mission.Ferry;
+import engima.waratsea.model.taskForce.mission.FerryAircraft;
+import engima.waratsea.model.taskForce.mission.Intercept;
+import engima.waratsea.model.taskForce.mission.Invasion;
+import engima.waratsea.model.taskForce.mission.Minelaying;
+import engima.waratsea.model.taskForce.mission.Mission;
+import engima.waratsea.model.taskForce.mission.MissionFactory;
+import engima.waratsea.model.taskForce.mission.Transport;
 import engima.waratsea.model.victory.AirfieldVictory;
 import engima.waratsea.model.victory.AirfieldVictoryFactory;
 import engima.waratsea.model.victory.RequiredShipVictory;
@@ -168,6 +179,19 @@ public class TestModule extends AbstractModule {
         install(new FactoryModuleBuilder().implement(Minefield.class, Minefield.class).build(MinefieldFactory.class));
         install(new FactoryModuleBuilder().implement(MinefieldZone.class, MinefieldZone.class).build(MinefieldZoneFactory.class));
         install(new FactoryModuleBuilder().implement(MinefieldDeployment.class, MinefieldDeployment.class).build(MinefieldDeploymentFactory.class));
+
+        install(new FactoryModuleBuilder()
+                .implement(Mission.class, Names.named("airRaid"), AirRaid.class)
+                .implement(Mission.class, Names.named("bombardment"), Bombardment.class)
+                .implement(Mission.class, Names.named("escort"), Escort.class)
+                .implement(Mission.class, Names.named("ferry"), Ferry.class)
+                .implement(Mission.class, Names.named("ferryAircraft"), FerryAircraft.class)
+                .implement(Mission.class, Names.named("intercept"), Intercept.class)
+                .implement(Mission.class, Names.named("invasion"), Invasion.class)
+                .implement(Mission.class, Names.named("minelaying"), Minelaying.class)
+                .implement(Mission.class, Names.named("patrol"), engima.waratsea.model.taskForce.mission.Patrol.class)
+                .implement(Mission.class, Names.named("transport"), Transport.class)
+                .build(MissionFactory.class));
 
         install(new FactoryModuleBuilder()
                 .implement(Target.class, Names.named("enemyAirfield"), TargetEnemyAirfield.class)
