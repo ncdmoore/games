@@ -13,6 +13,7 @@ public interface MissionFactory {
      */
     @Named("airRaid")
     Mission createAirRaid(MissionData data);
+
     /**
      * Create a task force bombardment mission.
      *
