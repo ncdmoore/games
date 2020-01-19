@@ -51,10 +51,10 @@ public class MissionEditDetailsView {
 
         errorLabel.setId("mission-error-text");
         errorVBox.setId("mission-error-vbox");
-        errorVBox.setMinWidth(300);
-        errorVBox.setMaxWidth(300);
-        errorVBox.setMaxHeight(60);
-        errorVBox.setMinHeight(60);
+        errorVBox.setMinWidth(props.getInt("mission.error.box.width"));
+        errorVBox.setMaxWidth(props.getInt("mission.error.box.width"));
+        errorVBox.setMaxHeight(props.getInt("mission.error.box.height"));
+        errorVBox.setMinHeight(props.getInt("mission.error.box.height"));
     }
 
     /**
