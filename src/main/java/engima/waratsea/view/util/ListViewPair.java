@@ -26,14 +26,12 @@ public class ListViewPair<T> {
     @Setter
     private int buttonWidth;
 
-    @Setter
-    private String availableTitle;
+    private Label availableLabel = new Label();
 
     @Getter
     private ListView<T> available = new ListView<>();
 
-    @Setter
-    private String assignedTitle;
+    private Label assignedLabel = new Label();
 
     @Getter
     private ListView<T> assigned = new ListView<>();
@@ -44,18 +42,37 @@ public class ListViewPair<T> {
     @Getter
     private Button remove = new Button();
 
-    @Setter
-    private ImageResourceProvider imageResourceProvider;
+    private final ImageResourceProvider imageResourceProvider;
 
     /**
      * Constructor called by guice.
      *
      * @param name The name used in CSS.
+     * @param imageResourceProvider Provides images.
      */
-    public ListViewPair(final String name) {
+    public ListViewPair(final String name, final ImageResourceProvider imageResourceProvider) {
         this.name = name;
+        this.imageResourceProvider = imageResourceProvider;
         add.setDisable(true);
         remove.setDisable(true);
+    }
+
+    /**
+     * Set the available label.
+     *
+     * @param title The text contained within the label.
+     */
+    public void setAvailableTitle(final String title) {
+        availableLabel.setText(title);
+    }
+
+    /**
+     * Set the assigned label.
+     *
+     * @param title The text contained within the label.
+     */
+    public void setAssignedTitle(final String title) {
+        assignedLabel.setText(title);
     }
 
     /**
@@ -85,10 +102,7 @@ public class ListViewPair<T> {
         VBox buttonVBox = new VBox(add, remove);
         buttonVBox.setId(name + "-list-view-pair-controls");
 
-        Label availableLabel = new Label(availableTitle);
         VBox availableVBox = new VBox(availableLabel, available);
-
-        Label assignedLabel = new Label(assignedTitle);
         VBox assignedVBox = new VBox(assignedLabel, assigned);
 
         HBox hBox = new HBox(availableVBox, buttonVBox, assignedVBox);

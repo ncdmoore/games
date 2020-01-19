@@ -92,4 +92,9 @@ public interface Patrol {
      * @return True if the patrol is affected by the current weather conditions. False otherwise.
      */
     boolean isAffectedByWeather();
+
+    /**
+     * Clear all of the squadrons from this patrol.
+     */
+    void clearSquadrons();
 }

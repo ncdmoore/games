@@ -3,6 +3,7 @@ package engima.waratsea.model.player;
 import com.google.inject.Inject;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldDAO;
+import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.base.port.PortDAO;
 import engima.waratsea.model.enemy.views.airfield.AirfieldView;
@@ -27,6 +28,8 @@ import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronAI;
 import engima.waratsea.model.squadron.SquadronDAO;
+import engima.waratsea.model.target.Target;
+import engima.waratsea.model.target.TargetDAO;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceDAO;
 import engima.waratsea.model.victory.VictoryConditions;
@@ -34,7 +37,9 @@ import engima.waratsea.model.victory.VictoryDAO;
 import engima.waratsea.model.victory.VictoryException;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +51,7 @@ import java.util.stream.Stream;
 /**
  * This is the computer player in the game.
  */
+@Slf4j
 public class ComputerPlayer implements Player {
 
     private final GameMap gameMap;
@@ -59,6 +65,7 @@ public class ComputerPlayer implements Player {
     private final PortViewDAO portViewDAO;
     private final SquadronDAO aviationPlant;
     private final MinefieldDAO minefieldDAO;
+    private final TargetDAO targetDAO;
 
     private final FlotillaAI flotillaAI;
     private final SquadronAI squadronAI;
@@ -130,6 +137,7 @@ public class ComputerPlayer implements Player {
      * @param portViewDAO Loads enemy port view data.
      * @param minefieldDAO Loads minefield data.
      * @param aviationPlant Loads squadron data.
+     * @param targetDAO Creates targets.
      * @param flotillaAI  flotilla AI.
      * @param squadronAI squadron AI.
      * @param minefieldAI minefield AI.
@@ -147,6 +155,7 @@ public class ComputerPlayer implements Player {
                           final PortViewDAO portViewDAO,
                           final MinefieldDAO minefieldDAO,
                           final SquadronDAO aviationPlant,
+                          final TargetDAO targetDAO,
                           final FlotillaAI flotillaAI,
                           final SquadronAI squadronAI,
                           final MinefieldAI minefieldAI) {
@@ -163,6 +172,7 @@ public class ComputerPlayer implements Player {
         this.portViewDAO = portViewDAO;
         this.aviationPlant = aviationPlant;
         this.minefieldDAO = minefieldDAO;
+        this.targetDAO = targetDAO;
 
         this.flotillaAI = flotillaAI;
         this.squadronAI = squadronAI;
@@ -293,6 +303,7 @@ public class ComputerPlayer implements Player {
      * @param scenario The selected scenario.
      * @throws ScenarioException If the scenario data cannot be properly loaded.
      */
+    @Override
     public void deployAssets(final Scenario scenario) throws ScenarioException {
         flotillaAI.deploy(scenario, this);
         squadronAI.deploy(scenario, this);
@@ -305,6 +316,7 @@ public class ComputerPlayer implements Player {
      *
      * @return All of the player's squadrons.
      */
+    @Override
     public List<Squadron> getSquadrons() {
         return squadrons
                 .entrySet()
@@ -360,9 +372,92 @@ public class ComputerPlayer implements Player {
      *
      * @param scenario The selected scenario.
      */
+    @Override
     public void loadSquadrons(final Scenario scenario) {
         for (Nation nation: nations) {
             loadNationSquadrons(scenario, nation);
+        }
+    }
+    /**
+     * Get the friendly airfield targets for the given nation.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return A list of friendly airfield targets.
+     */
+    @Override
+    public List<Target> getFriendlyAirfieldTargets(final Nation nation) {
+        return gameMap
+                .getNationAirfields(side, nation)
+                .stream()
+                .map(targetDAO::getFriendlyAirfieldTarget)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get the enemy airfield targets.
+     *
+     * @return A list of enemy airfield targets.
+     */
+    @Override
+    public List<Target> getEnemyAirfieldTargets() {
+        return gameMap
+                .getAirfields(side.opposite())
+                .stream()
+                .map(targetDAO::getEnemyAirfieldTarget)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get the enemy task force targets.
+     *
+     * @return A list of enemy task force targets.
+     */
+    @Override
+    public List<Target> getEnemyTaskForceTargets() {
+        return enemyTaskForces
+                .stream()
+                .filter(TaskForceView::isSpotted)
+                .map(TaskForceView::getEnemyTaskForce)
+                .map(targetDAO::getEnemyTaskForceTarget)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get the enemy port targets.
+     *
+     * @return A list of enemy port targets.
+     */
+    @Override
+    public List<Target> getEnemyPortTargets() {
+        return gameMap
+                .getPorts(side.opposite())
+                .stream()
+                .map(targetDAO::getEnemyPortTarget)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get a list of targets for the given mission type.
+     *
+     * @param missionType The type of mission.
+     * @return A list of targets for the given mission type.
+     */
+    @Override
+    public List<Target> getTargets(final MissionType missionType, final Nation nation) {
+        switch (missionType) {
+            case FERRY:
+                return getFriendlyAirfieldTargets(nation);
+            case LAND_STRIKE:
+            case SWEEP_AIRFIELD:
+                return getEnemyAirfieldTargets();
+            case NAVAL_PORT_STRIKE:
+            case SWEEP_PORT:
+                return getEnemyPortTargets();
+            case NAVAL_TASK_FORCE_STRIKE:
+                return getEnemyTaskForceTargets();
+            default:
+                log.error("Unknown mission type: '{}'", missionType);
+                return Collections.emptyList();
         }
     }
 

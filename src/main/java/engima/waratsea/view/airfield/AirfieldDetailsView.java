@@ -2,12 +2,11 @@ package engima.waratsea.view.airfield;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.utility.ImageResourceProvider;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
@@ -26,16 +25,20 @@ public class AirfieldDetailsView {
 
     private final ImageResourceProvider imageResourceProvider;
     private final Provider<AirfieldSummaryView> airfieldSummaryViewProvider;
+    private final Provider<AirfieldMissionView> airfieldMissionViewProvider;
     private final Provider<AirfieldPatrolView> airfieldPatrolViewProvider;
     private final Provider<AirfieldReadyView> airfieldReadyViewProvider;
 
-    private Airfield airfield;
+    private Airbase airbase;
 
     @Getter
     private final TabPane nationsTabPane = new TabPane();
 
     @Getter
     private final Map<Nation, AirfieldSummaryView> airfieldSummaryView = new HashMap<>();
+
+    @Getter
+    private final Map<Nation, AirfieldMissionView> airfieldMissionView = new HashMap<>();
 
     @Getter
     private final Map<Nation, AirfieldPatrolView> airfieldPatrolView = new HashMap<>();
@@ -48,33 +51,36 @@ public class AirfieldDetailsView {
      *
      * @param imageResourceProvider Provides images.
      * @param airfieldSummaryViewProvider Provides the airfield summary view.
+     * @param airfieldMissionViewProvider Provides the airfield mission view.
      * @param airfieldPatrolViewProvider  Provides the airfield patrol view.
      * @param airfieldReadyViewProvider   Provides the airfield ready view.
      */
     @Inject
     public AirfieldDetailsView(final ImageResourceProvider imageResourceProvider,
                                final Provider<AirfieldSummaryView> airfieldSummaryViewProvider,
+                               final Provider<AirfieldMissionView> airfieldMissionViewProvider,
                                final Provider<AirfieldPatrolView> airfieldPatrolViewProvider,
                                final Provider<AirfieldReadyView> airfieldReadyViewProvider) {
         this.imageResourceProvider = imageResourceProvider;
 
         this.airfieldSummaryViewProvider = airfieldSummaryViewProvider;
+        this.airfieldMissionViewProvider = airfieldMissionViewProvider;
         this.airfieldPatrolViewProvider = airfieldPatrolViewProvider;
         this.airfieldReadyViewProvider = airfieldReadyViewProvider;
     }
 
     /**
-     * Show the airfield details.
+     * Show the airbase details.
      *
-     * @param field The airfield whose details are shown.
-     * @return A node containing the airfield details.
+     * @param base The airbase whose details are shown.
+     * @return A node containing the airbase details.
      */
-    public Node show(final Airfield field) {
-        airfield = field;
+    public Node show(final Airbase base) {
+        airbase = base;
 
         nationsTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        airfield
+        airbase
                 .getNations()
                 .stream()
                 .sorted()
@@ -95,16 +101,17 @@ public class AirfieldDetailsView {
         AirfieldSummaryView summaryView = airfieldSummaryViewProvider.get();
 
         airfieldSummaryView.put(nation, summaryView);
+        airfieldMissionView.put(nation, airfieldMissionViewProvider.get());
         airfieldPatrolView.put(nation, airfieldPatrolViewProvider.get());
         airfieldReadyView.put(nation, airfieldReadyViewProvider.get());
 
         Tab tab = new Tab(nation.toString());
 
         Node summary = summaryView
-                .setAirfield(airfield)
+                .setAirfield(airbase)
                 .show(nation);
 
-        TitledPane missions = buildMissionDetails();
+        TitledPane missions = buildMissionDetails(nation);
         TitledPane patrols = buildPatrolDetails(nation);
         TitledPane ready = buildReadyDetails(nation);
 
@@ -127,18 +134,13 @@ public class AirfieldDetailsView {
     /**
      * Build the mission details pane.
      *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
      * @return A titled pane containing the mission details of the airfield.
      */
-    private TitledPane buildMissionDetails() {
-        TitledPane titledPane = new TitledPane();
-
-        titledPane.setText("Missions");
-
-        Label label = new Label("mission data");
-
-        titledPane.setContent(label);
-
-        return titledPane;
+    private TitledPane buildMissionDetails(final Nation nation) {
+        return airfieldMissionView
+                .get(nation)
+                .show(nation);
     }
 
     /**
@@ -150,7 +152,7 @@ public class AirfieldDetailsView {
     private TitledPane buildPatrolDetails(final Nation nation) {
         return airfieldPatrolView
                 .get(nation)
-                .setAirfield(airfield)
+                .setAirbase(airbase)
                 .show(nation);
     }
 
@@ -163,7 +165,7 @@ public class AirfieldDetailsView {
     private TitledPane buildReadyDetails(final Nation nation) {
         return airfieldReadyView
                 .get(nation)
-                .setAirfield(airfield)
+                .setAirbase(airbase)
                 .show(nation);
     }
 }

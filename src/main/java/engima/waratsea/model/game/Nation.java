@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The game nations.
@@ -44,6 +46,20 @@ public enum Nation implements Comparator<Nation> {
     @Getter
     private final String shipPrefix;
 
+
+    private static Map<String, Nation> valueMap = new HashMap<>();
+    static {
+        valueMap.put("Australian", Nation.AUSTRALIAN);
+        valueMap.put("British", Nation.BRITISH);
+        valueMap.put("French", Nation.FRENCH);
+        valueMap.put("German", Nation.GERMAN);
+        valueMap.put("Greek", Nation.GREEK);
+        valueMap.put("Italian", Nation.ITALIAN);
+        valueMap.put("Japanese", Nation.JAPANESE);
+        valueMap.put("Polish", Nation.POLISH);
+        valueMap.put("United States", Nation.UNITED_STATES);
+    }
+
     /**
      * Constructor.
      *
@@ -55,6 +71,16 @@ public enum Nation implements Comparator<Nation> {
         this.value = value;
         this.fileName = fileName;
         this.shipPrefix = shipPrefix;
+    }
+
+    /**
+     * Get the enum given the value.
+     *
+     * @param value the enum value.
+     * @return The corresponding enum to the given value.
+     */
+    public static Nation get(final String value) {
+        return valueMap.get(value);
     }
 
     /**

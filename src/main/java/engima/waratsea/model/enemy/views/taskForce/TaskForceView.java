@@ -13,6 +13,10 @@ public class TaskForceView implements PersistentData<TaskForceViewData> {
     @Setter
     private TaskForce enemyTaskForce;
 
+    @Getter
+    @Setter
+    private boolean spotted;
+
     /**
      * Constructor called by guice.
      *
@@ -21,6 +25,7 @@ public class TaskForceView implements PersistentData<TaskForceViewData> {
     @Inject
     public TaskForceView(@Assisted final TaskForceViewData data) {
         this.enemyTaskForce = data.getTaskForce();
+        this.spotted = false;
     }
 
     /**

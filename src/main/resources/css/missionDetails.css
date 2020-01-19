@@ -1,0 +1,49 @@
+////////////////////////////////////////////////////////////////////
+// Define variables that may be used in this file.
+// Currently only colors variables can be defined.
+////////////////////////////////////////////////////////////////////
+* {
+    -fx-var-background-color: rgb(224, 228, 203);
+}
+
+.root {
+    -fx-background: -fx-var-background-color;
+}
+
+
+#main-pane {
+    -fx-spacing: 15;
+    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
+}
+
+#mission-squadron-pane {
+    -fx-alignment: center-left;
+}
+
+#missions-list-view-pair {
+    -fx-spacing: 30;
+    -fx-alignment: top-left;
+}
+
+#missions-list-view-pair-controls {
+    -fx-padding: /* top: */ 60 /* right: */ 0 /* bottom: */ 0 /* left: */ 0;
+    -fx-spacing: 10;
+}
+
+#mission-error-vbox {
+    -fx-padding: /* top: */ 0 /* right: */ 0 /* bottom: */ 0 /* left: */ 0;
+    -fx-border-width: 2px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, white 0%, khaki 100%);
+    -fx-alignment: center
+
+}
+
+#mission-error-text {
+    -fx-text-fill: red;
+}
+
+#controls-pane {
+    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 10 /* left */ 0;
+    -fx-spacing: 20;
+}

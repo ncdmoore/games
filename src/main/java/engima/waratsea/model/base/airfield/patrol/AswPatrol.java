@@ -32,15 +32,15 @@ import java.util.stream.IntStream;
 
 @Slf4j
 public class AswPatrol implements Patrol {
-    private List<Squadron> squadrons;
+    private List<Squadron> squadrons;         //The squadrons that are on this patrol.
 
     @Getter
-    private final Airbase airbase;
+    private final Airbase airbase;            //The airbase from which the patrol is flown.
 
     @Getter
-    private int maxRadius;
+    private int maxRadius;                    //The maximum patrol radius of this patrol.
 
-    private final AirRules rules;
+    private final AirRules rules;             //The set of rules that govern this patrol.
 
     /**
      * The constructor.
@@ -55,12 +55,10 @@ public class AswPatrol implements Patrol {
 
         rules = airRulesFactory.createAsw();
 
-        Map<String, Squadron> squadronMap = getSquadronMap(data.getAirbase().getSquadrons());
-
         squadrons = Optional.ofNullable(data.getSquadrons())
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(squadronMap::get)
+                .map(airbase::getSquadron)
                 .collect(Collectors.toList());
 
         updateMaxRadius();
@@ -108,7 +106,7 @@ public class AswPatrol implements Patrol {
      */
     @Override
     public void addSquadron(final Squadron squadron) {
-        if (canAdd(squadron)) {   //Make sure the squadron is actuall deployed at the airbase.
+        if (canAdd(squadron)) {   //Make sure the squadron is actually deployed at the airbase.
             squadrons.add(squadron);
             SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_PATROL);
             squadron.setSquadronState(state);
@@ -201,6 +199,20 @@ public class AswPatrol implements Patrol {
     }
 
     /**
+     * Clear all of the squadrons from this patrol.
+     */
+    @Override
+    public void clearSquadrons() {
+        squadrons.forEach(squadron -> {
+            SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_PATROL);
+            squadron.setSquadronState(state);
+            updateMaxRadius();
+        });
+
+        squadrons.clear();
+    }
+
+    /**
      * Get the patrol data that corresponds to the given radius. This is the
      * data for a patrol that takes place at the given radius.
      *
@@ -220,19 +232,6 @@ public class AswPatrol implements Patrol {
     }
 
     /**
-     * Get a squadron map to aid in determine which squadrons of the airfield
-     * are on ASW patrol.
-     *
-     * @param squadronList The airfield squadrons.
-     * @return A map of squadron name to squadron.
-     */
-    private Map<String, Squadron> getSquadronMap(final List<Squadron> squadronList) {
-        return squadronList
-                .stream()
-                .collect(Collectors.toMap(Squadron::getName, squadron -> squadron));
-    }
-
-    /**
      * Determine if the squadron may be added to the patrol.
      *
      * @param squadron The squadron that is potentially added to the patrol.
@@ -244,7 +243,7 @@ public class AswPatrol implements Patrol {
 
     /**
      * Update this search's maximum search radius. If the newly added squadron has a greater
-     * readius then the current maximum search radius, then this squadron's search radius
+     * radius then the current maximum search radius, then this squadron's search radius
      * is the new maximum search radius.
      *
      */

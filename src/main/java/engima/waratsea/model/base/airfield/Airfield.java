@@ -9,6 +9,8 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
+import engima.waratsea.model.base.airfield.mission.Mission;
+import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolFactory;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
@@ -46,6 +48,7 @@ import java.util.stream.Stream;
 public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
     private final PatrolFactory patrolFactory;
+    private final MissionDAO missionDAO;
 
     @Getter
     private final Side side;
@@ -66,7 +69,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     private final int maxCapacity;   //Capacity in steps.
 
     @Getter
-    private final int antiAir;
+    private final int antiAirRating;
 
     @Getter
     private final String reference; // A simple string is used to prevent circular logic on mapping names and references.
@@ -75,14 +78,19 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     @Setter
     private int capacity;           //Capacity in steps.
 
-    private Map<Nation, Region> regions = new HashMap<>();
+    private final Map<Nation, Region> regions = new HashMap<>();
 
     @Getter
-    private List<Squadron> squadrons = new ArrayList<>();
+    private final List<Squadron> squadrons = new ArrayList<>();
 
-    private Map<AircraftType, List<Squadron>> squadronMap = new LinkedHashMap<>();
+    @Getter
+    private List<Mission> missions;
 
-    private Map<PatrolType, Patrol> patrolMap = new HashMap<>();
+    private final Map<String, Squadron> squadronNameMap = new HashMap<>();
+
+    private final Map<AircraftType, List<Squadron>> squadronMap = new LinkedHashMap<>();
+
+    private final Map<PatrolType, Patrol> patrolMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -90,13 +98,16 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param data The airfield data read in from a JSON file.
      * @param squadronFactory Squadron factory.
      * @param patrolFactory Patrol factory.
+     * @param missionDAO Mission data access object.
      */
     @Inject
     public Airfield(@Assisted final AirfieldData data,
                     final SquadronFactory squadronFactory,
-                    final PatrolFactory patrolFactory) {
+                    final PatrolFactory patrolFactory,
+                    final MissionDAO missionDAO) {
 
         this.patrolFactory = patrolFactory;
+        this.missionDAO = missionDAO;
 
         this.side = data.getSide();
         name = data.getName();
@@ -105,7 +116,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         airfieldType = determineType();
         maxCapacity = data.getMaxCapacity();
         capacity = maxCapacity;
-        antiAir = data.getAntiAir();
+        antiAirRating = data.getAntiAir();
         reference = data.getLocation();
 
         // Initialize the squadron list for each type of aircraft.
@@ -115,6 +126,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                 .forEach(type -> squadronMap.put(type, new ArrayList<>()));
 
         buildSquadrons(data.getSquadrons(), squadronFactory);
+        buildMissions(data);
         buildPatrols(data);
     }
 
@@ -132,10 +144,11 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         data.setLandingType(landingType);
         data.setMaxCapacity(maxCapacity);
         data.setCapacity(capacity);
-        data.setAntiAir(antiAir);
+        data.setAntiAir(antiAirRating);
         data.setLocation(reference);
 
         data.setSquadrons(PersistentUtility.getData(squadrons));
+        data.setMissions(PersistentUtility.getData(missions));
         data.setAswPatrol(patrolMap.get(PatrolType.ASW).getData());
         data.setCapPatrol(patrolMap.get(PatrolType.CAP).getData());
         data.setSearchPatrol(patrolMap.get(PatrolType.SEARCH).getData());
@@ -166,6 +179,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param nation The nation.
      * @return The region that corresponds to the given nation.
      */
+    @Override
     public Region getRegion(final Nation nation) {
         return regions.get(nation);
     }
@@ -185,6 +199,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      *
      * @return A set of the airfield's nations.
      */
+    @Override
     public Set<Nation> getNations() {
         return regions.keySet();
     }
@@ -231,7 +246,57 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                 .get(squadron.getType())
                 .remove(squadron);
 
+        squadronNameMap.remove(squadron.getName());
+
         squadron.setAirfield(null);
+    }
+
+    /**
+     * Get the airfield's missions for the given nation.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return A list of missions for the given nation.
+     */
+    @Override
+    public List<Mission> getMissions(final Nation nation) {
+        return missions
+                .stream()
+                .filter(mission -> mission.getNation() == nation)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Add a mission to this air base.
+     *
+     * @param mission The mission that is added to this airbase.
+     */
+    @Override
+    public void addMission(final Mission mission) {
+        missions.add(mission);
+        mission.addSquadrons();
+    }
+
+    /**
+     * Remove a misson from this air base.
+     *
+     * @param mission The mission that is removed from this airbase.
+     */
+    @Override
+    public void removeMission(final Mission mission) {
+        missions.remove(mission);
+        mission.removeSquadrons();
+    }
+
+    /**
+     * Clear all of the patrols and missions on this airbase.
+     */
+    @Override
+    public void clearPatrolsAndMissions() {
+
+        patrolMap.forEach((patrolType, patrol) -> patrol.clearSquadrons());
+
+        missions.forEach(Mission::removeSquadrons);
+        missions.clear();
     }
 
     /**
@@ -264,11 +329,24 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
+     * Get the squadron given its name.
+     *
+     * @param squadronName The squadron name.
+     * @return The squadron that corresponds to the given squadron name.
+     */
+    @Override
+    public Squadron getSquadron(final String squadronName) {
+        return squadronNameMap.get(squadronName);
+    }
+
+
+    /**
      * Get the list of squadrons for the given nation.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
      * @return The squadron list for the given nation.
      */
+    @Override
     public List<Squadron> getSquadrons(final Nation nation) {
         return squadrons
                 .stream()
@@ -283,6 +361,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param state The squadron state.
      * @return A list of squadron for the given nation and given state.
      */
+    @Override
     public List<Squadron> getSquadrons(final Nation nation, final SquadronState state) {
         return squadrons
                 .stream()
@@ -338,7 +417,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         return title;
     }
 
-
     /**
      * Determine if the given squadron can land at this airfield.
      *
@@ -349,7 +427,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         return landingType.contains(squadron.getLandingType());
     }
 
-
     /**
      * Get a list of squadrons for the given nation that can perform the given patrol type.
      *
@@ -357,6 +434,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param patrolType The type of patrol.
      * @return A list of squadrons for the given nation that can perform the given patrol.
      */
+    @Override
     public List<Squadron> getReadySquadrons(final Nation nation, final PatrolType patrolType) {
         return getSquadrons(nation)
                 .stream()
@@ -374,7 +452,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     public Patrol getPatrol(final PatrolType patrolType) {
         return patrolMap.get(patrolType);
     }
-
 
     /**
      * Get a map of patrol maximum radius to list of patrols.
@@ -401,6 +478,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param squadronOnPatrol A list of potential squadrons on patrol.
      * @return A patrol consisting of the given squadrons.
      */
+    @Override
     public Patrol getTemporaryPatrol(final PatrolType patrolType, final List<Squadron> squadronOnPatrol) {
         PatrolData data = new PatrolData();
         data.setAirbase(this);
@@ -449,6 +527,21 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                 .stream()
                 .map(squadronData -> factory.create(side, squadronData.getNation(), squadronData))
                 .forEach(this::stationSquadron);
+    }
+
+    /**
+     * Build the airfield's missions. This is only valid for saved games where the airfield missions
+     * are already known.
+     *
+     * @param data The airfield data read in from a JSON file.
+     */
+    private void buildMissions(final AirfieldData data) {
+         missions = Optional.ofNullable(data.getMissions())
+                 .orElseGet(Collections::emptyList)
+                 .stream()
+                 .map(missionData -> missionData.setAirbase(this))
+                 .map(missionDAO::load)
+                 .collect(Collectors.toList());
     }
 
     /**
@@ -531,6 +624,8 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         squadronMap
                 .get(squadron.getType())
                 .add(squadron);
+
+        squadronNameMap.put(squadron.getName(), squadron);
     }
 
     /**

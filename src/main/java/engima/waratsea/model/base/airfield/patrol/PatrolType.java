@@ -17,9 +17,7 @@ public enum PatrolType {
         titleMap.put(AswPatrol.class, "ASW");
         titleMap.put(CapPatrol.class, "CAP");
         titleMap.put(SearchPatrol.class, "Search");
-    }
 
-    static {
         typeMap.put(AswPatrol.class, ASW);
         typeMap.put(CapPatrol.class, CAP);
         typeMap.put(SearchPatrol.class, SEARCH);

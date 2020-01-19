@@ -3,6 +3,7 @@ package engima.waratsea.model.taskForce;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
+import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Side;
@@ -261,6 +262,20 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
      */
     public Ship getShip(final String shipName) {
         return shipMap.get(shipName);
+    }
+
+    /**
+     * Get the task force landing types supported. The list should be empty except for task forces that
+     * contain aircraft carriers, including seaplane carriers.
+     *
+     * @return A list of the landing type's supported by this task force.
+     */
+    public List<LandingType> getLandingType() {
+        return aircraftCarriers
+                .stream()
+                .flatMap(carrier -> carrier.getLandingType().stream())
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     /**

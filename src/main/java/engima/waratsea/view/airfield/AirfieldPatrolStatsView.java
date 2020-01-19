@@ -1,7 +1,7 @@
 package engima.waratsea.view.airfield;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
@@ -31,7 +31,7 @@ public class AirfieldPatrolStatsView {
     private final ImageResourceProvider imageProvider;
 
     @Setter
-    private Airfield airfield;
+    private Airbase airfield;
 
     @Setter
     private PatrolType patrolType;

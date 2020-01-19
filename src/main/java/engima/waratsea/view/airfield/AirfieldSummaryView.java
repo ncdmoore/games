@@ -2,7 +2,7 @@ package engima.waratsea.view.airfield;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.LandingType;
-import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
@@ -31,7 +31,7 @@ public class AirfieldSummaryView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
 
-    private Airfield airfield;
+    private Airbase airbase;
 
     private TitledGridPane airfieldPatrol;
     private TitledGridPane ready;
@@ -50,13 +50,13 @@ public class AirfieldSummaryView {
     }
 
     /**
-     * Set the airfield.
+     * Set the air base.
      *
-     * @param field The airfield.
+     * @param base The air base.
      * @return The airfield patrol view.
      */
-    public AirfieldSummaryView setAirfield(final Airfield field) {
-        this.airfield = field;
+    public AirfieldSummaryView setAirfield(final Airbase base) {
+        this.airbase = base;
         return this;
     }
 
@@ -67,7 +67,7 @@ public class AirfieldSummaryView {
      * @return The node containing the airfield summary.
      */
     public Node show(final Nation nation) {
-        AirfieldType airfieldType = airfield.getAirfieldType();
+        AirfieldType airfieldType = airbase.getAirfieldType();
 
         ImageView airfieldView = imageResourceProvider.getImageView(nation + "Airfield" + airfieldType + "Details.png");
 
@@ -115,7 +115,7 @@ public class AirfieldSummaryView {
      */
     private TitledPane buildAirfieldTitle() {
         TitledPane titledPane = new TitledPane();
-        titledPane.setText(airfield.getTitle());
+        titledPane.setText(airbase.getTitle());
         titledPane.setId("airfield-title-pane");
         return titledPane;
     }
@@ -143,22 +143,22 @@ public class AirfieldSummaryView {
     private Map<String, String> getAirfieldDetails(final Nation nation) {
         Map<String, String> details = new LinkedHashMap<>();
 
-        if (airfield.getRegion(nation).getMax() == 0) {
+        if (airbase.getRegion(nation).getMax() == 0) {
             details.put("Max Region Capacity:", "-");
         } else {
-            details.put("Max Region Capacity:", airfield.getRegion(nation).getMax() + "");
+            details.put("Max Region Capacity:", airbase.getRegion(nation).getMax() + "");
         }
 
-        if (airfield.getRegion(nation).getMin() == 0) {
+        if (airbase.getRegion(nation).getMin() == 0) {
             details.put("Min Region Capacity:", "-");
         } else {
-            details.put("Min Region Capacity:", airfield.getRegion(nation).getMin() + "");
+            details.put("Min Region Capacity:", airbase.getRegion(nation).getMin() + "");
         }
 
-        details.put("Max Capacity:", airfield.getMaxCapacity() + "");
-        details.put("Current Capacity:", airfield.getCapacity() + "");
-        details.put("Current deployed:", airfield.getCurrentSteps() + "");
-        details.put("AA Rating:", airfield.getAntiAir() + "");
+        details.put("Max Capacity:", airbase.getMaxCapacity() + "");
+        details.put("Current Capacity:", airbase.getCapacity() + "");
+        details.put("Current deployed:", airbase.getCurrentSteps() + "");
+        details.put("AA Rating:", airbase.getAntiAirRating() + "");
 
         return details;
     }
@@ -237,7 +237,7 @@ public class AirfieldSummaryView {
      */
     private CheckBox buildCheckBox(final LandingType landingType) {
         CheckBox checkBox = new CheckBox(landingType.toString());
-        if (airfield.getLandingType().contains(landingType)) {
+        if (airbase.getLandingType().contains(landingType)) {
             checkBox.setSelected(true);
         }
         checkBox.setDisable(true);
@@ -253,7 +253,7 @@ public class AirfieldSummaryView {
      * type of squadron.
      */
     private Map<String, String> getAirfieldSummary(final Nation nation) {
-        Map<SquadronViewType, Integer> numMap = airfield.getSquadrons(nation)
+        Map<SquadronViewType, Integer> numMap = airbase.getSquadrons(nation)
                 .stream()
                 .collect(Collectors.toMap(squadron -> SquadronViewType.get(squadron.getType()),
                         squadron -> 1,
@@ -284,7 +284,7 @@ public class AirfieldSummaryView {
     private Map<String, String> getAirfieldPatrolSummary(final Nation nation) {
         return Stream.of(PatrolType.values()).sorted().collect(Collectors.toMap(
                 patrolType -> patrolType.getValue() + ":",
-                patrolType -> airfield
+                patrolType -> airbase
                         .getPatrol(patrolType)
                         .getSquadrons(nation)
                         .size() + "",
@@ -299,7 +299,7 @@ public class AirfieldSummaryView {
      * @return A map of squadron view types to number of ready squadrons of that type.
      */
     private Map<String, String> getAirfieldReadySummary(final Nation nation) {
-         Map<SquadronViewType, Integer> readyMap = airfield.getSquadrons(nation, SquadronState.READY)
+         Map<SquadronViewType, Integer> readyMap = airbase.getSquadrons(nation, SquadronState.READY)
                 .stream()
                 .collect(Collectors.toMap(squadron -> SquadronViewType.get(squadron.getType()),
                                           squadron -> 1,

@@ -49,12 +49,10 @@ public class SearchPatrol implements Patrol {
 
         airbase = data.getAirbase();
 
-        Map<String, Squadron> squadronMap = getSquadronMap(data.getAirbase().getSquadrons());
-
         squadrons = Optional.ofNullable(data.getSquadrons())
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(squadronMap::get)
+                .map(airbase::getSquadron)
                 .collect(Collectors.toList());
 
         updateMaxRadius();
@@ -194,6 +192,20 @@ public class SearchPatrol implements Patrol {
     }
 
     /**
+     * Clear all of the squadrons from this patrol.
+     */
+    @Override
+    public void clearSquadrons() {
+        squadrons.forEach(squadron -> {
+            SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_PATROL);
+            squadron.setSquadronState(state);
+            updateMaxRadius();
+        });
+
+        squadrons.clear();
+    }
+
+    /**
      * Get the patrol data that corresponds to the given radius. This is the
      * data for a patrol that takes place at the given radius.
      *
@@ -210,19 +222,6 @@ public class SearchPatrol implements Patrol {
         data.put("No Weather", rules.getBaseSearchSuccessNoWeather(radius, inRange) + "%");
 
         return data;
-    }
-
-    /**
-     * Get a squadron map to aid in determine which squadrons of the airfield
-     * are on search patrol.
-     *
-     * @param squadronList The airfield squadrons.
-     * @return A map of squadron name to squadron.
-     */
-    private Map<String, Squadron> getSquadronMap(final List<Squadron> squadronList) {
-        return squadronList
-                .stream()
-                .collect(Collectors.toMap(Squadron::getName, squadron -> squadron));
     }
 
     /**

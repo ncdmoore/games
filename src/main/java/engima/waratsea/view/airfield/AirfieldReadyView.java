@@ -2,7 +2,7 @@ package engima.waratsea.view.airfield;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronState;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class AirfieldReadyView {
     private final ViewProps props;
 
-    private Airfield airfield;
+    private Airbase airbase;
 
     @Getter
     private final Map<SquadronViewType, ListView<Squadron>> readyLists = new HashMap<>();
@@ -55,11 +55,11 @@ public class AirfieldReadyView {
     /**
      * Set the airfield.
      *
-     * @param field The airfield.
+     * @param base The airbase.
      * @return The airfield patrol view.
      */
-    public AirfieldReadyView setAirfield(final Airfield field) {
-        this.airfield = field;
+    public AirfieldReadyView setAirbase(final Airbase base) {
+        this.airbase = base;
         return this;
     }
 
@@ -75,7 +75,7 @@ public class AirfieldReadyView {
 
         titledPane.setText("Ready");
 
-        Map<SquadronViewType, List<Squadron>> squadrons = airfield.getSquadronMap(nation, SquadronState.READY)
+        Map<SquadronViewType, List<Squadron>> squadrons = airbase.getSquadronMap(nation, SquadronState.READY)
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(e -> SquadronViewType.get(e.getKey()),
@@ -111,6 +111,19 @@ public class AirfieldReadyView {
         titledPane.setContent(vBox);
 
         return titledPane;
+    }
+
+    /**
+     * Get a list of all the currently ready (available) squadrons.
+     *
+     * @return A list of all the ready squadrons.
+     */
+    public List<Squadron> getReady() {
+        return readyLists
+                .entrySet()
+                .stream()
+                .flatMap(e -> e.getValue().getItems().stream())
+                .collect(Collectors.toList());
     }
 
     /**

@@ -11,6 +11,10 @@ import engima.waratsea.model.aircraft.Fighter;
 import engima.waratsea.model.aircraft.PoorNavalBomber;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
+import engima.waratsea.model.base.airfield.mission.LandStrike;
+import engima.waratsea.model.base.airfield.mission.NavalPortStrike;
+import engima.waratsea.model.base.airfield.mission.SweepAirfield;
+import engima.waratsea.model.base.airfield.mission.SweepPort;
 import engima.waratsea.model.base.airfield.patrol.rules.AirAswRules;
 import engima.waratsea.model.base.airfield.patrol.rules.AirCapRules;
 import engima.waratsea.model.base.airfield.patrol.rules.AirRules;
@@ -162,6 +166,16 @@ public class TestModule extends AbstractModule {
 
 
         install(new FactoryModuleBuilder().implement(Airfield.class, Airfield.class).build(AirfieldFactory.class));
+
+        install(new FactoryModuleBuilder()
+                .implement(engima.waratsea.model.base.airfield.mission.Mission.class, Names.named("ferry"), engima.waratsea.model.base.airfield.mission.Ferry.class)
+                .implement(engima.waratsea.model.base.airfield.mission.Mission.class, Names.named("landStrike"), LandStrike.class)
+                .implement(engima.waratsea.model.base.airfield.mission.Mission.class, Names.named("navalPortStrike"), NavalPortStrike.class)
+                .implement(engima.waratsea.model.base.airfield.mission.Mission.class, Names.named("sweepAirfield"), SweepAirfield.class)
+                .implement(engima.waratsea.model.base.airfield.mission.Mission.class, Names.named("sweepPort"), SweepPort.class)
+
+                .build(engima.waratsea.model.base.airfield.mission.MissionFactory.class));
+
         install(new FactoryModuleBuilder()
                 .implement(Patrol.class, Names.named("search"), SearchPatrol.class)
                 .implement(Patrol.class, Names.named("asw"), AswPatrol.class)

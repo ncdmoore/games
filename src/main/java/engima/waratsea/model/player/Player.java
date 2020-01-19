@@ -1,6 +1,7 @@
 package engima.waratsea.model.player;
 
 import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.enemy.views.airfield.AirfieldView;
 import engima.waratsea.model.enemy.views.port.PortView;
@@ -13,6 +14,7 @@ import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.victory.VictoryException;
 
@@ -183,6 +185,21 @@ public interface Player {
     Map<String, AirfieldView> getEnemyAirfieldMap();
 
     /**
+     * Get the friendly airfield targets for the given nation.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return A list of friendly airfield targets.
+     */
+    List<Target> getFriendlyAirfieldTargets(Nation nation);
+
+    /**
+     * Get the enemy airfield targets.
+     *
+     * @return A list of enemy airfield targets.
+     */
+    List<Target> getEnemyAirfieldTargets();
+
+    /**
      * This gets the player's ports.
      *
      * @return The player's ports.
@@ -202,6 +219,29 @@ public interface Player {
      * @return The enemy player's port map.
      */
     Map<String, PortView> getEnemyPortMap();
+
+    /**
+     * Get the enemy port targets.
+     *
+     * @return A list of enemy port targets.
+     */
+    List<Target> getEnemyPortTargets();
+
+    /**
+     * Get the enemy task force targets.
+     *
+     * @return A list of enemy task force targets.
+     */
+    List<Target> getEnemyTaskForceTargets();
+
+    /**
+     * Get a list of targets for the given mission type.
+     *
+     * @param missionType The type of mission.
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return A list of targets for the given mission type.
+     */
+    List<Target> getTargets(MissionType missionType, Nation nation);
 
     /**
      * This gets the player's minefields.

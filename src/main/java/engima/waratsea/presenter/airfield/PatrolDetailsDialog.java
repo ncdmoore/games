@@ -22,6 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controls the patrol details dialog shown when a patrol radius circle is clicked on the main game map.
+ */
 @Slf4j
 public class PatrolDetailsDialog {
     private static final String CSS_FILE = "patrolDetails.css";

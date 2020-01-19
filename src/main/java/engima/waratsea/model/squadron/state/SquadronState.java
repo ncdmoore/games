@@ -41,7 +41,7 @@ public enum SquadronState {
          * @return The new squadron state.
          */
         public SquadronState transition(final SquadronAction action) {
-            return queuedForMissionMap.getOrDefault(action, QUEUED_FOR_PATROL);
+            return queuedForMissionMap.getOrDefault(action, QUEUED_FOR_MISSION);
         }
     },
 

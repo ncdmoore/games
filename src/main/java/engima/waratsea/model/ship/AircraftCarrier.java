@@ -7,23 +7,33 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.AirfieldType;
+import engima.waratsea.model.base.airfield.mission.Mission;
+import engima.waratsea.model.base.airfield.patrol.Patrol;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.ship.data.GunData;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
 import engima.waratsea.model.squadron.data.SquadronData;
+import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -93,13 +103,21 @@ public class AircraftCarrier implements Ship, Airbase {
     @Getter
     private AircraftCapacity aircraftCapacity;
 
+    @Getter
     private List<LandingType> landingType;
 
     @Getter
     private List<Squadron> squadrons;
 
+    private Map<String, Squadron> squadronNameMap = new HashMap<>();
+
+    private final Map<AircraftType, List<Squadron>> squadronMap = new LinkedHashMap<>();
+
     @Getter
     private Map<AircraftType, List<Squadron>> aircraftTypeMap;
+
+    @Getter
+    private List<Mission> missions;
 
     /**
      * Constructor called by guice.
@@ -136,6 +154,12 @@ public class AircraftCarrier implements Ship, Airbase {
 
         landingType = Optional.ofNullable(data.getLandingType())
                         .orElseGet(Collections::emptyList);
+
+        // Initialize the squadron list for each type of aircraft.
+        Stream
+                .of(AircraftType.values())
+                .sorted()
+                .forEach(aircraftType -> squadronMap.put(aircraftType, new ArrayList<>()));
 
         buildSquadrons(data.getAircraft(), factory);
     }
@@ -229,6 +253,19 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
+     * Get the current number of steps deployed at this air base.
+     *
+     * @return The current number of steps deployed at this air base.
+     */
+    @Override
+    public BigDecimal getCurrentSteps() {
+        return squadrons
+                .stream()
+                .map(Squadron::getSteps)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    /**
      * Indicates if this airbase has any squadrons.
      *
      * @return True if any squadron is based at this airbase. False otherwise.
@@ -239,6 +276,84 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
+     * Get the squadron given its name.
+     *
+     * @param squadronName The squadron name.
+     * @return The squadron that corresponds to the given squadron name.
+     */
+    @Override
+    public Squadron getSquadron(final String squadronName) {
+        return squadronNameMap.get(squadronName);
+    }
+
+    /**
+     * Get the list of squadrons for the given nation.
+     *
+     * @param squadronNation The nation: BRITISH, ITALIAN, etc.
+     * @return The squadron list for the given nation.
+     */
+    @Override
+    public List<Squadron> getSquadrons(final Nation squadronNation) {
+        return squadrons
+                .stream()
+                .filter(squadron -> squadron.ofNation(nation))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get the list of squadrons for the given nation and given state.
+     *
+     * @param squadronNation The nation: BRITISH, ITALIAN, etc.
+     * @param state The squadron state.
+     * @return A list of squadron for the given nation and given state.
+     */
+    @Override
+    public List<Squadron> getSquadrons(final Nation squadronNation, final SquadronState state) {
+        return squadrons
+                .stream()
+                .filter(squadron -> squadron.ofNation(squadronNation))
+                .filter(squadron -> squadron.getSquadronState() == state)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get a list of squadrons for the given nation that can perform the given patrol type.
+     *
+     * @param squadronNation     The nation: BRITISH, ITALIAN, etc.
+     * @param patrolType The type of patrol.
+     * @return A list of squadrons for the given nation that can perform the given patrol.
+     */
+    @Override
+    public List<Squadron> getReadySquadrons(final Nation squadronNation, final PatrolType patrolType) {
+        return getSquadrons(squadronNation)
+                .stream()
+                .filter(squadron -> squadron.canDoPatrol(patrolType))
+                .filter(Squadron::isReady)
+                .collect(Collectors.toList());    }
+
+    /**
+     * Get the squadron map for the given nation and given squadron state.
+     *
+     * @param squadronNation The nation: BRITISH, ITALIAN, etc.
+     * @param state  The squadron state.
+     * @return The squadron map keyed by aircraft type for the given nation and given squadron state.
+     */
+    public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation squadronNation, final SquadronState state) {
+        return squadronMap
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey,
+                        entry -> entry
+                                .getValue()
+                                .stream()
+                                .filter(squadron -> squadron.ofNation(nation))
+                                .filter(squadron -> squadron.getSquadronState() == state)
+                                .collect(Collectors.toList()),
+                        (oldList, newList) -> oldList,
+                        LinkedHashMap::new));
+    }
+
+    /**
      * Get the ship's side: ALLIES or AXIS.
      *
      * @return The ship's side.
@@ -246,6 +361,27 @@ public class AircraftCarrier implements Ship, Airbase {
     @Override
     public Side getSide() {
         return shipId.getSide();
+    }
+
+    /**
+     * Get the air base's nations.
+     *
+     * @return The air base's nations.
+     */
+    @Override
+    public Set<Nation> getNations() {
+        return new HashSet<>(Collections.singletonList(nation));
+    }
+
+    /**
+     * Get the given nations region.
+     *
+     * @param squadronNation The nation.
+     * @return The region that corresponds to the given nation.
+     */
+    @Override
+    public Region getRegion(final Nation squadronNation) {
+        return null; // Aircarft carrier's do not have regions.
     }
 
     /**
@@ -345,6 +481,14 @@ public class AircraftCarrier implements Ship, Airbase {
 
         if (result == AirfieldOperation.SUCCESS) {
             squadrons.add(squadron);
+
+            squadron.setAirfield(this);
+
+            squadronMap
+                    .get(squadron.getType())
+                    .add(squadron);
+
+            squadronNameMap.put(squadron.getName(), squadron);
         }
 
         return result;
@@ -358,6 +502,90 @@ public class AircraftCarrier implements Ship, Airbase {
     @Override
     public void removeSquadron(final Squadron squadron) {
         squadrons.remove(squadron);
+
+        squadronMap
+                .get(squadron.getType())
+                .remove(squadron);
+
+        squadronNameMap.remove(squadron.getName());
+
+        squadron.setAirfield(null);
+    }
+
+    /**
+     * Get the current missions of this air base.
+     *
+     * @param squadronNation The nation: BRITISH, ITALIAN, etc...
+     * @return A list of the current missions.
+     */
+    @Override
+    public List<Mission> getMissions(final Nation squadronNation) {
+        return missions
+                .stream()
+                .filter(mission -> mission.getNation() == nation)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Add a mission to this air base.
+     *
+     * @param mission The mission that is added to this airbase.
+     */
+    @Override
+    public void addMission(final Mission mission) {
+
+    }
+
+    /**
+     * Remove a misson from this air base.
+     *
+     * @param mission The mission that is removed from this airbase.
+     */
+    @Override
+    public void removeMission(final Mission mission) {
+
+    }
+
+    /**
+     * Get the Patrol specified by the given patrol type.
+     *
+     * @param patrolType The type of patrol.
+     * @return The Patrol that corresponds to the given patrol type.
+     */
+    @Override
+    public Patrol getPatrol(final PatrolType patrolType) {
+        return null;
+    }
+
+    /**
+     * This is a utility function to aid in determining patrol stats for squadrons that are
+     * selected for a given patrol type but not necessarily committed to the patrol yet.
+     *
+     * @param patrolType       The type of patrol.
+     * @param squadronOnPatrol A list of potential squadrons on patrol.
+     * @return A patrol consisting of the given squadrons.
+     */
+    @Override
+    public Patrol getTemporaryPatrol(final PatrolType patrolType, final List<Squadron> squadronOnPatrol) {
+        return null;
+    }
+
+    /**
+     * Clear all of the patrols and missions on this airbase.
+     */
+    @Override
+    public void clearPatrolsAndMissions() {
+
+    }
+
+    /**
+     * Get the air base's anti aircraft rating.
+     *
+     * @return The air base's anti aircraft rating.
+     */
+    @Override
+    public int getAntiAirRating() {
+        return antiAir.getHealth();
     }
 
     /**

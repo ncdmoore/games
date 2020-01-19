@@ -2,7 +2,7 @@ package engima.waratsea.view.airfield;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
@@ -29,10 +29,9 @@ import java.util.stream.Stream;
  */
 public class AirfieldPatrolView {
 
-    private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
 
-    private Airfield airfield;
+    private Airbase airbase;
 
     private final Map<PatrolType, ListViewPair<Squadron>> patrolListMap = new HashMap<>();
     private final Map<PatrolType, SquadronSummaryView> patrolSquadronMap = new HashMap<>();
@@ -51,27 +50,26 @@ public class AirfieldPatrolView {
                               final ViewProps props,
                               final Provider<AirfieldPatrolStatsView> airfieldPatrolStatsViewProvider,
                               final Provider<SquadronSummaryView> squadronSummaryViewProvider) {
-        this.imageResourceProvider = imageResourceProvider;
         this.props = props;
 
         Stream.of(PatrolType.values()).forEach(patrolType -> {
-            patrolListMap.put(patrolType, new ListViewPair<>("patrol"));
+            patrolListMap.put(patrolType, new ListViewPair<>("patrol", imageResourceProvider));
             patrolSquadronMap.put(patrolType, squadronSummaryViewProvider.get());
             patrolStatsMap.put(patrolType, airfieldPatrolStatsViewProvider.get());
         });
     }
 
     /**
-     * Set the airfield.
+     * Set the air base.
      *
-     * @param field The airfield.
+     * @param base The air base.
      * @return The airfield patrol view.
      */
-    public AirfieldPatrolView setAirfield(final Airfield field) {
-        this.airfield = field;
+    public AirfieldPatrolView setAirbase(final Airbase base) {
+        this.airbase = base;
 
         patrolStatsMap.forEach((type, view) -> {
-            view.setAirfield(airfield);
+            view.setAirfield(airbase);
             view.setPatrolType(type);
         });
 
@@ -151,14 +149,7 @@ public class AirfieldPatrolView {
      */
     public Squadron assignPatrol(final PatrolType patrolType) {
         Squadron squadron = getAvailableSquadron(patrolType);
-
         patrolListMap.get(patrolType).add(squadron);
-
-        Stream.of(PatrolType.values())
-                .filter(type -> type != patrolType)
-                .forEach(type -> patrolListMap.get(type).removeFromAvailable(squadron));
-
-
         return squadron;
     }
 
@@ -171,17 +162,7 @@ public class AirfieldPatrolView {
      */
     public Squadron removePatrol(final PatrolType patrolType) {
         Squadron squadron = getAssignedSquadron(patrolType);
-
         patrolListMap.get(patrolType).remove(squadron);
-
-        Stream.of(PatrolType.values())
-                .filter(type -> type != patrolType)
-                .forEach(type -> {
-                    if (squadron.canDoPatrol(type)) {                          // Only add the squadron if it can
-                        patrolListMap.get(type).addToAvailable(squadron);      // do the patrol type.
-                    }
-                });
-
         return squadron;
     }
 
@@ -245,6 +226,46 @@ public class AirfieldPatrolView {
     }
 
     /**
+     * Add the given squadron to all of the available patrol type lists, except for the given patrol type.
+     *
+     * @param patrolType The patrol type.
+     * @param squadron The squadron to add.
+     */
+    public void addSquadronToPatrolAvailableList(final PatrolType patrolType, final Squadron squadron) {
+        Stream.of(PatrolType.values())
+                .filter(type -> type != patrolType)
+                .forEach(type -> {
+                    if (squadron.canDoPatrol(type)) {                          // Only add the squadron if it can
+                        patrolListMap.get(type).addToAvailable(squadron);      // do the patrol type.
+                    }
+                });
+    }
+
+    /**
+     * Add the given squadron to all of the available patrol type lists.
+     *
+     * @param squadron The squadron to add.
+     */
+    public void addSquadronToPatrolAvailableList(final Squadron squadron) {
+        Stream.of(PatrolType.values())
+                .forEach(type -> {
+                    if (squadron.canDoPatrol(type)) {                          // Only add the squadron if it can
+                        patrolListMap.get(type).addToAvailable(squadron);      // do the patrol type.
+                    }
+                });
+    }
+
+    /**
+     * Remove the given squadron from all of the available patrol type lists.
+     *
+     * @param squadron The squadron that is removed from the patrol available lists.
+     */
+    public void removeSquadronFromPatrolAvailableList(final Squadron squadron) {
+        Stream.of(PatrolType.values())
+                .forEach(type -> patrolListMap.get(type).removeFromAvailable(squadron));
+    }
+
+    /**
      * Build a patrol tab.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
@@ -256,8 +277,6 @@ public class AirfieldPatrolView {
 
         ListViewPair<Squadron> lists = patrolListMap.get(patrolType);
 
-        lists.setImageResourceProvider(imageResourceProvider);
-
         lists.setWidth(props.getInt("airfield.dialog.patrol.list.width"));
         lists.setHeight(props.getInt("airfield.dialog.patrol.list.height"));
         lists.setButtonWidth(props.getInt("airfield.dialog.patrol.button.width"));
@@ -265,8 +284,8 @@ public class AirfieldPatrolView {
         lists.setAssignedTitle(patrolType.getValue() + " Assigned");
 
         lists.clearAll();
-        lists.addAllToAvailable(airfield.getReadySquadrons(nation, patrolType));
-        lists.addAllToAssigned(airfield.getPatrol(patrolType).getSquadrons(nation));
+        lists.addAllToAvailable(airbase.getReadySquadrons(nation, patrolType));
+        lists.addAllToAssigned(airbase.getPatrol(patrolType).getSquadrons(nation));
 
         lists.getAdd().setUserData(patrolType);
         lists.getRemove().setUserData(patrolType);

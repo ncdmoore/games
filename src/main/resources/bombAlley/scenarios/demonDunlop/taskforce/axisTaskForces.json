@@ -64,63 +64,63 @@
       "targets": [
         {
           "type": "SEA_GRID",
-          "location": "AC21"
+          "name": "AC21"
         },
         {
           "type": "SEA_GRID",
-          "location": "AD20"
+          "name": "AD20"
         },
         {
           "type": "SEA_GRID",
-          "location": "AE21"
+          "name": "AE21"
         },
         {
           "type": "SEA_GRID",
-          "location": "AE22"
+          "name": "AE22"
         },
         {
           "type": "SEA_GRID",
-          "location": "AF21"
+          "name": "AF21"
         },
         {
           "type": "SEA_GRID",
-          "location": "AF22"
+          "name": "AF22"
         },
         {
           "type": "SEA_GRID",
-          "location": "AE23"
+          "name": "AE23"
         },
         {
           "type": "SEA_GRID",
-          "location": "AE24"
+          "name": "AE24"
         },
         {
           "type": "SEA_GRID",
-          "location": "AF23"
+          "name": "AF23"
         },
         {
           "type": "SEA_GRID",
-          "location": "AF24"
+          "name": "AF24"
         },
         {
           "type": "SEA_GRID",
-          "location": "AF25"
+          "name": "AF25"
         },
         {
           "type": "SEA_GRID",
-          "location": "AE26"
+          "name": "AE26"
         },
         {
           "type": "SEA_GRID",
-          "location": "AE27"
+          "name": "AE27"
         },
         {
           "type": "SEA_GRID",
-          "location": "AF27"
+          "name": "AF27"
         },
         {
           "type": "SEA_GRID",
-          "location": "AF28"
+          "name": "AF28"
         }
       ]
     },
