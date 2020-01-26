@@ -1,6 +1,7 @@
-package engima.waratsea.view.airfield;
+package engima.waratsea.view.airfield.mission;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.base.airfield.mission.Mission;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
@@ -15,7 +16,7 @@ import javafx.scene.layout.VBox;
 import lombok.Getter;
 
 
-public class MissionAddDetailsView {
+public class MissionEditDetailsView {
 
     private final ViewProps props;
 
@@ -32,6 +33,7 @@ public class MissionAddDetailsView {
     private final Label errorLabel = new Label();
     private final VBox errorVBox = new VBox(errorLabel);
 
+
     /**
      * Constructor called by guice.
      *
@@ -39,15 +41,14 @@ public class MissionAddDetailsView {
      * @param imageResourceProvider Provides images.
      */
     @Inject
-    public MissionAddDetailsView(final ViewProps props,
-                                 final ImageResourceProvider imageResourceProvider) {
+    public MissionEditDetailsView(final ViewProps props,
+                                  final ImageResourceProvider imageResourceProvider) {
         this.props = props;
         missionType.setMinWidth(props.getInt("mission.type.list.width"));
         target.setMinWidth(props.getInt("mission.type.list.width"));
 
         missionList = new ListViewPair<>("missions", imageResourceProvider);
 
-        stackPane.setId("mission-squadron-pane");
         errorLabel.setId("mission-error-text");
         errorVBox.setId("mission-error-vbox");
         errorVBox.setMinWidth(props.getInt("mission.error.box.width"));
@@ -59,11 +60,15 @@ public class MissionAddDetailsView {
     /**
      * Show the airbase mission details.
      *
-     * @param missionTypes a collection of mission types.
+     * @param mission The mission that is edited.
      * @return A node containing the airbase mission details.
      */
-    public Node show(final MissionType... missionTypes) {
-        missionType.getItems().addAll(missionTypes);
+    public Node show(final Mission mission) {
+        missionType.getItems().add(mission.getType());
+        target.getItems().add(mission.getTarget());
+
+        missionType.setDisable(true);
+        target.setDisable(true);
 
         Label missionLabel = new Label("Select Mission Type:");
 

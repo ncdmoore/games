@@ -1,4 +1,4 @@
-package engima.waratsea.view.airfield;
+package engima.waratsea.view.airfield.mission;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.base.airfield.mission.Mission;
@@ -16,7 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
-public class AirfieldMissionView {
+public class MissionView {
 
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
@@ -41,8 +41,8 @@ public class AirfieldMissionView {
      * @param props View properties.
      */
     @Inject
-    public AirfieldMissionView(final ImageResourceProvider imageResourceProvider,
-                               final ViewProps props) {
+    public MissionView(final ImageResourceProvider imageResourceProvider,
+                       final ViewProps props) {
         this.imageResourceProvider = imageResourceProvider;
         this.props = props;
     }

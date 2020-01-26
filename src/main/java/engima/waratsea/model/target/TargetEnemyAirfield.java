@@ -2,10 +2,10 @@ package engima.waratsea.model.target;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.enemy.views.airfield.AirfieldView;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.data.TargetData;
@@ -74,6 +74,16 @@ public class TargetEnemyAirfield implements Target {
     }
 
     /**
+     * Get the underlying object of the target.
+     *
+     * @return The underlying object of the target.
+     */
+    @Override
+    public Object getView() {
+        return getAirfieldView();
+    }
+
+    /**
      * The String representation of this target.
      *
      * @return The String representation.
@@ -81,6 +91,17 @@ public class TargetEnemyAirfield implements Target {
     @Override
     public String toString() {
         return name;
+    }
+
+    /**
+     * Determine if this target is equal or is the same as the given target.
+     *
+     * @param target the target that this target is tested for equality.
+     * @return True if this target is equal to the given target. False, otherwise.
+     */
+    @Override
+    public boolean isEqual(final Target target) {
+        return getAirfieldView() == target.getView();
     }
 
     /**
@@ -100,19 +121,35 @@ public class TargetEnemyAirfield implements Target {
     @Override
     public boolean inRange(final Squadron squadron) {
         String targetReference = gameMap.convertNameToReference(getLocation());
+        String airbaseReference = squadron.getAirfield().getReference();
 
-        GameGrid targetGrid = gameMap.getGrid(targetReference);
-        GameGrid airbaseGrid = gameMap.getGrid(squadron.getAirfield().getReference());
+        return gameMap.inRange(airbaseReference, targetReference, squadron.getMaxRadius());
+    }
 
-        // a^2 + b^2 <= c^2, where a, b and c are the sides of the right triangle.
-        int a = Math.abs(targetGrid.getRow() - airbaseGrid.getRow());
-        int b = Math.abs(targetGrid.getColumn() - airbaseGrid.getColumn());
-        int c = squadron.getMaxRadius() + 1;
+    /**
+     * Get the distance to this target from the given airbase.
+     *
+     * @param airbase The airbase whose distance to target is returned.
+     * @return The distance to this target from the given airbase.
+     */
+    @Override
+    public int getDistance(final Airbase airbase) {
+        String targetReference = gameMap.convertNameToReference(getLocation());
+        String airbaseReference = airbase.getReference();
 
+        return gameMap.determineDistance(targetReference, airbaseReference);
+    }
 
-        log.info("a: {} ,b: {}, c: {}", new Object[]{a, b, c});
-
-        return (a * a) + (b * b) <= (c * c);
+    /**
+     * Get the total number of squadron steps that assigned this target.
+     *
+     * @return The total number of squadron steps that are assigned this target.
+     */
+    @Override
+    public int getTotalSteps() {
+        return game
+                .getPlayer(side)
+                .getTotalSteps(this);
     }
 
     /**

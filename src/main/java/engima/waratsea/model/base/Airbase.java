@@ -12,6 +12,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronState;
+import engima.waratsea.model.target.Target;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -187,6 +188,16 @@ public interface Airbase extends Base {
      * @param mission The mission that is removed from this airbase.
      */
     void removeMission(Mission mission);
+
+    /**
+     * Get the total number of squadron steps on a mission of the given type
+     * that are assigned to the given target. This is the total number of squadron steps
+     * from all missions of the same type that have the given target as their target.
+     *
+     * @param target The ferry mission destination.
+     * @return The total number of steps being ferried to the given target.
+     */
+    int getTotalSteps(Target target);
 
     /**
      * Get the Patrol specified by the given patrol type.

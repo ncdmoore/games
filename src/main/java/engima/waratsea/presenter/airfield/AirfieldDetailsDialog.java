@@ -15,8 +15,8 @@ import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.AirfieldDetailsView;
-import engima.waratsea.view.airfield.AirfieldMissionView;
-import engima.waratsea.view.airfield.AirfieldPatrolView;
+import engima.waratsea.view.airfield.mission.MissionView;
+import engima.waratsea.view.airfield.patrol.PatrolView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.squadron.SquadronViewType;
 import javafx.event.ActionEvent;
@@ -263,7 +263,7 @@ public class AirfieldDetailsDialog {
      * @param nation The nation: BRITISH, ITALIAN, etc...
      */
     private void registerMissionHandlers(final Nation nation) {
-        AirfieldMissionView missionView = view
+        MissionView missionView = view
                 .getAirfieldMissionView()
                 .get(nation);
 
@@ -290,7 +290,7 @@ public class AirfieldDetailsDialog {
     private void registerPatrolHandlers() {
         airbase.getNations().forEach(nation -> {
 
-            AirfieldPatrolView patrolView = view
+            PatrolView patrolView = view
                     .getAirfieldPatrolView()
                     .get(nation);
 

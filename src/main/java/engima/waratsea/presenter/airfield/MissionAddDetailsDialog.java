@@ -14,7 +14,7 @@ import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.airfield.MissionAddDetailsView;
+import engima.waratsea.view.airfield.mission.MissionAddDetailsView;
 import javafx.event.ActionEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;

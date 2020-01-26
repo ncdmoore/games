@@ -5,6 +5,8 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.view.airfield.mission.MissionView;
+import engima.waratsea.view.airfield.patrol.PatrolView;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Tab;
@@ -25,8 +27,8 @@ public class AirfieldDetailsView {
 
     private final ImageResourceProvider imageResourceProvider;
     private final Provider<AirfieldSummaryView> airfieldSummaryViewProvider;
-    private final Provider<AirfieldMissionView> airfieldMissionViewProvider;
-    private final Provider<AirfieldPatrolView> airfieldPatrolViewProvider;
+    private final Provider<MissionView> airfieldMissionViewProvider;
+    private final Provider<PatrolView> airfieldPatrolViewProvider;
     private final Provider<AirfieldReadyView> airfieldReadyViewProvider;
 
     private Airbase airbase;
@@ -38,10 +40,10 @@ public class AirfieldDetailsView {
     private final Map<Nation, AirfieldSummaryView> airfieldSummaryView = new HashMap<>();
 
     @Getter
-    private final Map<Nation, AirfieldMissionView> airfieldMissionView = new HashMap<>();
+    private final Map<Nation, MissionView> airfieldMissionView = new HashMap<>();
 
     @Getter
-    private final Map<Nation, AirfieldPatrolView> airfieldPatrolView = new HashMap<>();
+    private final Map<Nation, PatrolView> airfieldPatrolView = new HashMap<>();
 
     @Getter
     private final Map<Nation, AirfieldReadyView> airfieldReadyView = new HashMap<>();
@@ -58,8 +60,8 @@ public class AirfieldDetailsView {
     @Inject
     public AirfieldDetailsView(final ImageResourceProvider imageResourceProvider,
                                final Provider<AirfieldSummaryView> airfieldSummaryViewProvider,
-                               final Provider<AirfieldMissionView> airfieldMissionViewProvider,
-                               final Provider<AirfieldPatrolView> airfieldPatrolViewProvider,
+                               final Provider<MissionView> airfieldMissionViewProvider,
+                               final Provider<PatrolView> airfieldPatrolViewProvider,
                                final Provider<AirfieldReadyView> airfieldReadyViewProvider) {
         this.imageResourceProvider = imageResourceProvider;
 

@@ -1,4 +1,4 @@
-package engima.waratsea.view.airfield;
+package engima.waratsea.view.airfield.patrol;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.base.Airbase;
@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class AirfieldPatrolStatsView {
+public class PatrolStatsView {
 
     private final ViewProps props;
     private final ImageResourceProvider imageProvider;
@@ -50,9 +50,9 @@ public class AirfieldPatrolStatsView {
      * @param weather The current weather.
      */
     @Inject
-    public AirfieldPatrolStatsView(final ViewProps props,
-                                   final ImageResourceProvider imageProvider,
-                                   final Weather weather) {
+    public PatrolStatsView(final ViewProps props,
+                           final ImageResourceProvider imageProvider,
+                           final Weather weather) {
         this.props = props;
         this.imageProvider = imageProvider;
         this.weather = weather;

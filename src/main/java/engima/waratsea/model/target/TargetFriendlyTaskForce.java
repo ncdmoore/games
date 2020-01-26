@@ -2,9 +2,9 @@ package engima.waratsea.model.target;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.data.TargetData;
@@ -75,6 +75,16 @@ public class TargetFriendlyTaskForce implements Target {
     }
 
     /**
+     * Get the underlying object of the target.
+     *
+     * @return The underlying object of the target.
+     */
+    @Override
+    public Object getView() {
+        return getTaskForce();
+    }
+
+    /**
      * Save any of this object's children persistent data.
      * Not all objects will have children with persistent data.
      */
@@ -94,6 +104,31 @@ public class TargetFriendlyTaskForce implements Target {
     }
 
     /**
+     * Determine if this target is equal or is the same as the given target.
+     *
+     * @param target the target that this target is tested for equality.
+     * @return True if this target is equal to the given target. False, otherwise.
+     */
+    @Override
+    public boolean isEqual(final Target target) {
+        return getTaskForce() == target.getView();
+    }
+
+    /**
+     * Get the distance to this target from the given airbase.
+     *
+     * @param airbase The airbase whose distance to target is returned.
+     * @return The distance to this target from the given airbase.
+     */
+    @Override
+    public int getDistance(final Airbase airbase) {
+        String targetReference = gameMap.convertNameToReference(getLocation());
+        String airbaseReference = airbase.getReference();
+
+        return gameMap.determineDistance(targetReference, airbaseReference);
+    }
+
+    /**
      * Determine if the given squadron is in range of this target.
      *
      * @param squadron The squadron that is determined to be in or out of range of this target.
@@ -109,6 +144,18 @@ public class TargetFriendlyTaskForce implements Target {
     }
 
     /**
+     * Get the total number of squadron steps that assigned this target.
+     *
+     * @return The total number of squadron steps that are assigned this target.
+     */
+    @Override
+    public int getTotalSteps() {
+        return game
+                .getPlayer(side)
+                .getTotalSteps(this);
+    }
+
+    /**
      * Determine if the given squadron is in range of this target.
      *
      * @param squadron The squadron that may or may not be in range of this target.
@@ -116,19 +163,9 @@ public class TargetFriendlyTaskForce implements Target {
      */
     private boolean isInRange(final Squadron squadron) {
         String targetReference = gameMap.convertNameToReference(getLocation());
+        String airbaseReference = squadron.getAirfield().getReference();
 
-        GameGrid targetGrid = gameMap.getGrid(targetReference);
-        GameGrid airbaseGrid = gameMap.getGrid(squadron.getAirfield().getReference());
-
-        // a^2 + b^2 <= c^2, where a, b and c are the sides of the right triangle.
-        int a = Math.abs(targetGrid.getRow() - airbaseGrid.getRow());
-        int b = Math.abs(targetGrid.getColumn() - airbaseGrid.getColumn());
-
-        int c = squadron.getFerryDistance() + 1;
-
-        log.info("a: {} ,b: {}, c: {}", new Object[]{a, b, c});
-
-        return (a * a) + (b * b) <= (c * c);
+        return gameMap.inRange(airbaseReference, targetReference, squadron.getFerryDistance());
     }
 
     /**

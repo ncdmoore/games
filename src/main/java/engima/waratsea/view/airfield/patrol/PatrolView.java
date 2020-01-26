@@ -1,4 +1,4 @@
-package engima.waratsea.view.airfield;
+package engima.waratsea.view.airfield.patrol;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 /**
  * The patrol view of the airfield details dialog.
  */
-public class AirfieldPatrolView {
+public class PatrolView {
 
     private final ViewProps props;
 
@@ -35,7 +35,7 @@ public class AirfieldPatrolView {
 
     private final Map<PatrolType, ListViewPair<Squadron>> patrolListMap = new HashMap<>();
     private final Map<PatrolType, SquadronSummaryView> patrolSquadronMap = new HashMap<>();
-    private final Map<PatrolType, AirfieldPatrolStatsView> patrolStatsMap = new HashMap<>();
+    private final Map<PatrolType, PatrolStatsView> patrolStatsMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -46,10 +46,10 @@ public class AirfieldPatrolView {
      * @param squadronSummaryViewProvider Provides the squadron summary view.
      */
     @Inject
-    public AirfieldPatrolView(final ImageResourceProvider imageResourceProvider,
-                              final ViewProps props,
-                              final Provider<AirfieldPatrolStatsView> airfieldPatrolStatsViewProvider,
-                              final Provider<SquadronSummaryView> squadronSummaryViewProvider) {
+    public PatrolView(final ImageResourceProvider imageResourceProvider,
+                      final ViewProps props,
+                      final Provider<PatrolStatsView> airfieldPatrolStatsViewProvider,
+                      final Provider<SquadronSummaryView> squadronSummaryViewProvider) {
         this.props = props;
 
         Stream.of(PatrolType.values()).forEach(patrolType -> {
@@ -65,7 +65,7 @@ public class AirfieldPatrolView {
      * @param base The air base.
      * @return The airfield patrol view.
      */
-    public AirfieldPatrolView setAirbase(final Airbase base) {
+    public PatrolView setAirbase(final Airbase base) {
         this.airbase = base;
 
         patrolStatsMap.forEach((type, view) -> {

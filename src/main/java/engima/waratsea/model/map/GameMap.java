@@ -358,6 +358,48 @@ public final class GameMap {
     }
 
     /**
+     * Determine the distance between two different map references.
+     *
+     * @param mapReferenceOne a given map reference
+     * @param mapReferenceTwo a given map reference
+     * @return The distance in grids between the given two map references.
+     */
+    public int determineDistance(final String mapReferenceOne, final String mapReferenceTwo) {
+        GameGrid gridOne = getGrid(mapReferenceOne);
+        GameGrid gridTwo = getGrid(mapReferenceTwo);
+
+        // a^2 + b^2 <= c^2, where a, b and c are the sides of the right triangle.
+        int a = Math.abs(gridOne.getRow() - gridTwo.getRow());
+        int b = Math.abs(gridOne.getColumn() - gridTwo.getColumn());
+
+        return (int) Math.sqrt((a * a) + (b * b));
+    }
+
+    /**
+     * Determine if the target map reference is in range of the entity starting at the starting map
+     * reference given the entity's range.
+     *
+     * @param startingReference The entity's starting map reference.
+     * @param targetReference The target's map reference.
+     * @param range The range of the entity.
+     * @return True if the entity is in range of the target. False otherwise.
+     */
+    public boolean inRange(final String startingReference, final String targetReference, final int range) {
+
+        GameGrid targetGrid = getGrid(targetReference);
+        GameGrid startingGrid = getGrid(startingReference);
+
+        // a^2 + b^2 <= c^2, where a, b and c are the sides of the right triangle.
+        int a = Math.abs(targetGrid.getRow() - startingGrid.getRow());
+        int b = Math.abs(targetGrid.getColumn() - startingGrid.getColumn());
+        int c = range + 1;
+
+        log.info("a: {} ,b: {}, c: {}", new Object[]{a, b, c});
+
+        return (a * a) + (b * b) <= (c * c);
+    }
+
+    /**
      * Build the map grids.
      *
      * @param props Map properties.

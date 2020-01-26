@@ -138,6 +138,7 @@ public class Fighter implements Aircraft {
      *
      * @return A list of combat radii.
      */
+    @Override
     public List<Integer> getRadius() {
         int radius = range.getRadius();
         int radiusWithDropTank = (int) Math.ceil(range.getRadius() * DROP_TANK_FACTOR);

@@ -1,4 +1,4 @@
-package engima.waratsea.view.airfield;
+package engima.waratsea.view.airfield.patrol;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.base.airfield.patrol.Patrol;

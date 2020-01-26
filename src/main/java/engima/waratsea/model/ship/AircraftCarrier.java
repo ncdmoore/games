@@ -19,6 +19,7 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
 import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.squadron.state.SquadronState;
+import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
@@ -544,6 +545,23 @@ public class AircraftCarrier implements Ship, Airbase {
     @Override
     public void removeMission(final Mission mission) {
 
+    }
+
+    /**
+     * Get the total number of squadron steps on a mission of the given type
+     * that are assigned to the given target. This is the total number of squadron steps
+     * from all missions of the same type that have the given target as their target.
+     *
+     * @param target The ferry mission destination.
+     * @return The total number of steps being ferried to the given target.
+     */
+    @Override
+    public int getTotalSteps(final Target target) {
+        return missions
+                .stream()
+                .filter(mission -> mission.getTarget().isEqual(target))
+                .map(Mission::getSteps)
+                .reduce(0, Integer::sum);
     }
 
     /**

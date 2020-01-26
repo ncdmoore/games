@@ -126,7 +126,7 @@ public interface Player {
     Map<String, TaskForce> getTaskForceMap();
 
     /**
-     * This gets the enemy player's task force map.
+     * This gets the enemy player's task force map. Task force name to view of task force.
      *
      * @return The enemy player's task force map.
      */
@@ -178,7 +178,7 @@ public interface Player {
     Map<String, Airfield> getAirfieldMap();
 
     /**
-     * This gets the enemy player's airfield map.
+     * This gets the enemy player's airfield map. Airfield name to view of airfield.
      *
      * @return The enemy player's airfield map.
      */
@@ -242,6 +242,14 @@ public interface Player {
      * @return A list of targets for the given mission type.
      */
     List<Target> getTargets(MissionType missionType, Nation nation);
+
+    /**
+     * Get the total number of squadron steps the player has assigned to the given target.
+     *
+     * @param target The target that the steps are assigned.
+     * @return The total number of squadron steps the player has assigned to the given target.
+     */
+    int getTotalSteps(Target target);
 
     /**
      * This gets the player's minefields.

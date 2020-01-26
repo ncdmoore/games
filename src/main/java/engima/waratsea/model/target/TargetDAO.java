@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * The target data access object. Provices accesst to all target objects.
+ * The target data access object. Provides access to all target objects.
  */
 @Singleton
 @Slf4j

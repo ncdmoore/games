@@ -8,7 +8,7 @@ import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogOkOnlyView;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.airfield.PatrolDetailsView;
+import engima.waratsea.view.airfield.patrol.PatrolDetailsView;
 import engima.waratsea.view.map.MainMapView;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
