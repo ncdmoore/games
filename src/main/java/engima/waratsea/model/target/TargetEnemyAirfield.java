@@ -23,7 +23,8 @@ public class TargetEnemyAirfield implements Target {
     @Getter
     private final String name;    //The name of the enemy airfield.
 
-    private final Side side;      //The side of the target. Not the side of the airfield. This is the opposide of the airfield.
+    private final Side side;      //The side of the target. Not the side of the airfield. This is the opposite of the airfield.
+                                  //For example if the Allied player has Tobruk as a target then the side here is allied.
 
     //private int priority;
 
@@ -146,10 +147,34 @@ public class TargetEnemyAirfield implements Target {
      * @return The total number of squadron steps that are assigned this target.
      */
     @Override
-    public int getTotalSteps() {
+    public int getTotalSteps(final Airbase airbase) {
         return game
                 .getPlayer(side)
-                .getTotalSteps(this);
+                .getAirfields()
+                .stream()
+                .filter(base -> base != airbase)
+                .map(base -> base.getTotalSteps(this))
+                .reduce(0, Integer::sum);
+    }
+
+    /**
+     * Get the total number of squadron steps that may be assigned to this target.
+     *
+     * @return The total number of squadron steps that may be assigned to this target.
+     */
+    @Override
+    public int getTotalCapacitySteps() {
+        return 0;
+    }
+
+    /**
+     * Get the number of squadron steps that are currently assigned to this target.
+     *
+     * @return The number of squadron steps that are currently assigned to this target.
+     */
+    @Override
+    public int getCurrentSteps() {
+        return 0;
     }
 
     /**

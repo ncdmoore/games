@@ -1,6 +1,7 @@
 package engima.waratsea.view.airfield.mission;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.Mission;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.squadron.Squadron;
@@ -11,9 +12,12 @@ import engima.waratsea.view.util.ListViewPair;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
+import lombok.Setter;
 
 
 public class MissionEditDetailsView {
@@ -27,23 +31,35 @@ public class MissionEditDetailsView {
     private final ChoiceBox<Target> target = new ChoiceBox<>();
 
     @Getter
+    private final TargetView targetView;
+
+    @Getter
     private final ListViewPair<Squadron> missionList;
 
     private final StackPane stackPane = new StackPane();
     private final Label errorLabel = new Label();
     private final VBox errorVBox = new VBox(errorLabel);
 
+    @Setter
+    private Airbase airbase;
+
+    @Setter
+    private TableView<Mission> missions;
 
     /**
      * Constructor called by guice.
      *
      * @param props The view properties.
+     * @param targetView The target view.
      * @param imageResourceProvider Provides images.
      */
     @Inject
     public MissionEditDetailsView(final ViewProps props,
+                                  final TargetView targetView,
                                   final ImageResourceProvider imageResourceProvider) {
         this.props = props;
+        this.targetView = targetView;
+
         missionType.setMinWidth(props.getInt("mission.type.list.width"));
         target.setMinWidth(props.getInt("mission.type.list.width"));
 
@@ -67,19 +83,28 @@ public class MissionEditDetailsView {
         missionType.getItems().add(mission.getType());
         target.getItems().add(mission.getTarget());
 
+        targetView.setMissions(missions);
+
         missionType.setDisable(true);
         target.setDisable(true);
 
         Label missionLabel = new Label("Select Mission Type:");
-
         VBox missionVBox = new VBox(missionLabel, missionType);
-        Label targetLabel = new Label("Select Target:");
 
+        Label targetLabel = new Label("Select Target:");
         VBox targetVBox = new VBox(targetLabel, target);
+
+        VBox choiceBoxes = new VBox(missionVBox, targetVBox);
+        choiceBoxes.setId("choices-pane");
+
+        Node targetBox = targetView.build(airbase);
+
+        HBox hBox = new HBox(choiceBoxes, targetBox);
+        hBox.setId("target-hbox");
 
         Node squadronsList = buildSquadronLists();
 
-        VBox vBox = new VBox(missionVBox, targetVBox, squadronsList);
+        VBox vBox = new VBox(hBox, squadronsList);
         vBox.setId("main-pane");
         return vBox;
     }
@@ -94,6 +119,7 @@ public class MissionEditDetailsView {
                 .getSelectedItem();
 
         missionList.add(squadron);
+        targetView.addSquadron(squadron);
     }
 
     /**
@@ -106,6 +132,7 @@ public class MissionEditDetailsView {
                 .getSelectedItem();
 
         missionList.remove(squadron);
+        targetView.removeSquadron(squadron);
     }
 
     /**
@@ -138,9 +165,9 @@ public class MissionEditDetailsView {
 
         missionList.clearAll();
 
-        Node missions = missionList.build();
+        Node missionsNode = missionList.build();
 
-        stackPane.getChildren().add(missions);
+        stackPane.getChildren().add(missionsNode);
 
         return stackPane;
     }

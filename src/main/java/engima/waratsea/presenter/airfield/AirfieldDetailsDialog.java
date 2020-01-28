@@ -3,14 +3,11 @@ package engima.waratsea.presenter.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.mission.Mission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
-import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
@@ -28,9 +25,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.ListUtils;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -59,8 +54,6 @@ public class AirfieldDetailsDialog {
     private MainMapView mapView;
 
     private Airbase airbase;
-
-    private Map<Target, Integer> ferryStepMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -99,10 +92,10 @@ public class AirfieldDetailsDialog {
     /**
      * Show the airfield details dialog.
      *
-     * @param field The airfield for which the details are shown.
+     * @param base The airfield for which the details are shown.
      */
-    public void show(final Airfield field) {
-        airbase = field;
+    public void show(final Airbase base) {
+        airbase = base;
 
         DialogView dialog = dialogProvider.get();     // The dialog view that contains the airfield details view.
         view = viewProvider.get();
@@ -123,7 +116,6 @@ public class AirfieldDetailsDialog {
         dialog.getOkButton().setOnAction(event -> ok());
 
         initializeMissionTable();
-        initializeFerrySteps();
 
         dialog.show(stage);
 
@@ -167,27 +159,6 @@ public class AirfieldDetailsDialog {
                     .getItems()
                     .addAll(copies);
         });
-    }
-
-    /**
-     * Initialize this airbase's current number of ferry steps.
-     *
-     * Get a map of target to number of steps, from this airbase, that are headed
-     * to the target. This aids in determining if any additional squadrons
-     * may be ferried to the target airbase.
-     */
-    private void initializeFerrySteps() {
-        ferryStepMap = airbase
-                .getNations()
-                .stream()
-                .flatMap(nation -> view
-                        .getAirfieldMissionView()
-                        .get(nation)
-                        .getTable()
-                        .getItems()
-                        .stream())
-                .filter(mission -> mission.getType() == MissionType.FERRY)
-                .collect(Collectors.toMap(Mission::getTarget, Mission::getSteps, Integer::sum));
     }
 
     /**
@@ -509,6 +480,8 @@ public class AirfieldDetailsDialog {
                     addToPatrolAvailableList(nation, squadron);
                     updateReadySummary(nation, squadron);
                 });
+
+
     }
 
     /**

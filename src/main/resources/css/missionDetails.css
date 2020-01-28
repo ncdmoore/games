@@ -16,6 +16,23 @@
     -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
 }
 
+#target-hbox {
+    -fx-spacing: 160;
+}
+
+#choices-pane {
+    -fx-spacing: 15;
+}
+
+#target-step-summary-grid {
+    -fx-border-color: black;
+    -fx-background-color: whitesmoke;
+    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
+    -fx-vgap: 2;
+    -fx-hgap: 120;
+    -fx-alignment: top-left;
+}
+
 #mission-squadron-pane {
     -fx-alignment: center-left;
 }

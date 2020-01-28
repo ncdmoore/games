@@ -125,7 +125,27 @@ public class TargetSeaGrid implements Target {
      * @return The total number of squadron steps that are assigned this target.
      */
     @Override
-    public int getTotalSteps() {
+    public int getTotalSteps(final Airbase airbase) {
+        return 0;
+    }
+
+    /**
+     * Get the total number of squadron steps that may be assigned to this target.
+     *
+     * @return The total number of squadron steps that may be assigned to this target.
+     */
+    @Override
+    public int getTotalCapacitySteps() {
+        return 0;
+    }
+
+    /**
+     * Get the number of squadron steps that are currently assigned to this target.
+     *
+     * @return The number of squadron steps that are currently assigned to this target.
+     */
+    @Override
+    public int getCurrentSteps() {
         return 0;
     }
 

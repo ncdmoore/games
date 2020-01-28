@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
+
 public class MissionView {
 
     private final ImageResourceProvider imageResourceProvider;
@@ -67,7 +68,6 @@ public class MissionView {
 
         return titledPane;
     }
-
 
 
     /**

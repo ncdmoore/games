@@ -73,7 +73,22 @@ public interface Target extends PersistentData<TargetData> {
     /**
      * Get the total number of squadron steps that assigned this target.
      *
+     * @param airbase The airbase that contains the mission that has this target  as a target.
      * @return The total number of squadron steps that are assigned this target.
      */
-    int getTotalSteps();
+    int getTotalSteps(Airbase airbase);
+
+    /**
+     * Get the total number of squadron steps that may be assigned to this target.
+     *
+     * @return The total number of squadron steps that may be assigned to this target.
+     */
+    int getTotalCapacitySteps();
+
+    /**
+     * Get the number of squadron steps that are currently assigned to this target.
+     *
+     * @return The number of squadron steps that are currently assigned to this target.
+     */
+    int getCurrentSteps();
 }

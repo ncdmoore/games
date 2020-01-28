@@ -11,6 +11,7 @@ import engima.waratsea.model.squadron.state.SquadronAction;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class Ferry implements Mission {
     private final Game game;
 
@@ -128,11 +130,14 @@ public class Ferry implements Mission {
      */
     @Override
     public int getSteps() {
-        return squadrons
+        int steps = squadrons
                 .stream()
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .intValue();
+
+        log.info("Mission {} target {} steps {}", new Object[]{this.getClass().getSimpleName(), getTarget().getName(), steps});
+        return steps;
     }
 
     /**

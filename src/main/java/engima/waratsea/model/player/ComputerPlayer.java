@@ -462,20 +462,6 @@ public class ComputerPlayer implements Player {
     }
 
     /**
-     * Get the total number of squadron steps the player has assigned to the given target.
-     *
-     * @param target The target that the steps are assigned.
-     * @return The total number of squadron steps the player has assigned to the given target.
-     */
-    @Override
-    public int getTotalSteps(final Target target) {
-        return airfields
-                .stream()
-                .map(airfield -> airfield.getTotalSteps(target))
-                .reduce(0, Integer::sum);
-    }
-
-    /**
      * Load the task forces.
      *
      * @param scenario The selected scenario.

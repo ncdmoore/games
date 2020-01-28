@@ -286,6 +286,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     public void removeMission(final Mission mission) {
         missions.remove(mission);
         mission.removeSquadrons();
+        log.info("Mission {} {} removed.", mission.getType().toString(), mission.getTarget().getName());
     }
 
     /**
@@ -298,11 +299,14 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public int getTotalSteps(final Target target) {
-        return missions
+        int steps =  missions
                 .stream()
                 .filter(mission -> mission.getTarget().isEqual(target))
                 .map(Mission::getSteps)
                 .reduce(0, Integer::sum);
+
+        log.info("Airfield {} target {} steps {}", new Object[]{name, target.getName(), steps});
+        return steps;
     }
 
     /**

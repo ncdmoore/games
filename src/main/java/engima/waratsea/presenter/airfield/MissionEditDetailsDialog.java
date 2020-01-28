@@ -102,6 +102,9 @@ public class MissionEditDetailsDialog {
         dialog = dialogProvider.get();     // The dialog view that contains the airfield details view.
         view = viewProvider.get();
 
+        view.setAirbase(airbase);
+        view.setMissions(airfieldDialog.getView().getMissionTable(nation));
+
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle(airbase.getTitle() + " Mission Details");
@@ -121,6 +124,9 @@ public class MissionEditDetailsDialog {
         setAssignedSquadrons();
 
         MissionType missionType = view.getMissionType().getSelectionModel().getSelectedItem();
+
+        Target selectedTarget = view.getTarget().getSelectionModel().getSelectedItem();
+        view.getTargetView().show(selectedTarget);
 
         view.getMissionList().setAvailableTitle(missionType + " Available");
         view.getMissionList().setAssignedTitle(missionType + " Assigned");

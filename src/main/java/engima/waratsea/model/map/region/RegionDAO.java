@@ -57,7 +57,7 @@ public class RegionDAO {
      */
     public List<Region> loadRegions(final Scenario scenario, final Side side) throws MapException {
         List<Region> regions = loadScenarioSpecific(scenario, side);      // Attempt to load scenario specific regions.
-        return regions != null ? regions : loadDefault(scenario, side);   // If no specific secnario regions exist, load the default.
+        return regions != null ? regions : loadDefault(scenario, side);   // If no specific scenario regions exist, load the default.
     }
 
     /**

@@ -12,6 +12,7 @@ import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -117,8 +118,11 @@ public class LandStrike implements Mission {
      */
     @Override
     public int getSteps() {
-        return 0;
-    }
+        return squadrons
+                .stream()
+                .map(Squadron::getSteps)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .intValue();    }
 
     /**
      * Set all of the squadrons to the correct state.

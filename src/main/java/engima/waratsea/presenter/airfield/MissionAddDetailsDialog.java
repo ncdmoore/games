@@ -108,6 +108,9 @@ public class MissionAddDetailsDialog {
         dialog = dialogProvider.get();     // The dialog view that contains the airfield details view.
         view = viewProvider.get();
 
+        view.setAirbase(airbase);
+        view.setMissions(airfieldDialog.getView().getMissionTable(nation));
+
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle(airbase.getTitle() + " Mission Details");
@@ -188,6 +191,7 @@ public class MissionAddDetailsDialog {
      * @param selectedTarget The selected target.
      */
     private void targetSelected(final Target selectedTarget) {
+        view.getTargetView().show(selectedTarget);
         view.getMissionList().clearAll();
         view.hideError();
 
