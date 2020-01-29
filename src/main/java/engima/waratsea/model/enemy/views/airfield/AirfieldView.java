@@ -33,6 +33,15 @@ public class AirfieldView implements PersistentData<AirfieldViewData> {
     }
 
     /**
+     * Get the airfield's title.
+     *
+     * @return The airfield's title.
+     */
+    public String getTitle() {
+        return enemyAirfield.getTitle();
+    }
+
+    /**
      * Get the airfield's location.
      *
      * @return The airfield's map reference: location.

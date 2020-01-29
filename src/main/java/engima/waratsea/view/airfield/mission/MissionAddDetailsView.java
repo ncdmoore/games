@@ -109,13 +109,10 @@ public class MissionAddDetailsView {
 
     /**
      * Assign the selected squadron to the mission.
+     *
+     * @param squadron The squadron that is added.
      */
-    public void assign() {
-        Squadron squadron = missionList
-                .getAvailable()
-                .getSelectionModel()
-                .getSelectedItem();
-
+    public void assign(final Squadron squadron) {
         missionList.add(squadron);
         targetView.addSquadron(squadron);
     }

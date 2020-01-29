@@ -267,6 +267,18 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
+     * Determine if the airbase is at capacity, meaning the maximum
+     * number of squadron steps that may be stationed at the airbase
+     * are stationed at the airbase.
+     *
+     * @return True if this airbase contains its maximum number of squadron steps.
+     */
+    @Override
+    public boolean isAtCapacity() {
+        return getCapacity() == getCurrentSteps().intValue();
+    }
+
+    /**
      * Indicates if this airbase has any squadrons.
      *
      * @return True if any squadron is based at this airbase. False otherwise.
@@ -659,7 +671,7 @@ public class AircraftCarrier implements Ship, Airbase {
      * @param squadron The new squadron.
      * @return True if this airfield can house the new squadron; false otherwise.
      */
-    private AirfieldOperation canStation(final Squadron squadron) {
+    public AirfieldOperation canStation(final Squadron squadron) {
         if (!landingType.contains(squadron.getLandingType())) {
             return AirfieldOperation.LANDING_TYPE_NOT_SUPPORTED;
         }

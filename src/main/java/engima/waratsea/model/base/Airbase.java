@@ -96,6 +96,24 @@ public interface Airbase extends Base {
     BigDecimal getCurrentSteps();
 
     /**
+     * Determine if the airbase is at capacity, meaning the maximum
+     * number of squadron steps that may be stationed at the airbase
+     * are stationed at the airbase.
+     *
+     * @return True if this airbase contains its maximum number of squadron steps.
+     */
+    boolean isAtCapacity();
+
+    /**
+     * Determine if the given squadron can be stationed at this airbase.
+     *
+     * @param squadron the squadron to station at this airbase.
+     * @return The results of the squadron station operation. Success if
+     * the squadron can be stationed. Otherwise an error code is returned.
+     */
+    AirfieldOperation canStation(Squadron squadron);
+
+    /**
      * Indicates if this airbase has any squadrons.
      *
      * @return True if any squadron is based at this airbase. False otherwise.

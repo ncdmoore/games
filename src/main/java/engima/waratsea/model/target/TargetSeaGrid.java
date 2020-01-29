@@ -3,6 +3,7 @@ package engima.waratsea.model.target;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.data.TargetData;
@@ -34,6 +35,16 @@ public class TargetSeaGrid implements Target {
      */
     @Override
     public String getName() {
+        return reference;
+    }
+
+    /**
+     * Get the title of the target.
+     *
+     * @return The target's title.
+     */
+    @Override
+    public String getTitle() {
         return reference;
     }
 
@@ -147,6 +158,27 @@ public class TargetSeaGrid implements Target {
     @Override
     public int getCurrentSteps() {
         return 0;
+    }
+
+    /**
+     * Determine if this target has capacity for more squadron steps.
+     *
+     * @return True if this target has capacity for more squadron steps.
+     */
+    @Override
+    public boolean hasCapacity() {
+        return true;
+    }
+
+    /**
+     * Determine if this target has the capacity for the given squadron.
+     *
+     * @param squadron The squadron assigned the target.
+     * @return True if the target has capacity for the given squadron. False otherwise.
+     */
+    @Override
+    public AirfieldOperation hasCapacity(final Squadron squadron) {
+        return AirfieldOperation.SUCCESS;
     }
 
     /**

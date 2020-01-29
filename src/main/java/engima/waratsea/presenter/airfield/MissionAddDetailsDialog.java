@@ -3,6 +3,7 @@ package engima.waratsea.presenter.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.mission.Mission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.mission.MissionType;
@@ -14,6 +15,7 @@ import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.WarnDialog;
 import engima.waratsea.view.airfield.mission.MissionAddDetailsView;
 import javafx.event.ActionEvent;
 import javafx.stage.Modality;
@@ -34,6 +36,7 @@ public class MissionAddDetailsDialog {
     private final CssResourceProvider cssResourceProvider;
     private final Provider<DialogView> dialogProvider;
     private final Provider<MissionAddDetailsView> viewProvider;
+    private final Provider<WarnDialog> warnDialogProvider;
     private final ViewProps props;
 
     private DialogView dialog;
@@ -49,6 +52,8 @@ public class MissionAddDetailsDialog {
     @Getter
     private Mission mission;
 
+    private Target selectedTarget;
+
     /**
      * Constructor called by guice.
      *
@@ -57,6 +62,7 @@ public class MissionAddDetailsDialog {
      * @param cssResourceProvider Provides the css file.
      * @param dialogProvider Provides the view for this dialog.
      * @param viewProvider Provides the view contents for this dialog.
+     * @param warnDialogProvider Provides warning dialogs.
      * @param props The view properties.
      */
 
@@ -66,12 +72,14 @@ public class MissionAddDetailsDialog {
                                    final CssResourceProvider cssResourceProvider,
                                    final Provider<DialogView> dialogProvider,
                                    final Provider<MissionAddDetailsView> viewProvider,
+                                   final Provider<WarnDialog> warnDialogProvider,
                                    final ViewProps props) {
         this.game = game;
         this.missionDAO = missionDAO;
         this.cssResourceProvider = cssResourceProvider;
         this.dialogProvider = dialogProvider;
         this.viewProvider = viewProvider;
+        this.warnDialogProvider = warnDialogProvider;
         this.props = props;
     }
 
@@ -188,17 +196,23 @@ public class MissionAddDetailsDialog {
     /**
      * Callback when a target has been selected.
      *
-     * @param selectedTarget The selected target.
+     * @param target The selected target.
      */
-    private void targetSelected(final Target selectedTarget) {
-        view.getTargetView().show(selectedTarget);
+    private void targetSelected(final Target target) {
+        selectedTarget = target;
+
+        view.getTargetView().show(target);
         view.getMissionList().clearAll();
         view.hideError();
 
-        Optional.ofNullable(selectedTarget).ifPresent(target -> {
+        Optional.ofNullable(target).ifPresent(t -> {
 
-            List<Squadron> availableSquadrons = airfieldDialog
-                    .getReady(nation);
+            if (!t.hasCapacity()) {
+                view.showError(t.getTitle() + " is at max capacity");
+                return;
+            }
+
+            List<Squadron> availableSquadrons = airfieldDialog.getReady(nation);
 
             if (availableSquadrons.isEmpty()) {
                 view.showError("No ready squadrons.");
@@ -206,7 +220,7 @@ public class MissionAddDetailsDialog {
             }
 
             availableSquadrons = availableSquadrons.stream()
-                    .filter(target::inRange)
+                    .filter(t::inRange)
                     .collect(Collectors.toList());
 
             if (availableSquadrons.isEmpty()) {
@@ -224,7 +238,19 @@ public class MissionAddDetailsDialog {
      * @param event The button action event.
      */
     private void addSquadron(final ActionEvent event) {
-        view.assign();
+        Squadron squadron = view.getMissionList()
+                .getAvailable()
+                .getSelectionModel()
+                .getSelectedItem();
+
+        AirfieldOperation result = selectedTarget.hasCapacity(squadron);
+
+        if (result != AirfieldOperation.SUCCESS) {
+            warnDialogProvider.get().show(result.toString());
+            return;
+        }
+
+        view.assign(squadron);
         dialog.getOkButton().setDisable(false);
     }
 

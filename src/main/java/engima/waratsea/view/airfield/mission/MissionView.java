@@ -1,11 +1,8 @@
 package engima.waratsea.view.airfield.mission;
 
-import com.google.inject.Inject;
 import engima.waratsea.model.base.airfield.mission.Mission;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.target.Target;
-import engima.waratsea.utility.ImageResourceProvider;
-import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -19,9 +16,6 @@ import lombok.Getter;
 
 public class MissionView {
 
-    private final ImageResourceProvider imageResourceProvider;
-    private final ViewProps props;
-
     @Getter
     private final TableView<Mission> table = new TableView<>();
 
@@ -34,19 +28,6 @@ public class MissionView {
     @Getter
     private final Button delete = new Button("delete");
 
-
-    /**
-     * Constructor called by guice.
-     *
-     * @param imageResourceProvider Provides images.
-     * @param props View properties.
-     */
-    @Inject
-    public MissionView(final ImageResourceProvider imageResourceProvider,
-                       final ViewProps props) {
-        this.imageResourceProvider = imageResourceProvider;
-        this.props = props;
-    }
 
     /**
      * Show the mission details view.
@@ -68,7 +49,6 @@ public class MissionView {
 
         return titledPane;
     }
-
 
     /**
      * Add a mission to the mission table.

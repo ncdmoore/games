@@ -38,6 +38,15 @@ public class TaskForceView implements PersistentData<TaskForceViewData> {
     }
 
     /**
+     * Get the task force's title.
+     *
+     * @return The task force's title.
+     */
+    public String getTitle() {
+        return enemyTaskForce.getTitle();
+    }
+
+    /**
      * Get the task force's location.
      *
      * @return The task force's map reference: location.

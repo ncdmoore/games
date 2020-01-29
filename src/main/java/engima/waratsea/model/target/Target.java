@@ -3,6 +3,7 @@ package engima.waratsea.model.target;
 
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.data.TargetData;
 
@@ -17,6 +18,13 @@ public interface Target extends PersistentData<TargetData> {
      * @return The target's name.
      */
     String getName();
+
+    /**
+     * Get the title of the target.
+     *
+     * @return The target's title.
+     */
+    String getTitle();
 
     /**
      * Get the location of the target.
@@ -91,4 +99,19 @@ public interface Target extends PersistentData<TargetData> {
      * @return The number of squadron steps that are currently assigned to this target.
      */
     int getCurrentSteps();
+
+    /**
+     * Determine if this target has capacity for more squadron steps.
+     *
+     * @return True if this target has capacity for more squadron steps.
+     */
+    boolean hasCapacity();
+
+    /**
+     * Determine if this target has the capacity for the given squadron.
+     *
+     * @param squadron The squadron assigned the target.
+     * @return True if the target has capacity for the given squadron. False otherwise.
+     */
+    AirfieldOperation hasCapacity(Squadron squadron);
 }

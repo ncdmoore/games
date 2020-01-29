@@ -5,16 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/TargetView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/Airbase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/Airbase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/RegionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/RegionDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/ComputerPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/ComputerPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/HumanPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/HumanPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/enemy/views/airfield/AirfieldView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/enemy/views/airfield/AirfieldView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/enemy/views/port/PortView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/enemy/views/port/PortView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/enemy/views/taskForce/TaskForceView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/enemy/views/taskForce/TaskForceView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/Target.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/Target.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyAirfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyAirfield.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyPort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyPort.java" afterDir="false" />
@@ -23,14 +20,11 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyPort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyPort.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyTaskForce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyTaskForce.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetSeaGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetSeaGrid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDetailsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDetailsDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/MissionAddDetailsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/MissionAddDetailsDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/MissionEditDetailsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/MissionEditDetailsDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldDetailsView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionAddDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionAddDetailsView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionEditDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionEditDetailsView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/missionDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/missionDetails.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -83,10 +77,26 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDetailsDialog.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyAirfield.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2321">
-              <caret line="356" column="12" lean-forward="true" selection-start-line="356" selection-start-column="12" selection-end-line="356" selection-end-column="12" />
+            <state relative-caret-position="270">
+              <caret line="205" lean-forward="true" selection-start-line="205" selection-end-line="205" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1429#1430#0" expanded="true" />
+                <element signature="e#1471#1472#0" expanded="true" />
+                <element signature="e#5677#5678#0" expanded="true" />
+                <element signature="e#5705#5706#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/MissionAddDetailsDialog.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="492">
+              <caret line="250" column="9" lean-forward="true" selection-start-line="250" selection-start-column="9" selection-end-line="250" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -95,100 +105,28 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/MissionAddDetailsDialog.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="111" column="20" selection-start-line="111" selection-start-column="13" selection-end-line="111" selection-end-column="24" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#8669#8670#0" expanded="true" />
-                <element signature="e#8698#8699#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/MissionEditDetailsDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="605">
-              <caret line="113" column="57" lean-forward="true" selection-start-line="113" selection-start-column="57" selection-end-line="113" selection-end-column="57" />
+            <state relative-caret-position="-1511">
+              <caret line="75" column="53" selection-start-line="75" selection-start-column="53" selection-end-line="75" selection-end-column="53" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldDetailsView.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/WarnDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-786">
-              <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="75">
+              <caret line="16" column="18" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionView.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/SquadronPresenter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="840">
-              <caret line="72" selection-start-line="72" selection-end-line="72" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionAddDetailsView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="45" column="28" lean-forward="true" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/TargetView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="660">
-              <caret line="143" column="5" selection-start-line="143" selection-start-column="5" selection-end-line="143" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1165">
-              <caret line="315" column="16" selection-start-line="315" selection-start-column="16" selection-end-line="315" selection-end-column="16" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#11079#11080#0" expanded="true" />
-                <element signature="e#11135#11136#0" expanded="true" />
-                <element signature="e#14071#14072#0" expanded="true" />
-                <element signature="e#14099#14100#0" expanded="true" />
-                <element signature="e#14436#14437#0" expanded="true" />
-                <element signature="e#14506#14507#0" expanded="true" />
-                <element signature="e#15382#15383#0" expanded="true" />
-                <element signature="e#15430#15431#0" expanded="true" />
-                <element signature="e#17475#17476#0" expanded="true" />
-                <element signature="e#17502#17503#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Mission.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+            <state relative-caret-position="140">
+              <caret line="78" column="52" selection-start-line="78" selection-end-line="79" />
             </state>
           </provider>
         </entry>
@@ -196,10 +134,63 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionEditDetailsView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
-              <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
+            <state relative-caret-position="296">
+              <caret line="116" column="49" selection-start-line="116" selection-start-column="49" selection-end-line="116" selection-end-column="49" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionAddDetailsView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="292">
+              <caret line="115" column="34" lean-forward="true" selection-start-line="115" selection-start-column="34" selection-end-line="115" selection-end-column="34" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/PatrolDetailsDialog.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyTaskForce.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="691">
+              <caret line="210" column="40" selection-start-line="210" selection-start-column="40" selection-end-line="210" selection-end-column="40" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1453#1454#0" expanded="true" />
+                <element signature="e#1496#1497#0" expanded="true" />
+                <element signature="e#5794#5795#0" expanded="true" />
+                <element signature="e#5821#5822#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetSeaGrid.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="691">
+              <caret line="180" column="40" selection-start-line="180" selection-start-column="40" selection-end-line="180" selection-end-column="40" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1131#1132#0" expanded="true" />
+                <element signature="e#1163#1164#0" expanded="true" />
+                <element signature="e#4957#4958#0" expanded="true" />
+                <element signature="e#4984#4985#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -218,10 +209,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getCarriers</find>
-      <find>BigDecimal.ZERO</find>
-      <find>table</find>
-      <find>patrolMap</find>
       <find>airfieldPatrolView</find>
       <find>missions</find>
       <find>-fx-border</find>
@@ -248,6 +235,10 @@
       <find>airfieldDetailsDialogProvider</find>
       <find>airfields</find>
       <find>squadrons</find>
+      <find>addToReadyList</find>
+      <find>selectedTarget</find>
+      <find>canStation</find>
+      <find>warnDialogProvider</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -263,9 +254,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalTaskForceStrike.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/SweepAirfield.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/SweepPort.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldMissionView.java" />
         <option value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/taskforce/axisTaskForces.json" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AswPatrol.java" />
@@ -280,7 +268,6 @@
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/MissionEditDetailsView.java" />
         <option value="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/target/TargetTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetDAO.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/Airbase.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Fighter.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/AirfieldMissionView.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolDetailsView.java" />
@@ -288,32 +275,36 @@
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/AirfieldPatrolView.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolStatsView.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolView.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" />
         <option value="$PROJECT_DIR$/src/main/resources/css/missionDetails.css" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/Player.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/HumanPlayer.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/ComputerPlayer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/RegionDAO.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldDetailsView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/TargetView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDetailsDialog.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/enemy/views/airfield/AirfieldView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/enemy/views/port/PortView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/enemy/views/taskForce/TaskForceView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionAddDetailsView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/Airbase.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/Target.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyAirfield.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyAirfield.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyPort.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyTaskForce.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyPort.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyTaskForce.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetSeaGrid.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDetailsDialog.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/RegionDAO.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionView.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldDetailsView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyAirfield.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/MissionAddDetailsDialog.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionAddDetailsView.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionEditDetailsView.java" />
         <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/MissionEditDetailsDialog.java" />
-        <option value="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/TargetView.java" />
       </list>
     </option>
   </component>
@@ -426,6 +417,113 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="engima" type="462c0819:PsiDirectoryNode" />
               <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="base" type="462c0819:PsiDirectoryNode" />
+              <item name="port" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="enemy" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="enemy" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="enemy" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="airfield" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="enemy" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="port" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="enemy" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="taskForce" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="ship" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="taskForce" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WorldWarTwoAtSea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WorldWarTwoAtSea" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="engima" type="462c0819:PsiDirectoryNode" />
+              <item name="waratsea" type="462c0819:PsiDirectoryNode" />
               <item name="presenter" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -491,7 +589,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.25979218" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Ignored.Files" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -528,7 +626,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.All in worldWarTwoAtSea.test">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -701,13 +799,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00081" summary="Improve performance of the titleGridPane.">
-      <created>1570785106967</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1570785106968</updated>
     </task>
     <task id="LOCAL-00082" summary="Improve performance of the titleGridPane.">
       <created>1570785743907</created>
@@ -1045,7 +1136,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580055472375</updated>
     </task>
-    <option name="localTasksCounter" value="130" />
+    <task id="LOCAL-00130" summary="Implement airfield ferry part 1.">
+      <created>1580183299626</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1580183299626</updated>
+    </task>
+    <option name="localTasksCounter" value="131" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1081,15 +1179,14 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="913" y="33" width="1597" height="1338" extended-state="0" />
-    <editor active="true" />
+    <frame x="912" y="33" width="1597" height="1338" extended-state="0" />
     <layout>
       <window_info id="Image Layers" order="0" />
       <window_info id="UI Designer" order="1" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Designer" order="4" />
-      <window_info content_ui="combo" id="Project" order="5" sideWeight="0.4988345" visible="true" weight="0.27652735" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" sideWeight="0.4988345" visible="true" weight="0.27652735" />
       <window_info id="Structure" order="6" sideWeight="0.5011655" side_tool="true" weight="0.26501036" />
       <window_info anchor="bottom" id="Build" order="0" weight="0.32940185" />
       <window_info anchor="bottom" id="Terminal" order="1" />
@@ -1099,8 +1196,8 @@
       <window_info anchor="bottom" id="SonarQube" order="5" weight="0.32951757" />
       <window_info anchor="bottom" id="FindBugs-IDEA" order="6" weight="0.32940185" />
       <window_info anchor="bottom" id="Message" order="7" />
-      <window_info anchor="bottom" id="Find" order="8" visible="true" weight="0.36958298" />
-      <window_info active="true" anchor="bottom" id="Run" order="9" sideWeight="0.49917898" visible="true" weight="0.3246116" />
+      <window_info anchor="bottom" id="Find" order="8" weight="0.36958298" />
+      <window_info anchor="bottom" id="Run" order="9" sideWeight="0.49917898" visible="true" weight="0.3246116" />
       <window_info anchor="bottom" id="Debug" order="10" weight="0.40392476" />
       <window_info anchor="bottom" id="Cvs" order="11" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="12" weight="0.4" />
@@ -1130,7 +1227,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Adjust the airfield dialog spacing." />
     <MESSAGE value="Handle negative modifiers for aircraft." />
     <MESSAGE value="Save squadrons with airfields and do the backend patrol logic." />
     <MESSAGE value="Add defensive air-to-air attribute." />
@@ -1155,7 +1251,8 @@
     <MESSAGE value="Additional Mission work." />
     <MESSAGE value="Add view properties for mission error box." />
     <MESSAGE value="Add target step summary to model." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add target step summary to model." />
+    <MESSAGE value="Implement airfield ferry part 1." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement airfield ferry part 1." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1165,12 +1262,6 @@
           <line>287</line>
           <properties />
           <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/TargetView.java</url>
-          <line>97</line>
-          <properties />
-          <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java</url>
@@ -1206,123 +1297,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Ship.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="203" column="13" selection-start-line="203" selection-start-column="9" selection-end-line="203" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/ScenarioView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="553">
-          <caret line="207" column="50" lean-forward="true" selection-start-line="207" selection-start-column="50" selection-end-line="207" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/SquadronView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="471">
-          <caret line="158" column="63" lean-forward="true" selection-start-line="158" selection-start-column="63" selection-end-line="158" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronDetailsView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="591">
-          <caret line="96" lean-forward="true" selection-start-line="96" selection-end-line="96" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2166">
-          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Aircraft.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1259">
-          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Fighter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="140" column="13" selection-start-line="140" selection-start-column="13" selection-end-line="140" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/AircraftImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="88" column="13" lean-forward="true" selection-start-line="88" selection-start-column="13" selection-end-line="88" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/ship/ShipDetailsView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="390" column="32" selection-start-line="390" selection-start-column="32" selection-end-line="390" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolDetailsView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolStatsView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameGrid.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bombAlley/css/airfieldDetails.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-57" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="16" column="28" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-864">
@@ -1355,127 +1329,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="138" column="44" selection-start-line="138" selection-end-line="139" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/Player.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="566">
           <caret line="244" column="4" selection-start-line="244" selection-start-column="4" selection-end-line="244" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/Target.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="438">
-          <caret line="75" column="81" selection-start-line="75" selection-start-column="81" selection-end-line="75" selection-end-column="81" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyPort.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="156" column="5" selection-start-line="156" selection-start-column="5" selection-end-line="156" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4530#4531#0" expanded="true" />
-            <element signature="e#4554#4555#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyTaskForce.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="156" column="5" selection-start-line="156" selection-start-column="5" selection-end-line="156" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4579#4580#0" expanded="true" />
-            <element signature="e#4603#4604#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyPort.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="149" column="5" selection-start-line="149" selection-start-column="5" selection-end-line="149" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4343#4344#0" expanded="true" />
-            <element signature="e#4367#4368#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetSeaGrid.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="412">
-          <caret line="130" lean-forward="true" selection-start-line="130" selection-end-line="130" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1643#1644#0" expanded="true" />
-            <element signature="e#1675#1676#0" expanded="true" />
-            <element signature="e#3575#3576#0" expanded="true" />
-            <element signature="e#3599#3600#0" expanded="true" />
-            <element signature="e#3848#3849#0" expanded="true" />
-            <element signature="e#3872#3873#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyTaskForce.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="159" column="5" selection-start-line="159" selection-start-column="5" selection-end-line="159" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4508#4509#0" expanded="true" />
-            <element signature="e#4532#4533#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyAirfield.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="152" column="5" lean-forward="true" selection-start-line="138" selection-start-column="4" selection-end-line="152" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4372#4373#0" expanded="true" />
-            <element signature="e#4422#4423#0" expanded="true" />
-            <element signature="e#4667#4668#0" expanded="true" />
-            <element signature="e#4732#4733#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyAirfield.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="157" column="5" selection-start-line="157" selection-start-column="5" selection-end-line="157" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4840#4841#0" expanded="true" />
-            <element signature="e#4864#4865#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/Airbase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2790">
-          <caret line="186" column="6" lean-forward="true" selection-start-line="186" selection-start-column="6" selection-end-line="186" selection-end-column="6" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1549,44 +1406,334 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Mission.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1165">
-          <caret line="315" column="16" selection-start-line="315" selection-start-column="16" selection-end-line="315" selection-end-column="16" />
+        <state relative-caret-position="60">
+          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="138" column="44" selection-start-line="138" selection-end-line="139" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldDetailsView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="50" column="47" selection-start-line="50" selection-start-column="30" selection-end-line="50" selection-end-column="47" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11079#11080#0" expanded="true" />
-            <element signature="e#11135#11136#0" expanded="true" />
-            <element signature="e#14071#14072#0" expanded="true" />
-            <element signature="e#14099#14100#0" expanded="true" />
-            <element signature="e#14436#14437#0" expanded="true" />
-            <element signature="e#14506#14507#0" expanded="true" />
-            <element signature="e#15382#15383#0" expanded="true" />
-            <element signature="e#15430#15431#0" expanded="true" />
-            <element signature="e#17475#17476#0" expanded="true" />
-            <element signature="e#17502#17503#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldReadyView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="409">
+          <caret line="137" column="11" lean-forward="true" selection-start-line="137" selection-start-column="11" selection-end-line="137" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/TargetView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="601">
+          <caret line="138" column="23" selection-start-line="138" selection-start-column="15" selection-end-line="138" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/util/TitledGridPane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="64" column="71" lean-forward="true" selection-start-line="64" selection-start-column="71" selection-end-line="64" selection-end-column="71" />
+          <folding>
+            <element signature="e#2665#2666#0" expanded="true" />
+            <element signature="e#2715#2716#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldSummaryView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="107" column="18" selection-start-line="107" selection-start-column="14" selection-end-line="107" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDetailsDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8468">
+          <caret line="643" column="25" lean-forward="true" selection-start-line="643" selection-start-column="17" selection-end-line="643" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/BaseId.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCapacity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetLandGrid.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="12" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="72" selection-start-line="72" selection-end-line="72" />
+        <state relative-caret-position="-604">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/MissionEditDetailsDialog.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/port/Port.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="605">
-          <caret line="113" column="57" lean-forward="true" selection-start-line="113" selection-start-column="57" selection-end-line="113" selection-end-column="57" />
+        <state relative-caret-position="-709">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/enemy/views/port/PortView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="37" column="23" selection-start-line="37" selection-start-column="23" selection-end-line="37" selection-end-column="23" />
+          <folding>
+            <element signature="e#991#992#0" expanded="true" />
+            <element signature="e#1038#1039#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/enemy/views/taskForce/TaskForceView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="42" column="38" selection-start-line="42" selection-start-column="38" selection-end-line="42" selection-end-column="38" />
+          <folding>
+            <element signature="e#1102#1103#0" expanded="true" />
+            <element signature="e#1150#1151#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/enemy/views/airfield/AirfieldView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="41" column="5" lean-forward="true" selection-start-line="34" selection-start-column="3" selection-end-line="41" selection-end-column="5" />
+          <folding>
+            <element signature="e#1003#1004#0" expanded="true" />
+            <element signature="e#1050#1051#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/AirfieldOperation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="12" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="608" column="10" selection-start-line="608" selection-start-column="10" selection-end-line="608" selection-end-column="10" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#11152#11153#0" expanded="true" />
+            <element signature="e#11215#11216#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="398">
+          <caret line="673" column="64" lean-forward="true" selection-start-line="673" selection-start-column="11" selection-end-line="673" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7610#7611#0" expanded="true" />
+            <element signature="e#7678#7679#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/Airbase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="517">
+          <caret line="113" column="52" lean-forward="true" selection-start-line="113" selection-start-column="52" selection-end-line="113" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/Target.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="683">
+          <caret line="115" column="21" selection-start-line="115" selection-start-column="21" selection-end-line="115" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyAirfield.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="208" column="40" selection-start-line="208" selection-start-column="40" selection-end-line="208" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1714#1715#0" expanded="true" />
+            <element signature="e#1765#1766#0" expanded="true" />
+            <element signature="e#6062#6063#0" expanded="true" />
+            <element signature="e#6090#6091#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyPort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="505">
+          <caret line="207" column="40" selection-start-line="207" selection-start-column="40" selection-end-line="207" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1424#1425#0" expanded="true" />
+            <element signature="e#1471#1472#0" expanded="true" />
+            <element signature="e#5762#5763#0" expanded="true" />
+            <element signature="e#5790#5791#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyTaskForce.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="691">
+          <caret line="207" column="40" selection-start-line="207" selection-start-column="40" selection-end-line="207" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1411#1412#0" expanded="true" />
+            <element signature="e#1458#1459#0" expanded="true" />
+            <element signature="e#5797#5798#0" expanded="true" />
+            <element signature="e#5825#5826#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyPort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="622">
+          <caret line="200" column="40" selection-start-line="200" selection-start-column="40" selection-end-line="200" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1418#1419#0" expanded="true" />
+            <element signature="e#1456#1457#0" expanded="true" />
+            <element signature="e#5624#5625#0" expanded="true" />
+            <element signature="e#5651#5652#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyTaskForce.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="691">
+          <caret line="210" column="40" selection-start-line="210" selection-start-column="40" selection-end-line="210" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1453#1454#0" expanded="true" />
+            <element signature="e#1496#1497#0" expanded="true" />
+            <element signature="e#5794#5795#0" expanded="true" />
+            <element signature="e#5821#5822#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetSeaGrid.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="691">
+          <caret line="180" column="40" selection-start-line="180" selection-start-column="40" selection-end-line="180" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1131#1132#0" expanded="true" />
+            <element signature="e#1163#1164#0" expanded="true" />
+            <element signature="e#4957#4958#0" expanded="true" />
+            <element signature="e#4984#4985#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyAirfield.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="205" lean-forward="true" selection-start-line="205" selection-end-line="205" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1429#1430#0" expanded="true" />
+            <element signature="e#1471#1472#0" expanded="true" />
+            <element signature="e#5677#5678#0" expanded="true" />
+            <element signature="e#5705#5706#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/PatrolDetailsDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/WarnDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="16" column="18" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/SquadronPresenter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="78" column="52" selection-start-line="78" selection-end-line="79" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionEditDetailsView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
+        <state relative-caret-position="296">
+          <caret line="116" column="49" selection-start-line="116" selection-start-column="49" selection-end-line="116" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1595,45 +1742,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionAddDetailsView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="45" column="28" lean-forward="true" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Mission.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/TargetView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="143" column="5" selection-start-line="143" selection-start-column="5" selection-end-line="143" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldDetailsView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-786">
-          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDetailsDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2321">
-          <caret line="356" column="12" lean-forward="true" selection-start-line="356" selection-start-column="12" selection-end-line="356" selection-end-column="12" />
+        <state relative-caret-position="292">
+          <caret line="115" column="34" lean-forward="true" selection-start-line="115" selection-start-column="34" selection-end-line="115" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1642,13 +1752,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/MissionAddDetailsDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="111" column="20" selection-start-line="111" selection-start-column="13" selection-end-line="111" selection-end-column="24" />
+        <state relative-caret-position="492">
+          <caret line="250" column="9" lean-forward="true" selection-start-line="250" selection-start-column="9" selection-end-line="250" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#8669#8670#0" expanded="true" />
-            <element signature="e#8698#8699#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/MissionEditDetailsDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1511">
+          <caret line="75" column="53" selection-start-line="75" selection-start-column="53" selection-end-line="75" selection-end-column="53" />
         </state>
       </provider>
     </entry>

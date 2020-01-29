@@ -351,6 +351,18 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
+     * Determine if the airbase is at capacity, meaning the maximum
+     * number of squadron steps that may be stationed at the airbase
+     * are stationed at the airbase.
+     *
+     * @return True if this airbase contains its maximum number of squadron steps.
+     */
+    @Override
+    public boolean isAtCapacity() {
+        return capacity == getCurrentSteps().intValue();
+    }
+
+    /**
      * Get the squadron given its name.
      *
      * @param squadronName The squadron name.
@@ -594,7 +606,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param squadron A potential new squadron.
      * @return True if this airfield can house the new squadron; false otherwise.
      */
-    private AirfieldOperation canStation(final Squadron squadron) {
+    public AirfieldOperation canStation(final Squadron squadron) {
 
         if (!canSquadronLand(squadron)) {
             return AirfieldOperation.LANDING_TYPE_NOT_SUPPORTED;

@@ -33,6 +33,15 @@ public class PortView implements PersistentData<PortViewData> {
     }
 
     /**
+     * Get the port's title.
+     *
+     * @return The port's title.
+     */
+    public String getTitle() {
+        return enemyPort.getTitle();
+    }
+
+    /**
      * Get the port's location.
      *
      * @return The port's map reference: location.

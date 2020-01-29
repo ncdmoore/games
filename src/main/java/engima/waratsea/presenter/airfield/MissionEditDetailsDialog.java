@@ -3,6 +3,7 @@ package engima.waratsea.presenter.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.mission.Mission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.mission.MissionType;
@@ -13,6 +14,7 @@ import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.WarnDialog;
 import engima.waratsea.view.airfield.mission.MissionEditDetailsView;
 import javafx.event.ActionEvent;
 import javafx.stage.Modality;
@@ -31,6 +33,7 @@ public class MissionEditDetailsDialog {
     private final CssResourceProvider cssResourceProvider;
     private final Provider<DialogView> dialogProvider;
     private final Provider<MissionEditDetailsView> viewProvider;
+    private final Provider<WarnDialog> warnDialogProvider;
     private final ViewProps props;
 
     private DialogView dialog;
@@ -46,6 +49,8 @@ public class MissionEditDetailsDialog {
     @Setter
     private Mission mission;
 
+    private Target selectedTarget;
+
     /**
      * Constructor called by guice.
      *
@@ -53,6 +58,7 @@ public class MissionEditDetailsDialog {
      * @param cssResourceProvider Provides the css file.
      * @param dialogProvider Provides the view for this dialog.
      * @param viewProvider Provides the view contents for this dialog.
+     * @param warnDialogProvider Provides warning dialogs.
      * @param props The view properties.
      */
 
@@ -61,11 +67,13 @@ public class MissionEditDetailsDialog {
                                     final CssResourceProvider cssResourceProvider,
                                     final Provider<DialogView> dialogProvider,
                                     final Provider<MissionEditDetailsView> viewProvider,
+                                    final Provider<WarnDialog> warnDialogProvider,
                                     final ViewProps props) {
         this.missionDAO = missionDAO;
         this.cssResourceProvider = cssResourceProvider;
         this.dialogProvider = dialogProvider;
         this.viewProvider = viewProvider;
+        this.warnDialogProvider = warnDialogProvider;
         this.props = props;
     }
 
@@ -125,7 +133,7 @@ public class MissionEditDetailsDialog {
 
         MissionType missionType = view.getMissionType().getSelectionModel().getSelectedItem();
 
-        Target selectedTarget = view.getTarget().getSelectionModel().getSelectedItem();
+        selectedTarget = view.getTarget().getSelectionModel().getSelectedItem();
         view.getTargetView().show(selectedTarget);
 
         view.getMissionList().setAvailableTitle(missionType + " Available");
@@ -182,7 +190,19 @@ public class MissionEditDetailsDialog {
      * @param event The button action event.
      */
     private void addSquadron(final ActionEvent event) {
-        view.assign();
+        Squadron squadron = view.getMissionList()
+                .getAvailable()
+                .getSelectionModel()
+                .getSelectedItem();
+
+        AirfieldOperation result = selectedTarget.hasCapacity(squadron);
+
+        if (result != AirfieldOperation.SUCCESS) {
+            warnDialogProvider.get().show(result.toString());
+            return;
+        }
+
+        view.assign(squadron);
         dialog.getOkButton().setDisable(false);
     }
 

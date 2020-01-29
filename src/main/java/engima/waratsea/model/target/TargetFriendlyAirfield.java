@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
@@ -45,6 +46,16 @@ public class TargetFriendlyAirfield implements Target {
 
         name = data.getName();
         side = data.getSide();
+    }
+
+    /**
+     * Get the title of the target.
+     *
+     * @return The target's title.
+     */
+    @Override
+    public String getTitle() {
+        return airfield.getTitle();
     }
 
     /**
@@ -170,6 +181,27 @@ public class TargetFriendlyAirfield implements Target {
     @Override
     public int getCurrentSteps() {
         return getAirfield().getCurrentSteps().intValue();
+    }
+
+    /**
+     * Determine if this target has capacity for more squadron steps.
+     *
+     * @return True if this target has capacity for more squadron steps.
+     */
+    @Override
+    public boolean hasCapacity() {
+        return !getAirfield().isAtCapacity();
+    }
+
+    /**
+     * Determine if this target has the capacity for the given squadron.
+     *
+     * @param squadron The squadron assigned the target.
+     * @return True if the target has capacity for the given squadron. False otherwise.
+     */
+    @Override
+    public AirfieldOperation hasCapacity(final Squadron squadron) {
+        return airfield.canStation(squadron);
     }
 
     /**
