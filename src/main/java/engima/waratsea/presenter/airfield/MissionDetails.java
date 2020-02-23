@@ -146,18 +146,24 @@ public class MissionDetails {
      * @return True if the squadron may be added. False otherwise.
      */
     public boolean mayAddSquadronToMission(@Nullable final Mission selectedMission, final MissionType missionType, final Squadron squadron) {
+        //Note, that all nations that are allowed to specify the selected target as a target are considered
+        //when determining if target has capacity.
         if (!hasCapacity(selectedMission, squadron)) {
             warnDialogProvider.get().show("Unable to assign squadron to the target. Target: " + selectedTarget.getTitle()
                     + ", is at capacity: " + selectedTarget.getCapacitySteps());
             return false;
         }
 
+        //Note, regions are per nation, so only the squadrons for the selected nation are considered when
+        //determining if the target's region has capacity.
         if (!hasRegionCapacity(selectedMission, missionType, squadron)) {
             warnDialogProvider.get().show("Unable to assign squadron to the target. Target: " + selectedTarget.getTitle()
                     + ", region is at capacity: " + selectedTarget.getRegion(nation).getMaxSteps());
             return false;
         }
 
+        //Note, regions are per nation, so only the squadrons for the selected nation are considered when
+        //determining if the selected airbase's region will still satify its minimum squadron requirement.
         if (!isRegionMinimumStillSatisfied(selectedMission, missionType, squadron)) {
             warnDialogProvider.get().show("Unable to assign squadron as region: " + airbase.getRegion(nation).getName()
                     + ", minimum required steps: " + airbase.getRegion(nation).getMinSteps() + ", would be violated.");
