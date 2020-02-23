@@ -1,7 +1,7 @@
 [
   {
     "name": "East",
-    "nation": ["ITALIAN"],
+    "nation": "ITALIAN",
     "min": "4",
     "max": "0",
     "airfields": [
@@ -14,7 +14,7 @@
   },
   {
     "name": "Libya",
-    "nation": ["ITALIAN"],
+    "nation": "ITALIAN",
     "min": "0",
     "max": "0",
     "airfields": [
@@ -31,7 +31,7 @@
   },
   {
     "name": "Sardinia",
-    "nation": ["ITALIAN"],
+    "nation": "ITALIAN",
     "min": "4",
     "max": "HALF",
     "airfields": ["Cagliari"],
@@ -39,7 +39,7 @@
   },
   {
     "name": "Sicily",
-    "nation": ["ITALIAN"],
+    "nation": "ITALIAN",
     "min": "6",
     "max": "HALF",
     "airfields": [
@@ -57,7 +57,7 @@
   },
   {
     "name": "Pantellaria",
-    "nation": ["ITALIAN"],
+    "nation": "ITALIAN",
     "min": "0",
     "max": "0",
     "airfields": ["Pantellaria"],
@@ -65,7 +65,7 @@
   },
   {
     "name": "Italy",
-    "nation": ["ITALIAN"],
+    "nation": "ITALIAN",
     "min": "0",
     "max": "0",
     "airfields": [
@@ -96,7 +96,7 @@
   },
   {
     "name": "Albania",
-    "nation": ["ITALIAN"],
+    "nation": "ITALIAN",
     "min": "0",
     "max": "0",
     "airfields": ["Durazzo"],

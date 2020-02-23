@@ -3,7 +3,6 @@ package engima.waratsea.view.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.mission.Mission;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.airfield.mission.MissionView;
@@ -12,7 +11,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -92,18 +90,6 @@ public class AirfieldDetailsView {
                 .forEach(tab -> nationsTabPane.getTabs().add(tab));
 
         return nationsTabPane;
-    }
-
-    /**
-     * Get the airbase's missions.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @return A list of the given nation's missions conducted from this airbase.
-     */
-    public TableView<Mission> getMissionTable(final Nation nation) {
-        return airfieldMissionView
-                .get(nation)
-                .getTable();
     }
 
     /**

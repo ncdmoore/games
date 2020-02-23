@@ -549,15 +549,6 @@ public class AircraftCarrier implements Ship, Airbase {
 
     }
 
-    /**
-     * Remove a misson from this air base.
-     *
-     * @param mission The mission that is removed from this airbase.
-     */
-    @Override
-    public void removeMission(final Mission mission) {
-
-    }
 
     /**
      * Get the total number of squadron steps on a mission of the given type
@@ -568,7 +559,7 @@ public class AircraftCarrier implements Ship, Airbase {
      * @return The total number of steps being ferried to the given target.
      */
     @Override
-    public int getTotalSteps(final Target target) {
+    public int getTotalMissionSteps(final Target target) {
         return missions
                 .stream()
                 .filter(mission -> mission.getTarget().isEqual(target))

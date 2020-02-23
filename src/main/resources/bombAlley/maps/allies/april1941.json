@@ -1,7 +1,7 @@
 [
   {
     "name": "Malta",
-    "nation": ["BRITISH"],
+    "nation": "BRITISH",
     "min": "0",
     "max": "0",
     "airfields": [
@@ -13,7 +13,7 @@
   },
   {
     "name": "Gibraltar",
-    "nation": ["BRITISH"],
+    "nation": "BRITISH",
     "min": "0",
     "max": "8",
     "airfields": [
@@ -25,7 +25,7 @@
   },
   {
     "name": "Egypt",
-    "nation": ["BRITISH"],
+    "nation": "BRITISH",
     "min": "0",
     "max": "0",
     "airfields": [
@@ -42,7 +42,7 @@
   },
   {
     "name": "Cyprus",
-    "nation": ["BRITISH"],
+    "nation": "BRITISH",
     "min": "0",
     "max": "0",
     "airfields": [
@@ -54,7 +54,7 @@
   },
   {
     "name": "Palestine",
-    "nation": ["BRITISH"],
+    "nation": "BRITISH",
     "min": "0",
     "max": "0",
     "airfields": [
@@ -66,7 +66,7 @@
   },
   {
     "name": "Greece",
-    "nation": ["BRITISH"],
+    "nation": "BRITISH",
     "min": "0",
     "max": "0",
     "airfields": [

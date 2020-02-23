@@ -2,7 +2,6 @@ package engima.waratsea.view.airfield.mission;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.mission.Mission;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
@@ -12,7 +11,7 @@ import engima.waratsea.view.util.ListViewPair;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -20,8 +19,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 
-
-public class MissionAddDetailsView {
+/**
+ * Represents the mission add dialog details view.
+ */
+public class MissionAddDetailsView implements MissionDetailsView {
 
     private final ViewProps props;
 
@@ -37,15 +38,15 @@ public class MissionAddDetailsView {
     @Getter
     private final ListViewPair<Squadron> missionList;
 
+    @Getter
+    private final ImageView imageView = new ImageView();
+
     private final StackPane stackPane = new StackPane();
     private final Label errorLabel = new Label();
     private final VBox errorVBox = new VBox(errorLabel);
 
     @Setter
     private Airbase airbase;
-
-    @Setter
-    private TableView<Mission> missions;
 
     /**
      * Constructor called by guice.
@@ -82,7 +83,6 @@ public class MissionAddDetailsView {
      * @return A node containing the airbase mission details.
      */
     public Node show(final MissionType... missionTypes) {
-        targetView.setMissions(missions);
 
         missionType.getItems().addAll(missionTypes);
 
@@ -95,16 +95,19 @@ public class MissionAddDetailsView {
         VBox choiceBoxes = new VBox(missionVBox, targetVBox);
         choiceBoxes.setId("choices-pane");
 
-        Node targetBox = targetView.build(airbase);
+        Node targetDetailsBox = targetView.build(airbase);
 
-        HBox hBox = new HBox(choiceBoxes, targetBox);
+        HBox hBox = new HBox(choiceBoxes, imageView);
         hBox.setId("target-hbox");
 
         Node squadronsList = buildSquadronLists();
 
-        VBox vBox = new VBox(hBox, squadronsList);
-        vBox.setId("main-pane");
-        return vBox;
+        VBox leftVBox = new VBox(hBox, squadronsList);
+
+        HBox mainHBox = new HBox(leftVBox, targetDetailsBox);
+
+        mainHBox.setId("main-pane");
+        return mainHBox;
     }
 
     /**
@@ -114,7 +117,6 @@ public class MissionAddDetailsView {
      */
     public void assign(final Squadron squadron) {
         missionList.add(squadron);
-        targetView.addSquadron(squadron);
     }
 
     /**
@@ -127,7 +129,6 @@ public class MissionAddDetailsView {
                 .getSelectedItem();
 
         missionList.remove(squadron);
-        targetView.removeSquadron(squadron);
     }
 
     /**
@@ -153,7 +154,6 @@ public class MissionAddDetailsView {
      * @return A node containing the available and selected squadron lists.
      */
     private Node buildSquadronLists() {
-
         missionList.setWidth(props.getInt("airfield.dialog.mission.list.width"));
         missionList.setHeight(props.getInt("airfield.dialog.mission.list.height"));
         missionList.setButtonWidth(props.getInt("airfield.dialog.mission.button.width"));

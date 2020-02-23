@@ -134,7 +134,7 @@ public class PatrolTest {
         regionData.setAirfields(new ArrayList<>(Collections.singletonList("Gibraltar")));
         regionData.setMin("20");
         regionData.setName("Gibraltar");
-        regionData.setNation(new ArrayList<>(Collections.singletonList(Nation.BRITISH)));
+        regionData.setNation(Nation.BRITISH);
 
         return regionFactory.create(Side.ALLIES, regionData);
     }

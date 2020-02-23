@@ -13,7 +13,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
-
+/**
+ * Represents the mission view details.
+ */
 public class MissionView {
 
     @Getter

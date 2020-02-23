@@ -24,12 +24,25 @@
     -fx-spacing: 15;
 }
 
+#target-stats-vbox {
+    -fx-spacing: 10;
+}
+
 #target-step-summary-grid {
     -fx-border-color: black;
     -fx-background-color: whitesmoke;
     -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
     -fx-vgap: 2;
     -fx-hgap: 120;
+    -fx-alignment: top-left;
+}
+
+#region-step-summary-grid {
+    -fx-border-color: black;
+    -fx-background-color: whitesmoke;
+    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
+    -fx-vgap: 2;
+    -fx-hgap: 80;
     -fx-alignment: top-left;
 }
 

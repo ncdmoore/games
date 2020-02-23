@@ -1,7 +1,19 @@
 [
   {
     "name": "New Guinea",
-    "nation": ["AUSTRALIAN", "UNITED STATES"],
+    "nation": "AUSTRALIAN",
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Port Moresby"
+    ],
+    "ports": [
+      "Port Moresby"
+    ]
+  },
+  {
+    "name": "New Guinea",
+    "nation": "UNITED STATES",
     "min": "0",
     "max": "0",
     "airfields": [
@@ -13,7 +25,21 @@
   },
   {
     "name": "Australia",
-    "nation": ["AUSTRALIAN", "UNITED STATES"],
+    "nation": "AUSTRALIAN",
+    "min": "0",
+    "max": "0",
+    "airfields": [
+      "Cairns",
+      "Townsville"
+    ],
+    "ports": [
+      "Cairns",
+      "Townsville"
+    ]
+  },
+  {
+    "name": "Australia",
+    "nation": "UNITED STATES",
     "min": "0",
     "max": "0",
     "airfields": [
@@ -27,7 +53,7 @@
   },
   {
     "name": "Solomon Islands",
-    "nation": ["UNITED STATES"],
+    "nation": "UNITED STATES",
     "min": "0",
     "max": "0",
     "airfields": [
@@ -36,7 +62,7 @@
   },
   {
     "name": "Espiritu Santo",
-    "nation": ["UNITED STATES"],
+    "nation": "UNITED STATES",
     "min": "0",
     "max": "0",
     "airfields": [

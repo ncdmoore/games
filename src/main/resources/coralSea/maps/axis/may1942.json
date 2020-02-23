@@ -1,7 +1,7 @@
 [
   {
     "name": "New Guinea",
-    "nation": ["JAPANESE"],
+    "nation": "JAPANESE",
     "min": "0",
     "max": "0",
     "airfields": [
@@ -15,7 +15,7 @@
   },
   {
     "name": "New Britain",
-    "nation": ["JAPANESE"],
+    "nation": "JAPANESE",
     "min": "0",
     "max": "0",
     "airfields": [
@@ -28,7 +28,7 @@
   },
   {
     "name": "New Ireland",
-    "nation": ["JAPANESE"],
+    "nation": "JAPANESE",
     "min": "0",
     "max": "0",
     "airfields": [

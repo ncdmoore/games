@@ -394,7 +394,7 @@ public final class GameMap {
         int b = Math.abs(targetGrid.getColumn() - startingGrid.getColumn());
         int c = range + 1;
 
-        log.info("a: {} ,b: {}, c: {}", new Object[]{a, b, c});
+        log.debug("a: {} ,b: {}, c: {}", new Object[]{a, b, c});
 
         return (a * a) + (b * b) <= (c * c);
     }
@@ -495,7 +495,7 @@ public final class GameMap {
         return regions
                 .get(side)
                 .stream()
-                .flatMap(this::createNationRegionPair)
+                .map(this::createNationRegionPair)
                 .collect(Collectors.toMap(Pair::getKey, this::createList, ListUtils::union));
     }
 
@@ -617,7 +617,7 @@ public final class GameMap {
     private void buildNationsMap(final Side side) {
         Set<Nation> nationSet = regions.get(side)
                 .stream()
-                .flatMap(region -> region.getNations().stream())
+                .map(Region::getNation)
                 .collect(Collectors.toSet());
 
         nations.put(side, nationSet);
@@ -671,8 +671,8 @@ public final class GameMap {
      * @param region The map region.
      * @return A stream of nation, region pairs.
      */
-    private Stream<Pair<Nation, Region>> createNationRegionPair(final Region region) {
-        return region.getNations().stream().map(nation -> new Pair<>(nation, region));
+    private Pair<Nation, Region> createNationRegionPair(final Region region) {
+        return new Pair<>(region.getNation(), region);
     }
 
     /**

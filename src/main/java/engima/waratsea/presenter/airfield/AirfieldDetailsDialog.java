@@ -468,19 +468,21 @@ public class AirfieldDetailsDialog {
                 .getSelectionModel()
                 .getSelectedItem();
 
-        view
-                .getAirfieldMissionView()
-                .get(nation)
-                .deleteMissionFromTable(mission);
 
-        mission
-                .getSquadrons()
-                .forEach(squadron -> {
-                    addToReadyList(nation, squadron);
-                    addToPatrolAvailableList(nation, squadron);
-                    updateReadySummary(nation, squadron);
-                });
+        Optional.ofNullable(mission).ifPresent(deletedMission -> {
+            view
+                    .getAirfieldMissionView()
+                    .get(nation)
+                    .deleteMissionFromTable(deletedMission);
 
+            deletedMission
+                    .getSquadrons()
+                    .forEach(squadron -> {
+                        addToReadyList(nation, squadron);
+                        addToPatrolAvailableList(nation, squadron);
+                        updateReadySummary(nation, squadron);
+                    });
+        });
 
     }
 

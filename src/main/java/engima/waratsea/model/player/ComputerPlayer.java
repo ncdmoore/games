@@ -330,7 +330,7 @@ public class ComputerPlayer implements Player {
      * The airfield contains the squadrons. So get the squadrons from
      * the airfield.
      *
-     * Once the squadrons are know, then the region requirements which
+     * Once the squadrons are known, then the region requirements which
      * depend upon the number of squadrons can be set.
      */
     @Override
@@ -351,8 +351,7 @@ public class ComputerPlayer implements Player {
                     .distinct()
                     .collect(Collectors.toList());
 
-            regions
-                    .forEach(region -> region.setRequirements(nationsSquadrons));
+            regions.forEach(region -> region.setRequirements(nationsSquadrons));
         }
     }
 

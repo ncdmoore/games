@@ -23,10 +23,11 @@ import java.util.stream.Collectors;
 /**
  * Represents a map region within the game.
  *
- * A region may be shared by nations. Or each nation may have its on region object with unique properties.
- * For this latter case, the map JSON file will contain two separate region definitions each with the same name.
- * For the former case, a single region definition will exist in which multiple nations are defined in its
- * nation's list (array).
+ * Each nation has its on set of regions within the game. To uniquely identify a region both the name of the region
+ * and the nation of the region must be specified. A region contains a set of airfields and ports.
+ * Note, that a given airfield or port if used by more than one nation, may be shared by several regions. For
+ * example, the Sicily region is used by both Germany and Italy. Therefore, there are two regions for Sicily:
+ * one German and one Italian. All the airfields in Sicily used by both nations will be in both regions.
  */
 @Slf4j
 public class Region {
@@ -38,10 +39,10 @@ public class Region {
     private final Side side;
 
     @Getter
-    private final List<Nation> nations;
+    private final Nation nation;
 
-    private final String minString; // in steps.
-    private final String maxString; // in steps.
+    private final String minStepsString;
+    private final String maxStepsString;
 
     @Getter
     private final List<Airfield> airfields;
@@ -50,10 +51,10 @@ public class Region {
     private final List<Port> ports;
 
     @Getter
-    private int min;  // in steps.
+    private int minSteps;
 
     @Getter
-    private int max;  // in steps.
+    private int maxSteps;
 
     /**
      * Constructor of Region called by guice.
@@ -71,9 +72,10 @@ public class Region {
 
         name = data.getName();
         this.side = side;
-        nations = data.getNation();
-        minString = data.getMin();
-        maxString = data.getMax();
+        nation = data.getNation();
+        minStepsString = data.getMin();
+        maxStepsString = data.getMax();
+
 
         airfields = Optional.ofNullable(data.getAirfields())
                 .orElseGet(Collections::emptyList)
@@ -112,8 +114,8 @@ public class Region {
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .intValue();
 
-        min = determineValue(totalSteps, minString);  //Set the minimum steps that must be deployed in this region.
-        max = determineValue(totalSteps, maxString);  //Set the maximum steps that may be deployed in this region.
+        minSteps = determineValue(totalSteps, minStepsString);  //Set the minimum steps that must be deployed in this region.
+        maxSteps = determineValue(totalSteps, maxStepsString);  //Set the maximum steps that may be deployed in this region.
         return this;
     }
 
@@ -123,7 +125,7 @@ public class Region {
      * @return True if this region has a minimum squadron deployment requirement. False otherwise.
      */
     public boolean hasMinimumRequirement() {
-        return min > 0;
+        return minSteps > 0;
     }
 
     /**
@@ -133,7 +135,7 @@ public class Region {
      * @return The number of steps needed to fulfill this region's minimum squadron deployment requirement.
      */
     public int getNeeded() {
-        int neededSteps = min - getCurrentSteps();
+        int neededSteps = minSteps - getCurrentSteps();
 
         if (neededSteps > 0) {
             return neededSteps;
@@ -150,19 +152,19 @@ public class Region {
      */
     public boolean hasRoom(final Squadron squadron) {
 
-        if (max == 0) {
+        if (maxSteps == 0) {
             log.debug("Region: '{}' has room result: true.", name);
-            return true; //If the max is zero, then this region has no maximum.
+            return true; //If maxSteps is zero, then this region has no maximum.
         }
 
         int steps = squadron.getSteps().intValue();
 
-        boolean result = steps + getCurrentSteps() <= max;
+        boolean result = steps + getCurrentSteps() <= maxSteps;
 
         log.debug("Region: '{}' has room result: {}", name, result);
 
         if (!result) {
-            log.warn("Region: '{}' has max: {} with current: {}", new Object[]{name, max, getCurrentSteps()});
+            log.warn("Region: '{}' has maxSteps: {} with current: {}", new Object[]{name, maxSteps, getCurrentSteps()});
         }
 
 
@@ -179,6 +181,41 @@ public class Region {
         return getNeeded() == 0;
     }
 
+    /**
+     * Determine if this region's minimum squadron requirement is still met if the given number
+     * of squadron steps is removed from this region.
+     *
+     * @param removedSteps The number of squadron steps to remove from this region.
+     * @return True if the given squadron steps can be removed from this region and the region's mimimun
+     * squadron step requirement is still satisfied. False otherwise.
+     */
+    public boolean minimumSatisfied(final int removedSteps) {
+        return getCurrentSteps() - removedSteps >= minSteps;
+    }
+
+    /**
+     * Determine the current number of steps stationed in this region.
+     *
+     * @return The current number of steps stationed in this region.
+     */
+    public int getCurrentSteps() {
+        return airfields
+                .stream()
+                .flatMap(airfield -> airfield.getSquadrons().stream())
+                .filter(squadron -> nation == squadron.getNation())
+                .map(Squadron::getSteps)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .intValue();
+    }
+
+    /**
+     * Get the region's title.
+     *
+     * @return The region's title.
+     */
+    public String getTitle() {
+        return getName();
+    }
 
     /**
      * The String representation of the region.
@@ -204,8 +241,8 @@ public class Region {
      * Determine the step requirement for this region.
      *
      * @param totalSteps The total steps for a given nation.
-     * @param value The min or max step requirement for this region for a given nation.
-     * @return The min or max step requirement.
+     * @param value The minSteps or maxSteps step requirement for this region for a given nation.
+     * @return The minSteps or maxSteps step requirement.
      */
     private int determineValue(final int totalSteps, final String value) {
         if ("HALF".equalsIgnoreCase(value)) {
@@ -214,20 +251,4 @@ public class Region {
 
         return Integer.parseInt(value);
     }
-
-    /**
-     * Determine the current number of steps deployed in this region.
-     *
-     * @return The current number of steps deployed in this region.
-     */
-    private int getCurrentSteps() {
-        return airfields
-                .stream()
-                .flatMap(airfield -> airfield.getSquadrons().stream())
-                .filter(squadron -> nations.contains(squadron.getNation()))
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .intValue();
-    }
-
 }

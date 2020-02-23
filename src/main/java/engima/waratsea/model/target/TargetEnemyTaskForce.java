@@ -3,11 +3,13 @@ package engima.waratsea.model.target;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.AirfieldOperation;
+import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.enemy.views.taskForce.TaskForceView;
 import engima.waratsea.model.game.Game;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.data.TargetData;
 import lombok.Getter;
@@ -15,6 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
 
+/**
+ * Represents an enemy task force target.
+ */
 @Slf4j
 public class TargetEnemyTaskForce implements Target {
 
@@ -53,7 +58,29 @@ public class TargetEnemyTaskForce implements Target {
      */
     @Override
     public String getTitle() {
-        return taskForceView.getTitle();
+        return getTaskForceViewView().getTitle();
+    }
+
+    /**
+     * Get the target's map region.
+     *
+     * @return The target's map region.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     */
+    @Override
+    public Region getRegion(final Nation nation) {
+        return null;
+    }
+
+    /**
+     * Get the title of the region.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return The target's region title.
+     */
+    @Override
+    public String getRegionTitle(final Nation nation) {
+        return null;
     }
 
     /**
@@ -109,7 +136,7 @@ public class TargetEnemyTaskForce implements Target {
      */
     @Override
     public String toString() {
-        return name;
+        return getTitle();
     }
 
     /**
@@ -138,6 +165,36 @@ public class TargetEnemyTaskForce implements Target {
     }
 
     /**
+     * Determine if the airbase that is the target has capacity to support additional squadron steps.
+     *
+     * @param excludedAirbase            An airbase to exclude in determining the number of mission
+     *                                   steps currently assigned to this target's region.
+     * @param currentAirbaseMissionSteps The current airbase mission steps. This is the
+     *                                   airbase that is currently being edited in the GUI.
+     * @return True if this target's airbase has capacity to accept more squadron steps. False otherwise.
+     */
+    @Override
+    public boolean hasAirbaseCapacity(final Airbase excludedAirbase, final int currentAirbaseMissionSteps) {
+        return true;
+    }
+
+    /**
+     * Determine if the region that contains this target can has capacity to support additional
+     * squadron steps.
+     *
+     * @param nation                     The region's nation.
+     * @param excludedAirbase            An airbase to exclude in determining the number of mission
+     *                                   steps currently assigned to this target's region.
+     * @param currentAirbaseMissionSteps The current airbase mission steps. This is the
+     *                                   airbase that is currently being edited in the GUI.
+     * @return True if this target's region has capacity to accept more squadron steps. False otherwise.
+     */
+    @Override
+    public boolean hasRegionCapacity(final Nation nation, final Airbase excludedAirbase, final int currentAirbaseMissionSteps) {
+        return true;
+    }
+
+    /**
      * Determine if this squadron is in range of the given squadron.
      *
      * @param squadron The squadron that is determined to be in or out of range of this target.
@@ -152,18 +209,29 @@ public class TargetEnemyTaskForce implements Target {
     }
 
     /**
+     * Determine if the given squadron is allowed to attack this target.
+     *
+     * @param squadron The squadron that is checked if allowed to attack this target.
+     * @return True if this target may attack this target. False otherwise.
+     */
+    @Override
+    public boolean mayAttack(final Squadron squadron) {
+        return true;
+    }
+
+    /**
      * Get the total number of squadron steps that assigned this target.
      *
      * @return The total number of squadron steps that are assigned this target.
      */
     @Override
-    public int getTotalSteps(final Airbase airbase) {
+    public int getMissionSteps(final Airbase airbase) {
         return game
                 .getPlayer(side)
                 .getAirfields()
                 .stream()
                 .filter(base -> base != airbase)
-                .map(base -> base.getTotalSteps(this))
+                .map(base -> base.getTotalMissionSteps(this))
                 .reduce(0, Integer::sum);
     }
 
@@ -173,7 +241,7 @@ public class TargetEnemyTaskForce implements Target {
      * @return The total number of squadron steps that may be assigned to this target.
      */
     @Override
-    public int getTotalCapacitySteps() {
+    public int getCapacitySteps() {
         return 0;
     }
 
@@ -188,24 +256,59 @@ public class TargetEnemyTaskForce implements Target {
     }
 
     /**
-     * Determine if this target has capacity for more squadron steps.
+     * Get the maximum number of squadron steps of the target's region.
      *
-     * @return True if this target has capacity for more squadron steps.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return The maximum number of squadron steps of the target's region.
      */
     @Override
-    public boolean hasCapacity() {
-        return true;
+    public int getRegionMaxSteps(final Nation nation) {
+        return 0;
     }
 
     /**
-     * Determine if this target has the capacity for the given squadron.
+     * Get the current number of squadron steps of the this target's region.
      *
-     * @param squadron The squadron assigned the target.
-     * @return True if the target has capacity for the given squadron. False otherwise.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return The current number of squadron steps of this target's region.
      */
     @Override
-    public AirfieldOperation hasCapacity(final Squadron squadron) {
-        return AirfieldOperation.SUCCESS;
+    public int getRegionCurrentSteps(final Nation nation) {
+        return 0;
+    }
+
+    /**
+     * Get the current number of squadron steps on missions that originate
+     * outside of this target's region that are assigned targets in the
+     * same region as this target.
+     *
+     * @param missionType The type of mission.
+     * @param nation      The nation: BRITISH, ITALIAN, etc...
+     * @param airbase The airbase that contains the mission that has this target as a target.
+     * @return The total number of squadron steps with the given mission type
+     * that originate outside of the region of this target, but have a
+     * target in the same region as this target.
+     */
+    @Override
+    public int getMissionStepsEnteringRegion(final MissionType missionType, final Nation nation, final Airbase airbase) {
+        return 0;
+    }
+
+    /**
+     * Get the current number of squadron steps on missions of the given type
+     * that originate in the same region as the given airbase and that have targets
+     * in different regions than the airbase region.
+     *
+     * @param missionType The type of mission.
+     * @param nation      The nation: BRITISH, ITALIAN, etc...
+     * @param airbase     The airbase that contains the mission that has this as a target.
+     * @return The total number of squadron steps with the given mission type
+     * that originate in the same region as the given airbase and that have targets
+     * in different regions than the airbase region.
+     */
+    @Override
+    public int getMissionStepsLeavingRegion(final MissionType missionType, final Nation nation, final Airbase airbase) {
+        return 0;
     }
 
     /**

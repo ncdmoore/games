@@ -4,10 +4,13 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
-import engima.waratsea.model.base.airfield.AirfieldOperation;
+import engima.waratsea.model.base.airfield.mission.Mission;
+import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.game.Game;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.data.TargetData;
 import lombok.Getter;
@@ -15,6 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
 
+/**
+ * Represents a friendly airfield target. This is used in squadron ferry missions.
+ * The destination airfield is a friendly airfield target. This allows ferry missions
+ * to work like all other missions.
+ */
 @Slf4j
 public class TargetFriendlyAirfield implements Target {
 
@@ -55,7 +63,30 @@ public class TargetFriendlyAirfield implements Target {
      */
     @Override
     public String getTitle() {
-        return airfield.getTitle();
+        return getAirfield().getTitle();
+    }
+
+    /**
+     * Get the target's map region.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return The target's map region.
+     */
+    @Override
+    public Region getRegion(final Nation nation) {
+        return getAirfield().getRegion(nation);
+    }
+
+
+    /**
+     * Get the title of the region.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return The target's region title.
+     */
+    @Override
+    public String getRegionTitle(final Nation nation) {
+        return getAirfield().getRegion(nation).getName();
     }
 
     /**
@@ -140,26 +171,47 @@ public class TargetFriendlyAirfield implements Target {
      */
     @Override
     public boolean inRange(final Squadron squadron) {
-        return  getAirfield()
-                .getLandingType()
-                .contains(squadron.getLandingType())
-                && isInRange(squadron);
+        String targetReference = gameMap.convertNameToReference(getLocation());
+        String airbaseReference = squadron.getAirfield().getReference();
+
+        return gameMap.inRange(airbaseReference, targetReference, squadron.getFerryDistance());
 
     }
 
     /**
-     * Get the total number of squadron steps that assigned this target.
+     * Determine if the given squadron is allowed to attack this target.
      *
+     * @param squadron The squadron that is checked if allowed to attack this target.
+     * @return True if this target may attack this target. False otherwise.
+     */
+    @Override
+    public boolean mayAttack(final Squadron squadron) {
+        return getAirfield()
+                .getLandingType()
+                .contains(squadron.getLandingType());
+    }
+
+    /**
+     * Get the total number of squadron steps that are assigned this target excluding
+     * missions from the given airbase.
+     *
+     * The excluded airbase is typically the airbase were missions are being
+     * created. This airbase's missions are kept in the view and thus need
+     * to be excluded from the model here.
+     *
+     * @param excludedAirbase The airbase from which the mission is launched with this as
+     *                        a target. This airbase is excluded in the total
+     *                        steps returned.
      * @return The total number of squadron steps that are assigned this target.
      */
     @Override
-    public int getTotalSteps(final Airbase airbase) {
+    public int getMissionSteps(final Airbase excludedAirbase) {
         return game
                 .getPlayer(side)
                 .getAirfields()
                 .stream()
-                .filter(base -> base != airbase)
-                .map(base -> base.getTotalSteps(this))
+                .filter(base -> base != excludedAirbase)
+                .map(base -> base.getTotalMissionSteps(this))
                 .reduce(0, Integer::sum);
     }
 
@@ -169,7 +221,7 @@ public class TargetFriendlyAirfield implements Target {
      * @return The total number of squadron steps that may be assigned to this target.
      */
     @Override
-    public int getTotalCapacitySteps() {
+    public int getCapacitySteps() {
         return getAirfield().getCapacity();
     }
 
@@ -184,37 +236,140 @@ public class TargetFriendlyAirfield implements Target {
     }
 
     /**
-     * Determine if this target has capacity for more squadron steps.
+     * Get the maximum number of squadron steps of the target's region.
      *
-     * @return True if this target has capacity for more squadron steps.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return The maximum number of squadron steps of the target's region.
      */
     @Override
-    public boolean hasCapacity() {
-        return !getAirfield().isAtCapacity();
+    public int getRegionMaxSteps(final Nation nation) {
+        return getAirfield()
+                .getRegion(nation)
+                .getMaxSteps();
     }
 
     /**
-     * Determine if this target has the capacity for the given squadron.
+     * Get the current number of squadron steps of the this target's region.
      *
-     * @param squadron The squadron assigned the target.
-     * @return True if the target has capacity for the given squadron. False otherwise.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return The current number of squadron steps of this target's region.
      */
     @Override
-    public AirfieldOperation hasCapacity(final Squadron squadron) {
-        return airfield.canStation(squadron);
+    public int getRegionCurrentSteps(final Nation nation) {
+        return getAirfield()
+                .getRegion(nation)
+                .getCurrentSteps();
     }
 
     /**
-     * Determine if the given squadron is in range of this target.
+     * Get the current number of squadron steps on missions that originate
+     * outside of this target's region that are assigned targets in the
+     * same region as this target.
      *
-     * @param squadron The squadron that may or may not be in range of this target.
-     * @return True if the given squadron is in range. False otherwise.
+     * @param missionType The type of mission.
+     * @param nation      The nation: BRITISH, ITALIAN, etc...
+     * @param airbase     The airbase that contains the mission that has this target as a target.
+     * @return The total number of squadron steps with the given mission type
+     * that originate outside of the region of this target, but have a
+     * target in the same region as this target.
      */
-    private boolean isInRange(final Squadron squadron) {
-        String targetReference = gameMap.convertNameToReference(getLocation());
-        String airbaseReference = squadron.getAirfield().getReference();
+    @Override
+    public int getMissionStepsEnteringRegion(final MissionType missionType, final Nation nation, final Airbase airbase) {
+        return game
+                .getPlayer(side)
+                .getAirfields()
+                .stream()
+                .filter(a -> a != airbase)
+                .filter(a -> a.getRegion(nation) != getRegion(nation))
+                .flatMap(a -> a
+                        .getMissions(nation)
+                        .stream()
+                        .filter(mission -> mission.getTarget().getRegion(nation) == getRegion(nation)))
+                .filter(mission -> mission.getType() == MissionType.FERRY)
+                .map(Mission::getSteps)
+                .reduce(0, Integer::sum);
+    }
 
-        return gameMap.inRange(airbaseReference, targetReference, squadron.getFerryDistance());
+    /**
+     * Get the current number of squadron steps on missions of the given type
+     * that originate in the same region as the given airbase and that have targets
+     * in different regions than the airbase region.
+     *
+     * @param missionType The type of mission.
+     * @param nation      The nation: BRITISH, ITALIAN, etc...
+     * @param airbase     The airbase that contains the mission that has this as a target.
+     * @return The total number of squadron steps with the given mission type
+     * that originate in the same region as the given airbase and that have targets
+     * in different regions than the airbase region.
+     */
+    @Override
+    public int getMissionStepsLeavingRegion(final MissionType missionType, final Nation nation, final Airbase airbase) {
+        return game
+                .getPlayer(side)
+                .getAirfields()
+                .stream()
+                .filter(a -> a != airbase)
+                .filter(a -> a.getRegion(nation) == airbase.getRegion(nation))
+                .flatMap(a -> a
+                        .getMissions(nation)
+                        .stream()
+                        .filter(mission -> mission.getTarget().getRegion(nation) != a.getRegion(nation)))
+                .filter(mission -> mission.getType() == MissionType.FERRY)
+                .map(Mission::getSteps)
+                .reduce(0, Integer::sum);
+    }
+
+    /**
+     * Determine if the airbase that is the target has capacity to support additional squadron steps.
+     *
+     * @param excludedAirbase An airbase to exclude in determining the number of mission
+     *                        steps currently assigned to this target's region.
+     * @param currentAirbaseMissionSteps The current airbase mission steps. This is the
+     *                                   airbase that is currently being edited in the GUI.
+     * @return True if this target's airbase has capacity to accept more squadron steps. False otherwise.
+     */
+    @Override
+    public boolean hasAirbaseCapacity(final Airbase excludedAirbase, final int currentAirbaseMissionSteps) {
+        int airbaseMaxSteps = getAirfield().getCapacity();
+
+        int airbaseCurrentSteps = getAirfield().getCurrentSteps().intValue();
+        int airbaseMissionSteps = getMissionSteps(excludedAirbase);    // excludes current airbase.
+
+        return airbaseMaxSteps >= airbaseCurrentSteps + airbaseMissionSteps + currentAirbaseMissionSteps;
+    }
+
+    /**
+     * Determine if the region that contains this target can has capacity to support additional
+     * squadron steps.
+     *
+     * @param nation The region's nation.
+     * @param excludedAirbase An airbase to exclude in determining the number of mission
+     *                        steps currently assigned to this target's region.
+     * @param currentAirbaseMissionSteps The current airbase mission steps. This is the
+     *                                   airbase that is currently being edited in the GUI.
+     * @return True if this target's region has capacity to accept more squadron steps. False otherwise.
+     */
+    @Override
+    public boolean hasRegionCapacity(final Nation nation, final Airbase excludedAirbase, final int currentAirbaseMissionSteps) {
+        Region region = getAirfield().getRegion(nation);  // The region of the target.
+
+        // If the target is in the same region as the excluded air base, then the region must have capacity.
+        // This is the case where the airbase that originates the mission and the target are both in the same region.
+        // Since the squadrons are not changing regions, the region must have capacity.
+        if (region == excludedAirbase.getRegion(nation)) {
+            return true;
+        }
+
+        int regionCurrentSteps = region.getCurrentSteps();
+        int regionMaxSteps = region.getMaxSteps();
+
+        // This is the total squadron steps from all the player's missions of type ferry that
+        // originate in regions other than this target's region.
+        int regionMissionSteps = getMissionStepsEnteringRegion(MissionType.FERRY, nation, excludedAirbase);
+
+        // If the region's maximum allowed steps is zero, this indicates the region does not have a maximum.
+        // Thus, a region with a maximum allowed steps of zero always has capacity.
+        return regionMaxSteps == 0 || regionMaxSteps >= regionCurrentSteps + regionMissionSteps + currentAirbaseMissionSteps;
     }
 
     /**

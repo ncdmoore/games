@@ -3,7 +3,6 @@ package engima.waratsea.presenter.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.mission.Mission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.mission.MissionType;
@@ -13,10 +12,11 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.CssResourceProvider;
+import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.WarnDialog;
 import engima.waratsea.view.airfield.mission.MissionAddDetailsView;
+import engima.waratsea.view.airfield.mission.MissionView;
 import javafx.event.ActionEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -29,20 +29,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * The presenter for the mission add dialog.
+ */
 @Slf4j
 public class MissionAddDetailsDialog {
     private static final String CSS_FILE = "missionDetails.css";
 
+    private final ImageResourceProvider imageResourceProvider;
     private final CssResourceProvider cssResourceProvider;
     private final Provider<DialogView> dialogProvider;
     private final Provider<MissionAddDetailsView> viewProvider;
-    private final Provider<WarnDialog> warnDialogProvider;
     private final ViewProps props;
 
     private DialogView dialog;
     private Stage stage;
     private AirfieldDetailsDialog airfieldDialog;
-    private MissionAddDetailsView view;
 
     private final Game game;
     private final MissionDAO missionDAO;
@@ -52,36 +54,45 @@ public class MissionAddDetailsDialog {
     @Getter
     private Mission mission;
 
-    private Target selectedTarget;
+    private MissionType selectedMissionType;
+
+    private MissionAddDetailsView view;
+
+    private MissionDetails missionDetails;
 
     /**
      * Constructor called by guice.
      *
      * @param game The game.
      * @param missionDAO Adds missions to air bases.
+     * @param imageResourceProvider Provides images.
      * @param cssResourceProvider Provides the css file.
      * @param dialogProvider Provides the view for this dialog.
      * @param viewProvider Provides the view contents for this dialog.
-     * @param warnDialogProvider Provides warning dialogs.
      * @param props The view properties.
+     * @param missionDetails Mission details helper.
      */
-
+    //CHECKSTYLE:OFF
     @Inject
     public MissionAddDetailsDialog(final Game game,
                                    final MissionDAO missionDAO,
+                                   final ImageResourceProvider imageResourceProvider,
                                    final CssResourceProvider cssResourceProvider,
                                    final Provider<DialogView> dialogProvider,
                                    final Provider<MissionAddDetailsView> viewProvider,
-                                   final Provider<WarnDialog> warnDialogProvider,
-                                   final ViewProps props) {
+                                   final ViewProps props,
+                                   final MissionDetails missionDetails) {
         this.game = game;
         this.missionDAO = missionDAO;
+        this.imageResourceProvider = imageResourceProvider;
         this.cssResourceProvider = cssResourceProvider;
         this.dialogProvider = dialogProvider;
         this.viewProvider = viewProvider;
-        this.warnDialogProvider = warnDialogProvider;
         this.props = props;
+        this.missionDetails = missionDetails;
+
     }
+    //CHECKSTYLE:ON
 
     /**
      * Set the parent dialog.
@@ -102,6 +113,7 @@ public class MissionAddDetailsDialog {
      */
     public MissionAddDetailsDialog setNation(final Nation currentNation) {
         nation = currentNation;
+        missionDetails.setNation(nation);
         return this;
     }
 
@@ -112,12 +124,21 @@ public class MissionAddDetailsDialog {
      */
     public void show(final Airbase currentAirbase) {
         airbase = currentAirbase;
+        missionDetails.setAirbase(airbase);
 
         dialog = dialogProvider.get();     // The dialog view that contains the airfield details view.
         view = viewProvider.get();
 
+        missionDetails.setView(view);
+
         view.setAirbase(airbase);
-        view.setMissions(airfieldDialog.getView().getMissionTable(nation));
+
+        MissionView missionView = airfieldDialog
+                .getView()
+                .getAirfieldMissionView()
+                .get(nation);
+
+        missionDetails.setMissionView(missionView);
 
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -179,9 +200,13 @@ public class MissionAddDetailsDialog {
                 .getHumanPlayer()
                 .getTargets(missionType, nation);
 
+        selectedMissionType = missionType;
+
         //Filter out this airbase from the list of targets for FERRY missions.
         //No need in ferry aircraft to the same air base. That would accomplish nothing.
         targets = missionType == MissionType.FERRY ? filterThisAirbase(targets) : targets;
+
+        view.getImageView().setImage(imageResourceProvider.getImage(nation.toString() + missionType.toString() + ".png"));
 
         view.getTarget().getItems().clear();
         view.getMissionList().clearAll();
@@ -199,16 +224,22 @@ public class MissionAddDetailsDialog {
      * @param target The selected target.
      */
     private void targetSelected(final Target target) {
-        selectedTarget = target;
 
-        view.getTargetView().show(target);
+        missionDetails.setSelectedTarget(target);
+
+        missionDetails.updateTargetView(mission, selectedMissionType);
         view.getMissionList().clearAll();
         view.hideError();
 
         Optional.ofNullable(target).ifPresent(t -> {
 
-            if (!t.hasCapacity()) {
+            if (!missionDetails.hasCapacity()) {       // Check target for maximum squadron step capacity.
                 view.showError(t.getTitle() + " is at max capacity");
+                return;
+            }
+
+            if (!missionDetails.hasRegionCapacity()) { // Check target's region for maximum squadron step capacity.
+                view.showError(t.getRegionTitle(nation) + " is at max capacity");
                 return;
             }
 
@@ -216,6 +247,15 @@ public class MissionAddDetailsDialog {
 
             if (availableSquadrons.isEmpty()) {
                 view.showError("No ready squadrons.");
+                return;
+            }
+
+            availableSquadrons = availableSquadrons.stream()
+                    .filter(t::mayAttack)
+                    .collect(Collectors.toList());
+
+            if (availableSquadrons.isEmpty()) {
+                view.showError("No squadrons capable.");
                 return;
             }
 
@@ -238,20 +278,12 @@ public class MissionAddDetailsDialog {
      * @param event The button action event.
      */
     private void addSquadron(final ActionEvent event) {
-        Squadron squadron = view.getMissionList()
-                .getAvailable()
-                .getSelectionModel()
-                .getSelectedItem();
-
-        AirfieldOperation result = selectedTarget.hasCapacity(squadron);
-
-        if (result != AirfieldOperation.SUCCESS) {
-            warnDialogProvider.get().show(result.toString());
-            return;
-        }
-
-        view.assign(squadron);
-        dialog.getOkButton().setDisable(false);
+        missionDetails.getSelectedAvailableSquadron().ifPresent(squadron -> {
+            if (missionDetails.mayAddSquadronToMission(mission, selectedMissionType, squadron)) {
+                missionDetails.addSquadron(selectedMissionType, squadron);
+                dialog.getOkButton().setDisable(false);
+            }
+        });
     }
 
     /**
@@ -260,10 +292,12 @@ public class MissionAddDetailsDialog {
      * @param event The button action event.
      */
     private void removeSquadron(final ActionEvent event) {
-        view.remove();
-        if (view.getMissionList().getAssigned().getItems().isEmpty()) {
-            dialog.getOkButton().setDisable(true);
-        }
+        missionDetails.getSelectedAssignedSquadron().ifPresent(squadron -> {
+            missionDetails.removeSquadron(selectedMissionType, squadron);
+            if (view.getMissionList().getAssigned().getItems().isEmpty()) {
+                dialog.getOkButton().setDisable(true);
+            }
+        });
     }
 
     /**

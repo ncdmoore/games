@@ -79,7 +79,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     @Setter
     private int capacity;           //Capacity in steps.
 
-    private final Map<Nation, Region> regions = new HashMap<>();
+    private final Map<Nation, Region> regions = new HashMap<>();  // A given airfield may be in multiple regions.
 
     @Getter
     private final List<Squadron> squadrons = new ArrayList<>();
@@ -88,9 +88,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     private List<Mission> missions;
 
     private final Map<String, Squadron> squadronNameMap = new HashMap<>();
-
     private final Map<AircraftType, List<Squadron>> squadronMap = new LinkedHashMap<>();
-
     private final Map<PatrolType, Patrol> patrolMap = new HashMap<>();
 
     /**
@@ -171,7 +169,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param region The region that is added.
      */
     public void addRegion(final Region region) {
-        region.getNations().forEach(nation -> regions.put(nation, region));
+        regions.put(region.getNation(), region);
     }
 
     /**
@@ -278,18 +276,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
-     * Remove a misson from this air base.
-     *
-     * @param mission The mission that is removed from this airbase.
-     */
-    @Override
-    public void removeMission(final Mission mission) {
-        missions.remove(mission);
-        mission.removeSquadrons();
-        log.info("Mission {} {} removed.", mission.getType().toString(), mission.getTarget().getName());
-    }
-
-    /**
      * Get the total number of squadron steps on a mission of the given type
      * that are assigned to the given target. This is the total number of squadron steps
      * from all missions of the same type that have the given target as their target.
@@ -298,14 +284,14 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @return The total number of steps being ferried to the given target.
      */
     @Override
-    public int getTotalSteps(final Target target) {
+    public int getTotalMissionSteps(final Target target) {
         int steps =  missions
                 .stream()
                 .filter(mission -> mission.getTarget().isEqual(target))
                 .map(Mission::getSteps)
                 .reduce(0, Integer::sum);
 
-        log.info("Airfield {} target {} steps {}", new Object[]{name, target.getName(), steps});
+        log.debug("Airfield {} target {} steps {}", new Object[]{name, target.getName(), steps});
         return steps;
     }
 
@@ -343,6 +329,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      *
      * @return The current number of steps deployed at this airfield.
      */
+    @Override
     public BigDecimal getCurrentSteps() {
         return squadrons
                 .stream()
@@ -411,6 +398,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param state The squadron state.
      * @return The squadron map keyed by aircraft type for the given nation and given squadron state.
      */
+    @Override
     public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation nation, final SquadronState state) {
         return squadronMap
                 .entrySet()
@@ -483,6 +471,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param patrolType The type of patrol.
      * @return The patrol corresponding to the given type.
      */
+    @Override
     public Patrol getPatrol(final PatrolType patrolType) {
         return patrolMap.get(patrolType);
     }
@@ -606,6 +595,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param squadron A potential new squadron.
      * @return True if this airfield can house the new squadron; false otherwise.
      */
+    @Override
     public AirfieldOperation canStation(final Squadron squadron) {
 
         if (!canSquadronLand(squadron)) {

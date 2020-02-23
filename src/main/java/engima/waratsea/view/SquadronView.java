@@ -239,8 +239,8 @@ public class SquadronView {
      * @param region The selected region.
      */
     public void setSelectedRegion(final Nation nation, final Region region) {
-        regionMaximumValue.get(nation).setText(region.getMax() + "");
-        regionMinimumValue.get(nation).setText(region.getMin() + "");
+        regionMaximumValue.get(nation).setText(region.getMaxSteps() + "");
+        regionMinimumValue.get(nation).setText(region.getMinSteps() + "");
     }
 
     /**

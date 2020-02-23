@@ -12,15 +12,17 @@ import engima.waratsea.view.util.ListViewPair;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.Setter;
 
-
-public class MissionEditDetailsView {
+/**
+ * Represents the mission edit dialog view details.
+ */
+public class MissionEditDetailsView implements MissionDetailsView {
 
     private final ViewProps props;
 
@@ -36,15 +38,14 @@ public class MissionEditDetailsView {
     @Getter
     private final ListViewPair<Squadron> missionList;
 
+    @Getter
+    private final ImageView imageView = new ImageView();
+
     private final StackPane stackPane = new StackPane();
-    private final Label errorLabel = new Label();
-    private final VBox errorVBox = new VBox(errorLabel);
 
     @Setter
     private Airbase airbase;
 
-    @Setter
-    private TableView<Mission> missions;
 
     /**
      * Constructor called by guice.
@@ -64,13 +65,6 @@ public class MissionEditDetailsView {
         target.setMinWidth(props.getInt("mission.type.list.width"));
 
         missionList = new ListViewPair<>("missions", imageResourceProvider);
-
-        errorLabel.setId("mission-error-text");
-        errorVBox.setId("mission-error-vbox");
-        errorVBox.setMinWidth(props.getInt("mission.error.box.width"));
-        errorVBox.setMaxWidth(props.getInt("mission.error.box.width"));
-        errorVBox.setMaxHeight(props.getInt("mission.error.box.height"));
-        errorVBox.setMinHeight(props.getInt("mission.error.box.height"));
     }
 
     /**
@@ -82,8 +76,6 @@ public class MissionEditDetailsView {
     public Node show(final Mission mission) {
         missionType.getItems().add(mission.getType());
         target.getItems().add(mission.getTarget());
-
-        targetView.setMissions(missions);
 
         missionType.setDisable(true);
         target.setDisable(true);
@@ -97,16 +89,19 @@ public class MissionEditDetailsView {
         VBox choiceBoxes = new VBox(missionVBox, targetVBox);
         choiceBoxes.setId("choices-pane");
 
-        Node targetBox = targetView.build(airbase);
+        Node targetDetailsBox = targetView.build(airbase);
 
-        HBox hBox = new HBox(choiceBoxes, targetBox);
+        HBox hBox = new HBox(choiceBoxes, imageView);
         hBox.setId("target-hbox");
 
         Node squadronsList = buildSquadronLists();
 
-        VBox vBox = new VBox(hBox, squadronsList);
-        vBox.setId("main-pane");
-        return vBox;
+        VBox leftVBox = new VBox(hBox, squadronsList);
+
+        HBox mainHBox = new HBox(leftVBox, targetDetailsBox);
+
+        mainHBox.setId("main-pane");
+        return mainHBox;
     }
 
     /**
@@ -116,7 +111,6 @@ public class MissionEditDetailsView {
      */
     public void assign(final Squadron squadron) {
         missionList.add(squadron);
-        targetView.addSquadron(squadron);
     }
 
     /**
@@ -129,24 +123,6 @@ public class MissionEditDetailsView {
                 .getSelectedItem();
 
         missionList.remove(squadron);
-        targetView.removeSquadron(squadron);
-    }
-
-    /**
-     * Show the error text.
-     *
-     * @param text The error text.
-     */
-    public void showError(final String text) {
-        errorLabel.setText(text);
-        stackPane.getChildren().add(errorVBox);
-    }
-
-    /**
-     * Hide the error text.
-     */
-    public void hideError() {
-        stackPane.getChildren().remove(errorVBox);
     }
 
     /**
@@ -155,7 +131,6 @@ public class MissionEditDetailsView {
      * @return A node containing the available and selected squadron lists.
      */
     private Node buildSquadronLists() {
-
         missionList.setWidth(props.getInt("airfield.dialog.mission.list.width"));
         missionList.setHeight(props.getInt("airfield.dialog.mission.list.height"));
         missionList.setButtonWidth(props.getInt("airfield.dialog.mission.button.width"));

@@ -3,7 +3,6 @@ package engima.waratsea.presenter.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.mission.Mission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.mission.MissionType;
@@ -12,10 +11,11 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.CssResourceProvider;
+import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.WarnDialog;
 import engima.waratsea.view.airfield.mission.MissionEditDetailsView;
+import engima.waratsea.view.airfield.mission.MissionView;
 import javafx.event.ActionEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -26,20 +26,22 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The presenter for the mission edit dialog.
+ */
 @Slf4j
 public class MissionEditDetailsDialog {
     private static final String CSS_FILE = "missionDetails.css";
 
+    private final ImageResourceProvider imageResourceProvider;
     private final CssResourceProvider cssResourceProvider;
     private final Provider<DialogView> dialogProvider;
     private final Provider<MissionEditDetailsView> viewProvider;
-    private final Provider<WarnDialog> warnDialogProvider;
     private final ViewProps props;
 
     private DialogView dialog;
     private Stage stage;
     private AirfieldDetailsDialog airfieldDialog;
-    private MissionEditDetailsView view;
 
     private final MissionDAO missionDAO;
     private Airbase airbase;
@@ -49,33 +51,41 @@ public class MissionEditDetailsDialog {
     @Setter
     private Mission mission;
 
-    private Target selectedTarget;
+    private MissionType selectedMissionType;
+
+    private MissionEditDetailsView view;
+
+    private MissionDetails missionDetails;
 
     /**
      * Constructor called by guice.
      *
      * @param missionDAO Adds missions to air bases.
+     * @param imageResourceProvider Provides images.
      * @param cssResourceProvider Provides the css file.
      * @param dialogProvider Provides the view for this dialog.
      * @param viewProvider Provides the view contents for this dialog.
-     * @param warnDialogProvider Provides warning dialogs.
      * @param props The view properties.
+     * @param missionDetails The mission details helper.
      */
-
+    //CHECKSTYLE:OFF
     @Inject
     public MissionEditDetailsDialog(final MissionDAO missionDAO,
+                                    final ImageResourceProvider imageResourceProvider,
                                     final CssResourceProvider cssResourceProvider,
                                     final Provider<DialogView> dialogProvider,
                                     final Provider<MissionEditDetailsView> viewProvider,
-                                    final Provider<WarnDialog> warnDialogProvider,
-                                    final ViewProps props) {
+                                    final ViewProps props,
+                                    final MissionDetails missionDetails) {
         this.missionDAO = missionDAO;
+        this.imageResourceProvider = imageResourceProvider;
         this.cssResourceProvider = cssResourceProvider;
         this.dialogProvider = dialogProvider;
         this.viewProvider = viewProvider;
-        this.warnDialogProvider = warnDialogProvider;
         this.props = props;
+        this.missionDetails = missionDetails;
     }
+    //CHECKSTYLE:ON
 
     /**
      * Set the parent dialog.
@@ -96,6 +106,7 @@ public class MissionEditDetailsDialog {
      */
     public MissionEditDetailsDialog setNation(final Nation currentNation) {
         nation = currentNation;
+        missionDetails.setNation(nation);
         return this;
     }
 
@@ -106,12 +117,21 @@ public class MissionEditDetailsDialog {
      */
     public void show(final Airbase currentAirbase) {
         airbase = currentAirbase;
+        missionDetails.setAirbase(airbase);
 
         dialog = dialogProvider.get();     // The dialog view that contains the airfield details view.
         view = viewProvider.get();
 
+        missionDetails.setView(view);
+
         view.setAirbase(airbase);
-        view.setMissions(airfieldDialog.getView().getMissionTable(nation));
+
+        MissionView missionView = airfieldDialog
+                .getView()
+                .getAirfieldMissionView()
+                .get(nation);
+
+        missionDetails.setMissionView(missionView);
 
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -131,13 +151,23 @@ public class MissionEditDetailsDialog {
         setAvailableSquadrons();
         setAssignedSquadrons();
 
-        MissionType missionType = view.getMissionType().getSelectionModel().getSelectedItem();
+        selectedMissionType = view
+                .getMissionType()
+                .getSelectionModel()
+                .getSelectedItem();
 
-        selectedTarget = view.getTarget().getSelectionModel().getSelectedItem();
-        view.getTargetView().show(selectedTarget);
+        Target selectedTarget = view.getTarget()
+                .getSelectionModel()
+                .getSelectedItem();
 
-        view.getMissionList().setAvailableTitle(missionType + " Available");
-        view.getMissionList().setAssignedTitle(missionType + " Assigned");
+        missionDetails.setSelectedTarget(selectedTarget);
+
+        view.getImageView().setImage(imageResourceProvider.getImage(nation.toString() + selectedMissionType.toString() + ".png"));
+
+        missionDetails.updateTargetView(mission, selectedMissionType);
+
+        view.getMissionList().setAvailableTitle(selectedMissionType + " Available");
+        view.getMissionList().setAssignedTitle(selectedMissionType + " Assigned");
 
         dialog.getCancelButton().setOnAction(event -> cancel());
         dialog.getOkButton().setOnAction(event -> ok());
@@ -190,20 +220,11 @@ public class MissionEditDetailsDialog {
      * @param event The button action event.
      */
     private void addSquadron(final ActionEvent event) {
-        Squadron squadron = view.getMissionList()
-                .getAvailable()
-                .getSelectionModel()
-                .getSelectedItem();
-
-        AirfieldOperation result = selectedTarget.hasCapacity(squadron);
-
-        if (result != AirfieldOperation.SUCCESS) {
-            warnDialogProvider.get().show(result.toString());
-            return;
-        }
-
-        view.assign(squadron);
-        dialog.getOkButton().setDisable(false);
+        missionDetails.getSelectedAvailableSquadron().ifPresent(squadron -> {
+            if (missionDetails.mayAddSquadronToMission(mission, selectedMissionType, squadron)) {
+                missionDetails.addSquadron(selectedMissionType, squadron);
+            }
+        });
     }
 
     /**
@@ -212,10 +233,13 @@ public class MissionEditDetailsDialog {
      * @param event The button action event.
      */
     private void removeSquadron(final ActionEvent event) {
-        view.remove();
-        if (view.getMissionList().getAssigned().getItems().isEmpty()) {
-            dialog.getOkButton().setDisable(true);
-        }
+        missionDetails.getSelectedAssignedSquadron().ifPresent(squadron -> {
+            missionDetails.removeSquadron(selectedMissionType, squadron);
+            if (view.getMissionList().getAssigned().getItems().isEmpty()) {
+                dialog.getOkButton().setDisable(true);
+            }
+        });
+
     }
 
     /**

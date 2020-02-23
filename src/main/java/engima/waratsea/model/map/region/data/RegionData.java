@@ -17,7 +17,7 @@ public class RegionData {
 
     @Getter
     @Setter
-    private List<Nation> nation;
+    private Nation nation;
 
     @Getter
     @Setter

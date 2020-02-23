@@ -2,6 +2,9 @@ package engima.waratsea.model.target;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum TargetType {
     @SerializedName(value = "ENEMY_AIRFIELD", alternate = {"Enemy_Airfield", "enemy_airfield"})
     ENEMY_AIRFIELD,
@@ -25,5 +28,28 @@ public enum TargetType {
     LAND_GRID,
 
     @SerializedName(value = "SEA_GRID", alternate = {"Sea_Grid", "sea_grid"})
-    SEA_GRID
+    SEA_GRID;
+
+    private static Map<Class<?>, String> titleMap = new HashMap<>();
+
+    static {
+        titleMap.put(TargetEnemyAirfield.class, "Airfield");
+        titleMap.put(TargetEnemyPort.class, "Port");
+        titleMap.put(TargetEnemyTaskForce.class, "Task Force");
+        titleMap.put(TargetFriendlyAirfield.class, "Airfield");
+        titleMap.put(TargetFriendlyPort.class, "Port");
+        titleMap.put(TargetFriendlyTaskForce.class, "Task Force");
+        titleMap.put(TargetLandGrid.class, "Land Grid");
+        titleMap.put(TargetSeaGrid.class, "Sea Grid");
+    }
+
+    /**
+     * Get the target's title from its class.
+     *
+     * @param target A target.
+     * @return The corresponding title.
+     */
+    public static String getTitle(final Target target) {
+        return titleMap.get(target.getClass());
+    }
 }
