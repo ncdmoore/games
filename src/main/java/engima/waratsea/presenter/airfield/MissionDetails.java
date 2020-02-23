@@ -17,6 +17,7 @@ import lombok.Setter;
 
 import javax.annotation.Nullable;
 import java.math.BigDecimal;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -39,7 +40,7 @@ public class MissionDetails {
     private MissionDetailsView view;
 
     @Setter
-    private MissionView missionView;
+    private Map<Nation, MissionView> missionView;
 
     /**
      * Constructor called by guice.
@@ -221,7 +222,8 @@ public class MissionDetails {
         int totalStepsCurrentMission = getCurrentMissionSteps();
 
         //Get the total number of squadron steps from other missions originating from the selected
-        //airbase that are assigned to this target.
+        //airbase that are assigned to this target. This is the total number of squadron steps
+        //for all nations at the selected airbase.
         int totalStepsOtherMissions = getOtherMissionSteps(mission, selectedTarget);
 
         //Total squadron steps from this airbase that are assigned missions with the selected target
@@ -302,11 +304,11 @@ public class MissionDetails {
 
     /**
      * Get the steps in route to the target from this airbase. This includes the mission under construction as well
-     * as all other missions.
+     * as all other missions for all nations at the selected airbase.
      *
      * @param selectedMission The selected mission.
      * @param target The selected target.
-     * @return The squadron steps in route to the target from this airbase.
+     * @return The squadron steps in route to the target from this airbase for all nations.
      */
     private int getMissionSteps(@Nullable final Mission selectedMission, final Target target) {
         //The current mission steps may change as squadrons are added and deleted so
@@ -352,6 +354,7 @@ public class MissionDetails {
      */
     private int getMissionSteps(final Target target) {
         return missionView
+                .get(nation)
                 .getTable()
                 .getItems()
                 .stream()
@@ -379,22 +382,27 @@ public class MissionDetails {
 
     /**
      * Get the steps in route to the target from this airbase's mission excluding the mission
-     * under construction. For adds this selected mission will be null.
+     * under construction. For adds this selected mission will be null. Note, that this method
+     * returns all steps in route to the given target for all nations.
      *
      * @param selectedMission The selected mission.
      * @param target The airbase's mission's target.
      * @return The number of steps in route (on missions) to this target from this airbase
-     * excluding the mission under construction.
+     * excluding the mission under construction for all nations.
      */
     private int getOtherMissionSteps(@Nullable final Mission selectedMission, final Target target) {
         return missionView
-                .getTable()
-                .getItems()
+                .values()
                 .stream()
-                .filter(mission -> mission != selectedMission)
-                .filter(mission -> mission.getTarget().isEqual(target))
-                .map(Mission::getSteps)
+                .map(mv -> mv.getTable()
+                            .getItems()
+                            .stream()
+                            .filter(mission -> mission != selectedMission)
+                            .filter(mission -> mission.getTarget().isEqual(target))
+                            .map(Mission::getSteps)
+                            .reduce(0, Integer::sum))
                 .reduce(0, Integer::sum);
+
     }
 
     /**
@@ -420,6 +428,7 @@ public class MissionDetails {
      */
     private int getOtherMissionStepsEnteringRegion(@Nullable final Mission selectedMission, final MissionType missionType, final Target target) {
         return missionView
+                .get(nation)
                 .getTable()
                 .getItems()
                 .stream()
@@ -459,6 +468,7 @@ public class MissionDetails {
      */
     private int getOtherMissionStepsLeavingRegion(@Nullable final Mission selectedMission, final MissionType missionType) {
         return missionView
+                .get(nation)
                 .getTable()
                 .getItems()
                 .stream()

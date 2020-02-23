@@ -24,6 +24,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -126,10 +127,9 @@ public class MissionEditDetailsDialog {
 
         view.setAirbase(airbase);
 
-        MissionView missionView = airfieldDialog
+        Map<Nation, MissionView> missionView = airfieldDialog
                 .getView()
-                .getAirfieldMissionView()
-                .get(nation);
+                .getAirfieldMissionView();
 
         missionDetails.setMissionView(missionView);
 
