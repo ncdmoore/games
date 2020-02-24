@@ -16,7 +16,6 @@
     -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
 }
 
-
 #main-hbox {
     -fx-spacing: 20;
 }
@@ -74,15 +73,74 @@
     -fx-border-width: 2px;
     -fx-border-color: black;
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, white 0%, khaki 100%);
-    -fx-alignment: center
-
+    -fx-alignment: center;
 }
 
 #mission-error-text {
     -fx-text-fill: red;
 }
 
+#summary-title-pane-british {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
+    -fx-alignment: top-center;
+}
+
+#summary-title-pane-italian {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, green, white, red);
+    -fx-alignment: top-center;
+}
+
+#summary-title-pane-german {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, darkred, white, black);
+    -fx-alignment: top-center;
+}
+
+#summary-title-pane-french {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, red, white, blue);
+    -fx-alignment: top-center;
+}
+
+#summary-pane {
+    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left */ 0;
+}
+
+#summary-vbox {
+    -fx-spacing: 5;
+    -fx-alignment: top-center;
+}
+
+#summary-hbox {
+    -fx-spacing: 20;
+    -fx-alignment: top-center;
+}
+
+#profile-vbox {
+    -fx-background-color: white;
+    -fx-alignment: center;
+}
+
+#squadron-attack-data-title {
+    -fx-padding: /* top: */ 0 /* right: */ 0 /* bottom: */ 0 /* left */ 78;
+}
+
+#squadron-performance-data-title {
+    -fx-padding: /* top: */ 0 /* right: */ 0 /* bottom: */ 0 /* left */ 38;
+}
+
 #controls-pane {
     -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 10 /* left */ 0;
     -fx-spacing: 20;
+}
+
+.component-grid {
+    -fx-background-color: white;
+    -fx-hgap: 10;
 }

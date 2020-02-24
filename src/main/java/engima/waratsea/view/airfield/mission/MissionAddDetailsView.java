@@ -1,12 +1,15 @@
 package engima.waratsea.view.airfield.mission;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.squadron.SquadronSummaryView;
 import engima.waratsea.view.util.ListViewPair;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
@@ -41,6 +44,9 @@ public class MissionAddDetailsView implements MissionDetailsView {
     @Getter
     private final ImageView imageView = new ImageView();
 
+    @Getter
+    private final SquadronSummaryView squadronSummaryView;
+
     private final StackPane stackPane = new StackPane();
     private final Label errorLabel = new Label();
     private final VBox errorVBox = new VBox(errorLabel);
@@ -54,11 +60,13 @@ public class MissionAddDetailsView implements MissionDetailsView {
      * @param props The view properties.
      * @param targetView The target view.
      * @param imageResourceProvider Provides images.
+     * @param squadronSummaryViewProvider Provides squadron summaries.
      */
     @Inject
     public MissionAddDetailsView(final ViewProps props,
                                  final TargetView targetView,
-                                 final ImageResourceProvider imageResourceProvider) {
+                                 final ImageResourceProvider imageResourceProvider,
+                                 final Provider<SquadronSummaryView> squadronSummaryViewProvider) {
         this.props = props;
         this.targetView = targetView;
 
@@ -66,6 +74,8 @@ public class MissionAddDetailsView implements MissionDetailsView {
         target.setMinWidth(props.getInt("mission.type.list.width"));
 
         missionList = new ListViewPair<>("missions", imageResourceProvider);
+
+        squadronSummaryView = squadronSummaryViewProvider.get();
 
         stackPane.setId("mission-squadron-pane");
         errorLabel.setId("mission-error-text");
@@ -79,10 +89,12 @@ public class MissionAddDetailsView implements MissionDetailsView {
     /**
      * Show the airbase mission details.
      *
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
      * @param missionTypes a collection of mission types.
      * @return A node containing the airbase mission details.
      */
-    public Node show(final MissionType... missionTypes) {
+    public Node show(final Nation nation, final MissionType... missionTypes) {
 
         missionType.getItems().addAll(missionTypes);
 
@@ -102,12 +114,18 @@ public class MissionAddDetailsView implements MissionDetailsView {
 
         Node squadronsList = buildSquadronLists();
 
+        Node squadronSummaryNode = squadronSummaryView.show(nation);
+
         VBox leftVBox = new VBox(hBox, squadronsList);
+        leftVBox.setId("left-vbox");
 
         HBox mainHBox = new HBox(leftVBox, targetDetailsBox);
+        mainHBox.setId("main-hbox");
 
-        mainHBox.setId("main-pane");
-        return mainHBox;
+        VBox mainVBox = new VBox(mainHBox, squadronSummaryNode);
+
+        mainVBox.setId("main-pane");
+        return mainVBox;
     }
 
     /**

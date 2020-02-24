@@ -26,6 +26,19 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Contains the squadron summary. This is a component that can be included inside other views as a child view.
+ *
+ * Defined styles are:
+ *
+ *  summary-title-pane-{nation}
+ *  summary-hbox
+ *  summary-vbox
+ *  summary-pane
+ *  profile-vbox
+ *  squadron-attack-data-title
+ *  squadron-performance-data-title
+ */
 @Slf4j
 public class SquadronSummaryView {
     @Getter

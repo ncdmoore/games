@@ -147,7 +147,7 @@ public class MissionAddDetailsDialog {
         dialog.setWidth(props.getInt("mission.dialog.width"));
         dialog.setHeight(props.getInt("mission.dialog.height"));
         dialog.setCss(cssResourceProvider.get(CSS_FILE));
-        dialog.setContents(view.show(getValidMissionTypes()));
+        dialog.setContents(view.show(nation, getValidMissionTypes()));
 
         registerHandlers();
 
@@ -178,6 +178,19 @@ public class MissionAddDetailsDialog {
                 .getSelectionModel()
                 .selectedItemProperty()
                 .addListener((v, oldValue, newValue) -> targetSelected(newValue));
+
+
+        view.getMissionList()
+                .getAssigned()
+                .getSelectionModel()
+                .selectedItemProperty()
+                .addListener((v, oldValue, newValue) -> assignedSquadronSelected(newValue));
+
+        view.getMissionList()
+                .getAvailable()
+                .getSelectionModel()
+                .selectedItemProperty()
+                .addListener((v, oldValue, newValue) -> availableSquadronSelected(newValue));
 
         view
                 .getMissionList()
@@ -270,6 +283,35 @@ public class MissionAddDetailsDialog {
 
             view.getMissionList().addAllToAvailable(availableSquadrons);
         });
+    }
+
+    /**
+     * An available squadron has been selected.
+     *
+     * @param squadron The available squadron.
+     */
+    private void availableSquadronSelected(final Squadron squadron) {
+        Optional
+                .ofNullable(squadron)
+                .ifPresent(s -> {
+                    view.getSquadronSummaryView().setSelectedSquadron(s);
+                    view.getMissionList().getAssigned().getSelectionModel().clearSelection();
+                });
+
+    }
+
+    /**
+     * An assigned squadron has been selected.
+     *
+     * @param squadron The available squadron.
+     */
+    private void assignedSquadronSelected(final Squadron squadron) {
+        Optional
+                .ofNullable(squadron)
+                .ifPresent(s -> {
+                    view.getSquadronSummaryView().setSelectedSquadron(s);
+                    view.getMissionList().getAvailable().getSelectionModel().clearSelection();
+                });
     }
 
     /**
