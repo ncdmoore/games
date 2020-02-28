@@ -2,10 +2,10 @@ package engima.waratsea.model.base.airfield.patrol;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
-import engima.waratsea.model.base.airfield.patrol.rules.AirRules;
-import engima.waratsea.model.base.airfield.patrol.rules.AirRulesFactory;
+import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronAction;
@@ -40,20 +40,20 @@ public class AswPatrol implements Patrol {
     @Getter
     private int maxRadius;                    //The maximum patrol radius of this patrol.
 
-    private final AirRules rules;             //The set of rules that govern this patrol.
+    private final PatrolAirRules rules;             //The set of rules that govern this patrol.
 
     /**
      * The constructor.
      *
      * @param data The ASW patrol data read in from a JSON file.
-     * @param airRulesFactory The air rules factory.
+     * @param rules The ASW rules.
      */
     @Inject
     public AswPatrol(@Assisted final PatrolData data,
-                               final AirRulesFactory airRulesFactory) {
+                               final @Named("asw") PatrolAirRules rules) {
         airbase = data.getAirbase();
 
-        rules = airRulesFactory.createAsw();
+        this.rules = rules;
 
         squadrons = Optional.ofNullable(data.getSquadrons())
                 .orElseGet(Collections::emptyList)
@@ -100,6 +100,25 @@ public class AswPatrol implements Patrol {
     }
 
     /**
+     * Determine which squadrons on patrol can reach the given target radius.
+     *
+     * @param targetRadius A patrol radius for which each squadron on patrol is
+     *                     checked to determine if the squadron can reach the
+     *                     radius.
+     * @return A list of squadrons on patrol that can reach the given target radius.
+     */
+    @Override
+    public List<Squadron> getSquadrons(final int targetRadius) {
+        return squadrons
+                .stream()
+                .filter(squadron -> squadron
+                        .getRadius()
+                        .stream()
+                        .anyMatch(radius -> radius >= targetRadius))
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Add a squadron to the ASW patrol.
      *
      * @param squadron The squadron that is added to the patrol.
@@ -127,25 +146,6 @@ public class AswPatrol implements Patrol {
         SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_PATROL);
         squadron.setSquadronState(state);
         updateMaxRadius();
-    }
-
-    /**
-     * Determine which squadrons on patrol can reach the given target radius.
-     *
-     * @param targetRadius A patrol radius for which each squadron on patrol is
-     *                     checked to determine if the squadron can reach the
-     *                     radius.
-     * @return A list of squadrons on patrol that can reach the given target radius.
-     */
-    @Override
-    public List<Squadron> getSquadrons(final int targetRadius) {
-        return squadrons
-                .stream()
-                .filter(squadron -> squadron
-                        .getRadius()
-                        .stream()
-                        .anyMatch(radius -> radius >= targetRadius))
-                .collect(Collectors.toList());
     }
 
     /**

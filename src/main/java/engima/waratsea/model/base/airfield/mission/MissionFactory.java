@@ -12,7 +12,7 @@ public interface MissionFactory {
      * @return A ferry mission initialized with the given data.
      */
     @Named("ferry")
-    Mission createFerry(MissionData data);
+    AirMission createFerry(MissionData data);
 
     /**
      * Create an airbase land strike mission.
@@ -21,7 +21,7 @@ public interface MissionFactory {
      * @return A land strike mission initialized with the given data.
      */
     @Named("landStrike")
-    Mission createLandStrike(MissionData data);
+    AirMission createLandStrike(MissionData data);
 
     /**
      * Create an airbase naval strike mission.
@@ -30,7 +30,7 @@ public interface MissionFactory {
      * @return A naval strike mission initialized with the given data.
      */
     @Named("navalPortStrike")
-    Mission createNavalPortStrike(MissionData data);
+    AirMission createNavalPortStrike(MissionData data);
 
     /**
      * Create an airbase fighter sweep mission over an enemy airfield.
@@ -39,7 +39,7 @@ public interface MissionFactory {
      * @return A fighter sweep mission initialized with the given data.
      */
     @Named("sweepAirfield")
-    Mission createSweepAirfield(MissionData data);
+    AirMission createSweepAirfield(MissionData data);
 
     /**
      * Create an airbase fighter sweep mission over an enemy port.
@@ -48,5 +48,5 @@ public interface MissionFactory {
      * @return A fighter sweep mission initialized with the given data.
      */
     @Named("sweepPort")
-    Mission createSweepPort(MissionData data);
+    AirMission createSweepPort(MissionData data);
 }

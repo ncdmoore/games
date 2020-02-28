@@ -37,4 +37,13 @@ public class DiceTest {
         Assert.assertTrue(result <= 12);
         Assert.assertTrue(result >= 2);
     }
+
+    @Test
+    public void testBinomial() {
+        int result = dice.probabilityHitsPercentage(1, 1,1.0 / 6.0);
+        Assert.assertEquals(16, result);
+
+        result = dice.probabilityHitsPercentage(3, 6, 1.0 / 6.0);
+        Assert.assertEquals(6, result);
+    }
 }

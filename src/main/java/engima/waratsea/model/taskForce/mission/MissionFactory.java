@@ -12,7 +12,7 @@ public interface MissionFactory {
      * @return A task force air raid mission.
      */
     @Named("airRaid")
-    Mission createAirRaid(MissionData data);
+    SeaMission createAirRaid(MissionData data);
 
     /**
      * Create a task force bombardment mission.
@@ -21,7 +21,7 @@ public interface MissionFactory {
      * @return A task force bombardment mission.
      */
     @Named("bombardment")
-    Mission createBombardment(MissionData data);
+    SeaMission createBombardment(MissionData data);
 
     /**
      * Create a task force escort mission.
@@ -30,7 +30,7 @@ public interface MissionFactory {
      * @return A task force escort mission.
      */
     @Named("escort")
-    Mission createEscort(MissionData data);
+    SeaMission createEscort(MissionData data);
 
     /**
      * Create a task force ferry mission.
@@ -39,7 +39,7 @@ public interface MissionFactory {
      * @return A task force ferry mission.
      */
     @Named("ferry")
-    Mission createFerry(MissionData data);
+    SeaMission createFerry(MissionData data);
 
     /**
      * Create a task force ferry aircraft mission.
@@ -48,7 +48,7 @@ public interface MissionFactory {
      * @return A task force ferry aircraft mission.
      */
     @Named("ferryAircraft")
-    Mission createFerryAircraft(MissionData data);
+    SeaMission createFerryAircraft(MissionData data);
 
     /**
      * Create a task force intercept mission.
@@ -57,7 +57,7 @@ public interface MissionFactory {
      * @return A task force intercept mission.
      */
     @Named("intercept")
-    Mission createIntercept(MissionData data);
+    SeaMission createIntercept(MissionData data);
 
     /**
      * Create a task force invasion mission.
@@ -66,7 +66,7 @@ public interface MissionFactory {
      * @return A task force invasion mission.
      */
     @Named("invasion")
-    Mission createInvasion(MissionData data);
+    SeaMission createInvasion(MissionData data);
 
     /**
      * Create a task force mine laying mission.
@@ -75,7 +75,7 @@ public interface MissionFactory {
      * @return A task force mine laying mission.
      */
     @Named("minelaying")
-    Mission createMinelaying(MissionData data);
+    SeaMission createMinelaying(MissionData data);
 
     /**
      * Create a task force patrol mission.
@@ -84,7 +84,7 @@ public interface MissionFactory {
      * @return A task force patrol mission.
      */
     @Named("patrol")
-    Mission createPatrol(MissionData data);
+    SeaMission createPatrol(MissionData data);
 
     /**
      * Create a task force transport mission.
@@ -93,5 +93,5 @@ public interface MissionFactory {
      * @return A task force transport mission.
      */
     @Named("transport")
-    Mission createTransport(MissionData data);
+    SeaMission createTransport(MissionData data);
 }

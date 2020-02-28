@@ -3,7 +3,7 @@ package engima.waratsea.presenter.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.mission.Mission;
+import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
@@ -53,7 +53,7 @@ public class MissionAddDetailsDialog {
     private Nation nation;
 
     @Getter
-    private Mission mission;
+    private AirMission mission;
 
     private MissionType selectedMissionType;
 

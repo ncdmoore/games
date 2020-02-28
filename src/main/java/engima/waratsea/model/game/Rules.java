@@ -14,6 +14,11 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+/**
+ * Define the per game rules in this class. These are rules that very per game. Current games supported are:
+ *  Bomb Alley
+ *  Coral Sea
+ */
 @Singleton
 public class Rules {
 

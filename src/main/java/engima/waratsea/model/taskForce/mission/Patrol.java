@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class Patrol implements Mission {
+public class Patrol implements SeaMission {
     @Getter
     private final MissionType type;
 

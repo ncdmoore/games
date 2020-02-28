@@ -49,5 +49,6 @@ public class MainMenu {
         menuMap.getItems().addAll(showAirfields, showPorts);
 
         menuBar.getMenus().addAll(menuFile, menuMap);
+        menuBar.setUseSystemMenuBar(true);                          // Menu will appear in mac system menu area like all other mac applications.
     }
 }

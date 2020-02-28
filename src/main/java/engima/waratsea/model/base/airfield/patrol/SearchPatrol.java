@@ -2,10 +2,10 @@ package engima.waratsea.model.base.airfield.patrol;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
-import engima.waratsea.model.base.airfield.patrol.rules.AirRules;
-import engima.waratsea.model.base.airfield.patrol.rules.AirRulesFactory;
+import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronAction;
@@ -33,19 +33,19 @@ public class SearchPatrol implements Patrol {
     @Getter
     private int maxRadius;
 
-    private AirRules rules;
+    private PatrolAirRules rules;
 
     /**
      * The constructor.
      *
      * @param data The search patrol data read in from a JSON file.
-     * @param airRulesFactory The air search rules factory.
+     * @param rules The air search rules.
      */
     @Inject
     public SearchPatrol(@Assisted final PatrolData data,
-                                  final AirRulesFactory airRulesFactory) {
+                                 final @Named("search") PatrolAirRules rules) {
 
-        this.rules = airRulesFactory.createSearch();
+        this.rules = rules;
 
         airbase = data.getAirbase();
 

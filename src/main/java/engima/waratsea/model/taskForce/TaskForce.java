@@ -21,7 +21,7 @@ import engima.waratsea.model.ship.ShipType;
 import engima.waratsea.model.ship.Shipyard;
 import engima.waratsea.model.ship.ShipyardException;
 import engima.waratsea.model.taskForce.data.TaskForceData;
-import engima.waratsea.model.taskForce.mission.Mission;
+import engima.waratsea.model.taskForce.mission.SeaMission;
 import engima.waratsea.model.taskForce.mission.MissionDAO;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
@@ -54,7 +54,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
 
     @Getter
     @Setter
-    private Mission mission;
+    private SeaMission mission;
 
     @Getter
     private String reference; //This is always a map reference and never a name.

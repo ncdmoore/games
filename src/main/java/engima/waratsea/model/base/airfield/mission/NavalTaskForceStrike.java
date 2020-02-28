@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class NavalTaskForceStrike implements Mission {
+public class NavalTaskForceStrike implements AirMission {
     private final Game game;
 
     @Getter
@@ -144,6 +144,16 @@ public class NavalTaskForceStrike implements Mission {
     @Override
     public int getNumber() {
         return squadrons.size();
+    }
+
+    /**
+     * Get the probability of success for this mission.
+     *
+     * @return The probability that this mission will be successful.
+     */
+    @Override
+    public List<MissionProbability> getMissionProbability() {
+        return null;
     }
 
     /**

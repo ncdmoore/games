@@ -16,7 +16,7 @@ import java.util.function.Function;
 @Singleton
 @Slf4j
 public class MissionDAO {
-    private Map<MissionType, Function<MissionData, Mission>> factoryMap = new HashMap<>();
+    private Map<MissionType, Function<MissionData, SeaMission>> factoryMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -44,7 +44,7 @@ public class MissionDAO {
      * @param data The mission data.
      * @return The mission.
      */
-    public Mission load(final MissionData data) {
+    public SeaMission load(final MissionData data) {
         return factoryMap.get(data.getType()).apply(data);
     }
 }

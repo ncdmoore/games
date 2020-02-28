@@ -40,7 +40,7 @@ public enum MissionType {
      * @param mission A air base mission.
      * @return The mission type enum of the given mission object.
      */
-    public static MissionType getType(final Mission mission) {
+    public static MissionType getType(final AirMission mission) {
         return typeMap.get(mission.getClass());
     }
 

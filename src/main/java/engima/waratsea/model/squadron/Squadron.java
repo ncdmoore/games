@@ -16,11 +16,9 @@ import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Rules;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.squadron.state.SquadronState;
-import engima.waratsea.model.target.Target;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -458,28 +456,5 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     @Override
     public boolean isActive() {
         return true;
-    }
-
-    /**
-     * Calculate if this squadron is in range of the given target.
-     *
-     * @param target The target.
-     * @return True if this squadron is in range of the given target. False otherwise.
-     */
-    public boolean isInRange(final Target target) {
-        String targetReference = gameMap.convertNameToReference(target.getLocation());
-
-        GameGrid targetGrid = gameMap.getGrid(targetReference);
-        GameGrid airbaseGrid = gameMap.getGrid(airfield.getReference());
-
-        // a^2 + b^2 <= c^2, where a, b and c are the sides of the right triangle.
-        int a = Math.abs(targetGrid.getRow() - airbaseGrid.getRow());
-        int b = Math.abs(targetGrid.getColumn() - airbaseGrid.getColumn());
-        int c = getMaxRadius() + 1;
-
-
-        log.info("a: {} ,b: {}, c: {}", new Object[]{a, b, c});
-
-        return (a * a) + (b * b) <= (c * c);
     }
 }

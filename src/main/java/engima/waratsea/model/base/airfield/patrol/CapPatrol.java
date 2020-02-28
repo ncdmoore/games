@@ -2,10 +2,10 @@ package engima.waratsea.model.base.airfield.patrol;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
-import engima.waratsea.model.base.airfield.patrol.rules.AirRules;
-import engima.waratsea.model.base.airfield.patrol.rules.AirRulesFactory;
+import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronAction;
@@ -27,7 +27,7 @@ import java.util.stream.IntStream;
 public class CapPatrol implements Patrol {
     private static final int RADIUS = 2;
 
-    private final AirRules rules;
+    private final PatrolAirRules rules;
 
     private List<Squadron> squadrons;
 
@@ -41,12 +41,12 @@ public class CapPatrol implements Patrol {
      * The constructor.
      *
      * @param data The CAP patrol data read in from a JSON file.
-     * @param airRulesFactory The air rules factory.
+     * @param rules The CAP air rules.
      */
     @Inject
     public CapPatrol(@Assisted final PatrolData data,
-                               final AirRulesFactory airRulesFactory) {
-        this.rules = airRulesFactory.createCap();
+                               final @Named("cap") PatrolAirRules rules) {
+        this.rules = rules;
 
         airbase = data.getAirbase();
 

@@ -11,15 +11,18 @@ import engima.waratsea.model.aircraft.Fighter;
 import engima.waratsea.model.aircraft.PoorNavalBomber;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
+import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.mission.Ferry;
 import engima.waratsea.model.base.airfield.mission.LandStrike;
 import engima.waratsea.model.base.airfield.mission.NavalPortStrike;
 import engima.waratsea.model.base.airfield.mission.SweepAirfield;
 import engima.waratsea.model.base.airfield.mission.SweepPort;
-import engima.waratsea.model.base.airfield.patrol.rules.AirAswRules;
-import engima.waratsea.model.base.airfield.patrol.rules.AirCapRules;
-import engima.waratsea.model.base.airfield.patrol.rules.AirRules;
-import engima.waratsea.model.base.airfield.patrol.rules.AirSearchRules;
-import engima.waratsea.model.base.airfield.patrol.rules.AirRulesFactory;
+import engima.waratsea.model.base.airfield.mission.rules.MissionAirRules;
+import engima.waratsea.model.base.airfield.mission.rules.MissionAirStrikeRules;
+import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirAswRules;
+import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirCapRules;
+import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
+import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirSearchRules;
 import engima.waratsea.model.base.airfield.patrol.AswPatrol;
 import engima.waratsea.model.base.airfield.patrol.CapPatrol;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
@@ -89,12 +92,12 @@ import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.taskForce.mission.AirRaid;
 import engima.waratsea.model.taskForce.mission.Bombardment;
 import engima.waratsea.model.taskForce.mission.Escort;
-import engima.waratsea.model.taskForce.mission.Ferry;
+import engima.waratsea.model.taskForce.mission.FerryShips;
 import engima.waratsea.model.taskForce.mission.FerryAircraft;
 import engima.waratsea.model.taskForce.mission.Intercept;
 import engima.waratsea.model.taskForce.mission.Invasion;
 import engima.waratsea.model.taskForce.mission.Minelaying;
-import engima.waratsea.model.taskForce.mission.Mission;
+import engima.waratsea.model.taskForce.mission.SeaMission;
 import engima.waratsea.model.taskForce.mission.MissionFactory;
 import engima.waratsea.model.taskForce.mission.Transport;
 import engima.waratsea.model.victory.AirfieldVictory;
@@ -178,12 +181,15 @@ public class BasicModule extends AbstractModule {
         install(new FactoryModuleBuilder().implement(Airfield.class, Airfield.class).build(AirfieldFactory.class));
 
         install(new FactoryModuleBuilder()
-                .implement(engima.waratsea.model.base.airfield.mission.Mission.class, Names.named("ferry"), engima.waratsea.model.base.airfield.mission.Ferry.class)
-                .implement(engima.waratsea.model.base.airfield.mission.Mission.class, Names.named("landStrike"), LandStrike.class)
-                .implement(engima.waratsea.model.base.airfield.mission.Mission.class, Names.named("navalPortStrike"), NavalPortStrike.class)
-                .implement(engima.waratsea.model.base.airfield.mission.Mission.class, Names.named("sweepAirfield"), SweepAirfield.class)
-                .implement(engima.waratsea.model.base.airfield.mission.Mission.class, Names.named("sweepPort"), SweepPort.class)
+                .implement(AirMission.class, Names.named("ferry"), Ferry.class)
+                .implement(AirMission.class, Names.named("landStrike"), LandStrike.class)
+                .implement(AirMission.class, Names.named("navalPortStrike"), NavalPortStrike.class)
+                .implement(AirMission.class, Names.named("sweepAirfield"), SweepAirfield.class)
+                .implement(AirMission.class, Names.named("sweepPort"), SweepPort.class)
                 .build(engima.waratsea.model.base.airfield.mission.MissionFactory.class));
+
+        bind(MissionAirRules.class).annotatedWith(Names.named("airStrike")).to(MissionAirStrikeRules.class);
+
 
         install(new FactoryModuleBuilder()
                 .implement(Patrol.class, Names.named("search"), SearchPatrol.class)
@@ -191,15 +197,11 @@ public class BasicModule extends AbstractModule {
                 .implement(Patrol.class, Names.named("cap"), CapPatrol.class)
                 .build(PatrolFactory.class));
 
-        install(new FactoryModuleBuilder()
-                .implement(AirRules.class, Names.named("search"), AirSearchRules.class)
-                .implement(AirRules.class, Names.named("asw"), AirAswRules.class)
-                .implement(AirRules.class, Names.named("cap"), AirCapRules.class)
-                .build(AirRulesFactory.class));
+        bind(PatrolAirRules.class).annotatedWith(Names.named("search")).to(PatrolAirSearchRules.class);
+        bind(PatrolAirRules.class).annotatedWith(Names.named("asw")).to(PatrolAirAswRules.class);
+        bind(PatrolAirRules.class).annotatedWith(Names.named("cap")).to(PatrolAirCapRules.class);
 
         install(new FactoryModuleBuilder().implement(Port.class, Port.class).build(PortFactory.class));
-
-
 
         install(new FactoryModuleBuilder().implement(Minefield.class, Minefield.class).build(MinefieldFactory.class));
         install(new FactoryModuleBuilder().implement(MinefieldZone.class, MinefieldZone.class).build(MinefieldZoneFactory.class));
@@ -207,16 +209,16 @@ public class BasicModule extends AbstractModule {
 
 
         install(new FactoryModuleBuilder()
-                .implement(Mission.class, Names.named("airRaid"), AirRaid.class)
-                .implement(Mission.class, Names.named("bombardment"), Bombardment.class)
-                .implement(Mission.class, Names.named("escort"), Escort.class)
-                .implement(Mission.class, Names.named("ferry"), Ferry.class)
-                .implement(Mission.class, Names.named("ferryAircraft"), FerryAircraft.class)
-                .implement(Mission.class, Names.named("intercept"), Intercept.class)
-                .implement(Mission.class, Names.named("invasion"), Invasion.class)
-                .implement(Mission.class, Names.named("minelaying"), Minelaying.class)
-                .implement(Mission.class, Names.named("patrol"), engima.waratsea.model.taskForce.mission.Patrol.class)
-                .implement(Mission.class, Names.named("transport"), Transport.class)
+                .implement(SeaMission.class, Names.named("airRaid"), AirRaid.class)
+                .implement(SeaMission.class, Names.named("bombardment"), Bombardment.class)
+                .implement(SeaMission.class, Names.named("escort"), Escort.class)
+                .implement(SeaMission.class, Names.named("ferry"), FerryShips.class)
+                .implement(SeaMission.class, Names.named("ferryAircraft"), FerryAircraft.class)
+                .implement(SeaMission.class, Names.named("intercept"), Intercept.class)
+                .implement(SeaMission.class, Names.named("invasion"), Invasion.class)
+                .implement(SeaMission.class, Names.named("minelaying"), Minelaying.class)
+                .implement(SeaMission.class, Names.named("patrol"), engima.waratsea.model.taskForce.mission.Patrol.class)
+                .implement(SeaMission.class, Names.named("transport"), Transport.class)
                 .build(MissionFactory.class));
 
         install(new FactoryModuleBuilder()

@@ -4,7 +4,7 @@ import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.AirfieldType;
-import engima.waratsea.model.base.airfield.mission.Mission;
+import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
@@ -214,14 +214,14 @@ public interface Airbase extends Base {
      * @param nation The nation: BRITISH, ITALIAN, etc...
      * @return The current squadron missions of this airbase.
      */
-    List<Mission> getMissions(Nation nation);
+    List<AirMission> getMissions(Nation nation);
 
     /**
      * Add a mission to this airbase.
      *
      * @param mission The mission that is added to this airbase.
      */
-    void addMission(Mission mission);
+    void addMission(AirMission mission);
 
     /**
      * Get the total number of squadron steps on missions assigned to the given target.

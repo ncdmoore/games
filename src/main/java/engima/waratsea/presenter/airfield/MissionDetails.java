@@ -3,7 +3,7 @@ package engima.waratsea.presenter.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.mission.Mission;
+import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.region.Region;
@@ -102,7 +102,7 @@ public class MissionDetails {
      * @param mission The current mission.
      * @param selectedMissionType The mission type.
      */
-    public void updateTargetView(final Mission mission, final MissionType selectedMissionType) {
+    public void updateTargetView(final AirMission mission, final MissionType selectedMissionType) {
         Optional.ofNullable(selectedTarget).ifPresent(target -> {
             int inRouteStepsFromThisAirbase = getMissionSteps(mission, target);
             int inRouteStepsFromOtherAirbases = target.getMissionSteps(airbase);
@@ -145,7 +145,7 @@ public class MissionDetails {
      * @param squadron The proposed squadron to add.
      * @return True if the squadron may be added. False otherwise.
      */
-    public boolean mayAddSquadronToMission(@Nullable final Mission selectedMission, final MissionType missionType, final Squadron squadron) {
+    public boolean mayAddSquadronToMission(@Nullable final AirMission selectedMission, final MissionType missionType, final Squadron squadron) {
         //Note, that all nations that are allowed to specify the selected target as a target are considered
         //when determining if target has capacity.
         if (!hasCapacity(selectedMission, squadron)) {
@@ -223,7 +223,7 @@ public class MissionDetails {
      * @param squadron The squadron to ferry.
      * @return True if the squadron may be ferried. False otherwise.
      */
-    private boolean hasCapacity(final Mission mission, final Squadron squadron) {
+    private boolean hasCapacity(final AirMission mission, final Squadron squadron) {
         //Get the total number of squadron steps currently assigned to the mission under construction.
         int totalStepsCurrentMission = getCurrentMissionSteps();
 
@@ -250,7 +250,7 @@ public class MissionDetails {
      * @param squadron The squadron to ferry.
      * @return True if the squadron may be ferried. False otherwise.
      */
-    private boolean hasRegionCapacity(@Nullable final Mission mission, final MissionType missionType, final Squadron squadron) {
+    private boolean hasRegionCapacity(@Nullable final AirMission mission, final MissionType missionType, final Squadron squadron) {
         //Get the total number of squadron steps currently assigned to the mission under construction.
         int totalStepsCurrentMission = getCurrentMissionStepsEnteringRegion(selectedTarget);
 
@@ -281,7 +281,7 @@ public class MissionDetails {
      * of the airbase that is creating the mission, or if the current selected target is not contained within
      * a region or just doesn't dependent upon its region then true is returned. False otherwise.
      */
-    private boolean isRegionMinimumStillSatisfied(@Nullable final Mission mission, final MissionType missionType, final Squadron squadron) {
+    private boolean isRegionMinimumStillSatisfied(@Nullable final AirMission mission, final MissionType missionType, final Squadron squadron) {
         Region missionOriginRegion = airbase.getRegion(nation);             // All airbase's should have a region.
         Region missionDestinationRegion = selectedTarget.getRegion(nation); // Not all targets are in a region.
 
@@ -316,7 +316,7 @@ public class MissionDetails {
      * @param target The selected target.
      * @return The squadron steps in route to the target from this airbase for all nations.
      */
-    private int getMissionSteps(@Nullable final Mission selectedMission, final Target target) {
+    private int getMissionSteps(@Nullable final AirMission selectedMission, final Target target) {
         //The current mission steps may change as squadrons are added and deleted so
         //it must be calculated separately from the other missions.
         return getCurrentMissionSteps() + getOtherMissionSteps(selectedMission, target);
@@ -331,7 +331,7 @@ public class MissionDetails {
      * @param target The selected target.
      * @return The squadron steps.
      */
-    private int getMissionStepsEnteringRegion(@Nullable final Mission selectedMission, final MissionType missionType, final Target target) {
+    private int getMissionStepsEnteringRegion(@Nullable final AirMission selectedMission, final MissionType missionType, final Target target) {
         //The current mission steps may change as squadrons are added and deleted so
         //it must be calculated separately from the other missions.
         return getCurrentMissionStepsEnteringRegion(target) + getOtherMissionStepsEnteringRegion(selectedMission, missionType, target);
@@ -344,7 +344,7 @@ public class MissionDetails {
      * @param missionType The type of mission.
      * @return The total number of mission squadron steps leaving the current airfield's region.
      */
-    private int getMissionStepsLeavingRegion(@Nullable final Mission selectedMission, final MissionType missionType) {
+    private int getMissionStepsLeavingRegion(@Nullable final AirMission selectedMission, final MissionType missionType) {
         //The current mission steps may change as squadrons are added and deleted so
         //it must be calculated separately from the other missions.
         return getCurrentMissionStepsLeavingRegion(selectedMission) + getOtherMissionStepsLeavingRegion(selectedMission, missionType);
@@ -365,7 +365,7 @@ public class MissionDetails {
                 .getItems()
                 .stream()
                 .filter(mission -> mission.getTarget().isEqual(target))
-                .map(Mission::getSteps)
+                .map(AirMission::getSteps)
                 .reduce(0, Integer::sum);
     }
 
@@ -396,7 +396,7 @@ public class MissionDetails {
      * @return The number of steps in route (on missions) to this target from this airbase
      * excluding the mission under construction for all nations.
      */
-    private int getOtherMissionSteps(@Nullable final Mission selectedMission, final Target target) {
+    private int getOtherMissionSteps(@Nullable final AirMission selectedMission, final Target target) {
         return missionView
                 .values()
                 .stream()
@@ -405,7 +405,7 @@ public class MissionDetails {
                             .stream()
                             .filter(mission -> mission != selectedMission)
                             .filter(mission -> mission.getTarget().isEqual(target))
-                            .map(Mission::getSteps)
+                            .map(AirMission::getSteps)
                             .reduce(0, Integer::sum))
                 .reduce(0, Integer::sum);
 
@@ -432,7 +432,7 @@ public class MissionDetails {
      * @param target The selected target.
      * @return The squadron mission steps that enter the target's region excluding the current mission.
      */
-    private int getOtherMissionStepsEnteringRegion(@Nullable final Mission selectedMission, final MissionType missionType, final Target target) {
+    private int getOtherMissionStepsEnteringRegion(@Nullable final AirMission selectedMission, final MissionType missionType, final Target target) {
         return missionView
                 .get(nation)
                 .getTable()
@@ -442,7 +442,7 @@ public class MissionDetails {
                 .filter(mission -> mission.getType() == missionType)
                 .filter(mission -> mission.getAirbase().getRegion(nation) != target.getRegion(nation))
                 .filter(mission -> mission.getTarget().getRegion(nation) == target.getRegion(nation))
-                .map(Mission::getSteps)
+                .map(AirMission::getSteps)
                 .reduce(0, Integer::sum);
     }
 
@@ -453,7 +453,7 @@ public class MissionDetails {
      * @param selectedMission The selected mission.
      * @return The total mission squadron steps of the current mission leaving the region of the selected airbase.
      */
-    private int getCurrentMissionStepsLeavingRegion(@Nullable final Mission selectedMission) {
+    private int getCurrentMissionStepsLeavingRegion(@Nullable final AirMission selectedMission) {
         return Optional.ofNullable(selectedMission).map(mission -> {
             Airbase originAirbase = selectedMission.getAirbase();
             Target target = selectedMission.getTarget();
@@ -472,7 +472,7 @@ public class MissionDetails {
      * @return The total number of steps in this airbase's mission table that are assigned
      * the given type of mission.
      */
-    private int getOtherMissionStepsLeavingRegion(@Nullable final Mission selectedMission, final MissionType missionType) {
+    private int getOtherMissionStepsLeavingRegion(@Nullable final AirMission selectedMission, final MissionType missionType) {
         return missionView
                 .get(nation)
                 .getTable()
@@ -481,7 +481,7 @@ public class MissionDetails {
                 .filter(mission -> mission != selectedMission)
                 .filter(mission -> mission.getType() == missionType)
                 .filter(mission -> mission.getAirbase().getRegion(nation) != mission.getTarget().getRegion(nation))
-                .map(Mission::getSteps)
+                .map(AirMission::getSteps)
                 .reduce(0, Integer::sum);
     }
 }

@@ -3,7 +3,7 @@ package engima.waratsea.presenter.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.mission.Mission;
+import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
@@ -144,10 +144,10 @@ public class AirfieldDetailsDialog {
         airbase.getNations().forEach(nation -> {
             //Make copies of the missions so they can be manipulated without affecting the data model
             //until the dialog ok button is clicked.
-            List<Mission> copies = airbase
+            List<AirMission> copies = airbase
                     .getMissions(nation)
                     .stream()
-                    .map(Mission::getData)
+                    .map(AirMission::getData)
                     .map(data -> data.setAirbase(airbase))
                     .map(missionDAO::load)
                     .collect(Collectors.toList());
@@ -244,7 +244,7 @@ public class AirfieldDetailsDialog {
 
         // Handle table double clicks.
         missionView.getTable().setRowFactory(tv -> {
-            TableRow<Mission> row = new TableRow<>();
+            TableRow<AirMission> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     missionEdit();
@@ -411,7 +411,7 @@ public class AirfieldDetailsDialog {
 
         MissionEditDetailsDialog dialog = missionEditDetailsDialogProvider.get();
 
-        Mission mission = view
+        AirMission mission = view
                 .getAirfieldMissionView()
                 .get(nation)
                 .getTable()
@@ -425,7 +425,7 @@ public class AirfieldDetailsDialog {
                 .setParentDialog(this)
                 .show(airbase);
 
-        Mission updatedMission = dialog.getMission();
+        AirMission updatedMission = dialog.getMission();
 
         List<Squadron> added = ListUtils.subtract(updatedMission.getSquadrons(), mission.getSquadrons());
         List<Squadron> removed = ListUtils.subtract(mission.getSquadrons(), updatedMission.getSquadrons());
@@ -461,7 +461,7 @@ public class AirfieldDetailsDialog {
     private void missionDelete(final ActionEvent event) {
         Nation nation = determineNation();
 
-        Mission mission = view
+        AirMission mission = view
                 .getAirfieldMissionView()
                 .get(nation)
                 .getTable()

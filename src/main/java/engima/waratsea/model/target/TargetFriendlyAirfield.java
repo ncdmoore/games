@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
-import engima.waratsea.model.base.airfield.mission.Mission;
+import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
@@ -286,7 +286,7 @@ public class TargetFriendlyAirfield implements Target {
                         .stream()
                         .filter(mission -> mission.getTarget().getRegion(nation) == getRegion(nation)))
                 .filter(mission -> mission.getType() == MissionType.FERRY)
-                .map(Mission::getSteps)
+                .map(AirMission::getSteps)
                 .reduce(0, Integer::sum);
     }
 
@@ -315,7 +315,7 @@ public class TargetFriendlyAirfield implements Target {
                         .stream()
                         .filter(mission -> mission.getTarget().getRegion(nation) != a.getRegion(nation)))
                 .filter(mission -> mission.getType() == MissionType.FERRY)
-                .map(Mission::getSteps)
+                .map(AirMission::getSteps)
                 .reduce(0, Integer::sum);
     }
 

@@ -32,6 +32,16 @@ public interface Patrol {
     List<Squadron> getSquadrons(Nation nation);
 
     /**
+     * Determine which squadrons on patrol can reach the given target radius.
+     *
+     * @param targetRadius A patrol radius for which each squadron on patrol is
+     *                     checked to determine if the squadron can reach the
+     *                     radius.
+     * @return A list of squadrons on patrol that can reach the given target radius.
+     */
+    List<Squadron> getSquadrons(int targetRadius);
+
+    /**
      * Add a squadron to the patrol.
      *
      * @param squadron The squadron added to the patrol.
@@ -44,16 +54,6 @@ public interface Patrol {
      * @param squadron The squadron removed from the patrol.
      */
     void removeSquadron(Squadron squadron);
-
-    /**
-     * Determine which squadrons on patrol can reach the given target radius.
-     *
-     * @param targetRadius A patrol radius for which each squadron on patrol is
-     *                     checked to determine if the squadron can reach the
-     *                     radius.
-     * @return A list of squadrons on patrol that can reach the given target radius.
-     */
-    List<Squadron> getSquadrons(int targetRadius);
 
     /**
      * Get the search success rate of the patrol given the distance to the target.

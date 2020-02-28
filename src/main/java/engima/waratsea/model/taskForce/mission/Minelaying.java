@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class Minelaying implements Mission {
+public class Minelaying implements SeaMission {
     @Getter
     private final MissionType type;
 

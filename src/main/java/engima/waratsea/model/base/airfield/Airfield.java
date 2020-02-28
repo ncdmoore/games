@@ -9,7 +9,7 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
-import engima.waratsea.model.base.airfield.mission.Mission;
+import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolFactory;
@@ -85,7 +85,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     private final List<Squadron> squadrons = new ArrayList<>();
 
     @Getter
-    private List<Mission> missions;
+    private List<AirMission> missions;
 
     private final Map<String, Squadron> squadronNameMap = new HashMap<>();
     private final Map<AircraftType, List<Squadron>> squadronMap = new LinkedHashMap<>();
@@ -257,7 +257,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @return A list of missions for the given nation.
      */
     @Override
-    public List<Mission> getMissions(final Nation nation) {
+    public List<AirMission> getMissions(final Nation nation) {
         return missions
                 .stream()
                 .filter(mission -> mission.getNation() == nation)
@@ -270,7 +270,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param mission The mission that is added to this airbase.
      */
     @Override
-    public void addMission(final Mission mission) {
+    public void addMission(final AirMission mission) {
         missions.add(mission);
         mission.addSquadrons();
     }
@@ -288,7 +288,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         int steps =  missions
                 .stream()
                 .filter(mission -> mission.getTarget().isEqual(target))
-                .map(Mission::getSteps)
+                .map(AirMission::getSteps)
                 .reduce(0, Integer::sum);
 
         log.debug("Airfield {} target {} steps {}", new Object[]{name, target.getName(), steps});
@@ -303,7 +303,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
         patrolMap.forEach((patrolType, patrol) -> patrol.clearSquadrons());
 
-        missions.forEach(Mission::removeSquadrons);
+        missions.forEach(AirMission::removeSquadrons);
         missions.clear();
     }
 

@@ -3,7 +3,7 @@ package engima.waratsea.view.airfield.mission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.mission.Mission;
+import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
@@ -85,7 +85,7 @@ public class MissionEditDetailsView implements MissionDetailsView {
      * @param mission The mission that is edited.
      * @return A node containing the airbase mission details.
      */
-    public Node show(final Nation nation, final Mission mission) {
+    public Node show(final Nation nation, final AirMission mission) {
         missionType.getItems().add(mission.getType());
         target.getItems().add(mission.getTarget());
 

@@ -7,7 +7,7 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.AirfieldType;
-import engima.waratsea.model.base.airfield.mission.Mission;
+import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Side;
@@ -118,7 +118,7 @@ public class AircraftCarrier implements Ship, Airbase {
     private Map<AircraftType, List<Squadron>> aircraftTypeMap;
 
     @Getter
-    private List<Mission> missions;
+    private List<AirMission> missions;
 
     /**
      * Constructor called by guice.
@@ -532,7 +532,7 @@ public class AircraftCarrier implements Ship, Airbase {
      * @return A list of the current missions.
      */
     @Override
-    public List<Mission> getMissions(final Nation squadronNation) {
+    public List<AirMission> getMissions(final Nation squadronNation) {
         return missions
                 .stream()
                 .filter(mission -> mission.getNation() == nation)
@@ -545,7 +545,7 @@ public class AircraftCarrier implements Ship, Airbase {
      * @param mission The mission that is added to this airbase.
      */
     @Override
-    public void addMission(final Mission mission) {
+    public void addMission(final AirMission mission) {
 
     }
 
@@ -563,7 +563,7 @@ public class AircraftCarrier implements Ship, Airbase {
         return missions
                 .stream()
                 .filter(mission -> mission.getTarget().isEqual(target))
-                .map(Mission::getSteps)
+                .map(AirMission::getSteps)
                 .reduce(0, Integer::sum);
     }
 

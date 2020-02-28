@@ -10,7 +10,7 @@ import java.util.function.Function;
 
 @Singleton
 public class MissionDAO {
-    private Map<MissionType, Function<MissionData, Mission>> factoryMap = new HashMap<>();
+    private Map<MissionType, Function<MissionData, AirMission>> factoryMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -32,7 +32,7 @@ public class MissionDAO {
      * @param data Mission data read in from a JSON file.
      * @return A newly created mission.
      */
-    public Mission load(final MissionData data) {
+    public AirMission load(final MissionData data) {
         return factoryMap.get(data.getType()).apply(data);
     }
 }

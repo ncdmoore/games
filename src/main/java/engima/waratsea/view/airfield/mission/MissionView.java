@@ -1,6 +1,6 @@
 package engima.waratsea.view.airfield.mission;
 
-import engima.waratsea.model.base.airfield.mission.Mission;
+import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.target.Target;
 import javafx.scene.Node;
@@ -19,7 +19,7 @@ import lombok.Getter;
 public class MissionView {
 
     @Getter
-    private final TableView<Mission> table = new TableView<>();
+    private final TableView<AirMission> table = new TableView<>();
 
     @Getter
     private final Button add = new Button("Add");
@@ -57,7 +57,7 @@ public class MissionView {
      *
      * @param mission The mission to add.
      */
-    public void addMissionToTable(final Mission mission) {
+    public void addMissionToTable(final AirMission mission) {
         table.getItems().add(mission);
         table.refresh();
     }
@@ -67,7 +67,7 @@ public class MissionView {
      *
      * @param mission The mission to delete.
      */
-    public void deleteMissionFromTable(final Mission mission) {
+    public void deleteMissionFromTable(final AirMission mission) {
         table.getItems().remove(mission);
         table.refresh();
     }
@@ -76,13 +76,13 @@ public class MissionView {
      * Setup the mission table.
      */
     private void setupTable() {
-        TableColumn<Mission, String> typeColumn = new TableColumn<>("Mission Type");
+        TableColumn<AirMission, String> typeColumn = new TableColumn<>("Mission Type");
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 
-        TableColumn<Mission, Target> targetColumn = new TableColumn<>("Target");
+        TableColumn<AirMission, Target> targetColumn = new TableColumn<>("Target");
         targetColumn.setCellValueFactory(new PropertyValueFactory<>("target"));
 
-        TableColumn<Mission, Integer> numSquadronColumn = new TableColumn<>("Squadrons");
+        TableColumn<AirMission, Integer> numSquadronColumn = new TableColumn<>("Squadrons");
         numSquadronColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
 
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);   //Limit the table columns to 3.

@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class Ferry implements Mission {
+public class Ferry implements AirMission {
     private final Game game;
 
     @Getter
@@ -172,6 +172,16 @@ public class Ferry implements Mission {
     @Override
     public int getNumber() {
         return squadrons.size();
+    }
+
+    /**
+     * Ferry missions do not have a mission success probability.
+     *
+     * @return an empty list.
+     */
+    @Override
+    public List<MissionProbability> getMissionProbability() {
+        return Collections.emptyList();
     }
 
     /**
