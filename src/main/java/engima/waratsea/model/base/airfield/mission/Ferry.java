@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
+import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
@@ -44,7 +45,7 @@ public class Ferry implements AirMission {
         this.game = game;
         nation = data.getNation();
 
-        startingAirbase = data.getAirbase();
+        startingAirbase = data.getAirbase(); //Note, this is not read in from the JSON file. So no need to save it.
 
         // The squadrons can be created here as they are guarranted to be already created by the air base.
         squadrons = Optional.ofNullable(data.getSquadrons())
@@ -180,7 +181,7 @@ public class Ferry implements AirMission {
      * @return an empty list.
      */
     @Override
-    public List<MissionProbability> getMissionProbability() {
+    public List<ProbabilityStats> getMissionProbability() {
         return Collections.emptyList();
     }
 

@@ -3,6 +3,7 @@ package engima.waratsea.model.base.airfield.mission;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
+import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
@@ -81,5 +82,5 @@ public interface AirMission extends PersistentData<MissionData> {
      *
      * @return The probability that this mission will be successful.
      */
-    List<MissionProbability> getMissionProbability();
+    List<ProbabilityStats> getMissionProbability();
 }

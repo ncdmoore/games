@@ -8,6 +8,9 @@ import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.mission.MissionDAO;
+import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Side;
@@ -42,6 +45,7 @@ import java.util.stream.Stream;
  * Represents an squadrons carrier.
  */
 public class AircraftCarrier implements Ship, Airbase {
+    private final MissionDAO missionDAO;
 
     @Getter
     private final ShipId shipId;
@@ -125,10 +129,14 @@ public class AircraftCarrier implements Ship, Airbase {
      *
      * @param data Ship's data.
      * @param factory Squadron factory that makes the squadrons carrier's squadrons.
+     * @param missionDAO Mission data access object.
      */
     @Inject
     public AircraftCarrier(@Assisted final ShipData data,
-                                     final SquadronFactory factory) {
+                                     final SquadronFactory factory,
+                                     final MissionDAO missionDAO) {
+
+        this.missionDAO = missionDAO;
 
         shipId = data.getShipId();
         type = data.getType();
@@ -537,6 +545,27 @@ public class AircraftCarrier implements Ship, Airbase {
                 .stream()
                 .filter(mission -> mission.getNation() == nation)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * This is a utility function to aid in determining mission stats for squadrons that are
+     * selected for a given mission type but not necessarily committed to the mission yet.
+     *
+     * @param missionType      The mission type.
+     * @param missionNation    The nation: BRITISH, ITALIAN, etc...
+     * @param missionSquadrons The squadrons assigned to the mission.
+     * @param target           The target of the mission.
+     * @return A temporary mission with the given squadrons.
+     */
+    @Override
+    public AirMission getTemporaryMission(final MissionType missionType, final Nation missionNation, final List<Squadron> missionSquadrons, final Target target) {
+        MissionData data = new MissionData();
+        data.setAirbase(this);
+        data.setNation(missionNation);
+        data.setTarget(target.getName());
+        data.setSquadrons(missionSquadrons.stream().map(Squadron::getName).collect(Collectors.toList()));
+
+        return  missionDAO.load(data);
     }
 
     /**

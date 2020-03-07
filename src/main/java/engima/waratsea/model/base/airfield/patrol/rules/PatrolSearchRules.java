@@ -94,7 +94,7 @@ public class PatrolSearchRules {
     public int getBaseSearchSuccess(final int distance, final List<Squadron> squadrons) {
         int factor = getBaseFactor(distance, squadrons);
 
-        return dice.probability6(factor + searchFactor, 1);
+        return dice.probabilityPercentage(factor + searchFactor, 1);
     }
 
     /**
@@ -107,7 +107,7 @@ public class PatrolSearchRules {
     public int getBaseSearchSuccessNoWeather(final int distance, final List<Squadron> squadrons) {
         int factor = getBaseFactorNoWeather(distance, squadrons);
 
-        return dice.probability6(factor + searchFactor, 1);
+        return dice.probabilityPercentage(factor + searchFactor, 1);
     }
 
     /**

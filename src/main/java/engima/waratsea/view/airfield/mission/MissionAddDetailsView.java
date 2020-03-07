@@ -2,7 +2,6 @@ package engima.waratsea.view.airfield.mission;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
@@ -19,7 +18,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
-import lombok.Setter;
 
 
 /**
@@ -50,9 +48,6 @@ public class MissionAddDetailsView implements MissionDetailsView {
     private final StackPane stackPane = new StackPane();
     private final Label errorLabel = new Label();
     private final VBox errorVBox = new VBox(errorLabel);
-
-    @Setter
-    private Airbase airbase;
 
     /**
      * Constructor called by guice.
@@ -107,7 +102,7 @@ public class MissionAddDetailsView implements MissionDetailsView {
         VBox choiceBoxes = new VBox(missionVBox, targetVBox);
         choiceBoxes.setId("choices-pane");
 
-        Node targetDetailsBox = targetView.build(airbase);
+        Node targetDetailsBox = targetView.build();
 
         HBox hBox = new HBox(choiceBoxes, imageView);
         hBox.setId("target-hbox");
@@ -135,6 +130,10 @@ public class MissionAddDetailsView implements MissionDetailsView {
      */
     public void assign(final Squadron squadron) {
         missionList.add(squadron);
+
+        targetView.getViewMap()
+                .get(missionType.getSelectionModel().getSelectedItem())
+                .addSquadron(squadron, target.getSelectionModel().getSelectedItem());
     }
 
     /**
@@ -147,6 +146,10 @@ public class MissionAddDetailsView implements MissionDetailsView {
                 .getSelectedItem();
 
         missionList.remove(squadron);
+
+        targetView.getViewMap()
+                .get(missionType.getSelectionModel().getSelectedItem())
+                .removeSquadron(squadron, target.getSelectionModel().getSelectedItem());
     }
 
     /**

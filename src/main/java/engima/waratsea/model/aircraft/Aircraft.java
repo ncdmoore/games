@@ -3,6 +3,7 @@ package engima.waratsea.model.aircraft;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.SquadronStrength;
+import engima.waratsea.model.target.Target;
 
 import java.util.List;
 
@@ -64,25 +65,55 @@ public interface Aircraft {
      * Get the probability the aircraft will hit in an air-to-air attack.
      *
      * @param strength The strength of the squadron.
-     * @return A percentage representing the probability this aircraft will hit in an air-to-air attack.
+     * @return The probability this aircraft will hit in an air-to-air attack.
      */
-    int getAirHitProbability(SquadronStrength strength);
+    double getAirHitProbability(SquadronStrength strength);
+
+    /**
+     * Get the probability the aircraft will hit during air-to-air attack including any game factors
+     * such as weather and type of target.
+     *
+     * @param target The target.
+     * @param modifier The circumstance air-to-air attack modifier: weather, type of target, etc...
+     * @return The probability this aircraft will hit in an air-to-air attack.
+     */
+    double getAirHitIndividualProbability(Target target, int modifier);
 
     /**
      * Get the probability the aircraft will hit in a land attack.
      *
      * @param strength The strength of the squadron.
-     * @return A percentage representing the probability this aircraft will hit in a land attack.
+     * @return The probability this aircraft will hit in a land attack.
      */
-    int getLandHitProbability(SquadronStrength strength);
+    double getLandHitProbability(SquadronStrength strength);
+
+    /**
+     * Get the probability the aircraft will hit during a land attack including in game factors
+     * such as weather and type of target.
+     *
+     * @param target The target.
+     * @param modifier The circumstance land attack modifier: weather, type of target, etc...
+     * @return The probability this aircraft will hit in a land attack.
+     */
+    double getLandHitIndividualProbability(Target target, int modifier);
 
     /**
      * Get the probability the aircraft will hit during a naval attack.
      *
      * @param strength The strength of the squadron.
-     * @return A percentage representing the probability this aircraft will hit in a naval attack.
+     * @return The probability this aircraft will hit in a naval attack.
      */
-    int getNavalHitProbability(SquadronStrength strength);
+    double getNavalHitProbability(SquadronStrength strength);
+
+    /**
+     * Get the probability the aircraft will hit during a naval attack including in game factors
+     * such as weather and type of target.
+     *
+     * @param target The target.
+     * @param modifier The circumstance naval attack modifier: weather, type of target, etc...
+     * @return The probability this aircraft will hit in a naval attack.
+     */
+    double getNavalHitIndividualProbability(Target target, int modifier);
 
     /**
      * Get the aircraft's land attack factor.

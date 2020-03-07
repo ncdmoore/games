@@ -57,7 +57,7 @@ public class PatrolAirCapRules implements PatrolAirRules {
     public int getBaseSearchSuccess(final int distance, final List<Squadron> squadrons) {
         int factor = squadrons.isEmpty() ? 0 : getBaseFactor(distance) + INTERCEPT_FACTOR;
 
-        return dice.probability6(factor, 1);
+        return dice.probabilityPercentage(factor, 1);
     }
 
     /**
@@ -69,7 +69,7 @@ public class PatrolAirCapRules implements PatrolAirRules {
     public int getBaseSearchSuccessNoWeather(final int distance, final List<Squadron> squadrons) {
         int factor = squadrons.isEmpty() ? 0 : getBaseFactorNoWeather(distance) + INTERCEPT_FACTOR;
 
-        return dice.probability6(factor, 1);
+        return dice.probabilityPercentage(factor, 1);
     }
 
     @Override

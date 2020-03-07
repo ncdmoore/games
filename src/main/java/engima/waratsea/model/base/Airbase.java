@@ -5,6 +5,7 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
@@ -215,6 +216,18 @@ public interface Airbase extends Base {
      * @return The current squadron missions of this airbase.
      */
     List<AirMission> getMissions(Nation nation);
+
+    /**
+     * This is a utility function to aid in determining mission stats for squadrons that are
+     * selected for a given mission type but not necessarily committed to the mission yet.
+     *
+     * @param missionType The mission type.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @param squadrons The squadrons assigned to the mission.
+     * @param target The target of the mission.
+     * @return A temporary mission with the given squadrons.
+     */
+    AirMission getTemporaryMission(MissionType missionType, Nation nation, List<Squadron> squadrons, Target target);
 
     /**
      * Add a mission to this airbase.

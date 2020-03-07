@@ -4,9 +4,12 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
+import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.state.SquadronAction;
+import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
 import lombok.Getter;
 
@@ -41,7 +44,7 @@ public class NavalTaskForceStrike implements AirMission {
         this.game = game;
         nation = data.getNation();
 
-        airbase = data.getAirbase();
+        airbase = data.getAirbase(); //Note, this is not read in from the JSON file. So no need to save it.
 
         // The squadrons can be created here as they are guaranteed to be already created by the air base.
         squadrons = Optional.ofNullable(data.getSquadrons())
@@ -125,7 +128,10 @@ public class NavalTaskForceStrike implements AirMission {
      */
     @Override
     public void addSquadrons() {
-
+        squadrons.forEach(squadron -> {
+            SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_MISSION);
+            squadron.setSquadronState(state);
+        });
     }
 
     /**
@@ -133,7 +139,12 @@ public class NavalTaskForceStrike implements AirMission {
      */
     @Override
     public void removeSquadrons() {
+        squadrons.forEach(squadron -> {
+            SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
+            squadron.setSquadronState(state);
+        });
 
+        squadrons.clear();
     }
 
     /**
@@ -152,7 +163,7 @@ public class NavalTaskForceStrike implements AirMission {
      * @return The probability that this mission will be successful.
      */
     @Override
-    public List<MissionProbability> getMissionProbability() {
+    public List<ProbabilityStats> getMissionProbability() {
         return null;
     }
 

@@ -1,11 +1,11 @@
-package engima.waratsea.model.base.airfield.mission;
+package engima.waratsea.model.base.airfield.mission.stats;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Map;
 
-public class MissionProbability {
+public class ProbabilityStats {
     @Getter
     @Setter
     private String title;

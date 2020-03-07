@@ -8,6 +8,8 @@ import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.presenter.airfield.mission.MissionAddDetailsDialog;
+import engima.waratsea.presenter.airfield.mission.MissionEditDetailsDialog;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;

@@ -2,7 +2,6 @@ package engima.waratsea.view.airfield.mission;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.game.Nation;
@@ -20,7 +19,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Represents the mission edit dialog view details.
@@ -48,10 +46,6 @@ public class MissionEditDetailsView implements MissionDetailsView {
     private final SquadronSummaryView squadronSummaryView;
 
     private final StackPane stackPane = new StackPane();
-
-    @Setter
-    private Airbase airbase;
-
 
     /**
      * Constructor called by guice.
@@ -101,7 +95,7 @@ public class MissionEditDetailsView implements MissionDetailsView {
         VBox choiceBoxes = new VBox(missionVBox, targetVBox);
         choiceBoxes.setId("choices-pane");
 
-        Node targetDetailsBox = targetView.build(airbase);
+        Node targetDetailsBox = targetView.build();
 
         HBox hBox = new HBox(choiceBoxes, imageView);
         hBox.setId("target-hbox");
@@ -129,6 +123,12 @@ public class MissionEditDetailsView implements MissionDetailsView {
      */
     public void assign(final Squadron squadron) {
         missionList.add(squadron);
+
+        targetView
+                .getViewMap()
+                .get(missionType.getSelectionModel().getSelectedItem())
+                .addSquadron(squadron, target.getSelectionModel().getSelectedItem());
+
     }
 
     /**
@@ -141,6 +141,11 @@ public class MissionEditDetailsView implements MissionDetailsView {
                 .getSelectedItem();
 
         missionList.remove(squadron);
+
+        targetView.getViewMap()
+                .get(missionType.getSelectionModel().getSelectedItem())
+                .removeSquadron(squadron, target.getSelectionModel().getSelectedItem());
+
     }
 
     /**

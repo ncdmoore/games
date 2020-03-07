@@ -1,4 +1,4 @@
-package engima.waratsea.presenter.airfield;
+package engima.waratsea.presenter.airfield.mission;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -9,7 +9,6 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
-import engima.waratsea.model.target.TargetType;
 import engima.waratsea.view.WarnDialog;
 import engima.waratsea.view.airfield.mission.MissionDetailsView;
 import engima.waratsea.view.airfield.mission.MissionView;
@@ -102,7 +101,7 @@ public class MissionDetails {
      * @param mission The current mission.
      * @param selectedMissionType The mission type.
      */
-    public void updateTargetView(final AirMission mission, final MissionType selectedMissionType) {
+    public void updateTargetView(@Nullable final AirMission mission, final MissionType selectedMissionType) {
         Optional.ofNullable(selectedTarget).ifPresent(target -> {
             int inRouteStepsFromThisAirbase = getMissionSteps(mission, target);
             int inRouteStepsFromOtherAirbases = target.getMissionSteps(airbase);
@@ -116,24 +115,19 @@ public class MissionDetails {
             int outRouteRegionFromOtherAirbases = target.getMissionStepsLeavingRegion(selectedMissionType, nation, airbase);
             int outRouteRegionSteps = outRouteRegionFromThisAirbase + outRouteRegionFromOtherAirbases;
 
-            view.getTargetView().getAirbaseTitle().setText(target.getTitle() + " " + TargetType.getTitle(target) + " Details");
+            TargetStats targetStats = new TargetStats(target, airbase, inRouteSteps);
+            RegionStats targetRegionStats = new RegionStats(nation, target, inRouteRegionSteps);
+            RegionStats airbaseRegionStats = new RegionStats(nation, airbase, outRouteRegionSteps);
+            SuccessStats successStats = new SuccessStats(selectedMissionType, nation, airbase, view.getMissionList().getAssigned().getItems(), target);
 
-            view.getTargetView().getDistanceValue().setText(target.getDistance(airbase) + "");
-            view.getTargetView().getInRouteValue().setText(inRouteSteps + "");
-            view.getTargetView().getCapacityValue().setText(target.getCapacitySteps() + "");
-            view.getTargetView().getCurrentValue().setText(target.getCurrentSteps() + "");
+            MissionStats missionStats = new MissionStats();
+            missionStats.setMissionType(selectedMissionType);
+            missionStats.setTargetStats(targetStats);
+            missionStats.setTargetRegionStats(targetRegionStats);
+            missionStats.setAirfieldRegionStats(airbaseRegionStats);
+            missionStats.setSuccessStats(successStats);
 
-            view.getTargetView().getTargetRegionTitle().setText("Target: " + target.getRegionTitle(nation) + " Region Details");
-            view.getTargetView().getTargetRegionMaxStepsValue().setText(target.getRegionMaxSteps(nation) + "");
-            view.getTargetView().getTargetRegionCurrentStepsValue().setText(target.getRegionCurrentSteps(nation) + "");
-            view.getTargetView().getTargetRegionInRouteValue().setText(inRouteRegionSteps + "");
-
-            view.getTargetView().getAirbaseRegionTitle().setText("Airfield: " + airbase.getRegion(nation).getTitle() + " Region Details");
-            view.getTargetView().getAirbaseRegionMinStepsValue().setText(airbase.getRegion(nation).getMinSteps() + "");
-            view.getTargetView().getAirbaseRegionCurrentStepsValue().setText(airbase.getRegion(nation).getCurrentSteps() + "");
-            view.getTargetView().getAirbaseRegionOurRouteValue().setText(outRouteRegionSteps + "");
-
-            view.getTargetView().show(target);
+            view.getTargetView().show(missionStats);
         });
     }
 
@@ -176,42 +170,16 @@ public class MissionDetails {
     /**
      * Add a squadron to the current mission under construction.
      *
-     * @param selectedMissionType The mission type.
      * @param squadron The added squadron.
      */
-    public void addSquadron(final MissionType selectedMissionType, final Squadron squadron) {
-        int inRoute = Integer.valueOf(view.getTargetView().getInRouteValue().getText());
-        int regionInRoute = Integer.valueOf(view.getTargetView().getTargetRegionInRouteValue().getText());
-        int regionOutRoute = Integer.valueOf(view.getTargetView().getAirbaseRegionOurRouteValue().getText());
-
-        view.getTargetView().getInRouteValue().setText(inRoute + squadron.getSteps().intValue() + "");
-
-        if (selectedMissionType == MissionType.FERRY && airbase.getRegion(nation) != selectedTarget.getRegion(nation)) {
-            view.getTargetView().getTargetRegionInRouteValue().setText(regionInRoute + squadron.getSteps().intValue() + "");
-            view.getTargetView().getAirbaseRegionOurRouteValue().setText(regionOutRoute + squadron.getSteps().intValue() + "");
-        }
-
+    public void addSquadron(final Squadron squadron) {
         view.assign(squadron);
     }
 
     /**
      * Remove a squadron from the current mission under construction.
-     *
-     * @param selectedMissionType The mission type.
-     * @param squadron The removed squadron.
      */
-    public void removeSquadron(final MissionType selectedMissionType, final Squadron squadron) {
-        int inRoute = Integer.valueOf(view.getTargetView().getInRouteValue().getText());
-        int regionInRoute = Integer.valueOf(view.getTargetView().getTargetRegionInRouteValue().getText());
-        int regionOutRoute = Integer.valueOf(view.getTargetView().getAirbaseRegionOurRouteValue().getText());
-
-        view.getTargetView().getInRouteValue().setText(inRoute - squadron.getSteps().intValue() + "");
-
-        if (selectedMissionType == MissionType.FERRY && airbase.getRegion(nation) != selectedTarget.getRegion(nation)) {
-            view.getTargetView().getTargetRegionInRouteValue().setText(regionInRoute - squadron.getSteps().intValue() + "");
-            view.getTargetView().getAirbaseRegionOurRouteValue().setText(regionOutRoute - squadron.getSteps().intValue() + "");
-        }
-
+    public void removeSquadron() {
         view.remove();
     }
 

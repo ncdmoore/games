@@ -6,6 +6,7 @@ import engima.waratsea.model.aircraft.data.AircraftData;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.SquadronStrength;
+import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.Dice;
 import lombok.Getter;
 
@@ -16,6 +17,8 @@ import java.util.List;
  * Represents an aircraft.
  */
 public class AircraftImpl implements Aircraft {
+
+    private static final int BASE_FACTOR = 1; // A  6 on a 6-sided die always hits.
 
     @Getter
     private final AircraftId aircraftId;
@@ -118,29 +121,68 @@ public class AircraftImpl implements Aircraft {
      * @return The probability that this aircraft will hit on an air-to-air attack.
      */
     @Override
-    public int getAirHitProbability(final SquadronStrength strength) {
-        return dice.probability6(air.getModifier() + 1, air.getFactor(strength));
+    public double getAirHitProbability(final SquadronStrength strength) {
+        return dice.probability(air.getModifier() + BASE_FACTOR, air.getFactor(strength));
+    }
+
+    /**
+     * Get the probability the aircraft will hit during air-to-air attack including any game factors
+     * such as weather and type of target.
+     *
+     * @param target   The target.
+     * @param modifier The circumstance air-to-air attack modifier: weather, type of target, etc...
+     * @return The probability this aircraft will hit in an air-to-air attack.
+     */
+    @Override
+    public double getAirHitIndividualProbability(final Target target, final int modifier) {
+        return dice.individualProbability(air.getModifier() + BASE_FACTOR + modifier);
     }
 
     /**
      * Get the probability the aircraft will hit in a land attack.
      *
      * @param strength The strength of the squadron.
-     * @return A percentage representing the probability this aircraft will hit in a land attack.
+     * @return The probability this aircraft will hit in a land attack.
      */
     @Override
-    public int getLandHitProbability(final SquadronStrength strength) {
-        return dice.probability6(land.getModifier() + 1, land.getFactor(strength));
+    public double getLandHitProbability(final SquadronStrength strength) {
+        return dice.probability(land.getModifier() + BASE_FACTOR, land.getFactor(strength));
+    }
+
+    /**
+     * Get the probability the aircraft will hit during a land attack including in game factors
+     * such as weather and type of target.
+     *
+     * @param target The target.
+     * @param modifier The circumstance land attack modifier: weather, type of target, etc...
+     * @return The probability this aircraft will hit in a land attack.
+     */
+    @Override
+    public double getLandHitIndividualProbability(final Target target, final int modifier) {
+        return dice.individualProbability(land.getModifier() + BASE_FACTOR + modifier);
     }
 
     /**
      * Get the probability the aircraft will hit during a naval attack.
      *
      * @param strength The strength of the squadron.
-     * @return A percentage representing the probability this aircraft will hit in a naval attack.
+     * @return The probability this aircraft will hit in a naval attack.
      */
     @Override
-    public int getNavalHitProbability(final SquadronStrength strength) {
-        return dice.probability6(naval.getModifier() + 1, naval.getFactor(strength));
+    public double getNavalHitProbability(final SquadronStrength strength) {
+        return dice.probability(naval.getModifier() + BASE_FACTOR, naval.getFactor(strength));
+    }
+
+    /**
+     * Get the probability the aircraft will hit during a naval attack including in game factors
+     * such as weather and type of target.
+     *
+     * @param target The target.
+     * @param modifier The circumstance naval attack modifier: weather, type of target, etc...
+     * @return The probability this aircraft will hit in a naval attack.
+     */
+    @Override
+    public double getNavalHitIndividualProbability(final Target target, final int modifier) {
+        return dice.individualProbability(naval.getModifier() + BASE_FACTOR + modifier);
     }
 }

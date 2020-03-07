@@ -62,7 +62,7 @@ public class PatrolAirAswRules implements PatrolAirRules {
     public int getBaseAttackSuccess(final int distance, final List<Squadron> squadrons) {
         int factor = getBaseFactor(squadrons);
         int canSearch = getBaseSearchSuccess(distance, squadrons);
-        return canSearch > 0 ? dice.probability6(factor + ATTACK_FACTOR, 1) : 0;
+        return canSearch > 0 ? dice.probabilityPercentage(factor + ATTACK_FACTOR, 1) : 0;
     }
 
     /**

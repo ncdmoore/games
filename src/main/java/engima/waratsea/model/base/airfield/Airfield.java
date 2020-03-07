@@ -11,6 +11,8 @@ import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
+import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolFactory;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
@@ -262,6 +264,28 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                 .stream()
                 .filter(mission -> mission.getNation() == nation)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * This is a utility function to aid in determining mission stats for squadrons that are
+     * selected for a given mission type but not necessarily committed to the mission yet.
+     *
+     * @param missionType The mission type.
+     * @param nation      The nation: BRITISH, ITALIAN, etc...
+     * @param squadronList   The squadrons assigned to the mission.
+     * @param target      The target of the mission.
+     * @return A temporary mission with the given squadrons.
+     */
+    @Override
+    public AirMission getTemporaryMission(final MissionType missionType, final Nation nation, final List<Squadron> squadronList, final Target target) {
+        MissionData data = new MissionData();
+        data.setType(missionType);
+        data.setAirbase(this);
+        data.setNation(nation);
+        data.setTarget(target.getName());
+        data.setSquadrons(squadronList.stream().map(Squadron::getName).collect(Collectors.toList()));
+
+        return  missionDAO.load(data);
     }
 
     /**

@@ -19,6 +19,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.squadron.state.SquadronState;
+import engima.waratsea.model.target.Target;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -229,8 +230,19 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      *
      * @return The squadron's air-to-air hit probability.
      */
-    public int getAirHitProbability() {
+    public double getAirHitProbability() {
         return aircraft.getAirHitProbability(strength);
+    }
+
+    /**
+     * Get the squadron's air hit probability.
+     *
+     * @param target The target.
+     * @param modifier Any game modifications to the hit probability: weather, target type, etc...
+     * @return The squadron's air hit probability.
+     */
+    public double getAirHitIndividualProbability(final Target target, final  int modifier) {
+        return aircraft.getAirHitIndividualProbability(target, modifier);
     }
 
     /**
@@ -238,8 +250,19 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      *
      * @return The squadron's land hit probability.
      */
-    public int getLandHitProbability() {
+    public double getLandHitProbability() {
         return aircraft.getLandHitProbability(strength);
+    }
+
+    /**
+     * Get the squadron's land hit probability.
+     *
+     * @param target The target.
+     * @param modifier Any game modifications to the hit probability: weather, target type, etc...
+     * @return The squadron's land hit probability.
+     */
+    public double getLandHitIndividualProbability(final Target target, final int modifier) {
+        return aircraft.getLandHitIndividualProbability(target, modifier);
     }
 
     /**
@@ -247,8 +270,21 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      *
      * @return The squadron's naval hit probability.
      */
-    public int getNavalHitProbability() {
+    public double getNavalHitProbability() {
         return aircraft.getNavalHitProbability(strength);
+    }
+
+
+    /**
+     * Get the squadron's naval hit probability.
+     *
+     *
+     * @param target The target
+     * @param modifier Any game modifications to the hit probability: weather, target type, etc...
+     * @return The squadron's naval hit probability.
+     */
+    public double getNavalHitIndividualProbability(final Target target, final int modifier) {
+        return aircraft.getNavalHitIndividualProbability(target, modifier);
     }
 
     /**

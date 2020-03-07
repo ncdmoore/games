@@ -5,6 +5,7 @@ import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.Probability;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.util.TitledGridPane;
 import javafx.scene.Node;
@@ -46,6 +47,7 @@ public class SquadronSummaryView {
 
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
+    private final Probability probability;
 
     private final Label title = new Label();
 
@@ -59,12 +61,15 @@ public class SquadronSummaryView {
      *
      * @param imageResourceProvider Provides images.
      * @param props View properties.
+     * @param probability A probability utility.
      */
     @Inject
     public SquadronSummaryView(final ImageResourceProvider imageResourceProvider,
-                               final ViewProps props) {
+                               final ViewProps props,
+                               final Probability probability) {
         this.imageResourceProvider = imageResourceProvider;
         this.props = props;
+        this.probability = probability;
     }
 
     /**
@@ -224,15 +229,15 @@ public class SquadronSummaryView {
 
         List<String> airToAirList = new ArrayList<>();
         airToAirList.add(airToAir);
-        airToAirList.add(squadron.getAirHitProbability() + "%");
+        airToAirList.add(probability.percentage(squadron.getAirHitProbability()) + "%");
 
         List<String> landList = new ArrayList<>();
         landList.add(land);
-        landList.add(squadron.getLandHitProbability() + "%");
+        landList.add(probability.percentage(squadron.getLandHitProbability()) + "%");
 
         List<String> navalList = new ArrayList<>();
         navalList.add(naval);
-        navalList.add(squadron.getNavalHitProbability() + "%");
+        navalList.add(probability.percentage(squadron.getNavalHitProbability()) + "%");
 
         details.put("Type:", type);
         details.put("Strength:", strength);

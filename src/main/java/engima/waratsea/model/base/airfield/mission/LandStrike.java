@@ -6,6 +6,7 @@ import com.google.inject.name.Named;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.mission.rules.MissionAirRules;
+import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
@@ -36,8 +37,6 @@ public class LandStrike implements AirMission {
     private static final int AIRFIELD_CAPACITY_REDUCED_BY_1 = 4;
     private static final int AIRFIELD_CAPACITY_REDUCED_BY_2 = 8;
     private static final Set<Integer> CAPACITY_HIT_SET = new HashSet<>(Arrays.asList(AIRFIELD_CAPACITY_REDUCED_BY_1, AIRFIELD_CAPACITY_REDUCED_BY_2));
-
-    private static final double BASE_MODIFIER = 1.0;
 
     private final Game game;
     private final Dice dice;
@@ -72,7 +71,7 @@ public class LandStrike implements AirMission {
 
         nation = data.getNation();
 
-        airbase = data.getAirbase();
+        airbase = data.getAirbase(); //Note, this is not read in from the JSON file. So no need to save it.
 
         // The squadrons can be created here as they are guaranteed to be already created by the air base.
         squadrons = Optional.ofNullable(data.getSquadrons())
@@ -188,6 +187,30 @@ public class LandStrike implements AirMission {
     }
 
     /**
+     * Get this mission's probability of success.
+     *
+     * @return A list of mission probabilities. One probability is for the destruction of
+     * squadron steps on the ground at the target airfield. One probability is for the
+     * reduction of the target airfield's capacity to station squadron steps.
+     */
+    @Override
+    public List<ProbabilityStats> getMissionProbability() {
+        Map<Double, Integer> factors = getAttackMap();
+
+        ProbabilityStats stepsDestroyedProbability = new ProbabilityStats();
+        stepsDestroyedProbability.setTitle("Squadron Steps Destroyed");
+        stepsDestroyedProbability.setEventColumnTitle("Steps Destroyed");
+        stepsDestroyedProbability.setProbability(buildProbabilityStepDestroyed(factors));
+
+        ProbabilityStats capacityReducedProbability = new ProbabilityStats();
+        capacityReducedProbability.setTitle("Airfield Capacity Reduced");
+        capacityReducedProbability.setEventColumnTitle("Capacity Reduced");
+        capacityReducedProbability.setProbability(buildProbabilityAirfieldDamaged(factors));
+
+        return new ArrayList<>(Arrays.asList(stepsDestroyedProbability, capacityReducedProbability));
+    }
+
+    /**
      * Get the target air base.
      *
      * @return The target air base.
@@ -205,30 +228,6 @@ public class LandStrike implements AirMission {
     }
 
     /**
-     * Get this mission's probability of success.
-     *
-     * @return A list of mission probabilities. One probability is for the destruction of
-     * squadron steps on the ground at the target airfield. One probability is for the
-     * reduction of the target airfield's capacity to station squadron steps.
-     */
-    @Override
-    public List<MissionProbability> getMissionProbability() {
-        Map<Integer, Integer> factors = getAttackMap();
-
-        MissionProbability stepsDestroyedProbability = new MissionProbability();
-        stepsDestroyedProbability.setTitle("Squadron Steps Destroyed");
-        stepsDestroyedProbability.setEventColumnTitle("Steps Destroyed");
-        stepsDestroyedProbability.setProbability(buildProbabilityStepDestroyed(factors));
-
-        MissionProbability capacityReducedProbability = new MissionProbability();
-        capacityReducedProbability.setTitle("Airfield Capacity Reduced");
-        capacityReducedProbability.setEventColumnTitle("Capacity Reduced");
-        capacityReducedProbability.setProbability(buildProbabilityAirfieldDamaged(factors));
-
-        return new ArrayList<>(Arrays.asList(stepsDestroyedProbability, capacityReducedProbability));
-    }
-
-    /**
      * Build the land strike's airfield damaged probability map for this mission. This is a map of the amount
      * the airfield is damaged (reduction in capacity) to the probability that this damage is actually achieved.
      * Like so:
@@ -242,7 +241,7 @@ public class LandStrike implements AirMission {
      * @param factors The squadrons on this mission land attack modifiers and factors.
      * @return The probability map as illustrated above.
      */
-    private Map<Integer, Integer> buildProbabilityAirfieldDamaged(final Map<Integer, Integer> factors) {
+    private Map<Integer, Integer> buildProbabilityAirfieldDamaged(final Map<Double, Integer> factors) {
         return CAPACITY_HIT_SET
                 .stream()
                 .collect(Collectors.toMap(numHits -> numHits,
@@ -263,7 +262,7 @@ public class LandStrike implements AirMission {
      * @param factors The squadrons on this mission land attack modifiers and factors.
      * @return The probability map as illustrated above.
      */
-    private Map<Integer, Integer> buildProbabilityStepDestroyed(final Map<Integer, Integer> factors) {
+    private Map<Integer, Integer> buildProbabilityStepDestroyed(final Map<Double, Integer> factors) {
         return STEP_HIT_SET
                 .stream()
                 .collect(Collectors.toMap(numHits -> numHits,
@@ -273,26 +272,26 @@ public class LandStrike implements AirMission {
     /**
      * The squadrons in this mission will have varying attack modifiers. These modifiers
      * determine the probability of an individual squadron achieving a successful attack.
-     * Map the squadrons land attack modifiers to the total number of attack factors for
-     * the given modifier.
+     * Map the squadrons land attack probability to the total number of attack factors for
+     * the given probability.
      *
      * For example if this mission has 3 squadrons with the following stats.
-     *   squadron one: Modifier = 2, Factor = 5
-     *   squadron two: Modifier = 1, Factor = 3
-     *   squadron three: Modifier = 1, Factor = 2
+     *   squadron one: Probability = 0.2, Factor = 5
+     *   squadron two: Probability = 0.1, Factor = 3
+     *   squadron three: Probability = 0.1, Factor = 2
      *
      * then the map will look like:
      *
-     *    Modifier => Total Factor
-     *       2     ->      5
-     *       1     ->      5
+     *    Probability => Total Factor
+     *       0.2     ->      5
+     *       0.1     ->      5
      *
-     * @return The attack map as desribed above.
+     * @return The attack map as described above.
      */
-    private Map<Integer, Integer> getAttackMap() {
+    private Map<Double, Integer> getAttackMap() {
          return squadrons
                 .stream()
-                .collect(Collectors.toMap(this::getLandModifier,
+                .collect(Collectors.toMap(this::getLandAttackProbability,
                         Squadron::getLandFactor,
                         Integer::sum));
     }
@@ -305,12 +304,14 @@ public class LandStrike implements AirMission {
      * @return The probability as a percentage that this mission achieves the given number
      * of hits.
      */
-    private int getProbability(final int numHits, final Map<Integer, Integer> factors) {
-        BigDecimal probability = factors
+    private int getProbability(final int numHits, final Map<Double, Integer> factors) {
+        BigDecimal probabilityNoHits = factors
                 .entrySet()
                 .stream()
                 .map(entry -> getProbability(numHits, entry.getValue(), entry.getKey()))
                 .reduce(BigDecimal.ONE, BigDecimal::multiply);
+
+        BigDecimal probability = BigDecimal.ONE.subtract(probabilityNoHits);
 
         return probability.multiply(PERCENTAGE).toBigInteger().intValue();
     }
@@ -322,11 +323,11 @@ public class LandStrike implements AirMission {
      *
      * @param hits The desired number of hits.
      * @param factor The attack factor -> number of dice to roll.
-     * @param modifier The attack modifier -> affects the probability of a single successful die roll.
+     * @param individualProbability The individual probability of a single successful die roll.
      * @return The probability of achieving the given number of hits.
      */
-    private BigDecimal getProbability(final int hits, final int factor, final int modifier) {
-        double probabilityHis = dice.probabilityHits(hits, factor, modifier + BASE_MODIFIER);
+    private BigDecimal getProbability(final int hits, final int factor, final double individualProbability) {
+        double probabilityHis = dice.probabilityHits(hits, factor, individualProbability);
         double probabilityNoHits = 1.0 - probabilityHis;
         return new BigDecimal(probabilityNoHits);
     }
@@ -338,7 +339,7 @@ public class LandStrike implements AirMission {
      * @param squadron The squadron for which the land attack modifier is obtained.
      * @return The squadron's land attack modifier, including any global game land attack modifiers.
      */
-    private int getLandModifier(final Squadron squadron) {
-        return squadron.getLandModifier() + rules.getModifier();
+    private double getLandAttackProbability(final Squadron squadron) {
+        return squadron.getLandHitIndividualProbability(getTarget(), rules.getModifier());
     }
 }

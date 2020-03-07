@@ -1,4 +1,4 @@
-package engima.waratsea.presenter.airfield;
+package engima.waratsea.presenter.airfield.patrol;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;

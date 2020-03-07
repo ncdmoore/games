@@ -106,31 +106,24 @@
     -fx-text-fill: red;
 }
 
-#summary-title-pane-british {
+#summary-title-pane-australian {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, darkred, white, blue);
+    -fx-alignment: top-center;
+}
+
+#summary-title-pane-united-states {
     -fx-border-width: 1px;
     -fx-border-color: black;
     -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
     -fx-alignment: top-center;
 }
 
-#summary-title-pane-italian {
+#summary-title-pane-japanese {
     -fx-border-width: 1px;
     -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, green, white, red);
-    -fx-alignment: top-center;
-}
-
-#summary-title-pane-german {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, darkred, white, black);
-    -fx-alignment: top-center;
-}
-
-#summary-title-pane-french {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, red, white, blue);
+    -fx-background-color: linear-gradient(to right, white, white, red);
     -fx-alignment: top-center;
 }
 

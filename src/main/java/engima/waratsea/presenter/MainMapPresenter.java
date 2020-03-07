@@ -9,7 +9,7 @@ import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.presenter.airfield.AirfieldDetailsDialog;
-import engima.waratsea.presenter.airfield.PatrolDetailsDialog;
+import engima.waratsea.presenter.airfield.patrol.PatrolDetailsDialog;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
