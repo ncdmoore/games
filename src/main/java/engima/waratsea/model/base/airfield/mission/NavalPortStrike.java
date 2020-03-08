@@ -44,6 +44,10 @@ public class NavalPortStrike implements AirMission {
 
     @Getter
     private final List<Squadron> squadrons;
+
+    @Getter
+    private final List<Squadron> escort;
+
     private final String targetBaseName;      //The name of the target port.
     private Target targetPort;                //The actual target port.
 
@@ -70,6 +74,13 @@ public class NavalPortStrike implements AirMission {
 
         // The squadrons can be created here as they are guaranteed to be already created by the air base.
         squadrons = Optional.ofNullable(data.getSquadrons())
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(airbase::getSquadron)
+                .collect(Collectors.toList());
+
+        // The escort can be created here as they are guaranteed to be already created by the air base.
+        escort = Optional.ofNullable(data.getEscort())
                 .orElseGet(Collections::emptyList)
                 .stream()
                 .map(airbase::getSquadron)
@@ -102,6 +113,13 @@ public class NavalPortStrike implements AirMission {
                 .collect(Collectors.toList());
 
         data.setSquadrons(names);
+
+        List<String> escortNames = escort
+                .stream()
+                .map(Squadron::getName)
+                .collect(Collectors.toList());
+
+        data.setEscort(escortNames);
 
         return data;
     }

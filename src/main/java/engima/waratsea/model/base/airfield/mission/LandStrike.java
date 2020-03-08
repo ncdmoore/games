@@ -50,6 +50,10 @@ public class LandStrike implements AirMission {
 
     @Getter
     private final List<Squadron> squadrons;
+
+    @Getter
+    private final List<Squadron> escort;
+
     private final String targetBaseName;      //The name of the target air base.
     private Target targetAirbase;             //The actual target air base.
     /**
@@ -80,6 +84,13 @@ public class LandStrike implements AirMission {
                 .map(airbase::getSquadron)
                 .collect(Collectors.toList());
 
+        // The escort can be created here as they are guaranteed to be already created by the air base.
+        escort = Optional.ofNullable(data.getEscort())
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(airbase::getSquadron)
+                .collect(Collectors.toList());
+
         //Note, we cannot go ahead and obtain the target air base as it might not have been created at
         //this point in time. So we just save the name of the target air base. The target air base
         // must be determined outside the constructor.
@@ -105,6 +116,13 @@ public class LandStrike implements AirMission {
                 .collect(Collectors.toList());
 
         data.setSquadrons(names);
+
+        List<String> escortNames = escort
+                .stream()
+                .map(Squadron::getName)
+                .collect(Collectors.toList());
+
+        data.setEscort(escortNames);
 
         return data;
     }

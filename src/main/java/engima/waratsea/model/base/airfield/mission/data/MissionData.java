@@ -28,6 +28,10 @@ public class MissionData {
     @Setter
     private List<String> squadrons;
 
+    @Getter
+    @Setter
+    private List<String> escort;
+
     /**
      * Set the air base.
      *
