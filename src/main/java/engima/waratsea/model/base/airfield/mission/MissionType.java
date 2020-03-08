@@ -1,18 +1,33 @@
 package engima.waratsea.model.base.airfield.mission;
 
+import lombok.Getter;
+
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents an air mission type. These are the types of mission a squadron may perform. Though
+ * not all mission may be performed by all aircraft types.
+ *
+ * Squadrons have roles within a mission. For example on a Naval Strike mission a squadron may participate
+ * in the actual strike itself, i.e., attack a ship, or it may serve as an escort.
+ */
 public enum MissionType {
 
-    FERRY("Ferry"),
-    LAND_STRIKE("Airfield Strike"),
-    NAVAL_PORT_STRIKE("Port Strike"),
-    NAVAL_TASK_FORCE_STRIKE("Task Force Strike"),
-    SWEEP_AIRFIELD("Airfield Sweep"),
-    SWEEP_PORT("Port Sweep");
+    FERRY("Ferry", Collections.singletonList(MissionRole.FERRY)),
+    LAND_STRIKE("Airfield Strike", Arrays.asList(MissionRole.STRIKE, MissionRole.ESCORT)),
+    NAVAL_PORT_STRIKE("Port Strike", Arrays.asList(MissionRole.STRIKE, MissionRole.ESCORT)),
+    NAVAL_TASK_FORCE_STRIKE("Task Force Strike", Arrays.asList(MissionRole.STRIKE, MissionRole.ESCORT)),
+    SWEEP_AIRFIELD("Airfield Sweep", Collections.singletonList(MissionRole.SWEEP)),
+    SWEEP_PORT("Port Sweep", Collections.singletonList(MissionRole.SWEEP));
 
     private String value;
+
+    @Getter
+    private List<MissionRole> roles;
 
     private static Map<Class<?>, MissionType> typeMap = new HashMap<>();
 
@@ -29,9 +44,11 @@ public enum MissionType {
      * Constructor.
      *
      * @param value The String value of the enum.
+     * @param roles The available squadron roles for the type of mission.
      */
-    MissionType(final String value) {
+    MissionType(final String value, final List<MissionRole> roles) {
         this.value = value;
+        this.roles = roles;
     }
 
     /**
