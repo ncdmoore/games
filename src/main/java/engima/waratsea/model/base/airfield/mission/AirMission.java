@@ -54,6 +54,13 @@ public interface AirMission extends PersistentData<MissionData> {
     List<Squadron> getSquadrons();
 
     /**
+     * Get the squadrons on this mission that are serving as escort.
+     *
+     * @return A list of squadrons on escort duty for this mission.
+     */
+    List<Squadron> getEscort();
+
+    /**
      * Get the number of steps assigned to this mission.
      *
      * @return the total number of steps assigned to this mission.

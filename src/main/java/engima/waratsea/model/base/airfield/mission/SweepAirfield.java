@@ -135,6 +135,17 @@ public class SweepAirfield implements AirMission {
     }
 
     /**
+     * Get the squadrons on this mission that are serving as escort.
+     * Sweep missions do not have escorts.
+     *
+     * @return A list of squadrons on escort duty for this mission.
+     */
+    @Override
+    public List<Squadron> getEscort() {
+        return Collections.emptyList();
+    }
+
+    /**
      * Get the number of steps assigned to this mission.
      *
      * @return the total number of steps assigned to this mission.
