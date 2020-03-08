@@ -26,12 +26,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class LandStrike implements AirMission {
     private static final BigDecimal PERCENTAGE = new BigDecimal(100);
 
     private static final int ONE_STEP_ELIMINATED = 3;  // The number of successful die rolls required to eliminate one step of aircraft.
-    private static final int TWO_STEP_ELIMINATED = 6;  // THe number of successful die rolls required to eliminate tow setps of aircraft.
+    private static final int TWO_STEP_ELIMINATED = 6;  // THe number of successful die rolls required to eliminate tow steps of aircraft.
     private static final Set<Integer> STEP_HIT_SET = new HashSet<>(Arrays.asList(ONE_STEP_ELIMINATED, TWO_STEP_ELIMINATED));
 
     private static final int AIRFIELD_CAPACITY_REDUCED_BY_1 = 4;
@@ -155,6 +156,18 @@ public class LandStrike implements AirMission {
     public Target getTarget() {
         return Optional.ofNullable(targetAirbase)
                 .orElseGet(this::getTargetAirbase);
+    }
+
+    /**
+     * Get both the squadrons on the mission and the squadrons on escort duty.
+     *
+     * @return All of the squadrons involved with this mission.
+     */
+    @Override
+    public List<Squadron> getSquadronsAndEscort() {
+        return Stream
+                .concat(squadrons.stream(), escort.stream())
+                .collect(Collectors.toList());
     }
 
     /**

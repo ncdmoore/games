@@ -140,6 +140,18 @@ public class SweepPort implements AirMission {
     }
 
     /**
+     * Get both the squadrons on the mission and the squadrons on escort duty.
+     * For sweep mission there are not escorts. All of the squadrons are
+     * fighters anyway.
+     *
+     * @return All of the squadrons involved with this mission.
+     */
+    @Override
+    public List<Squadron> getSquadronsAndEscort() {
+        return squadrons;
+    }
+
+    /**
      * Get the number of steps assigned to this mission.
      *
      * @return the total number of steps assigned to this mission.

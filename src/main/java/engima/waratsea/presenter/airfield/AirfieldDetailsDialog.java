@@ -379,6 +379,7 @@ public class AirfieldDetailsDialog {
                 .setParentDialog(this)
                 .show(airbase);
 
+        //Once the dialog is closed the following code is executed.
         Optional
                 .ofNullable(dialog.getMission())
                 .ifPresent(mission -> {
@@ -387,7 +388,7 @@ public class AirfieldDetailsDialog {
                             .get(nation)
                             .addMissionToTable(mission);
 
-                    mission.getSquadrons().forEach(squadron -> {
+                    mission.getSquadronsAndEscort().forEach(squadron -> {
                         removeFromReadyList(nation, squadron);
                         removeFromPatrolAvailableList(nation, squadron);
                         updateReadySummary(nation, squadron);
@@ -429,8 +430,8 @@ public class AirfieldDetailsDialog {
 
         AirMission updatedMission = dialog.getMission();
 
-        List<Squadron> added = ListUtils.subtract(updatedMission.getSquadrons(), mission.getSquadrons());
-        List<Squadron> removed = ListUtils.subtract(mission.getSquadrons(), updatedMission.getSquadrons());
+        List<Squadron> added = ListUtils.subtract(updatedMission.getSquadronsAndEscort(), mission.getSquadrons());
+        List<Squadron> removed = ListUtils.subtract(mission.getSquadronsAndEscort(), updatedMission.getSquadrons());
 
         view
                 .getAirfieldMissionView()
@@ -478,7 +479,7 @@ public class AirfieldDetailsDialog {
                     .deleteMissionFromTable(deletedMission);
 
             deletedMission
-                    .getSquadrons()
+                    .getSquadronsAndEscort()
                     .forEach(squadron -> {
                         addToReadyList(nation, squadron);
                         addToPatrolAvailableList(nation, squadron);

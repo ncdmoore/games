@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class NavalPortStrike implements AirMission {
     private static final int PORT_MODIFIER = 1; // Ships in port are easier to hit. Add a 1 to the modifier.
@@ -152,6 +153,18 @@ public class NavalPortStrike implements AirMission {
     public Target getTarget() {
         return Optional.ofNullable(targetPort)
                 .orElseGet(this::getTargetPort);
+    }
+
+    /**
+     * Get both the squadrons on the mission and the squadrons on escort duty.
+     *
+     * @return All of the squadrons involved with this mission.
+     */
+    @Override
+    public List<Squadron> getSquadronsAndEscort() {
+        return Stream
+                .concat(squadrons.stream(), escort.stream())
+                .collect(Collectors.toList());
     }
 
     /**

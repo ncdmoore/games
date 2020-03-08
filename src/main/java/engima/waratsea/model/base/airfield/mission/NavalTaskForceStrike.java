@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class NavalTaskForceStrike implements AirMission {
     private final Game game;
@@ -129,6 +130,18 @@ public class NavalTaskForceStrike implements AirMission {
     public Target getTarget() {
         return Optional.ofNullable(targetTaskForce)
                 .orElseGet(this::getTargetTaskForce);
+    }
+
+    /**
+     * Get both the squadrons on the mission and the squadrons on escort duty.
+     *
+     * @return All of the squadrons involved with this mission.
+     */
+    @Override
+    public List<Squadron> getSquadronsAndEscort() {
+        return Stream
+                .concat(squadrons.stream(), escort.stream())
+                .collect(Collectors.toList());
     }
 
     /**

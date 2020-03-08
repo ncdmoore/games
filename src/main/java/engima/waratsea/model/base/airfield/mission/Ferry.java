@@ -47,7 +47,7 @@ public class Ferry implements AirMission {
 
         startingAirbase = data.getAirbase(); //Note, this is not read in from the JSON file. So no need to save it.
 
-        // The squadrons can be created here as they are guarranted to be already created by the air base.
+        // The squadrons can be created here as they are guaranteed to be already created by the air base.
         squadrons = Optional.ofNullable(data.getSquadrons())
                 .orElseGet(Collections::emptyList)
                 .stream()
@@ -133,6 +133,18 @@ public class Ferry implements AirMission {
     @Override
     public List<Squadron> getEscort() {
         return Collections.emptyList();
+    }
+
+    /**
+     * Get both the squadrons on the mission and the squadrons on escort duty.
+     * For this type of mission there are no escorts. So just the squadrons
+     * are returned.
+     *
+     * @return All of the squadrons involved with this mission.
+     */
+    @Override
+    public List<Squadron> getSquadronsAndEscort() {
+        return squadrons;
     }
 
     /**

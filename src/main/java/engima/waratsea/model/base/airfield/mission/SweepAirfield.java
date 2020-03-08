@@ -2,10 +2,8 @@ package engima.waratsea.model.base.airfield.mission;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.name.Named;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
-import engima.waratsea.model.base.airfield.mission.rules.MissionAirRules;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
@@ -29,7 +27,6 @@ import java.util.stream.Collectors;
 public class SweepAirfield implements AirMission {
     private final Game game;
     private final Dice dice;
-    private final MissionAirRules rules;
 
     private static final BigDecimal PERCENTAGE = new BigDecimal(100);
     private static final Set<Integer> STEP_HIT_SET = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
@@ -50,16 +47,13 @@ public class SweepAirfield implements AirMission {
      *
      * @param data The mission data read in from a JSON file.
      * @param game The game.
-     * @param rules The mission air-to-air rules.
      * @param dice The dice utility.
      */
     @Inject
     public SweepAirfield(@Assisted final MissionData data,
                                    final Game game,
-                                   final @Named("airStrike") MissionAirRules rules,
                                    final Dice dice) {
         this.game = game;
-        this.rules = rules;
         this.dice = dice;
 
         nation = data.getNation();
@@ -143,6 +137,18 @@ public class SweepAirfield implements AirMission {
     @Override
     public List<Squadron> getEscort() {
         return Collections.emptyList();
+    }
+
+    /**
+     * Get both the squadrons on the mission and the squadrons on escort duty.
+     * For Sweep missions there are no escorts. All of the squadrons are fighters
+     * anyway.
+     *
+     * @return All of the squadrons involved with this mission.
+     */
+    @Override
+    public List<Squadron> getSquadronsAndEscort() {
+        return squadrons;
     }
 
     /**
