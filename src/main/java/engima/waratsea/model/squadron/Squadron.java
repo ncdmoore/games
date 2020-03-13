@@ -12,6 +12,7 @@ import engima.waratsea.model.aircraft.AviationPlantException;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Rules;
@@ -324,10 +325,20 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     }
 
     /**
-     * Determine if this squadron may perform ASW.
+     * Determine if this squadron may perform the given mission role.
+     *
+     * @param missionRole The squadron mission role.
+     * @return True if this squadron may perform the given mission role. False otherwise.
+     */
+    public boolean canDoRole(final MissionRole missionRole) {
+        return aircraft.getRoles().contains(missionRole);
+    }
+
+    /**
+     * Determine if this squadron may perform the given patrol.
      *
      * @param patrolType Type of patrol.
-     * @return True if this squadron may perform ASW. False otherwise.
+     * @return True if this squadron may perform the given patrol. False otherwise.
      */
     public boolean canDoPatrol(final PatrolType patrolType) {
         return rules.patrolFilter(patrolType, this);

@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -52,8 +53,9 @@ public class LandStrike implements AirMission {
     @Getter
     private final List<Squadron> squadrons;
 
-    @Getter
     private final List<Squadron> escort;
+
+    private final Map<MissionRole, List<Squadron>> squadronMap = new HashMap<>();
 
     private final String targetBaseName;      //The name of the target air base.
     private Target targetAirbase;             //The actual target air base.
@@ -96,6 +98,11 @@ public class LandStrike implements AirMission {
         //this point in time. So we just save the name of the target air base. The target air base
         // must be determined outside the constructor.
         targetBaseName = data.getTarget();
+
+
+        squadronMap.put(MissionRole.MAIN, squadrons);
+        squadronMap.put(MissionRole.ESCORT, escort);
+
     }
 
     /**
@@ -159,14 +166,26 @@ public class LandStrike implements AirMission {
     }
 
     /**
+     * Get the squadrons on the mission.
+     *
+     * @param role The squadron's mission role.
+     * @return A list of squadrons on the mission.
+     */
+    @Override
+    public List<Squadron> getSquadrons(final MissionRole role) {
+        return squadronMap.get(role);
+    }
+
+    /**
      * Get both the squadrons on the mission and the squadrons on escort duty.
      *
      * @return All of the squadrons involved with this mission.
      */
     @Override
-    public List<Squadron> getSquadronsAndEscort() {
+    public List<Squadron> getSquadronsAllRoles() {
         return Stream
-                .concat(squadrons.stream(), escort.stream())
+                .of(MissionRole.values())
+                .flatMap(role -> squadronMap.get(role).stream())
                 .collect(Collectors.toList());
     }
 
@@ -177,21 +196,24 @@ public class LandStrike implements AirMission {
      */
     @Override
     public int getSteps() {
-        return squadrons
-                .stream()
+        return Stream
+                .of(MissionRole.values())
+                .flatMap(role -> squadronMap.get(role).stream())
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .intValue();    }
+                .intValue();
+    }
 
     /**
      * Set all of the squadrons to the correct state.
      */
     @Override
     public void addSquadrons() {
-        squadrons.forEach(squadron -> {
-            SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_MISSION);
-            squadron.setSquadronState(state);
-        });
+        getSquadronsAllRoles()
+                .forEach(squadron -> {
+                    SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_MISSION);
+                    squadron.setSquadronState(state);
+                });
     }
 
     /**
@@ -199,12 +221,13 @@ public class LandStrike implements AirMission {
      */
     @Override
     public void removeSquadrons() {
-        squadrons.forEach(squadron -> {
-            SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
-            squadron.setSquadronState(state);
-        });
+        getSquadronsAllRoles()
+                .forEach(squadron -> {
+                    SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
+                    squadron.setSquadronState(state);
+                });
 
-        squadrons.clear();
+        getSquadronsAllRoles().clear();
     }
 
     /**
@@ -214,7 +237,10 @@ public class LandStrike implements AirMission {
      */
     @Override
     public int getNumber() {
-        return squadrons.size();
+        return Stream
+                .of(MissionRole.values())
+                .map(role -> squadronMap.get(role).size())
+                .reduce(0, Integer::sum);
     }
 
     /**

@@ -3,6 +3,7 @@ package engima.waratsea.model.aircraft;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.data.AircraftData;
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.squadron.SquadronStrength;
@@ -99,6 +100,16 @@ public class Fighter implements Aircraft {
     @Override
     public Side getSide() {
         return aircraftId.getSide();
+    }
+
+    /**
+     * Get the mission roles the aircraft is allowed to perform.
+     *
+     * @return The mission roles the aircraft is allowed to perform.
+     */
+    @Override
+    public List<MissionRole> getRoles() {
+        return Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT);
     }
 
     /**

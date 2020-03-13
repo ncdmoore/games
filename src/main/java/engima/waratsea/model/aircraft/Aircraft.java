@@ -1,5 +1,6 @@
 package engima.waratsea.model.aircraft;
 
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.SquadronStrength;
@@ -60,6 +61,13 @@ public interface Aircraft {
      * @return The aircraft's air to air attack factor.
      */
     AttackFactor getAir();
+
+    /**
+     * Get the mission roles the aircraft is allowed to perform.
+     *
+     * @return The mission roles the aircraft is allowed to perform.
+     */
+    List<MissionRole> getRoles();
 
     /**
      * Get the probability the aircraft will hit in an air-to-air attack.

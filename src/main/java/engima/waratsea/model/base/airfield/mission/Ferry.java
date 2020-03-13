@@ -16,9 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 public class Ferry implements AirMission {
@@ -28,8 +31,10 @@ public class Ferry implements AirMission {
     private final Nation nation;
     private final Airbase startingAirbase;
 
-    @Getter
     private final List<Squadron> squadrons;
+
+    private final Map<MissionRole, List<Squadron>> squadronMap = new HashMap<>();
+
     private final String endingAirbaseName;   //The name of the destination air base.
     private Target endingAirbase;             //The actual destination air base.
 
@@ -58,6 +63,9 @@ public class Ferry implements AirMission {
         //this point in time. So we just save the name of the destination air base. The destination air base
         // must be determined outside the constructor.
         endingAirbaseName = data.getTarget();
+
+        squadronMap.put(MissionRole.MAIN, squadrons);
+        squadronMap.put(MissionRole.ESCORT, Collections.emptyList());
     }
 
     /**
@@ -125,14 +133,14 @@ public class Ferry implements AirMission {
     }
 
     /**
-     * Get the squadrons on this mission that are serving as escort.
-     * Ferry mission do not have escorts.
+     * Get the squadrons on the mission.
      *
-     * @return A list of squadrons on escort duty for this mission.
+     * @param role The squadron's mission role.
+     * @return A list of squadrons on the mission.
      */
     @Override
-    public List<Squadron> getEscort() {
-        return Collections.emptyList();
+    public List<Squadron> getSquadrons(final MissionRole role) {
+        return squadronMap.get(role);
     }
 
     /**
@@ -143,8 +151,11 @@ public class Ferry implements AirMission {
      * @return All of the squadrons involved with this mission.
      */
     @Override
-    public List<Squadron> getSquadronsAndEscort() {
-        return squadrons;
+    public List<Squadron> getSquadronsAllRoles() {
+        return Stream
+                .of(MissionRole.values())
+                .flatMap(role -> squadronMap.get(role).stream())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -154,14 +165,12 @@ public class Ferry implements AirMission {
      */
     @Override
     public int getSteps() {
-        int steps = squadrons
-                .stream()
+        return Stream
+                .of(MissionRole.values())
+                .flatMap(role -> squadronMap.get(role).stream())
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .intValue();
-
-        log.info("Mission {} target {} steps {}", new Object[]{this.getClass().getSimpleName(), getTarget().getName(), steps});
-        return steps;
     }
 
     /**

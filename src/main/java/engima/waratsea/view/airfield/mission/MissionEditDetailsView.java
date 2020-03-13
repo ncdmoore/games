@@ -3,6 +3,7 @@ package engima.waratsea.view.airfield.mission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
@@ -14,17 +15,25 @@ import engima.waratsea.view.util.ListViewPair;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * Represents the mission edit dialog view details.
  */
 public class MissionEditDetailsView implements MissionDetailsView {
-
+    private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
 
     @Getter
@@ -36,16 +45,17 @@ public class MissionEditDetailsView implements MissionDetailsView {
     @Getter
     private final TargetView targetView;
 
+    private final Map<MissionRole, ListViewPair<Squadron>> squadrons = new HashMap<>();
+    private final Map<MissionRole, StackPane> stackPanes = new HashMap<>();
+
     @Getter
-    private final ListViewPair<Squadron> missionList;
+    private final TabPane tabPane = new TabPane();
 
     @Getter
     private final ImageView imageView = new ImageView();
 
     @Getter
     private final SquadronSummaryView squadronSummaryView;
-
-    private final StackPane stackPane = new StackPane();
 
     /**
      * Constructor called by guice.
@@ -60,13 +70,15 @@ public class MissionEditDetailsView implements MissionDetailsView {
                                   final TargetView targetView,
                                   final ImageResourceProvider imageResourceProvider,
                                   final Provider<SquadronSummaryView> squadronSummaryViewProvider) {
+        this.imageResourceProvider = imageResourceProvider;
         this.props = props;
         this.targetView = targetView;
 
         missionType.setMinWidth(props.getInt("mission.type.list.width"));
         target.setMinWidth(props.getInt("mission.type.list.width"));
 
-        missionList = new ListViewPair<>("missions", imageResourceProvider);
+        Stream.of(MissionRole.values())
+                .forEach(this::createSquadronList);
 
         squadronSummaryView = squadronSummaryViewProvider.get();
     }
@@ -117,12 +129,29 @@ public class MissionEditDetailsView implements MissionDetailsView {
     }
 
     /**
+     * Get the mission list.
+     *
+     * @param role The squadron mission role.
+     * @return The available and assigned mission list view pair.
+     */
+    @Override
+    public ListViewPair<Squadron> getSquadronList(final MissionRole role) {
+        return squadrons.get(role);
+    }
+
+    /**
      * Assign the selected squadron to the mission.
      *
      * @param squadron The squadron assigned.
+     * @param role The squadron's missin role.
      */
-    public void assign(final Squadron squadron) {
-        missionList.add(squadron);
+    public void assign(final Squadron squadron, final MissionRole role) {
+        squadrons.get(role)
+                .add(squadron);
+
+        Stream.of(MissionRole.values())
+                .filter(otherRole -> otherRole != role)
+                .forEach(otherRole -> squadrons.get(otherRole).removeFromAvailable(squadron));
 
         targetView
                 .getViewMap()
@@ -133,14 +162,26 @@ public class MissionEditDetailsView implements MissionDetailsView {
 
     /**
      * Remove the selected squadron from the mission.
+     *
+     * @param role The squadron's mission role.
      */
-    public void remove() {
-        Squadron squadron = missionList
+    public void remove(final MissionRole role) {
+        Squadron squadron = squadrons
+                .get(role)
                 .getAssigned()
                 .getSelectionModel()
                 .getSelectedItem();
 
-        missionList.remove(squadron);
+        squadrons.get(role).remove(squadron);
+
+        Stream.of(MissionRole.values())
+                .filter(otherRole -> otherRole != role)
+                .forEach(otherRole -> {
+                    if (squadron.canDoRole(otherRole)) {
+                        squadrons.get(otherRole).addToAvailable(squadron);
+                    }
+                });
+
 
         targetView.getViewMap()
                 .get(missionType.getSelectionModel().getSelectedItem())
@@ -154,16 +195,61 @@ public class MissionEditDetailsView implements MissionDetailsView {
      * @return A node containing the available and selected squadron lists.
      */
     private Node buildSquadronLists() {
-        missionList.setWidth(props.getInt("airfield.dialog.mission.list.width"));
-        missionList.setHeight(props.getInt("airfield.dialog.mission.list.height"));
-        missionList.setButtonWidth(props.getInt("airfield.dialog.mission.button.width"));
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        missionList.clearAll();
+        //For Edits there is only one mission type possible. So just grab it.
+        List<Tab> tabs = missionType
+                .getItems()
+                .get(0)
+                .getRoles()
+                .stream()
+                .map(this::buildTab)
+                .collect(Collectors.toList());
 
-        Node missionsNode = missionList.build();
+        tabPane.getTabs().addAll(tabs);
 
-        stackPane.getChildren().add(missionsNode);
+        return tabPane;
+    }
 
-        return stackPane;
+    /**
+     * build a squadron tab.
+     *
+     * @param role The squadrons role.
+     * @return The tab.
+     */
+    private Tab buildTab(final MissionRole role) {
+        Tab tab = new Tab(role.toString());
+
+        tab.setUserData(role);
+
+        ListViewPair<Squadron> squadronLists = squadrons.get(role);
+
+        squadronLists.setWidth(props.getInt("airfield.dialog.mission.list.width"));
+        squadronLists.setHeight(props.getInt("airfield.dialog.mission.list.height"));
+        squadronLists.setButtonWidth(props.getInt("airfield.dialog.mission.button.width"));
+
+        squadronLists.clearAll();
+
+        Node squadronNode = squadronLists.build();
+
+        StackPane stackPane = stackPanes.get(role);
+        stackPane.getChildren().add(squadronNode);
+
+        stackPane.setId("mission-squadron-pane");
+
+        tab.setContent(stackPane);
+
+        return tab;
+    }
+
+    /**
+     * Create a squadron list for the given role.
+     *
+     * @param role The squadrons role.
+     */
+    private void createSquadronList(final MissionRole role) {
+        squadrons.put(role, new ListViewPair<>("missions", imageResourceProvider));
+        stackPanes.put(role, new StackPane());
+
     }
 }

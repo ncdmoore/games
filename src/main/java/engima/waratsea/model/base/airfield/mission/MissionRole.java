@@ -1,10 +1,8 @@
 package engima.waratsea.model.base.airfield.mission;
 
 public enum MissionRole {
-    FERRY("Ferry"),
-    STRIKE("Strike"),
-    ESCORT("Escort"),
-    SWEEP("Sweep");
+    MAIN("Main"),
+    ESCORT("Escort");
 
     private String value;
 
@@ -15,5 +13,15 @@ public enum MissionRole {
      */
     MissionRole(final String value) {
         this.value = value;
+    }
+
+    /**
+     * The String representation of this enum.
+     *
+     * @return The String representation of this enum.
+     */
+    @Override
+    public String toString() {
+        return value;
     }
 }

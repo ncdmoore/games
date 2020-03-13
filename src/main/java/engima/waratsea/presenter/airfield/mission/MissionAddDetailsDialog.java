@@ -5,6 +5,7 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.game.Game;
@@ -19,6 +20,7 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.mission.MissionAddDetailsView;
 import engima.waratsea.view.airfield.mission.MissionView;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Tab;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Getter;
@@ -30,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The presenter for the mission add dialog.
@@ -179,27 +182,29 @@ public class MissionAddDetailsDialog {
                 .addListener((v, oldValue, newValue) -> targetSelected(newValue));
 
 
-        view.getMissionList()
-                .getAssigned()
-                .getSelectionModel()
-                .selectedItemProperty()
-                .addListener((v, oldValue, newValue) -> assignedSquadronSelected(newValue));
+        Stream.of(MissionRole.values()).forEach(role -> {
+            view.getSquadronList(role)
+                    .getAssigned()
+                    .getSelectionModel()
+                    .selectedItemProperty()
+                    .addListener((v, oldValue, newValue) -> assignedSquadronSelected(newValue));
 
-        view.getMissionList()
-                .getAvailable()
-                .getSelectionModel()
-                .selectedItemProperty()
-                .addListener((v, oldValue, newValue) -> availableSquadronSelected(newValue));
+            view.getSquadronList(role)
+                    .getAvailable()
+                    .getSelectionModel()
+                    .selectedItemProperty()
+                    .addListener((v, oldValue, newValue) -> availableSquadronSelected(newValue));
 
-        view
-                .getMissionList()
-                .getAdd()
-                .setOnAction(this::addSquadron);
+            view
+                    .getSquadronList(role)
+                    .getAdd()
+                    .setOnAction(this::addSquadron);
 
-        view
-                .getMissionList()
-                .getRemove()
-                .setOnAction(this::removeSquadron);
+            view
+                    .getSquadronList(role)
+                    .getRemove()
+                    .setOnAction(this::removeSquadron);
+        });
     }
 
     /**
@@ -218,16 +223,19 @@ public class MissionAddDetailsDialog {
         //No need in ferry aircraft to the same air base. That would accomplish nothing.
         targets = missionType == MissionType.FERRY ? filterThisAirbase(targets) : targets;
 
+        clearNonMainRoleTabs();
+        addNonMainRoleTabs();
+
         view.getImageView().setImage(imageResourceProvider.getImage(nation.toString() + missionType.toString() + ".png"));
 
         view.getTarget().getItems().clear();
-        view.getMissionList().clearAll();
+
+        clearAllSquadrons();
 
         view.getTarget().getItems().addAll(targets);
         view.getTarget().getSelectionModel().selectFirst();
 
-        view.getMissionList().setAvailableTitle(missionType + " Available");
-        view.getMissionList().setAssignedTitle(missionType + " Assigned");
+        setSquadronListTitles();
     }
 
     /**
@@ -240,7 +248,7 @@ public class MissionAddDetailsDialog {
         missionDetails.setSelectedTarget(target);
 
         missionDetails.updateTargetView(mission, selectedMissionType);
-        view.getMissionList().clearAll();
+        clearAllSquadrons();
         view.hideError();
 
         Optional.ofNullable(target).ifPresent(t -> {
@@ -280,7 +288,8 @@ public class MissionAddDetailsDialog {
                 return;
             }
 
-            view.getMissionList().addAllToAvailable(availableSquadrons);
+            setAvailableSquadrons(availableSquadrons);
+
         });
     }
 
@@ -293,8 +302,9 @@ public class MissionAddDetailsDialog {
         Optional
                 .ofNullable(squadron)
                 .ifPresent(s -> {
+                    MissionRole role = getSelectedRole();
                     view.getSquadronSummaryView().setSelectedSquadron(s);
-                    view.getMissionList().getAssigned().getSelectionModel().clearSelection();
+                    view.getSquadronList(role).getAssigned().getSelectionModel().clearSelection();
                 });
 
     }
@@ -308,8 +318,9 @@ public class MissionAddDetailsDialog {
         Optional
                 .ofNullable(squadron)
                 .ifPresent(s -> {
+                    MissionRole role = getSelectedRole();
                     view.getSquadronSummaryView().setSelectedSquadron(s);
-                    view.getMissionList().getAvailable().getSelectionModel().clearSelection();
+                    view.getSquadronList(role).getAvailable().getSelectionModel().clearSelection();
                 });
     }
 
@@ -319,9 +330,11 @@ public class MissionAddDetailsDialog {
      * @param event The button action event.
      */
     private void addSquadron(final ActionEvent event) {
-        missionDetails.getSelectedAvailableSquadron().ifPresent(squadron -> {
+        MissionRole role = getSelectedRole();
+
+        missionDetails.getSelectedAvailableSquadron(role).ifPresent(squadron -> {
             if (missionDetails.mayAddSquadronToMission(mission, selectedMissionType, squadron)) {
-                missionDetails.addSquadron(squadron);
+                missionDetails.addSquadron(squadron, role);
                 dialog.getOkButton().setDisable(false);
             }
         });
@@ -333,9 +346,11 @@ public class MissionAddDetailsDialog {
      * @param event The button action event.
      */
     private void removeSquadron(final ActionEvent event) {
-        missionDetails.getSelectedAssignedSquadron().ifPresent(squadron -> {
-            missionDetails.removeSquadron();
-            if (view.getMissionList().getAssigned().getItems().isEmpty()) {
+        MissionRole role = getSelectedRole();
+
+        missionDetails.getSelectedAssignedSquadron(role).ifPresent(squadron -> {
+            missionDetails.removeSquadron(role);
+            if (view.getSquadronList(role).getAssigned().getItems().isEmpty()) {
                 dialog.getOkButton().setDisable(true);
             }
         });
@@ -347,17 +362,25 @@ public class MissionAddDetailsDialog {
     private void ok() {
         MissionType missionType = view.getMissionType().getSelectionModel().getSelectedItem();
         Target target = view.getTarget().getSelectionModel().getSelectedItem();
-        List<Squadron> squadrons = view.getMissionList().getAssigned().getItems();
+        List<Squadron> squadrons = view.getSquadronList(MissionRole.MAIN).getAssigned().getItems();
+        List<Squadron> escort = view.getSquadronList(MissionRole.ESCORT).getAssigned().getItems();
 
         MissionData data = new MissionData();
         data.setNation(nation);
         data.setType(missionType);
         data.setTarget(target.getName());
         data.setAirbase(airbase);
+
         data.setSquadrons(squadrons
                 .stream()
                 .map(Squadron::getName)
                 .collect(Collectors.toList()));
+
+        data.setEscort(escort
+                .stream()
+                .map(Squadron::getName)
+                .collect(Collectors.toList()));
+
 
         mission = missionDAO.load(data);
 
@@ -387,6 +410,25 @@ public class MissionAddDetailsDialog {
     }
 
     /**
+     * Clear all of the squadron lists.
+      */
+    private void clearAllSquadrons() {
+        Stream.
+                of(MissionRole.values())
+                .forEach(role -> view.getSquadronList(role).clearAll());
+    }
+
+    /**
+     * Set the squadron list titles.
+     */
+    private void setSquadronListTitles() {
+        Stream.of(MissionRole.values()).forEach(role -> {
+            view.getSquadronList(role).setAvailableTitle(selectedMissionType + " " + role + " Available");
+            view.getSquadronList(role).setAssignedTitle(selectedMissionType + " " + role + " Assigned");
+        });
+    }
+
+    /**
      * Filter this airbase from the list of targets.
      *
      * @param targets A list of targets.
@@ -397,5 +439,99 @@ public class MissionAddDetailsDialog {
                 .stream()
                 .filter(target -> !target.getName().equalsIgnoreCase(airbase.getName()))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Clear all mission squadron roles that are not the main mission role from the tab pane.
+     */
+    private void clearNonMainRoleTabs() {
+        view.getRoleTabs()
+                .entrySet()
+                .stream()
+                .filter(this::isNotMainRole)
+                .forEach(this::removeTab);
+    }
+
+    /**
+     * Given an entry where the key is a mission role and the value is a javafx tab,
+     * return true if the mission role is not the main role.
+     *
+     * @param entry A map entry of mission role to javafx tab.
+     * @return True if the mission role is not the main mission role.
+     */
+    private boolean isNotMainRole(final Map.Entry<MissionRole, Tab> entry) {
+        return entry.getKey() != MissionRole.MAIN;
+    }
+
+    /**
+     * Given an entry where the key is the mission role and the value is a javafx tab,
+     * remove the javafx tab from its tab pane.
+     *
+     * @param entry A map entry of mission role to javafx tab.
+     */
+    private void removeTab(final Map.Entry<MissionRole, Tab> entry) {
+        view.getTabPane().getTabs().remove(entry.getValue());
+    }
+
+    /**
+     * Add all of the selected mission type's non main squadron roles to the tab pane.
+     */
+    private void addNonMainRoleTabs() {
+        selectedMissionType
+                .getRoles()
+                .stream()
+                .filter(this::isNotMainRole)
+                .forEach(this::addTab);
+    }
+
+    /**
+     * Determine if the given role is a main role.
+     *
+     * @param role A squadron mission role.
+     * @return True if the role is the main role. False, otherwise.
+     */
+    private boolean isNotMainRole(final MissionRole role) {
+        return role != MissionRole.MAIN;
+    }
+
+    /**
+     * Add the corresponding tab for the given role to the tab pane.
+     *
+     * @param role A squadron mission role.
+     */
+    private void addTab(final MissionRole role) {
+        Tab tab = view.getRoleTabs().get(role);
+        view.getTabPane().getTabs().add(tab);
+    }
+
+    /**
+     * Set the squadron lists starting available list.
+     *
+     * @param available The pool of available squadrons
+     */
+    private void setAvailableSquadrons(final List<Squadron> available) {
+        selectedMissionType.getRoles().forEach(role -> {
+
+            // Determine if the squadron is allowed to perform the mission role.
+            List<Squadron> allowed = available
+                    .stream()
+                    .filter(squadron -> squadron.canDoRole(role))
+                    .collect(Collectors.toList());
+
+            view.getSquadronList(role).addAllToAvailable(allowed);
+        });
+    }
+
+    /**
+     * Determine the selected squadron mission role tab.
+     *
+     * @return The selected squadron mission role.
+     */
+    private MissionRole getSelectedRole() {
+        return (MissionRole) view
+                .getTabPane()
+                .getSelectionModel()
+                .getSelectedItem()
+                .getUserData();
     }
 }

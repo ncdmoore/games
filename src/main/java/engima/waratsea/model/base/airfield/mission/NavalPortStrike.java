@@ -19,6 +19,7 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +47,9 @@ public class NavalPortStrike implements AirMission {
     @Getter
     private final List<Squadron> squadrons;
 
-    @Getter
     private final List<Squadron> escort;
+
+    private final Map<MissionRole, List<Squadron>> squadronMap = new HashMap<>();
 
     private final String targetBaseName;      //The name of the target port.
     private Target targetPort;                //The actual target port.
@@ -91,6 +93,9 @@ public class NavalPortStrike implements AirMission {
         //this point in time. So we just save the name of the target port. The target port
         // must be determined outside the constructor.
         targetBaseName = data.getTarget();
+
+        squadronMap.put(MissionRole.MAIN, squadrons);
+        squadronMap.put(MissionRole.ESCORT, escort);
     }
 
     /**
@@ -156,14 +161,26 @@ public class NavalPortStrike implements AirMission {
     }
 
     /**
+     * Get the squadrons on the mission.
+     *
+     * @param role The squadron's mission role.
+     * @return A list of squadrons on the mission.
+     */
+    @Override
+    public List<Squadron> getSquadrons(final MissionRole role) {
+        return squadronMap.get(role);
+    }
+
+    /**
      * Get both the squadrons on the mission and the squadrons on escort duty.
      *
      * @return All of the squadrons involved with this mission.
      */
     @Override
-    public List<Squadron> getSquadronsAndEscort() {
+    public List<Squadron> getSquadronsAllRoles() {
         return Stream
-                .concat(squadrons.stream(), escort.stream())
+                .of(MissionRole.values())
+                .flatMap(role -> squadronMap.get(role).stream())
                 .collect(Collectors.toList());
     }
 
@@ -174,7 +191,12 @@ public class NavalPortStrike implements AirMission {
      */
     @Override
     public int getSteps() {
-        return 0;
+        return Stream
+                .of(MissionRole.values())
+                .flatMap(role -> squadronMap.get(role).stream())
+                .map(Squadron::getSteps)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .intValue();
     }
 
     /**
@@ -182,10 +204,11 @@ public class NavalPortStrike implements AirMission {
      */
     @Override
     public void addSquadrons() {
-        squadrons.forEach(squadron -> {
-            SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_MISSION);
-            squadron.setSquadronState(state);
-        });
+        getSquadronsAllRoles()
+                .forEach(squadron -> {
+                    SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_MISSION);
+                    squadron.setSquadronState(state);
+                });
     }
 
     /**
@@ -193,12 +216,13 @@ public class NavalPortStrike implements AirMission {
      */
     @Override
     public void removeSquadrons() {
-        squadrons.forEach(squadron -> {
-            SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
-            squadron.setSquadronState(state);
-        });
+        getSquadronsAllRoles()
+                .forEach(squadron -> {
+                    SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
+                    squadron.setSquadronState(state);
+                });
 
-        squadrons.clear();
+        getSquadronsAllRoles().clear();
     }
 
     /**
@@ -208,8 +232,10 @@ public class NavalPortStrike implements AirMission {
      */
     @Override
     public int getNumber() {
-        return squadrons.size();
-    }
+        return Stream
+                .of(MissionRole.values())
+                .map(role -> squadronMap.get(role).size())
+                .reduce(0, Integer::sum);    }
 
     /**
      * Get the probability of success for this mission.

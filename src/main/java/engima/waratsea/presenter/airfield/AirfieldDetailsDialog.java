@@ -388,7 +388,7 @@ public class AirfieldDetailsDialog {
                             .get(nation)
                             .addMissionToTable(mission);
 
-                    mission.getSquadronsAndEscort().forEach(squadron -> {
+                    mission.getSquadronsAllRoles().forEach(squadron -> {
                         removeFromReadyList(nation, squadron);
                         removeFromPatrolAvailableList(nation, squadron);
                         updateReadySummary(nation, squadron);
@@ -430,8 +430,8 @@ public class AirfieldDetailsDialog {
 
         AirMission updatedMission = dialog.getMission();
 
-        List<Squadron> added = ListUtils.subtract(updatedMission.getSquadronsAndEscort(), mission.getSquadrons());
-        List<Squadron> removed = ListUtils.subtract(mission.getSquadronsAndEscort(), updatedMission.getSquadrons());
+        List<Squadron> added = ListUtils.subtract(updatedMission.getSquadronsAllRoles(), mission.getSquadronsAllRoles());
+        List<Squadron> removed = ListUtils.subtract(mission.getSquadronsAllRoles(), updatedMission.getSquadronsAllRoles());
 
         view
                 .getAirfieldMissionView()
@@ -479,7 +479,7 @@ public class AirfieldDetailsDialog {
                     .deleteMissionFromTable(deletedMission);
 
             deletedMission
-                    .getSquadronsAndEscort()
+                    .getSquadronsAllRoles()
                     .forEach(squadron -> {
                         addToReadyList(nation, squadron);
                         addToPatrolAvailableList(nation, squadron);

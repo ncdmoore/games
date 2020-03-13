@@ -47,25 +47,19 @@ public interface AirMission extends PersistentData<MissionData> {
     Nation getNation();
 
     /**
-     * Get the squadrons on the mission.
+     * Get the squadrons on the mission that are assigned the given role.
      *
+     * @param role The squadron's mission role.
      * @return A list of squadrons on the mission.
      */
-    List<Squadron> getSquadrons();
+    List<Squadron> getSquadrons(MissionRole role);
 
     /**
-     * Get the squadrons on this mission that are serving as escort.
-     *
-     * @return A list of squadrons on escort duty for this mission.
-     */
-    List<Squadron> getEscort();
-
-    /**
-     * Get both the squadrons on the mission and the squadrons on escort duty.
+     * Get all of the squadrons, all roles on the mission.
      *
      * @return All of the squadrons involved with this mission.
      */
-    List<Squadron> getSquadronsAndEscort();
+    List<Squadron> getSquadronsAllRoles();
 
     /**
      * Get the number of steps assigned to this mission.

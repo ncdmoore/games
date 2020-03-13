@@ -5,6 +5,7 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.game.Nation;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The presenter for the mission edit dialog.
@@ -146,15 +148,16 @@ public class MissionEditDetailsDialog {
 
         view.getMissionType().getSelectionModel().selectFirst();
         view.getTarget().getSelectionModel().selectFirst();
-        view.getMissionList().clearAll();
 
-        setAvailableSquadrons();
-        setAssignedSquadrons();
+        clearAllSquadrons();
 
         selectedMissionType = view
                 .getMissionType()
                 .getSelectionModel()
                 .getSelectedItem();
+
+        setAvailableSquadrons();
+        setAssignedSquadrons();
 
         Target selectedTarget = view.getTarget()
                 .getSelectionModel()
@@ -166,8 +169,7 @@ public class MissionEditDetailsDialog {
 
         missionDetails.updateTargetView(mission, selectedMissionType);
 
-        view.getMissionList().setAvailableTitle(selectedMissionType + " Available");
-        view.getMissionList().setAssignedTitle(selectedMissionType + " Assigned");
+        setSquadronListTitles();
 
         dialog.getCancelButton().setOnAction(event -> cancel());
         dialog.getOkButton().setOnAction(event -> ok());
@@ -186,44 +188,51 @@ public class MissionEditDetailsDialog {
         List<Squadron> availableSquadrons = airfieldDialog
                 .getReady(nation)
                 .stream()
+                .filter(target::mayAttack)
                 .filter(target::inRange)
                 .collect(Collectors.toList());
 
-        view.getMissionList().addAllToAvailable(availableSquadrons);
+        setAvailableSquadrons(availableSquadrons);
     }
 
     /**
      * Initialize the assigned squadrons.
      */
     private void setAssignedSquadrons() {
-        view.getMissionList().addAllToAssigned(mission.getSquadrons());
+        Stream.of(MissionRole.values())
+                .forEach(role -> view
+                        .getSquadronList(role)
+                        .addAllToAssigned(mission.getSquadrons(role)));
+
     }
 
     /**
      * Register the handlers for the mission dialog actions.
      */
     private void registerHandlers() {
-        view.getMissionList()
-                .getAssigned()
-                .getSelectionModel()
-                .selectedItemProperty()
-                .addListener((v, oldValue, newValue) -> assignedSquadronSelected(newValue));
+        Stream.of(MissionRole.values()).forEach(role -> {
+            view.getSquadronList(role)
+                    .getAssigned()
+                    .getSelectionModel()
+                    .selectedItemProperty()
+                    .addListener((v, oldValue, newValue) -> assignedSquadronSelected(newValue));
 
-        view.getMissionList()
-                .getAvailable()
-                .getSelectionModel()
-                .selectedItemProperty()
-                .addListener((v, oldValue, newValue) -> availableSquadronSelected(newValue));
+            view.getSquadronList(role)
+                    .getAvailable()
+                    .getSelectionModel()
+                    .selectedItemProperty()
+                    .addListener((v, oldValue, newValue) -> availableSquadronSelected(newValue));
 
-        view
-                .getMissionList()
-                .getAdd()
-                .setOnAction(this::addSquadron);
+            view
+                    .getSquadronList(role)
+                    .getAdd()
+                    .setOnAction(this::addSquadron);
 
-        view
-                .getMissionList()
-                .getRemove()
-                .setOnAction(this::removeSquadron);
+            view
+                    .getSquadronList(role)
+                    .getRemove()
+                    .setOnAction(this::removeSquadron);
+        });
     }
 
     /**
@@ -235,8 +244,9 @@ public class MissionEditDetailsDialog {
         Optional
                 .ofNullable(squadron)
                 .ifPresent(s -> {
+                    MissionRole role = getSelectedRole();
                     view.getSquadronSummaryView().setSelectedSquadron(s);
-                    view.getMissionList().getAssigned().getSelectionModel().clearSelection();
+                    view.getSquadronList(role).getAssigned().getSelectionModel().clearSelection();
                 });
     }
 
@@ -249,8 +259,9 @@ public class MissionEditDetailsDialog {
         Optional
                 .ofNullable(squadron)
                 .ifPresent(s -> {
+                    MissionRole role = getSelectedRole();
                     view.getSquadronSummaryView().setSelectedSquadron(s);
-                    view.getMissionList().getAvailable().getSelectionModel().clearSelection();
+                    view.getSquadronList(role).getAvailable().getSelectionModel().clearSelection();
                 });
     }
 
@@ -260,9 +271,12 @@ public class MissionEditDetailsDialog {
      * @param event The button action event.
      */
     private void addSquadron(final ActionEvent event) {
-        missionDetails.getSelectedAvailableSquadron().ifPresent(squadron -> {
+        MissionRole role = getSelectedRole();
+
+        missionDetails.getSelectedAvailableSquadron(role).ifPresent(squadron -> {
             if (missionDetails.mayAddSquadronToMission(mission, selectedMissionType, squadron)) {
-                missionDetails.addSquadron(squadron);
+                missionDetails.addSquadron(squadron, role);
+                dialog.getOkButton().setDisable(false);
             }
         });
     }
@@ -273,9 +287,13 @@ public class MissionEditDetailsDialog {
      * @param event The button action event.
      */
     private void removeSquadron(final ActionEvent event) {
-        missionDetails.getSelectedAssignedSquadron().ifPresent(squadron -> {
-            missionDetails.removeSquadron();
-            if (view.getMissionList().getAssigned().getItems().isEmpty()) {
+        MissionRole role = getSelectedRole();
+
+        missionDetails.getSelectedAssignedSquadron(role).ifPresent(squadron -> {
+
+            missionDetails.removeSquadron(role);
+
+            if (view.getSquadronList(role).getAssigned().getItems().isEmpty()) {
                 dialog.getOkButton().setDisable(true);
             }
         });
@@ -288,14 +306,21 @@ public class MissionEditDetailsDialog {
     private void ok() {
         MissionType missionType = mission.getType();
         Target target = mission.getTarget();
-        List<Squadron> squadrons = view.getMissionList().getAssigned().getItems();
+        List<Squadron> squadrons = view.getSquadronList(MissionRole.MAIN).getAssigned().getItems();
+        List<Squadron> escort = view.getSquadronList(MissionRole.ESCORT).getAssigned().getItems();
 
         MissionData data = new MissionData();
         data.setNation(nation);
         data.setType(missionType);
         data.setTarget(target.getName());
         data.setAirbase(airbase);
+
         data.setSquadrons(squadrons
+                .stream()
+                .map(Squadron::getName)
+                .collect(Collectors.toList()));
+
+        data.setEscort(escort
                 .stream()
                 .map(Squadron::getName)
                 .collect(Collectors.toList()));
@@ -310,5 +335,55 @@ public class MissionEditDetailsDialog {
      */
     private void cancel() {
         stage.close();
+    }
+
+    /**
+     * Clear all of the squadron lists.
+     */
+    private void clearAllSquadrons() {
+        Stream.
+                of(MissionRole.values())
+                .forEach(role -> view.getSquadronList(role).clearAll());
+    }
+
+    /**
+     * Set the squadron list titles.
+     */
+    private void setSquadronListTitles() {
+        Stream.of(MissionRole.values()).forEach(role -> {
+            view.getSquadronList(role).setAvailableTitle(selectedMissionType + " " + role + " Available");
+            view.getSquadronList(role).setAssignedTitle(selectedMissionType + " " + role + " Assigned");
+        });
+    }
+
+    /**
+     * Set the squadron lists starting available list.
+     *
+     * @param available The pool of available squadrons
+     */
+    private void setAvailableSquadrons(final List<Squadron> available) {
+        selectedMissionType.getRoles().forEach(role -> {
+
+            // Determine if the squadron is allowed to perform the mission role.
+            List<Squadron> allowed = available
+                    .stream()
+                    .filter(squadron -> squadron.canDoRole(role))
+                    .collect(Collectors.toList());
+
+            view.getSquadronList(role).addAllToAvailable(allowed);
+        });
+    }
+
+    /**
+     * Determine the selected squadron mission role tab.
+     *
+     * @return The selected squadron mission role.
+     */
+    private MissionRole getSelectedRole() {
+        return (MissionRole) view
+                .getTabPane()
+                .getSelectionModel()
+                .getSelectedItem()
+                .getUserData();
     }
 }

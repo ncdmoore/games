@@ -1,5 +1,6 @@
 package engima.waratsea.view.airfield.mission;
 
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.view.util.ListViewPair;
 
@@ -10,9 +11,10 @@ public interface MissionDetailsView {
     /**
      * Get the mission list.
      *
+     * @param role The squadron mission role.
      * @return The available and assigned mission list view pair.
      */
-    ListViewPair<Squadron> getMissionList();
+    ListViewPair<Squadron> getSquadronList(MissionRole role);
 
     /**
      * Get the target's view.
@@ -25,11 +27,14 @@ public interface MissionDetailsView {
      * Assign a squadron to the mission.
      *
      * @param squadron The assigned squadron.
+     * @param role The squadron's mission role.
      */
-    void assign(Squadron squadron);
+    void assign(Squadron squadron, MissionRole role);
 
     /**
      * Remove the currently selected assigned squadron from the mission.
+     *
+     * @param role The squadron's mission role.
      */
-    void remove();
+    void remove(MissionRole role);
 }

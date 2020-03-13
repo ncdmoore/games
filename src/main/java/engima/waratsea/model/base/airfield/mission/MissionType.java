@@ -17,12 +17,12 @@ import java.util.Map;
  */
 public enum MissionType {
 
-    FERRY("Ferry", Collections.singletonList(MissionRole.FERRY)),
-    LAND_STRIKE("Airfield Strike", Arrays.asList(MissionRole.STRIKE, MissionRole.ESCORT)),
-    NAVAL_PORT_STRIKE("Port Strike", Arrays.asList(MissionRole.STRIKE, MissionRole.ESCORT)),
-    NAVAL_TASK_FORCE_STRIKE("Task Force Strike", Arrays.asList(MissionRole.STRIKE, MissionRole.ESCORT)),
-    SWEEP_AIRFIELD("Airfield Sweep", Collections.singletonList(MissionRole.SWEEP)),
-    SWEEP_PORT("Port Sweep", Collections.singletonList(MissionRole.SWEEP));
+    FERRY("Ferry", Collections.singletonList(MissionRole.MAIN)),
+    LAND_STRIKE("Airfield Strike", Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT)),
+    NAVAL_PORT_STRIKE("Port Strike", Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT)),
+    NAVAL_TASK_FORCE_STRIKE("Task Force Strike", Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT)),
+    SWEEP_AIRFIELD("Airfield Sweep", Collections.singletonList(MissionRole.MAIN)),
+    SWEEP_PORT("Port Sweep", Collections.singletonList(MissionRole.MAIN));
 
     private String value;
 
