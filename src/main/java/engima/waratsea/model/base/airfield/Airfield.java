@@ -11,6 +11,7 @@ import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
@@ -283,7 +284,15 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         data.setAirbase(this);
         data.setNation(nation);
         data.setTarget(target.getName());
-        data.setSquadrons(squadronList.stream().map(Squadron::getName).collect(Collectors.toList()));
+
+        Map<MissionRole, List<String>> tempMap = new HashMap<>();
+
+        tempMap.put(MissionRole.MAIN, squadronList
+                .stream()
+                .map(Squadron::getName)
+                .collect(Collectors.toList()));
+
+        data.setSquadronMap(tempMap);
 
         return  missionDAO.load(data);
     }

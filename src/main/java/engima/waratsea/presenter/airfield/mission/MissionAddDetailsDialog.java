@@ -371,16 +371,15 @@ public class MissionAddDetailsDialog {
         data.setTarget(target.getName());
         data.setAirbase(airbase);
 
-        data.setSquadrons(squadrons
-                .stream()
-                .map(Squadron::getName)
-                .collect(Collectors.toList()));
-
-        data.setEscort(escort
-                .stream()
-                .map(Squadron::getName)
-                .collect(Collectors.toList()));
-
+        data.setSquadronMap(Stream
+                .of(MissionRole.values())
+                .collect(Collectors.toMap(role -> role, role -> view
+                        .getSquadronList(role)
+                        .getAssigned()
+                        .getItems()
+                        .stream()
+                        .map(Squadron::getName)
+                        .collect(Collectors.toList()))));
 
         mission = missionDAO.load(data);
 

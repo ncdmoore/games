@@ -1,12 +1,14 @@
 package engima.waratsea.model.base.airfield.mission.data;
 
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.game.Nation;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 public class MissionData {
     @Getter
@@ -26,11 +28,7 @@ public class MissionData {
 
     @Getter
     @Setter
-    private List<String> squadrons;
-
-    @Getter
-    @Setter
-    private List<String> escort;
+    private Map<MissionRole, List<String>> squadronMap;
 
     /**
      * Set the air base.

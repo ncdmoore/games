@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -50,12 +49,7 @@ public class LandStrike implements AirMission {
     @Getter
     private final Airbase airbase;
 
-    @Getter
-    private final List<Squadron> squadrons;
-
-    private final List<Squadron> escort;
-
-    private final Map<MissionRole, List<Squadron>> squadronMap = new HashMap<>();
+    private final Map<MissionRole, List<Squadron>> squadronMap;
 
     private final String targetBaseName;      //The name of the target air base.
     private Target targetAirbase;             //The actual target air base.
@@ -80,29 +74,21 @@ public class LandStrike implements AirMission {
 
         airbase = data.getAirbase(); //Note, this is not read in from the JSON file. So no need to save it.
 
-        // The squadrons can be created here as they are guaranteed to be already created by the air base.
-        squadrons = Optional.ofNullable(data.getSquadrons())
-                .orElseGet(Collections::emptyList)
-                .stream()
-                .map(airbase::getSquadron)
-                .collect(Collectors.toList());
-
-        // The escort can be created here as they are guaranteed to be already created by the air base.
-        escort = Optional.ofNullable(data.getEscort())
-                .orElseGet(Collections::emptyList)
-                .stream()
-                .map(airbase::getSquadron)
-                .collect(Collectors.toList());
-
         //Note, we cannot go ahead and obtain the target air base as it might not have been created at
         //this point in time. So we just save the name of the target air base. The target air base
         // must be determined outside the constructor.
         targetBaseName = data.getTarget();
 
-
-        squadronMap.put(MissionRole.MAIN, squadrons);
-        squadronMap.put(MissionRole.ESCORT, escort);
-
+        squadronMap = Optional
+                .ofNullable(data.getSquadronMap())
+                .orElseGet(Collections::emptyMap)
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry
+                        .getValue()
+                        .stream()
+                        .map(airbase::getSquadron)
+                        .collect(Collectors.toList())));
     }
 
     /**
@@ -118,19 +104,14 @@ public class LandStrike implements AirMission {
         data.setNation(nation);
         data.setTarget(targetBaseName);
 
-        List<String> names = squadrons
+        data.setSquadronMap(squadronMap
+                .entrySet()
                 .stream()
-                .map(Squadron::getName)
-                .collect(Collectors.toList());
-
-        data.setSquadrons(names);
-
-        List<String> escortNames = escort
-                .stream()
-                .map(Squadron::getName)
-                .collect(Collectors.toList());
-
-        data.setEscort(escortNames);
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry
+                        .getValue()
+                        .stream()
+                        .map(Squadron::getName)
+                        .collect(Collectors.toList()))));
 
         return data;
     }
@@ -346,7 +327,7 @@ public class LandStrike implements AirMission {
      * @return The attack map as described above.
      */
     private Map<Double, Integer> getAttackMap() {
-         return squadrons
+         return squadronMap.get(MissionRole.MAIN)
                 .stream()
                 .collect(Collectors.toMap(this::getLandAttackProbability,
                         Squadron::getLandFactor,

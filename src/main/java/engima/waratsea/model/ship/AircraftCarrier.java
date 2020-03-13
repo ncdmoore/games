@@ -9,6 +9,7 @@ import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
@@ -563,7 +564,15 @@ public class AircraftCarrier implements Ship, Airbase {
         data.setAirbase(this);
         data.setNation(missionNation);
         data.setTarget(target.getName());
-        data.setSquadrons(missionSquadrons.stream().map(Squadron::getName).collect(Collectors.toList()));
+
+        Map<MissionRole, List<String>> tempMap = new HashMap<>();
+
+        tempMap.put(MissionRole.MAIN, missionSquadrons
+                .stream()
+                .map(Squadron::getName)
+                .collect(Collectors.toList()));
+
+        data.setSquadronMap(tempMap);
 
         return  missionDAO.load(data);
     }

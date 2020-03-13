@@ -15,7 +15,6 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -31,12 +30,7 @@ public class NavalTaskForceStrike implements AirMission {
     @Getter
     private final Airbase airbase;
 
-    @Getter
-    private final List<Squadron> squadrons;
-
-    private final List<Squadron> escort;
-
-    private final Map<MissionRole, List<Squadron>> squadronMap = new HashMap<>();
+    private final Map<MissionRole, List<Squadron>> squadronMap;
 
     private final String targetName;               //The name of the target task force.
     private Target targetTaskForce;                //The actual target task force.
@@ -55,27 +49,22 @@ public class NavalTaskForceStrike implements AirMission {
 
         airbase = data.getAirbase(); //Note, this is not read in from the JSON file. So no need to save it.
 
-        // The squadrons can be created here as they are guaranteed to be already created by the air base.
-        squadrons = Optional.ofNullable(data.getSquadrons())
-                .orElseGet(Collections::emptyList)
+        squadronMap = Optional
+                .ofNullable(data.getSquadronMap())
+                .orElseGet(Collections::emptyMap)
+                .entrySet()
                 .stream()
-                .map(airbase::getSquadron)
-                .collect(Collectors.toList());
-
-        // The escort can be created here as they are guaranteed to be already created by the air base.
-        escort = Optional.ofNullable(data.getEscort())
-                .orElseGet(Collections::emptyList)
-                .stream()
-                .map(airbase::getSquadron)
-                .collect(Collectors.toList());
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry
+                        .getValue()
+                        .stream()
+                        .map(airbase::getSquadron)
+                        .collect(Collectors.toList())));
 
         //Note, we cannot go ahead and obtain the target task force as it might not have been created at
         //this point in time. So we just save the name of the target task force. The target task force
         // must be determined outside the constructor.
         targetName = data.getTarget();
 
-        squadronMap.put(MissionRole.MAIN, squadrons);
-        squadronMap.put(MissionRole.ESCORT, escort);
     }
     /**
      * Get the persistent mission data.
@@ -90,21 +79,14 @@ public class NavalTaskForceStrike implements AirMission {
         data.setNation(nation);
         data.setTarget(targetName);
 
-        List<String> names = Optional
-                .ofNullable(squadrons)
-                .orElseGet(Collections::emptyList)
+        data.setSquadronMap(squadronMap
+                .entrySet()
                 .stream()
-                .map(Squadron::getName)
-                .collect(Collectors.toList());
-
-        data.setSquadrons(names);
-
-        List<String> escortNames = escort
-                .stream()
-                .map(Squadron::getName)
-                .collect(Collectors.toList());
-
-        data.setEscort(escortNames);
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry
+                        .getValue()
+                        .stream()
+                        .map(Squadron::getName)
+                        .collect(Collectors.toList()))));
 
         return data;
     }

@@ -1,9 +1,12 @@
 package engima.waratsea.model.base.airfield.mission;
 
+import lombok.Getter;
+
 public enum MissionRole {
     MAIN("Main"),
     ESCORT("Escort");
 
+    @Getter
     private String value;
 
     /**
@@ -13,15 +16,5 @@ public enum MissionRole {
      */
     MissionRole(final String value) {
         this.value = value;
-    }
-
-    /**
-     * The String representation of this enum.
-     *
-     * @return The String representation of this enum.
-     */
-    @Override
-    public String toString() {
-        return value;
     }
 }

@@ -17,7 +17,6 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -39,9 +38,7 @@ public class SweepPort implements AirMission {
     @Getter
     private final Airbase airbase;
 
-    private final List<Squadron> squadrons;
-
-    private final Map<MissionRole, List<Squadron>> squadronMap = new HashMap<>();
+    private final Map<MissionRole, List<Squadron>> squadronMap;
 
     private final String targetBaseName;      //The name of the target port.
     private Target targetPort;                //The actual target port.
@@ -65,18 +62,21 @@ public class SweepPort implements AirMission {
         airbase = data.getAirbase(); //Note, this is not read in from the JSON file. So no need to save it.
 
         // The squadrons can be created here as they are guaranteed to be already created by the air base.
-        squadrons = Optional.ofNullable(data.getSquadrons())
-                .orElseGet(Collections::emptyList)
+        squadronMap = Optional
+                .ofNullable(data.getSquadronMap())
+                .orElseGet(Collections::emptyMap)
+                .entrySet()
                 .stream()
-                .map(airbase::getSquadron)
-                .collect(Collectors.toList());
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry
+                        .getValue()
+                        .stream()
+                        .map(airbase::getSquadron)
+                        .collect(Collectors.toList())));
 
         //Note, we cannot go ahead and obtain the target port as it might not have been created at
         //this point in time. So we just save the name of the target port. The target port
         // must be determined outside the constructor.
         targetBaseName = data.getTarget();
-
-        squadronMap.put(MissionRole.MAIN, squadrons);
     }
 
     /**
@@ -92,14 +92,14 @@ public class SweepPort implements AirMission {
         data.setNation(nation);
         data.setTarget(targetBaseName);
 
-        List<String> names = Optional
-                .ofNullable(squadrons)
-                .orElseGet(Collections::emptyList)
+        data.setSquadronMap(squadronMap
+                .entrySet()
                 .stream()
-                .map(Squadron::getName)
-                .collect(Collectors.toList());
-
-        data.setSquadrons(names);
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry
+                        .getValue()
+                        .stream()
+                        .map(Squadron::getName)
+                        .collect(Collectors.toList()))));
 
         return data;
     }
@@ -180,7 +180,7 @@ public class SweepPort implements AirMission {
      */
     @Override
     public void addSquadrons() {
-        squadrons.forEach(squadron -> {
+        squadronMap.get(MissionRole.MAIN).forEach(squadron -> {
             SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_MISSION);
             squadron.setSquadronState(state);
         });
@@ -191,12 +191,12 @@ public class SweepPort implements AirMission {
      */
     @Override
     public void removeSquadrons() {
-        squadrons.forEach(squadron -> {
+        squadronMap.get(MissionRole.MAIN).forEach(squadron -> {
             SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
             squadron.setSquadronState(state);
         });
 
-        squadrons.clear();
+        squadronMap.get(MissionRole.MAIN).clear();
     }
 
     /**
@@ -206,7 +206,7 @@ public class SweepPort implements AirMission {
      */
     @Override
     public int getNumber() {
-        return squadrons.size();
+        return squadronMap.get(MissionRole.MAIN).size();
     }
 
     /**
@@ -262,7 +262,7 @@ public class SweepPort implements AirMission {
      * @return The attack map as described above.
      */
     private Map<Double, Integer> getAttackMap() {
-        return squadrons
+        return squadronMap.get(MissionRole.MAIN)
                 .stream()
                 .collect(Collectors.toMap(this::getAirProbability,
                         Squadron::getAirFactor,

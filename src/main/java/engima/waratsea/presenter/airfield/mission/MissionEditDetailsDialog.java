@@ -293,7 +293,11 @@ public class MissionEditDetailsDialog {
 
             missionDetails.removeSquadron(role);
 
-            if (view.getSquadronList(role).getAssigned().getItems().isEmpty()) {
+            boolean atLeastOneSquadronAssigned = Stream
+                    .of(MissionRole.values())
+                    .anyMatch(r -> !view.getSquadronList(r).getAssigned().getItems().isEmpty());
+
+            if (!atLeastOneSquadronAssigned) {
                 dialog.getOkButton().setDisable(true);
             }
         });
@@ -306,8 +310,6 @@ public class MissionEditDetailsDialog {
     private void ok() {
         MissionType missionType = mission.getType();
         Target target = mission.getTarget();
-        List<Squadron> squadrons = view.getSquadronList(MissionRole.MAIN).getAssigned().getItems();
-        List<Squadron> escort = view.getSquadronList(MissionRole.ESCORT).getAssigned().getItems();
 
         MissionData data = new MissionData();
         data.setNation(nation);
@@ -315,15 +317,15 @@ public class MissionEditDetailsDialog {
         data.setTarget(target.getName());
         data.setAirbase(airbase);
 
-        data.setSquadrons(squadrons
-                .stream()
-                .map(Squadron::getName)
-                .collect(Collectors.toList()));
-
-        data.setEscort(escort
-                .stream()
-                .map(Squadron::getName)
-                .collect(Collectors.toList()));
+        data.setSquadronMap(Stream
+                .of(MissionRole.values())
+                .collect(Collectors.toMap(role -> role, role -> view
+                        .getSquadronList(role)
+                        .getAssigned()
+                        .getItems()
+                        .stream()
+                        .map(Squadron::getName)
+                        .collect(Collectors.toList()))));
 
         mission = missionDAO.load(data);
 
