@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.mission.MissionType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.region.Region;
@@ -18,6 +19,7 @@ import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * This class is a utility class for the mission add and mission edit dialog classes.
@@ -72,11 +74,12 @@ public class MissionDetails {
     /**
      * Get the currently selected squadron from the available squadron list.
      *
+     * @param role The squadron's mission role.
      * @return The currently selected available squadron.
      */
-    public Optional<Squadron> getSelectedAvailableSquadron() {
+    public Optional<Squadron> getSelectedAvailableSquadron(final MissionRole role) {
         return Optional.ofNullable(
-                view.getMissionList()
+                view.getSquadronList(role)
                 .getAvailable()
                 .getSelectionModel()
                 .getSelectedItem());
@@ -85,11 +88,12 @@ public class MissionDetails {
     /**
      * Get the currently selected squadron from the assigned squadron list.
      *
+     * @param role The squadron's mission role.
      * @return The currently selected assigned squadron.
      */
-    public Optional<Squadron> getSelectedAssignedSquadron() {
+    public Optional<Squadron> getSelectedAssignedSquadron(final MissionRole role) {
         return Optional.ofNullable(
-                view.getMissionList()
+                view.getSquadronList(role)
                 .getAssigned()
                 .getSelectionModel()
                 .getSelectedItem());
@@ -118,7 +122,7 @@ public class MissionDetails {
             TargetStats targetStats = new TargetStats(target, airbase, inRouteSteps);
             RegionStats targetRegionStats = new RegionStats(nation, target, inRouteRegionSteps);
             RegionStats airbaseRegionStats = new RegionStats(nation, airbase, outRouteRegionSteps);
-            SuccessStats successStats = new SuccessStats(selectedMissionType, nation, airbase, view.getMissionList().getAssigned().getItems(), target);
+            SuccessStats successStats = new SuccessStats(selectedMissionType, nation, airbase, view.getSquadronList(MissionRole.MAIN).getAssigned().getItems(), target);
 
             MissionStats missionStats = new MissionStats();
             missionStats.setMissionType(selectedMissionType);
@@ -171,16 +175,19 @@ public class MissionDetails {
      * Add a squadron to the current mission under construction.
      *
      * @param squadron The added squadron.
+     * @param role The squadron's mission role.
      */
-    public void addSquadron(final Squadron squadron) {
-        view.assign(squadron);
+    public void addSquadron(final Squadron squadron, final MissionRole role) {
+        view.assign(squadron, role);
     }
 
     /**
      * Remove a squadron from the current mission under construction.
+     *
+     * @param role The squadron's mission role.
      */
-    public void removeSquadron() {
-        view.remove();
+    public void removeSquadron(final MissionRole role) {
+        view.remove(role);
     }
 
     /**
@@ -344,11 +351,12 @@ public class MissionDetails {
      * @return The total squadron steps currently assigned to the mission under construction.
      */
     private int getCurrentMissionSteps() {
-        return view
-                .getMissionList()
-                .getAssigned()
-                .getItems()
-                .stream()
+        return Stream.of(MissionRole.values())
+                .flatMap(role -> view
+                        .getSquadronList(role)
+                        .getAssigned()
+                        .getItems()
+                        .stream())
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .intValue();
