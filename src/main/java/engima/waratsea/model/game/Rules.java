@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.LandingType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.weather.WeatherType;
@@ -24,6 +25,7 @@ public class Rules {
 
     private final GameTitle gameTitle;
 
+    private final Map<AirMissionType, Map<GameName, Function<Squadron, Boolean>>> missionMap = new HashMap<>();
     private final Map<PatrolType, Map<GameName, Function<Squadron, Boolean>>> patrolMap = new HashMap<>();
 
     private final Map<GameName, Function<Integer, TurnType>> twilightMap = new HashMap<>();
@@ -41,6 +43,7 @@ public class Rules {
 
         buildTurnRules();
         buildWeatherRules();
+        buildAirMissionRules();
         buildPatrolRules();
     }
 
@@ -58,11 +61,25 @@ public class Rules {
     }
 
     /**
-     * Execute the ASW filter rule. Determine if the given squadron can perform an ASW patrol.
+     * Execute the Mission filter rule. Determine if the given squadron can perform the given mission type.
+     *
+     * @param missionType The mission type.
+     * @param squadron Any given squadron.
+     * @return True if the given squadron can perform the given mission. False otherwise.
+     */
+    public boolean missionFilter(final AirMissionType missionType, final Squadron squadron) {
+        return missionMap
+                .get(missionType)
+                .get(gameTitle.getName())
+                .apply(squadron);
+    }
+
+    /**
+     * Execute the Patrol filter rule. Determine if the given squadron can perform the given patrol type.
      *
      * @param patrolType The patrol type.
      * @param squadron Any given squadron.
-     * @return True if the given squadron can perform ASW. False otherwise.
+     * @return True if the given squadron can perform the given patrol. False otherwise.
      */
     public boolean patrolFilter(final PatrolType patrolType, final Squadron squadron) {
         return patrolMap
@@ -162,6 +179,31 @@ public class Rules {
         patrolMap.put(PatrolType.ASW, aswFilterMap);
         patrolMap.put(PatrolType.CAP, capFilterMap);
         patrolMap.put(PatrolType.SEARCH, searchFilterMap);
+    }
+
+    /**
+     * Build the air mission rules.
+     */
+    private void buildAirMissionRules() {
+
+        Function<Squadron, Boolean> sweepFilter = (squadron -> squadron.getType() == AircraftType.FIGHTER);
+
+        Function<Squadron, Boolean> noFilter = (squadron -> true);
+
+        Map<GameName, Function<Squadron, Boolean>> sweepFilterMap = new HashMap<>();
+        sweepFilterMap.put(GameName.BOMB_ALLEY, sweepFilter);
+        sweepFilterMap.put(GameName.CORAL_SEA, sweepFilter);
+
+        Map<GameName, Function<Squadron, Boolean>> noFilterMap = new HashMap<>();
+        noFilterMap.put(GameName.BOMB_ALLEY, noFilter);
+        noFilterMap.put(GameName.CORAL_SEA, noFilter);
+
+        missionMap.put(AirMissionType.FERRY, noFilterMap);
+        missionMap.put(AirMissionType.LAND_STRIKE, noFilterMap);
+        missionMap.put(AirMissionType.NAVAL_PORT_STRIKE, noFilterMap);
+        missionMap.put(AirMissionType.NAVAL_TASK_FORCE_STRIKE, noFilterMap);
+        missionMap.put(AirMissionType.SWEEP_AIRFIELD, sweepFilterMap);
+        missionMap.put(AirMissionType.SWEEP_PORT, sweepFilterMap);
     }
 
     /**

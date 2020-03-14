@@ -375,6 +375,7 @@ public class MissionEditDetailsDialog {
             // Determine if the squadron is allowed to perform the mission role.
             List<Squadron> allowed = available
                     .stream()
+                    .filter(squadron -> squadron.canDoMission(selectedMissionType))
                     .filter(squadron -> squadron.canDoRole(role))
                     .collect(Collectors.toList());
 

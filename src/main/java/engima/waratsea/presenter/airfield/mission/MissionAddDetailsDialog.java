@@ -363,8 +363,6 @@ public class MissionAddDetailsDialog {
     private void ok() {
         AirMissionType missionType = view.getMissionType().getSelectionModel().getSelectedItem();
         Target target = view.getTarget().getSelectionModel().getSelectedItem();
-        List<Squadron> squadrons = view.getSquadronList(MissionRole.MAIN).getAssigned().getItems();
-        List<Squadron> escort = view.getSquadronList(MissionRole.ESCORT).getAssigned().getItems();
 
         MissionData data = new MissionData();
         data.setNation(nation);
@@ -511,7 +509,7 @@ public class MissionAddDetailsDialog {
     }
 
     /**
-     * Set the squadron lists starting available list.
+     * Set the squadron  available list.
      *
      * @param available The pool of available squadrons
      */
@@ -521,6 +519,7 @@ public class MissionAddDetailsDialog {
             // Determine if the squadron is allowed to perform the mission role.
             List<Squadron> allowed = available
                     .stream()
+                    .filter(squadron -> squadron.canDoMission(selectedMissionType))
                     .filter(squadron -> squadron.canDoRole(role))
                     .collect(Collectors.toList());
 

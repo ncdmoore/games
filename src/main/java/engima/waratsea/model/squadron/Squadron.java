@@ -12,6 +12,7 @@ import engima.waratsea.model.aircraft.AviationPlantException;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
@@ -322,6 +323,16 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      */
     public int getLandModifier() {
         return aircraft.getLand().getModifier();
+    }
+
+    /**
+     * Determine if this squadron may perform the given mission.
+     *
+     * @param missionType Type of mission.
+     * @return True if this squadron may perform the given mission. False otherwise.
+     */
+    public boolean canDoMission(final AirMissionType missionType) {
+        return rules.missionFilter(missionType, this);
     }
 
     /**
