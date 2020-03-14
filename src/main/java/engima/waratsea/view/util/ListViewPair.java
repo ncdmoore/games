@@ -228,6 +228,15 @@ public class ListViewPair<T> {
     }
 
     /**
+     * Clear both the current available selection and the current assigned selection.
+     */
+    public void clearSelections() {
+        clearAvailableSelection();
+        clearAssignedSelection();
+    }
+
+
+    /**
      * Clear both lists.
      */
     public void clearAll() {

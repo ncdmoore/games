@@ -19,6 +19,7 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.mission.MissionEditDetailsView;
 import engima.waratsea.view.airfield.mission.MissionView;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Tab;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Getter;
@@ -210,6 +211,8 @@ public class MissionEditDetailsDialog {
      * Register the handlers for the mission dialog actions.
      */
     private void registerHandlers() {
+        registerTabChange();
+
         Stream.of(MissionRole.values()).forEach(role -> {
             view.getSquadronList(role)
                     .getAssigned()
@@ -233,6 +236,29 @@ public class MissionEditDetailsDialog {
                     .getRemove()
                     .setOnAction(this::removeSquadron);
         });
+    }
+
+    /**
+     * Register role tab change handler.
+     */
+    private void registerTabChange() {
+        view
+                .getTabPane()
+                .getSelectionModel()
+                .selectedItemProperty()
+                .addListener((v, oldValue, newValue) -> tabChanged(oldValue, newValue));
+    }
+
+    /**
+     * Handle role tab change.
+     *
+     * @param oldTab The old selected role tab.
+     * @param newTab The new selected role tab.
+     */
+    private void tabChanged(final Tab oldTab, final Tab newTab) {
+        Stream
+                .of(MissionRole.values())
+                .forEach(role -> view.getSquadronList(role).clearSelections());
     }
 
     /**

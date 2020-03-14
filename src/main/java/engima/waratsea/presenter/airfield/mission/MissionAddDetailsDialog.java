@@ -169,6 +169,9 @@ public class MissionAddDetailsDialog {
      * Register the handlers for the mission dialog actions.
      */
     private void registerHandlers() {
+
+        registerTabChange();
+
         view
                 .getMissionType()
                 .getSelectionModel()
@@ -205,6 +208,17 @@ public class MissionAddDetailsDialog {
                     .getRemove()
                     .setOnAction(this::removeSquadron);
         });
+    }
+
+    /**
+     * Register role tab change handler.
+     */
+    private void registerTabChange() {
+        view
+                .getTabPane()
+                .getSelectionModel()
+                .selectedItemProperty()
+                .addListener((v, oldValue, newValue) -> tabChanged(oldValue, newValue));
     }
 
     /**
@@ -292,6 +306,18 @@ public class MissionAddDetailsDialog {
             setAvailableSquadrons(availableSquadrons);
 
         });
+    }
+
+    /**
+     * Handle role tab change.
+     *
+     * @param oldTab The old selected role tab.
+     * @param newTab The new selected role tab.
+     */
+    private void tabChanged(final Tab oldTab, final Tab newTab) {
+        Stream
+                .of(MissionRole.values())
+                .forEach(role -> view.getSquadronList(role).clearSelections());
     }
 
     /**
