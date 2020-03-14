@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -35,9 +36,20 @@ public class LandStrike implements AirMission {
     private static final int TWO_STEP_ELIMINATED = 6;  // THe number of successful die rolls required to eliminate tow steps of aircraft.
     private static final Set<Integer> STEP_HIT_SET = new HashSet<>(Arrays.asList(ONE_STEP_ELIMINATED, TWO_STEP_ELIMINATED));
 
+    private static final Map<Integer, Integer> STEP_ELIMINATED_MAP = new HashMap<>();
+    private static final Map<Integer, Integer> CAPACITY_REDUCED_MAP = new HashMap<>();
+
     private static final int AIRFIELD_CAPACITY_REDUCED_BY_1 = 4;
     private static final int AIRFIELD_CAPACITY_REDUCED_BY_2 = 8;
     private static final Set<Integer> CAPACITY_HIT_SET = new HashSet<>(Arrays.asList(AIRFIELD_CAPACITY_REDUCED_BY_1, AIRFIELD_CAPACITY_REDUCED_BY_2));
+
+    static {
+        STEP_ELIMINATED_MAP.put(ONE_STEP_ELIMINATED, 1);
+        STEP_ELIMINATED_MAP.put(TWO_STEP_ELIMINATED, 2);
+
+        CAPACITY_REDUCED_MAP.put(AIRFIELD_CAPACITY_REDUCED_BY_1, 1);
+        CAPACITY_REDUCED_MAP.put(AIRFIELD_CAPACITY_REDUCED_BY_2, 2);
+    }
 
     private final Game game;
     private final Dice dice;
@@ -282,7 +294,7 @@ public class LandStrike implements AirMission {
     private Map<Integer, Integer> buildProbabilityAirfieldDamaged(final Map<Double, Integer> factors) {
         return CAPACITY_HIT_SET
                 .stream()
-                .collect(Collectors.toMap(numHits -> numHits,
+                .collect(Collectors.toMap(CAPACITY_REDUCED_MAP::get,
                                            numHits -> getProbability(numHits, factors)));
     }
 
@@ -303,7 +315,7 @@ public class LandStrike implements AirMission {
     private Map<Integer, Integer> buildProbabilityStepDestroyed(final Map<Double, Integer> factors) {
         return STEP_HIT_SET
                 .stream()
-                .collect(Collectors.toMap(numHits -> numHits,
+                .collect(Collectors.toMap(STEP_ELIMINATED_MAP::get,
                                           numHits -> getProbability(numHits, factors)));
     }
 
