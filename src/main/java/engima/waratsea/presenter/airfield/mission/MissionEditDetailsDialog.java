@@ -352,10 +352,16 @@ public class MissionEditDetailsDialog {
      * Set the squadron list titles.
      */
     private void setSquadronListTitles() {
-        Stream.of(MissionRole.values()).forEach(role -> {
-            view.getSquadronList(role).setAvailableTitle(selectedMissionType + " " + role + " Available");
-            view.getSquadronList(role).setAssignedTitle(selectedMissionType + " " + role + " Assigned");
-        });
+        view.getSquadronList(MissionRole.MAIN).setAvailableTitle(selectedMissionType.getTitle() + " Available");
+        view.getSquadronList(MissionRole.MAIN).setAssignedTitle(selectedMissionType.getTitle() + " Assigned");
+
+        Stream
+                .of(MissionRole.values())
+                .filter(role -> role != MissionRole.MAIN)
+                .forEach(role -> {
+                    view.getSquadronList(role).setAvailableTitle(role + " Available");
+                    view.getSquadronList(role).setAssignedTitle(role + " Assigned");
+                });
     }
 
     /**

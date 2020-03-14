@@ -17,14 +17,17 @@ import java.util.Map;
  */
 public enum MissionType {
 
-    FERRY("Ferry", Collections.singletonList(MissionRole.MAIN)),
-    LAND_STRIKE("Airfield Strike", Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT)),
-    NAVAL_PORT_STRIKE("Port Strike", Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT)),
-    NAVAL_TASK_FORCE_STRIKE("Task Force Strike", Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT)),
-    SWEEP_AIRFIELD("Airfield Sweep", Collections.singletonList(MissionRole.MAIN)),
-    SWEEP_PORT("Port Sweep", Collections.singletonList(MissionRole.MAIN));
+    FERRY("Ferry", "Ferry", Collections.singletonList(MissionRole.MAIN)),
+    LAND_STRIKE("Airfield Strike", "Strike", Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT)),
+    NAVAL_PORT_STRIKE("Port Strike", "Strike", Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT)),
+    NAVAL_TASK_FORCE_STRIKE("Task Force Strike", "Strike", Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT)),
+    SWEEP_AIRFIELD("Airfield Sweep", "Sweep", Collections.singletonList(MissionRole.MAIN)),
+    SWEEP_PORT("Port Sweep", "Sweep", Collections.singletonList(MissionRole.MAIN));
 
-    private String value;
+    private final String value;
+
+    @Getter
+    private final String title;
 
     @Getter
     private List<MissionRole> roles;
@@ -44,10 +47,12 @@ public enum MissionType {
      * Constructor.
      *
      * @param value The String value of the enum.
+     * @param title The mission type's title.
      * @param roles The available squadron roles for the type of mission.
      */
-    MissionType(final String value, final List<MissionRole> roles) {
+    MissionType(final String value, final String title, final List<MissionRole> roles) {
         this.value = value;
+        this.title = title;
         this.roles = roles;
     }
 

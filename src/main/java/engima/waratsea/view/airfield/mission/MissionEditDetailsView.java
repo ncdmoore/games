@@ -51,6 +51,8 @@ public class MissionEditDetailsView implements MissionDetailsView {
     @Getter
     private final TabPane tabPane = new TabPane();
 
+    private final Map<MissionRole, Tab> roleTabs = new HashMap<>();
+
     @Getter
     private final ImageView imageView = new ImageView();
 
@@ -206,6 +208,8 @@ public class MissionEditDetailsView implements MissionDetailsView {
                 .map(this::buildTab)
                 .collect(Collectors.toList());
 
+        roleTabs.get(MissionRole.MAIN).setText(missionType.getItems().get(0).getTitle());
+
         tabPane.getTabs().addAll(tabs);
 
         return tabPane;
@@ -218,6 +222,7 @@ public class MissionEditDetailsView implements MissionDetailsView {
      * @return The tab.
      */
     private Tab buildTab(final MissionRole role) {
+
         Tab tab = new Tab(role.toString());
 
         tab.setUserData(role);
@@ -238,6 +243,8 @@ public class MissionEditDetailsView implements MissionDetailsView {
         stackPane.setId("mission-squadron-pane");
 
         tab.setContent(stackPane);
+
+        roleTabs.put(role, tab);
 
         return tab;
     }
