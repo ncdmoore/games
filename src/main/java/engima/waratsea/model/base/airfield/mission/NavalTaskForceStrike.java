@@ -75,7 +75,7 @@ public class NavalTaskForceStrike implements AirMission {
     public MissionData getData() {
         MissionData data = new MissionData();
 
-        data.setType(MissionType.NAVAL_TASK_FORCE_STRIKE);
+        data.setType(AirMissionType.NAVAL_TASK_FORCE_STRIKE);
         data.setNation(nation);
         data.setTarget(targetName);
 
@@ -106,8 +106,8 @@ public class NavalTaskForceStrike implements AirMission {
      * @return The type of mission.
      */
     @Override
-    public MissionType getType() {
-        return MissionType.getType(this);
+    public AirMissionType getType() {
+        return AirMissionType.getType(this);
     }
 
     /**

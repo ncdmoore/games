@@ -95,7 +95,7 @@ public class NavalPortStrike implements AirMission {
     public MissionData getData() {
         MissionData data = new MissionData();
 
-        data.setType(MissionType.NAVAL_PORT_STRIKE);
+        data.setType(AirMissionType.NAVAL_PORT_STRIKE);
         data.setNation(nation);
         data.setTarget(targetBaseName);
 
@@ -126,8 +126,8 @@ public class NavalPortStrike implements AirMission {
      * @return The type of mission.
      */
     @Override
-    public MissionType getType() {
-        return MissionType.getType(this);
+    public AirMissionType getType() {
+        return AirMissionType.getType(this);
     }
 
     /**

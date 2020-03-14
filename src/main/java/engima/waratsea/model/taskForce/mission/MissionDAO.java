@@ -16,7 +16,7 @@ import java.util.function.Function;
 @Singleton
 @Slf4j
 public class MissionDAO {
-    private Map<MissionType, Function<MissionData, SeaMission>> factoryMap = new HashMap<>();
+    private Map<SeaMissionType, Function<MissionData, SeaMission>> factoryMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -25,16 +25,16 @@ public class MissionDAO {
      */
     @Inject
     public MissionDAO(final MissionFactory factory) {
-        factoryMap.put(MissionType.AIR_RAID, factory::createAirRaid);
-        factoryMap.put(MissionType.BOMBARDMENT, factory::createBombardment);
-        factoryMap.put(MissionType.ESCORT, factory::createEscort);
-        factoryMap.put(MissionType.FERRY, factory::createFerry);
-        factoryMap.put(MissionType.FERRY_AIRCRAFT, factory::createFerryAircraft);
-        factoryMap.put(MissionType.INTERCEPT, factory::createIntercept);
-        factoryMap.put(MissionType.INVASION, factory::createInvasion);
-        factoryMap.put(MissionType.MINELAYING, factory::createMinelaying);
-        factoryMap.put(MissionType.PATROL, factory::createPatrol);
-        factoryMap.put(MissionType.TRANSPORT, factory::createTransport);
+        factoryMap.put(SeaMissionType.AIR_RAID, factory::createAirRaid);
+        factoryMap.put(SeaMissionType.BOMBARDMENT, factory::createBombardment);
+        factoryMap.put(SeaMissionType.ESCORT, factory::createEscort);
+        factoryMap.put(SeaMissionType.FERRY, factory::createFerry);
+        factoryMap.put(SeaMissionType.FERRY_AIRCRAFT, factory::createFerryAircraft);
+        factoryMap.put(SeaMissionType.INTERCEPT, factory::createIntercept);
+        factoryMap.put(SeaMissionType.INVASION, factory::createInvasion);
+        factoryMap.put(SeaMissionType.MINELAYING, factory::createMinelaying);
+        factoryMap.put(SeaMissionType.PATROL, factory::createPatrol);
+        factoryMap.put(SeaMissionType.TRANSPORT, factory::createTransport);
 
     }
 

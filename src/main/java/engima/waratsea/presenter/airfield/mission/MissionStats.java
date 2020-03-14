@@ -1,6 +1,6 @@
 package engima.waratsea.presenter.airfield.mission;
 
-import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +9,7 @@ public class MissionStats {
 
     @Getter
     @Setter
-    private MissionType missionType;
+    private AirMissionType missionType;
 
     @Getter
     @Setter

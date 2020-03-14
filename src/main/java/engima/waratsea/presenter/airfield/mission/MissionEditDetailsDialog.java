@@ -6,7 +6,7 @@ import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
-import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
@@ -56,7 +56,7 @@ public class MissionEditDetailsDialog {
     @Setter
     private AirMission mission;
 
-    private MissionType selectedMissionType;
+    private AirMissionType selectedMissionType;
 
     private MissionEditDetailsView view;
 
@@ -308,7 +308,7 @@ public class MissionEditDetailsDialog {
      * Call back for the ok button.
      */
     private void ok() {
-        MissionType missionType = mission.getType();
+        AirMissionType missionType = mission.getType();
         Target target = mission.getTarget();
 
         MissionData data = new MissionData();

@@ -2,7 +2,7 @@ package engima.waratsea.view.airfield.mission;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.presenter.airfield.mission.MissionStats;
 import engima.waratsea.view.airfield.mission.stats.FerryView;
 import engima.waratsea.view.airfield.mission.stats.StrikeView;
@@ -24,7 +24,7 @@ public class TargetView {
     private VBox vBox = new VBox();
 
     @Getter
-    private Map<MissionType, StatsView> viewMap = new HashMap<>();
+    private Map<AirMissionType, StatsView> viewMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -35,11 +35,11 @@ public class TargetView {
     @Inject
     public TargetView(final Provider<FerryView> ferryViewProvider,
                       final Provider<StrikeView> strikeViewProvider) {
-        viewMap.put(MissionType.FERRY, ferryViewProvider.get());
-        viewMap.put(MissionType.LAND_STRIKE, strikeViewProvider.get());
-        viewMap.put(MissionType.NAVAL_PORT_STRIKE, strikeViewProvider.get());
-        viewMap.put(MissionType.SWEEP_AIRFIELD, strikeViewProvider.get());
-        viewMap.put(MissionType.SWEEP_PORT, strikeViewProvider.get());
+        viewMap.put(AirMissionType.FERRY, ferryViewProvider.get());
+        viewMap.put(AirMissionType.LAND_STRIKE, strikeViewProvider.get());
+        viewMap.put(AirMissionType.NAVAL_PORT_STRIKE, strikeViewProvider.get());
+        viewMap.put(AirMissionType.SWEEP_AIRFIELD, strikeViewProvider.get());
+        viewMap.put(AirMissionType.SWEEP_PORT, strikeViewProvider.get());
     }
 
     /**

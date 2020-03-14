@@ -3,7 +3,7 @@ package engima.waratsea.view.airfield.mission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
-import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
@@ -37,7 +37,7 @@ public class MissionAddDetailsView implements MissionDetailsView {
     private final ViewProps props;
 
     @Getter
-    private final ChoiceBox<MissionType> missionType = new ChoiceBox<>();
+    private final ChoiceBox<AirMissionType> missionType = new ChoiceBox<>();
 
     @Getter
     private final ChoiceBox<Target> target = new ChoiceBox<>();
@@ -104,7 +104,7 @@ public class MissionAddDetailsView implements MissionDetailsView {
      * @param missionTypes a collection of mission types.
      * @return A node containing the airbase mission details.
      */
-    public Node show(final Nation nation, final MissionType... missionTypes) {
+    public Node show(final Nation nation, final AirMissionType... missionTypes) {
 
         missionType.getItems().addAll(missionTypes);
 

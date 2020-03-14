@@ -12,7 +12,7 @@ import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
-import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolFactory;
@@ -278,7 +278,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @return A temporary mission with the given squadrons.
      */
     @Override
-    public AirMission getTemporaryMission(final MissionType missionType, final Nation nation, final List<Squadron> squadronList, final Target target) {
+    public AirMission getTemporaryMission(final AirMissionType missionType, final Nation nation, final List<Squadron> squadronList, final Target target) {
         MissionData data = new MissionData();
         data.setType(missionType);
         data.setAirbase(this);

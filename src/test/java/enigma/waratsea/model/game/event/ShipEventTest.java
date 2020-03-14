@@ -17,7 +17,7 @@ import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.taskForce.data.TaskForceData;
-import engima.waratsea.model.taskForce.mission.MissionType;
+import engima.waratsea.model.taskForce.mission.SeaMissionType;
 import engima.waratsea.model.taskForce.mission.data.MissionData;
 import enigma.waratsea.TestModule;
 import org.junit.Assert;
@@ -60,7 +60,7 @@ public class ShipEventTest {
         List<String> ships = new ArrayList<>(Arrays.asList(carrierName, destroyerName, cruiserName, battleshipName));
 
         MissionData missionData = new MissionData();
-        missionData.setType(MissionType.PATROL);
+        missionData.setType(SeaMissionType.PATROL);
 
         TaskForceData data = new TaskForceData();
         data.setMission(missionData);

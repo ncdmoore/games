@@ -1,7 +1,7 @@
 package engima.waratsea.model.player;
 
 import engima.waratsea.model.base.airfield.Airfield;
-import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.enemy.views.airfield.AirfieldView;
 import engima.waratsea.model.enemy.views.port.PortView;
@@ -241,7 +241,7 @@ public interface Player {
      * @param nation The nation: BRITISH, ITALIAN, etc.
      * @return A list of targets for the given mission type.
      */
-    List<Target> getTargets(MissionType missionType, Nation nation);
+    List<Target> getTargets(AirMissionType missionType, Nation nation);
 
     /**
      * This gets the player's minefields.

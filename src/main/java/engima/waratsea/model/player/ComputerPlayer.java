@@ -3,7 +3,7 @@ package engima.waratsea.model.player;
 import com.google.inject.Inject;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldDAO;
-import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.base.port.PortDAO;
 import engima.waratsea.model.enemy.views.airfield.AirfieldView;
@@ -442,7 +442,7 @@ public class ComputerPlayer implements Player {
      * @return A list of targets for the given mission type.
      */
     @Override
-    public List<Target> getTargets(final MissionType missionType, final Nation nation) {
+    public List<Target> getTargets(final AirMissionType missionType, final Nation nation) {
         switch (missionType) {
             case FERRY:
                 return getFriendlyAirfieldTargets(nation);

@@ -5,7 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.mission.AirMission;
-import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -274,7 +274,7 @@ public class TargetFriendlyAirfield implements Target {
      * target in the same region as this target.
      */
     @Override
-    public int getMissionStepsEnteringRegion(final MissionType missionType, final Nation nation, final Airbase airbase) {
+    public int getMissionStepsEnteringRegion(final AirMissionType missionType, final Nation nation, final Airbase airbase) {
         return game
                 .getPlayer(side)
                 .getAirfields()
@@ -285,7 +285,7 @@ public class TargetFriendlyAirfield implements Target {
                         .getMissions(nation)
                         .stream()
                         .filter(mission -> mission.getTarget().getRegion(nation) == getRegion(nation)))
-                .filter(mission -> mission.getType() == MissionType.FERRY)
+                .filter(mission -> mission.getType() == AirMissionType.FERRY)
                 .map(AirMission::getSteps)
                 .reduce(0, Integer::sum);
     }
@@ -303,7 +303,7 @@ public class TargetFriendlyAirfield implements Target {
      * in different regions than the airbase region.
      */
     @Override
-    public int getMissionStepsLeavingRegion(final MissionType missionType, final Nation nation, final Airbase airbase) {
+    public int getMissionStepsLeavingRegion(final AirMissionType missionType, final Nation nation, final Airbase airbase) {
         return game
                 .getPlayer(side)
                 .getAirfields()
@@ -314,7 +314,7 @@ public class TargetFriendlyAirfield implements Target {
                         .getMissions(nation)
                         .stream()
                         .filter(mission -> mission.getTarget().getRegion(nation) != a.getRegion(nation)))
-                .filter(mission -> mission.getType() == MissionType.FERRY)
+                .filter(mission -> mission.getType() == AirMissionType.FERRY)
                 .map(AirMission::getSteps)
                 .reduce(0, Integer::sum);
     }
@@ -365,7 +365,7 @@ public class TargetFriendlyAirfield implements Target {
 
         // This is the total squadron steps from all the player's missions of type ferry that
         // originate in regions other than this target's region.
-        int regionMissionSteps = getMissionStepsEnteringRegion(MissionType.FERRY, nation, excludedAirbase);
+        int regionMissionSteps = getMissionStepsEnteringRegion(AirMissionType.FERRY, nation, excludedAirbase);
 
         // If the region's maximum allowed steps is zero, this indicates the region does not have a maximum.
         // Thus, a region with a maximum allowed steps of zero always has capacity.

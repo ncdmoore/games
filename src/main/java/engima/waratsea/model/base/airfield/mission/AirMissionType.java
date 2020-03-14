@@ -15,7 +15,7 @@ import java.util.Map;
  * Squadrons have roles within a mission. For example on a Naval Strike mission a squadron may participate
  * in the actual strike itself, i.e., attack a ship, or it may serve as an escort.
  */
-public enum MissionType {
+public enum AirMissionType {
 
     FERRY("Ferry", "Ferry", Collections.singletonList(MissionRole.MAIN)),
     LAND_STRIKE("Airfield Strike", "Strike", Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT)),
@@ -32,7 +32,7 @@ public enum MissionType {
     @Getter
     private List<MissionRole> roles;
 
-    private static Map<Class<?>, MissionType> typeMap = new HashMap<>();
+    private static Map<Class<?>, AirMissionType> typeMap = new HashMap<>();
 
     static {
         typeMap.put(Ferry.class, FERRY);
@@ -50,7 +50,7 @@ public enum MissionType {
      * @param title The mission type's title.
      * @param roles The available squadron roles for the type of mission.
      */
-    MissionType(final String value, final String title, final List<MissionRole> roles) {
+    AirMissionType(final String value, final String title, final List<MissionRole> roles) {
         this.value = value;
         this.title = title;
         this.roles = roles;
@@ -62,7 +62,7 @@ public enum MissionType {
      * @param mission A air base mission.
      * @return The mission type enum of the given mission object.
      */
-    public static MissionType getType(final AirMission mission) {
+    public static AirMissionType getType(final AirMission mission) {
         return typeMap.get(mission.getClass());
     }
 

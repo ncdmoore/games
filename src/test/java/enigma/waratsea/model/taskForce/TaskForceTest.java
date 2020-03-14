@@ -20,7 +20,7 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.data.TaskForceData;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.taskForce.TaskForceState;
-import engima.waratsea.model.taskForce.mission.MissionType;
+import engima.waratsea.model.taskForce.mission.SeaMissionType;
 import engima.waratsea.model.taskForce.mission.data.MissionData;
 import enigma.waratsea.TestModule;
 import org.junit.Assert;
@@ -62,7 +62,7 @@ public class TaskForceTest {
     @Test
     public void testTaskForceCarrierGrouping() {
         MissionData missionData = new MissionData();
-        missionData.setType(MissionType.PATROL);
+        missionData.setType(SeaMissionType.PATROL);
 
         TaskForceData data = new TaskForceData();
 
@@ -81,7 +81,7 @@ public class TaskForceTest {
     @Test
     public void testCargoShips() {
         MissionData missionData = new MissionData();
-        missionData.setType(MissionType.PATROL);
+        missionData.setType(SeaMissionType.PATROL);
 
         TaskForceData data = new TaskForceData();
 
@@ -102,7 +102,7 @@ public class TaskForceTest {
     @Test
     public void testSetSail() {
         MissionData missionData = new MissionData();
-        missionData.setType(MissionType.PATROL);
+        missionData.setType(SeaMissionType.PATROL);
 
         TaskForceData data = new TaskForceData();
 
@@ -128,7 +128,7 @@ public class TaskForceTest {
     public void testNoCargoShips() {
 
         MissionData missionData = new MissionData();
-        missionData.setType(MissionType.PATROL);
+        missionData.setType(SeaMissionType.PATROL);
 
         TaskForceData data = new TaskForceData();
 
@@ -147,7 +147,7 @@ public class TaskForceTest {
     public void testTaskForceActivateShipEvent() throws Exception {
 
         MissionData missionData = new MissionData();
-        missionData.setType(MissionType.PATROL);
+        missionData.setType(SeaMissionType.PATROL);
 
         TaskForceData data = new TaskForceData();
 
@@ -188,7 +188,7 @@ public class TaskForceTest {
     @Test
     public void testTaskForceNonActivationShipEvent() throws Exception {
         MissionData missionData = new MissionData();
-        missionData.setType(MissionType.PATROL);
+        missionData.setType(SeaMissionType.PATROL);
 
         TaskForceData data = new TaskForceData();
 
@@ -242,7 +242,7 @@ public class TaskForceTest {
     @Test
     public void testTaskForceActivateTurnEvent() {
         MissionData missionData = new MissionData();
-        missionData.setType(MissionType.PATROL);
+        missionData.setType(SeaMissionType.PATROL);
 
         TaskForceData data = new TaskForceData();
 
@@ -276,7 +276,7 @@ public class TaskForceTest {
     @Test
     public void testTaskForceNonActivationTurnEvent() {
         MissionData missionData = new MissionData();
-        missionData.setType(MissionType.PATROL);
+        missionData.setType(SeaMissionType.PATROL);
 
         TaskForceData data = new TaskForceData();
 
@@ -318,7 +318,7 @@ public class TaskForceTest {
         gameMap.load(scenario);
 
         MissionData missionData = new MissionData();
-        missionData.setType(MissionType.PATROL);
+        missionData.setType(SeaMissionType.PATROL);
 
         TaskForceData data = new TaskForceData();
         data.setMission(missionData);

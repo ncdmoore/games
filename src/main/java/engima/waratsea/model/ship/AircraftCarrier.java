@@ -10,7 +10,7 @@ import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
-import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
@@ -559,7 +559,7 @@ public class AircraftCarrier implements Ship, Airbase {
      * @return A temporary mission with the given squadrons.
      */
     @Override
-    public AirMission getTemporaryMission(final MissionType missionType, final Nation missionNation, final List<Squadron> missionSquadrons, final Target target) {
+    public AirMission getTemporaryMission(final AirMissionType missionType, final Nation missionNation, final List<Squadron> missionSquadrons, final Target target) {
         MissionData data = new MissionData();
         data.setAirbase(this);
         data.setNation(missionNation);

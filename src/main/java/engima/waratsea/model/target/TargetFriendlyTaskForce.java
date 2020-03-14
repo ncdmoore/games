@@ -3,7 +3,7 @@ package engima.waratsea.model.target;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -294,7 +294,7 @@ public class TargetFriendlyTaskForce implements Target {
      * target in the same region as this target.
      */
     @Override
-    public int getMissionStepsEnteringRegion(final MissionType missionType, final Nation nation, final Airbase airbase) {
+    public int getMissionStepsEnteringRegion(final AirMissionType missionType, final Nation nation, final Airbase airbase) {
         return 0;
     }
 
@@ -311,7 +311,7 @@ public class TargetFriendlyTaskForce implements Target {
      * in different regions than the airbase region.
      */
     @Override
-    public int getMissionStepsLeavingRegion(final MissionType missionType, final Nation nation, final Airbase airbase) {
+    public int getMissionStepsLeavingRegion(final AirMissionType missionType, final Nation nation, final Airbase airbase) {
         return 0;
     }
 

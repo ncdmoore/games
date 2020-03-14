@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Represents a task force's mission.
  */
-public enum MissionType {
+public enum SeaMissionType {
     @SerializedName(value = "AIR_RAID", alternate = {"Air_Raid", "air_raid"})
     AIR_RAID("Air Raid"),
 
@@ -48,7 +48,7 @@ public enum MissionType {
      * Construct a task force mission type.
      * @param value The string value. Used in the GUI.
      */
-    MissionType(final String value) {
+    SeaMissionType(final String value) {
         this.value = value;
     }
 

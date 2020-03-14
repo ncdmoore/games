@@ -3,7 +3,7 @@ package engima.waratsea.model.target;
 
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
@@ -178,7 +178,7 @@ public interface Target extends PersistentData<TargetData> {
      * that originate outside of the region of this target, but have a
      * target in the same region as this target.
      */
-    int getMissionStepsEnteringRegion(MissionType missionType, Nation nation, Airbase airbase);
+    int getMissionStepsEnteringRegion(AirMissionType missionType, Nation nation, Airbase airbase);
 
     /**
      * Get the current number of squadron steps on missions of the given type
@@ -192,5 +192,5 @@ public interface Target extends PersistentData<TargetData> {
      * that originate in the same region as the given airbase and that have targets
      * in different regions than the airbase region.
      */
-    int getMissionStepsLeavingRegion(MissionType missionType, Nation nation, Airbase airbase);
+    int getMissionStepsLeavingRegion(AirMissionType missionType, Nation nation, Airbase airbase);
 }

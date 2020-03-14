@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
-import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
@@ -37,7 +37,7 @@ public class MissionEditDetailsView implements MissionDetailsView {
     private final ViewProps props;
 
     @Getter
-    private final ChoiceBox<MissionType> missionType = new ChoiceBox<>();
+    private final ChoiceBox<AirMissionType> missionType = new ChoiceBox<>();
 
     @Getter
     private final ChoiceBox<Target> target = new ChoiceBox<>();

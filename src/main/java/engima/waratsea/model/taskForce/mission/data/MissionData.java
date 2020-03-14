@@ -2,7 +2,7 @@ package engima.waratsea.model.taskForce.mission.data;
 
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.target.data.TargetData;
-import engima.waratsea.model.taskForce.mission.MissionType;
+import engima.waratsea.model.taskForce.mission.SeaMissionType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +19,7 @@ public class MissionData {
 
     @Getter
     @Setter
-    private MissionType type;
+    private SeaMissionType type;
 
     @Getter
     @Setter

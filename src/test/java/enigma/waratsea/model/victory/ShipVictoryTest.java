@@ -17,7 +17,7 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.taskForce.TaskForceState;
 import engima.waratsea.model.taskForce.data.TaskForceData;
-import engima.waratsea.model.taskForce.mission.MissionType;
+import engima.waratsea.model.taskForce.mission.SeaMissionType;
 import engima.waratsea.model.taskForce.mission.data.MissionData;
 import engima.waratsea.model.victory.VictoryConditions;
 import engima.waratsea.model.victory.VictoryConditionsFactory;
@@ -63,7 +63,7 @@ public class ShipVictoryTest {
 
         TaskForceFactory taskForceFactory = injector.getInstance(TaskForceFactory.class);
         MissionData missionData = new MissionData();
-        missionData.setType(MissionType.PATROL);
+        missionData.setType(SeaMissionType.PATROL);
 
         TaskForceData data = new TaskForceData();
         data.setMission(missionData);

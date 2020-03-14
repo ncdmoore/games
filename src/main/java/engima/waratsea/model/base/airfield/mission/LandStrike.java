@@ -100,7 +100,7 @@ public class LandStrike implements AirMission {
     public MissionData getData() {
         MissionData data = new MissionData();
 
-        data.setType(MissionType.LAND_STRIKE);
+        data.setType(AirMissionType.LAND_STRIKE);
         data.setNation(nation);
         data.setTarget(targetBaseName);
 
@@ -131,8 +131,8 @@ public class LandStrike implements AirMission {
      * @return The type of mission.
      */
     @Override
-    public MissionType getType() {
-        return MissionType.getType(this);
+    public AirMissionType getType() {
+        return AirMissionType.getType(this);
     }
 
     /**

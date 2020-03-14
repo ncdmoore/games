@@ -30,7 +30,7 @@ public interface AirMission extends PersistentData<MissionData> {
      *
      * @return The type of mission.
      */
-    MissionType getType();
+    AirMissionType getType();
 
     /**
      * Get the mission's target.

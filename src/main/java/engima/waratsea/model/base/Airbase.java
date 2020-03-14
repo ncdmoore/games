@@ -5,7 +5,7 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.base.airfield.mission.AirMission;
-import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
@@ -227,7 +227,7 @@ public interface Airbase extends Base {
      * @param target The target of the mission.
      * @return A temporary mission with the given squadrons.
      */
-    AirMission getTemporaryMission(MissionType missionType, Nation nation, List<Squadron> squadrons, Target target);
+    AirMission getTemporaryMission(AirMissionType missionType, Nation nation, List<Squadron> squadrons, Target target);
 
     /**
      * Add a mission to this airbase.

@@ -2,7 +2,7 @@ package engima.waratsea.presenter.airfield.mission;
 
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMission;
-import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
@@ -12,7 +12,7 @@ import lombok.Getter;
 import java.util.List;
 
 public class SuccessStats {
-    private MissionType missionType;
+    private AirMissionType missionType;
     private final Nation nation;
     private final Airbase airbase;
 
@@ -29,7 +29,7 @@ public class SuccessStats {
      * @param squadrons The squadrons assigned to the mission.
      * @param target  The mission's target.
      */
-    public SuccessStats(final MissionType missionType, final Nation nation, final Airbase airbase, final List<Squadron> squadrons, final Target target) {
+    public SuccessStats(final AirMissionType missionType, final Nation nation, final Airbase airbase, final List<Squadron> squadrons, final Target target) {
         this.missionType = missionType;
         this.nation = nation;
         this.airbase = airbase;

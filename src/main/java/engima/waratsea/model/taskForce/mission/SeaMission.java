@@ -19,7 +19,7 @@ public interface SeaMission {
      *
      * @return The mission type.
      */
-    MissionType getType();
+    SeaMissionType getType();
 
     /**
      * Get a list of targets for this mission.

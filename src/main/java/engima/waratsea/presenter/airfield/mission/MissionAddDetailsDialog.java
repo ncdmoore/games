@@ -6,7 +6,7 @@ import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
-import engima.waratsea.model.base.airfield.mission.MissionType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
@@ -59,7 +59,7 @@ public class MissionAddDetailsDialog {
     @Getter
     private AirMission mission;
 
-    private MissionType selectedMissionType;
+    private AirMissionType selectedMissionType;
 
     private MissionAddDetailsView view;
 
@@ -212,7 +212,7 @@ public class MissionAddDetailsDialog {
      *
      * @param missionType The selected mission type.
      */
-    private void missionTypeSelected(final MissionType missionType) {
+    private void missionTypeSelected(final AirMissionType missionType) {
         List<Target> targets = game
                 .getHumanPlayer()
                 .getTargets(missionType, nation);
@@ -221,7 +221,7 @@ public class MissionAddDetailsDialog {
 
         //Filter out this airbase from the list of targets for FERRY missions.
         //No need in ferry aircraft to the same air base. That would accomplish nothing.
-        targets = missionType == MissionType.FERRY ? filterThisAirbase(targets) : targets;
+        targets = missionType == AirMissionType.FERRY ? filterThisAirbase(targets) : targets;
 
         setMainRoleTabText();
         clearNonMainRoleTabs();
@@ -361,7 +361,7 @@ public class MissionAddDetailsDialog {
      * Call back for the ok button.
      */
     private void ok() {
-        MissionType missionType = view.getMissionType().getSelectionModel().getSelectedItem();
+        AirMissionType missionType = view.getMissionType().getSelectionModel().getSelectedItem();
         Target target = view.getTarget().getSelectionModel().getSelectedItem();
         List<Squadron> squadrons = view.getSquadronList(MissionRole.MAIN).getAssigned().getItems();
         List<Squadron> escort = view.getSquadronList(MissionRole.ESCORT).getAssigned().getItems();
@@ -399,14 +399,14 @@ public class MissionAddDetailsDialog {
      *
      * @return An array of air base mission types.
      */
-    private MissionType[] getValidMissionTypes() {
-        List<MissionType> types = new ArrayList<>(Arrays.asList(MissionType.values()));
+    private AirMissionType[] getValidMissionTypes() {
+        List<AirMissionType> types = new ArrayList<>(Arrays.asList(AirMissionType.values()));
 
         if (game.getHumanPlayer().getEnemyTaskForceTargets().isEmpty()) {
-            types.remove(MissionType.NAVAL_TASK_FORCE_STRIKE);
+            types.remove(AirMissionType.NAVAL_TASK_FORCE_STRIKE);
         }
 
-        return types.toArray(MissionType[]::new);
+        return types.toArray(AirMissionType[]::new);
     }
 
     /**

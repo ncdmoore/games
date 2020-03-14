@@ -10,7 +10,7 @@ import java.util.function.Function;
 
 @Singleton
 public class MissionDAO {
-    private Map<MissionType, Function<MissionData, AirMission>> factoryMap = new HashMap<>();
+    private Map<AirMissionType, Function<MissionData, AirMission>> factoryMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -19,11 +19,11 @@ public class MissionDAO {
      */
     @Inject
     public MissionDAO(final MissionFactory factory) {
-        factoryMap.put(MissionType.FERRY, factory::createFerry);
-        factoryMap.put(MissionType.LAND_STRIKE, factory::createLandStrike);
-        factoryMap.put(MissionType.NAVAL_PORT_STRIKE, factory::createNavalPortStrike);
-        factoryMap.put(MissionType.SWEEP_AIRFIELD, factory::createSweepAirfield);
-        factoryMap.put(MissionType.SWEEP_PORT, factory::createSweepPort);
+        factoryMap.put(AirMissionType.FERRY, factory::createFerry);
+        factoryMap.put(AirMissionType.LAND_STRIKE, factory::createLandStrike);
+        factoryMap.put(AirMissionType.NAVAL_PORT_STRIKE, factory::createNavalPortStrike);
+        factoryMap.put(AirMissionType.SWEEP_AIRFIELD, factory::createSweepAirfield);
+        factoryMap.put(AirMissionType.SWEEP_PORT, factory::createSweepPort);
     }
 
     /**

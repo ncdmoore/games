@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class Intercept implements SeaMission {
     @Getter
-    private final MissionType type;
+    private final SeaMissionType type;
 
     @Getter
     private final List<Target> targets;
