@@ -166,6 +166,20 @@ public class TargetEnemyPort implements Target {
     }
 
     /**
+     * Determine if the given squadron is in range of this target without needing external drop tanks.
+     *
+     * @param squadron The squadron that is determined to be in or out of range without external drop tanks.
+     * @return True if this target is in range of the given squadron without using drop tanks. False otherwise.
+     */
+    @Override
+    public boolean inRangeWithoutDropTanks(final Squadron squadron) {
+        String targetReference = gameMap.convertNameToReference(getLocation());
+        String airbaseReference = squadron.getAirfield().getReference();
+
+        return gameMap.inRange(airbaseReference, targetReference, squadron.getMinRadius());
+    }
+
+    /**
      * Determine if the given squadron is allowed to attack this target.
      *
      * @param squadron The squadron that is checked if allowed to attack this target.

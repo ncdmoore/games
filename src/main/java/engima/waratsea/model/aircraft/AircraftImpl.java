@@ -126,6 +126,18 @@ public class AircraftImpl implements Aircraft {
     }
 
     /**
+     * Get the aircraft's ferry distance. If the aircraft can be
+     * equipped with drop tanks then two ferry distances are returned:
+     * one with drop tanks and one without.
+     *
+     * @return A list of ferry distances.
+     */
+    @Override
+    public List<Integer> getFerryDistance() {
+        return Collections.singletonList(range.getFerryDistance());
+    }
+
+    /**
      * Get the aircraft's air-to-air hit probability.
      *
      * @param strength The squadron's strength.

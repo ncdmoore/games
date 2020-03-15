@@ -28,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -473,17 +472,65 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
         return aircraft
                 .getRadius()
                 .stream()
-                .max(Comparator.comparing(radius -> radius))
+                .mapToInt(radius -> radius)
+                .max()
                 .orElse(0);
     }
 
     /**
-     * Get the ferry distance of this squadron.
+     * Get the squadron's minimum radius. This is the range of the squadron without drop tanks.
+     *
+     * @return The squadron's minimum radius.
+     */
+    public int getMinRadius() {
+        return aircraft
+                .getRadius()
+                .stream()
+                .mapToInt(radius -> radius)
+                .min()
+                .orElse(0);
+    }
+
+    /**
+     * Get the maximum ferry distance of this squadron. This is the ferry distance with drop tanks, if the
+     * aircraft can equip drop tanks.
      *
      * @return The squadron's ferry distance.
      */
-    public int getFerryDistance() {
-        return aircraft.getRange().getFerryDistance();
+    public int getMaxFerryDistance() {
+        return aircraft.getFerryDistance()
+                .stream()
+                .mapToInt(distance -> distance)
+                .max()
+                .orElse(0);
+    }
+
+    /**
+     * Get the minimum ferry distance of this squadron. This is the ferry distance without drop tanks.
+     *
+     * @return The squadron's ferry distance.
+     */
+    public int getMinFerryDistance() {
+        return aircraft.getFerryDistance()
+                .stream()
+                .mapToInt(distance -> distance)
+                .min()
+                .orElse(0);
+    }
+
+    /**
+     * Equip this squadron with drop tanks. Note, if the underlying aircraft type does not support
+     * drop tanks then nothing is done.
+     */
+    public void equipWithDropTanks() {
+
+    }
+
+    /**
+     * Drop the "drop" tanks.
+     */
+    public void removeDropTanks() {
+
     }
 
     /**

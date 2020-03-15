@@ -12,8 +12,8 @@ import lombok.Getter;
  * The radius is the squadron combat radius. This is the distance a squadron can fly and still return to base.
  * This determines which targets a squadron may strike and still make it safely back to base.
  *
- * Note, that if an aircraft has an endurance greater than one, that it may take multiple turns for an squadron
- * to reach it's ferry destination. If an aircraft has an endurance greater than two, then it is possible that
+ * Note, that if an aircraft has an endurance greater than one, that it may take multiple turns for a squadron
+ * to reach it's destination. If an aircraft has an endurance greater than two, then it is possible that
  * it make take two turns for the squadron to reach it's attack target. For example if the endurance is three:
  * one turn flying toward the target; one turn continuing to target, attacking target and then heading home; and
  * one turn flying toward home.
@@ -32,15 +32,13 @@ public class Range {
     /**
      * Constructor.
      *
-     * @param data The aircraft's ferryDistance data read in from a JSON file.
+     * @param data The aircraft's range data read in from a JSON file.
      */
     public Range(final RangeData data) {
-
         int gameRange = data.getRange();       //This is the range marked on the board game aircraft piece.
         this.endurance = data.getEndurance();  //This is the endurance marked on the board game aircraft piece.
 
         this.ferryDistance = gameRange * endurance;  // One way distance. No return.
-
         this.radius = (gameRange * endurance) / 2 + ((gameRange % 2) * endurance) / 2;  // Two way distance. Return.
     }
 }

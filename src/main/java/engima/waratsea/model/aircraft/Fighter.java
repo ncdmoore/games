@@ -15,6 +15,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Represents a fighter aircraft.
+ *
+ * Fighters are unique in that they alone may perform CAP Patrols and Sweep Missions.
+ * Fighters may also be equipped with drop tanks to further extend their range. However,
+ * this does reduce their air-to-air effectiveness.
+ */
 public class Fighter implements Aircraft {
     private static final int BASE_MODIFIER = 1; // A 6 always hits on a 6-sided die.
     private static final double DROP_TANK_FACTOR = 1.5;
@@ -195,5 +202,19 @@ public class Fighter implements Aircraft {
         int radius = range.getRadius();
         int radiusWithDropTank = (int) Math.ceil(range.getRadius() * DROP_TANK_FACTOR);
         return new ArrayList<>(Arrays.asList(radius, radiusWithDropTank));
+    }
+
+    /**
+     * Get the aircraft's ferry distance. If the aircraft can be
+     * equipped with drop tanks then two ferry distances are returned:
+     * one with drop tanks and one without.
+     *
+     * @return A list of ferry distances.
+     */
+    @Override
+    public List<Integer> getFerryDistance() {
+        int distance = range.getFerryDistance();
+        int distanceWithDropTank = (int) Math.ceil(range.getFerryDistance() * DROP_TANK_FACTOR);
+        return new ArrayList<>(Arrays.asList(distance, distanceWithDropTank));
     }
 }

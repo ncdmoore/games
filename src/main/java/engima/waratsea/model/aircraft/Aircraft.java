@@ -146,12 +146,21 @@ public interface Aircraft {
 
     /**
      * Get the aircraft's combat radius. If the aircraft can be
-     * equiped with drop tanks then two combar radii are returned:
+     * equipped with drop tanks then two combat radii are returned:
      * one with drop tanks and one without.
      *
-     * @return A list of combar radii.
+     * @return A list of combat radii.
      */
     List<Integer> getRadius();
+
+    /**
+     * Get the aircraft's ferry distance. If the aircraft can be
+     * equipped with drop tanks then two ferry distances are returned:
+     * one with drop tanks and one without.
+     *
+     * @return A list of ferry distances.
+     */
+    List<Integer> getFerryDistance();
 
     /**
      * Get the aircraft's altitude rating.

@@ -13,6 +13,7 @@ import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.Dice;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -25,6 +26,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 public class SweepAirfield implements AirMission {
     private final Game game;
     private final Dice dice;
@@ -183,6 +185,7 @@ public class SweepAirfield implements AirMission {
         squadronMap.get(MissionRole.MAIN).forEach(squadron -> {
             SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_MISSION);
             squadron.setSquadronState(state);
+            equipWithDropTanks(squadron); // Automatically equip squadron with drop tanks if needed to reach target.
         });
     }
 
@@ -194,6 +197,7 @@ public class SweepAirfield implements AirMission {
         squadronMap.get(MissionRole.MAIN).forEach(squadron -> {
             SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
             squadron.setSquadronState(state);
+            squadron.removeDropTanks();
         });
 
         squadronMap.get(MissionRole.MAIN).clear();
@@ -336,5 +340,25 @@ public class SweepAirfield implements AirMission {
      */
     private double getAirProbability(final Squadron squadron) {
         return squadron.getAirHitIndividualProbability(getTarget(), 0);
+    }
+
+    /**
+     * Equip a squadron on this mission with drop tanks if it requires drop tanks in order to
+     * reach the target. If the given squadron can reach the target without drop tanks then
+     * do not equip.
+     *
+     * @param squadron The target that may be equipped with drop tanks.
+     */
+    private void equipWithDropTanks(final Squadron squadron) {
+        if (targetAirbase.inRangeWithoutDropTanks(squadron)) {
+            return;                                                 // Drop tanks are not needed.
+        }
+
+        if (targetAirbase.inRange(squadron)) {
+            squadron.equipWithDropTanks();                          // Drop tanks are needed.
+            return;
+        }
+
+        log.error("This squadron: '{}' is not in range of target: '{}'", squadron.getTitle(), targetAirbase.getTitle());
     }
 }

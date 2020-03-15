@@ -179,6 +179,7 @@ public class Ferry implements AirMission {
         squadronMap.get(MissionRole.MAIN).forEach(squadron -> {
             SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_MISSION);
             squadron.setSquadronState(state);
+            equipWithDropTanks(squadron); // Automatically equip squadron with drop tanks if needed to reach target.
         });
     }
 
@@ -190,6 +191,7 @@ public class Ferry implements AirMission {
         squadronMap.get(MissionRole.MAIN).forEach(squadron -> {
             SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
             squadron.setSquadronState(state);
+            squadron.removeDropTanks();
         });
 
         squadronMap.get(MissionRole.MAIN).clear();
@@ -230,5 +232,25 @@ public class Ferry implements AirMission {
                 .orElse(null);
 
         return endingAirbase;
+    }
+
+    /**
+     * Equip a squadron on this mission with drop tanks if it requires drop tanks in order to
+     * reach the target. If the given squadron can reach the target without drop tanks then
+     * do not equip.
+     *
+     * @param squadron The target that may be equipped with drop tanks.
+     */
+    private void equipWithDropTanks(final Squadron squadron) {
+        if (endingAirbase.inRangeWithoutDropTanks(squadron)) {
+            return;                                                 // Drop tanks are not needed.
+        }
+
+        if (endingAirbase.inRange(squadron)) {
+            squadron.equipWithDropTanks();                          // Drop tanks are needed.
+            return;
+        }
+
+        log.error("This squadron: '{}' is not in range of target: '{}'", squadron.getTitle(), endingAirbase.getTitle());
     }
 }
