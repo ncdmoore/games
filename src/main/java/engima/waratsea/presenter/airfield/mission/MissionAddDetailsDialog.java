@@ -264,47 +264,40 @@ public class MissionAddDetailsDialog {
 
         missionDetails.updateTargetView(mission, selectedMissionType);
         clearAllSquadrons();
-        view.hideError();
 
-        Optional.ofNullable(target).ifPresent(t -> {
+        Stream
+                .of(MissionRole.values())
+                .forEach(view::hideError);
+
+        Optional.ofNullable(target).ifPresent(selectedTarget -> {
 
             if (!missionDetails.hasCapacity()) {       // Check target for maximum squadron step capacity.
-                view.showError(t.getTitle() + " is at max capacity");
+                showError(selectedTarget.getTitle() + " is at max capacity");
                 return;
             }
 
             if (!missionDetails.hasRegionCapacity()) { // Check target's region for maximum squadron step capacity.
-                view.showError(t.getRegionTitle(nation) + " is at max capacity");
+                showError(selectedTarget.getRegionTitle(nation) + " is at max capacity");
                 return;
             }
 
             List<Squadron> availableSquadrons = airfieldDialog.getReady(nation);
 
             if (availableSquadrons.isEmpty()) {
-                view.showError("No ready squadrons.");
+                showError("No ready squadrons.");
                 return;
             }
 
             availableSquadrons = availableSquadrons.stream()
-                    .filter(t::mayAttack)
+                    .filter(selectedTarget::mayAttack)
                     .collect(Collectors.toList());
 
             if (availableSquadrons.isEmpty()) {
-                view.showError("No squadrons capable.");
+                showError("No squadrons capable.");
                 return;
             }
 
-            availableSquadrons = availableSquadrons.stream()
-                    .filter(t::inRange)
-                    .collect(Collectors.toList());
-
-            if (availableSquadrons.isEmpty()) {
-                view.showError("No squadrons in range.");
-                return;
-            }
-
-            setAvailableSquadrons(availableSquadrons);
-
+            setAvailableSquadrons(selectedTarget, availableSquadrons);
         });
     }
 
@@ -330,6 +323,7 @@ public class MissionAddDetailsDialog {
                 .ofNullable(squadron)
                 .ifPresent(s -> {
                     MissionRole role = getSelectedRole();
+                    setDropTanks(s);
                     view.getSquadronSummaryView().setSelectedSquadron(s);
                     view.getSquadronList(role).getAssigned().getSelectionModel().clearSelection();
                 });
@@ -346,6 +340,7 @@ public class MissionAddDetailsDialog {
                 .ofNullable(squadron)
                 .ifPresent(s -> {
                     MissionRole role = getSelectedRole();
+                    setDropTanks(s);
                     view.getSquadronSummaryView().setSelectedSquadron(s);
                     view.getSquadronList(role).getAvailable().getSelectionModel().clearSelection();
                 });
@@ -537,20 +532,44 @@ public class MissionAddDetailsDialog {
     /**
      * Set the squadron  available list.
      *
+     * @param target The selected target.
      * @param available The pool of available squadrons
      */
-    private void setAvailableSquadrons(final List<Squadron> available) {
-        selectedMissionType.getRoles().forEach(role -> {
+    private void setAvailableSquadrons(final Target target, final List<Squadron> available) {
+        for (MissionRole role: selectedMissionType.getRoles()) {
 
-            // Determine if the squadron is allowed to perform the mission role.
-            List<Squadron> allowed = available
+            List<Squadron> inRange = available
+                    .stream()
+                    .filter(squadron -> target.inRange(role, squadron))
+                    .collect(Collectors.toList());
+
+            if (inRange.isEmpty()) {
+                view.showError(role, "No squadrons in range");
+                continue;
+            }
+
+            List<Squadron> canDoMission = inRange
                     .stream()
                     .filter(squadron -> squadron.canDoMission(selectedMissionType))
+                    .collect(Collectors.toList());
+
+            if (canDoMission.isEmpty()) {
+                view.showError(role, "No squadrons can do mission");
+                continue;
+            }
+
+            List<Squadron> canDoRole = canDoMission
+                    .stream()
                     .filter(squadron -> squadron.canDoRole(role))
                     .collect(Collectors.toList());
 
-            view.getSquadronList(role).addAllToAvailable(allowed);
-        });
+            if (canDoRole.isEmpty()) {
+                view.showError(role, "No squadrons can do role");
+                continue;
+            }
+
+            view.getSquadronList(role).addAllToAvailable(canDoRole);
+        }
     }
 
     /**
@@ -571,5 +590,31 @@ public class MissionAddDetailsDialog {
      */
     private void setMainRoleTabText() {
         view.getRoleTabs().get(MissionRole.MAIN).setText(selectedMissionType.getTitle());
+    }
+
+    /**
+     * The squadron's drop tank status: equipped or non equipped varies with target selection and squadron.
+     * Update the selected squadron's drop tank status.
+     *
+     * @param squadron The currently selected squadron.
+     */
+    private void setDropTanks(final Squadron squadron) {
+        Target selectedTarget = view.getTarget()
+                .getSelectionModel()
+                .getSelectedItem();
+
+        String dropTanks = selectedTarget.inRangeWithoutDropTanks(squadron) ? "" : " equipped";
+        view.getSquadronSummaryView().setDropTanks(dropTanks);
+    }
+
+    /**
+     * Show error's for all roles.
+     *
+     * @param text The error text to show.
+     */
+    private void showError(final String text) {
+        Stream
+                .of(MissionRole.values())
+                .forEach(role -> view.showError(role, text));
     }
 }

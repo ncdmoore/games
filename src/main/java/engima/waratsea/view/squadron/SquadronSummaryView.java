@@ -20,6 +20,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -55,6 +56,9 @@ public class SquadronSummaryView {
     private final ImageView aircraftProfile = new ImageView();
     private final TitledGridPane attackStats = new TitledGridPane();
     private final TitledGridPane performanceStats = new TitledGridPane();
+
+    @Setter
+    private String dropTanks;
 
     /**
      * Constructor called by guice.
@@ -264,7 +268,7 @@ public class SquadronSummaryView {
         details.put("Radius:", squadron.getAircraft().getRadius().get(0) + "");
 
         if (squadron.getAircraft().getRadius().size() > 1) {
-            details.put("Radius (Drop Tanks):", squadron.getAircraft().getRadius().get(1) + "");
+            details.put("Radius (Drop Tanks):", squadron.getAircraft().getRadius().get(1) + dropTanks);
         } else {
             details.put("Radius (Drop Tanks):", "Not Supported");
         }

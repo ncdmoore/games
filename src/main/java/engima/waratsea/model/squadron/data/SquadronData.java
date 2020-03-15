@@ -35,6 +35,10 @@ public class SquadronData {
     @Setter
     private SquadronState squadronState;
 
+    @Getter
+    @Setter
+    private boolean dropTanks;
+
     /**
      * Get the state of the squadron.
      *

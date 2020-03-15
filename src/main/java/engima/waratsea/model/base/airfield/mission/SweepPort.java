@@ -185,8 +185,10 @@ public class SweepPort implements AirMission {
         squadronMap.get(MissionRole.MAIN).forEach(squadron -> {
             SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_MISSION);
             squadron.setSquadronState(state);
-            equipWithDropTanks(squadron); // Automatically equip squadron with drop tanks if needed to reach target.
         });
+
+        squadronMap.get(MissionRole.ESCORT)
+                .forEach(this::equipWithDropTanks);
     }
 
     /**
@@ -197,7 +199,7 @@ public class SweepPort implements AirMission {
         squadronMap.get(MissionRole.MAIN).forEach(squadron -> {
             SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
             squadron.setSquadronState(state);
-            squadron.removeDropTanks();
+            squadron.setDropTanks(false);
         });
 
         squadronMap.get(MissionRole.MAIN).clear();
@@ -353,8 +355,8 @@ public class SweepPort implements AirMission {
             return;                                                 // Drop tanks are not needed.
         }
 
-        if (targetPort.inRange(squadron)) {
-            squadron.equipWithDropTanks();                          // Drop tanks are needed.
+        if (targetPort.inRange(MissionRole.ESCORT, squadron)) {
+            squadron.setDropTanks(true);                          // Drop tanks are needed.
             return;
         }
 

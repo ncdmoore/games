@@ -74,6 +74,10 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     @Setter
     private SquadronState squadronState;
 
+    @Getter
+    @Setter
+    private boolean dropTanks;
+
     static {
         DESIGNATION_MAP.put(Side.ALLIES, new HashMap<>());
         DESIGNATION_MAP.put(Side.AXIS, new HashMap<>());
@@ -113,6 +117,7 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
         this.strength = data.getStrength();
         this.name = data.getName();
         this.squadronState = data.getSquadronState();
+        this.dropTanks = data.isDropTanks();
 
         try {
             AircraftId aircraftId = new AircraftId(model, side);
@@ -151,6 +156,7 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
         Optional.ofNullable(airfield)
                 .ifPresent(field -> data.setAirfield(field.getName()));
         data.setSquadronState(squadronState);
+        data.setDropTanks(dropTanks);
         return data;
     }
 
@@ -516,21 +522,6 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
                 .mapToInt(distance -> distance)
                 .min()
                 .orElse(0);
-    }
-
-    /**
-     * Equip this squadron with drop tanks. Note, if the underlying aircraft type does not support
-     * drop tanks then nothing is done.
-     */
-    public void equipWithDropTanks() {
-
-    }
-
-    /**
-     * Drop the "drop" tanks.
-     */
-    public void removeDropTanks() {
-
     }
 
     /**

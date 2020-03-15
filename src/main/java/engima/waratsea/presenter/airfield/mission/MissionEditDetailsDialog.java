@@ -190,10 +190,9 @@ public class MissionEditDetailsDialog {
                 .getReady(nation)
                 .stream()
                 .filter(target::mayAttack)
-                .filter(target::inRange)
                 .collect(Collectors.toList());
 
-        setAvailableSquadrons(availableSquadrons);
+        setAvailableSquadrons(target, availableSquadrons);
     }
 
     /**
@@ -271,6 +270,7 @@ public class MissionEditDetailsDialog {
                 .ofNullable(squadron)
                 .ifPresent(s -> {
                     MissionRole role = getSelectedRole();
+                    setDropTanks(s);
                     view.getSquadronSummaryView().setSelectedSquadron(s);
                     view.getSquadronList(role).getAssigned().getSelectionModel().clearSelection();
                 });
@@ -286,6 +286,7 @@ public class MissionEditDetailsDialog {
                 .ofNullable(squadron)
                 .ifPresent(s -> {
                     MissionRole role = getSelectedRole();
+                    setDropTanks(s);
                     view.getSquadronSummaryView().setSelectedSquadron(s);
                     view.getSquadronList(role).getAvailable().getSelectionModel().clearSelection();
                 });
@@ -393,19 +394,28 @@ public class MissionEditDetailsDialog {
     /**
      * Set the squadron lists starting available list.
      *
+     * @param target The selected target.
      * @param available The pool of available squadrons
      */
-    private void setAvailableSquadrons(final List<Squadron> available) {
+    private void setAvailableSquadrons(final Target target, final List<Squadron> available) {
         selectedMissionType.getRoles().forEach(role -> {
 
-            // Determine if the squadron is allowed to perform the mission role.
-            List<Squadron> allowed = available
+            List<Squadron> inRange = available
+                    .stream()
+                    .filter(squadron -> target.inRange(role, squadron))
+                    .collect(Collectors.toList());
+
+            List<Squadron> canDoMission = inRange
                     .stream()
                     .filter(squadron -> squadron.canDoMission(selectedMissionType))
+                    .collect(Collectors.toList());
+
+            List<Squadron> canDoRole = canDoMission
+                    .stream()
                     .filter(squadron -> squadron.canDoRole(role))
                     .collect(Collectors.toList());
 
-            view.getSquadronList(role).addAllToAvailable(allowed);
+            view.getSquadronList(role).addAllToAvailable(canDoRole);
         });
     }
 
@@ -420,5 +430,20 @@ public class MissionEditDetailsDialog {
                 .getSelectionModel()
                 .getSelectedItem()
                 .getUserData();
+    }
+
+    /**
+     * The squadron's drop tank status: equipped or non equipped varies with target selection and squadron.
+     * Update the selected squadron's drop tank status.
+     *
+     * @param squadron The currently selected squadron.
+     */
+    private void setDropTanks(final Squadron squadron) {
+        Target selectedTarget = view.getTarget()
+                .getSelectionModel()
+                .getSelectedItem();
+
+        String dropTanks = selectedTarget.inRangeWithoutDropTanks(squadron) ? "" : " equipped";
+        view.getSquadronSummaryView().setDropTanks(dropTanks);
     }
 }

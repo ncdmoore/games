@@ -4,6 +4,7 @@ package engima.waratsea.model.target;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
@@ -83,10 +84,11 @@ public interface Target extends PersistentData<TargetData> {
     /**
      * Determine if the given squadron is in range of this target.
      *
+     * @param missionRole The squadron's role on the mission.
      * @param squadron The squadron that is determined to be in or out of range of this target.
      * @return True if this target is in range of the given squadron. False otherwise.
      */
-    boolean inRange(Squadron squadron);
+    boolean inRange(MissionRole missionRole, Squadron squadron);
 
     /**
      * Determine if the given squadron is in range of this target without needing external drop tanks.

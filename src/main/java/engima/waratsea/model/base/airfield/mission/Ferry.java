@@ -191,7 +191,7 @@ public class Ferry implements AirMission {
         squadronMap.get(MissionRole.MAIN).forEach(squadron -> {
             SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
             squadron.setSquadronState(state);
-            squadron.removeDropTanks();
+            squadron.setDropTanks(false);
         });
 
         squadronMap.get(MissionRole.MAIN).clear();
@@ -246,8 +246,8 @@ public class Ferry implements AirMission {
             return;                                                 // Drop tanks are not needed.
         }
 
-        if (endingAirbase.inRange(squadron)) {
-            squadron.equipWithDropTanks();                          // Drop tanks are needed.
+        if (endingAirbase.inRange(MissionRole.MAIN, squadron)) {
+            squadron.setDropTanks(true);                          // Drop tanks are needed.
             return;
         }
 

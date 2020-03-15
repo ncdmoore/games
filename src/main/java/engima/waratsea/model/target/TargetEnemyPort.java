@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.enemy.views.port.PortView;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
@@ -154,15 +155,20 @@ public class TargetEnemyPort implements Target {
     /**
      * Determine if this squadron is in range of the given squadron.
      *
+     *
+     * @param missionRole The squadron's mission role.
      * @param squadron The squadron that is determined to be in or out of range of this target.
      * @return True if this target is in range of the given squadron. False otherwise.
      */
     @Override
-    public boolean inRange(final Squadron squadron) {
+    public boolean inRange(final MissionRole missionRole, final Squadron squadron) {
         String targetReference = gameMap.convertNameToReference(getLocation());
         String airbaseReference = squadron.getAirfield().getReference();
 
-        return gameMap.inRange(airbaseReference, targetReference, squadron.getMaxRadius());
+        // Drop tanks cannot be used on a strike mission if the fighter is performing the main strike role.
+        int radius = missionRole == MissionRole.MAIN ? squadron.getMinRadius() : squadron.getMaxRadius();
+
+        return gameMap.inRange(airbaseReference, targetReference, radius);
     }
 
     /**

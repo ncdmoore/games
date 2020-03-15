@@ -6,6 +6,7 @@ import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -166,11 +167,13 @@ public class TargetFriendlyAirfield implements Target {
     /**
      * Determine if the given squadron is in range of this target.
      *
+     *
+     * @param missionRole The squadron mission role.
      * @param squadron The squadron that is determined to be in or out of range of this target.
      * @return True if this target is in range of the given squadron. False otherwise.
      */
     @Override
-    public boolean inRange(final Squadron squadron) {
+    public boolean inRange(final MissionRole missionRole, final Squadron squadron) {
         String targetReference = gameMap.convertNameToReference(getLocation());
         String airbaseReference = squadron.getAirfield().getReference();
 
@@ -349,7 +352,7 @@ public class TargetFriendlyAirfield implements Target {
         int airbaseCurrentSteps = getAirfield().getCurrentSteps().intValue();
         int airbaseMissionSteps = getMissionSteps(excludedAirbase);    // excludes current airbase.
 
-        return airbaseMaxSteps >= airbaseCurrentSteps + airbaseMissionSteps + currentAirbaseMissionSteps;
+        return airbaseMaxSteps > airbaseCurrentSteps + airbaseMissionSteps + currentAirbaseMissionSteps;
     }
 
     /**
@@ -383,7 +386,7 @@ public class TargetFriendlyAirfield implements Target {
 
         // If the region's maximum allowed steps is zero, this indicates the region does not have a maximum.
         // Thus, a region with a maximum allowed steps of zero always has capacity.
-        return regionMaxSteps == 0 || regionMaxSteps >= regionCurrentSteps + regionMissionSteps + currentAirbaseMissionSteps;
+        return regionMaxSteps == 0 || regionMaxSteps > regionCurrentSteps + regionMissionSteps + currentAirbaseMissionSteps;
     }
 
     /**

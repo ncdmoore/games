@@ -176,18 +176,19 @@ public class MissionEditDetailsView implements MissionDetailsView {
 
         squadrons.get(role).remove(squadron);
 
+        Target selectedTarget = target.getSelectionModel().getSelectedItem();
+
         Stream.of(MissionRole.values())
                 .filter(otherRole -> otherRole != role)
                 .forEach(otherRole -> {
-                    if (squadron.canDoRole(otherRole)) {
+                    if (squadron.canDoRole(otherRole) && selectedTarget.inRange(otherRole, squadron)) {
                         squadrons.get(otherRole).addToAvailable(squadron);
                     }
                 });
 
-
         targetView.getViewMap()
                 .get(missionType.getSelectionModel().getSelectedItem())
-                .removeSquadron(squadron, target.getSelectionModel().getSelectedItem());
+                .removeSquadron(squadron, selectedTarget);
 
     }
 
