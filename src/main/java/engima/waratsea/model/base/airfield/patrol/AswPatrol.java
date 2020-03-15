@@ -206,10 +206,10 @@ public class AswPatrol implements Patrol {
         squadrons.forEach(squadron -> {
             SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_PATROL);
             squadron.setSquadronState(state);
-            updateMaxRadius();
         });
 
         squadrons.clear();
+        updateMaxRadius();
     }
 
     /**

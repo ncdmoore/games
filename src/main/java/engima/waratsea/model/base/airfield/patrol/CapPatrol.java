@@ -183,6 +183,7 @@ public class CapPatrol implements Patrol {
         });
 
         squadrons.clear();
+        maxRadius = 0;
     }
 
     /**
