@@ -5,6 +5,7 @@
   "service": "NAVY",
   "designation": "VB-",
   "altitude": "MEDIUM",
+  "takeoff": "CARRIER",
   "landing": "CARRIER",
   "naval": {
     "modifier": 2,

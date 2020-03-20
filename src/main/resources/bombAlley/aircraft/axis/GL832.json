@@ -5,6 +5,7 @@
   "service": "NAVY",
   "designation": "AA-",
   "altitude": "LOW",
+  "takeoff": "SEAPLANE",
   "landing": "SEAPLANE",
   "naval": {
     "modifier": 0,

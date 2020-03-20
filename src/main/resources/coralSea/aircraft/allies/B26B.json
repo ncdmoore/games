@@ -5,6 +5,7 @@
   "service": "AIRFORCE",
   "designation": "B-",
   "altitude": "MEDIUM",
+  "takeoff": "LAND",
   "landing": "LAND",
   "naval": {
     "modifier": 0,

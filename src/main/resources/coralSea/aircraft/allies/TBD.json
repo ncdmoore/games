@@ -5,6 +5,7 @@
   "service": "NAVY",
   "designation": "VT-",
   "altitude": "MEDIUM",
+  "takeoff": "CARRIER",
   "landing": "CARRIER",
   "naval": {
     "modifier": 1,

@@ -38,7 +38,7 @@ public enum AircraftType implements Comparator<AircraftType> {
     @Getter
     private String designation;
 
-    private Integer order;
+    private Integer order;  // Enum sort order.
 
     /**
      * Constructor.

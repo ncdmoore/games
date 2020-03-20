@@ -5,6 +5,7 @@
   "service": "NAVY",
   "designation": "NAS-",
   "altitude": "LOW",
+  "takeoff": "CARRIER",
   "landing": "CARRIER",
   "naval": {
     "modifier": 2,

@@ -47,6 +47,10 @@ public class AircraftData {
 
     @Getter
     @Setter
+    private LandingType takeoff;
+
+    @Getter
+    @Setter
     private AttackFactorData naval;
 
     @Getter

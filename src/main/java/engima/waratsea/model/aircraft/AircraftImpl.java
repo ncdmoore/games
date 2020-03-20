@@ -46,6 +46,9 @@ public class AircraftImpl implements Aircraft {
     private final LandingType landing;
 
     @Getter
+    private final LandingType takeoff;
+
+    @Getter
     private final AttackFactor naval;
 
     private final AttackFactor land;
@@ -78,6 +81,7 @@ public class AircraftImpl implements Aircraft {
         this.service = data.getService();
         this.altitude = data.getAltitude();
         this.landing = data.getLanding();
+        this.takeoff = data.getTakeoff();
         this.naval = new AttackFactor(data.getNaval());
         this.land = new AttackFactor(data.getLand());
         this.air = new AttackFactor(data.getAir());

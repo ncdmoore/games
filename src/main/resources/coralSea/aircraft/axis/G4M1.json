@@ -5,6 +5,7 @@
   "service": "NAVY",
   "designation": "NAS-",
   "altitude": "MEDIUM",
+  "takeoff": "LAND",
   "landing": "LAND",
   "naval": {
     "modifier": 1,

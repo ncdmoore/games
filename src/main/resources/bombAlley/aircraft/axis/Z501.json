@@ -5,6 +5,7 @@
   "service": "AIRFORCE",
   "designation": "RA-",
   "altitude": "MEDIUM",
+  "takeoff": "SEAPLANE",
   "landing": "SEAPLANE",
   "naval": {
     "modifier": 0,
