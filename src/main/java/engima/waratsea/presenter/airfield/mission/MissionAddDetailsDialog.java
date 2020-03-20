@@ -11,6 +11,7 @@ import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.configuration.SquadronConfig;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.presenter.airfield.AirfieldDetailsDialog;
 import engima.waratsea.utility.CssResourceProvider;
@@ -323,7 +324,7 @@ public class MissionAddDetailsDialog {
                 .ofNullable(squadron)
                 .ifPresent(s -> {
                     MissionRole role = getSelectedRole();
-                    setDropTanks(s);
+                    view.getSquadronSummaryView().setConfig(SquadronConfig.NONE);
                     view.getSquadronSummaryView().setSelectedSquadron(s);
                     view.getSquadronList(role).getAssigned().getSelectionModel().clearSelection();
                 });
@@ -340,7 +341,7 @@ public class MissionAddDetailsDialog {
                 .ofNullable(squadron)
                 .ifPresent(s -> {
                     MissionRole role = getSelectedRole();
-                    setDropTanks(s);
+                    setConfig(squadron);
                     view.getSquadronSummaryView().setSelectedSquadron(s);
                     view.getSquadronList(role).getAvailable().getSelectionModel().clearSelection();
                 });
@@ -540,7 +541,7 @@ public class MissionAddDetailsDialog {
 
             List<Squadron> inRange = available
                     .stream()
-                    .filter(squadron -> target.inRange(role, squadron))
+                    .filter(squadron -> squadron.inRange(target, selectedMissionType, role))
                     .collect(Collectors.toList());
 
             if (inRange.isEmpty()) {
@@ -593,21 +594,6 @@ public class MissionAddDetailsDialog {
     }
 
     /**
-     * The squadron's drop tank status: equipped or non equipped varies with target selection and squadron.
-     * Update the selected squadron's drop tank status.
-     *
-     * @param squadron The currently selected squadron.
-     */
-    private void setDropTanks(final Squadron squadron) {
-        Target selectedTarget = view.getTarget()
-                .getSelectionModel()
-                .getSelectedItem();
-
-        String dropTanks = selectedTarget.inRangeWithoutDropTanks(squadron) ? "" : " equipped";
-        view.getSquadronSummaryView().setDropTanks(dropTanks);
-    }
-
-    /**
      * Show error's for all roles.
      *
      * @param text The error text to show.
@@ -616,5 +602,19 @@ public class MissionAddDetailsDialog {
         Stream
                 .of(MissionRole.values())
                 .forEach(role -> view.showError(role, text));
+    }
+
+    /**
+     * Set the squadron's role.
+     *
+     * @param squadron The selected squadron.
+     */
+    private void setConfig(final Squadron squadron) {
+        Target selectedTarget = view.getTarget()
+                .getSelectionModel()
+                .getSelectedItem();
+
+        SquadronConfig config = squadron.determineConfig(selectedTarget, selectedMissionType, getSelectedRole());
+        view.getSquadronSummaryView().setConfig(config);
     }
 }

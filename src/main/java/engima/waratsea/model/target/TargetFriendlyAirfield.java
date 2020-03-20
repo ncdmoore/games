@@ -6,7 +6,6 @@ import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
-import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -151,6 +150,17 @@ public class TargetFriendlyAirfield implements Target {
     }
 
     /**
+     * Determine if a squadron journeying to this target must make a round trip.
+     *
+     * @return True if the squadron must make a round trip to reach this target. The squadron must fly to and then
+     * return to it's original base. False otherwise.
+     */
+    @Override
+    public boolean requiresRoundTrip() {
+        return false;
+    }
+
+    /**
      * Get the distance to this target from the given airbase.
      *
      * @param airbase The airbase whose distance to target is returned.
@@ -164,36 +174,6 @@ public class TargetFriendlyAirfield implements Target {
         return gameMap.determineDistance(targetReference, airbaseReference);
     }
 
-    /**
-     * Determine if the given squadron is in range of this target.
-     *
-     *
-     * @param missionRole The squadron mission role.
-     * @param squadron The squadron that is determined to be in or out of range of this target.
-     * @return True if this target is in range of the given squadron. False otherwise.
-     */
-    @Override
-    public boolean inRange(final MissionRole missionRole, final Squadron squadron) {
-        String targetReference = gameMap.convertNameToReference(getLocation());
-        String airbaseReference = squadron.getAirfield().getReference();
-
-        return gameMap.inRange(airbaseReference, targetReference, squadron.getMaxFerryDistance());
-
-    }
-
-    /**
-     * Determine if the given squadron is in range of this target without needing external drop tanks.
-     *
-     * @param squadron The squadron that is determined to be in or out of range without external drop tanks.
-     * @return True if this target is in range of the given squadron without using drop tanks. False otherwise.
-     */
-    @Override
-    public boolean inRangeWithoutDropTanks(final Squadron squadron) {
-        String targetReference = gameMap.convertNameToReference(getLocation());
-        String airbaseReference = squadron.getAirfield().getReference();
-
-        return gameMap.inRange(airbaseReference, targetReference, squadron.getMinFerryDistance());
-    }
 
     /**
      * Determine if the given squadron is allowed to attack this target.

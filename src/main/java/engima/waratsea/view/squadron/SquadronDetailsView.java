@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.aircraft.AttackFactor;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.configuration.SquadronConfig;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.util.TitledGridPane;
@@ -19,6 +20,9 @@ import javafx.scene.layout.VBox;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * The detail view of a squadron.
+ */
 public class SquadronDetailsView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
@@ -124,7 +128,7 @@ public class SquadronDetailsView {
     public Node buildWeapons(final Squadron squadron) {
         squadronDetailsPane = buildPane("Squadron Details", getSquadronDetailsData(squadron));
         aircraftDetailsPane = buildPane("Aircraft Details", getAircraftDetailsData(squadron));
-        aircraftLandPane = buildPane("Land", getAttackFactor(squadron, squadron.getAircraft().getLand()));
+        aircraftLandPane = buildPane("Land", getAttackFactor(squadron, squadron.getAircraft().getLand().get(SquadronConfig.NONE)));
         aircraftNavalPane = buildPane("Naval", getAttackFactor(squadron, squadron.getAircraft().getNaval()));
         return new VBox(squadronDetailsPane, aircraftDetailsPane, aircraftLandPane, aircraftNavalPane);
     }
@@ -153,7 +157,7 @@ public class SquadronDetailsView {
         squadronDetailsPane.updatePane(getSquadronDetailsData(squadron));
         aircraftDetailsPane.updatePane(getAircraftDetailsData(squadron));
         aircraftAirToAirPane.updatePane(getAttackFactor(squadron, squadron.getAircraft().getAir()));
-        aircraftLandPane.updatePane(getAttackFactor(squadron, squadron.getAircraft().getLand()));
+        aircraftLandPane.updatePane(getAttackFactor(squadron, squadron.getAircraft().getLand().get(SquadronConfig.NONE)));
         aircraftNavalPane.updatePane(getAttackFactor(squadron, squadron.getAircraft().getNaval()));
         aircraftRangePane.updatePane(getRange(squadron));
         aircraftFramePane.updatePane(getFrame(squadron));
@@ -211,8 +215,8 @@ public class SquadronDetailsView {
     private Map<String, String> getRange(final Squadron squadron) {
         Aircraft aircraft = squadron.getAircraft();
         Map<String, String> details = new LinkedHashMap<>();
-        details.put("Range", aircraft.getRange().getFerryDistance() + "");
-        details.put("Endurance", aircraft.getRange().getEndurance() + "");
+        details.put("Range", aircraft.getRange() + "");
+        details.put("Endurance", aircraft.getEndurance() + "");
         details.put("Altitude Rating", aircraft.getAltitude().toString());
         details.put("Landing Type", aircraft.getLanding().toString());
         return details;

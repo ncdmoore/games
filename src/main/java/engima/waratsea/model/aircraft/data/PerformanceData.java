@@ -6,7 +6,7 @@ import lombok.Setter;
 /**
  * An aircraft's ferryDistance data.
  */
-public class RangeData {
+public class PerformanceData {
     @Getter
     @Setter
     private int range;

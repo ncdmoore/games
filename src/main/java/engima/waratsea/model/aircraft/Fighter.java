@@ -7,13 +7,14 @@ import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.squadron.SquadronStrength;
+import engima.waratsea.model.squadron.configuration.SquadronConfig;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.Dice;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a fighter aircraft.
@@ -50,14 +51,13 @@ public class Fighter implements Aircraft {
     @Getter
     private final AttackFactor naval;
 
-    @Getter
     private final AttackFactor land;
 
     @Getter
     private final AttackFactor air;
 
     @Getter
-    private final Range range;
+    private final Performance performance;
 
     @Getter
     private final Frame frame;
@@ -83,7 +83,7 @@ public class Fighter implements Aircraft {
         this.naval = new AttackFactor(data.getNaval());
         this.land = new AttackFactor(data.getLand());
         this.air = new AttackFactor(data.getAir());
-        this.range = new Range(data.getRange());
+        this.performance = new Performance(data.getPerformance());
         this.frame = new Frame(data.getFrame());
 
         this.dice = dice;
@@ -150,8 +150,9 @@ public class Fighter implements Aircraft {
      * @return A percentage representing the probability this aircraft will hit in a land attack.
      */
     @Override
-    public double getLandHitProbability(final SquadronStrength strength) {
-        return dice.probability(land.getModifier() + BASE_MODIFIER, land.getFactor(strength));
+    public Map<SquadronConfig, Double> getLandHitProbability(final SquadronStrength strength) {
+        double prob = dice.probability(land.getModifier() + BASE_MODIFIER, land.getFactor(strength));
+        return Map.of(SquadronConfig.NONE, prob, SquadronConfig.DROP_TANKS, prob);
     }
 
     /**
@@ -192,29 +193,66 @@ public class Fighter implements Aircraft {
     }
 
     /**
-     * Get combat radius of the aircraft. There are two radii: one with
-     * drop tanks and one without.
+     * Get the aircraft's land attack factor.
      *
-     * @return A list of combat radii.
+     * @return The aircraft's land attack factor.
      */
     @Override
-    public List<Integer> getRadius() {
-        int radius = range.getRadius();
-        int radiusWithDropTank = (int) Math.ceil(range.getRadius() * DROP_TANK_FACTOR);
-        return new ArrayList<>(Arrays.asList(radius, radiusWithDropTank));
+    public Map<SquadronConfig, AttackFactor> getLand() {
+        return Map.of(SquadronConfig.NONE, land, SquadronConfig.DROP_TANKS, land);
     }
 
     /**
-     * Get the aircraft's ferry distance. If the aircraft can be
-     * equipped with drop tanks then two ferry distances are returned:
-     * one with drop tanks and one without.
+     * Get the aircraft's combat radius. This is a map of how the aircraft
+     * is configured to the radius of the aircraft under that configuration.
      *
-     * @return A list of ferry distances.
+     *  SquadronConfig => combat radius.
+     *
+     * @return A map of radii based on the aircraft's configuration.
      */
     @Override
-    public List<Integer> getFerryDistance() {
-        int distance = range.getFerryDistance();
-        int distanceWithDropTank = (int) Math.ceil(range.getFerryDistance() * DROP_TANK_FACTOR);
-        return new ArrayList<>(Arrays.asList(distance, distanceWithDropTank));
+    public Map<SquadronConfig, Integer> getRadius() {
+        int radius = performance.getRadius();
+        int radiusWithDropTank = (int) Math.ceil(performance.getRadius() * DROP_TANK_FACTOR);
+        return Map.of(SquadronConfig.NONE, radius, SquadronConfig.DROP_TANKS, radiusWithDropTank);
+    }
+
+    /**
+     * Get the aircraft's ferry distance. This is a map of how the aircraft
+     * is configured to the ferry distance of the aircraft under that configuration.
+     *
+     *  SquadronConfig => ferry distance.
+     *
+     * @return A map of ferry distances based on the aircraft's configuration.
+     */
+    @Override
+    public Map<SquadronConfig, Integer> getFerryDistance() {
+        int distance = performance.getFerryDistance();
+        int distanceWithDropTank = (int) Math.ceil(performance.getFerryDistance() * DROP_TANK_FACTOR);
+        return Map.of(SquadronConfig.NONE, distance, SquadronConfig.DROP_TANKS, distanceWithDropTank);
+    }
+
+    /**
+     * Get the aircraft's range.
+     *
+     * @return The aircraft's range.
+     */
+    @Override
+    public int getRange() {
+        return performance.getGameRange();
+    }
+
+    /**
+     * Get the aircraft's endurance. This is a map of how the aircraft
+     * is configured to the endurance of the aircraft under that configuration.
+     *
+     *  SquadronConfig => endurance.
+     *
+     * @return A map of the aircraft's endurance based on the aircraft's configuration.
+     */
+    @Override
+    public Map<SquadronConfig, Integer> getEndurance() {
+        return Map.of(SquadronConfig.NONE, performance.getEndurance(),
+                      SquadronConfig.DROP_TANKS, performance.getEndurance());
     }
 }

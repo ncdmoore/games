@@ -167,14 +167,13 @@ public class NavalTaskForceStrike implements AirMission {
      */
     @Override
     public void addSquadrons() {
-        getSquadronsAllRoles()
-                .forEach(squadron -> {
-                    SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_MISSION);
-                    squadron.setSquadronState(state);
-                });
-
-        squadronMap.get(MissionRole.ESCORT)
-                .forEach(this::equipWithDropTanks);
+        squadronMap
+                .forEach((role, squadrons) -> squadrons
+                        .forEach(squadron -> {
+                            SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_MISSION);
+                            squadron.setSquadronState(state);
+                            squadron.equip(targetTaskForce, AirMissionType.NAVAL_TASK_FORCE_STRIKE, role);
+                        }));
     }
 
     /**
@@ -186,7 +185,7 @@ public class NavalTaskForceStrike implements AirMission {
                 .forEach(squadron -> {
                     SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
                     squadron.setSquadronState(state);
-                    squadron.setDropTanks(false);
+                    squadron.unequip();
                 });
 
         getSquadronsAllRoles().clear();
@@ -230,25 +229,5 @@ public class NavalTaskForceStrike implements AirMission {
                 .orElse(null);
 
         return targetTaskForce;
-    }
-
-    /**
-     * Equip a squadron on this mission with drop tanks if it requires drop tanks in order to
-     * reach the target. If the given squadron can reach the target without drop tanks then
-     * do not equip.
-     *
-     * @param squadron The target that may be equipped with drop tanks.
-     */
-    private void equipWithDropTanks(final Squadron squadron) {
-        if (targetTaskForce.inRangeWithoutDropTanks(squadron)) {
-            return;                                                 // Drop tanks are not needed.
-        }
-
-        if (targetTaskForce.inRange(MissionRole.ESCORT, squadron)) {
-            squadron.setDropTanks(true);                          // Drop tanks are needed.
-            return;
-        }
-
-        log.error("This squadron: '{}' is not in range of target: '{}'", squadron.getTitle(), targetTaskForce.getTitle());
     }
 }

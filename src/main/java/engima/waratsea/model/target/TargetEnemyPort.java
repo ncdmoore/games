@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
-import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.enemy.views.port.PortView;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
@@ -153,36 +152,14 @@ public class TargetEnemyPort implements Target {
     }
 
     /**
-     * Determine if this squadron is in range of the given squadron.
+     * Determine if a squadron journeying to this target must make a round trip.
      *
-     *
-     * @param missionRole The squadron's mission role.
-     * @param squadron The squadron that is determined to be in or out of range of this target.
-     * @return True if this target is in range of the given squadron. False otherwise.
+     * @return True if the squadron must make a round trip to reach this target. The squadron must fly to and then
+     * return to it's original base. False otherwise.
      */
     @Override
-    public boolean inRange(final MissionRole missionRole, final Squadron squadron) {
-        String targetReference = gameMap.convertNameToReference(getLocation());
-        String airbaseReference = squadron.getAirfield().getReference();
-
-        // Drop tanks cannot be used on a strike mission if the fighter is performing the main strike role.
-        int radius = missionRole == MissionRole.MAIN ? squadron.getMinRadius() : squadron.getMaxRadius();
-
-        return gameMap.inRange(airbaseReference, targetReference, radius);
-    }
-
-    /**
-     * Determine if the given squadron is in range of this target without needing external drop tanks.
-     *
-     * @param squadron The squadron that is determined to be in or out of range without external drop tanks.
-     * @return True if this target is in range of the given squadron without using drop tanks. False otherwise.
-     */
-    @Override
-    public boolean inRangeWithoutDropTanks(final Squadron squadron) {
-        String targetReference = gameMap.convertNameToReference(getLocation());
-        String airbaseReference = squadron.getAirfield().getReference();
-
-        return gameMap.inRange(airbaseReference, targetReference, squadron.getMinRadius());
+    public boolean requiresRoundTrip() {
+        return true;
     }
 
     /**

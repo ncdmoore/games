@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.configuration.SquadronConfig;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.utility.Probability;
 import engima.waratsea.view.ViewProps;
@@ -58,7 +59,7 @@ public class SquadronSummaryView {
     private final TitledGridPane performanceStats = new TitledGridPane();
 
     @Setter
-    private String dropTanks;
+    private SquadronConfig config;
 
     /**
      * Constructor called by guice.
@@ -74,6 +75,7 @@ public class SquadronSummaryView {
         this.imageResourceProvider = imageResourceProvider;
         this.props = props;
         this.probability = probability;
+        this.config = SquadronConfig.NONE;
     }
 
     /**
@@ -191,7 +193,9 @@ public class SquadronSummaryView {
         HBox hbox = new HBox(imageView);
         hbox.setId("squadron-performance-data-title");
 
-        Tooltip tooltip = new Tooltip("Squadron Performance Data:\n\nRadius is in grid squares.\nEndurance is in game turns.");
+        Tooltip tooltip = new Tooltip("Squadron Performance Data:\n\nRadius is in grid squares.\n"
+                + "Endurance is in game turns.\nThe mission type may affect endurance.\n"
+                + "If drop tanks are needed,\nthey are automatically equipped.");
 
         tooltip.setShowDelay(Duration.seconds(props.getDouble("tooltip.delay")));
         tooltip.setShowDuration(Duration.seconds(props.getDouble("tooltip.duration")));
@@ -218,8 +222,8 @@ public class SquadronSummaryView {
                 : squadron.getAirFactor() + "";
 
         String land = squadron.getLandModifier() != 0
-                ? squadron.getLandFactor() + " (" + squadron.getLandModifier() + ")"
-                : squadron.getLandFactor() + "";
+                ? squadron.getLandFactor(config) + " (" + squadron.getLandModifier(config) + ")"
+                : squadron.getLandFactor(config) + "";
 
         String naval = squadron.getNavalModifier() != 0
                 ? squadron.getNavalFactor() + " (" + squadron.getNavalModifier() + ")"
@@ -237,7 +241,7 @@ public class SquadronSummaryView {
 
         List<String> landList = new ArrayList<>();
         landList.add(land);
-        landList.add(probability.percentage(squadron.getLandHitProbability()) + "%");
+        landList.add(probability.percentage(squadron.getLandHitProbability(config)) + "%");
 
         List<String> navalList = new ArrayList<>();
         navalList.add(naval);
@@ -265,15 +269,9 @@ public class SquadronSummaryView {
         details.put("Landing Type:", squadron.getAircraft().getLanding().toString());
         details.put("Altitude Rating:", squadron.getAircraft().getAltitude().toString());
         details.put(" ", "");
-        details.put("Radius:", squadron.getAircraft().getRadius().get(0) + "");
-
-        if (squadron.getAircraft().getRadius().size() > 1) {
-            details.put("Radius (Drop Tanks):", squadron.getAircraft().getRadius().get(1) + dropTanks);
-        } else {
-            details.put("Radius (Drop Tanks):", "Not Supported");
-        }
-
-        details.put("Endurance:", squadron.getAircraft().getRange().getEndurance() + "");
+        details.put("Equipped:", config.toString());
+        details.put("Radius:", squadron.getRadius(config) + "");
+        details.put("Endurance:", squadron.getEndurance(config) + "");
 
         return details;
     }

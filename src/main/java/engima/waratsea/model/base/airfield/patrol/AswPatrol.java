@@ -8,6 +8,7 @@ import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.configuration.SquadronConfig;
 import engima.waratsea.model.squadron.state.SquadronAction;
 import engima.waratsea.model.squadron.state.SquadronState;
 import lombok.Getter;
@@ -111,10 +112,7 @@ public class AswPatrol implements Patrol {
     public List<Squadron> getSquadrons(final int targetRadius) {
         return squadrons
                 .stream()
-                .filter(squadron -> squadron
-                        .getRadius()
-                        .stream()
-                        .anyMatch(radius -> radius >= targetRadius))
+                .filter(squadron -> squadron.getRadius(SquadronConfig.NONE) >= targetRadius)
                 .collect(Collectors.toList());
     }
 
@@ -250,7 +248,7 @@ public class AswPatrol implements Patrol {
     private void updateMaxRadius() {
         maxRadius = squadrons
                 .stream()
-                .flatMap(s -> s.getRadius().stream())
+                .map(squadron -> squadron.getRadius(SquadronConfig.NONE))
                 .max(Integer::compare)
                 .orElse(0);
 

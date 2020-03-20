@@ -17,7 +17,9 @@ import lombok.Getter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+/**
+ * The squadron range marker on the preview map.
+ */
 public class SquadronRangeMarker {
 
     @Getter
@@ -51,7 +53,6 @@ public class SquadronRangeMarker {
     public void display() {
         draw();                    // Draw a new circle.
         rangeCircles.forEach(mapView::add);
-
     }
 
     /**
@@ -66,7 +67,8 @@ public class SquadronRangeMarker {
      */
     private void draw() {
         rangeCircles = ((Squadron) squadron)
-                .getRadius()
+                .getRadii()
+                .values()
                 .stream()
                 .map(this::drawCircle)
                 .collect(Collectors.toList());

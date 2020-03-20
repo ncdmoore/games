@@ -2,6 +2,7 @@ package engima.waratsea.view.airfield.mission;
 
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.view.squadron.SquadronSummaryView;
 import engima.waratsea.view.util.ListViewPair;
 
 /**
@@ -22,6 +23,13 @@ public interface MissionDetailsView {
      * @return The target's view.
      */
     TargetView getTargetView();
+
+    /**
+     * Get squadron's summary view.
+     *
+     * @return The squadron's summary view.
+     */
+    SquadronSummaryView getSquadronSummaryView();
 
     /**
      * Assign a squadron to the mission.

@@ -176,12 +176,13 @@ public class MissionEditDetailsView implements MissionDetailsView {
 
         squadrons.get(role).remove(squadron);
 
+        AirMissionType selectedMissionType = missionType.getSelectionModel().getSelectedItem();
         Target selectedTarget = target.getSelectionModel().getSelectedItem();
 
         Stream.of(MissionRole.values())
                 .filter(otherRole -> otherRole != role)
                 .forEach(otherRole -> {
-                    if (squadron.canDoRole(otherRole) && selectedTarget.inRange(otherRole, squadron)) {
+                    if (squadron.canDoRole(otherRole) && squadron.inRange(selectedTarget, selectedMissionType, otherRole)) {
                         squadrons.get(otherRole).addToAvailable(squadron);
                     }
                 });

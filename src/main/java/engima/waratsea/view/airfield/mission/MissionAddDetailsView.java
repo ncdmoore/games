@@ -175,6 +175,7 @@ public class MissionAddDetailsView implements MissionDetailsView {
                 .getSelectionModel()
                 .getSelectedItem();
 
+        AirMissionType selectedMissionType = missionType.getSelectionModel().getSelectedItem();
         Target selectedTarget = target.getSelectionModel().getSelectedItem();
 
         squadrons
@@ -184,7 +185,7 @@ public class MissionAddDetailsView implements MissionDetailsView {
         Stream.of(MissionRole.values())
                 .filter(otherRole -> otherRole != role)
                 .forEach(otherRole -> {
-                    if (squadron.canDoRole(otherRole) && selectedTarget.inRange(otherRole, squadron)) {
+                    if (squadron.canDoRole(otherRole) && squadron.inRange(selectedTarget, selectedMissionType, otherRole)) {
                         squadrons.get(otherRole).addToAvailable(squadron);
                     }
                 });

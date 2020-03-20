@@ -59,7 +59,7 @@ public class AircraftData {
 
     @Getter
     @Setter
-    private RangeData range;
+    private PerformanceData performance;
 
     @Getter
     @Setter

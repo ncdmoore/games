@@ -5,14 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/configuration/SquadronConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/configuration/SquadronConfigRules.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Aircraft.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Aircraft.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/AircraftImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/AircraftImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Fighter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Fighter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Range.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Performance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/data/AircraftData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/data/AircraftData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/data/RangeData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/data/PerformanceData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalPortStrike.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalPortStrike.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalTaskForceStrike.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalTaskForceStrike.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/SweepAirfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/SweepAirfield.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/SweepPort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/SweepPort.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AswPatrol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AswPatrol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/SearchPatrol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/SearchPatrol.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/SquadronDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/SquadronDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/data/SquadronData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/data/SquadronData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/Target.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/Target.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyAirfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetEnemyAirfield.java" afterDir="false" />
@@ -23,10 +36,107 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyTaskForce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFriendlyTaskForce.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetSeaGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetSeaGrid.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/MissionAddDetailsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/MissionAddDetailsDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/MissionDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/MissionDetails.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/MissionEditDetailsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/MissionEditDetailsDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/SuccessStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/SuccessStats.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionAddDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionAddDetailsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionDetailsView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionEditDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionEditDetailsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/SquadronRangeMarker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/SquadronRangeMarker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronDetailsView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Albacore.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Albacore.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Baltimore.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Baltimore.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Beaufighter.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Beaufighter.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Beaufort.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Beaufort.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Blenheim.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Blenheim.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Catalina.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Catalina.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Fortress.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Fortress.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Fulmar.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Fulmar.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/GL832.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/GL832.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Gladiator.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Gladiator.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Hudson.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Hudson.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Hurricane-1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Hurricane-1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Hurricane-2.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Hurricane-2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Kittyhawk.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Kittyhawk.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Loire 130.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Loire 130.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Martlet-2.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Martlet-2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Maryland.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Maryland.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Mitchell.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Mitchell.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Sea Gladiator.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Sea Gladiator.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Sea Hurricane.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Sea Hurricane.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Sea Spitfire.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Sea Spitfire.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Seafox.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Seafox.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Skua.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Skua.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Spitfire-V.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Spitfire-V.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Spitfire.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Spitfire.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Sunderland.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Sunderland.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Swordfish.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Swordfish.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Tomahawk.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Tomahawk.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Walrus.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Walrus.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Wellington.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Wellington.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF109E.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF109E.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF109F.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF109F.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF109G.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF109G.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF110D.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BF110D.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BR20.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/BR20.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CA309.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CA309.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CA313.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CA313.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CR32.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CR32.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CR42.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/CR42.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/D520.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/D520.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/FW190.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/FW190.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/G50.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/G50.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/G55.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/G55.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/GL832.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/GL832.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/HE111H.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/HE111H.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/JU87B Italian.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/JU87B Italian.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/JU87B.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/JU87B.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/JU87D.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/JU87D.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/JU87R.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/JU87R.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/JU88A.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/JU88A.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/LEO451.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/LEO451.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/Loire 130.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/Loire 130.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/MC200.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/MC200.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/MC202.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/MC202.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/MC205.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/MC205.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/P108.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/P108.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RE2001.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RE2001.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RE2002.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RE2002.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RE2005.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RE2005.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RO37.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RO37.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RO43.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RO43.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RO44.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/RO44.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/SM79-2.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/SM79-2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/SM79-3.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/SM79-3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/SM81.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/SM81.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/SM85.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/SM85.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/Z1007.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/Z1007.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/Z501.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/Z501.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/Z506.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/Z506.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/A24.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/A24.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/B17E.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/B17E.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/B25A.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/B25A.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/B26B.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/B26B.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/Catalina.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/Catalina.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/F4F3.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/F4F3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/Hudson.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/Hudson.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/OS2U.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/OS2U.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/P39D.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/P39D.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/SBD3.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/SBD3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/TBD.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/TBD.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/A5M4.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/A5M4.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/A6M2.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/A6M2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/A6M2N.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/A6M2N.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/B5N2.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/B5N2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/D3A1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/D3A1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/E13A.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/E13A.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/E7K.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/E7K.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/E8N.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/E8N.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/F1M.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/F1M.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/G3M2.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/G3M2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/G4M1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/G4M1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/H6K4.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/H6K4.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,8 +183,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -291,6 +401,9 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",VISIBILITY_SORTER" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -301,13 +414,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00103" summary="Added base patrol radius circles.">
-      <created>1572827379427</created>
-      <option name="number" value="00103" />
-      <option name="presentableId" value="LOCAL-00103" />
-      <option name="project" value="LOCAL" />
-      <updated>1572827379427</updated>
     </task>
     <task id="LOCAL-00104" summary="Added patrol details dialog.">
       <created>1573936352477</created>
@@ -645,7 +751,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584234964417</updated>
     </task>
-    <option name="localTasksCounter" value="152" />
+    <task id="LOCAL-00152" summary="Drop tanks can only be used on escort roles. So add in range checking per mission role.">
+      <created>1584293738983</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1584293738984</updated>
+    </task>
+    <option name="localTasksCounter" value="153" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -659,7 +772,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add task force targets." />
     <MESSAGE value="Create additional target types." />
     <MESSAGE value="Add task force mission objects." />
     <MESSAGE value="Additional Mission work." />
@@ -684,13 +796,14 @@
     <MESSAGE value="Add air strike step destroyed and capacity reduction maps for indicating probability." />
     <MESSAGE value="Make sure max radius for patrols is set to 0 when all the squadrons are removed from the patrol." />
     <MESSAGE value="Automatically equip squadrons with drop tanks if drop tanks will enable the squadron to reach the selected target." />
-    <option name="LAST_COMMIT_MESSAGE" value="Automatically equip squadrons with drop tanks if drop tanks will enable the squadron to reach the selected target." />
+    <MESSAGE value="Drop tanks can only be used on escort roles. So add in range checking per mission role." />
+    <option name="LAST_COMMIT_MESSAGE" value="Drop tanks can only be used on escort roles. So add in range checking per mission role." />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser" timestamp="1584217370023">
+    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser" timestamp="1584658035193">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser/0.23.2560.1349@0.23.2560.1349" timestamp="1584217370023" />
+    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser/0.23.2560.1349@0.23.2560.1349" timestamp="1584658035193" />
     <state x="1148" y="440" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1584203746783">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -699,80 +812,70 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1763" y="487" key="#xdebugger.evaluate/0.23.2560.1349@0.23.2560.1349" timestamp="1584289811698" />
-    <state x="1265" y="300" key="CommitChangelistDialog2" timestamp="1584234964038">
+    <state x="1265" y="300" key="CommitChangelistDialog2" timestamp="1584293737105">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1584234964038" />
-    <state width="1849" height="149" key="GridCell.Tab.0.bottom" timestamp="1584293380067">
+    <state x="1265" y="300" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1584293737105" />
+    <state width="1717" height="331" key="GridCell.Tab.0.bottom" timestamp="1584671640175">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1849" height="149" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1584293380067" />
-    <state width="1849" height="149" key="GridCell.Tab.0.center" timestamp="1584293380066">
+    <state width="1717" height="331" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1584671640175" />
+    <state width="1717" height="331" key="GridCell.Tab.0.center" timestamp="1584671640174">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1849" height="149" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1584293380066" />
-    <state width="1849" height="149" key="GridCell.Tab.0.left" timestamp="1584293380066">
+    <state width="1717" height="331" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1584671640174" />
+    <state width="1717" height="331" key="GridCell.Tab.0.left" timestamp="1584671640173">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1849" height="149" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1584293380066" />
-    <state width="1849" height="149" key="GridCell.Tab.0.right" timestamp="1584293380066">
+    <state width="1717" height="331" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1584671640173" />
+    <state width="1717" height="331" key="GridCell.Tab.0.right" timestamp="1584671640174">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1849" height="149" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1584293380066" />
-    <state width="1849" height="350" key="GridCell.Tab.1.bottom" timestamp="1584292946384">
+    <state width="1717" height="331" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1584671640174" />
+    <state width="1420" height="350" key="GridCell.Tab.1.bottom" timestamp="1584625216102">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1849" height="350" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1584292946384" />
-    <state width="1849" height="350" key="GridCell.Tab.1.center" timestamp="1584292946382">
+    <state width="1420" height="350" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1584625216102" />
+    <state width="1420" height="350" key="GridCell.Tab.1.center" timestamp="1584625216101">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1849" height="350" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1584292946382" />
-    <state width="1849" height="350" key="GridCell.Tab.1.left" timestamp="1584292946382">
+    <state width="1420" height="350" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1584625216101" />
+    <state width="1420" height="350" key="GridCell.Tab.1.left" timestamp="1584625216100">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1849" height="350" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1584292946382" />
-    <state width="1849" height="350" key="GridCell.Tab.1.right" timestamp="1584292946382">
+    <state width="1420" height="350" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1584625216100" />
+    <state width="1420" height="350" key="GridCell.Tab.1.right" timestamp="1584625216101">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1849" height="350" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1584292946382" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1584234973702">
+    <state width="1420" height="350" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1584625216101" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1584293749731">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1584234973702" />
-    <state x="662" y="127" width="1691" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1584290646752">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1584293749731" />
+    <state x="269" y="115" width="1691" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1584586369166">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="662" y="127" width="1691" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1584290646752" />
-    <state x="936" y="531" key="com.intellij.ide.util.TipDialog" timestamp="1584203791428">
+    <state x="269" y="115" width="1691" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1584586369166" />
+    <state x="936" y="531" key="com.intellij.ide.util.TipDialog" timestamp="1584565385224">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="936" y="531" key="com.intellij.ide.util.TipDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1584203791428" />
+    <state x="936" y="531" key="com.intellij.ide.util.TipDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1584565385224" />
     <state x="1313" y="459" width="673" height="472" key="find.popup" timestamp="1584229321025">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1313" y="459" width="673" height="472" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1584229321025" />
-    <state x="1270" y="311" key="refactoring.ChangeSignatureDialog" timestamp="1584288536655">
+    <state x="1270" y="311" key="refactoring.ChangeSignatureDialog" timestamp="1584298576096">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1270" y="311" key="refactoring.ChangeSignatureDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1584288536655" />
+    <state x="1270" y="311" key="refactoring.ChangeSignatureDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1584298576096" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AswPatrol.java</url>
-          <line>183</line>
+          <line>181</line>
           <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/MissionAddDetailsDialog.java</url>
-          <line>299</line>
-          <option name="timeStamp" value="37" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/MissionAddDetailsDialog.java</url>
-          <line>273</line>
-          <option name="timeStamp" value="48" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -9,6 +9,7 @@ import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronDAO;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.view.WarnDialog;
 import engima.waratsea.view.airfield.mission.MissionDetailsView;
@@ -27,6 +28,7 @@ import java.util.stream.Stream;
  */
 public class MissionDetails {
     private final Provider<WarnDialog> warnDialogProvider;
+    private final SquadronDAO squadronDAO;
 
     @Setter
     private Airbase airbase;
@@ -47,10 +49,13 @@ public class MissionDetails {
      * Constructor called by guice.
      *
      * @param warnDialogProvider Provides warning dialogs.
+     * @param squadronDAO The squadron data access object.
      */
     @Inject
-    public MissionDetails(final Provider<WarnDialog> warnDialogProvider) {
+    public MissionDetails(final Provider<WarnDialog> warnDialogProvider,
+                          final SquadronDAO squadronDAO) {
         this.warnDialogProvider = warnDialogProvider;
+        this.squadronDAO = squadronDAO;
     }
 
     /**
@@ -122,7 +127,13 @@ public class MissionDetails {
             TargetStats targetStats = new TargetStats(target, airbase, inRouteSteps);
             RegionStats targetRegionStats = new RegionStats(nation, target, inRouteRegionSteps);
             RegionStats airbaseRegionStats = new RegionStats(nation, airbase, outRouteRegionSteps);
-            SuccessStats successStats = new SuccessStats(selectedMissionType, nation, airbase, view.getSquadronList(MissionRole.MAIN).getAssigned().getItems(), target);
+            SuccessStats successStats = new SuccessStats()
+                    .setSquadronDAO(squadronDAO)
+                    .setMissionType(selectedMissionType)
+                    .setNation(nation)
+                    .setAirbase(airbase)
+                    .setSquadrons(view.getSquadronList(MissionRole.MAIN).getAssigned().getItems())   // Only the main role squadrons are needed to determine success.
+                    .setTarget(target);
 
             MissionStats missionStats = new MissionStats();
             missionStats.setMissionType(selectedMissionType);

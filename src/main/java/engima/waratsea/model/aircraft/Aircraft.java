@@ -4,9 +4,11 @@ import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.SquadronStrength;
+import engima.waratsea.model.squadron.configuration.SquadronConfig;
 import engima.waratsea.model.target.Target;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents an aircraft.
@@ -93,7 +95,7 @@ public interface Aircraft {
      * @param strength The strength of the squadron.
      * @return The probability this aircraft will hit in a land attack.
      */
-    double getLandHitProbability(SquadronStrength strength);
+    Map<SquadronConfig, Double> getLandHitProbability(SquadronStrength strength);
 
     /**
      * Get the probability the aircraft will hit during a land attack including in game factors
@@ -128,7 +130,7 @@ public interface Aircraft {
      *
      * @return The aircraft's land attack factor.
      */
-    AttackFactor getLand();
+    Map<SquadronConfig, AttackFactor> getLand();
 
     /**
      * Get the aircraft's naval attack factor.
@@ -138,29 +140,41 @@ public interface Aircraft {
     AttackFactor getNaval();
 
     /**
-     * Get the aircraft's ferryDistance.
+     * Get the aircraft's combat radius. This is a map of how the aircraft
+     * is configured to the radius of the aircraft under that configuration.
      *
-     * @return The aircraft's ferryDistance.
+     *  SquadronConfig => combat radius.
+     *
+     * @return A map of radii based on the aircraft's configuration.
      */
-    Range getRange();
+    Map<SquadronConfig, Integer> getRadius();
 
     /**
-     * Get the aircraft's combat radius. If the aircraft can be
-     * equipped with drop tanks then two combat radii are returned:
-     * one with drop tanks and one without.
+     * Get the aircraft's ferry distance. This is a map of how the aircraft
+     * is configured to the ferry distance of the aircraft under that configuration.
      *
-     * @return A list of combat radii.
+     *  SquadronConfig => ferry distance.
+     *
+     * @return A map of ferry distances based on the aircraft's configuration.
      */
-    List<Integer> getRadius();
+    Map<SquadronConfig, Integer> getFerryDistance();
 
     /**
-     * Get the aircraft's ferry distance. If the aircraft can be
-     * equipped with drop tanks then two ferry distances are returned:
-     * one with drop tanks and one without.
+     * Get the aircraft's range.
      *
-     * @return A list of ferry distances.
+     * @return  The aircraft's range.
      */
-    List<Integer> getFerryDistance();
+    int getRange();
+
+    /**
+     * Get the aircraft's endurance. This is a map of how the aircraft
+     * is configured to the endurance of the aircraft under that configuration.
+     *
+     *  SquadronConfig => endurance.
+     *
+     * @return A map of the aircraft's endurance based on the aircraft's configuration.
+     */
+    Map<SquadronConfig, Integer> getEndurance();
 
     /**
      * Get the aircraft's altitude rating.

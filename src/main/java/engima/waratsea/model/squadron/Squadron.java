@@ -19,6 +19,8 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Rules;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.squadron.configuration.SquadronConfig;
+import engima.waratsea.model.squadron.configuration.SquadronConfigRules;
 import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
@@ -29,16 +31,20 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Represents an aircraft squadron of a particular class of aircraft.
  */
 @Slf4j
 public class Squadron implements Asset, PersistentData<SquadronData> {
+    private static final Map<Side, Map<String, Integer>> DESIGNATION_MAP = new HashMap<>();
+
+    private GameMap gameMap;
     private Rules rules;
+    private SquadronConfigRules configRules;
 
     @Getter
     private Side side;
@@ -66,17 +72,17 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     @Getter
     private Airbase airfield;
 
-    private GameMap gameMap;
-
-    private static final Map<Side, Map<String, Integer>> DESIGNATION_MAP = new HashMap<>();
-
     @Getter
     @Setter
     private SquadronState squadronState;
 
     @Getter
     @Setter
-    private boolean dropTanks;
+    private boolean longDistance;
+
+    @Getter
+    @Setter
+    private SquadronConfig config;
 
     static {
         DESIGNATION_MAP.put(Side.ALLIES, new HashMap<>());
@@ -101,23 +107,26 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @param aviationPlant The aviation plant that creates aircraft for squadrons.
      * @param gameMap The game map.
      * @param rules The game rules.
+     * @param configRules The squadron configuration rules.
      */
     @Inject
     public Squadron(@Assisted final Side side,
                     @Assisted final Nation nation,
                     @Assisted final SquadronData data,
-                              final AviationPlant aviationPlant,
-                              final GameMap gameMap,
-                              final Rules rules) {
+                    final AviationPlant aviationPlant,
+                    final GameMap gameMap,
+                    final Rules rules,
+                    final SquadronConfigRules configRules) {
+        this.gameMap = gameMap;
         this.rules = rules;
+        this.configRules = configRules;
         this.side = side;
         this.nation = nation;
-        this.gameMap = gameMap;
         this.model = data.getModel();
         this.strength = data.getStrength();
         this.name = data.getName();
         this.squadronState = data.getSquadronState();
-        this.dropTanks = data.isDropTanks();
+        this.config = Optional.ofNullable(data.getConfig()).orElse(SquadronConfig.NONE);
 
         try {
             AircraftId aircraftId = new AircraftId(model, side);
@@ -149,6 +158,7 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     @Override
     public SquadronData getData() {
         SquadronData data = new SquadronData();
+        data.setSide(side);
         data.setNation(nation);
         data.setModel(model);
         data.setStrength(strength);
@@ -156,7 +166,7 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
         Optional.ofNullable(airfield)
                 .ifPresent(field -> data.setAirfield(field.getName()));
         data.setSquadronState(squadronState);
-        data.setDropTanks(dropTanks);
+        data.setConfig(config);
         return data;
     }
 
@@ -253,12 +263,13 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     }
 
     /**
-     * Get the squadron's land hit probability.
+     * Get teh squadron's land hit probability given a squadron config.
      *
-     * @return The squadron's land hit probability.
+     * @param squadronConfig A squadron config.
+     * @return The squadron's land hit probability given a squadron config.
      */
-    public double getLandHitProbability() {
-        return aircraft.getLandHitProbability(strength);
+    public double getLandHitProbability(final SquadronConfig squadronConfig) {
+        return aircraft.getLandHitProbability(strength).get(squadronConfig);
     }
 
     /**
@@ -318,7 +329,17 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @return The land attack factor.
      */
     public int getLandFactor() {
-        return aircraft.getLand().getFactor(strength);
+        return aircraft.getLand().get(config).getFactor(strength);
+    }
+
+    /**
+     * Get the squadron land attack factor given a squadron configuration.
+     *
+     * @param squadronConfig A squadron configuration.
+     * @return The land attack factor for the given squadron configuration.
+     */
+    public int getLandFactor(final SquadronConfig squadronConfig) {
+        return aircraft.getLand().get(squadronConfig).getFactor(strength);
     }
 
     /**
@@ -327,7 +348,17 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @return The land attack modifier.
      */
     public int getLandModifier() {
-        return aircraft.getLand().getModifier();
+        return aircraft.getLand().get(config).getModifier();
+    }
+
+    /**
+     * Get the squadron land attack modifier given a squadron configuration.
+     *
+     * @param squadronConfig A squadron configuration.
+     * @return The land attack modifier for the given squadron configuration.
+     */
+    public int getLandModifier(final SquadronConfig squadronConfig) {
+        return aircraft.getLand().get(squadronConfig).getModifier();
     }
 
     /**
@@ -458,70 +489,85 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     }
 
     /**
-     * Get the squadron's combat radii. If the squadron can equip with
-     * drop tanks then two radii are returned: one with drop tanks and
-     * one without.
+     * Get the squadron's radius given a configuration.
      *
-     * @return The squadron's combat radii.
+     * @param squadronConfig A squadron configuration.
+     * @return The squadron radius given a squadron configuration.
      */
-    public List<Integer> getRadius() {
+    public int getRadius(final SquadronConfig squadronConfig) {
+        return aircraft.getRadius().get(squadronConfig);
+    }
+
+    /**
+     * Get the squadron's combat radius with its current configuration.
+     *
+     * @return The squadron's combat radius with its current configuration.
+     */
+    public int getRadius() {
+        return aircraft.getRadius().get(config);
+    }
+
+    /**
+     * Get all of the squadron's possible radii.
+     *
+     * @return The squadron's possible radii.
+     */
+    public Map<SquadronConfig, Integer> getRadii() {
         return aircraft.getRadius();
     }
 
     /**
-     * Get the squadron's maximum radius. Some aircraft may equip with drop tanks and have two radii.
-     * This method gets the maximum of the two radii.
+     * Get the squadron's endurance given a squadron configuration.
      *
-     * @return The squadron's maximum radius.
+     * @param squadronConfig A squadron configuration.
+     * @return The squadron endurance given a squadron configuration.
      */
-    public int getMaxRadius() {
-        return aircraft
-                .getRadius()
-                .stream()
-                .mapToInt(radius -> radius)
-                .max()
-                .orElse(0);
+    public int getEndurance(final SquadronConfig squadronConfig) {
+        return aircraft.getEndurance().get(squadronConfig);
     }
 
     /**
-     * Get the squadron's minimum radius. This is the range of the squadron without drop tanks.
+     * Determine if this squadron is in range of the given target.
      *
-     * @return The squadron's minimum radius.
+     * @param target The squadron's target.
+     * @param missionType The squadron's mission type.
+     * @param missionRole The squadron's mission role.
+     * @return True if this squadron is in range of the given target.
      */
-    public int getMinRadius() {
-        return aircraft
-                .getRadius()
+    public boolean inRange(final Target target, final AirMissionType missionType, final MissionRole missionRole) {
+        String targetReference = gameMap.convertNameToReference(target.getLocation());
+        String airbaseReference = airfield.getReference();
+
+        Set<SquadronConfig> allowedConfigs = configRules.getAllowed(missionType, missionRole);
+
+        // Determine if the target requires a round trip.
+        Map<SquadronConfig, Integer> rangeMap = target.requiresRoundTrip()
+                ? aircraft.getRadius()
+                : aircraft.getFerryDistance();
+
+        return rangeMap
+                .entrySet()
                 .stream()
-                .mapToInt(radius -> radius)
-                .min()
-                .orElse(0);
+                .filter(entry -> allowedConfigs.contains(entry.getKey()))
+                .anyMatch(entry -> gameMap.inRange(airbaseReference, targetReference, entry.getValue()));
     }
 
     /**
-     * Get the maximum ferry distance of this squadron. This is the ferry distance with drop tanks, if the
-     * aircraft can equip drop tanks.
+     * Equip this squadron for the given mission and role.
      *
-     * @return The squadron's ferry distance.
+     * @param target The squadron's target.
+     * @param missionType The squadron's mission type.
+     * @param missionRole The squadron's mission role.
      */
-    public int getMaxFerryDistance() {
-        return aircraft.getFerryDistance()
-                .stream()
-                .mapToInt(distance -> distance)
-                .max()
-                .orElse(0);
+    public void equip(final Target target, final AirMissionType missionType, final MissionRole missionRole) {
+        config = determineConfig(target, missionType, missionRole);
     }
 
     /**
-     * Get the minimum ferry distance of this squadron. This is the ferry distance without drop tanks.
-     *
-     * @return The squadron's ferry distance.
+     * Un-equip this squadron.
      */
-    public int getMinFerryDistance() {
-        return aircraft.getFerryDistance()
-                .stream()
-                .mapToInt(distance -> distance)
-                .min()
-                .orElse(0);
+    public void unequip() {
+        config = SquadronConfig.NONE;
     }
 
     /**
@@ -552,5 +598,34 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     @Override
     public boolean isActive() {
         return true;
+    }
+
+    /**
+     * Determine the squadron's needed config based on its target, mission type and mission role.
+     *
+     * @param target The squadron's target.
+     * @param missionType The squadron's mission type.
+     * @param missionRole The squadron's mission role.
+     * @return The squadron's needed config in order to reach the target given its mission and role.
+     */
+    public SquadronConfig determineConfig(final Target target, final AirMissionType missionType, final MissionRole missionRole) {
+        String targetReference = gameMap.convertNameToReference(target.getLocation());
+        String airbaseReference = airfield.getReference();
+
+        Set<SquadronConfig> allowedConfigs = configRules.getAllowed(missionType, missionRole);
+
+        // Determine if the target requires a round trip.
+        Map<SquadronConfig, Integer> rangeMap = target.requiresRoundTrip()
+                ? aircraft.getRadius()
+                : aircraft.getFerryDistance();
+
+        return rangeMap
+                .entrySet()
+                .stream()
+                .filter(entry -> allowedConfigs.contains(entry.getKey()))
+                .filter(entry -> gameMap.inRange(airbaseReference, targetReference, entry.getValue()))
+                .min(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(SquadronConfig.NONE);
     }
 }

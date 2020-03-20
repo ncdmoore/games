@@ -7,6 +7,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.squadron.allotment.Allotment;
 import engima.waratsea.model.squadron.allotment.AllotmentDAO;
+import engima.waratsea.model.squadron.data.SquadronData;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -40,10 +41,10 @@ public class SquadronDAO {
     }
 
     /**
-     * Load the given side's squadrons.
+     * Load the given side and nation's squadrons.
      *
      * @param scenario The selected scenario.
-     * @param side The side ALLIES or AXIS.
+     * @param side The side: ALLIES or AXIS.
      * @param nation The nation.
      * @return A list of squadrons for the given side and nation.
      */
@@ -52,11 +53,21 @@ public class SquadronDAO {
     }
 
     /**
+     *  Build a given side and nation's squadron.
+     *
+     * @param data The squadron data.
+     * @return The squadron.
+     */
+    public Squadron build(final SquadronData data) {
+        return factory.create(data.getSide(), data.getNation(), data);
+    }
+
+    /**
      * Load the given side's squadrons. This is for a new game and the squadrons are created
      * from the squadron allotment.
      *
      * @param scenario The selected scenario.
-     * @param side The side ALLIES or AXIS.
+     * @param side The side: ALLIES or AXIS.
      * @param nation The nation.
      * @return A list of squadrons for the given side and nation.
      */

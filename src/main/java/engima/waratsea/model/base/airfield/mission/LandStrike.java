@@ -204,14 +204,13 @@ public class LandStrike implements AirMission {
      */
     @Override
     public void addSquadrons() {
-        getSquadronsAllRoles()
-                .forEach(squadron -> {
-                    SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_MISSION);
-                    squadron.setSquadronState(state);
-                });
-
-        squadronMap.get(MissionRole.ESCORT)
-                .forEach(this::equipWithDropTanks);
+        squadronMap
+                .forEach((role, squadrons) -> squadrons
+                        .forEach(squadron -> {
+                            SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_MISSION);
+                            squadron.setSquadronState(state);
+                            squadron.equip(targetAirbase, AirMissionType.LAND_STRIKE, role);
+        }));
     }
 
     /**
@@ -223,7 +222,7 @@ public class LandStrike implements AirMission {
                 .forEach(squadron -> {
                     SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
                     squadron.setSquadronState(state);
-                    squadron.setDropTanks(false);
+                    squadron.unequip();
                 });
 
         getSquadronsAllRoles().clear();
@@ -397,25 +396,5 @@ public class LandStrike implements AirMission {
      */
     private double getLandAttackProbability(final Squadron squadron) {
         return squadron.getLandHitIndividualProbability(getTarget(), rules.getModifier());
-    }
-
-    /**
-     * Equip a squadron on this mission with drop tanks if it requires drop tanks in order to
-     * reach the target. If the given squadron can reach the target without drop tanks then
-     * do not equip.
-     *
-     * @param squadron The target that may be equipped with drop tanks.
-     */
-    private void equipWithDropTanks(final Squadron squadron) {
-        if (targetAirbase.inRangeWithoutDropTanks(squadron)) {
-            return;                                               // Drop tanks are not needed.
-        }
-
-        if (targetAirbase.inRange(MissionRole.ESCORT, squadron)) {
-            squadron.setDropTanks(true);                          // Drop tanks are needed.
-            return;
-        }
-
-        log.error("This squadron: '{}' is not in range of target: '{}'", squadron.getTitle(), targetAirbase.getTitle());
     }
 }

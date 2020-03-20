@@ -4,7 +4,6 @@ package engima.waratsea.model.target;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
-import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
@@ -82,21 +81,12 @@ public interface Target extends PersistentData<TargetData> {
     boolean isEqual(Target target);
 
     /**
-     * Determine if the given squadron is in range of this target.
+     * Determine if a squadron journeying to this target must make a round trip.
      *
-     * @param missionRole The squadron's role on the mission.
-     * @param squadron The squadron that is determined to be in or out of range of this target.
-     * @return True if this target is in range of the given squadron. False otherwise.
+     * @return True if the squadron must make a round trip to reach this target. The squadron must fly to and then
+     * return to it's original base. False otherwise.
      */
-    boolean inRange(MissionRole missionRole, Squadron squadron);
-
-    /**
-     * Determine if the given squadron is in range of this target without needing external drop tanks.
-     *
-     * @param squadron The squadron that is determined to be in or out of range without external drop tanks.
-     * @return True if this target is in range of the given squadron without using drop tanks. False otherwise.
-     */
-    boolean inRangeWithoutDropTanks(Squadron squadron);
+    boolean requiresRoundTrip();
 
     /**
      * Determine if the given squadron is allowed to attack this target.
