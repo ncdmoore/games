@@ -10,7 +10,7 @@ import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.configuration.SquadronConfig;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.presenter.airfield.AirfieldDetailsDialog;
 import engima.waratsea.utility.CssResourceProvider;

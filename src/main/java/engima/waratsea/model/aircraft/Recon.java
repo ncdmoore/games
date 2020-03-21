@@ -7,7 +7,7 @@ import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.squadron.SquadronStrength;
-import engima.waratsea.model.squadron.configuration.SquadronConfig;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.Dice;
 import lombok.AccessLevel;
@@ -19,6 +19,9 @@ import java.util.Map;
 
 /**
  * Represents a reconnaissance aircraft.
+ * Supported configurations:
+ *
+ *  SquadronConfig.NONE
  */
 public class Recon implements Aircraft {
     private static final int BASE_MODIFIER = 1; // A  6 on a 6-sided die always hits.
@@ -31,15 +34,15 @@ public class Recon implements Aircraft {
     @Getter private final AltitudeType altitude;
     @Getter private final LandingType landing;
     @Getter private final LandingType takeoff;
-    @Getter private final AttackFactor naval;
-    @Getter private final AttackFactor air;
+    private final AttackFactor naval;
+    private final AttackFactor land;
+    private final AttackFactor air;
     @Getter private final Frame frame;
     @Getter private final Dice dice;
 
     @Getter(AccessLevel.PROTECTED)
     private final Performance performance;
 
-    private final AttackFactor land;
 
     /**
      * The constructor called by guice.
@@ -153,8 +156,8 @@ public class Recon implements Aircraft {
      * @return The probability that this aircraft will hit on an air-to-air attack.
      */
     @Override
-    public double getAirHitProbability(final SquadronStrength strength) {
-        return dice.probability(air.getModifier() + BASE_MODIFIER, air.getFactor(strength));
+    public Map<SquadronConfig, Double> getAirHitProbability(final SquadronStrength strength) {
+        return Map.of(SquadronConfig.NONE, dice.probability(air.getModifier() + BASE_MODIFIER, air.getFactor(strength)));
     }
 
     /**
@@ -166,8 +169,8 @@ public class Recon implements Aircraft {
      * @return The probability this aircraft will hit in an air-to-air attack.
      */
     @Override
-    public double getAirHitIndividualProbability(final Target target, final int modifier) {
-        return dice.individualProbability(air.getModifier() + BASE_MODIFIER + modifier);
+    public Map<SquadronConfig, Double> getAirHitIndividualProbability(final Target target, final int modifier) {
+        return Map.of(SquadronConfig.NONE, dice.individualProbability(air.getModifier() + BASE_MODIFIER + modifier));
     }
 
     /**
@@ -190,8 +193,8 @@ public class Recon implements Aircraft {
      * @return The probability this aircraft will hit in a land attack.
      */
     @Override
-    public double getLandHitIndividualProbability(final Target target, final int modifier) {
-        return dice.individualProbability(land.getModifier() + BASE_MODIFIER + modifier);
+    public Map<SquadronConfig, Double> getLandHitIndividualProbability(final Target target, final int modifier) {
+        return Map.of(SquadronConfig.NONE, dice.individualProbability(land.getModifier() + BASE_MODIFIER + modifier));
     }
 
     /**
@@ -201,8 +204,8 @@ public class Recon implements Aircraft {
      * @return The probability this aircraft will hit in a naval attack.
      */
     @Override
-    public double getNavalHitProbability(final SquadronStrength strength) {
-        return dice.probability(naval.getModifier() + BASE_MODIFIER, naval.getFactor(strength));
+    public Map<SquadronConfig, Double> getNavalHitProbability(final SquadronStrength strength) {
+        return Map.of(SquadronConfig.NONE, dice.probability(naval.getModifier() + BASE_MODIFIER, naval.getFactor(strength)));
     }
 
     /**
@@ -214,8 +217,18 @@ public class Recon implements Aircraft {
      * @return The probability this aircraft will hit in a naval attack.
      */
     @Override
-    public double getNavalHitIndividualProbability(final Target target, final int modifier) {
-        return dice.individualProbability(naval.getModifier() + BASE_MODIFIER + modifier);
+    public Map<SquadronConfig, Double> getNavalHitIndividualProbability(final Target target, final int modifier) {
+        return Map.of(SquadronConfig.NONE, dice.individualProbability(naval.getModifier() + BASE_MODIFIER + modifier));
+    }
+
+    /**
+     * Get the aircraft's air to air attack factor.
+     *
+     * @return The aircraft's air to air attack factor.
+     */
+    @Override
+    public Map<SquadronConfig, AttackFactor> getAir() {
+        return Map.of(SquadronConfig.NONE, air);
     }
 
     /**
@@ -226,5 +239,15 @@ public class Recon implements Aircraft {
     @Override
     public Map<SquadronConfig, AttackFactor> getLand() {
         return Map.of(SquadronConfig.NONE, land);
+    }
+
+    /**
+     * Get the aircraft's naval attack factor.
+     *
+     * @return The aircraft's naval attack factor.
+     */
+    @Override
+    public Map<SquadronConfig, AttackFactor> getNaval() {
+        return Map.of(SquadronConfig.NONE, naval);
     }
 }

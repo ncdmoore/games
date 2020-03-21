@@ -2,52 +2,52 @@ package engima.waratsea.model.game.rules;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.aircraft.AircraftType;
-import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
-import engima.waratsea.model.game.GameName;
-import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.TurnType;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.weather.WeatherType;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import java.util.Set;
+
 
 /**
  * Define the per game rules in this class. These are rules that very per game. Current games supported are:
  *  Bomb Alley
  *  Coral Sea
+ *
+ *  This is a facade class for the various game rules.
  */
 @Singleton
 public class Rules {
 
-    private final GameTitle gameTitle;
-
-    private final Map<AirMissionType, Map<GameName, Function<Squadron, Boolean>>> missionMap = new HashMap<>();
-    private final Map<PatrolType, Map<GameName, Function<Squadron, Boolean>>> patrolMap = new HashMap<>();
-
-    private final Map<GameName, Function<Integer, TurnType>> twilightMap = new HashMap<>();
-
-    private final Map<GameName, Map<Integer, BiFunction<WeatherType, Integer, WeatherType>>> weatherMap = new HashMap<>();
+    private final TurnRules turnRules;
+    private final WeatherRules weatherRules;
+    private final AirMissionRules airMissionRules;
+    private final PatrolRules patrolRules;
+    private final SquadronConfigRules squadronConfigRules;
 
     /**
      * Constructor called by guice.
      *
-     * @param title The game title.
+     * @param turnRules The game turn rules.
+     * @param weatherRules The game weather rules.
+     * @param airMissionRules The game air mission rules.
+     * @param patrolRules The game patrol rules.
+     * @param squadronConfigRules The game squadron configuration rules.
      */
     @Inject
-    public Rules(final GameTitle title) {
-        this.gameTitle = title;
-
-        buildTurnRules();
-        buildWeatherRules();
-        buildAirMissionRules();
-        buildPatrolRules();
+    public Rules(final TurnRules turnRules,
+                 final WeatherRules weatherRules,
+                 final AirMissionRules airMissionRules,
+                 final PatrolRules patrolRules,
+                 final SquadronConfigRules squadronConfigRules) {
+        this.turnRules = turnRules;
+        this.weatherRules = weatherRules;
+        this.airMissionRules = airMissionRules;
+        this.patrolRules = patrolRules;
+        this.squadronConfigRules = squadronConfigRules;
     }
 
     /**
@@ -58,9 +58,7 @@ public class Rules {
      * @return DAY or NIGHT.
      */
     public TurnType getTwilightTurnType(final int month) {
-        return twilightMap
-                .get(gameTitle.getName())
-                .apply(month);
+        return turnRules.getTwilightTurnType(month);
     }
 
     /**
@@ -71,10 +69,7 @@ public class Rules {
      * @return True if the given squadron can perform the given mission. False otherwise.
      */
     public boolean missionFilter(final AirMissionType missionType, final Squadron squadron) {
-        return missionMap
-                .get(missionType)
-                .get(gameTitle.getName())
-                .apply(squadron);
+        return airMissionRules.missionFilter(missionType, squadron);
     }
 
     /**
@@ -85,10 +80,7 @@ public class Rules {
      * @return True if the given squadron can perform the given patrol. False otherwise.
      */
     public boolean patrolFilter(final PatrolType patrolType, final Squadron squadron) {
-        return patrolMap
-                .get(patrolType)
-                .get(gameTitle.getName())
-                .apply(squadron);
+        return patrolRules.patrolFilter(patrolType, squadron);
     }
 
     /**
@@ -100,150 +92,17 @@ public class Rules {
      * @return The new weather.
      */
     public WeatherType determineWeather(final int result, final WeatherType current, final int month) {
-        return weatherMap
-                .get(gameTitle.getName())
-                .get(result)
-                .apply(current, month);
+        return weatherRules.determineWeather(result, current, month);
     }
 
     /**
-     * Build the weather rules.
-     */
-    private void buildWeatherRules() {
-        final int rollOne = 1;
-        final int rollTwo = 2;
-        final int rollThree = 3;
-        final int rollFour = 4;
-        final int rollFive = 5;
-        final int rollSix = 6;
-
-        BiFunction<WeatherType, Integer, WeatherType> worsen = (weather, month) -> weather.worsen();
-        BiFunction<WeatherType, Integer, WeatherType> improve = (weather, month) -> weather.improve();
-        BiFunction<WeatherType, Integer, WeatherType> same = (weather, month) -> weather.noChange();
-        BiFunction<WeatherType, Integer, WeatherType> monthDependent = this::determineWeather;
-
-        Map<Integer, BiFunction<WeatherType, Integer, WeatherType>> bombAlleyWeather = new HashMap<>();
-
-        bombAlleyWeather.put(rollOne, improve);
-        bombAlleyWeather.put(rollTwo, improve);
-        bombAlleyWeather.put(rollThree, same);
-        bombAlleyWeather.put(rollFour, same);
-        bombAlleyWeather.put(rollFive, monthDependent);
-        bombAlleyWeather.put(rollSix, worsen);
-
-        Map<Integer, BiFunction<WeatherType, Integer, WeatherType>> coralSeaWeather = new HashMap<>();
-
-        coralSeaWeather.put(rollOne, improve);
-        coralSeaWeather.put(rollTwo, improve);
-        coralSeaWeather.put(rollThree, same);
-        coralSeaWeather.put(rollFour, same);
-        coralSeaWeather.put(rollFive, same);
-        coralSeaWeather.put(rollSix, worsen);
-
-        weatherMap.put(GameName.BOMB_ALLEY, bombAlleyWeather);
-        weatherMap.put(GameName.CORAL_SEA, coralSeaWeather);
-    }
-
-    /**
-     * Build the twilight turn rules.
-     */
-    private void buildTurnRules() {
-        Function<Integer, TurnType> coralSeaTwilight = (month) -> TurnType.NIGHT;
-        Function<Integer, TurnType> bombAlleyTwlight = this::determineTwilight;
-
-        twilightMap.put(GameName.BOMB_ALLEY, bombAlleyTwlight);
-        twilightMap.put(GameName.CORAL_SEA, coralSeaTwilight);
-    }
-
-    /**
-     * Build the patrol rules.
-     */
-    private void buildPatrolRules() {
-        // In bomb Alley land based planes may not do ASW patrols. Note, any carrier based plane may do an ASW patrol.
-        Function<Squadron, Boolean> bombAlleyAswFilter = (squadron) -> squadron.getLandingType() != LandingType.LAND;
-        Function<Squadron, Boolean> coralSeaAswFilter = (squadron) -> true;
-
-        Function<Squadron, Boolean> capFilter = (squadron) -> squadron.getType() == AircraftType.FIGHTER;
-
-        Function<Squadron, Boolean> searchFilter = (squadron -> true);
-
-        Map<GameName, Function<Squadron, Boolean>> aswFilterMap = new HashMap<>();
-        aswFilterMap.put(GameName.BOMB_ALLEY, bombAlleyAswFilter);
-        aswFilterMap.put(GameName.CORAL_SEA,  coralSeaAswFilter);
-
-        Map<GameName, Function<Squadron, Boolean>> capFilterMap = new HashMap<>();
-        capFilterMap.put(GameName.BOMB_ALLEY, capFilter);
-        capFilterMap.put(GameName.CORAL_SEA, capFilter);
-
-        Map<GameName, Function<Squadron, Boolean>> searchFilterMap = new HashMap<>();
-        searchFilterMap.put(GameName.BOMB_ALLEY, searchFilter);
-        searchFilterMap.put(GameName.CORAL_SEA, searchFilter);
-
-        patrolMap.put(PatrolType.ASW, aswFilterMap);
-        patrolMap.put(PatrolType.CAP, capFilterMap);
-        patrolMap.put(PatrolType.SEARCH, searchFilterMap);
-    }
-
-    /**
-     * Build the air mission rules.
-     */
-    private void buildAirMissionRules() {
-
-        Function<Squadron, Boolean> sweepFilter = (squadron -> squadron.getType() == AircraftType.FIGHTER);
-
-        Function<Squadron, Boolean> noFilter = (squadron -> true);
-
-        Map<GameName, Function<Squadron, Boolean>> sweepFilterMap = new HashMap<>();
-        sweepFilterMap.put(GameName.BOMB_ALLEY, sweepFilter);
-        sweepFilterMap.put(GameName.CORAL_SEA, sweepFilter);
-
-        Map<GameName, Function<Squadron, Boolean>> noFilterMap = new HashMap<>();
-        noFilterMap.put(GameName.BOMB_ALLEY, noFilter);
-        noFilterMap.put(GameName.CORAL_SEA, noFilter);
-
-        missionMap.put(AirMissionType.FERRY, noFilterMap);
-        missionMap.put(AirMissionType.LAND_STRIKE, noFilterMap);
-        missionMap.put(AirMissionType.NAVAL_PORT_STRIKE, noFilterMap);
-        missionMap.put(AirMissionType.NAVAL_TASK_FORCE_STRIKE, noFilterMap);
-        missionMap.put(AirMissionType.SWEEP_AIRFIELD, sweepFilterMap);
-        missionMap.put(AirMissionType.SWEEP_PORT, sweepFilterMap);
-    }
-
-    /**
-     * A method that determines how twilight turns are treated.
+     * Determine which squadron configuration are allowed for the given mission type and mission role of
+     * the squadron.
      *
-     * @param month The current game month.
-     * @return How a twilight turn is treated.
+     * @param dto The data transfer object for squadron configuration rules.
+     * @return A set of allowed squadron configurations given the mission type and mission role.
      */
-    private TurnType determineTwilight(final int month) {
-        switch (month) {
-            case Calendar.JANUARY:
-            case Calendar.FEBRUARY:
-            case Calendar.NOVEMBER:
-            case Calendar.DECEMBER:
-                return TurnType.NIGHT;
-            default:
-                return TurnType.DAY;
-        }
-    }
-
-    /**
-     * A method that determines the weather based on the month.
-     *
-     * @param current The current weather.
-     * @param month The current game month.
-     * @return The new weather.
-     */
-    private WeatherType determineWeather(final WeatherType current, final int month) {
-        switch (month) {
-            case Calendar.JANUARY:
-            case Calendar.FEBRUARY:
-            case Calendar.OCTOBER:
-            case Calendar.NOVEMBER:
-            case Calendar.DECEMBER:
-                return current.worsen();
-            default:
-                return current.noChange();
-        }
+    public Set<SquadronConfig> getAllowedSquadronConfig(final SquadronConfigRulesDTO dto) {
+        return squadronConfigRules.getAllowed(dto);
     }
 }

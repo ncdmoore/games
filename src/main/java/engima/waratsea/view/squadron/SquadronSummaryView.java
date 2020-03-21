@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.configuration.SquadronConfig;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.utility.Probability;
 import engima.waratsea.view.ViewProps;
@@ -216,18 +216,18 @@ public class SquadronSummaryView {
     private Map<String, List<String>> getAttackStats(final Squadron squadron) {
         Map<String, List<String>> details = new LinkedHashMap<>();
 
-        String airToAir = squadron.getAirModifier() != 0
-                ? squadron.getAirFactor() + " (" + squadron.getAirModifier() + ")"
-                : squadron.isAirDefensive() ? squadron.getAirFactor() + " (D)"
-                : squadron.getAirFactor() + "";
+        String airToAir = squadron.getAirModifier(config) != 0
+                ? squadron.getAirFactor(config) + " (" + squadron.getAirModifier(config) + ")"
+                : squadron.isAirDefensive() ? squadron.getAirFactor(config) + " (D)"
+                : squadron.getAirFactor(config) + "";
 
-        String land = squadron.getLandModifier() != 0
+        String land = squadron.getLandModifier(config) != 0
                 ? squadron.getLandFactor(config) + " (" + squadron.getLandModifier(config) + ")"
                 : squadron.getLandFactor(config) + "";
 
-        String naval = squadron.getNavalModifier() != 0
-                ? squadron.getNavalFactor() + " (" + squadron.getNavalModifier() + ")"
-                : squadron.getNavalFactor() + "";
+        String naval = squadron.getNavalModifier(config) != 0
+                ? squadron.getNavalFactor(config) + " (" + squadron.getNavalModifier(config) + ")"
+                : squadron.getNavalFactor(config) + "";
 
         List<String> type = new ArrayList<>();
         type.add(squadron.getType().getAbbreviated());
@@ -237,7 +237,7 @@ public class SquadronSummaryView {
 
         List<String> airToAirList = new ArrayList<>();
         airToAirList.add(airToAir);
-        airToAirList.add(probability.percentage(squadron.getAirHitProbability()) + "%");
+        airToAirList.add(probability.percentage(squadron.getAirHitProbability(config)) + "%");
 
         List<String> landList = new ArrayList<>();
         landList.add(land);
@@ -245,7 +245,7 @@ public class SquadronSummaryView {
 
         List<String> navalList = new ArrayList<>();
         navalList.add(naval);
-        navalList.add(probability.percentage(squadron.getNavalHitProbability()) + "%");
+        navalList.add(probability.percentage(squadron.getNavalHitProbability(config)) + "%");
 
         details.put("Type:", type);
         details.put("Strength:", strength);

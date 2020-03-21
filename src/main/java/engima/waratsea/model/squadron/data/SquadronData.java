@@ -3,7 +3,7 @@ package engima.waratsea.model.squadron.data;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.squadron.SquadronStrength;
-import engima.waratsea.model.squadron.configuration.SquadronConfig;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.state.SquadronState;
 import lombok.Getter;
 import lombok.Setter;

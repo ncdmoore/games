@@ -1,4 +1,4 @@
-package engima.waratsea.model.squadron.configuration;
+package engima.waratsea.model.squadron;
 
 /**
  * The configuration of the squadron. These are mutually exclusive configuration.

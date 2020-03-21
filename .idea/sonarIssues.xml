@@ -703,7 +703,37 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/AirMissionRules.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/PatrolRules.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/Rules.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/SquadronConfigRules.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/SquadronConfigRulesDTO.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/TurnRules.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/WeatherRules.java">
           <value>
             <set />
           </value>
@@ -878,6 +908,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/SquadronConfig.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/SquadronDAO.java">
           <value>
             <set />
@@ -919,6 +954,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/configuration/SquadronConfigRules.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/configuration/SquadronConfigRulesDTO.java">
           <value>
             <set />
           </value>

@@ -185,7 +185,7 @@ public class NavalTaskForceStrike implements AirMission {
                 .forEach(squadron -> {
                     SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
                     squadron.setSquadronState(state);
-                    squadron.unequip();
+                    squadron.unEquip();
                 });
 
         getSquadronsAllRoles().clear();

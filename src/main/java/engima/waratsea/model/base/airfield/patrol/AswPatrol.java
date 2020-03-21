@@ -8,7 +8,7 @@ import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.configuration.SquadronConfig;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.state.SquadronAction;
 import engima.waratsea.model.squadron.state.SquadronState;
 import lombok.Getter;

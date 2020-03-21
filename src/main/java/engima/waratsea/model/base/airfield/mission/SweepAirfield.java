@@ -199,7 +199,7 @@ public class SweepAirfield implements AirMission {
         squadronMap.get(MissionRole.MAIN).forEach(squadron -> {
             SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
             squadron.setSquadronState(state);
-            squadron.unequip();
+            squadron.unEquip();
         });
 
         squadronMap.get(MissionRole.MAIN).clear();

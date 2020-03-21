@@ -19,8 +19,7 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.rules.Rules;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
-import engima.waratsea.model.squadron.configuration.SquadronConfig;
-import engima.waratsea.model.squadron.configuration.SquadronConfigRules;
+import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
 import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
@@ -44,7 +43,6 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
 
     private GameMap gameMap;
     private Rules rules;
-    private SquadronConfigRules configRules;
 
     @Getter
     private Side side;
@@ -107,7 +105,6 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @param aviationPlant The aviation plant that creates aircraft for squadrons.
      * @param gameMap The game map.
      * @param rules The game rules.
-     * @param configRules The squadron configuration rules.
      */
     @Inject
     public Squadron(@Assisted final Side side,
@@ -115,11 +112,9 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
                     @Assisted final SquadronData data,
                     final AviationPlant aviationPlant,
                     final GameMap gameMap,
-                    final Rules rules,
-                    final SquadronConfigRules configRules) {
+                    final Rules rules) {
         this.gameMap = gameMap;
         this.rules = rules;
-        this.configRules = configRules;
         this.side = side;
         this.nation = nation;
         this.model = data.getModel();
@@ -221,34 +216,59 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @return The air-to-air attack factor.
      */
     public int getAirFactor() {
-        return aircraft.getAir().getFactor(strength);
+        return aircraft
+                .getAir()
+                .get(config)
+                .getFactor(strength);
+    }
+
+    /**
+     * Get the squadron air-to-air attack factor.
+     *
+     * @param squadronConfig A squadron configuration.
+     * @return The air-to-air attack factor.
+     */
+    public int getAirFactor(final SquadronConfig squadronConfig) {
+        return aircraft
+                .getAir()
+                .get(squadronConfig)
+                .getFactor(strength);
     }
 
     /**
      * Get the squadron air-to-air attack modifier.
      *
+     * @param squadronConfig A squadron configuration
      * @return The air-to-air attack modifier.
      */
-    public int getAirModifier() {
-        return aircraft.getAir().getModifier();
+    public int getAirModifier(final SquadronConfig squadronConfig) {
+        return aircraft
+                .getAir()
+                .get(squadronConfig)
+                .getModifier();
     }
 
     /**
      * Determine if the squadron's air-to-air attack is defensive only.
+     * The air defensive parameter does not very with squadron configuration.
      *
      * @return True if the squadron's air-to-air attack is defensive only. False otherwise.
      */
     public boolean isAirDefensive() {
-        return aircraft.getAir().isDefensive();
+        return aircraft
+                .getAir()
+                .get(SquadronConfig.NONE)  // Does not vary with squadron configuration.
+                .isDefensive();
     }
 
     /**
      * Get the squadron's air-to-air hit probability.
      *
+     * @param squadronConfig A squadron configuration.
      * @return The squadron's air-to-air hit probability.
      */
-    public double getAirHitProbability() {
-        return aircraft.getAirHitProbability(strength);
+    public double getAirHitProbability(final SquadronConfig squadronConfig) {
+        return aircraft.getAirHitProbability(strength).get(squadronConfig);
     }
 
     /**
@@ -259,7 +279,7 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @return The squadron's air hit probability.
      */
     public double getAirHitIndividualProbability(final Target target, final  int modifier) {
-        return aircraft.getAirHitIndividualProbability(target, modifier);
+        return aircraft.getAirHitIndividualProbability(target, modifier).get(config);
     }
 
     /**
@@ -280,16 +300,17 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @return The squadron's land hit probability.
      */
     public double getLandHitIndividualProbability(final Target target, final int modifier) {
-        return aircraft.getLandHitIndividualProbability(target, modifier);
+        return aircraft.getLandHitIndividualProbability(target, modifier).get(config);
     }
 
     /**
      * Get the squadron's naval hit probability.
      *
      * @return The squadron's naval hit probability.
+     * @param squadronConfig A squadron config.
      */
-    public double getNavalHitProbability() {
-        return aircraft.getNavalHitProbability(strength);
+    public double getNavalHitProbability(final SquadronConfig squadronConfig) {
+        return aircraft.getNavalHitProbability(strength).get(squadronConfig);
     }
 
 
@@ -302,7 +323,7 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @return The squadron's naval hit probability.
      */
     public double getNavalHitIndividualProbability(final Target target, final int modifier) {
-        return aircraft.getNavalHitIndividualProbability(target, modifier);
+        return aircraft.getNavalHitIndividualProbability(target, modifier).get(config);
     }
 
     /**
@@ -311,16 +332,36 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @return The naval attack factor.
      */
     public int getNavalFactor() {
-        return aircraft.getNaval().getFactor(strength);
+        return aircraft
+                .getNaval()
+                .get(config)
+                .getFactor(strength);
+    }
+
+    /**
+     * Get the squadron naval attack factor.
+     *
+     * @param squadronConfig A squadron configuration.
+     * @return The naval attack factor for the given squadron configuration.
+     */
+    public int getNavalFactor(final SquadronConfig squadronConfig) {
+        return aircraft
+                .getNaval()
+                .get(squadronConfig)
+                .getFactor(strength);
     }
 
     /**
      * Get the squadron naval attack modifier.
      *
+     * @param squadronConfig A squadron configuration.
      * @return The naval attack modifier.
      */
-    public int getNavalModifier() {
-        return aircraft.getNaval().getModifier();
+    public int getNavalModifier(final SquadronConfig squadronConfig) {
+        return aircraft
+                .getNaval()
+                .get(squadronConfig)
+                .getModifier();
     }
 
     /**
@@ -329,7 +370,10 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @return The land attack factor.
      */
     public int getLandFactor() {
-        return aircraft.getLand().get(config).getFactor(strength);
+        return aircraft
+                .getLand()
+                .get(config)
+                .getFactor(strength);
     }
 
     /**
@@ -339,16 +383,10 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @return The land attack factor for the given squadron configuration.
      */
     public int getLandFactor(final SquadronConfig squadronConfig) {
-        return aircraft.getLand().get(squadronConfig).getFactor(strength);
-    }
-
-    /**
-     * Get the squadron land attack modifier.
-     *
-     * @return The land attack modifier.
-     */
-    public int getLandModifier() {
-        return aircraft.getLand().get(config).getModifier();
+        return aircraft
+                .getLand()
+                .get(squadronConfig)
+                .getFactor(strength);
     }
 
     /**
@@ -358,7 +396,10 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
      * @return The land attack modifier for the given squadron configuration.
      */
     public int getLandModifier(final SquadronConfig squadronConfig) {
-        return aircraft.getLand().get(squadronConfig).getModifier();
+        return aircraft
+                .getLand()
+                .get(squadronConfig)
+                .getModifier();
     }
 
     /**
@@ -538,7 +579,12 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
         String targetReference = gameMap.convertNameToReference(target.getLocation());
         String airbaseReference = airfield.getReference();
 
-        Set<SquadronConfig> allowedConfigs = configRules.getAllowed(airfield.getAirfieldType(), missionType, missionRole);
+        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
+                .setAirfieldType(airfield.getAirfieldType())
+                .setMissionRole(missionRole)
+                .setMissionType(missionType);
+
+        Set<SquadronConfig> allowedConfigs = rules.getAllowedSquadronConfig(dto);
 
         // Determine if the target requires a round trip.
         Map<SquadronConfig, Integer> rangeMap = target.requiresRoundTrip()
@@ -566,7 +612,7 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     /**
      * Un-equip this squadron.
      */
-    public void unequip() {
+    public void unEquip() {
         config = SquadronConfig.NONE;
     }
 
@@ -612,13 +658,21 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
         String targetReference = gameMap.convertNameToReference(target.getLocation());
         String airbaseReference = airfield.getReference();
 
-        Set<SquadronConfig> allowedConfigs = configRules.getAllowed(airfield.getAirfieldType(), missionType, missionRole);
+        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
+                .setAirfieldType(airfield.getAirfieldType())
+                .setMissionRole(missionRole)
+                .setMissionType(missionType);
+
+        Set<SquadronConfig> allowedConfigs = rules.getAllowedSquadronConfig(dto);
 
         // Determine if the target requires a round trip.
         Map<SquadronConfig, Integer> rangeMap = target.requiresRoundTrip()
                 ? aircraft.getRadius()
                 : aircraft.getFerryDistance();
 
+        // Look for the squadron configuration with the minimum range needed to reach the target. This should be the best
+        // configuration for this squadron. It should be the configuration that offers the best chance of success for the
+        // mission.
         return rangeMap
                 .entrySet()
                 .stream()

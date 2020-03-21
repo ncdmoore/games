@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.aircraft.AttackFactor;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.configuration.SquadronConfig;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.util.TitledGridPane;
@@ -129,7 +129,7 @@ public class SquadronDetailsView {
         squadronDetailsPane = buildPane("Squadron Details", getSquadronDetailsData(squadron));
         aircraftDetailsPane = buildPane("Aircraft Details", getAircraftDetailsData(squadron));
         aircraftLandPane = buildPane("Land", getAttackFactor(squadron, squadron.getAircraft().getLand().get(SquadronConfig.NONE)));
-        aircraftNavalPane = buildPane("Naval", getAttackFactor(squadron, squadron.getAircraft().getNaval()));
+        aircraftNavalPane = buildPane("Naval", getAttackFactor(squadron, squadron.getAircraft().getNaval().get(SquadronConfig.NONE)));
         return new VBox(squadronDetailsPane, aircraftDetailsPane, aircraftLandPane, aircraftNavalPane);
     }
 
@@ -140,7 +140,7 @@ public class SquadronDetailsView {
      * @return The node that contains the squadron components.
      */
     public VBox buildPerformance(final Squadron squadron) {
-        aircraftAirToAirPane = buildPane("Air-to-Air", getAttackFactor(squadron, squadron.getAircraft().getAir()));
+        aircraftAirToAirPane = buildPane("Air-to-Air", getAttackFactor(squadron, squadron.getAircraft().getAir().get(SquadronConfig.NONE)));
         aircraftRangePane = buildPane("Performance", getRange(squadron));
         aircraftFramePane = buildPane("Frame", getFrame(squadron));
         return new VBox(aircraftAirToAirPane, aircraftRangePane, aircraftFramePane);
@@ -156,9 +156,9 @@ public class SquadronDetailsView {
         aircraftProfile.setImage(getProfile(squadron));
         squadronDetailsPane.updatePane(getSquadronDetailsData(squadron));
         aircraftDetailsPane.updatePane(getAircraftDetailsData(squadron));
-        aircraftAirToAirPane.updatePane(getAttackFactor(squadron, squadron.getAircraft().getAir()));
+        aircraftAirToAirPane.updatePane(getAttackFactor(squadron, squadron.getAircraft().getAir().get(SquadronConfig.NONE)));
         aircraftLandPane.updatePane(getAttackFactor(squadron, squadron.getAircraft().getLand().get(SquadronConfig.NONE)));
-        aircraftNavalPane.updatePane(getAttackFactor(squadron, squadron.getAircraft().getNaval()));
+        aircraftNavalPane.updatePane(getAttackFactor(squadron, squadron.getAircraft().getNaval().get(SquadronConfig.NONE)));
         aircraftRangePane.updatePane(getRange(squadron));
         aircraftFramePane.updatePane(getFrame(squadron));
     }
