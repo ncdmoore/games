@@ -28,16 +28,9 @@ public enum AircraftType implements Comparator<AircraftType> {
     RECONNAISSANCE("Recon", "Recon", AircraftBaseType.RECON, "R", 5);
 
     private String value;
-
-    @Getter
-    private String abbreviated;
-
-    @Getter
-    private AircraftBaseType baseType;
-
-    @Getter
-    private String designation;
-
+    @Getter private String abbreviated;
+    @Getter private AircraftBaseType baseType;
+    @Getter private String designation;
     private Integer order;  // Enum sort order.
 
     /**

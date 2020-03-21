@@ -8,25 +8,11 @@ import lombok.Setter;
  * An aircraft's attack factor data.
  */
 public class AttackFactorData {
-    @Getter
-    @Setter
-    private int modifier;
-
-    @Getter
-    @Setter
-    private int full;
-
-    @Getter
-    @Setter
-    private int half;
-
-    @Getter
-    @Setter
-    private int sixth;
-
-    @Getter
-    @Setter
-    private boolean defensive;
+    @Getter @Setter private int modifier;
+    @Getter @Setter private int full;
+    @Getter @Setter private int half;
+    @Getter @Setter private int sixth;
+    @Getter @Setter private boolean defensive;
 
     /**
      * Build a zero attack factor.
