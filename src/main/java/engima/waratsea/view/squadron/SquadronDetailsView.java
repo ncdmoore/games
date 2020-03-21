@@ -216,7 +216,7 @@ public class SquadronDetailsView {
         Aircraft aircraft = squadron.getAircraft();
         Map<String, String> details = new LinkedHashMap<>();
         details.put("Range", aircraft.getRange() + "");
-        details.put("Endurance", aircraft.getEndurance() + "");
+        details.put("Endurance", aircraft.getEndurance().get(SquadronConfig.NONE) + "");
         details.put("Altitude Rating", aircraft.getAltitude().toString());
         details.put("Landing Type", aircraft.getLanding().toString());
         return details;

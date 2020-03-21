@@ -52,7 +52,7 @@ public class Recon implements Aircraft {
      */
     @Inject
     public Recon(@Assisted final AircraftData data,
-                 final Dice dice) {
+                           final Dice dice) {
         this.aircraftId = data.getAircraftId();
         this.type = data.getType();
         this.designation = data.getDesignation();
