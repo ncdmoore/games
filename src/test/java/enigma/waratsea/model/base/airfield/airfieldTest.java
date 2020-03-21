@@ -326,14 +326,14 @@ public class airfieldTest {
         airfield.getPatrol(PatrolType.SEARCH).addSquadron(reconSquadron);
 
         int searchRadius = airfield.getPatrol(PatrolType.SEARCH).getMaxRadius();
-        int reconRadius = reconSquadron.getRadius().stream().max(Integer::compareTo).orElse(0);
+        int reconRadius = reconSquadron.getRadius();
 
         // Recon plane's radius should be the search's maximum radius.
         Assert.assertEquals(reconRadius, searchRadius);
 
         airfield.getPatrol(PatrolType.SEARCH).removeSquadron(reconSquadron);
 
-        int fighterRadius = fighterSquadron.getRadius().stream().max(Integer::compareTo).orElse(0);
+        int fighterRadius = fighterSquadron.getRadius();
         searchRadius = airfield.getPatrol(PatrolType.SEARCH).getMaxRadius();
 
         Assert.assertEquals(fighterRadius, searchRadius);

@@ -1,5 +1,6 @@
 package engima.waratsea.model.game;
 
+import engima.waratsea.model.game.rules.Rules;
 import lombok.Getter;
 
 

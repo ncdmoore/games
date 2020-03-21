@@ -20,50 +20,26 @@ import java.util.Map;
 /**
  * Represents an aircraft.
  */
-public class AircraftImpl implements Aircraft {
-
+public class Bomber implements Aircraft {
     private static final int BASE_MODIFIER = 1; // A  6 on a 6-sided die always hits.
 
-    @Getter
-    private final AircraftId aircraftId;
-
-    @Getter
-    private final AircraftType type;
-
-    @Getter
-    private final String designation;
-
-    @Getter
-    private final Nation nationality;
-
-    @Getter
-    private final ServiceType service;
-
-    @Getter
-    private final AltitudeType altitude;
-
-    @Getter
-    private final LandingType landing;
-
-    @Getter
-    private final LandingType takeoff;
-
-    @Getter
-    private final AttackFactor naval;
-
-    private final AttackFactor land;
-
-    @Getter
-    private final AttackFactor air;
+    @Getter private final AircraftId aircraftId;
+    @Getter private final AircraftType type;
+    @Getter private final String designation;
+    @Getter private final Nation nationality;
+    @Getter private final ServiceType service;
+    @Getter private final AltitudeType altitude;
+    @Getter private final LandingType landing;
+    @Getter private final LandingType takeoff;
+    @Getter private final AttackFactor naval;
+    @Getter private final AttackFactor air;
+    @Getter private final Frame frame;
+    @Getter private final Dice dice;
 
     @Getter(AccessLevel.PROTECTED)
     private final Performance performance;
 
-    @Getter
-    private final Frame frame;
-
-    @Getter
-    private final Dice dice;
+    private final AttackFactor land;
 
     /**
      * The constructor called by guice.
@@ -72,8 +48,8 @@ public class AircraftImpl implements Aircraft {
      * @param dice Dice utility.
      */
     @Inject
-    public AircraftImpl(@Assisted final AircraftData data,
-                                  final Dice dice) {
+    public Bomber(@Assisted final AircraftData data,
+                  final Dice dice) {
         this.aircraftId = data.getAircraftId();
         this.type = data.getType();
         this.designation = data.getDesignation();

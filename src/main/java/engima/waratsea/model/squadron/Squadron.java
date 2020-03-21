@@ -16,7 +16,7 @@ import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.game.Rules;
+import engima.waratsea.model.game.rules.Rules;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.configuration.SquadronConfig;
@@ -538,7 +538,7 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
         String targetReference = gameMap.convertNameToReference(target.getLocation());
         String airbaseReference = airfield.getReference();
 
-        Set<SquadronConfig> allowedConfigs = configRules.getAllowed(missionType, missionRole);
+        Set<SquadronConfig> allowedConfigs = configRules.getAllowed(airfield.getAirfieldType(), missionType, missionRole);
 
         // Determine if the target requires a round trip.
         Map<SquadronConfig, Integer> rangeMap = target.requiresRoundTrip()
@@ -612,7 +612,7 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
         String targetReference = gameMap.convertNameToReference(target.getLocation());
         String airbaseReference = airfield.getReference();
 
-        Set<SquadronConfig> allowedConfigs = configRules.getAllowed(missionType, missionRole);
+        Set<SquadronConfig> allowedConfigs = configRules.getAllowed(airfield.getAirfieldType(), missionType, missionRole);
 
         // Determine if the target requires a round trip.
         Map<SquadronConfig, Integer> rangeMap = target.requiresRoundTrip()

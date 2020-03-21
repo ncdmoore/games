@@ -2,7 +2,7 @@ package engima.waratsea.model.weather;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.game.Rules;
+import engima.waratsea.model.game.rules.Rules;
 import engima.waratsea.utility.Dice;
 import lombok.Getter;
 import lombok.Setter;

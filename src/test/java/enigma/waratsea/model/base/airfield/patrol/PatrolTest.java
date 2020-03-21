@@ -72,7 +72,7 @@ public class PatrolTest {
 
         Patrol patrol = patrolFactory.createSearch(data);
 
-        int rate = patrol.getSuccessRate(squadron.getRadius().stream().max(Integer::compare).orElse(0));
+        int rate = patrol.getSuccessRate(squadron.getRadii().values().stream().max(Integer::compare).orElse(0));
 
         Assert.assertEquals(0, rate);
 

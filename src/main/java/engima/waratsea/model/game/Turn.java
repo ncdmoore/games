@@ -3,6 +3,7 @@ package engima.waratsea.model.game;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.data.TurnData;
+import engima.waratsea.model.game.rules.Rules;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.weather.Weather;
 import lombok.Getter;

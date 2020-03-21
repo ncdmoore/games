@@ -4,10 +4,10 @@ package engima.waratsea.model.base.airfield;
 import lombok.Getter;
 
 public enum AirfieldType {
-    LAND("land", "Airfield"),
-    SEAPLANE("seaplane", "Seaplane Base"),
-    BOTH("both", "Airfield"),
-    TASKFORCE("taskforce", "Task Force");
+    LAND("land", "Airfield"),                   // Land airfield. Only land and carrier aircraft can station here.
+    SEAPLANE("seaplane", "Seaplane Base"),      // Seaplane base. Only seaplanes can station here.
+    BOTH("both", "Airfield"),                   // Both land and seaplane. Land, carrier and seaplanes can station here.
+    TASKFORCE("taskforce", "Task Force");       // Task force with a carrier. Only carrier aircraft can station here.
 
     private String value;
 

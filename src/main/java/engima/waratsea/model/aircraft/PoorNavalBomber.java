@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Represents an Italian level bomber.
  */
-public class PoorNavalBomber extends AircraftImpl {
+public class PoorNavalBomber extends Bomber {
     private static final int LEAN_ENGINE_FACTOR = 2;
     private static final int BASE_MODIFIER = 1; // 6 always hits on a 6-sided die.
     private static final double POOR_NAVAL_MODIFIER = 2.0 / 6.0;

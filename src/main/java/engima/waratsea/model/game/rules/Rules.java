@@ -1,4 +1,4 @@
-package engima.waratsea.model.game;
+package engima.waratsea.model.game.rules;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -6,6 +6,9 @@ import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
+import engima.waratsea.model.game.GameName;
+import engima.waratsea.model.game.GameTitle;
+import engima.waratsea.model.game.TurnType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.weather.WeatherType;
 

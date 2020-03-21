@@ -100,7 +100,7 @@ public class SearchPatrol implements Patrol {
      */
     @Override
     public void addSquadron(final Squadron squadron) {
-        if (canAdd(squadron)) {   //Make sure the squadron is actuall deployed at the airbase.
+        if (canAdd(squadron)) {   //Make sure the squadron is actual deployed at the airbase.
             squadrons.add(squadron);
             SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_PATROL);
             squadron.setSquadronState(state);
@@ -234,7 +234,7 @@ public class SearchPatrol implements Patrol {
 
     /**
      * Update this search's maximum search radius. If the newly added squadron has a greater
-     * readius then the current maximum search radius, then this squadron's search radius
+     * radius then the current maximum search radius, then this squadron's search radius
      * is the new maximum search radius.
      **/
     private void updateMaxRadius() {

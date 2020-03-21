@@ -7,7 +7,8 @@ package engima.waratsea.model.squadron.configuration;
 public enum SquadronConfig {
     NONE("Basic"),                // No special configuration.
     DROP_TANKS("Drop Tanks"),     // The squadron is equipped with drop tanks - this extends the squadron's range. Exclusive to fighters.
-    LEAN_ENGINE("Long Range");    // The squadron is both equipped with extra internal fuel and is running very lean to extend its range. Any payload is reduced.
+    LEAN_ENGINE("Long Range"),    // The squadron is both equipped with extra internal fuel and is running very lean to extend its range. Any payload is reduced.
+    STRIPPED_DOWN("Stripped Down");
 
     private String value;
 

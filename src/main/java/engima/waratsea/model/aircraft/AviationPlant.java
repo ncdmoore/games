@@ -51,6 +51,8 @@ public class AviationPlant {
 
         factoryMap.put(AircraftType.POOR_NAVAL_BOMBER, factory::createPoorNavalBomber);
         factoryMap.put(AircraftType.FIGHTER, factory::createFighter);
+        factoryMap.put(AircraftType.RECONNAISSANCE, factory::createRecon);
+        factoryMap.put(AircraftType.BOMBER, factory::createBomber);
     }
 
     /**
@@ -136,6 +138,6 @@ public class AviationPlant {
      * @return The corresponding factory to the aircraft's type.
      */
     private Function<AircraftData, Aircraft> getFactory(final AircraftType type) {
-        return factoryMap.getOrDefault(type, factory::createAircraft);
+        return factoryMap.getOrDefault(type, factory::createBomber);
     }
 }

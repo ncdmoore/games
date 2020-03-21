@@ -13,8 +13,8 @@ public interface AircraftFactory {
      * @param data The aircraft's data.
      * @return The aircraft.
      */
-    @Named("aircraft")
-    Aircraft createAircraft(AircraftData data);
+    @Named("bomber")
+    Aircraft createBomber(AircraftData data);
 
     /**
      * Create a fighter aircraft.
@@ -24,6 +24,15 @@ public interface AircraftFactory {
      */
     @Named("fighter")
     Aircraft createFighter(AircraftData data);
+
+    /**
+     * Create a reconnaissance aircraft.
+     *
+     * @param data The aircraft's data.
+     * @return The reconnaissance aircraft.
+     */
+    @Named("recon")
+    Aircraft createRecon(AircraftData data);
 
     /**
      * Creates an Italian bomber.
