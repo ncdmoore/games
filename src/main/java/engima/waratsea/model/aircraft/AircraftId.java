@@ -8,11 +8,8 @@ import lombok.Getter;
  * identify an aircraft requires both the aircraft type and the side. This class is used to uniquely identify aircraft.
  */
 public class AircraftId {
-    @Getter
-    private final String model;
-
-    @Getter
-    private final Side side;
+    @Getter private final String model;
+    @Getter private final Side side;
 
     /**
      * Constructor.

@@ -12,19 +12,12 @@ import java.util.Map;
  */
 public class AttackFactor {
     @Getter
-    private final int modifier;      // Determines which values of a six sided die are hits. For example a modifier of
-                                     // 1 indicates that both a 5 and a 6 are hits.
-    @Getter
-    private final int full;          // Total number of dice rolled for a full strength squadron.
-
-    @Getter
-    private final int half;          // Total number of dice rolled for a half strength squadron.
-
-    @Getter
-    private final int sixth;         // Total number of dice rolled for one-sixth strength squadron.
-
-    @Getter
-    private final boolean defensive; // Indicates if the factor is defensive only. Only returns fire does not initiate.
+    private final int modifier;              // Determines which values of a six sided die are hits. For example a modifier of
+                                             // 1 indicates that both a 5 and a 6 are hits.
+    @Getter private final int full;          // Total number of dice rolled for a full strength squadron.
+    @Getter private final int half;          // Total number of dice rolled for a half strength squadron.
+    @Getter private final int sixth;         // Total number of dice rolled for one-sixth strength squadron.
+    @Getter private final boolean defensive; // Indicates if the factor is defensive only. Only returns fire does not initiate.
 
     private final Map<SquadronStrength, Integer> factor = new HashMap<>();
 
