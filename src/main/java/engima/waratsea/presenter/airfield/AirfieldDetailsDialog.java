@@ -700,7 +700,9 @@ public class AirfieldDetailsDialog {
      * @return The best squadron configuration for the given type of patrol.
      */
     private SquadronConfig determineConfiguration(final Squadron squadron, final PatrolType patrolType) {
-        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO();
+        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
+                .setPatrolType(PatrolType.SEARCH);
+
         Set<SquadronConfig> allowed = rules.getAllowedSquadronConfig(dto);
 
         // Get the first config for the given patrol type that is allowed.

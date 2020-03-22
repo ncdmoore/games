@@ -23,11 +23,15 @@ import java.util.Set;
  *
  *  SquadronConfig.NONE
  *  SquadronConfig.SEARCH
+ *  SquadronConfig.REDUCED_PAYLOAD
  */
 public class Bomber implements Aircraft {
-    private static final Set<SquadronConfig> CONFIGS = Set.of(SquadronConfig.NONE, SquadronConfig.SEARCH);
+    private static final Set<SquadronConfig> CONFIGS = Set.of(
+            SquadronConfig.NONE,
+            SquadronConfig.SEARCH,
+            SquadronConfig.REDUCED_PAYLOAD);
 
-    private static final int SEARCH_ATTACK_REDUCTION = 2;      // Squadron configured for search attack factor reduction.
+    private static final int ATTACK_REDUCTION = 2;      // Squadron configured for search attack factor reduction.
 
     @Getter private final AircraftId aircraftId;
     @Getter private final AircraftType type;
@@ -113,9 +117,12 @@ public class Bomber implements Aircraft {
     @Override
     public Map<SquadronConfig, Integer> getRadius() {
         int searchModifier = performance.getSearchModifier(land, naval);
+        int reducedModifier = performance.getReducedPayloadModifier(land, naval);
 
-        return Map.of(SquadronConfig.NONE, performance.getRadius(),
-                     SquadronConfig.SEARCH, performance.getRadius() + searchModifier);
+        return Map.of(
+                SquadronConfig.NONE, performance.getRadius(),
+                SquadronConfig.SEARCH, performance.getRadius() + searchModifier,
+                SquadronConfig.REDUCED_PAYLOAD, performance.getRadius() + reducedModifier);
     }
 
     /**
@@ -129,9 +136,12 @@ public class Bomber implements Aircraft {
     @Override
     public Map<SquadronConfig, Integer> getFerryDistance() {
         int searchModifier = performance.getSearchModifier(land, naval) * 2;
+        int reducedModifier = performance.getReducedPayloadModifier(land, naval) * 2;
 
-        return Map.of(SquadronConfig.NONE, performance.getFerryDistance(),
-                      SquadronConfig.SEARCH, performance.getFerryDistance() + searchModifier);
+        return Map.of(
+                SquadronConfig.NONE, performance.getFerryDistance(),
+                SquadronConfig.SEARCH, performance.getFerryDistance() + searchModifier,
+                SquadronConfig.REDUCED_PAYLOAD, performance.getFerryDistance() + reducedModifier);
     }
 
     /**
@@ -154,8 +164,10 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getEndurance() {
-        return Map.of(SquadronConfig.NONE, performance.getEndurance(),
-                      SquadronConfig.SEARCH, performance.getEndurance());
+        return  Map.of(
+                SquadronConfig.NONE, performance.getEndurance(),
+                SquadronConfig.SEARCH, performance.getEndurance(),
+                SquadronConfig.REDUCED_PAYLOAD, performance.getEndurance());
     }
 
     /**
@@ -237,8 +249,10 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, AttackFactor> getAir() {
-        return Map.of(SquadronConfig.NONE, air,
-                      SquadronConfig.SEARCH, air);
+        return Map.of(
+                SquadronConfig.NONE, air,
+                SquadronConfig.SEARCH, air,
+                SquadronConfig.REDUCED_PAYLOAD, air);
     }
 
     /**
@@ -248,10 +262,12 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, AttackFactor> getLand() {
-        AttackFactor search = land.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
+        AttackFactor reduced = land.getReducedRoundDown(ATTACK_REDUCTION);
 
-        return Map.of(SquadronConfig.NONE, land,
-                      SquadronConfig.SEARCH, search);
+        return Map.of(
+                SquadronConfig.NONE, land,
+                SquadronConfig.SEARCH, reduced,
+                SquadronConfig.REDUCED_PAYLOAD, reduced);
     }
 
     /**
@@ -261,9 +277,11 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, AttackFactor> getNaval() {
-        AttackFactor search = naval.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
+        AttackFactor reduced = naval.getReducedRoundDown(ATTACK_REDUCTION);
 
-        return Map.of(SquadronConfig.NONE, naval,
-                      SquadronConfig.SEARCH, search);
+        return Map.of(
+                SquadronConfig.NONE, naval,
+                SquadronConfig.SEARCH, reduced,
+                SquadronConfig.REDUCED_PAYLOAD, reduced);
     }
 }

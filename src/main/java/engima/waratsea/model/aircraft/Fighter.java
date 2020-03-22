@@ -32,8 +32,11 @@ import java.util.Set;
  *  SquadronConfig.STRIPPED_DOWN
  */
 public class Fighter implements Aircraft {
-    private static final Set<SquadronConfig> CONFIGS = Set.of(SquadronConfig.NONE, SquadronConfig.DROP_TANKS,
-                                                              SquadronConfig.SEARCH, SquadronConfig.STRIPPED_DOWN);
+    private static final Set<SquadronConfig> CONFIGS = Set.of(
+            SquadronConfig.NONE,
+            SquadronConfig.DROP_TANKS,
+            SquadronConfig.SEARCH,
+            SquadronConfig.STRIPPED_DOWN);
 
     private static final double DROP_TANK_FACTOR = 1.5;    // Drop tanks increase range by 1.5 times.
     private static final int STRIPPED_DOWN_FACTOR = 3;     // Stripping down the fighter of ordinance and adding extra full increases the range by 3.
@@ -49,9 +52,8 @@ public class Fighter implements Aircraft {
     private final AttackFactor naval;
     private final AttackFactor land;
     private final AttackFactor air;
-    @Getter private final Performance performance;
+    private final Performance performance;
     @Getter private final Frame frame;
-
     private final Probability probability;
 
     /**

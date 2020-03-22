@@ -61,15 +61,27 @@ public class Performance {
     }
 
     /**
-     * Get the total search modifier for this aircraft. If aircraft has extra fuel
-     * capacity, then the search modifier is increased by a set amount.
+     * Get the search range modifier for this aircraft. If the aircraft has extra fuel
+     * capacity, then the range modifier is increased by a set amount.
      *
      * @param land The squadron's land attack factor.
      * @param naval The squadron's naval attack factor.
-     * @return The total search modifier for this aircraft.
+     * @return The search range modifier for this aircraft.
      */
     public int getSearchModifier(final AttackFactor land, final AttackFactor naval) {
         return SEARCH_MODIFIER + (hasExtraFuelCapacity(land, naval) ? SEARCH_MODIFIER : 0);
+    }
+
+    /**
+     * Get the reduced payload range modifier for this aircraft. If the aircraft has extra fuel
+     * capacity, then the range modifier is increased by a set amount.
+     *
+     * @param land The squadron's land attack factor.
+     * @param naval The squadron's naval attack factor.
+     * @return The reduced payload range modifier for this aircraft.
+     */
+    public int getReducedPayloadModifier(final AttackFactor land, final AttackFactor naval) {
+        return hasExtraFuelCapacity(land, naval) ? SEARCH_MODIFIER : 0;
     }
 
     /**

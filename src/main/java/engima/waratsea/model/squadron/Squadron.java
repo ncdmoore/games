@@ -16,10 +16,10 @@ import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.game.rules.Rules;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.game.rules.Rules;
 import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
@@ -670,15 +670,15 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
                 ? aircraft.getRadius()
                 : aircraft.getFerryDistance();
 
-        // Look for the squadron configuration with the minimum range needed to reach the target. This should be the best
-        // configuration for this squadron. It should be the configuration that offers the best chance of success for the
-        // mission.
+        // Look for the squadron configuration with the highest priority. This should be the best
+        // configuration for this squadron. It should be the configuration that offers the best
+        // chance of success for the mission.
         return rangeMap
                 .entrySet()
                 .stream()
                 .filter(entry -> allowedConfigs.contains(entry.getKey()))
                 .filter(entry -> gameMap.inRange(airbaseReference, targetReference, entry.getValue()))
-                .min(Map.Entry.comparingByValue())
+                .min(Map.Entry.comparingByKey())
                 .map(Map.Entry::getKey)
                 .orElse(SquadronConfig.NONE);
     }

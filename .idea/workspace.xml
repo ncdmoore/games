@@ -6,9 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/SquadronConfigRules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/SquadronConfigRules.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Fighter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Fighter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Performance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Performance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Recon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Recon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/SquadronConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/SquadronConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/rules/SquadronConfigRulesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/rules/SquadronConfigRulesTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDetailsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDetailsDialog.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -287,13 +291,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00118" summary="Add targets and asset views.">
-      <created>1576552928153</created>
-      <option name="number" value="00118" />
-      <option name="presentableId" value="LOCAL-00118" />
-      <option name="project" value="LOCAL" />
-      <updated>1576552928153</updated>
     </task>
     <task id="LOCAL-00119" summary="Add task force targets.">
       <created>1576678516377</created>
@@ -631,7 +628,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584892487830</updated>
     </task>
-    <option name="localTasksCounter" value="167" />
+    <task id="LOCAL-00167" summary="Add reduced payload squadron configuration.">
+      <created>1584893926826</created>
+      <option name="number" value="00167" />
+      <option name="presentableId" value="LOCAL-00167" />
+      <option name="project" value="LOCAL" />
+      <updated>1584893926826</updated>
+    </task>
+    <option name="localTasksCounter" value="168" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -645,7 +649,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add remaining mission type's probabilities." />
     <MESSAGE value="Add roles to mission types." />
     <MESSAGE value="Add escort squadrons to strike missions." />
     <MESSAGE value="Add a get both squadrons and escorts to the mission api." />
@@ -670,21 +673,22 @@
     <MESSAGE value="Aircraft with the required naval or land payload have an additional range modifier for search squadron configurations." />
     <MESSAGE value="Make sure that the squadron search configuration is only used on search patrols." />
     <MESSAGE value="PoorNavalBomber is now its own class." />
-    <option name="LAST_COMMIT_MESSAGE" value="PoorNavalBomber is now its own class." />
+    <MESSAGE value="Add reduced payload squadron configuration." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add reduced payload squadron configuration." />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584892413612">
+    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584907000615">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1584892413612" />
+    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1584907000615" />
     <state x="950" y="132" width="1499" height="1137" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1584797201729">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="950" y="132" width="1499" height="1137" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1584797201729" />
-    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser" timestamp="1584891762424">
+    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser" timestamp="1584905722872">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser/0.23.2560.1349@0.23.2560.1349" timestamp="1584891762424" />
+    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser/0.23.2560.1349@0.23.2560.1349" timestamp="1584905722872" />
     <state x="1148" y="440" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1584826447359">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -705,62 +709,62 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1584880258677" />
-    <state x="1265" y="300" key="CommitChangelistDialog2" timestamp="1584892487687">
+    <state x="1265" y="300" key="CommitChangelistDialog2" timestamp="1584893926664">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1584892487687" />
-    <state width="1664" height="286" key="GridCell.Tab.0.bottom" timestamp="1584893855623">
+    <state x="1265" y="300" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1584893926664" />
+    <state width="1664" height="286" key="GridCell.Tab.0.bottom" timestamp="1584907006429">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="286" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1584893855623" />
-    <state width="1664" height="286" key="GridCell.Tab.0.center" timestamp="1584893855622">
+    <state width="1664" height="286" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1584907006429" />
+    <state width="1664" height="286" key="GridCell.Tab.0.center" timestamp="1584907006429">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="286" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1584893855622" />
-    <state width="1664" height="286" key="GridCell.Tab.0.left" timestamp="1584893855622">
+    <state width="1664" height="286" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1584907006429" />
+    <state width="1664" height="286" key="GridCell.Tab.0.left" timestamp="1584907006429">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="286" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1584893855622" />
-    <state width="1664" height="286" key="GridCell.Tab.0.right" timestamp="1584893855622">
+    <state width="1664" height="286" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1584907006429" />
+    <state width="1664" height="286" key="GridCell.Tab.0.right" timestamp="1584907006429">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="286" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1584893855622" />
-    <state width="1664" height="350" key="GridCell.Tab.1.bottom" timestamp="1584849179862">
+    <state width="1664" height="286" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1584907006429" />
+    <state width="1664" height="350" key="GridCell.Tab.1.bottom" timestamp="1584906649740">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="350" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1584849179862" />
-    <state width="1664" height="350" key="GridCell.Tab.1.center" timestamp="1584849179862">
+    <state width="1664" height="350" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1584906649740" />
+    <state width="1664" height="350" key="GridCell.Tab.1.center" timestamp="1584906649739">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="350" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1584849179862" />
-    <state width="1664" height="350" key="GridCell.Tab.1.left" timestamp="1584849179862">
+    <state width="1664" height="350" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1584906649739" />
+    <state width="1664" height="350" key="GridCell.Tab.1.left" timestamp="1584906649739">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="350" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1584849179862" />
-    <state width="1664" height="350" key="GridCell.Tab.1.right" timestamp="1584849179862">
+    <state width="1664" height="350" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1584906649739" />
+    <state width="1664" height="350" key="GridCell.Tab.1.right" timestamp="1584906649740">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="350" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1584849179862" />
+    <state width="1664" height="350" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1584906649740" />
     <state x="1187" y="283" key="SettingsEditor" timestamp="1584880844409">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1187" y="283" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1584880844409" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1584892497428">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1584893932743">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1584892497428" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1584893932743" />
     <state x="268" y="115" width="1691" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1584848479897">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="268" y="115" width="1691" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1584848479897" />
-    <state x="936" y="531" key="com.intellij.ide.util.TipDialog" timestamp="1584826526583">
+    <state x="936" y="531" key="com.intellij.ide.util.TipDialog" timestamp="1584904059922">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="936" y="531" key="com.intellij.ide.util.TipDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1584826526583" />
-    <state x="1313" y="459" width="673" height="472" key="find.popup" timestamp="1584848378239">
+    <state x="936" y="531" key="com.intellij.ide.util.TipDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1584904059922" />
+    <state x="1313" y="459" width="673" height="472" key="find.popup" timestamp="1584905830233">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1313" y="459" width="673" height="472" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1584848378239" />
+    <state x="1313" y="459" width="673" height="472" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1584905830233" />
     <state x="1696" y="493" key="refactoring.ChangeSignatureDialog" timestamp="1584839556603">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
