@@ -101,4 +101,24 @@ public class SquadronConfigRulesTest {
 
         Assert.assertFalse(allowed.contains(SquadronConfig.LEAN_ENGINE));
     }
+
+    @Test
+    public void testSquadronConfigSearch() {
+        GameTitle gameTitle = injector.getInstance(GameTitle.class);
+
+        gameTitle.setName(GameName.BOMB_ALLEY);
+
+        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO();
+
+        Set<SquadronConfig> allowed = rules.getAllowed(dto);
+
+        Assert.assertFalse(allowed.contains(SquadronConfig.SEARCH));
+
+        gameTitle.setName(GameName.CORAL_SEA);
+
+        allowed = rules.getAllowed(dto);
+
+        Assert.assertTrue(allowed.contains(SquadronConfig.SEARCH));
+
+    }
 }
