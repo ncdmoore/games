@@ -1,4 +1,4 @@
-package engima.waratsea.presenter;
+package engima.waratsea.presenter.preview;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -12,11 +12,12 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.presenter.Presenter;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.presenter.squadron.Deployment;
 import engima.waratsea.presenter.squadron.SquadronDetailsDialog;
-import engima.waratsea.view.SquadronView;
+import engima.waratsea.view.preview.SquadronView;
 import engima.waratsea.view.WarnDialog;
 import engima.waratsea.view.map.marker.preview.AirfieldMarker;
 import javafx.scene.control.Tab;

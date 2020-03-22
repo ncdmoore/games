@@ -1,4 +1,4 @@
-package engima.waratsea.view;
+package engima.waratsea.view.preview;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.AircraftType;
@@ -12,6 +12,7 @@ import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.TaskForcePreviewMapView;
 import engima.waratsea.view.map.marker.preview.TargetMarker;
 import engima.waratsea.view.ship.ShipViewType;

@@ -1,4 +1,4 @@
-package engima.waratsea.presenter;
+package engima.waratsea.presenter.preview;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -7,11 +7,12 @@ import engima.waratsea.model.game.Game;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.presenter.Presenter;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.presenter.ship.ShipDetailsDialog;
-import engima.waratsea.view.TaskForceView;
+import engima.waratsea.view.preview.TaskForceView;
 import engima.waratsea.view.map.marker.preview.PopUp;
 import engima.waratsea.view.map.marker.preview.TargetMarker;
 import javafx.event.ActionEvent;

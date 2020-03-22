@@ -9,16 +9,9 @@ import java.math.BigDecimal;
 
 @Slf4j
 public class Deployment {
-    @Getter
-    private final LandingType type;
-
-    @Getter
-    @Setter
-    private BigDecimal totalSteps;
-
-    @Getter
-    @Setter
-    private BigDecimal deployedSteps;
+    @Getter private final LandingType type;
+    @Getter @Setter private BigDecimal totalSteps;
+    @Getter @Setter private BigDecimal deployedSteps;
 
     /**
      * The constructor.

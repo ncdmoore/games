@@ -1,4 +1,4 @@
-package engima.waratsea.view;
+package engima.waratsea.view.preview;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.game.Game;
@@ -8,6 +8,7 @@ import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.presenter.dto.map.MinefieldDTO;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.MinefieldPreviewMapView;
 import javafx.scene.Node;
 import javafx.scene.Scene;

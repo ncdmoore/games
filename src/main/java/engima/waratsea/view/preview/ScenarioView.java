@@ -1,16 +1,15 @@
-package engima.waratsea.view;
+package engima.waratsea.view.preview;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.game.data.GameData;
-import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.utility.CssResourceProvider;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.view.ViewProps;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -20,26 +19,40 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Getter;
+import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.utility.CssResourceProvider;
+import engima.waratsea.utility.ImageResourceProvider;
 
 import java.util.List;
 
-public class SavedGameView {
-    private static final String CSS_FILE = "savedGameView.css";
+/**
+ * Defines the scenario selection view.
+ */
+public class ScenarioView {
+    private static final String CSS_FILE = "scenarioView.css";
 
     @Getter
-    private ListView<GameData> savedGames = new ListView<>();
+    private ListView<Scenario> scenarios = new ListView<>();
 
-    private ImageView scenarioImage = new ImageView();
+    private ImageView  scenarioImage = new ImageView();
     private Text dateValue = new Text();
     private Text turnValue = new Text();
     private Text descriptionValue = new Text();
-    private Text sideValue = new Text();
+
+    @Getter
+    private RadioButton radioButtonAllies;
+
+    @Getter
+    private RadioButton radioButtonAxis;
+
+    @Getter
+    private Button backButton;
 
     @Getter
     private Button continueButton;
 
-    @Getter
-    private Button backButton;
+    private ImageView alliesFlag = new ImageView();
+    private ImageView axisFlag = new ImageView();
 
     private ViewProps props;
     private CssResourceProvider cssResourceProvider;
@@ -47,41 +60,41 @@ public class SavedGameView {
 
     /**
      * Constructor called by guice.
-     *
      * @param props view properties.
      * @param cssResourceProvider CSS file provider.
      * @param imageResourceProvider Image file provider.
      */
     @Inject
-    public SavedGameView(final ViewProps props,
-                         final CssResourceProvider cssResourceProvider,
-                         final ImageResourceProvider imageResourceProvider) {
+    public ScenarioView(final ViewProps props,
+                        final CssResourceProvider cssResourceProvider,
+                        final ImageResourceProvider imageResourceProvider) {
 
         this.props = props;
         this.cssResourceProvider = cssResourceProvider;
         this.imageResourceProvider = imageResourceProvider;
     }
+
     /**
      * Show the scenario selection view.
      * @param stage The stage on which the view is set.
      */
     public void show(final Stage stage) {
-        Label title = new Label("Select a saved game");
+        Label title = new Label("Select a Scenario");
         title.setId("title");
 
         StackPane titlePane = new StackPane(title);
         titlePane.setId("title-pane");
 
-        Label label = new Label("Saved Games:");
+        Label label = new Label("Scenarios:");
 
-        Node savedGamesList = buildSavedGamesList();
+        Node scenarioList = buildScenarioList();
         Node scenarioDetails = buildScenarioDetails();
+        HBox scenarioBox = new HBox(scenarioList, scenarioDetails);
 
-        HBox savedGamesBox = new HBox(savedGamesList, scenarioDetails);
-
+        Node radioButtons = buildRadioButtons();
         Node pushButtons = buildPushButtons();
 
-        VBox mainPane = new VBox(label, savedGamesBox, pushButtons);
+        VBox mainPane = new VBox(label, scenarioBox, radioButtons, pushButtons);
         mainPane.setId("main-pane");
 
         VBox vBox = new VBox(titlePane, mainPane);
@@ -98,26 +111,39 @@ public class SavedGameView {
     }
 
     /**
-     * Set the saved games in the list view.
-     *
-     * @param games the saved games.
+     * .
+     * @param s the scenarios
      */
-    public void setSavedGames(final List<GameData> games) {
-        savedGames.getItems().clear();
-        savedGames.getItems().addAll(games);
+    public void setScenarios(final List<Scenario> s) {
+        scenarios.getItems().clear();
+        scenarios.getItems().addAll(s);
     }
 
     /**
-     * Update the view with the currently selected saved game.
-     *
-     * @param savedGame currently selected saved game.
+     * Update the view with the selected currently scenario.
+     * @param scenario selected currently scenario
      */
-    public void setSelectedSavedGame(final GameData savedGame) {
-        Scenario scenario = savedGame.getScenario();
+    public void setScenario(final Scenario scenario) {
         setScenarioImages(scenario);
         setScenarioDetails(scenario);
+    }
 
-        sideValue.setText(savedGame.getHumanSide().toString());
+    /**
+     * Set the scenario image.
+     * @param scenario currently selected scenario.
+     */
+    private void setScenarioImages(final Scenario scenario) {
+        String name = scenario.getName();
+
+        Image image = imageResourceProvider.getImage(name, scenario.getImage());
+        scenarioImage.setImage(image);
+
+        Image axisFlagImage = imageResourceProvider.getImage(name, "axisFlag50x34.png");
+        axisFlag.setImage(axisFlagImage);
+
+        Image alliesFlagImage = imageResourceProvider.getImage(name, "alliesFlag50x34.png");
+        alliesFlag.setImage(alliesFlagImage);
+
     }
 
     /**
@@ -134,11 +160,11 @@ public class SavedGameView {
      * Build the scenario image and list box.
      * @return The node that contains the scenario image and list box.
      */
-    private Node buildSavedGamesList() {
-        savedGames.setMaxWidth(props.getInt("scenario.list.width"));
-        savedGames.setMaxHeight(props.getInt("scenario.list.height"));
+    private Node buildScenarioList() {
+        scenarios.setMaxWidth(props.getInt("scenario.list.width"));
+        scenarios.setMaxHeight(props.getInt("scenario.list.height"));
 
-        return new VBox(scenarioImage, savedGames);
+        return new VBox(scenarioImage, scenarios);
     }
 
     /**
@@ -150,11 +176,8 @@ public class SavedGameView {
         Text dateLabel = new Text("Date:");
         Text turnLabel = new Text("Number of Turns:");
         Text descriptionLabel = new Text("Description:");
-        Text sideLabel = new Text("Side:");
 
         descriptionValue.setWrappingWidth(props.getInt("scenario.description.wrap"));
-
-        final int row3 = 3;
 
         GridPane gridPane = new GridPane();
         gridPane.add(dateLabel, 0, 0);
@@ -163,14 +186,34 @@ public class SavedGameView {
         gridPane.add(turnValue, 1, 1);
         gridPane.add(descriptionLabel, 0, 2);
         gridPane.add(descriptionValue, 1, 2);
-        gridPane.add(sideLabel, 0, row3);
-        gridPane.add(sideValue, 1, row3);
-
-
         gridPane.setId("scenario-details");
         GridPane.setValignment(descriptionLabel, VPos.TOP);
 
         return gridPane;
+    }
+
+    /**
+     * Build the side radio buttons.
+     * @return The node that contains the side radio buttons.
+     */
+    private Node buildRadioButtons() {
+
+        alliesFlag = imageResourceProvider.getImageView("alliesFlag50x34.png");
+        axisFlag = imageResourceProvider.getImageView("axisFlag50x34.png");
+
+        radioButtonAllies = new RadioButton("Allies");
+        radioButtonAxis = new RadioButton("Axis");
+
+        radioButtonAllies.setSelected(true);
+
+        ToggleGroup sideGroup = new ToggleGroup();
+        radioButtonAllies.setToggleGroup(sideGroup);
+        radioButtonAxis.setToggleGroup(sideGroup);
+
+        HBox hBox = new HBox(alliesFlag, radioButtonAllies, radioButtonAxis, axisFlag);
+        hBox.setId("side-radio-buttons");
+        return hBox;
+
     }
 
     /**
@@ -184,17 +227,5 @@ public class SavedGameView {
         HBox hBox =  new HBox(backButton, continueButton);
         hBox.setId("push-buttons");
         return hBox;
-    }
-
-    /**
-     * Set the scenario image.
-     *
-     * @param scenario currently selected scenario.
-     */
-    private void setScenarioImages(final Scenario scenario) {
-        String name = scenario.getName();
-
-        Image image = imageResourceProvider.getImage(name, scenario.getImage());
-        scenarioImage.setImage(image);
     }
 }

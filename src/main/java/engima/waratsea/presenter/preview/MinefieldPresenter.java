@@ -1,13 +1,14 @@
-package engima.waratsea.presenter;
+package engima.waratsea.presenter.preview;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.minefield.Minefield;
+import engima.waratsea.presenter.Presenter;
 import engima.waratsea.presenter.dto.map.MinefieldDTO;
 import engima.waratsea.presenter.navigation.Navigate;
-import engima.waratsea.view.MinefieldView;
+import engima.waratsea.view.preview.MinefieldView;
 import engima.waratsea.view.map.marker.preview.MineMarker;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;

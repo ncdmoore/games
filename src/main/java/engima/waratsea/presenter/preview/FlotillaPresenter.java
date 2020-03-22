@@ -1,4 +1,4 @@
-package engima.waratsea.presenter;
+package engima.waratsea.presenter.preview;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -8,11 +8,12 @@ import engima.waratsea.model.flotilla.FlotillaType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.motorTorpedoBoat.MotorTorpedoBoat;
 import engima.waratsea.model.submarine.Submarine;
+import engima.waratsea.presenter.Presenter;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.motorTorpedoBoat.MotorTorpedoDetailsDialog;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.presenter.submarine.SubmarineDetailsDialog;
-import engima.waratsea.view.FlotillaView;
+import engima.waratsea.view.preview.FlotillaView;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;

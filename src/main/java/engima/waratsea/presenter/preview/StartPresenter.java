@@ -1,12 +1,13 @@
-package engima.waratsea.presenter;
+package engima.waratsea.presenter.preview;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import engima.waratsea.presenter.Presenter;
 import engima.waratsea.presenter.navigation.Navigate;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import engima.waratsea.view.StartView;
+import engima.waratsea.view.preview.StartView;
 
 /**
  * This class is the presenter for the start view or start scene of the entire application.

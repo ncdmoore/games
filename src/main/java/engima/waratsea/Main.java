@@ -7,7 +7,7 @@ import engima.waratsea.model.game.GameTitle;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import engima.waratsea.presenter.StartPresenter;
+import engima.waratsea.presenter.preview.StartPresenter;
 
 import java.net.URL;
 import java.util.Arrays;

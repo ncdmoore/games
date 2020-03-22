@@ -1,6 +1,7 @@
-package engima.waratsea.view;
+package engima.waratsea.view.preview;
 
 import com.google.inject.Inject;
+import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
