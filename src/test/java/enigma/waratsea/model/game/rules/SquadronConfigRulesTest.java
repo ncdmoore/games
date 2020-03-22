@@ -110,6 +110,7 @@ public class SquadronConfigRulesTest {
 
         gameTitle.setName(GameName.BOMB_ALLEY);
 
+        // Squadrons on search patrol may not be configured for search in bomb alley.
         SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
                 .setPatrolType(PatrolType.SEARCH);
 
@@ -117,11 +118,31 @@ public class SquadronConfigRulesTest {
 
         Assert.assertFalse(allowed.contains(SquadronConfig.SEARCH));
 
+        // Squadrons on search patrol may be configured for search in coral sea.
         gameTitle.setName(GameName.CORAL_SEA);
 
         allowed = rules.getAllowed(dto);
 
         Assert.assertTrue(allowed.contains(SquadronConfig.SEARCH));
+    }
 
+    @Test
+    public void testSquadronConfigReducedPayload() {
+        GameTitle gameTitle = injector.getInstance(GameTitle.class);
+
+        gameTitle.setName(GameName.BOMB_ALLEY);
+
+        // Squadrons may not be configured for reduced payload in bomb alley.
+        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO();
+        Set<SquadronConfig> allowed = rules.getAllowed(dto);
+
+        Assert.assertFalse(allowed.contains(SquadronConfig.REDUCED_PAYLOAD));
+
+        // Squadrons may be configured for reduced payload in coral sea.
+        gameTitle.setName(GameName.CORAL_SEA);
+
+        allowed = rules.getAllowed(dto);
+
+        Assert.assertTrue(allowed.contains(SquadronConfig.REDUCED_PAYLOAD));
     }
 }

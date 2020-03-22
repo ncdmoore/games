@@ -57,7 +57,8 @@ public class SquadronConfigRules {
                         isLeanEngineAllowed(missionType),
                         areDropTanksAllowed(role),
                         isStrippedDownAllowed(dto),
-                        isSearchAllowed(dto))
+                        isSearchAllowed(dto),
+                        isReducedPayloadAllowed(dto))
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
     }
@@ -106,12 +107,23 @@ public class SquadronConfigRules {
      * @return A set of squadron configurations.
      */
     private Set<SquadronConfig> isSearchAllowed(final SquadronConfigRulesDTO dto) {
-
         if (gameTitle.getName() == GameName.CORAL_SEA
                 && dto.getPatrolType() == PatrolType.SEARCH) {
             return Set.of(SquadronConfig.SEARCH);
         }
 
         return Set.of(SquadronConfig.NONE);
+    }
+
+    /**
+     * Get the allowed squadron configurations for reduced payload.
+     *
+     * @param dto The squadron config data transfer object.
+     * @return A set of squadron configurations.
+     */
+    private Set<SquadronConfig> isReducedPayloadAllowed(final SquadronConfigRulesDTO dto) {
+        return (gameTitle.getName() == GameName.CORAL_SEA)
+                ? Set.of(SquadronConfig.REDUCED_PAYLOAD)
+                : Set.of(SquadronConfig.NONE);
     }
 }
