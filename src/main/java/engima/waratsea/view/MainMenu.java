@@ -14,20 +14,15 @@ import lombok.Getter;
 @Singleton
 public class MainMenu {
 
-    @Getter
-    private MenuItem save;
+    @Getter private MenuItem save;
+    @Getter private MenuItem quit;
 
-    @Getter
-    private MenuItem quit;
+    @Getter private CheckMenuItem showAirfields;
+    @Getter private CheckMenuItem showPorts;
 
-    @Getter
-    private CheckMenuItem showAirfields;
+    @Getter private MenuItem squadrons;
 
-    @Getter
-    private CheckMenuItem showPorts;
-
-    @Getter
-    private MenuBar menuBar = new MenuBar();
+    @Getter private MenuBar menuBar = new MenuBar();
 
     /**
      * Constructor called by guice.
@@ -37,7 +32,6 @@ public class MainMenu {
         Menu menuFile = new Menu("File");
         save = new MenuItem("_Save");
         quit = new MenuItem("_Quit");
-
         menuFile.getItems().addAll(save, quit);
 
         Menu menuMap = new Menu("Map");
@@ -45,10 +39,13 @@ public class MainMenu {
         showAirfields.setSelected(true);
         showPorts = new CheckMenuItem("Show _Ports");
         showPorts.setSelected(true);
-
         menuMap.getItems().addAll(showAirfields, showPorts);
 
-        menuBar.getMenus().addAll(menuFile, menuMap);
+        Menu menuOOB = new Menu("Forces");
+        squadrons = new MenuItem("_Squadrons");
+        menuOOB.getItems().addAll(squadrons);
+
+        menuBar.getMenus().addAll(menuFile, menuMap, menuOOB);
         menuBar.setUseSystemMenuBar(true);                          // Menu will appear in mac system menu area like all other mac applications.
     }
 }

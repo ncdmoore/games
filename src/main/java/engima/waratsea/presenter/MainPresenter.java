@@ -63,6 +63,8 @@ public class MainPresenter implements Presenter {
         menuProvider.get().getSave().setOnAction(event -> save());
         menuProvider.get().getQuit().setOnAction(event -> quit());
 
+        menuProvider.get().getSquadrons().setOnAction(event -> squadrons());
+
         mainMapPresenter.setBaseClickHandler();
     }
 
@@ -97,5 +99,12 @@ public class MainPresenter implements Presenter {
      */
     private void quit() {
         stage.close();
+    }
+
+    /**
+     * Show the player's squadrons.
+     */
+    private void squadrons() {
+        System.out.println("show squadrons");
     }
 }

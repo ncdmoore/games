@@ -18,52 +18,21 @@ import lombok.Setter;
  */
 public class AssetMarkerDTO implements PopUpDTO {
 
-    @Getter
-    private final Asset asset;
-
-    @Getter
-    @Setter
-    private Nation nation;         //Note, some assets are shared by nations, such as airfields. Thus, we have
-                                   //to explicitly set the nation to indicate which nation this marker is for.
-    @Getter
-    private final String mapReference;
-
-    @Getter
-    private final String name;
-
-    @Getter
-    private final String title;
-
-    @Getter
-    private final boolean active;
-
-    @Getter
-    @Setter
-    private EventHandler<? super MouseEvent> markerEventHandler;
-
-    @Getter
-    @Setter
-    private EventHandler<? super MouseEvent> popupEventHandler;
-
+    @Getter private final Asset asset;
+    @Getter @Setter private Nation nation;         //Note, some assets are shared by nations, such as airfields. Thus, we have
+                                                   //to explicitly set the nation to indicate which nation this marker is for.
+    @Getter private final String mapReference;
+    @Getter private final String name;
+    @Getter private final String title;
+    @Getter private final boolean active;
+    @Getter @Setter private EventHandler<? super MouseEvent> markerEventHandler;
+    @Getter @Setter private EventHandler<? super MouseEvent> popupEventHandler;
     private GameGrid grid;
-
-    @Getter
-    private MapView mapView;
-
-    @Getter
-    private GridView gridView;
-
-    @Getter
-    @Setter
-    private int xOffset;
-
-    @Getter
-    @Setter
-    private String style;
-
-    @Getter
-    @Setter
-    private ImageView imageView;
+    @Getter private MapView mapView;
+    @Getter private GridView gridView;
+    @Getter @Setter private int xOffset;
+    @Getter @Setter private String style;
+    @Getter @Setter private ImageView imageView;
 
     /**
      * Construct the task force marker DTO.

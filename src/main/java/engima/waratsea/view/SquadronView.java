@@ -59,41 +59,18 @@ public class SquadronView {
     private CssResourceProvider cssResourceProvider;
     private ImageResourceProvider imageResourceProvider;
 
-    @Getter
-    private TabPane nationsTabPane;
-
-    @Getter
-    private Map<Nation, ChoiceBox<Region>> regions = new HashMap<>();
-
-    @Getter
-    private Map<Nation, ChoiceBox<Airfield>> airfields = new HashMap<>();
-
-    @Getter
-    private Map<Nation, TableView<Deployment>> deploymentStats = new HashMap<>();
-
-    @Getter
-    private ListView<Squadron> availableSquadrons = new ListView<>();
-
-    @Getter
-    private Label squadronAirfieldLabel = new Label();
-
-    @Getter
-    private ListView<Squadron> airfieldSquadrons = new ListView<>();
-
-    @Getter
-    private Button deployButton = new Button();
-
-    @Getter
-    private Button removeButton = new Button();
-
-    @Getter
-    private Button detailsButton = new Button("Details");
-
-    @Getter
-    private Button continueButton = new Button("Continue");
-
-    @Getter
-    private Button backButton = new Button("Back");
+    @Getter private TabPane nationsTabPane;
+    @Getter private Map<Nation, ChoiceBox<Region>> regions = new HashMap<>();
+    @Getter private Map<Nation, ChoiceBox<Airfield>> airfields = new HashMap<>();
+    @Getter private Map<Nation, TableView<Deployment>> deploymentStats = new HashMap<>();
+    @Getter private ListView<Squadron> availableSquadrons = new ListView<>();
+    @Getter private Label squadronAirfieldLabel = new Label();
+    @Getter private ListView<Squadron> airfieldSquadrons = new ListView<>();
+    @Getter private Button deployButton = new Button();
+    @Getter private Button removeButton = new Button();
+    @Getter private Button detailsButton = new Button("Details");
+    @Getter private Button continueButton = new Button("Continue");
+    @Getter private Button backButton = new Button("Back");
 
     private Game game;
     private GameMap gameMap;

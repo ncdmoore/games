@@ -2,6 +2,7 @@ package engima.waratsea.view.map.marker.preview;
 
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
@@ -15,6 +16,8 @@ import javafx.scene.shape.Rectangle;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -66,10 +69,14 @@ public class SquadronRangeMarker {
      * Draw the squadron range radius.
      */
     private void draw() {
+        Set<SquadronConfig> configs = Set.of(SquadronConfig.NONE, SquadronConfig.DROP_TANKS);
+
         rangeCircles = ((Squadron) squadron)
                 .getRadii()
-                .values()
+                .entrySet()
                 .stream()
+                .filter(entry -> configs.contains(entry.getKey()))
+                .map(Map.Entry::getValue)
                 .map(this::drawCircle)
                 .collect(Collectors.toList());
     }
