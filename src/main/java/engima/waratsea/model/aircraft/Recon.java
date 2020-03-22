@@ -27,7 +27,6 @@ import java.util.Set;
 public class Recon implements Aircraft {
     private static final Set<SquadronConfig> CONFIGS = Set.of(SquadronConfig.NONE, SquadronConfig.SEARCH);
 
-    private static final int SEARCH_MODIFIER = 4;         // Squadron configured for search has less ordinance and more fuel. This is the increase in range.
     private static final int SEARCH_ATTACK_REDUCTION = 2; // Squadron configured for search attack factor reduction.
 
     @Getter private final AircraftId aircraftId;
@@ -116,8 +115,10 @@ public class Recon implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getRadius() {
+        int searchModifier = performance.getSearchModifier(land, naval);
+
         return Map.of(SquadronConfig.NONE, performance.getRadius(),
-                      SquadronConfig.SEARCH, performance.getRadius() + SEARCH_MODIFIER);
+                      SquadronConfig.SEARCH, performance.getRadius() + searchModifier);
     }
 
     /**
@@ -130,8 +131,10 @@ public class Recon implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getFerryDistance() {
+        int searchModifier = performance.getSearchModifier(land, naval);
+
         return Map.of(SquadronConfig.NONE, performance.getFerryDistance(),
-                      SquadronConfig.SEARCH, performance.getFerryDistance() + (SEARCH_MODIFIER * 2));
+                      SquadronConfig.SEARCH, performance.getFerryDistance() + (searchModifier * 2));
     }
 
     /**

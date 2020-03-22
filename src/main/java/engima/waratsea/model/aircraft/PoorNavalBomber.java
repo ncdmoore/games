@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 public class PoorNavalBomber extends Bomber {
     private static final Set<SquadronConfig> CONFIGS = Set.of(SquadronConfig.NONE, SquadronConfig.LEAN_ENGINE, SquadronConfig.SEARCH);
 
-    private static final int SEARCH_MODIFIER = 4;         // Squadron configured for search has less ordinance and more fuel. This is the increase in range.
     private static final int SEARCH_ATTACK_REDUCTION = 2; // Squadron configured for search attack factor reduction.
     private static final int LEAN_ENGINE_FACTOR = 2;
     private static final double POOR_NAVAL_MODIFIER = 2.0 / 6.0;
@@ -184,9 +183,13 @@ public class PoorNavalBomber extends Bomber {
      */
     @Override
     public Map<SquadronConfig, Integer> getRadius() {
+        AttackFactor land = getLand().get(SquadronConfig.NONE);
+        AttackFactor naval = getNaval().get(SquadronConfig.NONE);
+
         int radius = this.getPerformance().getRadius();
         int leanMixtureRadius = radius * LEAN_ENGINE_FACTOR;
-        int searchRadius = radius + SEARCH_MODIFIER;
+        int searchModifier = getPerformance().getSearchModifier(land, naval);
+        int searchRadius = radius + searchModifier;
 
         return Map.of(SquadronConfig.NONE, radius,
                 SquadronConfig.LEAN_ENGINE, leanMixtureRadius,
@@ -203,13 +206,17 @@ public class PoorNavalBomber extends Bomber {
      */
     @Override
     public Map<SquadronConfig, Integer> getFerryDistance() {
+        AttackFactor land = getLand().get(SquadronConfig.NONE);
+        AttackFactor naval = getNaval().get(SquadronConfig.NONE);
+
         int distance = this.getPerformance().getFerryDistance();
         int leanMixtureDistance = distance * LEAN_ENGINE_FACTOR;
-        int searchDistnace = distance + (SEARCH_MODIFIER * 2);
+        int searchModifier = getPerformance().getSearchModifier(land, naval);
+        int searchDistance = distance + (searchModifier * 2);
 
         return Map.of(SquadronConfig.NONE, distance,
                 SquadronConfig.LEAN_ENGINE, leanMixtureDistance,
-                SquadronConfig.SEARCH, searchDistnace);
+                SquadronConfig.SEARCH, searchDistance);
     }
 
     /**
