@@ -21,7 +21,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -44,21 +43,15 @@ import java.util.Map;
  */
 @Slf4j
 public class SquadronSummaryView {
-    @Getter
-    private Squadron selectedSquadron;
-
+    @Getter private Squadron selectedSquadron;
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
     private final Probability probability;
-
     private final Label title = new Label();
-
     private final VBox mainPane =  new VBox();
     private final ImageView aircraftProfile = new ImageView();
     private final TitledGridPane attackStats = new TitledGridPane();
     private final TitledGridPane performanceStats = new TitledGridPane();
-
-    @Setter
     private SquadronConfig config;
 
     /**
@@ -76,6 +69,17 @@ public class SquadronSummaryView {
         this.props = props;
         this.probability = probability;
         this.config = SquadronConfig.NONE;
+    }
+
+    /**
+     * Set the squadron configuration to display.
+     *
+     * @param newConfig A squadron configuration.
+     * @return This object.
+     */
+    public SquadronSummaryView setConfig(final SquadronConfig newConfig) {
+        config = newConfig;
+        return  this;
     }
 
     /**

@@ -8,6 +8,7 @@ import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.presenter.airfield.mission.MissionAddDetailsDialog;
 import engima.waratsea.presenter.airfield.mission.MissionEditDetailsDialog;
 import engima.waratsea.utility.CssResourceProvider;
@@ -28,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.ListUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -38,6 +40,9 @@ import java.util.stream.Stream;
 @Slf4j
 public class AirfieldDetailsDialog {
     private static final String CSS_FILE = "airfieldDetails.css";
+    private static final Map<PatrolType, SquadronConfig> CONFIG_MAP = Map.of(PatrolType.ASW, SquadronConfig.NONE,
+            PatrolType.CAP, SquadronConfig.NONE,
+            PatrolType.SEARCH, SquadronConfig.NONE);
 
     private final MissionDAO missionDAO;
     private final CssResourceProvider cssResourceProvider;
@@ -48,11 +53,9 @@ public class AirfieldDetailsDialog {
     private final Provider<MissionEditDetailsDialog> missionEditDetailsDialogProvider;
 
     private final ViewProps props;
-
     private Stage stage;
 
-    @Getter
-    private AirfieldDetailsView view;
+    @Getter private AirfieldDetailsView view;
     private MainMapView mapView;
 
     private Airbase airbase;
@@ -545,10 +548,12 @@ public class AirfieldDetailsDialog {
         Optional.ofNullable(patrolSquadron).ifPresent(squadron -> {
             Nation nation = determineNation();
 
+
+
             view
                     .getAirfieldPatrolView()
                     .get(nation)
-                    .selectAvailableSquadron(patrolSquadron, patrolType);
+                    .selectAvailableSquadron(patrolSquadron, CONFIG_MAP.get(patrolType), patrolType);
         });
     }
 
@@ -565,7 +570,7 @@ public class AirfieldDetailsDialog {
             view
                     .getAirfieldPatrolView()
                     .get(nation)
-                    .selectAssignedSquadron(patrolSquadron, patrolType);
+                    .selectAssignedSquadron(patrolSquadron, CONFIG_MAP.get(patrolType), patrolType);
         });
     }
 

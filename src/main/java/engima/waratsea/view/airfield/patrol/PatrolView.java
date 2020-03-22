@@ -6,6 +6,7 @@ import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronSummaryView;
@@ -168,29 +169,35 @@ public class PatrolView {
 
     /**
      * Select the assigned squadron.
-     *
-     * @param squadron The selected assigned squadron.
+     *  @param squadron The selected assigned squadron.
+     * @param config A squadron configuration.
      * @param patrolType The patrol type.
      */
-    public void selectAssignedSquadron(final Squadron squadron, final PatrolType patrolType) {
-        patrolListMap.get(patrolType)
+    public void selectAssignedSquadron(final Squadron squadron, final SquadronConfig config, final PatrolType patrolType) {
+        patrolListMap
+                .get(patrolType)
                 .clearAvailableSelection();
 
-        patrolSquadronMap.get(patrolType)
+        patrolSquadronMap
+                .get(patrolType)
+                .setConfig(config)
                 .setSelectedSquadron(squadron);
     }
 
     /**
      * Select the available squadron.
-     *
-     * @param squadron The selected available squadron.
+     *  @param squadron The selected available squadron.
+     * @param config A squadron configuration.
      * @param patrolType The patrol type.
      */
-    public void selectAvailableSquadron(final Squadron squadron, final PatrolType patrolType) {
-        patrolListMap.get(patrolType)
+    public void selectAvailableSquadron(final Squadron squadron, final SquadronConfig config, final PatrolType patrolType) {
+        patrolListMap
+                .get(patrolType)
                 .clearAssignedSelection();
 
-        patrolSquadronMap.get(patrolType)
+        patrolSquadronMap
+                .get(patrolType)
+                .setConfig(config)
                 .setSelectedSquadron(squadron);
     }
 

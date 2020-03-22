@@ -54,14 +54,9 @@ public class MissionEditDetailsDialog {
     private Airbase airbase;
     private Nation nation;
 
-    @Getter
-    @Setter
-    private AirMission mission;
-
+    @Getter @Setter private AirMission mission;
     private AirMissionType selectedMissionType;
-
     private MissionEditDetailsView view;
-
     private MissionDetails missionDetails;
 
     /**
@@ -271,9 +266,17 @@ public class MissionEditDetailsDialog {
                 .ofNullable(squadron)
                 .ifPresent(s -> {
                     MissionRole role = getSelectedRole();
-                    view.getSquadronSummaryView().setConfig(SquadronConfig.NONE);
-                    view.getSquadronSummaryView().setSelectedSquadron(s);
-                    view.getSquadronList(role).getAssigned().getSelectionModel().clearSelection();
+
+                    view
+                            .getSquadronSummaryView()
+                            .setConfig(SquadronConfig.NONE)
+                            .setSelectedSquadron(s);
+
+                    view
+                            .getSquadronList(role)
+                            .getAssigned()
+                            .getSelectionModel()
+                            .clearSelection();
                 });
     }
 
@@ -288,8 +291,15 @@ public class MissionEditDetailsDialog {
                 .ifPresent(s -> {
                     MissionRole role = getSelectedRole();
                     setConfig(squadron);
-                    view.getSquadronSummaryView().setSelectedSquadron(s);
-                    view.getSquadronList(role).getAvailable().getSelectionModel().clearSelection();
+                    view
+                            .getSquadronSummaryView()
+                            .setSelectedSquadron(s);
+
+                    view
+                            .getSquadronList(role)
+                            .getAvailable()
+                            .getSelectionModel()
+                            .clearSelection();
                 });
     }
 

@@ -57,13 +57,9 @@ public class MissionAddDetailsDialog {
     private Airbase airbase;
     private Nation nation;
 
-    @Getter
-    private AirMission mission;
-
+    @Getter private AirMission mission;
     private AirMissionType selectedMissionType;
-
     private MissionAddDetailsView view;
-
     private MissionDetails missionDetails;
 
     /**
@@ -324,11 +320,18 @@ public class MissionAddDetailsDialog {
                 .ofNullable(squadron)
                 .ifPresent(s -> {
                     MissionRole role = getSelectedRole();
-                    view.getSquadronSummaryView().setConfig(SquadronConfig.NONE);
-                    view.getSquadronSummaryView().setSelectedSquadron(s);
-                    view.getSquadronList(role).getAssigned().getSelectionModel().clearSelection();
-                });
 
+                    view
+                            .getSquadronSummaryView()
+                            .setConfig(SquadronConfig.NONE)
+                            .setSelectedSquadron(s);
+
+                    view
+                            .getSquadronList(role)
+                            .getAssigned()
+                            .getSelectionModel()
+                            .clearSelection();
+                });
     }
 
     /**
@@ -342,8 +345,15 @@ public class MissionAddDetailsDialog {
                 .ifPresent(s -> {
                     MissionRole role = getSelectedRole();
                     setConfig(squadron);
-                    view.getSquadronSummaryView().setSelectedSquadron(s);
-                    view.getSquadronList(role).getAvailable().getSelectionModel().clearSelection();
+                    view
+                            .getSquadronSummaryView()
+                            .setSelectedSquadron(s);
+
+                    view
+                            .getSquadronList(role)
+                            .getAvailable()
+                            .getSelectionModel()
+                            .clearSelection();
                 });
     }
 
