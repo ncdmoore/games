@@ -47,4 +47,35 @@ public class AttackFactor {
     public int getFactor(final SquadronStrength strength) {
         return factor.get(strength);
     }
+
+    /**
+     * Get the reduced attack factor.
+     *
+     * @param reduction The reduction factor.
+     * @return A reduced attack factor.
+     */
+    public AttackFactor getReducedRoundDown(final int reduction) {
+        AttackFactorData data = new AttackFactorData();
+        data.setModifier(modifier);
+        data.setFull(full / reduction);
+        data.setHalf(half / reduction);
+        data.setSixth(sixth / reduction);
+        return new AttackFactor(data);
+    }
+
+    /**
+     * Get the reduced attack factor.
+     *
+     * @param reduction The reduction factor.
+     * @return A reduced attack factor.
+     */
+    public AttackFactor getReducedRoundUp(final int reduction) {
+        AttackFactorData data = new AttackFactorData();
+        data.setModifier(modifier);
+        data.setFull((full / reduction) + (full % reduction));
+        data.setHalf((half / reduction) + (half % reduction));
+        data.setSixth((sixth / reduction) + (sixth % reduction));
+        return new AttackFactor(data);
+    }
 }
+

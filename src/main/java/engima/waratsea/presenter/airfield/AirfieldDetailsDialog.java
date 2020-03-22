@@ -5,8 +5,10 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
-import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
+import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.rules.Rules;
+import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.presenter.airfield.mission.MissionAddDetailsDialog;
@@ -28,9 +30,13 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.ListUtils;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,9 +46,10 @@ import java.util.stream.Stream;
 @Slf4j
 public class AirfieldDetailsDialog {
     private static final String CSS_FILE = "airfieldDetails.css";
-    private static final Map<PatrolType, SquadronConfig> CONFIG_MAP = Map.of(PatrolType.ASW, SquadronConfig.NONE,
-            PatrolType.CAP, SquadronConfig.NONE,
-            PatrolType.SEARCH, SquadronConfig.NONE);
+    private static final Map<PatrolType, LinkedHashSet<SquadronConfig>> CONFIG_MAP = Map.of(
+            PatrolType.ASW, new LinkedHashSet<>(Collections.singletonList(SquadronConfig.NONE)),
+            PatrolType.CAP,  new LinkedHashSet<>(Collections.singletonList(SquadronConfig.NONE)),
+            PatrolType.SEARCH,  new LinkedHashSet<>(Arrays.asList(SquadronConfig.SEARCH, SquadronConfig.NONE)));
 
     private final MissionDAO missionDAO;
     private final CssResourceProvider cssResourceProvider;
@@ -53,6 +60,7 @@ public class AirfieldDetailsDialog {
     private final Provider<MissionEditDetailsDialog> missionEditDetailsDialogProvider;
 
     private final ViewProps props;
+    private final Rules rules;
     private Stage stage;
 
     @Getter private AirfieldDetailsView view;
@@ -71,6 +79,7 @@ public class AirfieldDetailsDialog {
      * @param missionAddDetailsDialogProvider Provides the mission details add dialog.
      * @param missionEditDetailsDialogProvider Provides the mission details edit dialog.
      * @param props The view properties.
+     * @param rules The game rules.
      */
 
     //CHECKSTYLE:OFF
@@ -82,7 +91,8 @@ public class AirfieldDetailsDialog {
                                  final Provider<MainMapView> mapViewProvider,
                                  final Provider<MissionAddDetailsDialog> missionAddDetailsDialogProvider,
                                  final Provider<MissionEditDetailsDialog> missionEditDetailsDialogProvider,
-                                 final ViewProps props) {
+                                 final ViewProps props,
+                                 final Rules rules) {
     //CHECKSTYLE:ON
         this.missionDAO = missionDAO;
         this.cssResourceProvider = cssResourceProvider;
@@ -92,6 +102,7 @@ public class AirfieldDetailsDialog {
         this.missionAddDetailsDialogProvider = missionAddDetailsDialogProvider;
         this.missionEditDetailsDialogProvider = missionEditDetailsDialogProvider;
         this.props = props;
+        this.rules = rules;
     }
 
     /**
@@ -167,7 +178,7 @@ public class AirfieldDetailsDialog {
     }
 
     /**
-     * Add the given nation's given squadrn to the ready list.
+     * Add the given nation's given squadron to the ready list.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc...
      * @param squadron The squadron to add.
@@ -303,7 +314,7 @@ public class AirfieldDetailsDialog {
                     .getAirfieldReadyView()
                     .get(nation)
                     .getReadyLists()
-                    .forEach((type, listview) -> listview
+                    .forEach((type, listView) -> listView
                             .getSelectionModel()
                             .selectedItemProperty()
                             .addListener((v, oldValue, newValue) -> readySquadronSelected(newValue)))
@@ -547,13 +558,12 @@ public class AirfieldDetailsDialog {
     private void patrolAvailableSquadronSelected(final Squadron patrolSquadron, final PatrolType patrolType) {
         Optional.ofNullable(patrolSquadron).ifPresent(squadron -> {
             Nation nation = determineNation();
-
-
+            SquadronConfig config = determineConfiguration(squadron, patrolType);
 
             view
                     .getAirfieldPatrolView()
                     .get(nation)
-                    .selectAvailableSquadron(patrolSquadron, CONFIG_MAP.get(patrolType), patrolType);
+                    .selectAvailableSquadron(patrolSquadron, config, patrolType);
         });
     }
 
@@ -566,11 +576,12 @@ public class AirfieldDetailsDialog {
     private void patrolAssignedSquadronSelected(final Squadron patrolSquadron, final PatrolType patrolType) {
         Optional.ofNullable(patrolSquadron).ifPresent(squadron -> {
             Nation nation = determineNation();
+            SquadronConfig config = determineConfiguration(squadron, patrolType);
 
             view
                     .getAirfieldPatrolView()
                     .get(nation)
-                    .selectAssignedSquadron(patrolSquadron, CONFIG_MAP.get(patrolType), patrolType);
+                    .selectAssignedSquadron(patrolSquadron, config, patrolType);
         });
     }
 
@@ -586,10 +597,10 @@ public class AirfieldDetailsDialog {
 
             Nation nation = determineNation();
 
-            //Clear all the other ready listview selections. If on clicking a listview
+            //Clear all the other ready listView selections. If on clicking a listView
             //that already has a squadron selected and the same squadron is selected,
-            //then no notification is sent. To avoid this we clear all other listviews
-            //anytime a ready squadron is selected. This way when a listview is selected
+            //then no notification is sent. To avoid this we clear all other listViews
+            //anytime a ready squadron is selected. This way when a listView is selected
             //a notification is guaranteed to be sent.
             view
                     .getAirfieldReadyView()
@@ -679,5 +690,26 @@ public class AirfieldDetailsDialog {
         view.getAirfieldPatrolView()
                 .get(nation)
                 .addSquadronToPatrolAvailableList(patrolType, squadron);
+    }
+
+    /**
+     * Determine the best squadron configuration for the given type of patrol.
+     *
+     * @param squadron The squadron on patrol.
+     * @param patrolType The type of patrol.
+     * @return The best squadron configuration for the given type of patrol.
+     */
+    private SquadronConfig determineConfiguration(final Squadron squadron, final PatrolType patrolType) {
+        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO();
+        Set<SquadronConfig> allowed = rules.getAllowedSquadronConfig(dto);
+
+        // Get the first config for the given patrol type that is allowed.
+        // This should return the most desired patrol squadron configuration.
+        return CONFIG_MAP
+                .get(patrolType)
+                .stream()
+                .filter(allowed::contains)
+                .findFirst()
+                .orElse(SquadronConfig.NONE);
     }
 }

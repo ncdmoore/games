@@ -9,13 +9,13 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.target.Target;
-import engima.waratsea.utility.Dice;
 import lombok.AccessLevel;
 import lombok.Getter;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Represents a bomber aircraft.
@@ -23,9 +23,13 @@ import java.util.Map;
  * Squadron configurations supported:
  *
  *  SquadronConfig.NONE
+ *  SquadronConfig.SEARCH
  */
 public class Bomber implements Aircraft {
-    private static final int BASE_MODIFIER = 1; // A  6 on a 6-sided die always hits.
+    private static final Set<SquadronConfig> CONFIGS = Set.of(SquadronConfig.NONE, SquadronConfig.SEARCH);
+
+    private static final int SEARCH_MODIFIER = 4;         // Squadron configured for search has less ordinance and more fuel. This is the increase in range.
+    private static final int SEARCH_ATTACK_REDUCTION = 2; // Squadron configured for search attack factor reduction.
 
     @Getter private final AircraftId aircraftId;
     @Getter private final AircraftType type;
@@ -39,20 +43,18 @@ public class Bomber implements Aircraft {
     private final AttackFactor air;
     private final AttackFactor land;
     @Getter private final Frame frame;
-    @Getter private final Dice dice;
-
-    @Getter(AccessLevel.PROTECTED)
-    private final Performance performance;
+    @Getter(AccessLevel.PROTECTED) private final Probability probability;
+    @Getter(AccessLevel.PROTECTED) private final Performance performance;
 
     /**
      * The constructor called by guice.
      *
      * @param data The aircraft data read in from a JSON file.
-     * @param dice Dice utility.
+     * @param probability Probability utility.
      */
     @Inject
     public Bomber(@Assisted final AircraftData data,
-                            final Dice dice) {
+                            final Probability probability) {
         this.aircraftId = data.getAircraftId();
         this.type = data.getType();
         this.designation = data.getDesignation();
@@ -67,7 +69,9 @@ public class Bomber implements Aircraft {
         this.performance = new Performance(data.getPerformance());
         this.frame = new Frame(data.getFrame());
 
-        this.dice = dice;
+        this.probability = probability;
+
+        probability.setConfigurations(CONFIGS);
     }
 
     /**
@@ -110,7 +114,8 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getRadius() {
-       return Map.of(SquadronConfig.NONE, performance.getRadius());
+       return Map.of(SquadronConfig.NONE, performance.getRadius(),
+                     SquadronConfig.SEARCH, performance.getRadius() + SEARCH_MODIFIER);
     }
 
     /**
@@ -123,7 +128,8 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getFerryDistance() {
-        return Map.of(SquadronConfig.NONE, performance.getFerryDistance());
+        return Map.of(SquadronConfig.NONE, performance.getFerryDistance(),
+                      SquadronConfig.SEARCH, performance.getFerryDistance() + (SEARCH_MODIFIER * 2));
     }
 
     /**
@@ -146,7 +152,8 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getEndurance() {
-        return Map.of(SquadronConfig.NONE, performance.getEndurance());
+        return Map.of(SquadronConfig.NONE, performance.getEndurance(),
+                      SquadronConfig.SEARCH, performance.getEndurance());
     }
 
     /**
@@ -157,7 +164,7 @@ public class Bomber implements Aircraft {
      */
     @Override
     public  Map<SquadronConfig, Double> getAirHitProbability(final SquadronStrength strength) {
-        return Map.of(SquadronConfig.NONE, dice.probability(air.getModifier() + BASE_MODIFIER, air.getFactor(strength)));
+       return probability.getHitProbability(getAir(), strength);
     }
 
     /**
@@ -170,7 +177,7 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Double> getAirHitIndividualProbability(final Target target, final int modifier) {
-        return Map.of(SquadronConfig.NONE, dice.individualProbability(air.getModifier() + BASE_MODIFIER + modifier));
+       return probability.getIndividualHitProbability(getAir(), modifier);
     }
 
     /**
@@ -181,7 +188,7 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Double> getLandHitProbability(final SquadronStrength strength) {
-        return Map.of(SquadronConfig.NONE, dice.probability(land.getModifier() + BASE_MODIFIER, land.getFactor(strength)));
+        return probability.getHitProbability(getLand(), strength);
     }
 
     /**
@@ -194,7 +201,7 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Double> getLandHitIndividualProbability(final Target target, final int modifier) {
-        return Map.of(SquadronConfig.NONE, dice.individualProbability(land.getModifier() + BASE_MODIFIER + modifier));
+        return probability.getIndividualHitProbability(getLand(), modifier);
     }
 
     /**
@@ -205,7 +212,7 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Double> getNavalHitProbability(final SquadronStrength strength) {
-        return Map.of(SquadronConfig.NONE, dice.probability(naval.getModifier() + BASE_MODIFIER, naval.getFactor(strength)));
+        return probability.getHitProbability(getNaval(), strength);
     }
 
     /**
@@ -218,7 +225,7 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Double> getNavalHitIndividualProbability(final Target target, final int modifier) {
-        return Map.of(SquadronConfig.NONE, dice.individualProbability(naval.getModifier() + BASE_MODIFIER + modifier));
+        return probability.getIndividualHitProbability(getNaval(), modifier);
     }
 
     /**
@@ -228,7 +235,8 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, AttackFactor> getAir() {
-        return Map.of(SquadronConfig.NONE, air);
+        return Map.of(SquadronConfig.NONE, air,
+                      SquadronConfig.SEARCH, air);
     }
 
     /**
@@ -238,7 +246,10 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, AttackFactor> getLand() {
-        return Map.of(SquadronConfig.NONE, land);
+        AttackFactor search = land.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
+
+        return Map.of(SquadronConfig.NONE, land,
+                      SquadronConfig.SEARCH, search);
     }
 
     /**
@@ -248,6 +259,9 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, AttackFactor> getNaval() {
-        return Map.of(SquadronConfig.NONE, naval);
+        AttackFactor search = naval.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
+
+        return Map.of(SquadronConfig.NONE, naval,
+                      SquadronConfig.SEARCH, search);
     }
 }

@@ -55,7 +55,8 @@ public class SquadronConfigRules {
                 .of(Set.of(SquadronConfig.NONE),
                         isLeanEngineAllowed(missionType),
                         areDropTanksAllowed(role),
-                        isStrippedDownAllowed(dto))
+                        isStrippedDownAllowed(dto),
+                        isSearchAllowed())
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
     }
@@ -87,7 +88,6 @@ public class SquadronConfigRules {
      * @return A set of the allowed squadron configurations given the type of mission and type of airfield.
      */
     private Set<SquadronConfig> isStrippedDownAllowed(final SquadronConfigRulesDTO dto) {
-
         if (gameTitle.getName() == GameName.BOMB_ALLEY
                 && dto.getNation() == Nation.BRITISH
                 && dto.getMissionType() == AirMissionType.FERRY
@@ -96,5 +96,14 @@ public class SquadronConfigRules {
         }
 
         return Set.of(SquadronConfig.NONE);
+    }
+
+    /**
+     * Get the allowed squadron configurations for search.
+     *
+     * @return A set of squadron configurations.
+     */
+    private Set<SquadronConfig> isSearchAllowed() {
+        return  (gameTitle.getName() == GameName.CORAL_SEA) ? Set.of(SquadronConfig.SEARCH) : Set.of(SquadronConfig.NONE);
     }
 }

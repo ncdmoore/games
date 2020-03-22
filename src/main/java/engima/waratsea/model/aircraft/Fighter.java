@@ -10,12 +10,12 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.target.Target;
-import engima.waratsea.utility.Dice;
 import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Represents a fighter aircraft.
@@ -28,10 +28,13 @@ import java.util.Map;
  *
  *  SquadronConfig.NONE
  *  SquadronConfig.DROP_TANKS
+ *  SquadronConfig.SEARCH
  *  SquadronConfig.STRIPPED_DOWN
  */
 public class Fighter implements Aircraft {
-    private static final int BASE_MODIFIER = 1; // A 6 always hits on a 6-sided die.
+    private static final Set<SquadronConfig> CONFIGS = Set.of(SquadronConfig.NONE, SquadronConfig.DROP_TANKS,
+                                                              SquadronConfig.SEARCH, SquadronConfig.STRIPPED_DOWN);
+
     private static final double DROP_TANK_FACTOR = 1.5;    // Drop tanks increase range by 1.5 times.
     private static final int STRIPPED_DOWN_FACTOR = 3;     // Stripping down the fighter of ordinance and adding extra full increases the range by 3.
 
@@ -49,17 +52,17 @@ public class Fighter implements Aircraft {
     @Getter private final Performance performance;
     @Getter private final Frame frame;
 
-    private final Dice dice;
+    private final Probability probability;
 
     /**
      * The constructor called by guice.
      *
      * @param data The aircraft data read in from a JSON file.
-     * @param dice Dice utility.
+     * @param probability Probability utility.
      */
     @Inject
     public Fighter(@Assisted final AircraftData data,
-                             final Dice dice) {
+                             final Probability probability) {
         this.aircraftId = data.getAircraftId();
         this.type = data.getType();
         this.designation = data.getDesignation();
@@ -74,7 +77,9 @@ public class Fighter implements Aircraft {
         this.performance = new Performance(data.getPerformance());
         this.frame = new Frame(data.getFrame());
 
-        this.dice = dice;
+        this.probability = probability;
+
+        probability.setConfigurations(CONFIGS);
     }
 
     /**
@@ -115,12 +120,7 @@ public class Fighter implements Aircraft {
      */
     @Override
     public  Map<SquadronConfig, Double> getAirHitProbability(final SquadronStrength strength) {
-        double prob =  dice.probability(air.getModifier() + BASE_MODIFIER, air.getFactor(strength));
-        double strippedProb = dice.probability(BASE_MODIFIER, air.getFactor(strength));
-
-        return Map.of(SquadronConfig.NONE, prob,
-                SquadronConfig.DROP_TANKS, prob,
-                SquadronConfig.STRIPPED_DOWN, strippedProb);
+        return probability.getHitProbability(getAir(), strength);
     }
 
     /**
@@ -133,12 +133,7 @@ public class Fighter implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Double> getAirHitIndividualProbability(final Target target, final int modifier) {
-        double prob =  dice.individualProbability(air.getModifier() + BASE_MODIFIER + modifier);
-        double probStripped = dice.individualProbability(BASE_MODIFIER + modifier);
-
-        return Map.of(SquadronConfig.NONE, prob,
-                      SquadronConfig.DROP_TANKS, prob,
-                      SquadronConfig.STRIPPED_DOWN, probStripped);
+       return probability.getIndividualHitProbability(getAir(), modifier);
     }
 
     /**
@@ -149,11 +144,7 @@ public class Fighter implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Double> getLandHitProbability(final SquadronStrength strength) {
-        double prob = dice.probability(land.getModifier() + BASE_MODIFIER, land.getFactor(strength));
-
-        return Map.of(SquadronConfig.NONE, prob,
-                      SquadronConfig.DROP_TANKS, prob,
-                      SquadronConfig.STRIPPED_DOWN, 0.0);
+        return probability.getHitProbability(getLand(), strength);
     }
 
     /**
@@ -166,11 +157,7 @@ public class Fighter implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Double> getLandHitIndividualProbability(final Target target, final int modifier) {
-        double prob = dice.individualProbability(land.getModifier() + BASE_MODIFIER + modifier);
-
-        return Map.of(SquadronConfig.NONE, prob,
-                SquadronConfig.DROP_TANKS, prob,
-                SquadronConfig.STRIPPED_DOWN, 0.0);
+        return probability.getIndividualHitProbability(getLand(), modifier);
     }
 
     /**
@@ -181,11 +168,7 @@ public class Fighter implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Double> getNavalHitProbability(final SquadronStrength strength) {
-        double prob = dice.probability(naval.getModifier() + BASE_MODIFIER, naval.getFactor(strength));
-
-        return Map.of(SquadronConfig.NONE, prob,
-                      SquadronConfig.DROP_TANKS, prob,
-                      SquadronConfig.STRIPPED_DOWN, 0.0);
+        return probability.getHitProbability(getNaval(), strength);
     }
 
     /**
@@ -198,11 +181,7 @@ public class Fighter implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Double> getNavalHitIndividualProbability(final Target target, final int modifier) {
-        double prob = dice.individualProbability(naval.getModifier() + BASE_MODIFIER + modifier);
-
-        return Map.of(SquadronConfig.NONE, prob,
-                      SquadronConfig.DROP_TANKS, prob,
-                      SquadronConfig.STRIPPED_DOWN, 0.0);
+        return probability.getIndividualHitProbability(getNaval(), modifier);
     }
 
     /**
@@ -220,6 +199,7 @@ public class Fighter implements Aircraft {
 
         return Map.of(SquadronConfig.NONE, air,
                 SquadronConfig.DROP_TANKS, air,
+                SquadronConfig.SEARCH, air,
                 SquadronConfig.STRIPPED_DOWN, stripped);
     }
 
@@ -235,6 +215,7 @@ public class Fighter implements Aircraft {
 
         return Map.of(SquadronConfig.NONE, land,
                       SquadronConfig.DROP_TANKS, land,
+                      SquadronConfig.SEARCH, land,
                       SquadronConfig.STRIPPED_DOWN, stripped);
     }
 
@@ -250,6 +231,7 @@ public class Fighter implements Aircraft {
 
         return Map.of(SquadronConfig.NONE, naval,
                       SquadronConfig.DROP_TANKS, naval,
+                      SquadronConfig.SEARCH, naval,
                       SquadronConfig.STRIPPED_DOWN, stripped);
     }
 
@@ -269,6 +251,7 @@ public class Fighter implements Aircraft {
 
         return Map.of(SquadronConfig.NONE, radius,
                       SquadronConfig.DROP_TANKS, radiusWithDropTank,
+                      SquadronConfig.SEARCH, radiusWithDropTank,
                       SquadronConfig.STRIPPED_DOWN, radiusStrippedDown);
     }
 
@@ -288,6 +271,7 @@ public class Fighter implements Aircraft {
 
         return Map.of(SquadronConfig.NONE, distance,
                       SquadronConfig.DROP_TANKS, distanceWithDropTank,
+                      SquadronConfig.SEARCH, distanceWithDropTank,
                       SquadronConfig.STRIPPED_DOWN, distanceStrippedDown);
     }
 
@@ -313,6 +297,7 @@ public class Fighter implements Aircraft {
     public Map<SquadronConfig, Integer> getEndurance() {
         return Map.of(SquadronConfig.NONE, performance.getEndurance(),
                       SquadronConfig.DROP_TANKS, performance.getEndurance(),
+                      SquadronConfig.SEARCH, performance.getEndurance(),
                       SquadronConfig.STRIPPED_DOWN, performance.getEndurance());
     }
 }
