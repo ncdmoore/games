@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Nation;
@@ -41,6 +42,7 @@ public class SquadronConfigRulesTest {
         Assert.assertTrue(allowed.contains(SquadronConfig.NONE));
         Assert.assertTrue(allowed.contains(SquadronConfig.DROP_TANKS));
         Assert.assertFalse(allowed.contains(SquadronConfig.STRIPPED_DOWN));
+        Assert.assertFalse(allowed.contains(SquadronConfig.SEARCH));
 
         // Test a fighter performing the main role. No drop tanks are allowed.
         dto = new SquadronConfigRulesDTO()
@@ -108,7 +110,8 @@ public class SquadronConfigRulesTest {
 
         gameTitle.setName(GameName.BOMB_ALLEY);
 
-        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO();
+        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
+                .setPatrolType(PatrolType.SEARCH);
 
         Set<SquadronConfig> allowed = rules.getAllowed(dto);
 

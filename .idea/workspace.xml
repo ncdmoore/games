@@ -6,10 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Performance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Performance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Recon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Recon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/SquadronConfigRules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/SquadronConfigRules.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/SquadronConfigRulesDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/SquadronConfigRulesDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/rules/SquadronConfigRulesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/rules/SquadronConfigRulesTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,6 +162,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SquadronConfigRulesTest.testSquadronConfigDropTanks" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.game.rules.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.rules" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.rules.SquadronConfigRulesTest" />
+      <option name="METHOD_NAME" value="testSquadronConfigDropTanks" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SquadronConfigRulesTest.testSquadronConfigLeanEngine" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="worldWarTwoAtSea.test" />
       <extension name="coverage">
@@ -191,23 +207,6 @@
       <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.rules" />
       <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.rules.SquadronConfigRulesTest" />
       <option name="METHOD_NAME" value="testSquadronConfigSearch" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SquadronConfigRulesTest.testSquadronConfigStrippedDown" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.game.rules.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.rules" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.rules.SquadronConfigRulesTest" />
-      <option name="METHOD_NAME" value="testSquadronConfigStrippedDown" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
@@ -259,19 +258,19 @@
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.All in worldWarTwoAtSea.test" />
-      <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigStrippedDown" />
       <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigLeanEngine" />
       <item itemvalue="JUnit.SquadronConfigRulesTest" />
       <item itemvalue="JUnit.airfieldTest.addInvalidSquadronToCAPTest" />
       <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigSearch" />
+      <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigDropTanks" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigDropTanks" />
         <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigSearch" />
         <item itemvalue="JUnit.airfieldTest.addInvalidSquadronToCAPTest" />
         <item itemvalue="JUnit.SquadronConfigRulesTest" />
         <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigLeanEngine" />
-        <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigStrippedDown" />
       </list>
     </recent_temporary>
   </component>
@@ -288,13 +287,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00115" summary="Add nation to ship event matcher.">
-      <created>1574637584247</created>
-      <option name="number" value="00115" />
-      <option name="presentableId" value="LOCAL-00115" />
-      <option name="project" value="LOCAL" />
-      <updated>1574637584247</updated>
     </task>
     <task id="LOCAL-00116" summary="Add nation to ship event matcher.">
       <created>1574640866489</created>
@@ -632,7 +624,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584885636052</updated>
     </task>
-    <option name="localTasksCounter" value="164" />
+    <task id="LOCAL-00164" summary="Aircraft with the required naval or land payload have an additional range modifier for search squadron configurations.">
+      <created>1584887740514</created>
+      <option name="number" value="00164" />
+      <option name="presentableId" value="LOCAL-00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1584887740514</updated>
+    </task>
+    <option name="localTasksCounter" value="165" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -646,7 +645,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Implement airfield ferry part 4." />
     <MESSAGE value="Add squadron summary to mission add/edit dialogs." />
     <MESSAGE value="Airfield Mission Strike probability." />
     <MESSAGE value="Add remaining mission type's probabilities." />
@@ -671,7 +669,8 @@
     <MESSAGE value="Patrols now support squadron configurations." />
     <MESSAGE value="Add search squadron configuration." />
     <MESSAGE value="Add unit test for search squadron configuration." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add unit test for search squadron configuration." />
+    <MESSAGE value="Aircraft with the required naval or land payload have an additional range modifier for search squadron configurations." />
+    <option name="LAST_COMMIT_MESSAGE" value="Aircraft with the required naval or land payload have an additional range modifier for search squadron configurations." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584881793391">
@@ -706,26 +705,26 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1584880258677" />
-    <state x="1265" y="300" key="CommitChangelistDialog2" timestamp="1584885635911">
+    <state x="1265" y="300" key="CommitChangelistDialog2" timestamp="1584887740307">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1584885635911" />
-    <state width="1664" height="286" key="GridCell.Tab.0.bottom" timestamp="1584887434231">
+    <state x="1265" y="300" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1584887740307" />
+    <state width="1664" height="286" key="GridCell.Tab.0.bottom" timestamp="1584889384129">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="286" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1584887434231" />
-    <state width="1664" height="286" key="GridCell.Tab.0.center" timestamp="1584887434230">
+    <state width="1664" height="286" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1584889384129" />
+    <state width="1664" height="286" key="GridCell.Tab.0.center" timestamp="1584889384128">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="286" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1584887434230" />
-    <state width="1664" height="286" key="GridCell.Tab.0.left" timestamp="1584887434230">
+    <state width="1664" height="286" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1584889384128" />
+    <state width="1664" height="286" key="GridCell.Tab.0.left" timestamp="1584889384128">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="286" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1584887434230" />
-    <state width="1664" height="286" key="GridCell.Tab.0.right" timestamp="1584887434230">
+    <state width="1664" height="286" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1584889384128" />
+    <state width="1664" height="286" key="GridCell.Tab.0.right" timestamp="1584889384129">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="286" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1584887434230" />
+    <state width="1664" height="286" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1584889384129" />
     <state width="1664" height="350" key="GridCell.Tab.1.bottom" timestamp="1584849179862">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -746,10 +745,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1187" y="283" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1584880844409" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1584885646222">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1584887753797">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1584885646222" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1584887753797" />
     <state x="268" y="115" width="1691" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1584848479897">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>

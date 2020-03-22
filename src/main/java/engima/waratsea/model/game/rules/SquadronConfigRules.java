@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Nation;
@@ -56,7 +57,7 @@ public class SquadronConfigRules {
                         isLeanEngineAllowed(missionType),
                         areDropTanksAllowed(role),
                         isStrippedDownAllowed(dto),
-                        isSearchAllowed())
+                        isSearchAllowed(dto))
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
     }
@@ -101,9 +102,16 @@ public class SquadronConfigRules {
     /**
      * Get the allowed squadron configurations for search.
      *
+     * @param dto The squadron config data transfer object.
      * @return A set of squadron configurations.
      */
-    private Set<SquadronConfig> isSearchAllowed() {
-        return  (gameTitle.getName() == GameName.CORAL_SEA) ? Set.of(SquadronConfig.SEARCH) : Set.of(SquadronConfig.NONE);
+    private Set<SquadronConfig> isSearchAllowed(final SquadronConfigRulesDTO dto) {
+
+        if (gameTitle.getName() == GameName.CORAL_SEA
+                && dto.getPatrolType() == PatrolType.SEARCH) {
+            return Set.of(SquadronConfig.SEARCH);
+        }
+
+        return Set.of(SquadronConfig.NONE);
     }
 }
