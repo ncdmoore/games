@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/SquadronConfigRules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/SquadronConfigRules.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/SquadronConfigRulesDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/SquadronConfigRulesDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/rules/SquadronConfigRulesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/rules/SquadronConfigRulesTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +118,7 @@
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="engima.waratsea.Main" />
       <module name="worldWarTwoAtSea.main" />
-      <option name="PROGRAM_PARAMETERS" value="game=coralSea" />
+      <option name="PROGRAM_PARAMETERS" value="game=bombAlley" />
       <option name="VM_PARAMETERS" value="--module-path /Library/java/JavaVirtualMachines/javafx-sdk-12.0.2/lib --add-modules javafx.controls,javafx.fxml" />
       <extension name="coverage">
         <pattern>
@@ -287,13 +286,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00116" summary="Add nation to ship event matcher.">
-      <created>1574640866489</created>
-      <option name="number" value="00116" />
-      <option name="presentableId" value="LOCAL-00116" />
-      <option name="project" value="LOCAL" />
-      <updated>1574640866489</updated>
     </task>
     <task id="LOCAL-00117" summary="Add nation to ship event matcher.">
       <created>1574826540065</created>
@@ -631,7 +623,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584887740514</updated>
     </task>
-    <option name="localTasksCounter" value="165" />
+    <task id="LOCAL-00165" summary="Make sure that the squadron search configuration is only used on search patrols.">
+      <created>1584891570206</created>
+      <option name="number" value="00165" />
+      <option name="presentableId" value="LOCAL-00165" />
+      <option name="project" value="LOCAL" />
+      <updated>1584891570206</updated>
+    </task>
+    <option name="localTasksCounter" value="166" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -645,7 +644,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add squadron summary to mission add/edit dialogs." />
     <MESSAGE value="Airfield Mission Strike probability." />
     <MESSAGE value="Add remaining mission type's probabilities." />
     <MESSAGE value="Add roles to mission types." />
@@ -670,21 +668,22 @@
     <MESSAGE value="Add search squadron configuration." />
     <MESSAGE value="Add unit test for search squadron configuration." />
     <MESSAGE value="Aircraft with the required naval or land payload have an additional range modifier for search squadron configurations." />
-    <option name="LAST_COMMIT_MESSAGE" value="Aircraft with the required naval or land payload have an additional range modifier for search squadron configurations." />
+    <MESSAGE value="Make sure that the squadron search configuration is only used on search patrols." />
+    <option name="LAST_COMMIT_MESSAGE" value="Make sure that the squadron search configuration is only used on search patrols." />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584881793391">
+    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584892413612">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1584881793391" />
+    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1584892413612" />
     <state x="950" y="132" width="1499" height="1137" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1584797201729">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="950" y="132" width="1499" height="1137" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1584797201729" />
-    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser" timestamp="1584824289919">
+    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser" timestamp="1584891762424">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser/0.23.2560.1349@0.23.2560.1349" timestamp="1584824289919" />
+    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser/0.23.2560.1349@0.23.2560.1349" timestamp="1584891762424" />
     <state x="1148" y="440" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1584826447359">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -705,26 +704,26 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1584880258677" />
-    <state x="1265" y="300" key="CommitChangelistDialog2" timestamp="1584887740307">
+    <state x="1265" y="300" key="CommitChangelistDialog2" timestamp="1584891570063">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1584887740307" />
-    <state width="1664" height="286" key="GridCell.Tab.0.bottom" timestamp="1584889384129">
+    <state x="1265" y="300" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1584891570063" />
+    <state width="1664" height="286" key="GridCell.Tab.0.bottom" timestamp="1584892416566">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="286" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1584889384129" />
-    <state width="1664" height="286" key="GridCell.Tab.0.center" timestamp="1584889384128">
+    <state width="1664" height="286" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1584892416566" />
+    <state width="1664" height="286" key="GridCell.Tab.0.center" timestamp="1584892416566">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="286" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1584889384128" />
-    <state width="1664" height="286" key="GridCell.Tab.0.left" timestamp="1584889384128">
+    <state width="1664" height="286" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1584892416566" />
+    <state width="1664" height="286" key="GridCell.Tab.0.left" timestamp="1584892416565">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="286" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1584889384128" />
-    <state width="1664" height="286" key="GridCell.Tab.0.right" timestamp="1584889384129">
+    <state width="1664" height="286" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1584892416565" />
+    <state width="1664" height="286" key="GridCell.Tab.0.right" timestamp="1584892416566">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="286" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1584889384129" />
+    <state width="1664" height="286" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1584892416566" />
     <state width="1664" height="350" key="GridCell.Tab.1.bottom" timestamp="1584849179862">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -745,10 +744,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1187" y="283" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1584880844409" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1584887753797">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1584891588145">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1584887753797" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1584891588145" />
     <state x="268" y="115" width="1691" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1584848479897">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>

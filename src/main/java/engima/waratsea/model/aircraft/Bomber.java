@@ -4,12 +4,11 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.data.AircraftData;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.SquadronStrength;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.squadron.SquadronConfig;
+import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.target.Target;
-import lombok.AccessLevel;
 import lombok.Getter;
 
 import java.util.Collections;
@@ -42,8 +41,8 @@ public class Bomber implements Aircraft {
     private final AttackFactor air;
     private final AttackFactor land;
     @Getter private final Frame frame;
-    @Getter(AccessLevel.PROTECTED) private final Probability probability;
-    @Getter(AccessLevel.PROTECTED) private final Performance performance;
+    private final Probability probability;
+    private final Performance performance;
 
     /**
      * The constructor called by guice.
