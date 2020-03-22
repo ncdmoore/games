@@ -26,7 +26,7 @@ import java.util.Optional;
  * Controls the patrol details dialog shown when a patrol radius circle is clicked on the main game map.
  */
 @Slf4j
-public class PatrolDetailsDialog {
+public class PatrolDialog {
     private static final String CSS_FILE = "patrolDetails.css";
     private static final int SHADOW_RADIUS = 3;
 
@@ -57,11 +57,11 @@ public class PatrolDetailsDialog {
      * @param props The view property.
      */
     @Inject
-    public PatrolDetailsDialog(final CssResourceProvider cssResourceProvider,
-                               final Provider<DialogOkOnlyView> dialogProvider,
-                               final Provider<PatrolDetailsView> viewProvider,
-                               final Provider<MainMapView> mapViewProvider,
-                               final ViewProps props) {
+    public PatrolDialog(final CssResourceProvider cssResourceProvider,
+                        final Provider<DialogOkOnlyView> dialogProvider,
+                        final Provider<PatrolDetailsView> viewProvider,
+                        final Provider<MainMapView> mapViewProvider,
+                        final ViewProps props) {
         this.cssResourceProvider = cssResourceProvider;
         this.dialogProvider = dialogProvider;
         this.viewProvider = viewProvider;

@@ -12,12 +12,12 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.target.Target;
-import engima.waratsea.presenter.airfield.AirfieldDetailsDialog;
+import engima.waratsea.presenter.airfield.AirfieldDialog;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.airfield.mission.MissionEditDetailsView;
+import engima.waratsea.view.airfield.mission.MissionEditView;
 import engima.waratsea.view.airfield.mission.MissionView;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Tab;
@@ -37,18 +37,18 @@ import java.util.stream.Stream;
  * The presenter for the mission edit dialog.
  */
 @Slf4j
-public class MissionEditDetailsDialog {
+public class MissionEditDialog {
     private static final String CSS_FILE = "missionDetails.css";
 
     private final ImageResourceProvider imageResourceProvider;
     private final CssResourceProvider cssResourceProvider;
     private final Provider<DialogView> dialogProvider;
-    private final Provider<MissionEditDetailsView> viewProvider;
+    private final Provider<MissionEditView> viewProvider;
     private final ViewProps props;
 
     private DialogView dialog;
     private Stage stage;
-    private AirfieldDetailsDialog airfieldDialog;
+    private AirfieldDialog airfieldDialog;
 
     private final MissionDAO missionDAO;
     private Airbase airbase;
@@ -56,7 +56,7 @@ public class MissionEditDetailsDialog {
 
     @Getter @Setter private AirMission mission;
     private AirMissionType selectedMissionType;
-    private MissionEditDetailsView view;
+    private MissionEditView view;
     private MissionDetails missionDetails;
 
     /**
@@ -72,13 +72,13 @@ public class MissionEditDetailsDialog {
      */
     //CHECKSTYLE:OFF
     @Inject
-    public MissionEditDetailsDialog(final MissionDAO missionDAO,
-                                    final ImageResourceProvider imageResourceProvider,
-                                    final CssResourceProvider cssResourceProvider,
-                                    final Provider<DialogView> dialogProvider,
-                                    final Provider<MissionEditDetailsView> viewProvider,
-                                    final ViewProps props,
-                                    final MissionDetails missionDetails) {
+    public MissionEditDialog(final MissionDAO missionDAO,
+                             final ImageResourceProvider imageResourceProvider,
+                             final CssResourceProvider cssResourceProvider,
+                             final Provider<DialogView> dialogProvider,
+                             final Provider<MissionEditView> viewProvider,
+                             final ViewProps props,
+                             final MissionDetails missionDetails) {
         this.missionDAO = missionDAO;
         this.imageResourceProvider = imageResourceProvider;
         this.cssResourceProvider = cssResourceProvider;
@@ -95,7 +95,7 @@ public class MissionEditDetailsDialog {
      * @param airfieldDetailsDialog The parent dialog.
      * @return This mission details dialog.
      */
-    public MissionEditDetailsDialog setParentDialog(final AirfieldDetailsDialog airfieldDetailsDialog) {
+    public MissionEditDialog setParentDialog(final AirfieldDialog airfieldDetailsDialog) {
         airfieldDialog = airfieldDetailsDialog;
         return this;
     }
@@ -106,7 +106,7 @@ public class MissionEditDetailsDialog {
      * @param currentNation The nation: BRITISH, ITALIAN, etc.
      * @return This mission details dialog.
      */
-    public MissionEditDetailsDialog setNation(final Nation currentNation) {
+    public MissionEditDialog setNation(final Nation currentNation) {
         nation = currentNation;
         missionDetails.setNation(nation);
         return this;

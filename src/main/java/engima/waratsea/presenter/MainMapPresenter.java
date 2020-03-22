@@ -8,8 +8,8 @@ import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.presenter.airfield.AirfieldDetailsDialog;
-import engima.waratsea.presenter.airfield.patrol.PatrolDetailsDialog;
+import engima.waratsea.presenter.airfield.AirfieldDialog;
+import engima.waratsea.presenter.airfield.patrol.PatrolDialog;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
@@ -35,8 +35,8 @@ public class MainMapPresenter {
     private MainMapView mainMapView;
     private MainMenu mainMenu;
 
-    private Provider<AirfieldDetailsDialog> airfieldDetailsDialogProvider;
-    private Provider<PatrolDetailsDialog> patrolDetailsDialogProvider;
+    private Provider<AirfieldDialog> airfieldDetailsDialogProvider;
+    private Provider<PatrolDialog> patrolDetailsDialogProvider;
 
     /**
      * The constructor called by guice.
@@ -51,8 +51,8 @@ public class MainMapPresenter {
     public MainMapPresenter(final Game game,
                             final Provider<MainMapView> viewProvider,
                             final Provider<MainMenu> menuProvider,
-                            final Provider<AirfieldDetailsDialog> airfieldDetailsDialogProvider,
-                            final Provider<PatrolDetailsDialog> patrolDetailsDialogProvider) {
+                            final Provider<AirfieldDialog> airfieldDetailsDialogProvider,
+                            final Provider<PatrolDialog> patrolDetailsDialogProvider) {
         this.game = game;
 
         mainMapView = viewProvider.get();

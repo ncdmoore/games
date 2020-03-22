@@ -11,12 +11,12 @@ import engima.waratsea.model.game.rules.Rules;
 import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
-import engima.waratsea.presenter.airfield.mission.MissionAddDetailsDialog;
-import engima.waratsea.presenter.airfield.mission.MissionEditDetailsDialog;
+import engima.waratsea.presenter.airfield.mission.MissionAddDialog;
+import engima.waratsea.presenter.airfield.mission.MissionEditDialog;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.airfield.AirfieldDetailsView;
+import engima.waratsea.view.airfield.AirfieldView;
 import engima.waratsea.view.airfield.mission.MissionView;
 import engima.waratsea.view.airfield.patrol.PatrolView;
 import engima.waratsea.view.map.MainMapView;
@@ -44,7 +44,7 @@ import java.util.stream.Stream;
  * The presenter for the airfield details dialog.
  */
 @Slf4j
-public class AirfieldDetailsDialog {
+public class AirfieldDialog {
     private static final String CSS_FILE = "airfieldDetails.css";
     private static final Map<PatrolType, LinkedHashSet<SquadronConfig>> CONFIG_MAP = Map.of(
             PatrolType.ASW, new LinkedHashSet<>(Collections.singletonList(SquadronConfig.NONE)),
@@ -54,16 +54,16 @@ public class AirfieldDetailsDialog {
     private final MissionDAO missionDAO;
     private final CssResourceProvider cssResourceProvider;
     private final Provider<DialogView> dialogProvider;
-    private final Provider<AirfieldDetailsView> viewProvider;
+    private final Provider<AirfieldView> viewProvider;
     private final Provider<MainMapView> mapViewProvider;
-    private final Provider<MissionAddDetailsDialog> missionAddDetailsDialogProvider;
-    private final Provider<MissionEditDetailsDialog> missionEditDetailsDialogProvider;
+    private final Provider<MissionAddDialog> missionAddDetailsDialogProvider;
+    private final Provider<MissionEditDialog> missionEditDetailsDialogProvider;
 
     private final ViewProps props;
     private final Rules rules;
     private Stage stage;
 
-    @Getter private AirfieldDetailsView view;
+    @Getter private AirfieldView view;
     private MainMapView mapView;
 
     private Airbase airbase;
@@ -84,15 +84,15 @@ public class AirfieldDetailsDialog {
 
     //CHECKSTYLE:OFF
     @Inject
-    public AirfieldDetailsDialog(final MissionDAO missionDAO,
-                                 final CssResourceProvider cssResourceProvider,
-                                 final Provider<DialogView> dialogProvider,
-                                 final Provider<AirfieldDetailsView> viewProvider,
-                                 final Provider<MainMapView> mapViewProvider,
-                                 final Provider<MissionAddDetailsDialog> missionAddDetailsDialogProvider,
-                                 final Provider<MissionEditDetailsDialog> missionEditDetailsDialogProvider,
-                                 final ViewProps props,
-                                 final Rules rules) {
+    public AirfieldDialog(final MissionDAO missionDAO,
+                          final CssResourceProvider cssResourceProvider,
+                          final Provider<DialogView> dialogProvider,
+                          final Provider<AirfieldView> viewProvider,
+                          final Provider<MainMapView> mapViewProvider,
+                          final Provider<MissionAddDialog> missionAddDetailsDialogProvider,
+                          final Provider<MissionEditDialog> missionEditDetailsDialogProvider,
+                          final ViewProps props,
+                          final Rules rules) {
     //CHECKSTYLE:ON
         this.missionDAO = missionDAO;
         this.cssResourceProvider = cssResourceProvider;
@@ -386,7 +386,7 @@ public class AirfieldDetailsDialog {
     private void missionAdd(final ActionEvent event) {
         Nation nation = determineNation();
 
-        MissionAddDetailsDialog dialog = missionAddDetailsDialogProvider.get();
+        MissionAddDialog dialog = missionAddDetailsDialogProvider.get();
 
         dialog
                 .setNation(nation)
@@ -426,7 +426,7 @@ public class AirfieldDetailsDialog {
     private void missionEdit() {
         Nation nation = determineNation();
 
-        MissionEditDetailsDialog dialog = missionEditDetailsDialogProvider.get();
+        MissionEditDialog dialog = missionEditDetailsDialogProvider.get();
 
         AirMission mission = view
                 .getAirfieldMissionView()

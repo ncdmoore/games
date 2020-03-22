@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * The airfield detials dialog view.
  */
-public class AirfieldDetailsView {
+public class AirfieldView {
     private static final String ROUNDEL_SIZE = "20x20.png";
 
     private final ImageResourceProvider imageResourceProvider;
@@ -58,11 +58,11 @@ public class AirfieldDetailsView {
      * @param airfieldReadyViewProvider   Provides the airfield ready view.
      */
     @Inject
-    public AirfieldDetailsView(final ImageResourceProvider imageResourceProvider,
-                               final Provider<AirfieldSummaryView> airfieldSummaryViewProvider,
-                               final Provider<MissionView> airfieldMissionViewProvider,
-                               final Provider<PatrolView> airfieldPatrolViewProvider,
-                               final Provider<AirfieldReadyView> airfieldReadyViewProvider) {
+    public AirfieldView(final ImageResourceProvider imageResourceProvider,
+                        final Provider<AirfieldSummaryView> airfieldSummaryViewProvider,
+                        final Provider<MissionView> airfieldMissionViewProvider,
+                        final Provider<PatrolView> airfieldPatrolViewProvider,
+                        final Provider<AirfieldReadyView> airfieldReadyViewProvider) {
         this.imageResourceProvider = imageResourceProvider;
 
         this.airfieldSummaryViewProvider = airfieldSummaryViewProvider;

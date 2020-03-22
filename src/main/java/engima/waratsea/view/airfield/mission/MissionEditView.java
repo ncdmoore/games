@@ -2,6 +2,7 @@ package engima.waratsea.view.airfield.mission;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Nation;
@@ -28,11 +29,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
 /**
- * Represents the mission add dialog details view.
+ * Represents the mission edit dialog view details.
  */
-public class MissionAddDetailsView implements MissionDetailsView {
+public class MissionEditView implements MissionDetailsView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
 
@@ -45,23 +45,19 @@ public class MissionAddDetailsView implements MissionDetailsView {
     @Getter
     private final TargetView targetView;
 
+    private final Map<MissionRole, ListViewPair<Squadron>> squadrons = new HashMap<>();
+    private final Map<MissionRole, StackPane> stackPanes = new HashMap<>();
+
     @Getter
     private final TabPane tabPane = new TabPane();
 
-    @Getter
     private final Map<MissionRole, Tab> roleTabs = new HashMap<>();
-
-    private final Map<MissionRole, ListViewPair<Squadron>> squadrons = new HashMap<>();
-
-    @Getter
-    private final SquadronSummaryView squadronSummaryView;
 
     @Getter
     private final ImageView imageView = new ImageView();
 
-    private final Map<MissionRole, StackPane> stackPanes = new HashMap<>();
-    private final Map<MissionRole, Label> errorLabel = new HashMap<>();
-    private final Map<MissionRole, VBox> errorVBox = new HashMap<>();
+    @Getter
+    private final SquadronSummaryView squadronSummaryView;
 
     /**
      * Constructor called by guice.
@@ -72,10 +68,10 @@ public class MissionAddDetailsView implements MissionDetailsView {
      * @param squadronSummaryViewProvider Provides squadron summaries.
      */
     @Inject
-    public MissionAddDetailsView(final ViewProps props,
-                                 final TargetView targetView,
-                                 final ImageResourceProvider imageResourceProvider,
-                                 final Provider<SquadronSummaryView> squadronSummaryViewProvider) {
+    public MissionEditView(final ViewProps props,
+                           final TargetView targetView,
+                           final ImageResourceProvider imageResourceProvider,
+                           final Provider<SquadronSummaryView> squadronSummaryViewProvider) {
         this.imageResourceProvider = imageResourceProvider;
         this.props = props;
         this.targetView = targetView;
@@ -94,12 +90,15 @@ public class MissionAddDetailsView implements MissionDetailsView {
      *
      *
      * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @param missionTypes a collection of mission types.
+     * @param mission The mission that is edited.
      * @return A node containing the airbase mission details.
      */
-    public Node show(final Nation nation, final AirMissionType... missionTypes) {
+    public Node show(final Nation nation, final AirMission mission) {
+        missionType.getItems().add(mission.getType());
+        target.getItems().add(mission.getTarget());
 
-        missionType.getItems().addAll(missionTypes);
+        missionType.setDisable(true);
+        target.setDisable(true);
 
         Label missionLabel = new Label("Select Mission Type:");
         VBox missionVBox = new VBox(missionLabel, missionType);
@@ -145,10 +144,9 @@ public class MissionAddDetailsView implements MissionDetailsView {
     /**
      * Assign the selected squadron to the mission.
      *
-     * @param squadron The squadron that is added.
-     * @param role The squadron's mission role.
+     * @param squadron The squadron assigned.
+     * @param role The squadron's missin role.
      */
-    @Override
     public void assign(final Squadron squadron, final MissionRole role) {
         squadrons.get(role)
                 .add(squadron);
@@ -157,9 +155,11 @@ public class MissionAddDetailsView implements MissionDetailsView {
                 .filter(otherRole -> otherRole != role)
                 .forEach(otherRole -> squadrons.get(otherRole).removeFromAvailable(squadron));
 
-        targetView.getViewMap()
+        targetView
+                .getViewMap()
                 .get(missionType.getSelectionModel().getSelectedItem())
                 .addSquadron(squadron, target.getSelectionModel().getSelectedItem());
+
     }
 
     /**
@@ -167,7 +167,6 @@ public class MissionAddDetailsView implements MissionDetailsView {
      *
      * @param role The squadron's mission role.
      */
-    @Override
     public void remove(final MissionRole role) {
         Squadron squadron = squadrons
                 .get(role)
@@ -175,12 +174,10 @@ public class MissionAddDetailsView implements MissionDetailsView {
                 .getSelectionModel()
                 .getSelectedItem();
 
+        squadrons.get(role).remove(squadron);
+
         AirMissionType selectedMissionType = missionType.getSelectionModel().getSelectedItem();
         Target selectedTarget = target.getSelectionModel().getSelectedItem();
-
-        squadrons
-                .get(role)
-                .remove(squadron);
 
         Stream.of(MissionRole.values())
                 .filter(otherRole -> otherRole != role)
@@ -193,27 +190,7 @@ public class MissionAddDetailsView implements MissionDetailsView {
         targetView.getViewMap()
                 .get(missionType.getSelectionModel().getSelectedItem())
                 .removeSquadron(squadron, selectedTarget);
-    }
 
-    /**
-     * Show the error text.
-     *
-     * @param role The squadron's mission role.
-     * @param text The error text.
-     */
-    public void showError(final MissionRole role, final String text) {
-        StackPane stackPane = stackPanes.get(role);
-        errorLabel.get(role).setText(text);
-        stackPane.getChildren().add(errorVBox.get(role));
-    }
-
-    /**
-     * Hide the error text.
-     * @param role The squadron's mission role.
-     */
-    public void hideError(final MissionRole role) {
-        StackPane stackPane = stackPanes.get(role);
-        stackPane.getChildren().remove(errorVBox.get(role));
     }
 
     /**
@@ -224,9 +201,16 @@ public class MissionAddDetailsView implements MissionDetailsView {
     private Node buildSquadronLists() {
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        List<Tab> tabs = Stream.of(MissionRole.values())
+        //For Edits there is only one mission type possible. So just grab it.
+        List<Tab> tabs = missionType
+                .getItems()
+                .get(0)
+                .getRoles()
+                .stream()
                 .map(this::buildTab)
                 .collect(Collectors.toList());
+
+        roleTabs.get(MissionRole.MAIN).setText(missionType.getItems().get(0).getTitle());
 
         tabPane.getTabs().addAll(tabs);
 
@@ -237,10 +221,10 @@ public class MissionAddDetailsView implements MissionDetailsView {
      * build a squadron tab.
      *
      * @param role The squadrons role.
-     *
      * @return The tab.
      */
     private Tab buildTab(final MissionRole role) {
+
         Tab tab = new Tab(role.toString());
 
         tab.setUserData(role);
@@ -276,16 +260,5 @@ public class MissionAddDetailsView implements MissionDetailsView {
         squadrons.put(role, new ListViewPair<>("missions", imageResourceProvider));
         stackPanes.put(role, new StackPane());
 
-        Label label = new Label();
-        label.setId("mission-error-text");
-        errorLabel.put(role, label);
-
-        VBox vBox = new VBox(label);
-        errorVBox.put(role, vBox);
-        vBox.setId("mission-error-vbox");
-        vBox.setMinWidth(props.getInt("mission.error.box.width"));
-        vBox.setMaxWidth(props.getInt("mission.error.box.width"));
-        vBox.setMaxHeight(props.getInt("mission.error.box.height"));
-        vBox.setMinHeight(props.getInt("mission.error.box.height"));
     }
 }
