@@ -129,7 +129,7 @@ public class AswPatrol implements Patrol {
             squadron.setSquadronState(state);
             updateMaxRadius();
         } else {
-            log.error("Unable to add squadron: '{}' to patrol. Squadron not deployed to airbase: '{}'", squadron, airbase);
+            log.error("Unable to add squadron: '{}' to patrol. Squadron not deployed to airbase: '{}' or unable to perform ASW", squadron, airbase);
         }
     }
 
