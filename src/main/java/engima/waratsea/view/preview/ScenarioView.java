@@ -31,25 +31,16 @@ import java.util.List;
 public class ScenarioView {
     private static final String CSS_FILE = "scenarioView.css";
 
-    @Getter
-    private ListView<Scenario> scenarios = new ListView<>();
+    @Getter private ListView<Scenario> scenarios = new ListView<>();
+    @Getter private RadioButton radioButtonAllies;
+    @Getter private RadioButton radioButtonAxis;
+    @Getter private Button backButton;
+    @Getter private Button continueButton;
 
     private ImageView  scenarioImage = new ImageView();
     private Text dateValue = new Text();
     private Text turnValue = new Text();
     private Text descriptionValue = new Text();
-
-    @Getter
-    private RadioButton radioButtonAllies;
-
-    @Getter
-    private RadioButton radioButtonAxis;
-
-    @Getter
-    private Button backButton;
-
-    @Getter
-    private Button continueButton;
 
     private ImageView alliesFlag = new ImageView();
     private ImageView axisFlag = new ImageView();

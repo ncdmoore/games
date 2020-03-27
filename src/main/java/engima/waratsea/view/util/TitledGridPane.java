@@ -48,6 +48,18 @@ public class TitledGridPane extends TitledPane {
     }
 
     /**
+     * Build an empty titled pane.
+     *
+     * @return An empty titled pane.
+     */
+    public TitledGridPane buildPane() {
+        setMinWidth(width);
+        setMaxWidth(width);
+        setCollapsible(true);
+        return this;
+    }
+
+    /**
      * Build a titled pane that contains a grid pane of the given data.
      *
      * @param data The data contained within the titled pane's grid pane.

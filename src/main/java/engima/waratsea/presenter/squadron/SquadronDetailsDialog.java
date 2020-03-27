@@ -3,6 +3,7 @@ package engima.waratsea.presenter.squadron;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogOkOnlyView;
 import engima.waratsea.view.ViewProps;
@@ -59,9 +60,10 @@ public class SquadronDetailsDialog {
 
         dialog.setWidth(props.getInt("ship.dialog.width"));
         dialog.setHeight(props.getInt("ship.dialog.height"));
-        dialog.setContents(view.show(squadron));              // Add the squadron details to the dialog.
+        dialog.setContents(view.build(squadron.getNation()));              // Add the squadron details to the dialog.
         dialog.setCss(cssResourceProvider.get(CSS_FILE));
 
+        view.setSquadron(squadron, SquadronConfig.NONE);
         dialog.getOkButton().setOnAction(event -> close());
 
         dialog.show(stage);

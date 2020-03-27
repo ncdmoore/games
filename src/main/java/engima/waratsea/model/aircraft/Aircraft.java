@@ -1,14 +1,15 @@
 package engima.waratsea.model.aircraft;
 
 import engima.waratsea.model.base.airfield.mission.MissionRole;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.SquadronStrength;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.squadron.SquadronConfig;
+import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.target.Target;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Represents an aircraft.
@@ -58,6 +59,13 @@ public interface Aircraft {
     ServiceType getService();
 
     /**
+     * Get the aircraft's squadron configurations.
+     *
+     * @return The aircraft's allowed squadron configurations.
+     */
+    Set<SquadronConfig> getConfiguration();
+
+    /**
      * Get the mission roles the aircraft is allowed to perform.
      *
      * @return The mission roles the aircraft is allowed to perform.
@@ -65,12 +73,13 @@ public interface Aircraft {
     List<MissionRole> getRoles();
 
     /**
-     * Get the probability the aircraft will hit in an air-to-air attack.
+     * Get the probability the aircraft will hit in an  attack.
      *
+     * @param attackType The attack type: AIR, LAND or NAVAL.
      * @param strength The strength of the squadron.
-     * @return The probability this aircraft will hit in an air-to-air attack.
+     * @return The probability this aircraft will hit in an attack.
      */
-    Map<SquadronConfig, Double> getAirHitProbability(SquadronStrength strength);
+    Map<SquadronConfig, Double> getHitProbability(AttackType attackType, SquadronStrength strength);
 
     /**
      * Get the probability the aircraft will hit during air-to-air attack including any game factors
@@ -83,14 +92,6 @@ public interface Aircraft {
     Map<SquadronConfig, Double> getAirHitIndividualProbability(Target target, int modifier);
 
     /**
-     * Get the probability the aircraft will hit in a land attack.
-     *
-     * @param strength The strength of the squadron.
-     * @return The probability this aircraft will hit in a land attack.
-     */
-    Map<SquadronConfig, Double> getLandHitProbability(SquadronStrength strength);
-
-    /**
      * Get the probability the aircraft will hit during a land attack including in game factors
      * such as weather and type of target.
      *
@@ -99,14 +100,6 @@ public interface Aircraft {
      * @return The probability this aircraft will hit in a land attack.
      */
     Map<SquadronConfig, Double> getLandHitIndividualProbability(Target target, int modifier);
-
-    /**
-     * Get the probability the aircraft will hit during a naval attack.
-     *
-     * @param strength The strength of the squadron.
-     * @return The probability this aircraft will hit in a naval attack.
-     */
-    Map<SquadronConfig, Double> getNavalHitProbability(SquadronStrength strength);
 
     /**
      * Get the probability the aircraft will hit during a naval attack including in game factors

@@ -7,6 +7,7 @@ import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.aircraft.AircraftBaseType;
 import engima.waratsea.model.aircraft.AircraftId;
 import engima.waratsea.model.aircraft.AircraftType;
+import engima.waratsea.model.aircraft.AttackType;
 import engima.waratsea.model.aircraft.AviationPlant;
 import engima.waratsea.model.aircraft.AviationPlantException;
 import engima.waratsea.model.aircraft.LandingType;
@@ -264,11 +265,12 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     /**
      * Get the squadron's air-to-air hit probability.
      *
+     * @param attackType The attack type.
      * @param squadronConfig A squadron configuration.
      * @return The squadron's air-to-air hit probability.
      */
-    public double getAirHitProbability(final SquadronConfig squadronConfig) {
-        return aircraft.getAirHitProbability(strength).get(squadronConfig);
+    public double getHitProbability(final AttackType attackType, final SquadronConfig squadronConfig) {
+        return aircraft.getHitProbability(attackType, strength).get(squadronConfig);
     }
 
     /**
@@ -282,15 +284,6 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
         return aircraft.getAirHitIndividualProbability(target, modifier).get(config);
     }
 
-    /**
-     * Get teh squadron's land hit probability given a squadron config.
-     *
-     * @param squadronConfig A squadron config.
-     * @return The squadron's land hit probability given a squadron config.
-     */
-    public double getLandHitProbability(final SquadronConfig squadronConfig) {
-        return aircraft.getLandHitProbability(strength).get(squadronConfig);
-    }
 
     /**
      * Get the squadron's land hit probability.
@@ -302,17 +295,6 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     public double getLandHitIndividualProbability(final Target target, final int modifier) {
         return aircraft.getLandHitIndividualProbability(target, modifier).get(config);
     }
-
-    /**
-     * Get the squadron's naval hit probability.
-     *
-     * @return The squadron's naval hit probability.
-     * @param squadronConfig A squadron config.
-     */
-    public double getNavalHitProbability(final SquadronConfig squadronConfig) {
-        return aircraft.getNavalHitProbability(strength).get(squadronConfig);
-    }
-
 
     /**
      * Get the squadron's naval hit probability.

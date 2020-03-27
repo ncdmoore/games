@@ -42,7 +42,7 @@ public class MainMenu {
         menuMap.getItems().addAll(showAirfields, showPorts);
 
         Menu menuOOB = new Menu("Forces");
-        squadrons = new MenuItem("_Squadrons");
+        squadrons = new MenuItem("_Airfield Squadrons");
         menuOOB.getItems().addAll(squadrons);
 
         menuBar.getMenus().addAll(menuFile, menuMap, menuOOB);

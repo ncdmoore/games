@@ -2,6 +2,8 @@
   <dictionary name="davidmoore">
     <words>
       <w>guice</w>
+      <w>hbox</w>
+      <w>vbox</w>
     </words>
   </dictionary>
 </component>

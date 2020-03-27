@@ -150,7 +150,8 @@ public class TaskForcePresenter implements Presenter {
      */
     private void markTaskForceTargets(final TaskForce taskForce) {
 
-        List<Target> targets = Optional.ofNullable(taskForce.getMission().getTargets())
+        List<Target> targets = Optional
+                .ofNullable(taskForce.getMission().getTargets())
                 .orElseGet(Collections::emptyList);
 
         // The first target marker has an associated popup.

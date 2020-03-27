@@ -33,20 +33,11 @@ public class AirfieldView {
 
     private Airbase airbase;
 
-    @Getter
-    private final TabPane nationsTabPane = new TabPane();
-
-    @Getter
-    private final Map<Nation, AirfieldSummaryView> airfieldSummaryView = new HashMap<>();
-
-    @Getter
-    private final Map<Nation, MissionView> airfieldMissionView = new HashMap<>();
-
-    @Getter
-    private final Map<Nation, PatrolView> airfieldPatrolView = new HashMap<>();
-
-    @Getter
-    private final Map<Nation, AirfieldReadyView> airfieldReadyView = new HashMap<>();
+    @Getter private final TabPane nationsTabPane = new TabPane();
+    @Getter private final Map<Nation, AirfieldSummaryView> airfieldSummaryView = new HashMap<>();
+    @Getter private final Map<Nation, MissionView> airfieldMissionView = new HashMap<>();
+    @Getter private final Map<Nation, PatrolView> airfieldPatrolView = new HashMap<>();
+    @Getter private final Map<Nation, AirfieldReadyView> airfieldReadyView = new HashMap<>();
 
     /**
      * Constructor called by guice.

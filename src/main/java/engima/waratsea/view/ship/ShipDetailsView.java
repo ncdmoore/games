@@ -1,9 +1,11 @@
 package engima.waratsea.view.ship;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import engima.waratsea.model.ship.Component;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronDetailsView;
@@ -42,7 +44,7 @@ public class ShipDetailsView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
 
-    private SquadronDetailsView squadronDetailsView;
+    private SquadronDetailsView squadronTabDetailsView;
 
     @Getter
     private ChoiceBox<Squadron> squadrons = new ChoiceBox<>();
@@ -52,15 +54,16 @@ public class ShipDetailsView {
      *
      * @param imageResourceProvider Provides images.
      * @param props View properties.
-     * @param squadronDetailsView The squadron details view.
+     * @param tabViewProvider The squadron details view.
      */
     @Inject
     public ShipDetailsView(final ImageResourceProvider imageResourceProvider,
                            final ViewProps props,
-                           final SquadronDetailsView squadronDetailsView) {
+                           final Provider<SquadronDetailsView> tabViewProvider) {
         this.imageResourceProvider = imageResourceProvider;
         this.props = props;
-        this.squadronDetailsView = squadronDetailsView;
+
+        this.squadronTabDetailsView = tabViewProvider.get();
     }
 
     /**
@@ -95,7 +98,7 @@ public class ShipDetailsView {
      * @param squadron The selected squadron.
      */
     public void selectSquadron(final Squadron squadron) {
-        squadronDetailsView.selectSquadron(squadron);
+        squadronTabDetailsView.setSquadron(squadron, SquadronConfig.NONE);
     }
 
     /**
@@ -201,34 +204,15 @@ public class ShipDetailsView {
      * @return The aircraft tab.
      */
     private Tab buildAircraftTab(final Ship ship) {
-
         squadrons.getItems().clear();
         squadrons.getItems().addAll(ship.getSquadrons());
 
         VBox aircraftListBox = new VBox(new Label("Select Squadron:"), squadrons);
         aircraftListBox.setId("aircraft-list");
 
-        Squadron squadron = squadrons.getItems().get(0);
+        Node aircraftBox = squadronTabDetailsView.build(ship.getNation());
 
-        Node imageBox = squadronDetailsView.buildImage(squadron);
-        imageBox.setId("ship-image");
-
-        Node profileBox = squadronDetailsView.buildProfile(squadron);
-
-
-        VBox listBox = new VBox(imageBox, profileBox);
-        listBox.setId("details-pane");
-
-        Node weaponComponentsVBox = squadronDetailsView.buildWeapons(squadron);
-        weaponComponentsVBox.setId("components-pane");
-
-        Node performanceComponetsVBox = squadronDetailsView.buildPerformance(squadron);
-        performanceComponetsVBox.setId("components-pane");
-
-        HBox hBox = new HBox(listBox, weaponComponentsVBox, performanceComponetsVBox);
-        hBox.setId("main-hbox");
-
-        VBox vBox = new VBox(aircraftListBox, hBox);
+        VBox vBox = new VBox(aircraftListBox, aircraftBox);
 
         Tab aircraftTab = new Tab("Aircraft");
         aircraftTab.setClosable(false);
@@ -350,7 +334,7 @@ public class ShipDetailsView {
      */
     private Map<String, String> getTorpedoData(final Ship ship) {
         Map<String, String> weapons = new LinkedHashMap<>();
-        weapons.put("Torpeodo:", ship.getTorpedo().getHealth() + "");
+        weapons.put("Torpedo:", ship.getTorpedo().getHealth() + "");
         return weapons;
     }
 

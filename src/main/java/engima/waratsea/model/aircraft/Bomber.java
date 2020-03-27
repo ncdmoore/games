@@ -9,9 +9,11 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.target.Target;
+import engima.waratsea.utility.FunctionalMap;
 import lombok.Getter;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,7 +28,11 @@ import java.util.Set;
  *  SquadronConfig.REDUCED_PAYLOAD
  */
 public class Bomber implements Aircraft {
-    private static final Set<SquadronConfig> CONFIGS = Set.of(
+
+    private final Map<AttackType, FunctionalMap<SquadronConfig, AttackFactor>> attackMap = new HashMap<>();
+
+    @Getter
+    private final Set<SquadronConfig> configuration = Set.of(
             SquadronConfig.NONE,
             SquadronConfig.SEARCH,
             SquadronConfig.REDUCED_PAYLOAD);
@@ -73,7 +79,11 @@ public class Bomber implements Aircraft {
 
         this.probability = probability;
 
-        probability.setConfigurations(CONFIGS);
+        probability.setConfigurations(configuration);
+
+        attackMap.put(AttackType.AIR, this::getAir);
+        attackMap.put(AttackType.LAND, this::getLand);
+        attackMap.put(AttackType.NAVAL, this::getNaval);
     }
 
     /**
@@ -171,14 +181,14 @@ public class Bomber implements Aircraft {
     }
 
     /**
-     * Get the aircraft's air-to-air hit probability.
+     * Get the aircraft's attack hit probability.
      *
      * @param strength The squadron's strength.
-     * @return The probability that this aircraft will hit on an air-to-air attack.
+     * @return The probability that this aircraft will hit in an attack.
      */
     @Override
-    public  Map<SquadronConfig, Double> getAirHitProbability(final SquadronStrength strength) {
-       return probability.getHitProbability(getAir(), strength);
+    public  Map<SquadronConfig, Double> getHitProbability(final AttackType attackType, final SquadronStrength strength) {
+        return probability.getHitProbability(attackMap.get(attackType).execute(), strength);
     }
 
     /**
@@ -195,17 +205,6 @@ public class Bomber implements Aircraft {
     }
 
     /**
-     * Get the probability the aircraft will hit in a land attack.
-     *
-     * @param strength The strength of the squadron.
-     * @return The probability this aircraft will hit in a land attack.
-     */
-    @Override
-    public Map<SquadronConfig, Double> getLandHitProbability(final SquadronStrength strength) {
-        return probability.getHitProbability(getLand(), strength);
-    }
-
-    /**
      * Get the probability the aircraft will hit during a land attack including in game factors
      * such as weather and type of target.
      *
@@ -216,17 +215,6 @@ public class Bomber implements Aircraft {
     @Override
     public Map<SquadronConfig, Double> getLandHitIndividualProbability(final Target target, final int modifier) {
         return probability.getIndividualHitProbability(getLand(), modifier);
-    }
-
-    /**
-     * Get the probability the aircraft will hit during a naval attack.
-     *
-     * @param strength The strength of the squadron.
-     * @return The probability this aircraft will hit in a naval attack.
-     */
-    @Override
-    public Map<SquadronConfig, Double> getNavalHitProbability(final SquadronStrength strength) {
-        return probability.getHitProbability(getNaval(), strength);
     }
 
     /**

@@ -105,4 +105,14 @@ public class Rules {
     public Set<SquadronConfig> getAllowedSquadronConfig(final SquadronConfigRulesDTO dto) {
         return squadronConfigRules.getAllowed(dto);
     }
+
+    /**
+     * Determine if the given squadron configuration is allowed by the current game.
+     *
+     * @param config A squadron configuration.
+     * @return True if the squadron configuration is allowed by the current game. False otherwise.
+     */
+    public boolean isSquadronConfigAllowed(final SquadronConfig config) {
+        return squadronConfigRules.isAllowed(config);
+    }
 }

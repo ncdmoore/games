@@ -2,6 +2,7 @@ package engima.waratsea.view.squadron;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.Aircraft;
+import engima.waratsea.model.aircraft.AttackType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
@@ -241,15 +242,15 @@ public class SquadronSummaryView {
 
         List<String> airToAirList = new ArrayList<>();
         airToAirList.add(airToAir);
-        airToAirList.add(probability.percentage(squadron.getAirHitProbability(config)) + "%");
+        airToAirList.add(probability.percentage(squadron.getHitProbability(AttackType.AIR, config)) + "%");
 
         List<String> landList = new ArrayList<>();
         landList.add(land);
-        landList.add(probability.percentage(squadron.getLandHitProbability(config)) + "%");
+        landList.add(probability.percentage(squadron.getHitProbability(AttackType.LAND, config)) + "%");
 
         List<String> navalList = new ArrayList<>();
         navalList.add(naval);
-        navalList.add(probability.percentage(squadron.getNavalHitProbability(config)) + "%");
+        navalList.add(probability.percentage(squadron.getHitProbability(AttackType.NAVAL, config)) + "%");
 
         details.put("Type:", type);
         details.put("Strength:", strength);

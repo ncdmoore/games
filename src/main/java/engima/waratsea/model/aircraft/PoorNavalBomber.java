@@ -11,6 +11,7 @@ import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.target.TargetEnemyPort;
 import engima.waratsea.model.target.TargetEnemyTaskForce;
+import engima.waratsea.utility.FunctionalMap;
 import lombok.Getter;
 
 import java.util.Collections;
@@ -30,7 +31,10 @@ import java.util.stream.Collectors;
  *  SquadronConfig.SEARCH
  */
 public class PoorNavalBomber implements Aircraft {
-    private static final Set<SquadronConfig> CONFIGS = Set.of(SquadronConfig.NONE, SquadronConfig.LEAN_ENGINE, SquadronConfig.SEARCH);
+    private final Map<AttackType, FunctionalMap<SquadronConfig, AttackFactor>> attackMap = new HashMap<>();
+
+    @Getter
+    private final Set<SquadronConfig> configuration = Set.of(SquadronConfig.NONE, SquadronConfig.LEAN_ENGINE, SquadronConfig.SEARCH);
 
     private static final int SEARCH_ATTACK_REDUCTION = 2; // Squadron configured for search attack factor reduction.
     private static final int LEAN_ENGINE_FACTOR = 2;
@@ -84,7 +88,11 @@ public class PoorNavalBomber implements Aircraft {
 
         this.probability = probability;
 
-        probability.setConfigurations(CONFIGS);
+        probability.setConfigurations(configuration);
+
+        attackMap.put(AttackType.AIR, this::getAir);
+        attackMap.put(AttackType.LAND, this::getLand);
+        attackMap.put(AttackType.NAVAL, this::getNaval);
     }
 
     /**
@@ -187,14 +195,15 @@ public class PoorNavalBomber implements Aircraft {
                 SquadronConfig.SEARCH, endurance);
     }
     /**
-     * Get the probability the aircraft will hit during a naval attack.
+     * Get the probability the aircraft will hit during an attack.
      *
+     * @param attackType The attack type.
      * @param strength The strength of the squadron.
-     * @return A percentage representing the probability this aircraft will hit in a naval attack.
+     * @return A percentage representing the probability this aircraft will hit in an attack.
      */
     @Override
-    public Map<SquadronConfig, Double> getAirHitProbability(final SquadronStrength strength) {
-        return probability.getHitProbability(getAir(), strength);
+    public Map<SquadronConfig, Double> getHitProbability(final AttackType attackType, final SquadronStrength strength) {
+        return probability.getHitProbability(attackMap.get(attackType).execute(), strength);
     }
 
     /**
@@ -208,17 +217,6 @@ public class PoorNavalBomber implements Aircraft {
     @Override
     public Map<SquadronConfig, Double> getAirHitIndividualProbability(final Target target, final int modifier) {
        return probability.getIndividualHitProbability(getAir(), modifier);
-    }
-
-    /**
-     * Get the probability the aircraft will hit during a naval attack.
-     *
-     * @param strength The strength of the squadron.
-     * @return A percentage representing the probability this aircraft will hit in a naval attack.
-     */
-    @Override
-    public Map<SquadronConfig, Double> getNavalHitProbability(final SquadronStrength strength) {
-        return probability.getHitProbability(getNaval(), strength);
     }
 
     /**
@@ -236,17 +234,6 @@ public class PoorNavalBomber implements Aircraft {
                 .getIndividualHitProbability(getNaval(), modifier).entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue() * factor));
-    }
-
-    /**
-     * Get the probability the aircraft will hit in a land attack.
-     *
-     * @param strength The strength of the squadron.
-     * @return A percentage representing the probability this aircraft will hit in a land attack.
-     */
-    @Override
-    public Map<SquadronConfig, Double> getLandHitProbability(final SquadronStrength strength) {
-        return probability.getHitProbability(getLand(), strength);
     }
 
     /**

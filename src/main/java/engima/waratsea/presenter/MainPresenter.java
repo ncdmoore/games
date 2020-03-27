@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Game;
+import engima.waratsea.presenter.squadron.SquadronsDialog;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.MainView;
 import javafx.stage.Stage;
@@ -22,6 +23,7 @@ public class MainPresenter implements Presenter {
 
     private Provider<MainView> viewProvider;
     private Provider<MainMenu> menuProvider;
+    private Provider<SquadronsDialog> squadronsDialogProvider;
     private MainView view;
     private Stage stage;
 
@@ -30,18 +32,21 @@ public class MainPresenter implements Presenter {
      *
      * @param game The game.
      * @param mainMapPresenter The main map presenter.
+     * @param squadronsDialogProvider The squadrons dialog provider.
      * @param viewProvider The main view provider.
      * @param menuProvider The main menu provider.
      */
     @Inject
     public MainPresenter(final Game game,
                          final MainMapPresenter mainMapPresenter,
+                         final Provider<SquadronsDialog> squadronsDialogProvider,
                          final Provider<MainView> viewProvider,
                          final Provider<MainMenu> menuProvider) {
         this.game = game;
         this.mainMapPresenter = mainMapPresenter;
         this.viewProvider = viewProvider;
         this.menuProvider = menuProvider;
+        this.squadronsDialogProvider = squadronsDialogProvider;
     }
 
     /**
@@ -106,5 +111,6 @@ public class MainPresenter implements Presenter {
      */
     private void squadrons() {
         System.out.println("show squadrons");
+        squadronsDialogProvider.get().show();
     }
 }
