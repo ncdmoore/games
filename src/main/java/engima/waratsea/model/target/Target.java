@@ -13,7 +13,7 @@ import engima.waratsea.model.target.data.TargetData;
 /**
  * A task force or air strike targets.
  */
-public interface Target extends PersistentData<TargetData> {
+public interface Target extends Comparable<Target>, PersistentData<TargetData> {
     /**
      * Get the name of the target. This will correspond to one of the opponent side's assets: task force, airfield or port.
      *

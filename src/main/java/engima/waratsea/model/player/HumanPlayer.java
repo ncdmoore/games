@@ -72,56 +72,24 @@ public class HumanPlayer implements Player {
 
     private VictoryConditions victoryConditions;
 
-    @Getter
-    @Setter
-    private Side side;
-
-    @Getter
-    private Set<Nation> nations;
-
-    @Getter
-    private List<TaskForce> taskForces;
-
-    @Getter
-    private Map<String, TaskForce> taskForceMap = new HashMap<>();
-
-    @Getter
-    private List<TaskForceView> enemyTaskForces;
-
-    @Getter
-    private Map<String, TaskForceView> enemyTaskForceMap = new HashMap<>();
+    @Getter @Setter private Side side;
+    @Getter private Set<Nation> nations;
+    @Getter private List<TaskForce> taskForces;
+    @Getter private Map<String, TaskForce> taskForceMap = new HashMap<>();
+    @Getter private List<TaskForceView> enemyTaskForces;
+    @Getter private Map<String, TaskForceView> enemyTaskForceMap = new HashMap<>();
+    @Getter private List<Airfield> airfields;
+    @Getter private Map<String, Airfield> airfieldMap = new HashMap<>();
+    @Getter private List<AirfieldView> enemyAirfields;
+    @Getter private Map<String, AirfieldView> enemyAirfieldMap = new HashMap<>();
+    @Getter private List<Port> ports;
+    @Getter private Map<String, Port> portMap = new HashMap<>();
+    @Getter private List<PortView> enemyPorts;
+    @Getter private Map<String, PortView> enemyPortMap = new HashMap<>();
+    @Getter private List<Minefield> minefields;
 
     private final Map<FlotillaType, List<Flotilla>> flotillas = new HashMap<>();
-
     private final Map<Nation, List<Squadron>> squadrons = new HashMap<>();
-
-    @Getter
-    private List<Airfield> airfields;
-
-    @Getter
-    private Map<String, Airfield> airfieldMap = new HashMap<>();
-
-    @Getter
-    private List<AirfieldView> enemyAirfields;
-
-    @Getter
-    private Map<String, AirfieldView> enemyAirfieldMap = new HashMap<>();
-
-    @Getter
-    private List<Port> ports;
-
-    @Getter
-    private Map<String, Port> portMap = new HashMap<>();
-
-    @Getter
-    private List<PortView> enemyPorts;
-
-    @Getter
-    private Map<String, PortView> enemyPortMap = new HashMap<>();
-
-    @Getter
-    private List<Minefield> minefields;
-
     private final Map<SquadronDeploymentType, BiConsumer<Scenario, Player>> deploymentMap = new HashMap<>();
 
     /**
@@ -370,7 +338,11 @@ public class HumanPlayer implements Player {
      */
     @Override
     public List<Squadron> getSquadrons(final Nation nation) {
-        return squadrons.get(nation);
+        return squadrons
+                .get(nation)
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     /**
@@ -397,6 +369,7 @@ public class HumanPlayer implements Player {
                 .getNationAirfields(side, nation)
                 .stream()
                 .map(targetDAO::getFriendlyAirfieldTarget)
+                .sorted()
                 .collect(Collectors.toList());
     }
 
@@ -411,6 +384,7 @@ public class HumanPlayer implements Player {
                 .getAirfields(side.opposite())
                 .stream()
                 .map(targetDAO::getEnemyAirfieldTarget)
+                .sorted()
                 .collect(Collectors.toList());
 
     }
@@ -426,6 +400,7 @@ public class HumanPlayer implements Player {
                 .getPorts(side.opposite())
                 .stream()
                 .map(targetDAO::getEnemyPortTarget)
+                .sorted()
                 .collect(Collectors.toList());
     }
 
