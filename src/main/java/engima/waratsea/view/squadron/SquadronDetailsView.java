@@ -2,11 +2,11 @@ package engima.waratsea.view.squadron;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.Aircraft;
-import engima.waratsea.model.aircraft.AttackFactor;
 import engima.waratsea.model.aircraft.AttackType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
+import engima.waratsea.model.squadron.SquadronFactor;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.utility.Probability;
 import engima.waratsea.view.ViewProps;
@@ -89,8 +89,6 @@ public class SquadronDetailsView {
      * @param config The selected squadron's configuration.
      */
     public void setSquadron(final Squadron squadron, final SquadronConfig config) {
-        Aircraft aircraft = squadron.getAircraft();
-
         title.setText(squadron.getTitle());
         aircraftImage.setImage(getImage(squadron));
         aircraftProfile.setImage(getProfile(squadron));
@@ -99,15 +97,15 @@ public class SquadronDetailsView {
         aircraftDetailsPane.updatePane(getAircraftDetailsData(squadron));
 
         aircraftLandPane.updatePaneMultiColumn(getAttackFactor(squadron,
-                aircraft.getLand().get(config),
+                squadron.getFactor(AttackType.LAND, config),
                 squadron.getHitProbability(AttackType.LAND, config)));
 
         aircraftNavalPane.updatePaneMultiColumn(getAttackFactor(squadron,
-                aircraft.getNaval().get(config),
+                squadron.getFactor(AttackType.NAVAL, config),
                 squadron.getHitProbability(AttackType.NAVAL, config)));
 
         aircraftAirToAirPane.updatePaneMultiColumn(getAttackFactor(squadron,
-                aircraft.getAir().get(config),
+                squadron.getFactor(AttackType.AIR, config),
                 squadron.getHitProbability(AttackType.AIR, config)));
 
         aircraftPerformancePane.updatePaneMultiColumn(getPerformance(squadron, config));
@@ -255,10 +253,10 @@ public class SquadronDetailsView {
      * @param prob The probability of success.
      * @return The aircraft's attack data.
      */
-    private Map<String, List<String>> getAttackFactor(final Squadron squadron, final AttackFactor factor, final double prob) {
+    private Map<String, List<String>> getAttackFactor(final Squadron squadron, final SquadronFactor factor, final double prob) {
         Map<String, List<String>> details = new LinkedHashMap<>();
         String defensive = factor.isDefensive() ? " (D)" : "";
-        details.put("Factor:", Arrays.asList(factor.getFactor(squadron.getStrength()) + defensive, "Hit:", probability.percentage(prob) + "%"));
+        details.put("Factor:", Arrays.asList(factor.getFactor() + defensive, "Hit:", probability.percentage(prob) + "%"));
         details.put("Modifier:", Collections.singletonList(factor.getModifier() + ""));
         return details;
     }

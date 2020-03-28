@@ -85,52 +85,21 @@ public interface Aircraft {
      * Get the probability the aircraft will hit during air-to-air attack including any game factors
      * such as weather and type of target.
      *
+     *
+     * @param attackType The attack type.
      * @param target The target.
      * @param modifier The circumstance air-to-air attack modifier: weather, type of target, etc...
      * @return The probability this aircraft will hit in an air-to-air attack.
      */
-    Map<SquadronConfig, Double> getAirHitIndividualProbability(Target target, int modifier);
+    Map<SquadronConfig, Double> getHitIndividualProbability(AttackType attackType, Target target, int modifier);
 
     /**
-     * Get the probability the aircraft will hit during a land attack including in game factors
-     * such as weather and type of target.
+     * Get the aircraft's given attack factor specified by the attack type.
      *
-     * @param target The target.
-     * @param modifier The circumstance land attack modifier: weather, type of target, etc...
-     * @return The probability this aircraft will hit in a land attack.
+     * @param attackType The type of attack: AIR, LAND or NAVAL.
+     * @return Get the aircraft's given attack factor.
      */
-    Map<SquadronConfig, Double> getLandHitIndividualProbability(Target target, int modifier);
-
-    /**
-     * Get the probability the aircraft will hit during a naval attack including in game factors
-     * such as weather and type of target.
-     *
-     * @param target The target.
-     * @param modifier The circumstance naval attack modifier: weather, type of target, etc...
-     * @return The probability this aircraft will hit in a naval attack.
-     */
-    Map<SquadronConfig, Double> getNavalHitIndividualProbability(Target target, int modifier);
-
-    /**
-     * Get the aircraft's air to air attack factor.
-     *
-     * @return The aircraft's air to air attack factor.
-     */
-    Map<SquadronConfig, AttackFactor> getAir();
-
-    /**
-     * Get the aircraft's land attack factor.
-     *
-     * @return The aircraft's land attack factor.
-     */
-    Map<SquadronConfig, AttackFactor> getLand();
-
-    /**
-     * Get the aircraft's naval attack factor.
-     *
-     * @return The aircraft's naval attack factor.
-     */
-    Map<SquadronConfig, AttackFactor> getNaval();
+    Map<SquadronConfig, AttackFactor> getAttack(AttackType attackType);
 
     /**
      * Get the aircraft's combat radius. This is a map of how the aircraft

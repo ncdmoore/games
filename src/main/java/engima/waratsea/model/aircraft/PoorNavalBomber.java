@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Represents an Italian level bomber.
@@ -210,43 +209,26 @@ public class PoorNavalBomber implements Aircraft {
      * Get the probability the aircraft will hit during air-to-air attack including any game factors
      * such as weather and type of target.
      *
+     *
+     * @param attackType The attack type.
      * @param target   The target.
      * @param modifier The circumstance air-to-air attack modifier: weather, type of target, etc...
      * @return The probability this aircraft will hit in an air-to-air attack.
      */
     @Override
-    public Map<SquadronConfig, Double> getAirHitIndividualProbability(final Target target, final int modifier) {
+    public Map<SquadronConfig, Double> getHitIndividualProbability(final AttackType attackType, final Target target, final int modifier) {
        return probability.getIndividualHitProbability(getAir(), modifier);
     }
 
     /**
-     * Get the probability the aircraft will hit during a naval attack including in game factors
-     * such as weather and type of target.
+     * Get the aircraft's given attack factor specified by the attack type.
      *
-     * @param target The target.
-     * @param modifier The circumstance naval attack modifier: weather, type of target, etc...
-     * @return The probability this aircraft will hit in a naval attack.
+     * @param attackType The type of attack: AIR, LAND or NAVAL.
+     * @return Get the aircraft's given attack factor.
      */
     @Override
-    public Map<SquadronConfig, Double> getNavalHitIndividualProbability(final Target target, final int modifier) {
-        double factor = FACTOR_MAP.getOrDefault(target.getClass(), POOR_NAVAL_MODIFIER);
-        return probability
-                .getIndividualHitProbability(getNaval(), modifier).entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue() * factor));
-    }
-
-    /**
-     * Get the probability the aircraft will hit during a land attack including in game factors
-     * such as weather and type of target.
-     *
-     * @param target The target.
-     * @param modifier The circumstance land attack modifier: weather, type of target, etc...
-     * @return The probability this aircraft will hit in a land attack.
-     */
-    @Override
-    public Map<SquadronConfig, Double> getLandHitIndividualProbability(final Target target, final int modifier) {
-       return probability.getIndividualHitProbability(getLand(), modifier);
+    public Map<SquadronConfig, AttackFactor> getAttack(final AttackType attackType) {
+        return attackMap.get(attackType).execute();
     }
 
     /**
@@ -254,8 +236,7 @@ public class PoorNavalBomber implements Aircraft {
      *
      * @return The aircraft's land attack factor.
      */
-    @Override
-    public Map<SquadronConfig, AttackFactor> getAir() {
+    private Map<SquadronConfig, AttackFactor> getAir() {
         return Map.of(SquadronConfig.NONE, air,
                 SquadronConfig.LEAN_ENGINE, air,
                 SquadronConfig.SEARCH, air);
@@ -266,8 +247,7 @@ public class PoorNavalBomber implements Aircraft {
      *
      * @return The aircraft's land attack factor.
      */
-    @Override
-    public Map<SquadronConfig, AttackFactor> getLand() {
+    private Map<SquadronConfig, AttackFactor> getLand() {
         AttackFactor leanMixtureAttack = land.getReducedRoundUp(LEAN_ENGINE_FACTOR);
         AttackFactor searchAttack = land.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
 
@@ -281,8 +261,7 @@ public class PoorNavalBomber implements Aircraft {
      *
      * @return The aircraft's naval attack factor.
      */
-    @Override
-    public Map<SquadronConfig, AttackFactor> getNaval() {
+    private Map<SquadronConfig, AttackFactor> getNaval() {
         AttackFactor leanMixtureAttack = naval.getReducedRoundUp(LEAN_ENGINE_FACTOR);
         AttackFactor searchAttack = naval.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
 

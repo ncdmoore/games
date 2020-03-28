@@ -11,20 +11,20 @@ import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.SquadronConfig;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Singleton
 public class SquadronConfigRules {
     private final GameTitle gameTitle;
 
     private final Map<GameName, Set<SquadronConfig>> gameRules = new HashMap<>();
-    private final Map<MissionRole, Set<SquadronConfig>> dropTankRules = new HashMap<>();
-    private final Map<AirMissionType, Set<SquadronConfig>> leanEngineRules = new HashMap<>();
+    private final Map<MissionRole, SquadronConfig> dropTankRules = new HashMap<>();
+    private final Map<AirMissionType, SquadronConfig> leanEngineRules = new HashMap<>();
 
     /**
      * The constructor called by guice.
@@ -48,11 +48,11 @@ public class SquadronConfigRules {
                 SquadronConfig.SEARCH,
                 SquadronConfig.REDUCED_PAYLOAD));
 
-        dropTankRules.put(MissionRole.ESCORT, Set.of(SquadronConfig.DROP_TANKS));
-        dropTankRules.put(MissionRole.MAIN, Set.of(SquadronConfig.NONE));
+        dropTankRules.put(MissionRole.ESCORT, SquadronConfig.DROP_TANKS);
+        dropTankRules.put(MissionRole.MAIN, SquadronConfig.NONE);
 
-        leanEngineRules.put(AirMissionType.FERRY, Set.of(SquadronConfig.LEAN_ENGINE));
-        leanEngineRules.put(AirMissionType.LAND_STRIKE, Set.of(SquadronConfig.LEAN_ENGINE));
+        leanEngineRules.put(AirMissionType.FERRY, SquadronConfig.LEAN_ENGINE);
+        leanEngineRules.put(AirMissionType.LAND_STRIKE, SquadronConfig.LEAN_ENGINE);
     }
 
     /**
@@ -80,24 +80,14 @@ public class SquadronConfigRules {
         AirMissionType missionType = dto.getMissionType();
         MissionRole role = dto.getMissionRole();
 
-        return Stream
-                .of(getAllowed(),
-                        isLeanEngineAllowed(missionType),
-                        areDropTanksAllowed(role),
-                        isStrippedDownAllowed(dto),
-                        isSearchAllowed(dto))
-                .flatMap(Collection::stream)
-                .collect(Collectors.toSet());
-    }
+        List<SquadronConfig> allowed = new ArrayList<>(List.of(
+                SquadronConfig.NONE,
+                isLeanEngineAllowed(missionType),
+                areDropTanksAllowed(role),
+                isStrippedDownAllowed(dto),
+                isSearchAllowed(dto)));
 
-    /**
-     * Get the squadron configurations allowed for the current game.
-     *
-     * @return Set of squadron configurations allowed for the current game.
-     */
-    private Set<SquadronConfig> getAllowed() {
-        GameName gameName = gameTitle.getName();
-        return gameRules.get(gameName);
+        return new HashSet<>(allowed);
     }
 
     /**
@@ -106,8 +96,8 @@ public class SquadronConfigRules {
      * @param role The squadron's mission role.
      * @return A set of the allowed squadron configurations given the squadron's role.
      */
-    private Set<SquadronConfig> areDropTanksAllowed(final MissionRole role) {
-        return dropTankRules.getOrDefault(role, Set.of(SquadronConfig.NONE));
+    private SquadronConfig areDropTanksAllowed(final MissionRole role) {
+        return dropTankRules.getOrDefault(role, SquadronConfig.NONE);
     }
 
     /**
@@ -116,8 +106,8 @@ public class SquadronConfigRules {
      * @param missionType The type of mission that the squadron is assigned.
      * @return A set of the allowed squadron configurations given the type of mission.
      */
-    private Set<SquadronConfig> isLeanEngineAllowed(final AirMissionType missionType) {
-        return leanEngineRules.getOrDefault(missionType, Set.of(SquadronConfig.NONE));
+    private SquadronConfig isLeanEngineAllowed(final AirMissionType missionType) {
+        return leanEngineRules.getOrDefault(missionType, SquadronConfig.NONE);
     }
 
     /**
@@ -126,14 +116,17 @@ public class SquadronConfigRules {
      * @param dto The squadron config data transfer object.
      * @return A set of the allowed squadron configurations given the type of mission and type of airfield.
      */
-    private Set<SquadronConfig> isStrippedDownAllowed(final SquadronConfigRulesDTO dto) {
-        if (dto.getNation() == Nation.BRITISH
+    private SquadronConfig isStrippedDownAllowed(final SquadronConfigRulesDTO dto) {
+        GameName gameName = gameTitle.getName();
+
+        if (gameName == GameName.BOMB_ALLEY
+                && dto.getNation() == Nation.BRITISH
                 && dto.getMissionType() == AirMissionType.FERRY
                 && dto.getAirfieldType() == AirfieldType.TASKFORCE) {
-            return Set.of(SquadronConfig.STRIPPED_DOWN);
+            return SquadronConfig.STRIPPED_DOWN;
         }
 
-        return Set.of(SquadronConfig.NONE);
+        return SquadronConfig.NONE;
     }
 
     /**
@@ -142,11 +135,11 @@ public class SquadronConfigRules {
      * @param dto The squadron config data transfer object.
      * @return A set of squadron configurations.
      */
-    private Set<SquadronConfig> isSearchAllowed(final SquadronConfigRulesDTO dto) {
+    private SquadronConfig isSearchAllowed(final SquadronConfigRulesDTO dto) {
         if (dto.getPatrolType() == PatrolType.SEARCH) {
-            return Set.of(SquadronConfig.SEARCH);
+            return SquadronConfig.SEARCH;
         }
 
-        return Set.of(SquadronConfig.NONE);
+        return SquadronConfig.NONE;
     }
 }

@@ -6,6 +6,7 @@ import engima.waratsea.model.aircraft.AttackType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
+import engima.waratsea.model.squadron.SquadronFactor;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.utility.Probability;
 import engima.waratsea.view.ViewProps;
@@ -221,18 +222,24 @@ public class SquadronSummaryView {
     private Map<String, List<String>> getAttackStats(final Squadron squadron) {
         Map<String, List<String>> details = new LinkedHashMap<>();
 
-        String airToAir = squadron.getAirModifier(config) != 0
-                ? squadron.getAirFactor(config) + " (" + squadron.getAirModifier(config) + ")"
-                : squadron.isAirDefensive() ? squadron.getAirFactor(config) + " (D)"
-                : squadron.getAirFactor(config) + "";
+        SquadronFactor airFactor = squadron.getFactor(AttackType.AIR, config);
 
-        String land = squadron.getLandModifier(config) != 0
-                ? squadron.getLandFactor(config) + " (" + squadron.getLandModifier(config) + ")"
-                : squadron.getLandFactor(config) + "";
+        String airToAir = airFactor.getModifier() != 0
+                ? airFactor.getFactor() + " (" + airFactor.getModifier() + ")"
+                : airFactor.isDefensive() ? airFactor.getFactor() + " (D)"
+                : airFactor.getFactor() + "";
 
-        String naval = squadron.getNavalModifier(config) != 0
-                ? squadron.getNavalFactor(config) + " (" + squadron.getNavalModifier(config) + ")"
-                : squadron.getNavalFactor(config) + "";
+        SquadronFactor landFactor = squadron.getFactor(AttackType.LAND, config);
+
+        String land = landFactor.getModifier() != 0
+                ? landFactor.getFactor() + " (" + landFactor.getModifier() + ")"
+                : landFactor.getFactor() + "";
+
+        SquadronFactor navalFactor = squadron.getFactor(AttackType.NAVAL, config);
+
+        String naval =  navalFactor.getModifier() != 0
+                ? navalFactor.getFactor() + " (" + navalFactor.getModifier() + ")"
+                : navalFactor.getFactor() + "";
 
         List<String> type = new ArrayList<>();
         type.add(squadron.getType().getAbbreviated());

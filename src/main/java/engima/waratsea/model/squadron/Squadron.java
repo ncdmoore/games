@@ -44,44 +44,17 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
 
     private GameMap gameMap;
     private Rules rules;
-
-    @Getter
-    private Side side;
-
-    @Getter
-    private Nation nation;
-
-    @Getter
-    private final String model;
-
-    @Getter
-    @Setter
-    private Aircraft aircraft;
-
-    @Getter
-    private String name;
-
-    @Getter
-    @Setter
-    private SquadronStrength strength;
-
-    @Getter
-    private String reference; //This is always a map reference and never a name.
-
-    @Getter
-    private Airbase airfield;
-
-    @Getter
-    @Setter
-    private SquadronState squadronState;
-
-    @Getter
-    @Setter
-    private boolean longDistance;
-
-    @Getter
-    @Setter
-    private SquadronConfig config;
+    @Getter private Side side;
+    @Getter private Nation nation;
+    @Getter private final String model;
+    @Getter @Setter private Aircraft aircraft;
+    @Getter private String name;
+    @Getter @Setter private SquadronStrength strength;
+    @Getter private String reference; //This is always a map reference and never a name.
+    @Getter private Airbase airfield;
+    @Getter @Setter private SquadronState squadronState;
+    @Getter @Setter private boolean longDistance;
+    @Getter @Setter private SquadronConfig config;
 
     static {
         DESIGNATION_MAP.put(Side.ALLIES, new HashMap<>());
@@ -212,54 +185,32 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     }
 
     /**
-     * Get the squadron air-to-air attack factor.
+     * Get a squadron attack factor.
      *
-     * @return The air-to-air attack factor.
+     * @param attackType The type of attack factor.
+     * @return The attack factor.
      */
-    public int getAirFactor() {
-        return aircraft
-                .getAir()
-                .get(config)
-                .getFactor(strength);
+    public SquadronFactor getFactor(final AttackType attackType) {
+        return new SquadronFactor(
+                aircraft
+                .getAttack(attackType)
+                .get(config))
+                .setStrength(strength);
     }
 
     /**
-     * Get the squadron air-to-air attack factor.
+     * Get a squadron attack factor.
      *
+     * @param attackType The type of attack.
      * @param squadronConfig A squadron configuration.
-     * @return The air-to-air attack factor.
+     * @return The attack factor.
      */
-    public int getAirFactor(final SquadronConfig squadronConfig) {
-        return aircraft
-                .getAir()
-                .get(squadronConfig)
-                .getFactor(strength);
-    }
-
-    /**
-     * Get the squadron air-to-air attack modifier.
-     *
-     * @param squadronConfig A squadron configuration
-     * @return The air-to-air attack modifier.
-     */
-    public int getAirModifier(final SquadronConfig squadronConfig) {
-        return aircraft
-                .getAir()
-                .get(squadronConfig)
-                .getModifier();
-    }
-
-    /**
-     * Determine if the squadron's air-to-air attack is defensive only.
-     * The air defensive parameter does not very with squadron configuration.
-     *
-     * @return True if the squadron's air-to-air attack is defensive only. False otherwise.
-     */
-    public boolean isAirDefensive() {
-        return aircraft
-                .getAir()
-                .get(SquadronConfig.NONE)  // Does not vary with squadron configuration.
-                .isDefensive();
+    public SquadronFactor getFactor(final AttackType attackType, final SquadronConfig squadronConfig) {
+        return new SquadronFactor(
+                aircraft
+                .getAttack(attackType)
+                .get(squadronConfig))
+                .setStrength(strength);
     }
 
     /**
@@ -276,112 +227,14 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     /**
      * Get the squadron's air hit probability.
      *
+     *
+     * @param attackType The attack type.
      * @param target The target.
      * @param modifier Any game modifications to the hit probability: weather, target type, etc...
      * @return The squadron's air hit probability.
      */
-    public double getAirHitIndividualProbability(final Target target, final  int modifier) {
-        return aircraft.getAirHitIndividualProbability(target, modifier).get(config);
-    }
-
-
-    /**
-     * Get the squadron's land hit probability.
-     *
-     * @param target The target.
-     * @param modifier Any game modifications to the hit probability: weather, target type, etc...
-     * @return The squadron's land hit probability.
-     */
-    public double getLandHitIndividualProbability(final Target target, final int modifier) {
-        return aircraft.getLandHitIndividualProbability(target, modifier).get(config);
-    }
-
-    /**
-     * Get the squadron's naval hit probability.
-     *
-     *
-     * @param target The target
-     * @param modifier Any game modifications to the hit probability: weather, target type, etc...
-     * @return The squadron's naval hit probability.
-     */
-    public double getNavalHitIndividualProbability(final Target target, final int modifier) {
-        return aircraft.getNavalHitIndividualProbability(target, modifier).get(config);
-    }
-
-    /**
-     * Get the squadron naval attack factor.
-     *
-     * @return The naval attack factor.
-     */
-    public int getNavalFactor() {
-        return aircraft
-                .getNaval()
-                .get(config)
-                .getFactor(strength);
-    }
-
-    /**
-     * Get the squadron naval attack factor.
-     *
-     * @param squadronConfig A squadron configuration.
-     * @return The naval attack factor for the given squadron configuration.
-     */
-    public int getNavalFactor(final SquadronConfig squadronConfig) {
-        return aircraft
-                .getNaval()
-                .get(squadronConfig)
-                .getFactor(strength);
-    }
-
-    /**
-     * Get the squadron naval attack modifier.
-     *
-     * @param squadronConfig A squadron configuration.
-     * @return The naval attack modifier.
-     */
-    public int getNavalModifier(final SquadronConfig squadronConfig) {
-        return aircraft
-                .getNaval()
-                .get(squadronConfig)
-                .getModifier();
-    }
-
-    /**
-     * Get the squadron land attack factor.
-     *
-     * @return The land attack factor.
-     */
-    public int getLandFactor() {
-        return aircraft
-                .getLand()
-                .get(config)
-                .getFactor(strength);
-    }
-
-    /**
-     * Get the squadron land attack factor given a squadron configuration.
-     *
-     * @param squadronConfig A squadron configuration.
-     * @return The land attack factor for the given squadron configuration.
-     */
-    public int getLandFactor(final SquadronConfig squadronConfig) {
-        return aircraft
-                .getLand()
-                .get(squadronConfig)
-                .getFactor(strength);
-    }
-
-    /**
-     * Get the squadron land attack modifier given a squadron configuration.
-     *
-     * @param squadronConfig A squadron configuration.
-     * @return The land attack modifier for the given squadron configuration.
-     */
-    public int getLandModifier(final SquadronConfig squadronConfig) {
-        return aircraft
-                .getLand()
-                .get(squadronConfig)
-                .getModifier();
+    public double getHitIndividualProbability(final AttackType attackType, final Target target, final int modifier) {
+        return aircraft.getHitIndividualProbability(attackType, target, modifier).get(config);
     }
 
     /**

@@ -139,90 +139,26 @@ public class Fighter implements Aircraft {
      * Get the probability the aircraft will hit during air-to-air attack including any game factors
      * such as weather and type of target.
      *
+     *
+     * @param attackType The attack type.
      * @param target   The target.
      * @param modifier The circumstance air-to-air attack modifier: weather, type of target, etc...
      * @return The probability this aircraft will hit in an air-to-air attack.
      */
     @Override
-    public Map<SquadronConfig, Double> getAirHitIndividualProbability(final Target target, final int modifier) {
-       return probability.getIndividualHitProbability(getAir(), modifier);
+    public Map<SquadronConfig, Double> getHitIndividualProbability(final AttackType attackType, final Target target, final int modifier) {
+       return probability.getIndividualHitProbability(attackMap.get(attackType).execute(), modifier);
     }
 
     /**
-     * Get the probability the aircraft will hit during a land attack including in game factors
-     * such as weather and type of target.
+     * Get the aircraft's given attack factor specified by the attack type.
      *
-     * @param target The target.
-     * @param modifier The circumstance land attack modifier: weather, type of target, etc...
-     * @return The probability this aircraft will hit in a land attack.
+     * @param attackType The type of attack: AIR, LAND or NAVAL.
+     * @return Get the aircraft's given attack factor.
      */
     @Override
-    public Map<SquadronConfig, Double> getLandHitIndividualProbability(final Target target, final int modifier) {
-        return probability.getIndividualHitProbability(getLand(), modifier);
-    }
-
-    /**
-     * Get the probability the aircraft will hit during a naval attack including in game factors
-     * such as weather and type of target.
-     *
-     * @param target The target.
-     * @param modifier The circumstance naval attack modifier: weather, type of target, etc...
-     * @return The probability this aircraft will hit in a naval attack.
-     */
-    @Override
-    public Map<SquadronConfig, Double> getNavalHitIndividualProbability(final Target target, final int modifier) {
-        return probability.getIndividualHitProbability(getNaval(), modifier);
-    }
-
-    /**
-     * Get the aircraft's air to air attack factor.
-     *
-     * @return The aircraft's air to air attack factor.
-     */
-    @Override
-    public Map<SquadronConfig, AttackFactor> getAir() {
-        AttackFactorData data = new AttackFactorData();
-        data.setFull(air.getFull());
-        data.setHalf(air.getHalf());
-        data.setSixth(air.getSixth());
-        AttackFactor stripped = new AttackFactor(data);
-
-        return Map.of(SquadronConfig.NONE, air,
-                SquadronConfig.DROP_TANKS, air,
-                SquadronConfig.SEARCH, air,
-                SquadronConfig.STRIPPED_DOWN, stripped);
-    }
-
-    /**
-     * Get the aircraft's land attack factor.
-     *
-     * @return The aircraft's land attack factor.
-     */
-    @Override
-    public Map<SquadronConfig, AttackFactor> getLand() {
-        AttackFactorData data = new AttackFactorData();   // a zero attack factor.
-        AttackFactor stripped = new AttackFactor(data);
-
-        return Map.of(SquadronConfig.NONE, land,
-                      SquadronConfig.DROP_TANKS, land,
-                      SquadronConfig.SEARCH, land,
-                      SquadronConfig.STRIPPED_DOWN, stripped);
-    }
-
-    /**
-     * Get the aircraft's naval attack factor.
-     *
-     * @return The aircraft's naval attack factor.
-     */
-    @Override
-    public Map<SquadronConfig, AttackFactor> getNaval() {
-        AttackFactorData data = new AttackFactorData();   // a zero attack factor.
-        AttackFactor stripped = new AttackFactor(data);
-
-        return Map.of(SquadronConfig.NONE, naval,
-                      SquadronConfig.DROP_TANKS, naval,
-                      SquadronConfig.SEARCH, naval,
-                      SquadronConfig.STRIPPED_DOWN, stripped);
+    public Map<SquadronConfig, AttackFactor> getAttack(final AttackType attackType) {
+        return attackMap.get(attackType).execute();
     }
 
     /**
@@ -289,5 +225,53 @@ public class Fighter implements Aircraft {
                       SquadronConfig.DROP_TANKS, performance.getEndurance(),
                       SquadronConfig.SEARCH, performance.getEndurance(),
                       SquadronConfig.STRIPPED_DOWN, performance.getEndurance());
+    }
+
+    /**
+     * Get the aircraft's air to air attack factor.
+     *
+     * @return The aircraft's air to air attack factor.
+     */
+    private Map<SquadronConfig, AttackFactor> getAir() {
+        AttackFactorData data = new AttackFactorData();
+        data.setFull(air.getFull());
+        data.setHalf(air.getHalf());
+        data.setSixth(air.getSixth());
+        AttackFactor stripped = new AttackFactor(data);
+
+        return Map.of(SquadronConfig.NONE, air,
+                SquadronConfig.DROP_TANKS, air,
+                SquadronConfig.SEARCH, air,
+                SquadronConfig.STRIPPED_DOWN, stripped);
+    }
+
+    /**
+     * Get the aircraft's land attack factor.
+     *
+     * @return The aircraft's land attack factor.
+     */
+    private Map<SquadronConfig, AttackFactor> getLand() {
+        AttackFactorData data = new AttackFactorData();   // a zero attack factor.
+        AttackFactor stripped = new AttackFactor(data);
+
+        return Map.of(SquadronConfig.NONE, land,
+                SquadronConfig.DROP_TANKS, land,
+                SquadronConfig.SEARCH, land,
+                SquadronConfig.STRIPPED_DOWN, stripped);
+    }
+
+    /**
+     * Get the aircraft's naval attack factor.
+     *
+     * @return The aircraft's naval attack factor.
+     */
+    private Map<SquadronConfig, AttackFactor> getNaval() {
+        AttackFactorData data = new AttackFactorData();   // a zero attack factor.
+        AttackFactor stripped = new AttackFactor(data);
+
+        return Map.of(SquadronConfig.NONE, naval,
+                SquadronConfig.DROP_TANKS, naval,
+                SquadronConfig.SEARCH, naval,
+                SquadronConfig.STRIPPED_DOWN, stripped);
     }
 }

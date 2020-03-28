@@ -2,6 +2,7 @@ package engima.waratsea.utility;
 
 import java.util.Map;
 
+@FunctionalInterface
 public interface FunctionalMap<R1, R2> {
     /**
      * Execute the function.

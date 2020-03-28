@@ -195,39 +195,26 @@ public class Bomber implements Aircraft {
      * Get the probability the aircraft will hit during air-to-air attack including any game factors
      * such as weather and type of target.
      *
+     *
+     * @param attackType The attack type.
      * @param target   The target.
      * @param modifier The circumstance air-to-air attack modifier: weather, type of target, etc...
      * @return The probability this aircraft will hit in an air-to-air attack.
      */
     @Override
-    public Map<SquadronConfig, Double> getAirHitIndividualProbability(final Target target, final int modifier) {
-       return probability.getIndividualHitProbability(getAir(), modifier);
+    public Map<SquadronConfig, Double> getHitIndividualProbability(final AttackType attackType, final Target target, final int modifier) {
+       return probability.getIndividualHitProbability(attackMap.get(attackType).execute(), modifier);
     }
 
     /**
-     * Get the probability the aircraft will hit during a land attack including in game factors
-     * such as weather and type of target.
+     * Get the aircraft's given attack factor specified by the attack type.
      *
-     * @param target The target.
-     * @param modifier The circumstance land attack modifier: weather, type of target, etc...
-     * @return The probability this aircraft will hit in a land attack.
+     * @param attackType The type of attack: AIR, LAND or NAVAL.
+     * @return Get the aircraft's given attack factor.
      */
     @Override
-    public Map<SquadronConfig, Double> getLandHitIndividualProbability(final Target target, final int modifier) {
-        return probability.getIndividualHitProbability(getLand(), modifier);
-    }
-
-    /**
-     * Get the probability the aircraft will hit during a naval attack including in game factors
-     * such as weather and type of target.
-     *
-     * @param target The target.
-     * @param modifier The circumstance naval attack modifier: weather, type of target, etc...
-     * @return The probability this aircraft will hit in a naval attack.
-     */
-    @Override
-    public Map<SquadronConfig, Double> getNavalHitIndividualProbability(final Target target, final int modifier) {
-        return probability.getIndividualHitProbability(getNaval(), modifier);
+    public Map<SquadronConfig, AttackFactor> getAttack(final AttackType attackType) {
+        return attackMap.get(attackType).execute();
     }
 
     /**
@@ -235,8 +222,7 @@ public class Bomber implements Aircraft {
      *
      * @return The aircraft's air to air attack factor.
      */
-    @Override
-    public Map<SquadronConfig, AttackFactor> getAir() {
+    private Map<SquadronConfig, AttackFactor> getAir() {
         return Map.of(
                 SquadronConfig.NONE, air,
                 SquadronConfig.SEARCH, air,
@@ -248,8 +234,7 @@ public class Bomber implements Aircraft {
      *
      * @return The aircraft's land attack factor.
      */
-    @Override
-    public Map<SquadronConfig, AttackFactor> getLand() {
+    private Map<SquadronConfig, AttackFactor> getLand() {
         AttackFactor reduced = land.getReducedRoundDown(ATTACK_REDUCTION);
 
         return Map.of(
@@ -263,8 +248,7 @@ public class Bomber implements Aircraft {
      *
      * @return The aircraft's naval attack factor.
      */
-    @Override
-    public Map<SquadronConfig, AttackFactor> getNaval() {
+    private Map<SquadronConfig, AttackFactor> getNaval() {
         AttackFactor reduced = naval.getReducedRoundDown(ATTACK_REDUCTION);
 
         return Map.of(

@@ -3,6 +3,7 @@ package engima.waratsea.model.base.airfield.mission;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
+import engima.waratsea.model.aircraft.AttackType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.mission.rules.MissionAirRules;
@@ -280,7 +281,7 @@ public class NavalPortStrike implements AirMission {
         return squadronMap.get(MissionRole.MAIN)
                 .stream()
                 .collect(Collectors.toMap(this::getNavalProbability,
-                        Squadron::getNavalFactor,
+                        this::getFactor,
                         Integer::sum));
     }
 
@@ -349,6 +350,16 @@ public class NavalPortStrike implements AirMission {
      * @return The squadron's naval attack modifier, including any global game naval attack modifiers.
      */
     private double getNavalProbability(final Squadron squadron) {
-        return squadron.getNavalHitIndividualProbability(getTarget(), rules.getModifier() + PORT_MODIFIER);
+        return squadron.getHitIndividualProbability(AttackType.NAVAL, getTarget(), rules.getModifier() + PORT_MODIFIER);
+    }
+
+    /**
+     * Get the squadron's current naval attack factor.
+     *
+     * @param squadron The squadron.
+     * @return The squadron's current naval attack factor.
+     */
+    private int getFactor(final Squadron squadron) {
+        return squadron.getFactor(AttackType.NAVAL).getFactor();
     }
 }
