@@ -48,6 +48,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Performance.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java">
           <value>
             <set />
@@ -359,6 +364,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/configuration/SquadronConfigRulesDTO.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/state/SquadronState.java">
           <value>
             <set />
           </value>

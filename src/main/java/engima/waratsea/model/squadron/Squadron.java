@@ -53,7 +53,6 @@ public class Squadron implements Asset, PersistentData<SquadronData> {
     @Getter private String reference; //This is always a map reference and never a name.
     @Getter private Airbase airfield;
     @Getter @Setter private SquadronState squadronState;
-    @Getter @Setter private boolean longDistance;
     @Getter @Setter private SquadronConfig config;
 
     static {

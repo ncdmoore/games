@@ -96,15 +96,15 @@ public class SquadronDetailsView {
         squadronDetailsPane.updatePane(getSquadronDetailsData(squadron));
         aircraftDetailsPane.updatePane(getAircraftDetailsData(squadron));
 
-        aircraftLandPane.updatePaneMultiColumn(getAttackFactor(squadron,
+        aircraftLandPane.updatePaneMultiColumn(getAttackFactor(
                 squadron.getFactor(AttackType.LAND, config),
                 squadron.getHitProbability(AttackType.LAND, config)));
 
-        aircraftNavalPane.updatePaneMultiColumn(getAttackFactor(squadron,
+        aircraftNavalPane.updatePaneMultiColumn(getAttackFactor(
                 squadron.getFactor(AttackType.NAVAL, config),
                 squadron.getHitProbability(AttackType.NAVAL, config)));
 
-        aircraftAirToAirPane.updatePaneMultiColumn(getAttackFactor(squadron,
+        aircraftAirToAirPane.updatePaneMultiColumn(getAttackFactor(
                 squadron.getFactor(AttackType.AIR, config),
                 squadron.getHitProbability(AttackType.AIR, config)));
 
@@ -248,12 +248,11 @@ public class SquadronDetailsView {
     /**
      * Get the squadron's attack factor data.
      *
-     * @param squadron The selected squadron.
      * @param factor The attack factor.
      * @param prob The probability of success.
      * @return The aircraft's attack data.
      */
-    private Map<String, List<String>> getAttackFactor(final Squadron squadron, final SquadronFactor factor, final double prob) {
+    private Map<String, List<String>> getAttackFactor(final SquadronFactor factor, final double prob) {
         Map<String, List<String>> details = new LinkedHashMap<>();
         String defensive = factor.isDefensive() ? " (D)" : "";
         details.put("Factor:", Arrays.asList(factor.getFactor() + defensive, "Hit:", probability.percentage(prob) + "%"));

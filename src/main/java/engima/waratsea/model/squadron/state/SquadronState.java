@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public enum SquadronState {
 
-    READY {
+    READY("Ready") {
         /**
          * Transition to a new state.
          *
@@ -21,7 +21,7 @@ public enum SquadronState {
         }
     },
 
-    QUEUED_FOR_PATROL {
+    QUEUED_FOR_PATROL("On Patrol") {
         /**
          * Transition to a new state.
          *
@@ -33,7 +33,7 @@ public enum SquadronState {
         }
     },
 
-    QUEUED_FOR_MISSION {
+    QUEUED_FOR_MISSION("On Mission") {
         /**
          * Transition to a new state.
          *
@@ -45,7 +45,7 @@ public enum SquadronState {
         }
     },
 
-    ON_PATROL {
+    ON_PATROL("On Patrol") {
         /**
          * Transition to a new state.
          *
@@ -57,7 +57,7 @@ public enum SquadronState {
         }
     },
 
-    ON_MISSION {
+    ON_MISSION("On Mission") {
         /**
          * Transition to a new state.
          *
@@ -69,7 +69,7 @@ public enum SquadronState {
         }
     },
 
-    HANGER {
+    HANGER("In Hanger") {
         /**
          * Transition to a new state.
          *
@@ -106,6 +106,7 @@ public enum SquadronState {
         inHangerMap.put(SquadronAction.REFIT, READY);
     }
 
+    private String value;
 
     /**
      * Transition to a new state.
@@ -114,4 +115,18 @@ public enum SquadronState {
      * @return The new squadron state.
      */
     public abstract SquadronState transition(SquadronAction action);
+
+    /**
+     * The squadron state constructor.
+     *
+     * @param value The String representation of this enum.
+     */
+    SquadronState(final String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }
