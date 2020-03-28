@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Represents an Italian level bomber.
@@ -217,7 +218,12 @@ public class PoorNavalBomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Double> getHitIndividualProbability(final AttackType attackType, final Target target, final int modifier) {
-       return probability.getIndividualHitProbability(getAir(), modifier);
+
+        if (attackType == AttackType.NAVAL) {
+            return getNavalHitIndividualProbability(target, modifier);
+        }
+
+       return probability.getIndividualHitProbability(attackMap.get(attackType).execute(), modifier);
     }
 
     /**
@@ -268,5 +274,21 @@ public class PoorNavalBomber implements Aircraft {
         return Map.of(SquadronConfig.NONE, naval,
                 SquadronConfig.LEAN_ENGINE, leanMixtureAttack,
                 SquadronConfig.SEARCH, searchAttack);
+    }
+
+    /**
+     * Get the probability the aircraft will hit during a naval attack including in game factors
+     * such as weather and type of target.
+     *
+     * @param target The target.
+     * @param modifier The circumstance naval attack modifier: weather, type of target, etc...
+     * @return The probability this aircraft will hit in a naval attack.
+     */
+    private Map<SquadronConfig, Double> getNavalHitIndividualProbability(final Target target, final int modifier) {
+        double factor = FACTOR_MAP.getOrDefault(target.getClass(), POOR_NAVAL_MODIFIER);
+        return probability
+                .getIndividualHitProbability(getNaval(), modifier).entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue() * factor));
     }
 }

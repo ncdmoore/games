@@ -198,7 +198,7 @@ public class Recon implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Double> getHitIndividualProbability(final AttackType attackType, final Target target, final int modifier) {
-        return probability.getIndividualHitProbability(getAir(), modifier);
+        return probability.getIndividualHitProbability(attackMap.get(attackType).execute(), modifier);
     }
 
     /**
