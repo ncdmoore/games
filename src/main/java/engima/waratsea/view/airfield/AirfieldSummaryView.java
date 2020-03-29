@@ -9,6 +9,7 @@ import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.airfield.info.AirfieldSquadronInfo;
 import engima.waratsea.view.squadron.SquadronViewType;
 import engima.waratsea.view.util.TitledGridPane;
 import javafx.scene.Node;
@@ -30,6 +31,7 @@ import java.util.stream.Stream;
 public class AirfieldSummaryView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
+    private final AirfieldSquadronInfo airfieldSquadronInfo;
 
     private Airbase airbase;
 
@@ -41,12 +43,16 @@ public class AirfieldSummaryView {
      *
      * @param imageResourceProvider Provides images.
      * @param props Provides view properties.
+     * @param airfieldSquadronInfo The airfield's squadron information.
      */
     @Inject
     public AirfieldSummaryView(final ImageResourceProvider imageResourceProvider,
-                               final ViewProps props) {
+                               final ViewProps props,
+                               final AirfieldSquadronInfo airfieldSquadronInfo) {
         this.imageResourceProvider = imageResourceProvider;
         this.props = props;
+
+        this.airfieldSquadronInfo = airfieldSquadronInfo;
     }
 
     /**
@@ -73,7 +79,7 @@ public class AirfieldSummaryView {
 
         TitledPane airfieldTitle = buildAirfieldTitle();
         TitledGridPane airfieldDetails = buildAirfieldDetails(nation);
-        TitledGridPane airfieldSummary = buildAirfieldSummary(nation);
+        TitledGridPane airfieldSummary = airfieldSquadronInfo.build();
         airfieldPatrol = buildAirfieldPatrol(nation);
         ready = buildReady(nation);
         TitledPane landingTypes = buildLandingTypes();
@@ -84,6 +90,8 @@ public class AirfieldSummaryView {
 
         VBox leftVBox = new VBox(airfieldTitle, airfieldView, accordion, landingTypes);
         leftVBox.setId("airfield-summary-vbox");
+
+        airfieldSquadronInfo.setAirbase(nation, airbase);
 
         return leftVBox;
     }
@@ -164,20 +172,6 @@ public class AirfieldSummaryView {
     }
 
     /**
-     * Build the airfield squadron summary.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @return A titled grid pane containing the airfield squadron summary.
-     */
-    private TitledGridPane buildAirfieldSummary(final Nation nation) {
-        return new TitledGridPane()
-                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
-                .setStyleId("component-grid")
-                .setTitle("Squadron Summary")
-                .buildPane(getAirfieldSummary(nation));
-    }
-
-    /**
      * Build the airfield patrol summary.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
@@ -242,37 +236,6 @@ public class AirfieldSummaryView {
         }
         checkBox.setDisable(true);
         return checkBox;
-    }
-
-    /**
-     * Get the airfield squadron summary for each type of squadron.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @return A map of the airfield squadrons where the key is the type
-     * of squadron and the value is the total number of squadrons of that
-     * type of squadron.
-     */
-    private Map<String, String> getAirfieldSummary(final Nation nation) {
-        Map<SquadronViewType, Integer> numMap = airbase.getSquadrons(nation)
-                .stream()
-                .collect(Collectors.toMap(squadron -> SquadronViewType.get(squadron.getType()),
-                        squadron -> 1,
-                        Integer::sum,
-                        LinkedHashMap::new));
-
-        // Add in zero's for the squadron types not present at this airfield.
-        Stream.of(SquadronViewType.values()).forEach(type -> {
-            if (!numMap.containsKey(type)) {
-                numMap.put(type, 0);
-            }
-        });
-
-        return Stream.of(SquadronViewType.values())
-                .sorted()
-                .collect(Collectors.toMap(type -> type.getValue() + ":",
-                        type -> numMap.get(type).toString(),
-                        (oldValue, newValue) -> oldValue,
-                        LinkedHashMap::new));
     }
 
     /**

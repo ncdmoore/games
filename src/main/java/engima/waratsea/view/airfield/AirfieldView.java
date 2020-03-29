@@ -7,6 +7,7 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.airfield.mission.MissionView;
 import engima.waratsea.view.airfield.patrol.PatrolView;
+import engima.waratsea.view.airfield.ready.AirfieldReadyView;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Tab;

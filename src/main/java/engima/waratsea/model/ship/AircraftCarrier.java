@@ -50,82 +50,35 @@ import java.util.stream.Stream;
 public class AircraftCarrier implements Ship, Airbase {
     private final MissionDAO missionDAO;
 
-    @Getter
-    private final ShipId shipId;
+    @Getter private final ShipId shipId;
+    @Getter private final ShipType type;
+    @Getter private final String shipClass;
+    @Getter private final AirfieldType airfieldType = AirfieldType.TASKFORCE;
+    @Getter private final Nation nation;
+    @Getter private final int victoryPoints;
+    @Getter @Setter private TaskForce taskForce;
+    @Getter private final Gun primary;
+    @Getter private final Gun secondary;
+    @Getter private final Gun tertiary;
+    @Getter private final Gun antiAir;
+    @Getter private final Torpedo torpedo;
+    @Getter private final Asw asw;
+    @Getter private final Movement movement;
+    @Getter private final Fuel fuel;
+    @Getter private final Hull hull;
+    @Getter private final Cargo cargo;
+    @Getter private String originPort;
+    @Getter private final FlightDeck flightDeck;
+    @Getter private final AircraftCapacity aircraftCapacity;
+    @Getter private final List<LandingType> landingType;
 
-    @Getter
-    private final ShipType type;
+    @Getter private List<Squadron> squadrons;
 
-    @Getter
-    private final String shipClass;
-
-    @Getter
-    private final AirfieldType airfieldType = AirfieldType.TASKFORCE;
-
-    @Getter
-    private final Nation nation;
-
-    @Getter
-    private final int victoryPoints;
-
-    @Getter
-    @Setter
-    private TaskForce taskForce;
-
-    @Getter
-    private Gun primary;
-
-    @Getter
-    private Gun secondary;
-
-    @Getter
-    private Gun tertiary;
-
-    @Getter
-    private Gun antiAir;
-
-    @Getter
-    private Torpedo torpedo;
-
-    @Getter
-    private Asw asw;
-
-    @Getter
-    private Movement movement;
-
-    @Getter
-    private Fuel fuel;
-
-    @Getter
-    private Hull hull;
-
-    @Getter
-    private Cargo cargo;
-
-    @Getter
-    private String originPort;
-
-    @Getter
-    private FlightDeck flightDeck;
-
-    @Getter
-    private AircraftCapacity aircraftCapacity;
-
-    @Getter
-    private List<LandingType> landingType;
-
-    @Getter
-    private List<Squadron> squadrons;
-
-    private Map<String, Squadron> squadronNameMap = new HashMap<>();
-
+    private final Map<String, Squadron> squadronNameMap = new HashMap<>();
     private final Map<AircraftType, List<Squadron>> squadronMap = new LinkedHashMap<>();
 
-    @Getter
-    private Map<AircraftType, List<Squadron>> aircraftTypeMap;
-
-    @Getter
-    private List<AirMission> missions;
+    @Getter private Map<AircraftType, List<Squadron>> aircraftTypeMap;
+    @Getter private List<AirMission> missions;
 
     /**
      * Constructor called by guice.
@@ -278,18 +231,6 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
-     * Determine if the airbase is at capacity, meaning the maximum
-     * number of squadron steps that may be stationed at the airbase
-     * are stationed at the airbase.
-     *
-     * @return True if this airbase contains its maximum number of squadron steps.
-     */
-    @Override
-    public boolean isAtCapacity() {
-        return getCapacity() == getCurrentSteps().intValue();
-    }
-
-    /**
      * Indicates if this airbase has any squadrons.
      *
      * @return True if any squadron is based at this airbase. False otherwise.
@@ -356,13 +297,24 @@ public class AircraftCarrier implements Ship, Airbase {
                 .collect(Collectors.toList());    }
 
     /**
+     * Get a map of nation to list of squadrons.
+     *
+     * @return A map of nation to list of squadrons.
+     */
+    @Override
+    public Map<Nation, List<Squadron>> getSquadronMap() {
+        return getNations()
+                .stream()
+                .collect(Collectors.toMap(country -> country, this::getSquadrons));    }
+
+    /**
      * Get the squadron map for the given nation and given squadron state.
      *
-     * @param squadronNation The nation: BRITISH, ITALIAN, etc.
-     * @param state  The squadron state.
+     * @param country The nation: BRITISH, ITALIAN, etc.
      * @return The squadron map keyed by aircraft type for the given nation and given squadron state.
      */
-    public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation squadronNation, final SquadronState state) {
+    @Override
+    public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation country) {
         return squadronMap
                 .entrySet()
                 .stream()
@@ -370,7 +322,28 @@ public class AircraftCarrier implements Ship, Airbase {
                         entry -> entry
                                 .getValue()
                                 .stream()
-                                .filter(squadron -> squadron.ofNation(nation))
+                                .filter(squadron -> squadron.ofNation(country))
+                                .collect(Collectors.toList()),
+                        (oldList, newList) -> oldList,
+                        LinkedHashMap::new));
+    }
+    /**
+     * Get the squadron map for the given nation and given squadron state.
+     *
+     * @param country The nation: BRITISH, ITALIAN, etc.
+     * @param state The squadron state.
+     * @return The squadron map keyed by aircraft type for the given nation and given squadron state.
+     */
+    @Override
+    public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation country, final SquadronState state) {
+
+        return getSquadronMap(country)
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey,
+                        entry -> entry
+                                .getValue()
+                                .stream()
                                 .filter(squadron -> squadron.getSquadronState() == state)
                                 .collect(Collectors.toList()),
                         (oldList, newList) -> oldList,

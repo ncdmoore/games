@@ -1,4 +1,4 @@
-package engima.waratsea.view.airfield;
+package engima.waratsea.view.airfield.ready;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;

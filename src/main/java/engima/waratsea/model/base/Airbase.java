@@ -107,17 +107,6 @@ public interface Airbase extends Base {
     BigDecimal getCurrentSteps();
 
     /**
-     * Determine if the airbase is at capacity, meaning the maximum
-     * number of squadron steps that may be stationed at the airbase
-     * are stationed at the airbase. This does not take into account
-     * any squadron steps that are given a ferry mission to this airbase.
-     * This does take into account all nations squadrons.
-     *
-     * @return True if this airbase contains its maximum number of squadron steps.
-     */
-    boolean isAtCapacity();
-
-    /**
      * Determine if the given squadron can be stationed at this airbase.
      * This does not take into account any squadron steps that are given
      * a ferry mission to this airbase.
@@ -180,6 +169,22 @@ public interface Airbase extends Base {
      * @return The squadrons for the given nation that can perform the given patrol.
      */
     List<Squadron> getReadySquadrons(Nation nation, PatrolType patrolType);
+
+    /**
+     * Get a map of nation to list of squadrons.
+     *
+     * @return A map of nation to list of squadrons.
+     */
+    Map<Nation, List<Squadron>> getSquadronMap();
+
+    /**
+     * Get the squadron map for the given nation. This is map of
+     * aircraft type to list of this type of aircraft type squadrons.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return The squadron map keyed by aircraft type for the given nation and given squadron state.
+     */
+    Map<AircraftType, List<Squadron>> getSquadronMap(Nation nation);
 
     /**
      * Get the squadron map for the given nation and given squadron state. This is map of

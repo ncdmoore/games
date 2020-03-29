@@ -56,41 +56,20 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     private final PatrolFactory patrolFactory;
     private final MissionDAO missionDAO;
 
-    @Getter
-    private final Side side;
-
-    @Getter
-    private final String name;
-
-    @Getter
-    private final String title;
-
-    @Getter
-    private final List<LandingType> landingType;
-
-    @Getter
-    private final AirfieldType airfieldType;
-
-    @Getter
-    private final int maxCapacity;   //Capacity in steps.
-
-    @Getter
-    private final int antiAirRating;
-
-    @Getter
-    private final String reference; // A simple string is used to prevent circular logic on mapping names and references.
-                                    // Airfields are used to map airfield names to map references. Thus, we just need a map reference
-    @Getter
-    @Setter
-    private int capacity;           //Capacity in steps.
-
+    @Getter private final Side side;
+    @Getter private final String name;
+    @Getter private final String title;
+    @Getter private final List<LandingType> landingType;
+    @Getter private final AirfieldType airfieldType;
+    @Getter private final int maxCapacity;          // Capacity in steps.
+    @Getter private final int antiAirRating;
+    @Getter private final String reference;         // A simple string is used to prevent circular logic on mapping names and references.
+                                                    // Airfields are used to map airfield names to map references. Thus, we just need a map reference
+    @Getter @Setter private int capacity;           // Capacity in steps.
     private final Map<Nation, Region> regions = new HashMap<>();  // A given airfield may be in multiple regions.
 
-    @Getter
-    private final List<Squadron> squadrons = new ArrayList<>();
-
-    @Getter
-    private List<AirMission> missions;
+    @Getter private final List<Squadron> squadrons = new ArrayList<>();
+    @Getter private List<AirMission> missions;
 
     private final Map<String, Squadron> squadronNameMap = new HashMap<>();
     private final Map<AircraftType, List<Squadron>> squadronMap = new LinkedHashMap<>();
@@ -373,18 +352,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
-     * Determine if the airbase is at capacity, meaning the maximum
-     * number of squadron steps that may be stationed at the airbase
-     * are stationed at the airbase.
-     *
-     * @return True if this airbase contains its maximum number of squadron steps.
-     */
-    @Override
-    public boolean isAtCapacity() {
-        return capacity == getCurrentSteps().intValue();
-    }
-
-    /**
      * Get the squadron given its name.
      *
      * @param squadronName The squadron name.
@@ -430,23 +397,43 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * Get the squadron map for the given nation and given squadron state.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return The squadron map keyed by aircraft type for the given nation and given squadron state.
+     */
+    @Override
+    public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation nation) {
+        return squadronMap
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey,
+                        entry -> entry
+                                .getValue()
+                                .stream()
+                                .filter(squadron -> squadron.ofNation(nation))
+                                .collect(Collectors.toList()),
+                        (oldList, newList) -> oldList,
+                        LinkedHashMap::new));
+    }
+    /**
+     * Get the squadron map for the given nation and given squadron state.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
      * @param state The squadron state.
      * @return The squadron map keyed by aircraft type for the given nation and given squadron state.
      */
     @Override
     public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation nation, final SquadronState state) {
-        return squadronMap
+
+        return getSquadronMap(nation)
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
-                                          entry -> entry
-                                                    .getValue()
-                                                    .stream()
-                                                    .filter(squadron -> squadron.ofNation(nation))
-                                                    .filter(squadron -> squadron.getSquadronState() == state)
-                                                    .collect(Collectors.toList()),
-                                          (oldList, newList) -> oldList,
-                                          LinkedHashMap::new));
+                        entry -> entry
+                        .getValue()
+                        .stream()
+                        .filter(squadron -> squadron.getSquadronState() == state)
+                        .collect(Collectors.toList()),
+                        (oldList, newList) -> oldList,
+                        LinkedHashMap::new));
     }
 
     /**
@@ -498,6 +485,18 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                 .filter(squadron -> squadron.canDoPatrol(patrolType))
                 .filter(Squadron::isReady)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Get a map of nation to list of squadrons.
+     *
+     * @return A map of nation to list of squadrons.
+     */
+    @Override
+    public Map<Nation, List<Squadron>> getSquadronMap() {
+        return getNations()
+                .stream()
+                .collect(Collectors.toMap(nation -> nation, this::getSquadrons));
     }
 
     /**

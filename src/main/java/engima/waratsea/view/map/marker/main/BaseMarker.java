@@ -2,11 +2,14 @@ package engima.waratsea.view.map.marker.main;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Game;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.BaseGrid;
 import engima.waratsea.model.map.BaseGridType;
+import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.GridView;
@@ -18,12 +21,19 @@ import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.joining;
 
 
 @Slf4j
@@ -254,7 +264,11 @@ public class BaseMarker {
      * @return A node containing the base's title.
      */
     private Node buildTitle(final GridView gridView) {
+        Tooltip tooltip = new Tooltip();
+        tooltip.setText(getToolTipText());
+
         Label label = new Label(baseGrid.getTitle());
+        label.setTooltip(tooltip);
         VBox vBox = new VBox(label);
         vBox.setLayoutY(gridView.getY() + gridView.getSize());
         vBox.setLayoutX(gridView.getX());
@@ -274,5 +288,42 @@ public class BaseMarker {
      */
     private void hideTitle() {
         mapView.remove(title);
+    }
+
+    /**
+     * Get the base marker's tool tip text.
+     *
+     * @return The base marker's tool tip text.
+     */
+    private String getToolTipText() {
+        String bullet = baseGrid
+                .getAirfield()
+                .map(airfield -> airfield.getNations().size() > 1)
+                .orElse(false) ? "  \u2022  " : "  ";
+
+        String squadronText = getBaseSquadrons()
+                .entrySet()
+                .stream()
+                .map(entry -> bullet + entry.getKey().toString() + " : " + entry.getValue().size())
+                .collect(joining("\n"));
+
+        return baseGrid
+                .getAirfield()
+                .map(Airfield::areSquadronsPresent)
+                .orElse(false)
+                ? "Squadrons Present\n" + squadronText
+                : "No Squadrons";
+    }
+
+    /**
+     * Get the air base's squadrons per nation.
+     *
+     * @return A map of the air base's nation to list of squadrons for that nation.
+     */
+    private Map<Nation, List<Squadron>> getBaseSquadrons() {
+        return baseGrid
+                .getAirfield()
+                .map(Airbase::getSquadronMap)
+                .orElse(Collections.emptyMap());
     }
 }
