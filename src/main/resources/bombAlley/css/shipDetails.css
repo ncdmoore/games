@@ -64,8 +64,8 @@
     -fx-spacing: 5;
 }
 
-#components-pane {
-    -fx-spacing: 6;
+.components-pane {
+    -fx-spacing: 7;
 }
 
 #ship-image {
@@ -117,6 +117,10 @@
 
 .green-bar {
     -fx-accent: green;
+}
+
+#image-vbox {
+    -fx-spacing: 5;
 }
 
 #controls-pane {

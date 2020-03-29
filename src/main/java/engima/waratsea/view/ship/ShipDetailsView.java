@@ -45,7 +45,7 @@ public class ShipDetailsView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
 
-    private SquadronDetailsView squadronTabDetailsView;
+    private SquadronDetailsView squadronDetailsView;
 
     @Getter
     private ChoiceBox<Squadron> squadrons = new ChoiceBox<>();
@@ -55,16 +55,16 @@ public class ShipDetailsView {
      *
      * @param imageResourceProvider Provides images.
      * @param props View properties.
-     * @param tabViewProvider The squadron details view.
+     * @param squadronDetailsViewProvider The squadron details view.
      */
     @Inject
     public ShipDetailsView(final ImageResourceProvider imageResourceProvider,
                            final ViewProps props,
-                           final Provider<SquadronDetailsView> tabViewProvider) {
+                           final Provider<SquadronDetailsView> squadronDetailsViewProvider) {
         this.imageResourceProvider = imageResourceProvider;
         this.props = props;
 
-        this.squadronTabDetailsView = tabViewProvider.get();
+        this.squadronDetailsView = squadronDetailsViewProvider.get();
     }
 
     /**
@@ -99,7 +99,7 @@ public class ShipDetailsView {
      * @param squadron The selected squadron.
      */
     public void selectSquadron(final Squadron squadron) {
-        squadronTabDetailsView.setSquadron(squadron, SquadronConfig.NONE);
+        squadronDetailsView.setSquadron(squadron, SquadronConfig.NONE);
     }
 
     /**
@@ -211,7 +211,7 @@ public class ShipDetailsView {
         VBox aircraftListBox = new VBox(new Label("Select Squadron:"), squadrons);
         aircraftListBox.setId("aircraft-list");
 
-        Node aircraftBox = squadronTabDetailsView.build(ship.getNation());
+        Node aircraftBox = squadronDetailsView.build(ship.getNation());
 
         VBox vBox = new VBox(aircraftListBox, aircraftBox);
 

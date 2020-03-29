@@ -63,13 +63,17 @@
     -fx-spacing: 5;
 }
 
-#components-pane {
-    -fx-spacing: 6;
+.components-pane {
+    -fx-spacing: 7;
 }
 
 #squadron-image {
     -fx-border-color: black;
     -fx-border-width: 1px;
+}
+
+#image-vbox {
+    -fx-spacing: 5;
 }
 
 #profile-vbox {
