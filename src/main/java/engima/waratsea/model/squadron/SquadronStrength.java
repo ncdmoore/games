@@ -15,10 +15,10 @@ import java.math.BigDecimal;
  */
 public enum SquadronStrength {
     @SerializedName(value = "FULL", alternate = {"Full", "full"})
-    FULL("Full", StepSize.FULL),
+    FULL("Full", StepSize.TWO),
 
     @SerializedName(value = "HALF", alternate = {"Half", "half"})
-    HALF("Half", StepSize.HALF),
+    HALF("Half", StepSize.ONE),
 
     @SerializedName(value = "SIXTH", alternate = {"Sixth", "sixth"})
     SIXTH("1/6", StepSize.ONE_THIRD); // Sixth is for battleship and cruiser float planes.

@@ -118,7 +118,7 @@
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="engima.waratsea.Main" />
       <module name="worldWarTwoAtSea.main" />
-      <option name="PROGRAM_PARAMETERS" value="game=bombAlley" />
+      <option name="PROGRAM_PARAMETERS" value="game=coralSea" />
       <option name="VM_PARAMETERS" value="--module-path /Library/java/JavaVirtualMachines/javafx-sdk-12.0.2/lib --add-modules javafx.controls,javafx.fxml" />
       <extension name="coverage">
         <pattern>
@@ -286,13 +286,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00129" summary="Add target step summary to model.">
-      <created>1580055472375</created>
-      <option name="number" value="00129" />
-      <option name="presentableId" value="LOCAL-00129" />
-      <option name="project" value="LOCAL" />
-      <updated>1580055472375</updated>
     </task>
     <task id="LOCAL-00130" summary="Implement airfield ferry part 1.">
       <created>1580183299626</created>
@@ -630,7 +623,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585440834700</updated>
     </task>
-    <option name="localTasksCounter" value="178" />
+    <task id="LOCAL-00178" summary="Add full and half step size constants.">
+      <created>1585485672392</created>
+      <option name="number" value="00178" />
+      <option name="presentableId" value="LOCAL-00178" />
+      <option name="project" value="LOCAL" />
+      <updated>1585485672392</updated>
+    </task>
+    <option name="localTasksCounter" value="179" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -644,7 +644,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add air strike step destroyed and capacity reduction maps for indicating probability." />
     <MESSAGE value="Make sure max radius for patrols is set to 0 when all the squadrons are removed from the patrol." />
     <MESSAGE value="Automatically equip squadrons with drop tanks if drop tanks will enable the squadron to reach the selected target." />
     <MESSAGE value="Drop tanks can only be used on escort roles. So add in range checking per mission role." />
@@ -669,13 +668,14 @@
     <MESSAGE value="Add airfield information to squadron forces dialog." />
     <MESSAGE value="Sort targets and squadrons." />
     <MESSAGE value="Add tooltip to for air base squadrons to the base markers." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add tooltip to for air base squadrons to the base markers." />
+    <MESSAGE value="Add full and half step size constants." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add full and half step size constants." />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585161285483">
+    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585485700591">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1585161285483" />
+    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1585485700591" />
     <state x="950" y="132" width="1499" height="1137" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1584797201729">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -704,26 +704,26 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1585418549549" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1585440832347">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1585485670027">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1585440832347" />
-    <state width="1664" height="234" key="GridCell.Tab.0.bottom" timestamp="1585440951190">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1585485670027" />
+    <state width="1664" height="234" key="GridCell.Tab.0.bottom" timestamp="1585485862172">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="234" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1585440951190" />
-    <state width="1664" height="234" key="GridCell.Tab.0.center" timestamp="1585440951190">
+    <state width="1664" height="234" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1585485862172" />
+    <state width="1664" height="234" key="GridCell.Tab.0.center" timestamp="1585485862172">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="234" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1585440951190" />
-    <state width="1664" height="234" key="GridCell.Tab.0.left" timestamp="1585440951189">
+    <state width="1664" height="234" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1585485862172" />
+    <state width="1664" height="234" key="GridCell.Tab.0.left" timestamp="1585485862171">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="234" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1585440951189" />
-    <state width="1664" height="234" key="GridCell.Tab.0.right" timestamp="1585440951190">
+    <state width="1664" height="234" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1585485862171" />
+    <state width="1664" height="234" key="GridCell.Tab.0.right" timestamp="1585485862172">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1664" height="234" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1585440951190" />
+    <state width="1664" height="234" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1585485862172" />
     <state width="1664" height="643" key="GridCell.Tab.1.bottom" timestamp="1585196835709">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -748,10 +748,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state width="500" height="445" key="SwitcherDM/0.23.2560.1349@0.23.2560.1349" timestamp="1585086256057" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1585440840885">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1585485680961">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1585440840885" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1585485680961" />
     <state x="268" y="115" width="2059" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1585363286063">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
