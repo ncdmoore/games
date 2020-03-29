@@ -11,6 +11,7 @@ import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronHome;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
 
@@ -22,7 +23,7 @@ import java.util.Set;
 /**
  * Represents airbases. An airbase may be an airfield (land based airbase) or may be an aircraft carrier.
  */
-public interface Airbase extends Base {
+public interface Airbase extends Base, SquadronHome {
 
     /**
      * Get the type of airbase. The type of airbase indicates what types of squadrons (landing type) the airbase

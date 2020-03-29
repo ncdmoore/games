@@ -127,7 +127,7 @@ public class SuccessStats {
      * @return The squadron with the configuration set.
      */
     private Squadron setConfig(final Squadron squadron) {
-        squadron.setAirbase(airbase);
+        squadron.setHome(airbase);
         squadron.equip(target, missionType, MissionRole.MAIN);
         return squadron;
     }

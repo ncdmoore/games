@@ -229,7 +229,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
         squadronNameMap.remove(squadron.getName());
 
-        squadron.setAirbase(null);
+        squadron.setHome(null);
     }
 
     /**
@@ -675,7 +675,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     private void stationSquadron(final Squadron squadron) {
         squadrons.add(squadron);
-        squadron.setAirbase(this);
+        squadron.setHome(this);
 
         squadronMap
                 .get(squadron.getType())

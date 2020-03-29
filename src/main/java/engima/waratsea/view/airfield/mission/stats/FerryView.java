@@ -1,11 +1,11 @@
 package engima.waratsea.view.airfield.mission.stats;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.base.Airbase;
-import engima.waratsea.presenter.airfield.mission.MissionStats;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronHome;
 import engima.waratsea.model.target.Target;
+import engima.waratsea.presenter.airfield.mission.MissionStats;
 import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -94,7 +94,7 @@ public class FerryView implements StatsView {
         inRouteValue.setText(inRoute + squadron.getSteps().intValue() + "");
 
         Nation nation = squadron.getNation();
-        Airbase airbase = squadron.getAirbase();
+        SquadronHome airbase = squadron.getHome();
 
         if (airbase.getRegion(nation) != target.getRegion(nation)) {
             targetRegionInRouteValue.setText(regionInRoute + squadron.getSteps().intValue() + "");
@@ -117,7 +117,7 @@ public class FerryView implements StatsView {
         inRouteValue.setText(inRoute - squadron.getSteps().intValue() + "");
 
         Nation nation = squadron.getNation();
-        Airbase airbase = squadron.getAirbase();
+        SquadronHome airbase = squadron.getHome();
 
         if (airbase.getRegion(nation) != target.getRegion(nation)) {
             targetRegionInRouteValue.setText(regionInRoute - squadron.getSteps().intValue() + "");

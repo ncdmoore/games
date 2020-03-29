@@ -12,7 +12,6 @@ import engima.waratsea.model.aircraft.AviationPlant;
 import engima.waratsea.model.aircraft.AviationPlantException;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
-import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
@@ -52,7 +51,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
     @Getter private String name;
     @Getter @Setter private SquadronStrength strength;
     @Getter private String reference; //This is always a map reference and never a name.
-    @Getter private Airbase airbase;
+    @Getter private SquadronHome home;
     @Getter @Setter private SquadronState squadronState;
     @Getter @Setter private SquadronConfig config;
 
@@ -132,8 +131,8 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
         data.setModel(model);
         data.setStrength(strength);
         data.setName(name);
-        Optional.ofNullable(airbase)
-                .ifPresent(a -> data.setAirfield(a.getName()));
+        Optional.ofNullable(home)
+                .ifPresent(h -> data.setAirfield(h.getName()));
         data.setSquadronState(squadronState);
         data.setConfig(config);
         return data;
@@ -289,13 +288,13 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
     /**
      * Set the squadron's airbase.
      *
-     * @param airbase The squadron's airbase.
+     * @param squadronHome The squadron's airbase.
      */
-    public void setAirbase(final Airbase airbase) {
-        this.airbase = airbase;
+    public void setHome(final SquadronHome squadronHome) {
+        this.home = squadronHome;
 
-        String mapReference = Optional.ofNullable(airbase)
-                .map(Airbase::getReference)
+        String mapReference = Optional.ofNullable(squadronHome)
+                .map(SquadronHome::getReference)
                 .orElse(null);
 
         setReference(mapReference);
@@ -336,7 +335,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      * @return True if the squadron is deployed. False otherwise.
      */
     public boolean isDeployed() {
-        return airbase != null;
+        return home != null;
     }
 
     /**
@@ -361,7 +360,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      * @return True if the squadron is available (not deployed). False otherwise.
      */
     public boolean isAvailable() {
-        return airbase == null;
+        return home == null;
     }
 
     /**
@@ -412,10 +411,10 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      */
     public boolean inRange(final Target target, final AirMissionType missionType, final MissionRole missionRole) {
         String targetReference = gameMap.convertNameToReference(target.getLocation());
-        String airbaseReference = airbase.getReference();
+        String airbaseReference = home.getReference();
 
         SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
-                .setAirfieldType(airbase.getAirfieldType())
+                .setAirfieldType(home.getAirfieldType())
                 .setMissionRole(missionRole)
                 .setMissionType(missionType);
 
@@ -491,10 +490,10 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      */
     public SquadronConfig determineConfig(final Target target, final AirMissionType missionType, final MissionRole missionRole) {
         String targetReference = gameMap.convertNameToReference(target.getLocation());
-        String airbaseReference = airbase.getReference();
+        String airbaseReference = home.getReference();
 
         SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
-                .setAirfieldType(airbase.getAirfieldType())
+                .setAirfieldType(home.getAirfieldType())
                 .setMissionRole(missionRole)
                 .setMissionType(missionType);
 

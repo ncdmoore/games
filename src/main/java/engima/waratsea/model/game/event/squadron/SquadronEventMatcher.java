@@ -273,7 +273,7 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
      */
     private boolean isAirfieldOriginEqual(final Squadron squadron) {
         return airfieldOrigins == null
-                || airfieldOrigins.contains(squadron.getAirbase().getName());
+                || airfieldOrigins.contains(squadron.getHome().getName());
     }
     /**
      * Determine if the asset that caused the event to fire matches.

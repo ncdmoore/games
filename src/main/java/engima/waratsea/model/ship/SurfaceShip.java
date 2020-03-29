@@ -6,10 +6,12 @@ import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.ship.data.GunData;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
+import engima.waratsea.model.squadron.SquadronHome;
 import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.PersistentUtility;
@@ -27,7 +29,7 @@ import java.util.stream.Stream;
 /**
  * Represents a surface ship: Battleship, cruisers, etc.
  */
-public class SurfaceShip implements Ship {
+public class SurfaceShip implements Ship, SquadronHome {
 
     @Getter private final ShipId shipId;
     @Getter private final ShipType type;
@@ -171,6 +173,27 @@ public class SurfaceShip implements Ship {
     }
 
     /**
+     * Get the ship's region for the given nation.
+     *
+     * @param shipNation The nation: BRITISH or ITALIAN, etc...
+     * @return Ships do not have regions, so null is returned.
+     */
+    @Override
+    public Region getRegion(final Nation shipNation) {
+        return null;
+    }
+
+    /**
+     * Get the ship's map reference.
+     *
+     * @return The ship's map reference.
+     */
+    @Override
+    public String getReference() {
+        return taskForce.getReference();
+    }
+
+    /**
      * Determines if this ship is an squadrons carrier.
      *
      * @return True if this ship is an squadrons carrier. False otherwise.
@@ -266,6 +289,6 @@ public class SurfaceShip implements Ship {
                 .stream()
                 .collect(Collectors.groupingBy(Squadron::getType));
 
-        //squadrons.forEach(squadron -> squadron.setAirbase(this));
+        squadrons.forEach(squadron -> squadron.setHome(this));
     }
 }

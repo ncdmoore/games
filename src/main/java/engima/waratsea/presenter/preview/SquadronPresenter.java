@@ -515,7 +515,7 @@ public class SquadronPresenter implements Presenter {
         // marker is properly displayed.
         boolean isAvailable = squadron.isAvailable();
         if (isAvailable) {
-            squadron.setAirbase(airfield);
+            squadron.setHome(airfield);
         }
 
         AssetMarkerDTO dto = new AssetMarkerDTO(squadron);
@@ -525,7 +525,7 @@ public class SquadronPresenter implements Presenter {
         // This is needed to keep from prematurely assigning the squadron.
         // Squadron's are only assigned via the deployment button.
         if (isAvailable) {
-            squadron.setAirbase(null);
+            squadron.setHome(null);
         }
     }
 

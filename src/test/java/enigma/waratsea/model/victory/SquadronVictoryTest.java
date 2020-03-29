@@ -226,7 +226,7 @@ public class SquadronVictoryTest {
 
         Airbase airbase = (Airbase) taskForce.getShip("CVL01 Argus-1");
 
-        alliedSquadron.setAirbase(airbase);
+        alliedSquadron.setHome(airbase);
         alliedSquadron.setReference("Malta");
 
         event.fire();
@@ -234,7 +234,7 @@ public class SquadronVictoryTest {
         Assert.assertEquals(victoryPoints, victory.getTotalVictoryPoints());
 
         airbase = (Airbase) taskForce.getShip("CV06 Victorious-1");
-        alliedSquadron.setAirbase(airbase);
+        alliedSquadron.setHome(airbase);
 
         event.fire();
 

@@ -493,7 +493,7 @@ public class AircraftCarrier implements Ship, Airbase {
 
         squadronNameMap.remove(squadron.getName());
 
-        squadron.setAirbase(null);
+        squadron.setHome(null);
     }
 
     /**
@@ -672,7 +672,7 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     private void stationSquadron(final Squadron squadron) {
         squadrons.add(squadron);
-        squadron.setAirbase(this);
+                                                                                                                                                                                                                                                                        squadron.setHome(this);
 
         squadronMap
                 .get(squadron.getType())
