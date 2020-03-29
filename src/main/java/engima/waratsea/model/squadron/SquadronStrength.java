@@ -5,8 +5,6 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 
-import static engima.waratsea.model.squadron.StepSize.ONE_THIRD;
-
 /**
  * Represents the strength of a squadron.
  *
@@ -17,13 +15,13 @@ import static engima.waratsea.model.squadron.StepSize.ONE_THIRD;
  */
 public enum SquadronStrength {
     @SerializedName(value = "FULL", alternate = {"Full", "full"})
-    FULL("Full", "2"),
+    FULL("Full", StepSize.FULL),
 
     @SerializedName(value = "HALF", alternate = {"Half", "half"})
-    HALF("Half", "1"),
+    HALF("Half", StepSize.HALF),
 
     @SerializedName(value = "SIXTH", alternate = {"Sixth", "sixth"})
-    SIXTH("1/6", ONE_THIRD); // Sixth is for battleship and cruiser float planes.
+    SIXTH("1/6", StepSize.ONE_THIRD); // Sixth is for battleship and cruiser float planes.
 
     private String value;
 
