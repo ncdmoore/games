@@ -20,7 +20,8 @@ public class MainMenu {
     @Getter private CheckMenuItem showAirfields;
     @Getter private CheckMenuItem showPorts;
 
-    @Getter private MenuItem squadrons;
+    @Getter private MenuItem airfieldSquadrons;
+    @Getter private MenuItem taskForceSquadrons;
 
     @Getter private MenuBar menuBar = new MenuBar();
 
@@ -42,8 +43,9 @@ public class MainMenu {
         menuMap.getItems().addAll(showAirfields, showPorts);
 
         Menu menuOOB = new Menu("Forces");
-        squadrons = new MenuItem("_Airfield Squadrons");
-        menuOOB.getItems().addAll(squadrons);
+        airfieldSquadrons = new MenuItem("_Airfield Squadrons");
+        taskForceSquadrons = new MenuItem("_Task Force Squadrons");
+        menuOOB.getItems().addAll(airfieldSquadrons, taskForceSquadrons);
 
         menuBar.getMenus().addAll(menuFile, menuMap, menuOOB);
         menuBar.setUseSystemMenuBar(true);                          // Menu will appear in mac system menu area like all other mac applications.

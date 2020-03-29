@@ -18,17 +18,10 @@ import java.util.List;
  * Represents a port within the game.
  */
 public class Port implements Asset, Base, PersistentData<PortData> {
-    @Getter
-    private final Side side;
-
-    @Getter
-    private final String name;
-
-    @Getter
-    private final String size;
-
-    @Getter
-    private final int antiAir;
+    @Getter private final Side side;
+    @Getter private final String name;
+    @Getter private final String size;
+    @Getter private final int antiAirRating;
 
     @Getter
     private final String reference; // A simple string is used to prevent circular logic on mapping names and references.
@@ -46,7 +39,7 @@ public class Port implements Asset, Base, PersistentData<PortData> {
         side = data.getSide();
         name = data.getName();
         size = data.getSize();
-        antiAir = data.getAntiAir();
+        antiAirRating = data.getAntiAir();
         reference = data.getLocation();
     }
 

@@ -52,7 +52,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
     @Getter private String name;
     @Getter @Setter private SquadronStrength strength;
     @Getter private String reference; //This is always a map reference and never a name.
-    @Getter private Airbase airfield;
+    @Getter private Airbase airbase;
     @Getter @Setter private SquadronState squadronState;
     @Getter @Setter private SquadronConfig config;
 
@@ -132,8 +132,8 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
         data.setModel(model);
         data.setStrength(strength);
         data.setName(name);
-        Optional.ofNullable(airfield)
-                .ifPresent(field -> data.setAirfield(field.getName()));
+        Optional.ofNullable(airbase)
+                .ifPresent(a -> data.setAirfield(a.getName()));
         data.setSquadronState(squadronState);
         data.setConfig(config);
         return data;
@@ -291,8 +291,8 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      *
      * @param airbase The squadron's airbase.
      */
-    public void setAirfield(final Airbase airbase) {
-        airfield = airbase;
+    public void setAirbase(final Airbase airbase) {
+        this.airbase = airbase;
 
         String mapReference = Optional.ofNullable(airbase)
                 .map(Airbase::getReference)
@@ -336,7 +336,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      * @return True if the squadron is deployed. False otherwise.
      */
     public boolean isDeployed() {
-        return airfield != null;
+        return airbase != null;
     }
 
     /**
@@ -361,7 +361,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      * @return True if the squadron is available (not deployed). False otherwise.
      */
     public boolean isAvailable() {
-        return airfield == null;
+        return airbase == null;
     }
 
     /**
@@ -412,10 +412,10 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      */
     public boolean inRange(final Target target, final AirMissionType missionType, final MissionRole missionRole) {
         String targetReference = gameMap.convertNameToReference(target.getLocation());
-        String airbaseReference = airfield.getReference();
+        String airbaseReference = airbase.getReference();
 
         SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
-                .setAirfieldType(airfield.getAirfieldType())
+                .setAirfieldType(airbase.getAirfieldType())
                 .setMissionRole(missionRole)
                 .setMissionType(missionType);
 
@@ -491,10 +491,10 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      */
     public SquadronConfig determineConfig(final Target target, final AirMissionType missionType, final MissionRole missionRole) {
         String targetReference = gameMap.convertNameToReference(target.getLocation());
-        String airbaseReference = airfield.getReference();
+        String airbaseReference = airbase.getReference();
 
         SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
-                .setAirfieldType(airfield.getAirfieldType())
+                .setAirfieldType(airbase.getAirfieldType())
                 .setMissionRole(missionRole)
                 .setMissionType(missionType);
 

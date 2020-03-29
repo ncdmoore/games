@@ -11,7 +11,6 @@ import engima.waratsea.model.game.event.ship.data.ShipMatchData;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.ship.Ship;
-import engima.waratsea.model.ship.ShipId;
 import engima.waratsea.model.ship.Shipyard;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
@@ -58,8 +57,6 @@ public class ShipVictoryTest {
         Shipyard shipyard = injector.getInstance(Shipyard.class);
 
         String shipName = "BB08 Royal Sovereign";
-        ShipId shipId = new ShipId(shipName, Side.ALLIES);
-        battleShip = shipyard.load(shipId);
 
         TaskForceFactory taskForceFactory = injector.getInstance(TaskForceFactory.class);
         MissionData missionData = new MissionData();
@@ -73,7 +70,7 @@ public class ShipVictoryTest {
 
         taskForce = taskForceFactory.create(Side.ALLIES, data);
 
-        battleShip.setTaskForce(taskForce);
+        battleShip = taskForce.getShip("BB11 Nelson");
     }
 
     @Test

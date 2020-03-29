@@ -28,6 +28,7 @@ import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronAI;
 import engima.waratsea.model.squadron.SquadronDAO;
+import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.target.TargetDAO;
 import engima.waratsea.model.taskForce.TaskForce;
@@ -73,55 +74,25 @@ public class ComputerPlayer implements Player {
 
     private VictoryConditions victoryConditions;
 
-    @Getter
-    @Setter
-    private Side side;
-
-    @Getter
-    private Set<Nation> nations;
-
-    @Getter
-    private List<TaskForce> taskForces;
-
-    @Getter
-    private Map<String, TaskForce> taskForceMap = new HashMap<>();
-
-    @Getter
-    private List<TaskForceView> enemyTaskForces;
-
-    @Getter
-    private Map<String, TaskForceView> enemyTaskForceMap = new HashMap<>();
+    @Getter @Setter private Side side;
+    @Getter private Set<Nation> nations;
+    @Getter private List<TaskForce> taskForces;
+    @Getter private Map<String, TaskForce> taskForceMap = new HashMap<>();
+    @Getter private List<TaskForceView> enemyTaskForces;
+    @Getter private Map<String, TaskForceView> enemyTaskForceMap = new HashMap<>();
 
     private final Map<FlotillaType, List<Flotilla>> flotillas = new HashMap<>();
-
     private final Map<Nation, List<Squadron>> squadrons = new HashMap<>();
 
-    @Getter
-    private List<Airfield> airfields;
-
-    @Getter
-    private Map<String, Airfield> airfieldMap = new HashMap<>();
-
-    @Getter
-    private List<AirfieldView> enemyAirfields;
-
-    @Getter
-    private Map<String, AirfieldView> enemyAirfieldMap = new HashMap<>();
-
-    @Getter
-    private List<Port> ports;
-
-    @Getter
-    private Map<String, Port> portMap = new HashMap<>();
-
-    @Getter
-    private List<PortView> enemyPorts;
-
-    @Getter
-    private Map<String, PortView> enemyPortMap = new HashMap<>();
-
-    @Getter
-    private List<Minefield> minefields;
+    @Getter private List<Airfield> airfields;
+    @Getter private Map<String, Airfield> airfieldMap = new HashMap<>();
+    @Getter private List<AirfieldView> enemyAirfields;
+    @Getter private Map<String, AirfieldView> enemyAirfieldMap = new HashMap<>();
+    @Getter private List<Port> ports;
+    @Getter private Map<String, Port> portMap = new HashMap<>();
+    @Getter private List<PortView> enemyPorts;
+    @Getter private Map<String, PortView> enemyPortMap = new HashMap<>();
+    @Getter private List<Minefield> minefields;
 
     /**
      * Constructor called by guice.
@@ -359,11 +330,14 @@ public class ComputerPlayer implements Player {
      * This gets the player's squadrons for the given nation.
      *
      * @param nation A nation BRITISH, ITALIAN, etc...
+     * @param locationType Where the squadron is located: LAND or SEA.
      * @return A list of squadrons for the given nation.
      */
     @Override
-    public List<Squadron> getSquadrons(final Nation nation) {
-        return squadrons.get(nation);
+    public List<Squadron> getSquadrons(final Nation nation, final SquadronLocationType locationType) {
+        return locationType == SquadronLocationType.LAND
+                ? squadrons.get(nation)
+                : getTaskForceSquadrons(nation);
     }
 
     /**
@@ -493,5 +467,21 @@ public class ComputerPlayer implements Player {
      */
     private void loadNationSquadrons(final Scenario scenario, final Nation nation) {
          squadrons.put(nation, aviationPlant.load(scenario, side, nation));
+    }
+
+    /**
+     * Get squadrons for the given nation that are stationed within the player's
+     * task forces.
+     *
+     * @param nation The nation: BRITIAN or ITALIAN, etc...
+     * @return All the squadrons of the given nation that are stationed within
+     * this players task forces.
+     */
+    private List<Squadron> getTaskForceSquadrons(final Nation nation) {
+        return taskForces
+                .stream()
+                .flatMap(taskForce -> taskForce.getSquadrons().stream())
+                .filter(squadron -> squadron.ofNation(nation))
+                .collect(Collectors.toList());
     }
 }

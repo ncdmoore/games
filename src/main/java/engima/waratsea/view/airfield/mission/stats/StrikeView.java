@@ -71,7 +71,7 @@ public class StrikeView implements StatsView {
      */
     @Override
     public void addSquadron(final Squadron squadron, final Target target) {
-        int inRoute = Integer.valueOf(inRouteValue.getText());
+        int inRoute = Integer.parseInt(inRouteValue.getText());
         inRouteValue.setText(inRoute + squadron.getSteps().intValue() + "");
         rebuildSuccessStats();
     }
@@ -84,7 +84,7 @@ public class StrikeView implements StatsView {
      */
     @Override
     public void removeSquadron(final Squadron squadron, final Target target) {
-        int inRoute = Integer.valueOf(inRouteValue.getText());
+        int inRoute = Integer.parseInt(inRouteValue.getText());
         inRouteValue.setText(inRoute - squadron.getSteps().intValue() + "");
         rebuildSuccessStats();
     }

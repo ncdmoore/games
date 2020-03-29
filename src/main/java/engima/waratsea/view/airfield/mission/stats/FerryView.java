@@ -87,14 +87,14 @@ public class FerryView implements StatsView {
      */
     @Override
     public void addSquadron(final Squadron squadron, final Target target) {
-        int inRoute = Integer.valueOf(inRouteValue.getText());
-        int regionInRoute = Integer.valueOf(targetRegionInRouteValue.getText());
-        int regionOutRoute = Integer.valueOf(airbaseRegionOurRouteValue.getText());
+        int inRoute = Integer.parseInt(inRouteValue.getText());
+        int regionInRoute = Integer.parseInt(targetRegionInRouteValue.getText());
+        int regionOutRoute = Integer.parseInt(airbaseRegionOurRouteValue.getText());
 
         inRouteValue.setText(inRoute + squadron.getSteps().intValue() + "");
 
         Nation nation = squadron.getNation();
-        Airbase airbase = squadron.getAirfield();
+        Airbase airbase = squadron.getAirbase();
 
         if (airbase.getRegion(nation) != target.getRegion(nation)) {
             targetRegionInRouteValue.setText(regionInRoute + squadron.getSteps().intValue() + "");
@@ -110,14 +110,14 @@ public class FerryView implements StatsView {
      */
     @Override
     public void removeSquadron(final Squadron squadron, final Target target) {
-        int inRoute = Integer.valueOf(inRouteValue.getText());
-        int regionInRoute = Integer.valueOf(targetRegionInRouteValue.getText());
-        int regionOutRoute = Integer.valueOf(airbaseRegionOurRouteValue.getText());
+        int inRoute = Integer.parseInt(inRouteValue.getText());
+        int regionInRoute = Integer.parseInt(targetRegionInRouteValue.getText());
+        int regionOutRoute = Integer.parseInt(airbaseRegionOurRouteValue.getText());
 
         inRouteValue.setText(inRoute - squadron.getSteps().intValue() + "");
 
         Nation nation = squadron.getNation();
-        Airbase airbase = squadron.getAirfield();
+        Airbase airbase = squadron.getAirbase();
 
         if (airbase.getRegion(nation) != target.getRegion(nation)) {
             targetRegionInRouteValue.setText(regionInRoute - squadron.getSteps().intValue() + "");

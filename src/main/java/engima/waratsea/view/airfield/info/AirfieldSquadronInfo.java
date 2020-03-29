@@ -80,12 +80,11 @@ public class AirfieldSquadronInfo {
      * type of squadron.
      */
     private Map<String, String> getSquadronCounts() {
-        Map<SquadronViewType, Integer> numMap = airbase.getSquadrons(nation)
+        Map<SquadronViewType, Integer> numMap = SquadronViewType
+                .convertList(airbase.getSquadronMap(nation))
+                .entrySet()
                 .stream()
-                .collect(Collectors.toMap(squadron -> SquadronViewType.get(squadron.getType()),
-                        squadron -> 1,
-                        Integer::sum,
-                        LinkedHashMap::new));
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().size()));
 
         // Add in zero's for the squadron types not present at this airfield.
         Stream.of(SquadronViewType.values()).forEach(type -> {

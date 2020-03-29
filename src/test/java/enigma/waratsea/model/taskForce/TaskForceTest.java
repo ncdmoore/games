@@ -4,22 +4,21 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.GameName;
+import engima.waratsea.model.game.GameTitle;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventAction;
 import engima.waratsea.model.game.event.ship.data.ShipMatchData;
 import engima.waratsea.model.game.event.turn.TurnEvent;
-import engima.waratsea.model.game.GameTitle;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.turn.data.TurnMatchData;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.ship.Ship;
-import engima.waratsea.model.ship.ShipId;
 import engima.waratsea.model.ship.Shipyard;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.model.taskForce.data.TaskForceData;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.taskForce.TaskForceState;
+import engima.waratsea.model.taskForce.data.TaskForceData;
 import engima.waratsea.model.taskForce.mission.SeaMissionType;
 import engima.waratsea.model.taskForce.mission.data.MissionData;
 import enigma.waratsea.TestModule;
@@ -144,7 +143,7 @@ public class TaskForceTest {
     }
 
     @Test
-    public void testTaskForceActivateShipEvent() throws Exception {
+    public void testTaskForceActivateShipEvent() {
 
         MissionData missionData = new MissionData();
         missionData.setType(SeaMissionType.PATROL);
@@ -154,7 +153,7 @@ public class TaskForceTest {
         data.setMission(missionData);
         data.setLocation("Alexandria");
         data.setState(TaskForceState.RESERVE);
-        data.setShips(new ArrayList<>());
+        data.setShips(new ArrayList<>(Collections.singletonList("CVL04 Eagle-1")));
 
         ShipMatchData releaseEvent = new ShipMatchData();
         releaseEvent.setSide(Side.ALLIES);
@@ -163,19 +162,16 @@ public class TaskForceTest {
         List<ShipMatchData> releaseEvents = new ArrayList<>();
         releaseEvents.add(releaseEvent);
 
-        String shipName = "CVL04 Eagle-1";
-        ShipId shipId = new ShipId(shipName, Side.ALLIES);
-        Ship ship = shipyard.load(shipId);
+        data.setReleaseShipEvents(releaseEvents);
+
+        TaskForce taskForce = factory.create(Side.ALLIES, data);
+
+        Ship ship = taskForce.getShip("CVL04 Eagle-1");
 
         ShipEvent event = new ShipEvent();
         event.setShip(ship);
         event.setAction(ShipEventAction.SPOTTED);
         event.setBy(AssetType.AIRCRAFT);
-
-        data.setReleaseShipEvents(releaseEvents);
-
-        TaskForce taskForce = factory.create(Side.ALLIES, data);
-
         ship.setTaskForce(taskForce);
 
         assert (taskForce.getState() == TaskForceState.RESERVE);
@@ -186,7 +182,11 @@ public class TaskForceTest {
     }
 
     @Test
-    public void testTaskForceNonActivationShipEvent() throws Exception {
+    public void testTaskForceNonActivationShipEvent() {
+        String carrierName = "CVL04 Eagle-1";
+        String battleshipName = "BB02 Warspite";
+
+
         MissionData missionData = new MissionData();
         missionData.setType(SeaMissionType.PATROL);
 
@@ -195,7 +195,7 @@ public class TaskForceTest {
         data.setMission(missionData);
         data.setLocation("Alexandria");
         data.setState(TaskForceState.RESERVE);
-        data.setShips(new ArrayList<>());
+        data.setShips(new ArrayList<>(Arrays.asList(carrierName, battleshipName)));
 
         ShipMatchData releaseEvent = new ShipMatchData();
         releaseEvent.setSide(Side.ALLIES);
@@ -205,20 +205,16 @@ public class TaskForceTest {
         List<ShipMatchData> releaseEvents = new ArrayList<>();
         releaseEvents.add(releaseEvent);
 
-        String shipName = "CVL04 Eagle-1";
-        ShipId shipId = new ShipId(shipName, Side.ALLIES);
-        Ship ship = shipyard.load(shipId);
-
-        ShipEvent event = new ShipEvent();
-        event.setShip(ship);
-        event.setAction(ShipEventAction.SPOTTED);
-        event.setBy(AssetType.SUB);
-
         data.setReleaseShipEvents(releaseEvents);
 
         TaskForce taskForce = factory.create(Side.ALLIES, data);
 
-        ship.setTaskForce(taskForce);
+        Ship carrier = taskForce.getShip(carrierName);
+
+        ShipEvent event = new ShipEvent();
+        event.setShip(carrier);
+        event.setAction(ShipEventAction.SPOTTED);
+        event.setBy(AssetType.SUB);
 
         assert (taskForce.getState() == TaskForceState.RESERVE);
 
@@ -226,12 +222,9 @@ public class TaskForceTest {
 
         assert (taskForce.getState() == TaskForceState.RESERVE);
 
-        shipName = "BB02 Warspite";
-        shipId = new ShipId(shipName, Side.ALLIES);
-        ship = shipyard.load(shipId);
-        ship.setTaskForce(taskForce);
+        Ship battleship = taskForce.getShip(battleshipName);
 
-        event.setShip(ship);
+        event.setShip(battleship);
 
         event.fire();
 

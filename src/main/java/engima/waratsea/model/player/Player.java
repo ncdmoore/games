@@ -14,6 +14,7 @@ import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.victory.VictoryException;
@@ -159,9 +160,10 @@ public interface Player {
      * This gets the player's squadrons for the given nation.
      *
      * @param nation A nation BRITISH, ITALIAN, etc...
+     * @param locationType Where the squadron is located: LAND or SEA
      * @return A list of squadrons for the given nation.
      */
-    List<Squadron> getSquadrons(Nation nation);
+    List<Squadron> getSquadrons(Nation nation, SquadronLocationType locationType);
 
     /**
      * This gets the player's airfields.

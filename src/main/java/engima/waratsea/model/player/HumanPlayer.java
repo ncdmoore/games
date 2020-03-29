@@ -27,6 +27,7 @@ import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronAI;
 import engima.waratsea.model.squadron.SquadronDAO;
+import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.model.squadron.deployment.SquadronDeploymentType;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.target.TargetDAO;
@@ -334,15 +335,14 @@ public class HumanPlayer implements Player {
      * This gets the player's squadrons for the given nation.
      *
      * @param nation A nation BRITISH, ITALIAN, etc...
+     * @param locationType Where the squadron is located: LAND or SEA.
      * @return A list of squadrons for the given nation.
      */
     @Override
-    public List<Squadron> getSquadrons(final Nation nation) {
-        return squadrons
-                .get(nation)
-                .stream()
-                .sorted()
-                .collect(Collectors.toList());
+    public List<Squadron> getSquadrons(final Nation nation, final SquadronLocationType locationType) {
+        return locationType == SquadronLocationType.LAND
+                ? getSortedLandSquadrons(nation)
+                : getSortedTaskForceSquadrons(nation);
     }
 
     /**
@@ -490,5 +490,37 @@ public class HumanPlayer implements Player {
      */
     private void loadNationSquadrons(final Scenario scenario, final Nation nation) {
         squadrons.put(nation, aviationPlant.load(scenario, side, nation));
+    }
+
+    /**
+     * Get the squadrons for the given nation that are stationed at the player's airfields.
+     *
+     * @param nation The nation: BRITISH or ITALIAN, etc...
+     * @return All the squadrons of the given nation that are stationed at this
+     * player's airfields.
+     */
+    private List<Squadron> getSortedLandSquadrons(final Nation nation) {
+        return squadrons
+                .get(nation)
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get squadrons for the given nation that are stationed within the player's
+     * task forces.
+     *
+     * @param nation The nation: BRITISH or ITALIAN, etc...
+     * @return All the squadrons of the given nation that are stationed within
+     * this players task forces.
+     */
+    private List<Squadron> getSortedTaskForceSquadrons(final Nation nation) {
+        return taskForces
+                .stream()
+                .flatMap(taskForce -> taskForce.getSquadrons().stream())
+                .filter(squadron -> squadron.ofNation(nation))
+                .sorted()
+                .collect(Collectors.toList());
     }
 }

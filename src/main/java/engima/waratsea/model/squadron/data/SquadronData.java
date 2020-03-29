@@ -14,36 +14,15 @@ import java.util.Optional;
  * Represents squadron data that is read and written to a JSON file.
  */
 public class SquadronData {
-    @Getter
-    @Setter
-    private transient Side side;
+    @Getter @Setter private transient Side side;
+    @Getter @Setter private String name;
+    @Getter @Setter private Nation nation;
+    @Getter @Setter private String model;
+    @Getter @Setter private SquadronStrength strength;
+    @Getter @Setter private String airfield;
+    @Setter private SquadronState squadronState;
+    @Getter @Setter private SquadronConfig config;
 
-    @Getter
-    @Setter
-    private String name;
-
-    @Getter
-    @Setter
-    private Nation nation;
-
-    @Getter
-    @Setter
-    private String model;
-
-    @Getter
-    @Setter
-    private SquadronStrength strength;
-
-    @Getter
-    @Setter
-    private String airfield;
-
-    @Setter
-    private SquadronState squadronState;
-
-    @Getter
-    @Setter
-    private SquadronConfig config;
     /**
      * Get the state of the squadron.
      *

@@ -7,6 +7,7 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.rules.Rules;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
+import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogOkOnlyView;
 import engima.waratsea.view.ViewProps;
@@ -66,8 +67,10 @@ public class SquadronsDialog {
 
     /**
      * Show the squadron's dialog.
+     *
+     * @param locationType Where the squadron is located on LAND or at SEA.
      */
-    public void show() {
+    public void show(final SquadronLocationType locationType) {
         DialogOkOnlyView dialog = dialogProvider.get();     // The dialog view that contains the airfield details view.
         view = viewProvider.get();
 
@@ -78,7 +81,7 @@ public class SquadronsDialog {
         dialog.setWidth(props.getInt("airfield.dialog.width"));
         dialog.setHeight(props.getInt("airfield.dialog.height"));
         dialog.setCss(cssResourceProvider.get(CSS_FILE));
-        dialog.setContents(view.show(game.getHumanPlayer()));
+        dialog.setContents(view.show(game.getHumanPlayer(), locationType));
 
         registerCallbacks();
         selectFirstSquadrons();

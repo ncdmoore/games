@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Game;
+import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.presenter.squadron.SquadronsDialog;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.MainView;
@@ -68,7 +69,8 @@ public class MainPresenter implements Presenter {
         menuProvider.get().getSave().setOnAction(event -> save());
         menuProvider.get().getQuit().setOnAction(event -> quit());
 
-        menuProvider.get().getSquadrons().setOnAction(event -> squadrons());
+        menuProvider.get().getAirfieldSquadrons().setOnAction(event -> airfieldSquadrons());
+        menuProvider.get().getTaskForceSquadrons().setOnAction(event -> taskForceSquadrons());
 
         mainMapPresenter.setBaseClickHandler();
     }
@@ -107,10 +109,16 @@ public class MainPresenter implements Presenter {
     }
 
     /**
-     * Show the player's squadrons.
+     * Show the player's airfield squadrons.
      */
-    private void squadrons() {
-        System.out.println("show squadrons");
-        squadronsDialogProvider.get().show();
+    private void airfieldSquadrons() {
+        squadronsDialogProvider.get().show(SquadronLocationType.LAND);
+    }
+
+    /**
+     * Show the player's task force squadrons.
+     */
+    private void taskForceSquadrons() {
+        squadronsDialogProvider.get().show(SquadronLocationType.SEA);
     }
 }

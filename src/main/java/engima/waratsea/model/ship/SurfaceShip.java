@@ -3,6 +3,7 @@ package engima.waratsea.model.ship;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.AircraftType;
+import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.ship.data.GunData;
@@ -28,62 +29,25 @@ import java.util.stream.Stream;
  */
 public class SurfaceShip implements Ship {
 
-    @Getter
-    private final ShipId shipId;
-
-    @Getter
-    private final ShipType type;
-
-    @Getter
-    private final String shipClass;
-
-    @Getter
-    private final Nation nation;
-
-    @Getter
-    private final int victoryPoints;
-
-    @Getter
-    @Setter
-    private TaskForce taskForce;
-
-    @Getter
-    private Gun primary;
-
-    @Getter
-    private Gun secondary;
-
-    @Getter
-    private Gun tertiary;
-
-    @Getter
-    private Gun antiAir;
-
-    @Getter
-    private Torpedo torpedo;
-
-    @Getter
-    private Asw asw;
-
-    @Getter
-    private Movement movement;
-
-    @Getter
-    private Fuel fuel;
-
-    @Getter
-    private Hull hull;
-
-    @Getter
-    private Cargo cargo;
-
-    @Getter
-    private String originPort;
-
-    @Getter
-    private List<Squadron> squadrons;
-
-    @Getter
+    @Getter private final ShipId shipId;
+    @Getter private final ShipType type;
+    @Getter private final AirfieldType airfieldType = AirfieldType.TASKFORCE;
+    @Getter private final String shipClass;
+    @Getter private final Nation nation;
+    @Getter private final int victoryPoints;
+    @Getter @Setter private TaskForce taskForce;
+    @Getter private Gun primary;
+    @Getter private Gun secondary;
+    @Getter private Gun tertiary;
+    @Getter private Gun antiAir;
+    @Getter private Torpedo torpedo;
+    @Getter private Asw asw;
+    @Getter private Movement movement;
+    @Getter private Fuel fuel;
+    @Getter private Hull hull;
+    @Getter private Cargo cargo;
+    @Getter private String originPort;
+    @Getter private List<Squadron> squadrons;
     private Map<AircraftType, List<Squadron>> aircraftTypeMap;
 
     /**
@@ -95,7 +59,9 @@ public class SurfaceShip implements Ship {
     @Inject
     public SurfaceShip(@Assisted final ShipData data,
                        final SquadronFactory factory) {
+
         shipId = data.getShipId();
+        taskForce = data.getTaskForce();
         type = data.getType();
         shipClass = data.getShipClass();
         nation = data.getNationality();
@@ -190,6 +156,7 @@ public class SurfaceShip implements Ship {
     public String getName() {
         return shipId.getName();
     }
+
 
     /**
      * Get the ship's title. Some ships have revisions or configurations in their name.
@@ -298,5 +265,7 @@ public class SurfaceShip implements Ship {
         aircraftTypeMap = squadrons
                 .stream()
                 .collect(Collectors.groupingBy(Squadron::getType));
+
+        //squadrons.forEach(squadron -> squadron.setAirbase(this));
     }
 }

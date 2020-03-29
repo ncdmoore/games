@@ -116,7 +116,7 @@ public class SquadronConfigRulesTest {
 
         Set<SquadronConfig> allowed = rules.getAllowed(dto);
 
-        Assert.assertFalse(allowed.contains(SquadronConfig.SEARCH));
+        Assert.assertTrue(allowed.contains(SquadronConfig.SEARCH));
 
         // Squadrons on search patrol may be configured for search in coral sea.
         gameTitle.setName(GameName.CORAL_SEA);

@@ -69,16 +69,13 @@ public class AircraftCarrier implements Ship, Airbase {
     @Getter private final Cargo cargo;
     @Getter private String originPort;
     @Getter private final FlightDeck flightDeck;
-    @Getter private final AircraftCapacity aircraftCapacity;
+    private final AircraftCapacity aircraftCapacity;
     @Getter private final List<LandingType> landingType;
-
-    @Getter private List<Squadron> squadrons;
+    @Getter private List<Squadron> squadrons = new ArrayList<>();
+    @Getter private List<AirMission> missions;
 
     private final Map<String, Squadron> squadronNameMap = new HashMap<>();
     private final Map<AircraftType, List<Squadron>> squadronMap = new LinkedHashMap<>();
-
-    @Getter private Map<AircraftType, List<Squadron>> aircraftTypeMap;
-    @Getter private List<AirMission> missions;
 
     /**
      * Constructor called by guice.
@@ -95,6 +92,7 @@ public class AircraftCarrier implements Ship, Airbase {
         this.missionDAO = missionDAO;
 
         shipId = data.getShipId();
+        taskForce = data.getTaskForce();
         type = data.getType();
         shipClass = data.getShipClass();
         nation = data.getNationality();
@@ -378,7 +376,7 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public Region getRegion(final Nation squadronNation) {
-        return null; // Aircarft carrier's do not have regions.
+        return null; // Aircraft carrier's do not have regions.
     }
 
     /**
@@ -456,7 +454,7 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public Map<AircraftType, BigDecimal> getSquadronSummary() {
-        return aircraftTypeMap
+        return squadronMap
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
@@ -471,21 +469,10 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public AirfieldOperation addSquadron(final Squadron squadron) {
-        Optional.ofNullable(squadron.getAirfield())
-                .ifPresent(airfield -> airfield.removeSquadron(squadron));
-
         AirfieldOperation result = canStation(squadron);
 
         if (result == AirfieldOperation.SUCCESS) {
-            squadrons.add(squadron);
-
-            squadron.setAirfield(this);
-
-            squadronMap
-                    .get(squadron.getType())
-                    .add(squadron);
-
-            squadronNameMap.put(squadron.getName(), squadron);
+            stationSquadron(squadron);
         }
 
         return result;
@@ -506,7 +493,7 @@ public class AircraftCarrier implements Ship, Airbase {
 
         squadronNameMap.remove(squadron.getName());
 
-        squadron.setAirfield(null);
+        squadron.setAirbase(null);
     }
 
     /**
@@ -561,7 +548,6 @@ public class AircraftCarrier implements Ship, Airbase {
     public void addMission(final AirMission mission) {
 
     }
-
 
     /**
      * Get the total number of squadron steps on a mission of the given type
@@ -658,15 +644,11 @@ public class AircraftCarrier implements Ship, Airbase {
      * @param factory The squadron factory that builds the actual squadron.
      */
     private void buildSquadrons(final List<SquadronData> data, final SquadronFactory factory) {
-        squadrons = Optional.ofNullable(data)
+        Optional.ofNullable(data)
                 .orElseGet(Collections::emptyList)
                 .stream()
                 .map(squadronData -> factory.create(shipId.getSide(), nation, squadronData))
-                .collect(Collectors.toList());
-
-        aircraftTypeMap = squadrons
-                .stream()
-                .collect(Collectors.groupingBy(Squadron::getType));
+                .forEach(this::stationSquadron);
     }
 
     /**
@@ -681,6 +663,22 @@ public class AircraftCarrier implements Ship, Airbase {
         }
 
         return hasRoom(squadron) ? AirfieldOperation.SUCCESS : AirfieldOperation.BASE_FULL;
+    }
+
+    /**
+     * Station a squadron at this airfield.
+     *
+     * @param squadron The squadron that is stationed.
+     */
+    private void stationSquadron(final Squadron squadron) {
+        squadrons.add(squadron);
+        squadron.setAirbase(this);
+
+        squadronMap
+                .get(squadron.getType())
+                .add(squadron);
+
+        squadronNameMap.put(squadron.getName(), squadron);
     }
 
     /**

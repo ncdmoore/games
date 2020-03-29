@@ -6,6 +6,7 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ship.data.ShipData;
+import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,11 +64,12 @@ public class Shipyard {
      * Build a ship.
      *
      * @param shipId uniquely identifies a ship.
+     * @param taskForce The ship's task force.
      * @return The built ship.
      * @throws ShipyardException Indicates that the ship could not be built.
      */
-    public Ship load(final ShipId shipId) throws ShipyardException {
-        return config.isNew() ? buildNew(shipId) : buildExisting(shipId);
+    public Ship load(final ShipId shipId, final TaskForce taskForce) throws ShipyardException {
+        return config.isNew() ? buildNew(shipId, taskForce) : buildExisting(shipId, taskForce);
     }
 
     /**
@@ -85,15 +87,17 @@ public class Shipyard {
      * Build a new ship.
      *
      * @param shipId uniquely identifies a ship.
+     * @param taskForce The ship's task force.
      * @return The built ship.
      * @throws ShipyardException Indicates that the ship could not be built.
      */
-    private Ship buildNew(final ShipId shipId) throws ShipyardException {
+    private Ship buildNew(final ShipId shipId, final TaskForce taskForce) throws ShipyardException {
         log.debug("Build new ship: '{}' for side {}", shipId.getName(), shipId.getSide());
         String shipClassName = registry.getClass(shipId);
         ShipData shipData = getShipData(shipClassName, shipId);
         ShipType shipType = shipData.getType();
         shipData.setShipId(shipId);
+        shipData.setTaskForce(taskForce);
         return getFactory(shipType).apply(shipData);
     }
 
@@ -101,14 +105,16 @@ public class Shipyard {
      * Build an existing ship.
      *
      * @param shipId uniquely identifies a ship.
+     * @param taskForce The ship's task force.
      * @return The built ship.
      * @throws ShipyardException Indicates that the ship could not be built.
      */
-    private Ship buildExisting(final ShipId shipId) throws ShipyardException {
+    private Ship buildExisting(final ShipId shipId, final TaskForce taskForce) throws ShipyardException {
         log.debug("Build existing ship: '{}' for side {}", shipId.getName(), shipId.getSide());
         ShipData shipData = loadExistingShipData(shipId);
         ShipType shipType = shipData.getType();
         shipData.setShipId(shipId);
+        shipData.setTaskForce(taskForce);
         return getFactory(shipType).apply(shipData);
     }
 

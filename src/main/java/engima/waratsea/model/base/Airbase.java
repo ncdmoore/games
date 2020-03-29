@@ -9,7 +9,6 @@ import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronState;
@@ -39,28 +38,6 @@ public interface Airbase extends Base {
      * @return The supported landing types of this airbase.
      */
     List<LandingType> getLandingType();
-
-    /**
-     * The name of the airbase. The name of the airbase uniquely identifies the airbase per side.
-     *
-     * @return The name of the airbase.
-     */
-    String getName();
-
-    /**
-     * The title of the airbase. The title of the airbase is used in the GUI to indicate the identity of
-     * the airbase.
-     *
-     * @return The title of the airbase.
-     */
-    String getTitle();
-
-    /**
-     * The side of the airbase. This is the owning side of this airbase.
-     *
-     * @return The airbase side: ALLIES or AXIS.
-     */
-    Side getSide();
 
     /**
      * Get the airbase's nations. These are the nations that are permitted to station squadrons at this airbase.
@@ -276,10 +253,5 @@ public interface Airbase extends Base {
      */
     void clearPatrolsAndMissions();
 
-    /**
-     * Get the airbase's anti aircraft rating.
-     *
-     * @return The airbase's anti aircraft rating.
-     */
-    int getAntiAirRating();
+
 }

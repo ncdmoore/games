@@ -20,9 +20,10 @@ import engima.waratsea.model.ship.ShipId;
 import engima.waratsea.model.ship.ShipType;
 import engima.waratsea.model.ship.Shipyard;
 import engima.waratsea.model.ship.ShipyardException;
+import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.data.TaskForceData;
-import engima.waratsea.model.taskForce.mission.SeaMission;
 import engima.waratsea.model.taskForce.mission.MissionDAO;
+import engima.waratsea.model.taskForce.mission.SeaMission;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,50 +42,19 @@ import java.util.stream.Stream;
  */
 @Slf4j
 public class TaskForce implements Asset, PersistentData<TaskForceData> {
-    @Getter
-    private final Side side;
-
-    @Getter
-    @Setter
-    private String name;
-
-    @Getter
-    @Setter
-    private String title;
-
-    @Getter
-    @Setter
-    private SeaMission mission;
-
-    @Getter
-    private String reference; //This is always a map reference and never a name.
-
-    @Getter
-    @Setter
-    private TaskForceState state;
-
-    @Getter
-    @Setter
-    private List<ShipEventMatcher> releaseShipEvents;
-
-    @Getter
-    @Setter
-    private List<TurnEventMatcher> releaseTurnEvents;
-
-    @Getter
-    private List<Ship> ships;
-
-    @Getter
-    private List<Airbase> aircraftCarriers;
-
-    @Getter
-    private List<Ship> cargoShips;
-
-    @Getter
-    private Map<String, Ship> shipMap;
-
-    @Getter
-    private Map<ShipType, List<Ship>> shipTypeMap;
+    @Getter private final Side side;
+    @Getter @Setter private String name;
+    @Getter @Setter private String title;
+    @Getter @Setter private SeaMission mission;
+    @Getter private String reference;                                  //This is always a map reference and never a name.
+    @Getter @Setter private TaskForceState state;
+    @Getter @Setter private List<ShipEventMatcher> releaseShipEvents;
+    @Getter @Setter private List<TurnEventMatcher> releaseTurnEvents;
+    @Getter private List<Ship> ships;
+    @Getter private List<Airbase> aircraftCarriers;
+    @Getter private List<Ship> cargoShips;
+    @Getter private Map<String, Ship> shipMap;
+    @Getter private Map<ShipType, List<Ship>> shipTypeMap;
 
     private Shipyard shipyard;
     private ShipEventMatcherFactory shipEventMatcherFactory;
@@ -279,6 +249,18 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
     }
 
     /**
+     * Get the squadron's stationed within this task force.
+     *
+     * @return A the squadrons stationed within this task force.
+     */
+    public List<Squadron> getSquadrons() {
+        return ships
+                .stream()
+                .flatMap(ship -> ship.getSquadrons().stream())
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Build all the task force's ships.
      * @param shipNames list of ship names.
      */
@@ -329,9 +311,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
      */
     private Ship buildShip(final ShipId shipId) {
         try {
-            Ship ship = shipyard.load(shipId);
-            ship.setTaskForce(this);
-            return ship;
+            return shipyard.load(shipId, this);
         } catch (ShipyardException ex) {
             log.error("Unable to build ship '{}' for side {}", shipId.getName(), shipId.getSide());
             return null;

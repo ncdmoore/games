@@ -7,6 +7,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.player.Player;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronLocationType;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class SquadronDeploymentManual {
     private void deployNation(final Nation nation) {
         List<Airfield> airfields = gameMap.getNationAirfields(side, nation);                  //Contains all the airfields for this nation.
 
-        List<Squadron> squadrons = player.getSquadrons(nation);
+        List<Squadron> squadrons = player.getSquadrons(nation, SquadronLocationType.LAND);
 
         airfields
                 .stream()

@@ -12,6 +12,7 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.presenter.Presenter;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
@@ -283,7 +284,7 @@ public class SquadronPresenter implements Presenter {
 
         List<Squadron> squadrons = game
                 .getHumanPlayer()
-                .getSquadrons(nation);
+                .getSquadrons(nation, SquadronLocationType.LAND);
 
         BigDecimal total = squadrons
                 .stream()
@@ -380,7 +381,7 @@ public class SquadronPresenter implements Presenter {
 
         List<Squadron> available = game
                 .getHumanPlayer()
-                .getSquadrons(nation)
+                .getSquadrons(nation, SquadronLocationType.LAND)
                 .stream()
                 .filter(Squadron::isAvailable)
                 .filter(airfield::canSquadronLand)
@@ -514,7 +515,7 @@ public class SquadronPresenter implements Presenter {
         // marker is properly displayed.
         boolean isAvailable = squadron.isAvailable();
         if (isAvailable) {
-            squadron.setAirfield(airfield);
+            squadron.setAirbase(airfield);
         }
 
         AssetMarkerDTO dto = new AssetMarkerDTO(squadron);
@@ -524,7 +525,7 @@ public class SquadronPresenter implements Presenter {
         // This is needed to keep from prematurely assigning the squadron.
         // Squadron's are only assigned via the deployment button.
         if (isAvailable) {
-            squadron.setAirfield(null);
+            squadron.setAirbase(null);
         }
     }
 
@@ -662,7 +663,7 @@ public class SquadronPresenter implements Presenter {
                 .getHumanPlayer()
                 .getNations()
                 .stream()
-                .flatMap(nation -> game.getHumanPlayer().getSquadrons(nation).stream())
+                .flatMap(nation -> game.getHumanPlayer().getSquadrons(nation, SquadronLocationType.LAND).stream())
                 .filter(Squadron::isAvailable)
                 .findAny();
 

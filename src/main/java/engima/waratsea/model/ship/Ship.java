@@ -98,14 +98,6 @@ public interface Ship extends Vessel, PersistentData<ShipData> {
      */
     List<Squadron> getSquadrons();
 
-
-    /**
-     * Get the ship's aircraft type map.
-     *
-     * @return A map of squadron types to list of squadrons of that type.
-     */
-    Map<AircraftType, List<Squadron>> getAircraftTypeMap();
-
     /**
      * Get a summary map of aircraft type to number of steps of that type.
      *

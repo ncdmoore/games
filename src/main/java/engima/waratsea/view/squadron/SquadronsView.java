@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.player.Player;
+import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.utility.ImageResourceProvider;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
@@ -24,6 +25,7 @@ public class SquadronsView {
     private final ImageResourceProvider imageResourceProvider;
 
     private Player player;
+    private SquadronLocationType locationType;
 
     /**
      * Constructor called by guice.
@@ -42,10 +44,12 @@ public class SquadronsView {
      * Show the squadron's view.
      *
      * @param humanPlayer The human player.
+     * @param type Where the squadron is located on LAND or at SEA.
      * @return a node that contains the squadron's view.
      */
-    public Node show(final Player humanPlayer) {
+    public Node show(final Player humanPlayer, final SquadronLocationType type) {
         player = humanPlayer;
+        locationType = type;
 
         TabPane nationViewTabs = new TabPane();
         nationViewTabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
@@ -84,7 +88,7 @@ public class SquadronsView {
 
         SquadronsNationView nationSquadronsView = squadronsNationViewProvider.get();
         nationView.put(nation, nationSquadronsView);
-        Node content = nationSquadronsView.build(nation, player.getSquadrons(nation));
+        Node content = nationSquadronsView.build(nation, player.getSquadrons(nation, locationType));
         ImageView roundel = imageResourceProvider.getImageView(nation + ROUNDEL_SIZE);
         tab.setGraphic(roundel);
 

@@ -13,6 +13,7 @@ import engima.waratsea.model.player.Player;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronException;
+import engima.waratsea.model.squadron.SquadronLocationType;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -85,7 +86,7 @@ public class SquadronDeploymentAI {
             squadrons = new ArrayList<>();                                                        //We copy the player's squadrons since we will be removing squadrons from it
                                                                                                   //in order to deploy them.
 
-            squadrons.addAll(player.getSquadrons(nation));                                        //The squadrons for this nation.
+            squadrons.addAll(player.getSquadrons(nation, SquadronLocationType.LAND));             //The squadrons for this nation.
 
             squadronTypeMap = getSquadronTypeMap();                                               //Map of aircraft base type to squadron.
             squadronModelMap = getSquadronModelMap();                                             //Map of aircraft model to squadron.

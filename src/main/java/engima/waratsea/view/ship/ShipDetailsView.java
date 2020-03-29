@@ -9,6 +9,7 @@ import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronDetailsView;
+import engima.waratsea.view.squadron.SquadronViewType;
 import engima.waratsea.view.util.TitledGridPane;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
@@ -411,15 +412,16 @@ public class ShipDetailsView {
      * @return A map of aircraft type to number of steps of that type.
      */
     private Map<String, String> getSquadronSummary(final Ship ship) {
-         Map<String, String> summary = ship.getSquadronSummary()
+        Map<String, String> summary = SquadronViewType
+                .convertBigDecimal(ship.getSquadronSummary())
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(e -> e.getKey().toString() + ":",
                                           e -> formatSteps(e.getValue())));
 
-         if (summary.isEmpty()) {
-             summary.put("No aircraft", "");
-         }
+        if (summary.isEmpty()) {
+            summary.put("No aircraft", "");
+        }
 
          return summary;
     }
