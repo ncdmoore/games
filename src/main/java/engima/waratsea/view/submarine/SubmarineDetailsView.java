@@ -64,7 +64,7 @@ public class SubmarineDetailsView {
         title.setId("title");
 
         StackPane titlePane = new StackPane(title);
-        titlePane.setId("title-pane-" + submarine.getSide().getPossesive().toLowerCase());
+        titlePane.setId("title-pane-" + submarine.getSide().getPossessive().toLowerCase());
 
         TabPane tabPane = new TabPane();
         tabPane.getTabs().add(buildSubTab(submarine));

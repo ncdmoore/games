@@ -26,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -200,7 +199,7 @@ public class MinefieldPreviewMapView {
      * @param handler The mouse click event handler for the game grid.
      */
     private void highlightAndRegister(final String mapRef, final EventHandler<? super MouseEvent> handler) {
-        Optional.ofNullable(gameMap.getGrid(mapRef))
+        gameMap.getGrid(mapRef)
                 .ifPresent(gameGrid -> highlightAndRegisterGrid(gameGrid, handler));
     }
 
@@ -234,7 +233,7 @@ public class MinefieldPreviewMapView {
      * @param mapRef The map reference of a game grid.
      */
     private void removeHighlightAndUnregister(final String mapRef) {
-        Optional.ofNullable(gameMap.getGrid(mapRef))
+        gameMap.getGrid(mapRef)
                 .ifPresent(this::removeHighlightAndUnregisterGrid);
     }
 
@@ -269,7 +268,7 @@ public class MinefieldPreviewMapView {
      * @param dto The minefield data transfer object.
      */
     private void markExistingMine(final String mapRef, final MinefieldDTO dto) {
-        GameGrid gameGrid = gameMap.getGrid(mapRef);
+        GameGrid gameGrid = gameMap.getGrid(mapRef).orElse(null);
         if (gameGrid != null) {
             GridView gridView = new GridView(mapView.getGridSize(), gameGrid);
 

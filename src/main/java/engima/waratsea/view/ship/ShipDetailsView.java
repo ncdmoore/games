@@ -78,7 +78,7 @@ public class ShipDetailsView {
         title.setId("title");
 
         StackPane titlePane = new StackPane(title);
-        titlePane.setId("title-pane-" + ship.getSide().getPossesive().toLowerCase());
+        titlePane.setId("title-pane-" + ship.getSide().getPossessive().toLowerCase());
 
         TabPane tabPane = new TabPane();
         tabPane.getTabs().add(buildShipTab(ship));

@@ -35,38 +35,38 @@ public class GameMapTest {
     }
 
     @Test
-    public void testConversionFromMapReference() {
+    public void testConversionFromMapReference() throws Exception {
         String mapReference = "F20";
 
-        GameGrid grid = gameMap.getGrid(mapReference);
+        GameGrid grid = gameMap.getGrid(mapReference).orElseThrow(Exception::new);
 
         assert (grid.getColumn() == 5);
         assert (grid.getRow() == 19);
 
         mapReference = "AA1";
 
-        grid = gameMap.getGrid(mapReference);
+        grid = gameMap.getGrid(mapReference).orElseThrow(Exception::new);
 
         assert (grid.getRow() == 0);
         assert (grid.getColumn() == 26);
 
         mapReference = "BE31";
 
-        grid = gameMap.getGrid(mapReference);
+        grid = gameMap.getGrid(mapReference).orElseThrow(Exception::new);
 
         assert (grid.getRow() == 30);
         assert (grid.getColumn() == 56);
 
         mapReference = "A10";
 
-        grid = gameMap.getGrid(mapReference);
+        grid = gameMap.getGrid(mapReference).orElseThrow(Exception::new);
 
         assert (grid.getRow() == 9);
         assert (grid.getColumn() == 0);
 
         mapReference = "A1";
 
-        grid = gameMap.getGrid(mapReference);
+        grid = gameMap.getGrid(mapReference).orElseThrow(Exception::new);
 
         assert (grid.getRow() == 0);
         assert (grid.getColumn() == 0);

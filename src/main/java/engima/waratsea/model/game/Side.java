@@ -14,17 +14,17 @@ public enum Side {
     private final String value;
 
     @Getter
-    private final String possesive;
+    private final String possessive;
 
     /**
      * Constructs a Side.
      *
      * @param value The string representation of the side.
-     * @param possesive The possesive form of the word.
+     * @param possessive The possessive form of the word.
      */
-    Side(final String value, final String possesive) {
+    Side(final String value, final String possessive) {
         this.value = value;
-        this.possesive = possesive;
+        this.possessive = possessive;
     }
 
     /**

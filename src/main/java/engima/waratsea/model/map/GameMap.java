@@ -14,6 +14,7 @@ import engima.waratsea.model.minefield.MinefieldDAO;
 import engima.waratsea.model.scenario.Scenario;
 import javafx.util.Pair;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.map.MultiKeyMap;
@@ -300,14 +301,9 @@ public final class GameMap {
      * @param name A named reference on the map.
      * @return The corresponding map reference of where the name is located.
      */
-    public String convertNameToReference(final String name) {
-        if (name == null) {
-            log.error("Location is null");
-            return null;
-        }
-
+    public String convertNameToReference(@NonNull final String name) {
         Matcher matcher = PATTERN.matcher(name);
-        return   matcher.matches() ? name : Optional.ofNullable(getBaseReference(name)).orElse(name);
+        return  matcher.matches() ? name : Optional.ofNullable(getBaseReference(name)).orElse(name);
     }
 
     /**
@@ -336,14 +332,8 @@ public final class GameMap {
      * @param mapReference game map reference.
      * @return The game grid corresponding to the given map reference.
      */
-    public GameGrid getGrid(final String mapReference) {
-
-        if (mapReference == null) {
-            log.error("Cannot get grid. Map reference is null");
-            return null;
-        }
-
-        return gridRefMap.get(mapReference);
+    public Optional<GameGrid> getGrid(@NonNull final String mapReference) {
+        return Optional.of(gridRefMap.get(mapReference));
     }
 
     /**
@@ -365,12 +355,18 @@ public final class GameMap {
      * @return The distance in grids between the given two map references.
      */
     public int determineDistance(final String mapReferenceOne, final String mapReferenceTwo) {
-        GameGrid gridOne = getGrid(mapReferenceOne);
-        GameGrid gridTwo = getGrid(mapReferenceTwo);
+        Optional<GameGrid> gridOne = getGrid(mapReferenceOne);
+        Optional<GameGrid> gridTwo = getGrid(mapReferenceTwo);
+
+        int rowOne = gridOne.map(GameGrid::getRow).orElse(0);
+        int rowTwo = gridTwo.map(GameGrid::getRow).orElse(0);
+
+        int columnOne = gridOne.map(GameGrid::getColumn).orElse(0);
+        int columnTwo = gridTwo.map(GameGrid::getColumn).orElse(0);
 
         // a^2 + b^2 <= c^2, where a, b and c are the sides of the right triangle.
-        int a = Math.abs(gridOne.getRow() - gridTwo.getRow());
-        int b = Math.abs(gridOne.getColumn() - gridTwo.getColumn());
+        int a = Math.abs(rowOne - rowTwo);
+        int b = Math.abs(columnOne - columnTwo);
 
         return (int) Math.sqrt((a * a) + (b * b));
     }
@@ -386,12 +382,18 @@ public final class GameMap {
      */
     public boolean inRange(final String startingReference, final String targetReference, final int range) {
 
-        GameGrid targetGrid = getGrid(targetReference);
-        GameGrid startingGrid = getGrid(startingReference);
+        Optional<GameGrid> targetGrid = getGrid(targetReference);
+        Optional<GameGrid> startingGrid = getGrid(startingReference);
+
+        int targetRow = targetGrid.map(GameGrid::getRow).orElse(0);
+        int targetColumn = targetGrid.map(GameGrid::getColumn).orElse(0);
+
+        int startingRow = startingGrid.map(GameGrid::getRow).orElse(0);
+        int startingColumn = startingGrid.map(GameGrid::getColumn).orElse(0);
 
         // a^2 + b^2 <= c^2, where a, b and c are the sides of the right triangle.
-        int a = Math.abs(targetGrid.getRow() - startingGrid.getRow());
-        int b = Math.abs(targetGrid.getColumn() - startingGrid.getColumn());
+        int a = Math.abs(targetRow - startingRow);
+        int b = Math.abs(targetColumn - startingColumn);
         int c = range + 1;
 
         log.debug("a: {} ,b: {}, c: {}", new Object[]{a, b, c});
@@ -463,13 +465,9 @@ public final class GameMap {
     private void buildBaseRefToBaseMap(final Side side) {
         Map<String, BaseGrid> baseRefToBaseGrid = getPorts(side)
                 .stream()
-                .map(port -> {
-                    BaseGrid baseGrid = new BaseGrid(port);
-                    baseGrid.setGameGrid(getGrid(port.getReference()));
-                    return baseGrid;
-                })
+                .map(this::getPortBaseGrid)
                 .collect(Collectors.toMap(BaseGrid::getReference,
-                                          basegrid -> basegrid));
+                                          baseGrid -> baseGrid));
 
         Map<Boolean, List<Airfield>> airbases = getAirfields(side)
                 .stream()
@@ -478,11 +476,23 @@ public final class GameMap {
         airbases.get(true).forEach(airfield -> baseRefToBaseGrid.get(airfield.getReference()).setAirfield(airfield));
         airbases.get(false).forEach(airfield -> {
             BaseGrid baseGrid = new BaseGrid(airfield);
-            baseGrid.setGameGrid(getGrid(airfield.getReference()));
+            baseGrid.setGameGrid(getGrid(airfield.getReference()).orElse(null));
             baseRefToBaseGrid.put(airfield.getReference(), baseGrid);
         });
 
         baseRefToBase.put(side, baseRefToBaseGrid);
+    }
+
+    /**
+     * Get the port base grid.
+     *
+     * @param port The port.
+     * @return The base grid for the given port.
+     */
+    private BaseGrid getPortBaseGrid(final Port port) {
+        BaseGrid baseGrid = new BaseGrid(port);
+        baseGrid.setGameGrid(getGrid(port.getReference()).orElse(null));
+        return baseGrid;
     }
 
     /**

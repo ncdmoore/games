@@ -143,7 +143,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
                 .map(l -> "at " + l)
                 .orElse("");
 
-        return "if an " + side.getPossesive() + " " + ship + taskForce + " " + action.toLowerCase() + place + ".";
+        return "if an " + side.getPossessive() + " " + ship + taskForce + " " + action.toLowerCase() + place + ".";
     }
 
     /**

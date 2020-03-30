@@ -376,7 +376,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
      */
     private void handleShipEvent(final ShipEvent event) {
         log.info("{} {} notify ship event {} {} {}.", new Object[] {name, title,
-                event.getShip().getShipId().getSide().getPossesive(), event.getShip().getType(), event.getAction()});
+                event.getShip().getShipId().getSide().getPossessive(), event.getShip().getType(), event.getAction()});
 
         boolean release = releaseShipEvents.stream().anyMatch(eventMatcher -> eventMatcher.match(event));
 

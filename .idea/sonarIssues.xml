@@ -343,6 +343,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Side.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/Rules.java">
           <value>
             <set />
@@ -364,6 +369,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseType.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java">
           <value>
             <set />
           </value>
@@ -668,6 +678,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/TargetMarkerDTO.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/TaskForceMarkerDTO.java">
           <value>
             <set />
@@ -864,6 +879,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MineMarker.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MinefieldPreviewMapView.java">
           <value>
             <set />
           </value>
@@ -1109,6 +1129,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/rules/SquadronConfigRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/map/GameMapTest.java">
           <value>
             <set />
           </value>

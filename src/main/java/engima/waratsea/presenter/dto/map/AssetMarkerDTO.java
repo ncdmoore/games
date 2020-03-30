@@ -53,7 +53,7 @@ public class AssetMarkerDTO implements PopUpDTO {
      * @param gameMap The game map.
      */
     public void setGameMap(final GameMap gameMap) {
-        grid = gameMap.getGrid(mapReference);
+        grid = gameMap.getGrid(mapReference).orElse(null);
     }
 
     /**

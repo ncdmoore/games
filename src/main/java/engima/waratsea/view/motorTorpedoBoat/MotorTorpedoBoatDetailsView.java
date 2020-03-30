@@ -64,7 +64,7 @@ public class MotorTorpedoBoatDetailsView {
         title.setId("title");
 
         StackPane titlePane = new StackPane(title);
-        titlePane.setId("title-pane-" + mtb.getSide().getPossesive().toLowerCase());
+        titlePane.setId("title-pane-" + mtb.getSide().getPossessive().toLowerCase());
 
         TabPane tabPane = new TabPane();
         tabPane.getTabs().add(buildSubTab(mtb));
