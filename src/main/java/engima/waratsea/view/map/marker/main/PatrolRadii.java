@@ -68,7 +68,7 @@ public class PatrolRadii {
         // Get any circles that are no longer needed.
         List<PatrolRadius> removed = ListUtils.subtract(radii, newRadii);
 
-        // Remove the uneeded circles.
+        // Remove the unneeded circles.
         removed.forEach(PatrolRadius::remove);
 
         radii = newRadii;

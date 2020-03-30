@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public enum PatrolType {
     ASW("ASW"),
@@ -41,6 +42,15 @@ public enum PatrolType {
      */
     public static PatrolType getType(final Patrol patrol) {
         return typeMap.get(patrol.getClass());
+    }
+
+    /**
+     * Get a stream of all of the patrol types.
+     *
+     * @return A Stream of all of the patrol types.
+     */
+    public static Stream<PatrolType> stream() {
+        return Stream.of(values());
     }
 
     @Getter

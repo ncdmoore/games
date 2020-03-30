@@ -13,9 +13,8 @@ import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
-import engima.waratsea.model.base.airfield.patrol.PatrolDAO;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
-import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
+import engima.waratsea.model.base.airfield.patrol.Patrols;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
@@ -25,11 +24,9 @@ import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.PersistentUtility;
-import javafx.util.Pair;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.ListUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
@@ -52,7 +49,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
 
     private final MissionDAO missionDAO;
-    private final PatrolDAO patrolDAO;
 
     @Getter private final Side side;
     @Getter private final String name;
@@ -71,7 +67,8 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
     private final Map<String, Squadron> squadronNameMap = new HashMap<>();
     private final Map<AircraftType, List<Squadron>> squadronMap = new LinkedHashMap<>();
-    private final Map<PatrolType, Patrol> patrolMap = new HashMap<>();
+
+    private final Patrols patrols;
 
     /**
      * Constructor called by guice.
@@ -79,16 +76,17 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param data The airfield data read in from a JSON file.
      * @param squadronFactory Squadron factory.
      * @param missionDAO Mission data access object.
-     * @param patrolDAO Patrol data access object.
+     * @param patrols This airbase's patrols.
      */
     @Inject
     public Airfield(@Assisted final AirfieldData data,
                     final SquadronFactory squadronFactory,
                     final MissionDAO missionDAO,
-                    final PatrolDAO patrolDAO) {
+                    final Patrols patrols) {
 
         this.missionDAO = missionDAO;
-        this.patrolDAO = patrolDAO;
+
+        this.patrols = patrols;
 
         this.side = data.getSide();
         name = data.getName();
@@ -108,7 +106,9 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
         buildSquadrons(data.getSquadrons(), squadronFactory);
         buildMissions(data);
-        buildPatrols(data);
+
+        patrols.build(this, data.getPatrolsData());
+
     }
 
     /**
@@ -130,9 +130,8 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
         data.setSquadrons(PersistentUtility.getData(squadrons));
         data.setMissions(PersistentUtility.getData(missions));
-        data.setAswPatrol(patrolMap.get(PatrolType.ASW).getData());
-        data.setCapPatrol(patrolMap.get(PatrolType.CAP).getData());
-        data.setSearchPatrol(patrolMap.get(PatrolType.SEARCH).getData());
+
+        data.setPatrolsData(patrols.getData());
 
         return data;
     }
@@ -280,7 +279,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     @Override
     public void clearPatrolsAndMissions() {
 
-        patrolMap.forEach((patrolType, patrol) -> patrol.clearSquadrons());
+        patrols.clear();
 
         missions.forEach(AirMission::removeSquadrons);
         missions.clear();
@@ -472,7 +471,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public Patrol getPatrol(final PatrolType patrolType) {
-        return patrolMap.get(patrolType);
+        return patrols.getPatrol(patrolType);
     }
 
     /**
@@ -484,11 +483,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * of patrols.
      */
     public Map<Integer, List<Patrol>> getPatrolRadiiMap() {
-        return Stream.of(PatrolType.values())
-                .map(this::getPatrolRadii)
-                .collect(Collectors.toMap(Pair::getKey,
-                                          this::createList,
-                                          ListUtils::union));
+        return patrols.getPatrolRadiiMap();
     }
 
     /**
@@ -529,31 +524,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                  .map(missionData -> missionData.setAirbase(this))
                  .map(missionDAO::load)
                  .collect(Collectors.toList());
-    }
-
-    /**
-     * Build the airfield's ASW patrol.
-     *
-     * @param data The Airfield data read in from a JSON file.
-     */
-    private void buildPatrols(final AirfieldData data) {
-        PatrolData aswData = data.getAswPatrol();
-
-        aswData.setAirbase(this);
-        aswData.setType(PatrolType.ASW);
-        patrolMap.put(PatrolType.ASW, patrolDAO.load(aswData));
-
-        PatrolData capData = data.getCapPatrol();
-
-        capData.setAirbase(this);
-        capData.setType(PatrolType.CAP);
-        patrolMap.put(PatrolType.CAP, patrolDAO.load(capData));
-
-        PatrolData searchData = data.getSearchPatrol();
-
-        searchData.setAirbase(this);
-        searchData.setType(PatrolType.SEARCH);
-        patrolMap.put(PatrolType.SEARCH, patrolDAO.load(searchData));
     }
 
     /**
@@ -643,33 +613,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         }
 
         return landingType.contains(LandingType.LAND) ? AirfieldType.LAND : AirfieldType.SEAPLANE;
-    }
-
-    /**
-     * Get a Pair of max radius to patrol.
-     *
-     * @param patrolType The type of patrol.
-     * @return A Pair of radius, patrol.
-     */
-    private Pair<Integer, Patrol> getPatrolRadii(final PatrolType patrolType) {
-        int radius = patrolMap
-                .get(patrolType)
-                .getTrueMaxRadius();
-
-        return new Pair<>(radius, patrolMap.get(patrolType));
-    }
-
-    /**
-     * Create a list of Patrols from a pair of radius, patrol.
-     *
-     * @param pair  A radius, patrol pair.
-     * @return A list of Patrols.
-     */
-    private  List<Patrol> createList(final Pair<Integer, Patrol> pair) {
-        Patrol patrol = pair.getValue();
-        List<Patrol> list = new ArrayList<>();
-        list.add(patrol);
-        return list;
     }
 
     /**
