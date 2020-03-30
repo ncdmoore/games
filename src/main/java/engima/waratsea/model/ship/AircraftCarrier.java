@@ -10,13 +10,10 @@ import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
-import engima.waratsea.model.base.airfield.mission.MissionRole;
-import engima.waratsea.model.base.airfield.mission.AirMissionType;
-import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.ship.data.GunData;
 import engima.waratsea.model.ship.data.ShipData;
@@ -511,35 +508,6 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
-     * This is a utility function to aid in determining mission stats for squadrons that are
-     * selected for a given mission type but not necessarily committed to the mission yet.
-     *
-     * @param missionType      The mission type.
-     * @param missionNation    The nation: BRITISH, ITALIAN, etc...
-     * @param missionSquadrons The squadrons assigned to the mission.
-     * @param target           The target of the mission.
-     * @return A temporary mission with the given squadrons.
-     */
-    @Override
-    public AirMission getTemporaryMission(final AirMissionType missionType, final Nation missionNation, final List<Squadron> missionSquadrons, final Target target) {
-        MissionData data = new MissionData();
-        data.setAirbase(this);
-        data.setNation(missionNation);
-        data.setTarget(target.getName());
-
-        Map<MissionRole, List<String>> tempMap = new HashMap<>();
-
-        tempMap.put(MissionRole.MAIN, missionSquadrons
-                .stream()
-                .map(Squadron::getName)
-                .collect(Collectors.toList()));
-
-        data.setSquadronMap(tempMap);
-
-        return  missionDAO.load(data);
-    }
-
-    /**
      * Add a mission to this air base.
      *
      * @param mission The mission that is added to this airbase.
@@ -574,19 +542,6 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public Patrol getPatrol(final PatrolType patrolType) {
-        return null;
-    }
-
-    /**
-     * This is a utility function to aid in determining patrol stats for squadrons that are
-     * selected for a given patrol type but not necessarily committed to the patrol yet.
-     *
-     * @param patrolType       The type of patrol.
-     * @param squadronOnPatrol A list of potential squadrons on patrol.
-     * @return A patrol consisting of the given squadrons.
-     */
-    @Override
-    public Patrol getTemporaryPatrol(final PatrolType patrolType, final List<Squadron> squadronOnPatrol) {
         return null;
     }
 

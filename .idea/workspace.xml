@@ -5,10 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ship/ShipDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ship/ShipDetailsView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/shipDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/shipDetails.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/squadronDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/squadronDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/Airbase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/Airbase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/PatrolDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/PatrolDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/data/PatrolData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/data/PatrolData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/MissionDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/MissionDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/SuccessStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/SuccessStats.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/TargetView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/TargetView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolStatsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolStatsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -286,13 +294,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00133" summary="Implement airfield ferry part 4.">
-      <created>1582495186134</created>
-      <option name="number" value="00133" />
-      <option name="presentableId" value="LOCAL-00133" />
-      <option name="project" value="LOCAL" />
-      <updated>1582495186134</updated>
     </task>
     <task id="LOCAL-00134" summary="Implement airfield ferry part 4.">
       <created>1582495922936</created>
@@ -630,7 +631,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585517400555</updated>
     </task>
-    <option name="localTasksCounter" value="182" />
+    <task id="LOCAL-00182" summary="Update squadron details css spacing.">
+      <created>1585521238753</created>
+      <option name="number" value="00182" />
+      <option name="presentableId" value="LOCAL-00182" />
+      <option name="project" value="LOCAL" />
+      <updated>1585521238753</updated>
+    </task>
+    <option name="localTasksCounter" value="183" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -644,7 +652,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Drop tanks can only be used on escort roles. So add in range checking per mission role." />
     <MESSAGE value="Refactor aircraft and squadrons to use &quot;squadron configurations&quot;." />
     <MESSAGE value="Add takeoff type to aircraft." />
     <MESSAGE value="Add Bomber and Recon subclasses to Aircraft." />
@@ -669,7 +676,8 @@
     <MESSAGE value="Add full and half step size constants." />
     <MESSAGE value="Add task force squadrons dialog." />
     <MESSAGE value="Add new interface for squadron home." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add new interface for squadron home." />
+    <MESSAGE value="Update squadron details css spacing." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update squadron details css spacing." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585517448530">
@@ -684,10 +692,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser/0.23.2560.1349@0.23.2560.1349" timestamp="1585516083452" />
-    <state x="1148" y="440" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1585086155277">
+    <state x="1148" y="440" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1585521254702">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1148" y="440" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1585086155277" />
+    <state x="1148" y="440" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1585521254702" />
     <state x="1441" y="531" key="#com.intellij.refactoring.move.moveInstanceMethod.MoveInstanceMethodDialog" timestamp="1584801279786">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -708,42 +716,42 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1585418549549" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1585517400184">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1585521238473">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1585517400184" />
-    <state width="2118" height="458" key="GridCell.Tab.0.bottom" timestamp="1585521185634">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1585521238473" />
+    <state width="2118" height="458" key="GridCell.Tab.0.bottom" timestamp="1585537951297">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2118" height="458" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1585521185634" />
-    <state width="2118" height="458" key="GridCell.Tab.0.center" timestamp="1585521185631">
+    <state width="2118" height="458" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1585537951297" />
+    <state width="2118" height="458" key="GridCell.Tab.0.center" timestamp="1585537951296">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2118" height="458" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1585521185631" />
-    <state width="2118" height="458" key="GridCell.Tab.0.left" timestamp="1585521185631">
+    <state width="2118" height="458" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1585537951296" />
+    <state width="2118" height="458" key="GridCell.Tab.0.left" timestamp="1585537951296">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2118" height="458" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1585521185631" />
-    <state width="2118" height="458" key="GridCell.Tab.0.right" timestamp="1585521185634">
+    <state width="2118" height="458" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1585537951296" />
+    <state width="2118" height="458" key="GridCell.Tab.0.right" timestamp="1585537951297">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2118" height="458" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1585521185634" />
-    <state width="2118" height="500" key="GridCell.Tab.1.bottom" timestamp="1585511301100">
+    <state width="2118" height="458" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1585537951297" />
+    <state width="2118" height="500" key="GridCell.Tab.1.bottom" timestamp="1585521261498">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2118" height="500" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1585511301100" />
-    <state width="2118" height="500" key="GridCell.Tab.1.center" timestamp="1585511301099">
+    <state width="2118" height="500" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1585521261498" />
+    <state width="2118" height="500" key="GridCell.Tab.1.center" timestamp="1585521261498">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2118" height="500" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1585511301099" />
-    <state width="2118" height="500" key="GridCell.Tab.1.left" timestamp="1585511301099">
+    <state width="2118" height="500" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1585521261498" />
+    <state width="2118" height="500" key="GridCell.Tab.1.left" timestamp="1585521261497">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2118" height="500" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1585511301099" />
-    <state width="2118" height="500" key="GridCell.Tab.1.right" timestamp="1585511301100">
+    <state width="2118" height="500" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1585521261497" />
+    <state width="2118" height="500" key="GridCell.Tab.1.right" timestamp="1585521261498">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2118" height="500" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1585511301100" />
+    <state width="2118" height="500" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1585521261498" />
     <state x="1187" y="283" key="SettingsEditor" timestamp="1584880844409">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -752,18 +760,18 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state width="500" height="445" key="SwitcherDM/0.23.2560.1349@0.23.2560.1349" timestamp="1585086256057" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1585517411666">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1585521245883">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1585517411666" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1585521245883" />
     <state x="268" y="115" width="2059" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1585363286063">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="268" y="115" width="2059" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1585363286063" />
-    <state x="936" y="531" key="com.intellij.ide.util.TipDialog" timestamp="1585086231316">
+    <state x="936" y="531" key="com.intellij.ide.util.TipDialog" timestamp="1585521328851">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="936" y="531" key="com.intellij.ide.util.TipDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1585086231316" />
+    <state x="936" y="531" key="com.intellij.ide.util.TipDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1585521328851" />
     <state x="1393" y="617" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1584907139324">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -776,10 +784,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1696" y="493" key="refactoring.ChangeSignatureDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1585493072220" />
-    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup" timestamp="1585451460422">
+    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup" timestamp="1585522497671">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1585451460422" />
+    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1585522497671" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -3,13 +3,10 @@ package engima.waratsea.model.base;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
-import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.base.airfield.mission.AirMission;
-import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronHome;
 import engima.waratsea.model.squadron.state.SquadronState;
@@ -26,14 +23,6 @@ import java.util.Set;
 public interface Airbase extends Base, SquadronHome {
 
     /**
-     * Get the type of airbase. The type of airbase indicates what types of squadrons (landing type) the airbase
-     * supports.
-     *
-     * @return The type of airbase.
-     */
-    AirfieldType getAirfieldType();
-
-    /**
      * Get the landing types supported by this airbase.
      *
      * @return The supported landing types of this airbase.
@@ -47,14 +36,6 @@ public interface Airbase extends Base, SquadronHome {
      * @return The nations that allowed to station squadrons at this airbase.
      */
     Set<Nation> getNations();
-
-    /**
-     * Get the given nations region. This is the nation's region of which this airbase is included.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @return The region that corresponds to the given nation.
-     */
-    Region getRegion(Nation nation);
 
     /**
      * The maximum capacity of the airbase. This is the undamaged squadron step capacity of this airbase.
@@ -201,18 +182,6 @@ public interface Airbase extends Base, SquadronHome {
     List<AirMission> getMissions(Nation nation);
 
     /**
-     * This is a utility function to aid in determining mission stats for squadrons that are
-     * selected for a given mission type but not necessarily committed to the mission yet.
-     *
-     * @param missionType The mission type.
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @param squadrons The squadrons assigned to the mission.
-     * @param target The target of the mission.
-     * @return A temporary mission with the given squadrons.
-     */
-    AirMission getTemporaryMission(AirMissionType missionType, Nation nation, List<Squadron> squadrons, Target target);
-
-    /**
      * Add a mission to this airbase.
      *
      * @param mission The mission that is added to this airbase.
@@ -238,21 +207,9 @@ public interface Airbase extends Base, SquadronHome {
     Patrol getPatrol(PatrolType patrolType);
 
     /**
-     * This is a utility function to aid in determining patrol stats for squadrons that are
-     * selected for a given patrol type but not necessarily committed to the patrol yet.
-     *
-     * @param patrolType The type of patrol.
-     * @param squadronOnPatrol A list of potential squadrons on patrol.
-     * @return A patrol consisting of the given squadrons.
-     */
-    Patrol getTemporaryPatrol(PatrolType patrolType, List<Squadron> squadronOnPatrol);
-
-    /**
      * Clear all of the patrols and missions on this airbase. For patrols this removes all squadrons
      * from patrols. For missions this removes all missions and therefore removes all the squadrons
      * on the removed missions.
      */
     void clearPatrolsAndMissions();
-
-
 }

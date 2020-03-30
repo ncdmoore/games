@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Nation;
@@ -28,33 +29,28 @@ import java.util.stream.Stream;
  */
 public class MissionDetails {
     private final Provider<WarnDialog> warnDialogProvider;
+    private final MissionDAO missionDAO;
     private final SquadronDAO squadronDAO;
 
-    @Setter
-    private Airbase airbase;
-
-    @Setter
-    private Nation nation;
-
-    @Setter
-    private Target selectedTarget;
-
-    @Setter
-    private MissionDetailsView view;
-
-    @Setter
-    private Map<Nation, MissionView> missionView;
+    @Setter private Airbase airbase;
+    @Setter private Nation nation;
+    @Setter private Target selectedTarget;
+    @Setter private MissionDetailsView view;
+    @Setter private Map<Nation, MissionView> missionView;
 
     /**
      * Constructor called by guice.
      *
      * @param warnDialogProvider Provides warning dialogs.
+     * @param missionDAO The mission data access object.
      * @param squadronDAO The squadron data access object.
      */
     @Inject
     public MissionDetails(final Provider<WarnDialog> warnDialogProvider,
+                          final MissionDAO missionDAO,
                           final SquadronDAO squadronDAO) {
         this.warnDialogProvider = warnDialogProvider;
+        this.missionDAO = missionDAO;
         this.squadronDAO = squadronDAO;
     }
 
@@ -128,6 +124,7 @@ public class MissionDetails {
             RegionStats targetRegionStats = new RegionStats(nation, target, inRouteRegionSteps);
             RegionStats airbaseRegionStats = new RegionStats(nation, airbase, outRouteRegionSteps);
             SuccessStats successStats = new SuccessStats()
+                    .setMissionDAO(missionDAO)
                     .setSquadronDAO(squadronDAO)
                     .setMissionType(selectedMissionType)
                     .setNation(nation)

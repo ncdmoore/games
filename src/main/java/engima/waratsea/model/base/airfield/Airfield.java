@@ -12,16 +12,14 @@ import engima.waratsea.model.base.Base;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
-import engima.waratsea.model.base.airfield.mission.MissionRole;
-import engima.waratsea.model.base.airfield.mission.AirMissionType;
-import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
+import engima.waratsea.model.base.airfield.patrol.PatrolDAO;
 import engima.waratsea.model.base.airfield.patrol.PatrolFactory;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
-import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
 import engima.waratsea.model.squadron.data.SquadronData;
@@ -55,6 +53,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
     private final PatrolFactory patrolFactory;
     private final MissionDAO missionDAO;
+    private final PatrolDAO patrolDAO;
 
     @Getter private final Side side;
     @Getter private final String name;
@@ -82,15 +81,18 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param squadronFactory Squadron factory.
      * @param patrolFactory Patrol factory.
      * @param missionDAO Mission data access object.
+     * @param patrolDAO Patrol data access object.
      */
     @Inject
     public Airfield(@Assisted final AirfieldData data,
                     final SquadronFactory squadronFactory,
                     final PatrolFactory patrolFactory,
-                    final MissionDAO missionDAO) {
+                    final MissionDAO missionDAO,
+                    final PatrolDAO patrolDAO) {
 
         this.patrolFactory = patrolFactory;
         this.missionDAO = missionDAO;
+        this.patrolDAO = patrolDAO;
 
         this.side = data.getSide();
         name = data.getName();
@@ -244,36 +246,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                 .stream()
                 .filter(mission -> mission.getNation() == nation)
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * This is a utility function to aid in determining mission stats for squadrons that are
-     * selected for a given mission type but not necessarily committed to the mission yet.
-     *
-     * @param missionType The mission type.
-     * @param nation      The nation: BRITISH, ITALIAN, etc...
-     * @param squadronList   The squadrons assigned to the mission.
-     * @param target      The target of the mission.
-     * @return A temporary mission with the given squadrons.
-     */
-    @Override
-    public AirMission getTemporaryMission(final AirMissionType missionType, final Nation nation, final List<Squadron> squadronList, final Target target) {
-        MissionData data = new MissionData();
-        data.setType(missionType);
-        data.setAirbase(this);
-        data.setNation(nation);
-        data.setTarget(target.getName());
-
-        Map<MissionRole, List<String>> tempMap = new HashMap<>();
-
-        tempMap.put(MissionRole.MAIN, squadronList
-                .stream()
-                .map(Squadron::getName)
-                .collect(Collectors.toList()));
-
-        data.setSquadronMap(tempMap);
-
-        return  missionDAO.load(data);
     }
 
     /**
@@ -524,41 +496,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                                           ListUtils::union));
     }
 
-
-    /**
-     * This is a utility function to aid in determining patrol stats for squadrons that are
-     * selected for a given patrol type but not necessarily committed to the patrol yet.
-     *
-     * @param patrolType The type of patrol.
-     * @param squadronOnPatrol A list of potential squadrons on patrol.
-     * @return A patrol consisting of the given squadrons.
-     */
-    @Override
-    public Patrol getTemporaryPatrol(final PatrolType patrolType, final List<Squadron> squadronOnPatrol) {
-        PatrolData data = new PatrolData();
-        data.setAirbase(this);
-        data.setSquadrons(squadronOnPatrol
-                .stream()
-                .map(Squadron::getName)
-                .collect(Collectors.toList()));
-
-        Patrol patrol;
-        switch (patrolType) {
-            case SEARCH:
-                patrol =  patrolFactory.createSearch(data);
-                break;
-            case ASW:
-                patrol =  patrolFactory.createAsw(data);
-                break;
-            default:
-                patrol =  patrolFactory.createCap(data);
-                break;
-        }
-
-        return patrol;
-    }
-
-
     /**
      * Get the active state of the asset.
      *
@@ -608,17 +545,20 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         PatrolData aswData = data.getAswPatrol();
 
         aswData.setAirbase(this);
-        patrolMap.put(PatrolType.ASW, patrolFactory.createAsw(aswData));
+        aswData.setType(PatrolType.ASW);
+        patrolMap.put(PatrolType.ASW, patrolDAO.load(aswData));
 
         PatrolData capData = data.getCapPatrol();
 
         capData.setAirbase(this);
-        patrolMap.put(PatrolType.CAP, patrolFactory.createCap(capData));
+        capData.setType(PatrolType.CAP);
+        patrolMap.put(PatrolType.CAP, patrolDAO.load(capData));
 
         PatrolData searchData = data.getSearchPatrol();
 
         searchData.setAirbase(this);
-        patrolMap.put(PatrolType.SEARCH, patrolFactory.createSearch(searchData));
+        searchData.setType(PatrolType.SEARCH);
+        patrolMap.put(PatrolType.SEARCH, patrolDAO.load(searchData));
     }
 
     /**

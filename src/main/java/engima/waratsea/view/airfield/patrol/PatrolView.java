@@ -70,7 +70,7 @@ public class PatrolView {
         this.airbase = base;
 
         patrolStatsMap.forEach((type, view) -> {
-            view.setAirfield(airbase);
+            view.setAirbase(airbase);
             view.setPatrolType(type);
         });
 

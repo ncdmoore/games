@@ -20,11 +20,8 @@ import java.util.Map;
  * Represents the mission's target view details.
  */
 public class TargetView {
-
     private VBox vBox = new VBox();
-
-    @Getter
-    private Map<AirMissionType, StatsView> viewMap = new HashMap<>();
+    @Getter private Map<AirMissionType, StatsView> viewMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -57,9 +54,17 @@ public class TargetView {
      * @param missionStats The mission statistics to show.
      */
     public void show(final MissionStats missionStats) {
-        vBox.getChildren().clear();
-        vBox.getChildren().add(viewMap.get(missionStats.getMissionType()).build());
-        viewMap.get(missionStats.getMissionType()).show(missionStats);
+        vBox
+                .getChildren()
+                .clear();
+
+        vBox
+                .getChildren()
+                .add(viewMap.get(missionStats.getMissionType()).build());
+
+        viewMap
+                .get(missionStats.getMissionType())
+                .show(missionStats);
     }
 
 }

@@ -3,6 +3,8 @@ package engima.waratsea.view.airfield.patrol;
 import com.google.inject.Inject;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
+import engima.waratsea.model.base.airfield.patrol.PatrolDAO;
+import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
@@ -24,17 +26,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PatrolStatsView {
-
     private final ViewProps props;
     private final ImageResourceProvider imageProvider;
+    private final PatrolDAO patrolDAO;
 
-    @Setter
-    private Airbase airfield;
-
-    @Setter
-    private PatrolType patrolType;
+    @Setter private Airbase airbase;
+    @Setter private PatrolType patrolType;
 
     private final Weather weather;
 
@@ -48,14 +48,18 @@ public class PatrolStatsView {
      * @param props The view properties.
      * @param imageProvider Provides images.
      * @param weather The current weather.
+     * @param patrolDAO The patrol data access object.
      */
     @Inject
     public PatrolStatsView(final ViewProps props,
                            final ImageResourceProvider imageProvider,
-                           final Weather weather) {
+                           final Weather weather,
+                           final PatrolDAO patrolDAO) {
         this.props = props;
         this.imageProvider = imageProvider;
         this.weather = weather;
+        this.patrolDAO = patrolDAO;
+
         vBox.setId("patrol-stats-pane");
         hBox.setId("patrol-stats-hbox");
         gridPane.setId("patrol-stats-grid");
@@ -70,7 +74,7 @@ public class PatrolStatsView {
      */
     public Node buildPatrolStats(final Nation nation, final List<Squadron> assigned) {
 
-        Patrol patrol = airfield.getTemporaryPatrol(patrolType, assigned);
+        Patrol patrol = getTemporaryPatrol(assigned);
 
         Map<Integer, Map<String, String>> stats = patrol.getPatrolStats();
 
@@ -218,5 +222,23 @@ public class PatrolStatsView {
             gridPane.add(label, col, rowIndex);
             col++;
         }
+    }
+
+    /**
+     * Get a temporary patrol.
+     *
+     * @param assigned The squadron's assigned to the patrol.
+     * @return A temporary patrol.
+     */
+    private Patrol getTemporaryPatrol(final List<Squadron> assigned) {
+        PatrolData data = new PatrolData();
+        data.setType(patrolType);
+        data.setAirbase(airbase);
+        data.setSquadrons(assigned
+                .stream()
+                .map(Squadron::getName)
+                .collect(Collectors.toList()));
+
+        return patrolDAO.load(data);
     }
 }

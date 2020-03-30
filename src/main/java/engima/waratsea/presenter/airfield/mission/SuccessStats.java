@@ -3,14 +3,18 @@ package engima.waratsea.presenter.airfield.mission;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
+import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronDAO;
 import engima.waratsea.model.target.Target;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +37,7 @@ public class SuccessStats {
     private Airbase airbase;
     private List<Squadron> squadrons;
     private Target target;
+    private MissionDAO missionDAO;
     private SquadronDAO squadronDAO;
 
     /**
@@ -80,6 +85,17 @@ public class SuccessStats {
     }
 
     /**
+     * Set the mission DAO.
+     *
+     * @param dao The mission data access object.
+     * @return This success stats.
+     */
+    public SuccessStats setMissionDAO(final MissionDAO dao) {
+        missionDAO = dao;
+        return this;
+    }
+
+    /**
      * Set the squadron DAO.
      *
      * @param dao The squadron data access object.
@@ -116,7 +132,7 @@ public class SuccessStats {
                 .map(this::setConfig)
                 .collect(Collectors.toList());
 
-        AirMission airMission = airbase.getTemporaryMission(missionType, nation, copies, target);
+        AirMission airMission = getTemporaryMission(copies);
         return airMission.getMissionProbability();
     }
 
@@ -130,5 +146,30 @@ public class SuccessStats {
         squadron.setHome(airbase);
         squadron.equip(target, missionType, MissionRole.MAIN);
         return squadron;
+    }
+
+    /**
+     * Get a temporary mission in order to get the stats for the mission.
+     *
+     * @param squadronList The squadron that make up the temporary mission.
+     * @return The temporary mission.
+     */
+    private AirMission getTemporaryMission(final List<Squadron> squadronList) {
+        MissionData data = new MissionData();
+        data.setType(missionType);
+        data.setAirbase(airbase);
+        data.setNation(nation);
+        data.setTarget(target.getName());
+
+        Map<MissionRole, List<String>> tempMap = new HashMap<>();
+
+        tempMap.put(MissionRole.MAIN, squadronList
+                .stream()
+                .map(Squadron::getName)
+                .collect(Collectors.toList()));
+
+        data.setSquadronMap(tempMap);
+
+        return missionDAO.load(data);
     }
 }
