@@ -54,11 +54,11 @@ public class Fighter implements Aircraft {
     @Getter private final AltitudeType altitude;
     @Getter private final LandingType landing;
     @Getter private final LandingType takeoff;
+    @Getter private final Frame frame;
     private final AttackFactor naval;
     private final AttackFactor land;
     private final AttackFactor air;
     private final Performance performance;
-    @Getter private final Frame frame;
     private final Probability probability;
 
     /**

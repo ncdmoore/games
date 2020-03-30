@@ -23,13 +23,17 @@ import java.util.Set;
  * Supported configurations:
  *
  *  SquadronConfig.NONE
+ *  SquadronConfig.REDUCED_PAYLOAD
  *  SquadronConfig.SEARCH
  */
 public class Recon implements Aircraft {
     private final Map<AttackType, FunctionalMap<SquadronConfig, AttackFactor>> attackMap = new HashMap<>();
 
     @Getter
-    private final Set<SquadronConfig> configuration = Set.of(SquadronConfig.NONE, SquadronConfig.REDUCED_PAYLOAD, SquadronConfig.SEARCH);
+    private final Set<SquadronConfig> configuration = Set.of(
+            SquadronConfig.NONE,
+            SquadronConfig.REDUCED_PAYLOAD,
+            SquadronConfig.SEARCH);
 
     private static final int ATTACK_REDUCTION = 2; // Squadron configured for search attack factor reduction.
 
@@ -41,11 +45,11 @@ public class Recon implements Aircraft {
     @Getter private final AltitudeType altitude;
     @Getter private final LandingType landing;
     @Getter private final LandingType takeoff;
+    @Getter private final Frame frame;
     private final AttackFactor naval;
     private final AttackFactor land;
     private final AttackFactor air;
-    @Getter private final Frame frame;
-    @Getter private final Probability probability;
+    private final Probability probability;
     private final Performance performance;
 
     /**

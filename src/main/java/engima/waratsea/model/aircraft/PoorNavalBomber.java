@@ -34,7 +34,10 @@ public class PoorNavalBomber implements Aircraft {
     private final Map<AttackType, FunctionalMap<SquadronConfig, AttackFactor>> attackMap = new HashMap<>();
 
     @Getter
-    private final Set<SquadronConfig> configuration = Set.of(SquadronConfig.NONE, SquadronConfig.LEAN_ENGINE, SquadronConfig.SEARCH);
+    private final Set<SquadronConfig> configuration = Set.of(
+            SquadronConfig.NONE,
+            SquadronConfig.LEAN_ENGINE,
+            SquadronConfig.SEARCH);
 
     private static final int SEARCH_ATTACK_REDUCTION = 2; // Squadron configured for search attack factor reduction.
     private static final int LEAN_ENGINE_FACTOR = 2;
@@ -55,10 +58,10 @@ public class PoorNavalBomber implements Aircraft {
     @Getter private final AltitudeType altitude;
     @Getter private final LandingType landing;
     @Getter private final LandingType takeoff;
+    @Getter private final Frame frame;
     private final AttackFactor naval;
     private final AttackFactor air;
     private final AttackFactor land;
-    @Getter private final Frame frame;
     private final Probability probability;
     private final Performance performance;
 
