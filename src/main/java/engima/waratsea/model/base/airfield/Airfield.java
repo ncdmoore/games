@@ -14,7 +14,6 @@ import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolDAO;
-import engima.waratsea.model.base.airfield.patrol.PatrolFactory;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.game.Nation;
@@ -51,7 +50,7 @@ import java.util.stream.Stream;
 @Slf4j
 public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
-    private final PatrolFactory patrolFactory;
+
     private final MissionDAO missionDAO;
     private final PatrolDAO patrolDAO;
 
@@ -79,18 +78,15 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      *
      * @param data The airfield data read in from a JSON file.
      * @param squadronFactory Squadron factory.
-     * @param patrolFactory Patrol factory.
      * @param missionDAO Mission data access object.
      * @param patrolDAO Patrol data access object.
      */
     @Inject
     public Airfield(@Assisted final AirfieldData data,
                     final SquadronFactory squadronFactory,
-                    final PatrolFactory patrolFactory,
                     final MissionDAO missionDAO,
                     final PatrolDAO patrolDAO) {
 
-        this.patrolFactory = patrolFactory;
         this.missionDAO = missionDAO;
         this.patrolDAO = patrolDAO;
 
@@ -206,7 +202,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public AirfieldOperation addSquadron(final Squadron squadron) {
-
         AirfieldOperation result = canStation(squadron);
 
         if (result == AirfieldOperation.SUCCESS) {
@@ -592,7 +587,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * Determine if this airfield has room for the given squadron.
      *
      * @param squadron A potential new squadron.
-     * @return True if this arifield can house the new squadron. False otherwise.
+     * @return True if this airfield can house the new squadron. False otherwise.
      */
     private boolean determineRoom(final Squadron squadron) {
         int steps = squadron.getSteps().intValue();
