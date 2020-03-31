@@ -183,8 +183,10 @@ public class SearchPatrol implements Patrol {
      */
     @Override
     public Map<Integer, Map<String, String>> getPatrolStats() {
+        int trueMaxRadius = getTrueMaxRadius();
+
         return IntStream
-                .range(1, maxRadius + 1)
+                .range(1, trueMaxRadius + 1)
                 .boxed()
                 .collect(Collectors.toMap(radius -> radius, this::getPatrolStat));
     }

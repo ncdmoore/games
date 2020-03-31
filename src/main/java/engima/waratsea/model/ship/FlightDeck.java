@@ -10,26 +10,16 @@ import java.util.List;
  * Aircraft carrier flight deck.
  */
 public class FlightDeck implements Component {
-
-    @Getter
-    private String name;
-
-    private static final int MAX = 0;
-
-    @Getter
-    private final ArmourType armour;
+    @Getter private String name;
+    @Getter private final ArmourType armour;
 
     // The maximum capacity. This is fixed and never changes.
-    @Getter
-    private final List<Integer> capacityList;    // Capacity in steps.
+    @Getter private final List<Integer> capacityList;    // Capacity in steps.
 
     // The current flight deck health. The health is an index into the capacity list
-    @Getter
-    @Setter
-    private int health;
+    @Getter @Setter private int health;
 
-    @Getter
-    private final int maxHealth;
+    @Getter private final int maxHealth;
 
     /**
      * Constructor.

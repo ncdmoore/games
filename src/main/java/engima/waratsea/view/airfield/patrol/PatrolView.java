@@ -239,7 +239,8 @@ public class PatrolView {
      * @param squadron The squadron to add.
      */
     public void addSquadronToPatrolAvailableList(final PatrolType patrolType, final Squadron squadron) {
-        Stream.of(PatrolType.values())
+        PatrolType
+                .stream()
                 .filter(type -> type != patrolType)
                 .forEach(type -> {
                     if (squadron.canDoPatrol(type)) {                          // Only add the squadron if it can
@@ -254,7 +255,8 @@ public class PatrolView {
      * @param squadron The squadron to add.
      */
     public void addSquadronToPatrolAvailableList(final Squadron squadron) {
-        Stream.of(PatrolType.values())
+        PatrolType
+                .stream()
                 .forEach(type -> {
                     if (squadron.canDoPatrol(type)) {                          // Only add the squadron if it can
                         patrolListMap.get(type).addToAvailable(squadron);      // do the patrol type.
@@ -268,7 +270,8 @@ public class PatrolView {
      * @param squadron The squadron that is removed from the patrol available lists.
      */
     public void removeSquadronFromPatrolAvailableList(final Squadron squadron) {
-        Stream.of(PatrolType.values())
+        PatrolType
+                .stream()
                 .forEach(type -> patrolListMap.get(type).removeFromAvailable(squadron));
     }
 

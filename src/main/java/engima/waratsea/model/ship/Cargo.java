@@ -14,7 +14,7 @@ import lombok.Setter;
  *  Cruiser game cargo capacity is 1.
  *  Sea plane carrier game cargo capacity is 2.
  *
- *  To avoid fractions the ship's cargo capacity is multipled by 3. Thus,
+ *  To avoid fractions the ship's cargo capacity is multiplied by 3. Thus,
  *
  *  Large Transport   = 9 cargo capacity.
  *  Small Transport   = 6 cargo capacity.
@@ -24,16 +24,9 @@ import lombok.Setter;
  *  Sea Plane Carrier = 6 cargo capacity.
  */
 public class Cargo implements Component {
-    @Getter
-    private final String name;
-
-    @Getter
-    private final int capacity; // The ship's total cargo capacity. How much cargo a ship can hold.
-
-    @Getter
-    @Setter
-    private int level; // The current amount of cargo in the ship's holds.
-
+    @Getter private final String name;
+    @Getter private final int capacity; // The ship's total cargo capacity. How much cargo a ship can hold.
+    @Getter @Setter private int level; // The current amount of cargo in the ship's holds.
 
     /**
      * Constructor.
