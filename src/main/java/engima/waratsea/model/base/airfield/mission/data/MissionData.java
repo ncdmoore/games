@@ -11,24 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 public class MissionData {
-    @Getter
-    @Setter
-    private AirMissionType type;
-
-    @Getter
-    @Setter
-    private Nation nation;
-
-    @Getter
-    private Airbase airbase;
-
-    @Getter
-    @Setter
-    private String target;
-
-    @Getter
-    @Setter
-    private Map<MissionRole, List<String>> squadronMap;
+    @Getter @Setter private AirMissionType type;
+    @Getter @Setter private Nation nation;
+    @Getter private transient Airbase airbase;
+    @Getter @Setter private String target;
+    @Getter @Setter private Map<MissionRole, List<String>> squadronMap;
 
     /**
      * Set the air base.

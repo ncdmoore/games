@@ -9,5 +9,5 @@ import java.util.Map;
 
 public class PatrolsData {
     @Getter @Setter private transient Airbase airbase;
-    @Getter @Setter private Map<PatrolType, PatrolData> data;
+    @Getter @Setter private Map<PatrolType, PatrolData> patrols;
 }

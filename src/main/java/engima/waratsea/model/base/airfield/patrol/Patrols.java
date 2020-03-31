@@ -63,7 +63,7 @@ public class Patrols {
                         Map.Entry::getKey,
                         this::getData));
 
-        data.setData(map);
+        data.setPatrols(map);
 
         return data;
     }
@@ -111,7 +111,7 @@ public class Patrols {
 
         PatrolData patrolData = Optional
                 .ofNullable(patrolsData)
-                .map(PatrolsData::getData)
+                .map(PatrolsData::getPatrols)
                 .map(data -> data.get(patrolType))
                 .orElseGet(PatrolData::new);
 
