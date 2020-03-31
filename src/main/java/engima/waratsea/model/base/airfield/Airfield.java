@@ -272,6 +272,8 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @return The airfield.
      */
     public Airfield removeAllSquadrons(final Nation nation) {
+        missions.clear(nation);
+        patrols.clear(nation);
         List<Squadron> toBeRemoved = getSquadrons(nation);
         squadrons.removeAll(toBeRemoved);
         return this;

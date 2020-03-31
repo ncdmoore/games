@@ -34,14 +34,9 @@ import java.util.stream.IntStream;
 @Slf4j
 public class AswPatrol implements Patrol {
     private List<Squadron> squadrons;         //The squadrons that are on this patrol.
-
-    @Getter
-    private final Airbase airbase;            //The airbase from which the patrol is flown.
-
-    @Getter
-    private int maxRadius;                    //The maximum patrol radius of this patrol.
-
-    private final PatrolAirRules rules;             //The set of rules that govern this patrol.
+    @Getter private final Airbase airbase;    //The airbase from which the patrol is flown.
+    @Getter private int maxRadius;            //The maximum patrol radius of this patrol.
+    private final PatrolAirRules rules;       //The set of rules that govern this patrol.
 
     /**
      * The constructor.
@@ -209,6 +204,24 @@ public class AswPatrol implements Patrol {
         });
 
         squadrons.clear();
+        updateMaxRadius();
+    }
+
+    /**
+     * Clear the squadrons of the given nation from this patrol.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     */
+    @Override
+    public void clearSquadrons(final Nation nation) {
+        List<Squadron> toRemove = squadrons.stream()
+                .filter(squadron -> squadron.ofNation(nation))
+                .peek(squadron -> {
+                    SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_PATROL);
+                    squadron.setSquadronState(state);
+                }).collect(Collectors.toList());
+
+        squadrons.removeAll(toRemove);
         updateMaxRadius();
     }
 

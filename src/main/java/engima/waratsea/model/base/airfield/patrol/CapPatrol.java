@@ -187,6 +187,24 @@ public class CapPatrol implements Patrol {
     }
 
     /**
+     * Clear the squadrons of the given nation from this patrol.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     */
+    @Override
+    public void clearSquadrons(final Nation nation) {
+        List<Squadron> toRemove = squadrons.stream()
+                .filter(squadron -> squadron.ofNation(nation))
+                .peek(squadron -> {
+                    SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_PATROL);
+                    squadron.setSquadronState(state);
+                }).collect(Collectors.toList());
+
+        squadrons.removeAll(toRemove);
+        maxRadius = squadrons.isEmpty() ? 0 : RADIUS;
+    }
+
+    /**
      * Get the patrol data that corresponds to the given radius. This is the
      * data for a patrol that takes place at the given radius.
      *

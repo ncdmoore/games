@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolsData;
+import engima.waratsea.model.game.Nation;
 import javafx.util.Pair;
 import org.apache.commons.collections4.ListUtils;
 
@@ -73,6 +74,15 @@ public class Patrols {
      */
     public void clear() {
         patrolMap.forEach((patrolType, patrol) -> patrol.clearSquadrons());
+    }
+
+    /**
+     * Clear all the given nation's squadrons on patrol.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     */
+    public void clear(final Nation nation) {
+        patrolMap.forEach(((patrolType, patrol) -> patrol.clearSquadrons(nation)));
     }
 
     /**

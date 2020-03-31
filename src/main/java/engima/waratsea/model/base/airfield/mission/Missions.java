@@ -116,4 +116,20 @@ public class Missions {
         missions.forEach(AirMission::removeSquadrons);
         missions.clear();
     }
+
+    /**
+     * Clear all squadrons from the missions for a given nation.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     */
+    public void clear(final Nation nation) {
+        List<AirMission> toRemove = missions
+                .stream()
+                .filter(mission -> mission.getNation() == nation)
+                .collect(Collectors.toList());
+
+        toRemove.forEach(AirMission::removeSquadrons);
+
+        missions.removeAll(toRemove);
+    }
 }

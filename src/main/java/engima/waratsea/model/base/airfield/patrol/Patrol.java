@@ -97,4 +97,11 @@ public interface Patrol {
      * Clear all of the squadrons from this patrol.
      */
     void clearSquadrons();
+
+    /**
+     * Clear the squadrons of the given nation from this patrol.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     */
+    void clearSquadrons(Nation nation);
 }

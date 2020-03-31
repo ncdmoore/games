@@ -288,6 +288,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/CapPatrol.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/Patrol.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/PatrolDAO.java">
           <value>
             <set />
