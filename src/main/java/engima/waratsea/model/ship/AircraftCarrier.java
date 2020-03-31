@@ -300,7 +300,8 @@ public class AircraftCarrier implements Ship, Airbase {
     public Map<Nation, List<Squadron>> getSquadronMap() {
         return getNations()
                 .stream()
-                .collect(Collectors.toMap(country -> country, this::getSquadrons));    }
+                .collect(Collectors.toMap(country -> country, this::getSquadrons));
+    }
 
     /**
      * Get the squadron map for the given nation and given squadron state.

@@ -225,7 +225,7 @@ public class BaseMarker {
     }
 
     /**
-     * Revmove this base's highlighted patrol radius.
+     * Remove this base's highlighted patrol radius.
      */
     public void unhighlightRadius() {
         patrolRadii.unhighlightRadius();

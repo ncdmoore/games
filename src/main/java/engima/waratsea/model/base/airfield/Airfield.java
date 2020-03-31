@@ -272,13 +272,8 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @return The airfield.
      */
     public Airfield removeAllSquadrons(final Nation nation) {
-        List<Squadron> toBeRemoved = squadrons
-                .stream()
-                .filter(squadron -> squadron.getNation() == nation)
-                .collect(Collectors.toList());
-
+        List<Squadron> toBeRemoved = getSquadrons(nation);
         squadrons.removeAll(toBeRemoved);
-
         return this;
     }
 
@@ -305,7 +300,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     public Squadron getSquadron(final String squadronName) {
         return squadronNameMap.get(squadronName);
     }
-
 
     /**
      * Get the list of squadrons for the given nation.

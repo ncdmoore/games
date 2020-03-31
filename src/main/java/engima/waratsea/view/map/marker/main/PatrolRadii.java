@@ -1,8 +1,7 @@
 package engima.waratsea.view.map.marker.main;
 
-import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
-import engima.waratsea.model.map.BaseGrid;
+import engima.waratsea.model.map.MarkerGrid;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import javafx.event.EventHandler;
@@ -23,14 +22,17 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Draws the partol radii around a map marker such as a airfield or task force with aircraft carriers.
+ */
 @Slf4j
 public class PatrolRadii {
     @Getter
     private List<PatrolRadius> radii = Collections.emptyList();
 
-    private MapView mapView;
-    private BaseGrid baseGrid;
-    private GridView gridView;
+    private final MapView mapView;
+    private final MarkerGrid markerGrid;
+    private final GridView gridView;
 
     @Setter
     private EventHandler<? super MouseEvent> radiusMouseHandler;
@@ -39,24 +41,22 @@ public class PatrolRadii {
 
     /**
      * Constructor.
-     *
-     * @param mapView The map view.
-     * @param baseGrid The base grid of the patrol radii.
+     *  @param mapView The map view.
+     * @param markerGrid The base grid of the patrol radii.
      * @param gridView The grid view of the base grid.
      */
-    public PatrolRadii(final MapView mapView, final BaseGrid baseGrid, final GridView gridView) {
+    public PatrolRadii(final MapView mapView, final MarkerGrid markerGrid, final GridView gridView) {
         this.mapView = mapView;
-        this.baseGrid = baseGrid;
+        this.markerGrid = markerGrid;
         this.gridView = gridView;
     }
 
     /**
-     * Draw all the airbase's patrol radii.
+     * Draw all the marker's patrol radii.
      */
     public void drawRadii() {
-        List<PatrolRadius> newRadii = baseGrid
-                .getAirfield()
-                .map(Airfield::getPatrolRadiiMap)
+        List<PatrolRadius> newRadii = markerGrid
+                .getPatrolRadiiMap()
                 .map(patrolMap -> patrolMap
                         .entrySet()
                         .stream()
@@ -91,7 +91,7 @@ public class PatrolRadii {
     }
 
     /**
-     * Remove the base's highligted patrol radius.
+     * Remove the base's highlighted patrol radius.
      */
     public void unhighlightRadius() {
         removeHighlightedRadius();
@@ -169,13 +169,12 @@ public class PatrolRadii {
     }
 
     /**
-     * Remvoe the base's highlighted range circle.
+     * Remove the base's highlighted range circle.
      *
      */
     private void removeHighlightedRadius() {
         Optional
                 .ofNullable(highlighted)
-                .ifPresent(circle -> mapView.remove(circle));
+                .ifPresent(mapView::remove);
     }
-
 }

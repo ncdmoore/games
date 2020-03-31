@@ -2,18 +2,21 @@ package engima.waratsea.model.map;
 
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldType;
+import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Side;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
  * This class represents a base grid on the game map.
  */
-public class BaseGrid {
+public class BaseGrid implements MarkerGrid {
 
     @Getter
     private Side side;
@@ -112,6 +115,17 @@ public class BaseGrid {
      */
     public String getReference() {
         return gameGrid.getMapReference();
+    }
+
+    /**
+     * Get the marker grid's patrol radii map.
+     *
+     * @return A map of the true maximum patrol radius to a list of
+     * patrols that can reach that true maximum radius.
+     */
+    @Override
+    public Optional<Map<Integer, List<Patrol>>> getPatrolRadiiMap() {
+        return getAirfield().map(Airfield::getPatrolRadiiMap);
     }
 
     /**
