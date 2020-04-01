@@ -616,7 +616,7 @@ public class SquadronPresenter implements Presenter {
 
             view.updateRegion(determineNation());
 
-            if (squadron.getNation() == determineNation()) {
+            if (squadron.ofNation(determineNation())) {
                 view.getAvailableSquadrons().getItems().add(squadron);
             }
 

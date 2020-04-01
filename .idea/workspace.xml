@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/Region.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/Region.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/SquadronPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/SquadronPresenter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +110,7 @@
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in worldWarTwoAtSea.test">
+  <component name="RunManager" selected="Application.Main">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -286,13 +287,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00144" summary="Support alternate values for mission role serialization.">
-      <created>1584150140983</created>
-      <option name="number" value="00144" />
-      <option name="presentableId" value="LOCAL-00144" />
-      <option name="project" value="LOCAL" />
-      <updated>1584150140983</updated>
     </task>
     <task id="LOCAL-00145" summary="Fix mission role tabs to have the correct text.">
       <created>1584198173162</created>
@@ -630,7 +624,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585708787357</updated>
     </task>
-    <option name="localTasksCounter" value="193" />
+    <task id="LOCAL-00193" summary="Fix squadron state handling.">
+      <created>1585709564121</created>
+      <option name="number" value="00193" />
+      <option name="presentableId" value="LOCAL-00193" />
+      <option name="project" value="LOCAL" />
+      <updated>1585709564121</updated>
+    </task>
+    <option name="localTasksCounter" value="194" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -708,26 +709,26 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1585626150761" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1585708784635">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1585709893743">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1585708784635" />
-    <state width="1708" height="191" key="GridCell.Tab.0.bottom" timestamp="1585709126172">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1585709893743" />
+    <state width="1708" height="617" key="GridCell.Tab.0.bottom" timestamp="1585709893812">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1708" height="191" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1585709126172" />
-    <state width="1708" height="191" key="GridCell.Tab.0.center" timestamp="1585709126164">
+    <state width="1708" height="617" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1585709893812" />
+    <state width="1708" height="617" key="GridCell.Tab.0.center" timestamp="1585709893812">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1708" height="191" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1585709126164" />
-    <state width="1708" height="191" key="GridCell.Tab.0.left" timestamp="1585709126162">
+    <state width="1708" height="617" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1585709893812" />
+    <state width="1708" height="617" key="GridCell.Tab.0.left" timestamp="1585709893811">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1708" height="191" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1585709126162" />
-    <state width="1708" height="191" key="GridCell.Tab.0.right" timestamp="1585709126171">
+    <state width="1708" height="617" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1585709893811" />
+    <state width="1708" height="617" key="GridCell.Tab.0.right" timestamp="1585709893812">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1708" height="191" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1585709126171" />
+    <state width="1708" height="617" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1585709893812" />
     <state width="1437" height="431" key="GridCell.Tab.1.bottom" timestamp="1585608068493">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -752,10 +753,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state width="500" height="445" key="SwitcherDM/0.23.2560.1349@0.23.2560.1349" timestamp="1585086256057" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1585695454003">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1585709570447">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1585695454003" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1585709570447" />
     <state x="268" y="115" width="2059" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1585363286063">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>

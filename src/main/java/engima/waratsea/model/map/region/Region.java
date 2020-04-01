@@ -136,12 +136,7 @@ public class Region {
      */
     public int getNeeded() {
         int neededSteps = minSteps - getCurrentSteps();
-
-        if (neededSteps > 0) {
-            return neededSteps;
-        }
-
-        return 0;
+        return Math.max(neededSteps, 0);
     }
 
     /**
@@ -166,7 +161,6 @@ public class Region {
         if (!result) {
             log.warn("Region: '{}' has maxSteps: {} with current: {}", new Object[]{name, maxSteps, getCurrentSteps()});
         }
-
 
         return result;
     }
@@ -202,7 +196,7 @@ public class Region {
         return airfields
                 .stream()
                 .flatMap(airfield -> airfield.getSquadrons().stream())
-                .filter(squadron -> nation == squadron.getNation())
+                .filter(squadron -> squadron.ofNation(nation))
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .intValue();

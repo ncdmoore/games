@@ -248,7 +248,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * that are assigned to the given target. This is the total number of squadron steps
      * from all missions of the same type that have the given target as their target.
      *
-     *  @param target The ferry mission destination.
+     * @param target The ferry mission destination.
      * @return The total number of steps being ferried to the given target.
      */
     @Override
