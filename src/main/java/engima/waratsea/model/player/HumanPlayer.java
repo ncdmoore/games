@@ -471,6 +471,8 @@ public class HumanPlayer implements Player {
      * @param scenario The selected scenario.
      */
     private void loadFlotillas(final Scenario scenario)  {
+        flotillas.clear(); // Clear out any stale data.
+
         for (FlotillaType flotillaType : FlotillaType.values()) {
             flotillas.put(flotillaType, flotillaDAO.load(scenario, side, flotillaType));
         }

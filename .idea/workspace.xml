@@ -286,13 +286,6 @@
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
     </task>
-    <task id="LOCAL-00147" summary="Add game mission filters for squadrons.">
-      <created>1584202625370</created>
-      <option name="number" value="00147" />
-      <option name="presentableId" value="LOCAL-00147" />
-      <option name="project" value="LOCAL" />
-      <updated>1584202625370</updated>
-    </task>
     <task id="LOCAL-00148" summary="Add mission role tab change handlers to both the add and edit mission dialogs.">
       <created>1584206663714</created>
       <option name="number" value="00148" />
@@ -629,7 +622,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585758741411</updated>
     </task>
-    <option name="localTasksCounter" value="196" />
+    <task id="LOCAL-00196" summary="Clear player's stale squadron data before loading new squadrons.">
+      <created>1585763985261</created>
+      <option name="number" value="00196" />
+      <option name="presentableId" value="LOCAL-00196" />
+      <option name="project" value="LOCAL" />
+      <updated>1585763985261</updated>
+    </task>
+    <option name="localTasksCounter" value="197" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -643,7 +643,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add reduced payload squadron configuration." />
     <MESSAGE value="Add the reduced payload configuration to bombers and recon." />
     <MESSAGE value="Filter preview map squadron range circles to just normal and drop tanks." />
     <MESSAGE value="Move preview view and presenter classes into presenter packages." />
@@ -668,7 +667,8 @@
     <MESSAGE value="Fix squadron state handling." />
     <MESSAGE value="Use squadron.ofNation when possible." />
     <MESSAGE value="Throw exception if squadron DAO fails." />
-    <option name="LAST_COMMIT_MESSAGE" value="Throw exception if squadron DAO fails." />
+    <MESSAGE value="Clear player's stale squadron data before loading new squadrons." />
+    <option name="LAST_COMMIT_MESSAGE" value="Clear player's stale squadron data before loading new squadrons." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585517448530">
@@ -707,26 +707,26 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1585626150761" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1585763887288">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1585763984967">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1585763887288" />
-    <state width="1528" height="257" key="GridCell.Tab.0.bottom" timestamp="1585763891484">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1585763984967" />
+    <state width="1528" height="257" key="GridCell.Tab.0.bottom" timestamp="1585764090730">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1528" height="257" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1585763891484" />
-    <state width="1528" height="257" key="GridCell.Tab.0.center" timestamp="1585763891482">
+    <state width="1528" height="257" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1585764090730" />
+    <state width="1528" height="257" key="GridCell.Tab.0.center" timestamp="1585764090729">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1528" height="257" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1585763891482" />
-    <state width="1528" height="257" key="GridCell.Tab.0.left" timestamp="1585763891482">
+    <state width="1528" height="257" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1585764090729" />
+    <state width="1528" height="257" key="GridCell.Tab.0.left" timestamp="1585764090729">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1528" height="257" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1585763891482" />
-    <state width="1528" height="257" key="GridCell.Tab.0.right" timestamp="1585763891482">
+    <state width="1528" height="257" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1585764090729" />
+    <state width="1528" height="257" key="GridCell.Tab.0.right" timestamp="1585764090730">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1528" height="257" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1585763891482" />
+    <state width="1528" height="257" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1585764090730" />
     <state width="1437" height="431" key="GridCell.Tab.1.bottom" timestamp="1585608068493">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -755,10 +755,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1427" y="415" key="VCS.ChangeListViewerDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1585753899611" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1585758746323">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1585763993319">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1585758746323" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1585763993319" />
     <state x="268" y="115" width="2059" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1585363286063">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
