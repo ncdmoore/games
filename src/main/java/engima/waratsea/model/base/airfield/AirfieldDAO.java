@@ -49,6 +49,13 @@ public class AirfieldDAO {
     }
 
     /**
+     * Initialize the airfield cache.
+     */
+    public void init() {
+        cache.clear();
+    }
+
+    /**
      * Build the airfields.
      *
      * @param airfieldId The airfield Id.
@@ -156,4 +163,5 @@ public class AirfieldDAO {
         log.error("Unable to load airfield '{}'", airfieldId.getName());
         return null;
     }
+
 }

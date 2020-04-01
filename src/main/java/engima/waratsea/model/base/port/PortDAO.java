@@ -47,6 +47,13 @@ public class PortDAO {
     }
 
     /**
+     * Initialize the airfield cache.
+     */
+    public void init() {
+        cache.clear();
+    }
+
+    /**
      * Build the ports.
      *
      * @param portId Uniquely identifies the port to load.

@@ -276,6 +276,13 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         patrols.clear(nation);
         List<Squadron> toBeRemoved = getSquadrons(nation);
         squadrons.removeAll(toBeRemoved);
+
+        toBeRemoved
+                .stream()
+                .peek(squadron -> squadronMap.get(squadron.getType()).remove(squadron))
+                .map(Squadron::getName)
+                .forEach(squadronNameMap::remove);
+
         return this;
     }
 

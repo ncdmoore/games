@@ -3,13 +3,12 @@ package engima.waratsea.model.game;
 import com.google.inject.Inject;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.data.GameData;
-import engima.waratsea.model.game.event.GameEvent;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.MapException;
 import engima.waratsea.model.player.Player;
 import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.scenario.ScenarioDAO;
+import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.squadron.SquadronException;
 import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.model.weather.Weather;
@@ -28,19 +27,20 @@ import java.util.Map;
 @Slf4j
 @Singleton
 public class Game implements PersistentData<GameData> {
-    @Getter private Player computerPlayer;
-    @Getter private Player humanPlayer;
+    @Getter private final Player computerPlayer;
+    @Getter private final Player humanPlayer;
+    @Getter private final Weather weather;
+    @Getter private final Turn turn;
 
-    private Map<Side, Player> playerMap = new HashMap<>();
-    private Resource resource;
-    private ScenarioDAO scenarioDAO;
-    private GameDAO gameDAO;
-    private GameMap gameMap;
+    private final Map<Side, Player> playerMap = new HashMap<>();
+    private final GameCaches gameCaches;
+    private final Resource resource;
+    private final ScenarioDAO scenarioDAO;
+    private final GameDAO gameDAO;
+    private final GameMap gameMap;
 
     @Getter private Side humanSide;
     @Getter private Scenario scenario; // The selected scenario.
-    @Getter private Weather weather;
-    @Getter private Turn turn;
 
     /**
      * Constructor called by guice.
@@ -50,6 +50,7 @@ public class Game implements PersistentData<GameData> {
      * @param computerPlayer The computer player.
      * @param humanPlayer The human player.
      * @param resource The game configuration.
+     * @param gameCaches The game caches.
      * @param scenarioDAO  The scenario data abstraction object.
      * @param gameDAO The game data abstraction object.
      * @param gameMap The game map.
@@ -61,6 +62,7 @@ public class Game implements PersistentData<GameData> {
                 final @Named("Computer") Player computerPlayer,
                 final @Named("Human") Player humanPlayer,
                 final Resource resource,
+                final GameCaches gameCaches,
                 final ScenarioDAO scenarioDAO,
                 final GameDAO gameDAO,
                 final GameMap gameMap) {
@@ -71,6 +73,7 @@ public class Game implements PersistentData<GameData> {
         this.computerPlayer = computerPlayer;
         this.humanPlayer = humanPlayer;
         this.resource = resource;
+        this.gameCaches = gameCaches;
         this.scenarioDAO = scenarioDAO;
         this.gameDAO = gameDAO;
         this.gameMap = gameMap;
@@ -192,7 +195,7 @@ public class Game implements PersistentData<GameData> {
      * @throws SquadronException Indicates the squadron data could not be loaded.
      */
     public void startNew() throws ScenarioException, MapException, VictoryException, SquadronException {                // New Game Step 4.
-        GameEvent.init();
+        gameCaches.init();
 
         loadGameMap();     // Loads airfields and ports. They are part of the map.
         loadGameVictory();
@@ -215,7 +218,7 @@ public class Game implements PersistentData<GameData> {
      * @throws VictoryException indicates that the victory conditions could not be loaded.
      */
     public void startExisting() throws ScenarioException, MapException, VictoryException {                              // Saved Game Step 4.
-        GameEvent.init();
+        gameCaches.init();
 
         loadGameMap();     // Loads airfields and ports. They are part of the  map.
         loadGameVictory();
