@@ -15,7 +15,8 @@ import lombok.Getter;
 public class MainMenu {
 
     @Getter private MenuItem save;
-    @Getter private MenuItem quit;
+    @Getter private MenuItem exitMain;
+    @Getter private MenuItem exitGame;
 
     @Getter private CheckMenuItem showAirfields;
     @Getter private CheckMenuItem showPorts;
@@ -32,8 +33,9 @@ public class MainMenu {
     public MainMenu() {
         Menu menuFile = new Menu("File");
         save = new MenuItem("_Save");
-        quit = new MenuItem("_Quit");
-        menuFile.getItems().addAll(save, quit);
+        exitMain = new MenuItem("Exit to Main Menu");
+        exitGame = new MenuItem("_Exit Game");
+        menuFile.getItems().addAll(save, exitMain, exitGame);
 
         Menu menuMap = new Menu("Map");
         showAirfields = new CheckMenuItem("Show _Airfields");

@@ -5,6 +5,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.squadron.SquadronLocationType;
+import engima.waratsea.presenter.preview.StartPresenter;
 import engima.waratsea.presenter.squadron.SquadronsDialog;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.MainView;
@@ -25,7 +26,7 @@ public class MainPresenter implements Presenter {
     private Provider<MainView> viewProvider;
     private Provider<MainMenu> menuProvider;
     private Provider<SquadronsDialog> squadronsDialogProvider;
-    private MainView view;
+    private Provider<StartPresenter> startPresenterProvider;
     private Stage stage;
 
     /**
@@ -36,18 +37,21 @@ public class MainPresenter implements Presenter {
      * @param squadronsDialogProvider The squadrons dialog provider.
      * @param viewProvider The main view provider.
      * @param menuProvider The main menu provider.
+     * @param startPresenterProvider The start screen provider.
      */
     @Inject
     public MainPresenter(final Game game,
                          final MainMapPresenter mainMapPresenter,
                          final Provider<SquadronsDialog> squadronsDialogProvider,
                          final Provider<MainView> viewProvider,
-                         final Provider<MainMenu> menuProvider) {
+                         final Provider<MainMenu> menuProvider,
+                         final Provider<StartPresenter> startPresenterProvider) {
         this.game = game;
         this.mainMapPresenter = mainMapPresenter;
         this.viewProvider = viewProvider;
         this.menuProvider = menuProvider;
         this.squadronsDialogProvider = squadronsDialogProvider;
+        this.startPresenterProvider = startPresenterProvider;
     }
 
     /**
@@ -60,14 +64,15 @@ public class MainPresenter implements Presenter {
 
         game.save();
 
-        view = viewProvider.get();
+        MainView view = viewProvider.get();
 
         this.stage = primaryStage;
 
         view.show(stage);
 
         menuProvider.get().getSave().setOnAction(event -> save());
-        menuProvider.get().getQuit().setOnAction(event -> quit());
+        menuProvider.get().getExitMain().setOnAction(event -> exitMain());
+        menuProvider.get().getExitGame().setOnAction(event -> exitGame());
 
         menuProvider.get().getAirfieldSquadrons().setOnAction(event -> airfieldSquadrons());
         menuProvider.get().getTaskForceSquadrons().setOnAction(event -> taskForceSquadrons());
@@ -102,9 +107,17 @@ public class MainPresenter implements Presenter {
     }
 
     /**
+     * Quit the current game and return to the main menu: the startup screen.
+     */
+    private void exitMain() {
+        System.out.println("exit main");
+        startPresenterProvider.get().show(stage);
+    }
+
+    /**
      * Quit the game.
      */
-    private void quit() {
+    private void exitGame() {
         stage.close();
     }
 

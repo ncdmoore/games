@@ -37,7 +37,6 @@ public class MapView {
     @Getter
     private int gridSize;
 
-    @Getter
     private Group map = new Group();
 
     private MultiKeyMap<Integer, Rectangle> grid = new MultiKeyMap<>();    //Row, Column to Rectangle map.
@@ -69,6 +68,8 @@ public class MapView {
         gridSize = sizeOfTheGrids;
 
         int currentNumberOfRows = numberOfRows;
+
+        map.getChildren().clear();   // This is needed if another game is loaded. We clear out the stale map.
 
         for (int col = 0; col < numberOfColumns; col++) {
             for (int row = 0; row < currentNumberOfRows; row++) {

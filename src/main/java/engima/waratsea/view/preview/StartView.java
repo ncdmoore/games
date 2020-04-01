@@ -2,6 +2,7 @@ package engima.waratsea.view.preview;
 
 import com.google.inject.Inject;
 import engima.waratsea.view.ViewProps;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import lombok.Getter;
 import engima.waratsea.utility.CssResourceProvider;
@@ -88,6 +90,13 @@ public class StartView {
 
         int sceneWidth = props.getInt("start.scene.width");
         int sceneHeight = props.getInt("start.scene.height");
+
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
+        stage.setX(((primaryScreenBounds.getMaxX() - primaryScreenBounds.getMinX()) / 2) - (sceneWidth / 2.0));
+        stage.setY(((primaryScreenBounds.getMaxY() - primaryScreenBounds.getMinY()) / 2) - (sceneHeight / 2.0));
+        stage.setWidth(sceneWidth);
+        stage.setHeight(sceneHeight);
 
         Scene scene = new Scene(vBox, sceneWidth, sceneHeight);
 
