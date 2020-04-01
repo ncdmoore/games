@@ -329,7 +329,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         return squadrons
                 .stream()
                 .filter(squadron -> squadron.ofNation(nation))
-                .filter(squadron -> squadron.getState() == state)
+                .filter(squadron -> squadron.isAtState(state))
                 .collect(Collectors.toList());
     }
 
@@ -370,7 +370,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                         entry -> entry
                         .getValue()
                         .stream()
-                        .filter(squadron -> squadron.getState() == state)
+                        .filter(squadron -> squadron.isAtState(state))
                         .collect(Collectors.toList()),
                         (oldList, newList) -> oldList,
                         LinkedHashMap::new));
@@ -423,7 +423,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         return getSquadrons(nation)
                 .stream()
                 .filter(squadron -> squadron.canDoPatrol(patrolType))
-                .filter(Squadron::isReady)
+                .filter(squadron -> squadron.isAtState(SquadronState.READY))
                 .collect(Collectors.toList());
     }
 

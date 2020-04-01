@@ -7,18 +7,8 @@
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalPortStrike.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalPortStrike.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalTaskForceStrike.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalTaskForceStrike.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/SweepAirfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/SweepAirfield.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/SweepPort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/SweepPort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AswPatrol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AswPatrol.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/CapPatrol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/CapPatrol.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/SearchPatrol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/SearchPatrol.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronsTypeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronsTypeView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +109,7 @@
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.All in worldWarTwoAtSea.test">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -296,13 +286,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00143" summary="Make the Mission squadrons more generic.">
-      <created>1584141939626</created>
-      <option name="number" value="00143" />
-      <option name="presentableId" value="LOCAL-00143" />
-      <option name="project" value="LOCAL" />
-      <updated>1584141939627</updated>
     </task>
     <task id="LOCAL-00144" summary="Support alternate values for mission role serialization.">
       <created>1584150140983</created>
@@ -640,7 +623,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585695448795</updated>
     </task>
-    <option name="localTasksCounter" value="192" />
+    <task id="LOCAL-00192" summary="Fix squadron state handling.">
+      <created>1585708787357</created>
+      <option name="number" value="00192" />
+      <option name="presentableId" value="LOCAL-00192" />
+      <option name="project" value="LOCAL" />
+      <updated>1585708787357</updated>
+    </task>
+    <option name="localTasksCounter" value="193" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -654,7 +644,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Aircraft with the required naval or land payload have an additional range modifier for search squadron configurations." />
     <MESSAGE value="Make sure that the squadron search configuration is only used on search patrols." />
     <MESSAGE value="PoorNavalBomber is now its own class." />
     <MESSAGE value="Add reduced payload squadron configuration." />
@@ -679,7 +668,8 @@
     <MESSAGE value="Change patrol circle dialogs to just the true max radius." />
     <MESSAGE value="Add MarkerGrid interface to allow for PatrolRadii around task force markers." />
     <MESSAGE value="Clear out missions and patrols when a nation is removed from an airfield." />
-    <option name="LAST_COMMIT_MESSAGE" value="Clear out missions and patrols when a nation is removed from an airfield." />
+    <MESSAGE value="Fix squadron state handling." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix squadron state handling." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585517448530">
@@ -718,26 +708,26 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1585626150761" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1585695446114">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1585708784635">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1585695446114" />
-    <state width="1708" height="191" key="GridCell.Tab.0.bottom" timestamp="1585708684960">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1585708784635" />
+    <state width="1708" height="191" key="GridCell.Tab.0.bottom" timestamp="1585709126172">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1708" height="191" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1585708684960" />
-    <state width="1708" height="191" key="GridCell.Tab.0.center" timestamp="1585708684959">
+    <state width="1708" height="191" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1585709126172" />
+    <state width="1708" height="191" key="GridCell.Tab.0.center" timestamp="1585709126164">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1708" height="191" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1585708684959" />
-    <state width="1708" height="191" key="GridCell.Tab.0.left" timestamp="1585708684958">
+    <state width="1708" height="191" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1585709126164" />
+    <state width="1708" height="191" key="GridCell.Tab.0.left" timestamp="1585709126162">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1708" height="191" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1585708684958" />
-    <state width="1708" height="191" key="GridCell.Tab.0.right" timestamp="1585708684960">
+    <state width="1708" height="191" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1585709126162" />
+    <state width="1708" height="191" key="GridCell.Tab.0.right" timestamp="1585709126171">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1708" height="191" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1585708684960" />
+    <state width="1708" height="191" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1585709126171" />
     <state width="1437" height="431" key="GridCell.Tab.1.bottom" timestamp="1585608068493">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>

@@ -280,10 +280,11 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
     /**
      * Determine if the squadron is ready for go on patrol or fly a mission.
      *
-     * @return True if the squadron is ready. False otherwise.
+     * @param desiredState The state to check if the squadron has.
+     * @return True if the squadron is in the desired state. False otherwise.
      */
-    public boolean isReady() {
-        return state == SquadronState.READY;
+    public boolean isAtState(final SquadronState desiredState) {
+        return state == desiredState;
     }
 
     /**
