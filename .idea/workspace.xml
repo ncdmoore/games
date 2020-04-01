@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/GameCaches.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/AirfieldDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/AirfieldDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/port/PortDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/port/PortDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -289,13 +284,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00149" summary="Add air strike step destroyed and capacity reduction maps for indicating probability.">
-      <created>1584207331381</created>
-      <option name="number" value="00149" />
-      <option name="presentableId" value="LOCAL-00149" />
-      <option name="project" value="LOCAL" />
-      <updated>1584207331381</updated>
     </task>
     <task id="LOCAL-00150" summary="Make sure max radius for patrols is set to 0 when all the squadrons are removed from the patrol.">
       <created>1584234252551</created>
@@ -633,7 +621,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585764222807</updated>
     </task>
-    <option name="localTasksCounter" value="198" />
+    <task id="LOCAL-00198" summary="Add a game cache manager to clear cache's on new and existing game starts.">
+      <created>1585769706247</created>
+      <option name="number" value="00198" />
+      <option name="presentableId" value="LOCAL-00198" />
+      <option name="project" value="LOCAL" />
+      <updated>1585769706247</updated>
+    </task>
+    <option name="localTasksCounter" value="199" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -647,7 +642,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Filter preview map squadron range circles to just normal and drop tanks." />
     <MESSAGE value="Move preview view and presenter classes into presenter packages." />
     <MESSAGE value="Add forces menu. Land squadrons." />
     <MESSAGE value="Cleanup Squadron API." />
@@ -672,7 +666,8 @@
     <MESSAGE value="Throw exception if squadron DAO fails." />
     <MESSAGE value="Clear player's stale squadron data before loading new squadrons." />
     <MESSAGE value="Clear player's stale flotilla data before loading new flotillas." />
-    <option name="LAST_COMMIT_MESSAGE" value="Clear player's stale flotilla data before loading new flotillas." />
+    <MESSAGE value="Add a game cache manager to clear cache's on new and existing game starts." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add a game cache manager to clear cache's on new and existing game starts." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585517448530">
@@ -711,26 +706,26 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1585626150761" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1585764222615">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1585769705281">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1585764222615" />
-    <state width="1738" height="339" key="GridCell.Tab.0.bottom" timestamp="1585769483059">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1585769705281" />
+    <state width="1738" height="339" key="GridCell.Tab.0.bottom" timestamp="1585776961489">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1738" height="339" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1585769483059" />
-    <state width="1738" height="339" key="GridCell.Tab.0.center" timestamp="1585769483058">
+    <state width="1738" height="339" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1585776961489" />
+    <state width="1738" height="339" key="GridCell.Tab.0.center" timestamp="1585776961488">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1738" height="339" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1585769483058" />
-    <state width="1738" height="339" key="GridCell.Tab.0.left" timestamp="1585769483058">
+    <state width="1738" height="339" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1585776961488" />
+    <state width="1738" height="339" key="GridCell.Tab.0.left" timestamp="1585776961487">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1738" height="339" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1585769483058" />
-    <state width="1738" height="339" key="GridCell.Tab.0.right" timestamp="1585769483058">
+    <state width="1738" height="339" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1585776961487" />
+    <state width="1738" height="339" key="GridCell.Tab.0.right" timestamp="1585776961488">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1738" height="339" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1585769483058" />
+    <state width="1738" height="339" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1585776961488" />
     <state width="1738" height="334" key="GridCell.Tab.1.bottom" timestamp="1585768571560">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -759,10 +754,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1427" y="415" key="VCS.ChangeListViewerDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1585753899611" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1585764230770">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1585769711870">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1585764230770" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1585769711870" />
     <state x="268" y="115" width="2059" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1585363286063">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -775,10 +770,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1393" y="617" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.2560.1349@0.23.2560.1349" timestamp="1584907139324" />
-    <state x="1327" y="411" width="935" height="587" key="find.popup" timestamp="1585767495195">
+    <state x="1327" y="411" width="935" height="587" key="find.popup" timestamp="1585770997412">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1327" y="411" width="935" height="587" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1585767495195" />
+    <state x="1327" y="411" width="935" height="587" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1585770997412" />
     <state x="1696" y="493" key="refactoring.ChangeSignatureDialog" timestamp="1585625849295">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>

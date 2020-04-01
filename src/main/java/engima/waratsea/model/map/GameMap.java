@@ -124,9 +124,6 @@ public final class GameMap {
         minefields.put(Side.ALLIES, minefieldDAO.load(Side.ALLIES));
         minefields.put(Side.AXIS, minefieldDAO.load(Side.AXIS));
 
-
-
-
         nationRegionMap.put(Side.ALLIES, buildRegionMap(Side.ALLIES));
         nationRegionMap.put(Side.AXIS, buildRegionMap(Side.AXIS));
 
@@ -136,11 +133,11 @@ public final class GameMap {
         portMap.put(Side.ALLIES, buildPortMap(ports.get(Side.ALLIES)));
         portMap.put(Side.AXIS, buildPortMap(ports.get(Side.AXIS)));
 
-        buildNationsMap(Side.ALLIES);
-        buildNationsMap(Side.AXIS);
+        nations.put(Side.ALLIES, buildNationsMap(Side.ALLIES));
+        nations.put(Side.AXIS, buildNationsMap(Side.AXIS));
 
-        buildNationAirfieldMap(Side.ALLIES);
-        buildNationAirfieldMap(Side.AXIS);
+        nationAirfieldMap.put(Side.ALLIES, buildNationAirfieldMap(Side.ALLIES));
+        nationAirfieldMap.put(Side.AXIS, buildNationAirfieldMap(Side.AXIS));
 
         buildLocationToBaseMap(Side.ALLIES);
         buildLocationToBaseMap(Side.AXIS);
@@ -623,30 +620,29 @@ public final class GameMap {
      * Get the side's nations. These are the nations that have bases on the map.
      *
      * @param side The side ALLIES or AXIS.
+     * @return A set of nations for the given side.
      */
-    private void buildNationsMap(final Side side) {
-        Set<Nation> nationSet = regions.get(side)
+    private Set<Nation> buildNationsMap(final Side side) {
+        return regions.get(side)
                 .stream()
                 .map(Region::getNation)
                 .collect(Collectors.toSet());
-
-        nations.put(side, nationSet);
-
     }
 
     /**
      * Build a map of a nation to airfield list.
      *
      * @param side The side ALLIES or AXIS.
+     * @return A map of nation to airfields.
      */
-    private void buildNationAirfieldMap(final Side side) {
+    private Map<Nation, List<Airfield>> buildNationAirfieldMap(final Side side) {
         Map<Nation, List<Airfield>> map = new HashMap<>();
 
         nations
                 .get(side)
-                .forEach(nation -> map.put(nation, buildNationAirfields(side, nation)));
+                .forEach(nation -> map.put(nation, getNationsAirfields(side, nation)));
 
-        nationAirfieldMap.put(side, map);
+        return map;
     }
 
     /**
@@ -656,7 +652,7 @@ public final class GameMap {
      * @param nation The nation: BRITISH, ITALIAN, etc...
      * @return A list of the given nation's airfields.
      */
-    private List<Airfield> buildNationAirfields(final Side side, final Nation nation) {
+    private List<Airfield> getNationsAirfields(final Side side, final Nation nation) {
         return airfields.get(side)
                 .stream()
                 .filter(airfield -> airfield.usedByNation(nation))
