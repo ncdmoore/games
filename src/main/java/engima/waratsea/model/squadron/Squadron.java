@@ -21,6 +21,7 @@ import engima.waratsea.model.game.rules.Rules;
 import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.data.SquadronData;
+import engima.waratsea.model.squadron.state.SquadronAction;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
 import lombok.Getter;
@@ -52,7 +53,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
     @Getter @Setter private SquadronStrength strength;
     @Getter private String reference; //This is always a map reference and never a name.
     @Getter private SquadronHome home;
-    @Getter @Setter private SquadronState squadronState;
+    @Getter private SquadronState state;
     @Getter @Setter private SquadronConfig config;
 
     static {
@@ -93,7 +94,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
         this.model = data.getModel();
         this.strength = data.getStrength();
         this.name = data.getName();
-        this.squadronState = data.getSquadronState();
+        this.state = data.getSquadronState();
         this.config = Optional.ofNullable(data.getConfig()).orElse(SquadronConfig.NONE);
 
         try {
@@ -133,7 +134,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
         data.setName(name);
         Optional.ofNullable(home)
                 .ifPresent(h -> data.setAirfield(h.getName()));
-        data.setSquadronState(squadronState);
+        data.setSquadronState(state);
         data.setConfig(config);
         return data;
     }
@@ -282,7 +283,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      * @return True if the squadron is ready. False otherwise.
      */
     public boolean isReady() {
-        return squadronState == SquadronState.READY;
+        return state == SquadronState.READY;
     }
 
     /**
@@ -309,6 +310,15 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
         reference = Optional.ofNullable(newLocation)
                 .map(gameMap::convertNameToReference)
                 .orElse(null);
+    }
+
+    /**
+     * Set the squadron's state.
+     *
+     * @param action A squadron action that affects the squadron's state.
+     */
+    public void setState(final SquadronAction action) {
+         state = state.transition(action);
     }
 
     /**

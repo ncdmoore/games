@@ -12,7 +12,6 @@ import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronAction;
-import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.Dice;
 import lombok.Getter;
@@ -191,8 +190,7 @@ public class NavalPortStrike implements AirMission {
         squadronMap
                 .forEach((role, squadrons) -> squadrons
                         .forEach(squadron -> {
-                            SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_MISSION);
-                            squadron.setSquadronState(state);
+                            squadron.setState(SquadronAction.ASSIGN_TO_MISSION);
                             squadron.equip(targetPort, AirMissionType.NAVAL_PORT_STRIKE, role);
                         }));
     }
@@ -204,8 +202,7 @@ public class NavalPortStrike implements AirMission {
     public void removeSquadrons() {
         getSquadronsAllRoles()
                 .forEach(squadron -> {
-                    SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
-                    squadron.setSquadronState(state);
+                    squadron.setState(SquadronAction.REMOVE_FROM_MISSION);
                     squadron.unEquip();
                 });
 

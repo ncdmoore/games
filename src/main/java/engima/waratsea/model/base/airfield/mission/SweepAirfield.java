@@ -10,7 +10,6 @@ import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronAction;
-import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.Dice;
 import lombok.Getter;
@@ -186,8 +185,7 @@ public class SweepAirfield implements AirMission {
         squadronMap
                 .forEach((role, squadrons) -> squadrons
                         .forEach(squadron -> {
-                            SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_MISSION);
-                            squadron.setSquadronState(state);
+                            squadron.setState(SquadronAction.ASSIGN_TO_MISSION);
                             squadron.equip(targetAirbase, AirMissionType.NAVAL_TASK_FORCE_STRIKE, role);
                         }));
     }
@@ -198,8 +196,7 @@ public class SweepAirfield implements AirMission {
     @Override
     public void removeSquadrons() {
         squadronMap.get(MissionRole.MAIN).forEach(squadron -> {
-            SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_MISSION);
-            squadron.setSquadronState(state);
+            squadron.setState(SquadronAction.REMOVE_FROM_MISSION);
             squadron.unEquip();
         });
 

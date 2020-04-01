@@ -122,7 +122,7 @@ public class SquadronsTypeView {
     private Map<String, String> getAirfield(final Squadron squadron) {
         Map<String, String> airfield = new LinkedHashMap<>();
         airfield.put("Airfield:", squadron.getHome().getTitle());
-        airfield.put("Squadron Status:", squadron.getSquadronState().toString());
+        airfield.put("Squadron Status:", squadron.getState().toString());
         return airfield;
     }
 }

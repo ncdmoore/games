@@ -10,10 +10,8 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.state.SquadronAction;
-import engima.waratsea.model.squadron.state.SquadronState;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -120,8 +118,7 @@ public class AswPatrol implements Patrol {
     public void addSquadron(final Squadron squadron) {
         if (canAdd(squadron)) {   //Make sure the squadron is actually deployed at the airbase.
             squadrons.add(squadron);
-            SquadronState state = squadron.getSquadronState().transition(SquadronAction.ASSIGN_TO_PATROL);
-            squadron.setSquadronState(state);
+            squadron.setState(SquadronAction.ASSIGN_TO_PATROL);
             updateMaxRadius();
         } else {
             log.error("Unable to add squadron: '{}' to patrol. Squadron not deployed to airbase: '{}' or unable to perform ASW", squadron, airbase);
@@ -136,8 +133,7 @@ public class AswPatrol implements Patrol {
     @Override
     public void removeSquadron(final Squadron squadron) {
         squadrons.remove(squadron);
-        SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_PATROL);
-        squadron.setSquadronState(state);
+        squadron.setState(SquadronAction.REMOVE_FROM_PATROL);
         updateMaxRadius();
     }
 
@@ -198,10 +194,7 @@ public class AswPatrol implements Patrol {
      */
     @Override
     public void clearSquadrons() {
-        squadrons.forEach(squadron -> {
-            SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_PATROL);
-            squadron.setSquadronState(state);
-        });
+        squadrons.forEach(squadron -> squadron.setState(SquadronAction.REMOVE_FROM_PATROL));
 
         squadrons.clear();
         updateMaxRadius();
@@ -216,10 +209,8 @@ public class AswPatrol implements Patrol {
     public void clearSquadrons(final Nation nation) {
         List<Squadron> toRemove = squadrons.stream()
                 .filter(squadron -> squadron.ofNation(nation))
-                .peek(squadron -> {
-                    SquadronState state = squadron.getSquadronState().transition(SquadronAction.REMOVE_FROM_PATROL);
-                    squadron.setSquadronState(state);
-                }).collect(Collectors.toList());
+                .peek(squadron -> squadron.setState(SquadronAction.REMOVE_FROM_PATROL))
+                .collect(Collectors.toList());
 
         squadrons.removeAll(toRemove);
         updateMaxRadius();

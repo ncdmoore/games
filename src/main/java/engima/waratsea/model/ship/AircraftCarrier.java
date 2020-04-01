@@ -272,7 +272,7 @@ public class AircraftCarrier implements Ship, Airbase {
         return squadrons
                 .stream()
                 .filter(squadron -> squadron.ofNation(squadronNation))
-                .filter(squadron -> squadron.getSquadronState() == state)
+                .filter(squadron -> squadron.getState() == state)
                 .collect(Collectors.toList());
     }
 
@@ -340,7 +340,7 @@ public class AircraftCarrier implements Ship, Airbase {
                         entry -> entry
                                 .getValue()
                                 .stream()
-                                .filter(squadron -> squadron.getSquadronState() == state)
+                                .filter(squadron -> squadron.getState() == state)
                                 .collect(Collectors.toList()),
                         (oldList, newList) -> oldList,
                         LinkedHashMap::new));
