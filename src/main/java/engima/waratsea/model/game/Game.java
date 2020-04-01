@@ -10,6 +10,7 @@ import engima.waratsea.model.player.Player;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.scenario.ScenarioDAO;
+import engima.waratsea.model.squadron.SquadronException;
 import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.model.weather.Weather;
 import lombok.Getter;
@@ -27,31 +28,19 @@ import java.util.Map;
 @Slf4j
 @Singleton
 public class Game implements PersistentData<GameData> {
-    @Getter
-    private Player computerPlayer;
-
-    @Getter
-    private Player humanPlayer;
+    @Getter private Player computerPlayer;
+    @Getter private Player humanPlayer;
 
     private Map<Side, Player> playerMap = new HashMap<>();
-
     private Resource resource;
     private ScenarioDAO scenarioDAO;
     private GameDAO gameDAO;
     private GameMap gameMap;
 
-    @Getter
-    private Side humanSide;
-
-    @Getter
-    private Scenario scenario; // The selected scenario.
-
-    @Getter
-    private Weather weather;
-
-    @Getter
-    private Turn turn;
-
+    @Getter private Side humanSide;
+    @Getter private Scenario scenario; // The selected scenario.
+    @Getter private Weather weather;
+    @Getter private Turn turn;
 
     /**
      * Constructor called by guice.
@@ -200,8 +189,9 @@ public class Game implements PersistentData<GameData> {
      * @throws ScenarioException Indicates the scenario data could not be loaded.
      * @throws MapException Indicates the map data could not be loaded.
      * @throws VictoryException Indicates the victory data could not be loaded.
+     * @throws SquadronException Indicates the squadron data could not be loaded.
      */
-    public void startNew() throws ScenarioException, MapException, VictoryException {                                   // New Game Step 4.
+    public void startNew() throws ScenarioException, MapException, VictoryException, SquadronException {                // New Game Step 4.
         GameEvent.init();
 
         loadGameMap();     // Loads airfields and ports. They are part of the map.
@@ -297,8 +287,10 @@ public class Game implements PersistentData<GameData> {
 
     /**
      * Load the player's squadrons. Only called for new games.
+     *
+     * @throws SquadronException if the squadrons cannot be loaded.
      **/
-    private void loadSquadrons()  {
+    private void loadSquadrons() throws SquadronException {
         humanPlayer.loadSquadrons(scenario);
         computerPlayer.loadSquadrons(scenario);
     }

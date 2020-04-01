@@ -10,9 +10,7 @@ import engima.waratsea.model.squadron.allotment.AllotmentDAO;
 import engima.waratsea.model.squadron.data.SquadronData;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -21,11 +19,8 @@ import java.util.stream.Collectors;
 @Singleton
 @Slf4j
 public class SquadronDAO {
-
-    private AllotmentDAO allotmentDAO;
-    private SquadronFactory factory;
-
-    private Map<Nation, Allotment> allotmentMap = new HashMap<>();
+    private final AllotmentDAO allotmentDAO;
+    private final SquadronFactory factory;
 
     /**
      * The constructor called by guice.
@@ -47,8 +42,9 @@ public class SquadronDAO {
      * @param side The side: ALLIES or AXIS.
      * @param nation The nation.
      * @return A list of squadrons for the given side and nation.
+     * @throws SquadronException if the squadron cannot be loaded.
      */
-    public List<Squadron> load(final Scenario scenario, final Side side, final Nation nation) {
+    public List<Squadron> load(final Scenario scenario, final Side side, final Nation nation) throws SquadronException {
         return loadNew(scenario, side, nation);
     }
 
@@ -70,10 +66,11 @@ public class SquadronDAO {
      * @param side The side: ALLIES or AXIS.
      * @param nation The nation.
      * @return A list of squadrons for the given side and nation.
+     * @throws SquadronException if the allotment cannot be loaded.
      */
-    private List<Squadron> loadNew(final Scenario scenario, final Side side, final Nation nation) {
-        loadNationAllotment(scenario, side, nation);
-        return buildSquadrons(side, nation);
+    private List<Squadron> loadNew(final Scenario scenario, final Side side, final Nation nation) throws SquadronException {
+        Allotment allotment = loadNationAllotment(scenario, side, nation);
+        return buildSquadrons(side, nation, allotment);
     }
 
     /**
@@ -82,15 +79,12 @@ public class SquadronDAO {
      * @param scenario The selected scenario.
      * @param side The side.
      * @param nation The nation.
+     * @return The nation's squadron allotment.
+     * @throws SquadronException if the allotment cannot be loaded.
      */
-    private void loadNationAllotment(final Scenario scenario, final Side side, final Nation nation) {
+    private Allotment loadNationAllotment(final Scenario scenario, final Side side, final Nation nation) throws SquadronException {
         log.debug("Load squadrons for scenario '{}', side: {}, nation: {}", new Object[]{scenario.getTitle(), side, nation});
-        try {
-            Allotment allotment = allotmentDAO.load(scenario, side, nation);
-            allotmentMap.put(nation, allotment);
-        } catch (SquadronException ex) {
-            log.error("Unable to load squadron for scenario: '" + scenario + "' side: '" + side + "' nation: '" + nation + "'");
-        }
+        return allotmentDAO.load(scenario, side, nation);
     }
 
     /**
@@ -98,12 +92,12 @@ public class SquadronDAO {
      *
      * @param side The side ALLIES or AXIS.
      * @param nation The nation.
+     * @param allotment The nation's squadron allotment.
      * @return A list of squadrons.
      */
-    private List<Squadron> buildSquadrons(final Side side, final Nation nation) {
+    private List<Squadron> buildSquadrons(final Side side, final Nation nation, final Allotment allotment) {
         Squadron.init(side);
-        return allotmentMap
-                .get(nation)
+        return allotment
                 .get()
                 .map(data -> factory.create(side, nation, data))
                 .collect(Collectors.toList());

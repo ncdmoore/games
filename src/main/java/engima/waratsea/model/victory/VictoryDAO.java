@@ -87,7 +87,7 @@ public class VictoryDAO {
             //Unable to load the scenario victory conditions. If a scenario does not contain specific
             //victory conditions then this is normal. Thus, all this code can do is warn that no
             //specific scenario victory data exists for the particular side.
-            log.warn("No scencario victory found for scenario '{}' for side {}", scenario.getTitle(), side);
+            log.warn("No scenario victory found for scenario '{}' for side {}", scenario.getTitle(), side);
         }
 
         // Create the side's victory conditions.

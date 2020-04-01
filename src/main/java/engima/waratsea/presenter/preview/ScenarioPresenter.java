@@ -5,6 +5,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.map.MapException;
+import engima.waratsea.model.squadron.SquadronException;
 import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.presenter.Presenter;
 import engima.waratsea.presenter.navigation.Navigate;
@@ -143,7 +144,7 @@ public class ScenarioPresenter implements Presenter {
     private void startGame() {
         try {
             game.startNew();
-        } catch (ScenarioException | MapException | VictoryException ex) {
+        } catch (ScenarioException | MapException | VictoryException | SquadronException ex) {
             fatalErrorDialogProvider.get().show(ex.getMessage() + ".");
         }
     }

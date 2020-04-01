@@ -14,6 +14,7 @@ import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronException;
 import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
@@ -104,8 +105,9 @@ public interface Player {
      * Load the player's squadrons.
      *
      * @param scenario The selected scenario.
+     * @throws SquadronException if the squadrons cannot be loaded.
      */
-    void loadSquadrons(Scenario scenario);
+    void loadSquadrons(Scenario scenario) throws SquadronException;
 
     /**
      * Set the player's squadrons. This is only called on existing games.

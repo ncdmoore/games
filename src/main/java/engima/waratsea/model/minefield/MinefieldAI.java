@@ -26,7 +26,7 @@ public class MinefieldAI {
     private MinefieldDeploymentDAO minefieldDeploymentDAO;
 
     /**
-     * Constructor calle by guice.
+     * Constructor called by guice.
      *
      * @param minefieldDeploymentDAO The minefield deployment DAO.
      */

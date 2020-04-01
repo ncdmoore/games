@@ -28,6 +28,7 @@ import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronAI;
 import engima.waratsea.model.squadron.SquadronDAO;
+import engima.waratsea.model.squadron.SquadronException;
 import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.target.TargetDAO;
@@ -344,9 +345,10 @@ public class ComputerPlayer implements Player {
      * Determine the nations for this scenario and side.
      *
      * @param scenario The selected scenario.
+     * @throws SquadronException if the squadrons cannot be loaded.
      */
     @Override
-    public void loadSquadrons(final Scenario scenario) {
+    public void loadSquadrons(final Scenario scenario) throws SquadronException {
         for (Nation nation: nations) {
             loadNationSquadrons(scenario, nation);
         }
@@ -464,8 +466,9 @@ public class ComputerPlayer implements Player {
      *
      * @param scenario The selected scenario.
      * @param nation The nation.
+     * @throws SquadronException if the squadrons cannot be loaded.
      */
-    private void loadNationSquadrons(final Scenario scenario, final Nation nation) {
+    private void loadNationSquadrons(final Scenario scenario, final Nation nation) throws SquadronException {
          squadrons.put(nation, aviationPlant.load(scenario, side, nation));
     }
 

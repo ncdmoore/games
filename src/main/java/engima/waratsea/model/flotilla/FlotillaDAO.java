@@ -33,9 +33,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FlotillaDAO {
     // Flotilla type to flotilla factory map.
-    private Map<FlotillaType, BiFunction<Side, FlotillaData, Flotilla>> factoryMap = new HashMap<>();
+    private final Map<FlotillaType, BiFunction<Side, FlotillaData, Flotilla>> factoryMap = new HashMap<>();
 
-    private Resource config;
+    private final Resource config;
 
     /**
      * The constructor. Called by guice.
@@ -45,7 +45,7 @@ public class FlotillaDAO {
      */
     @Inject
     public FlotillaDAO(final Resource config,
-                        final FlotillaFactory factory) {
+                       final FlotillaFactory factory) {
         this.config = config;
 
         factoryMap.put(FlotillaType.SUBMARINE, factory::createSubmarineFlotilla);
@@ -108,7 +108,7 @@ public class FlotillaDAO {
             return;
         }
 
-        Class clazz = flotillas.get(0).getClass();
+        Class<?> clazz = flotillas.get(0).getClass();
 
         log.info("Saving flotillas, scenario: '{}',side {}", scenario.getTitle(), side);
         log.info("Saving {} flotillas", flotillas.size());

@@ -41,7 +41,7 @@ public class SquadronDeploymentAI {
     private Map<AircraftBaseType, List<Squadron>> squadronTypeMap;
     private Map<String, List<Squadron>> squadronModelMap;
 
-    private AircraftBaseType baseType = AircraftBaseType.BOMBER;                     //Seed the base type.
+    private AircraftBaseType baseType = AircraftBaseType.BOMBER;                     //Seed the base aircraft type.
 
     /**
      * Constructor called by guice.
@@ -65,10 +65,10 @@ public class SquadronDeploymentAI {
      */
     public void deploy(final Scenario selectedScenario, final Player gamePlayer) {
         scenario = selectedScenario;
-        this.player = gamePlayer;
-        side = this.player.getSide();
+        player = gamePlayer;
+        side = player.getSide();
 
-        this.player.getNations().forEach(this::deployNation);
+        player.getNations().forEach(this::deployNation);
     }
 
     /**

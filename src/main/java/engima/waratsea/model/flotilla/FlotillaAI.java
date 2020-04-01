@@ -38,7 +38,7 @@ public class FlotillaAI {
     private FlotillaDeploymentDAO flotillaDeploymentDAO;
 
     /**
-     * Constructor calle by guice.
+     * Constructor called by guice.
      *
      * @param flotillaDeploymentDAO The flotilla deployment DAO.
      */

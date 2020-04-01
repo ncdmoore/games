@@ -28,9 +28,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @Singleton
 public class MinefieldDeploymentDAO {
-    private Resource config;
-
-    private MinefieldDeploymentFactory minefieldDeploymentFactory;
+    private final Resource config;
+    private final MinefieldDeploymentFactory minefieldDeploymentFactory;
 
     /**
      * Constructor called by guice.
@@ -91,8 +90,7 @@ public class MinefieldDeploymentDAO {
     private List<DeploymentData> readMinefield(final URL url, final Side side) {
         Path path = Paths.get(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8));
         try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-            Type collectionType = new TypeToken<List<DeploymentData>>() {
-            }.getType();
+            Type collectionType = new TypeToken<List<DeploymentData>>() { }.getType();
 
             Gson gson = new Gson();
             List<DeploymentData> deploymentData = gson.fromJson(br, collectionType);
