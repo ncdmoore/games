@@ -78,22 +78,21 @@ public class ComputerPlayer implements Player {
     @Getter @Setter private Side side;
     @Getter private Set<Nation> nations;
     @Getter private List<TaskForce> taskForces;
-    @Getter private Map<String, TaskForce> taskForceMap = new HashMap<>();
+    @Getter private Map<String, TaskForce> taskForceMap;
     @Getter private List<TaskForceView> enemyTaskForces;
-    @Getter private Map<String, TaskForceView> enemyTaskForceMap = new HashMap<>();
+    @Getter private Map<String, TaskForceView> enemyTaskForceMap;
+    @Getter private List<Airfield> airfields;
+    @Getter private Map<String, Airfield> airfieldMap;
+    @Getter private List<AirfieldView> enemyAirfields;
+    @Getter private Map<String, AirfieldView> enemyAirfieldMap;
+    @Getter private List<Port> ports;
+    @Getter private Map<String, Port> portMap;
+    @Getter private List<PortView> enemyPorts;
+    @Getter private Map<String, PortView> enemyPortMap;
+    @Getter private List<Minefield> minefields;
 
     private final Map<FlotillaType, List<Flotilla>> flotillas = new HashMap<>();
     private final Map<Nation, List<Squadron>> squadrons = new HashMap<>();
-
-    @Getter private List<Airfield> airfields;
-    @Getter private Map<String, Airfield> airfieldMap = new HashMap<>();
-    @Getter private List<AirfieldView> enemyAirfields;
-    @Getter private Map<String, AirfieldView> enemyAirfieldMap = new HashMap<>();
-    @Getter private List<Port> ports;
-    @Getter private Map<String, Port> portMap = new HashMap<>();
-    @Getter private List<PortView> enemyPorts;
-    @Getter private Map<String, PortView> enemyPortMap = new HashMap<>();
-    @Getter private List<Minefield> minefields;
 
     /**
      * Constructor called by guice.
@@ -307,6 +306,8 @@ public class ComputerPlayer implements Player {
      */
     @Override
     public void setSquadrons() {
+        squadrons.clear();  // Clear out any stale data if it exists.
+
         for (Nation nation: nations) {
 
             List<Squadron> nationsSquadrons = airfields
@@ -342,13 +343,15 @@ public class ComputerPlayer implements Player {
     }
 
     /**
-     * Determine the nations for this scenario and side.
+     * Load the player's squadrons.
      *
      * @param scenario The selected scenario.
      * @throws SquadronException if the squadrons cannot be loaded.
      */
     @Override
     public void loadSquadrons(final Scenario scenario) throws SquadronException {
+        squadrons.clear(); // Clear out any stale data if it exists.
+
         for (Nation nation: nations) {
             loadNationSquadrons(scenario, nation);
         }
