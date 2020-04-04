@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -163,7 +163,8 @@ public class MotorTorpedoBoatFlotilla implements Flotilla {
         boats = subNames.stream()
                 .map(boatName -> new ShipId(boatName, side))
                 .map(this::buildBoat)
-                .filter(Objects::nonNull)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .collect(Collectors.toList());
     }
 
@@ -173,14 +174,14 @@ public class MotorTorpedoBoatFlotilla implements Flotilla {
      * @param shipId Uniquely identifies a ship.
      * @return The constructed ship.
      */
-    private MotorTorpedoBoat buildBoat(final ShipId shipId) {
+    private Optional<MotorTorpedoBoat> buildBoat(final ShipId shipId) {
         try {
             MotorTorpedoBoat boat = boatDAO.load(shipId);
             boat.setFlotilla(this);
-            return boat;
+            return Optional.of(boat);
         } catch (ShipyardException ex) {
             log.error("Unable to build sub '{}' for side {}", shipId.getName(), shipId.getSide());
-            return null;
+            return Optional.empty();
         }
     }
 

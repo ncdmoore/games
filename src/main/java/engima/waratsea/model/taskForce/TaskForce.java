@@ -268,7 +268,8 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
         ships = shipNames.stream()
                 .map(shipName -> new ShipId(shipName, side))
                 .map(this::buildShip)
-                .filter(Objects::nonNull)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .collect(Collectors.toList());
 
         shipMap = ships.stream()
@@ -309,12 +310,12 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
      * @param shipId Uniquely identifies a ship.
      * @return The constructed ship.
      */
-    private Ship buildShip(final ShipId shipId) {
+    private Optional<Ship> buildShip(final ShipId shipId) {
         try {
-            return shipyard.load(shipId, this);
+            return Optional.of(shipyard.load(shipId, this));
         } catch (ShipyardException ex) {
             log.error("Unable to build ship '{}' for side {}", shipId.getName(), shipId.getSide());
-            return null;
+            return Optional.empty();
         }
     }
 

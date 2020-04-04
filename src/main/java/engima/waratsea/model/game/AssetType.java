@@ -3,7 +3,7 @@ package engima.waratsea.model.game;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Game assests.
+ * Game assets.
  */
 public enum AssetType {
     @SerializedName(value = "AIRCRAFT", alternate = {"Aircraft", "aircraft"})

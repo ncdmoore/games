@@ -18,7 +18,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -58,7 +57,8 @@ public class GameDAO {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(this::readGame)
-                .filter(Objects::nonNull)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .sorted()
                 .collect(Collectors.toList());
     }
@@ -135,7 +135,7 @@ public class GameDAO {
      * @param url specifies the task force json file.
      * @return returns a list of task force objects.
      */
-    private GameData readGame(final URL url) {
+    private Optional<GameData> readGame(final URL url) {
         try {
             Path path = Paths.get(url.toURI().getPath());
 
@@ -144,14 +144,14 @@ public class GameDAO {
             try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 
                 Gson gson = new Gson();
-                return gson.fromJson(br, GameData.class);
+                return Optional.of(gson.fromJson(br, GameData.class));
             } catch (Exception ex) {                                                                                    // Catch any Gson errors.
                 log.error("Unable to read game data for URL: {}", url.getPath(), ex);
-                return null;
+                return Optional.empty();
             }
         } catch (URISyntaxException ex) {
             log.error("Unable to get URI for URL: {}", url.getPath());
-            return null;
+            return Optional.empty();
         }
     }
 }

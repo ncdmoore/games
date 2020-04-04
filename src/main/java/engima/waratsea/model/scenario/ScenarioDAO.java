@@ -15,7 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -58,8 +58,9 @@ public class ScenarioDAO {
         return  Arrays.stream(directories)
                 .filter(this::isReadable)                                                                               //If the directory is not readable exclude it.
                 .map(this::readScenarioSummary)
-                .filter(Objects::nonNull)                                                                               //Filter any null scenarios, these occur when the json file fails to parse.
+                .filter(Optional::isPresent)                                                                            //Filter any null scenarios, these occur when the json file fails to parse.
                 .sorted()                                                                                               //Sort the scenarios.
+                .map(Optional::get)
                 .collect(Collectors.toList());
     }
 
@@ -94,7 +95,7 @@ public class ScenarioDAO {
      * @param directory The directory that contains the scenario summary json file.
      * @return A Scenario object. null is returned if the json file fails to parse.
      */
-    private Scenario readScenarioSummary(final File directory)  {
+    private Optional<Scenario> readScenarioSummary(final File directory)  {
         Path path = config.getScenarioSummary(directory.getPath());
 
         try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
@@ -103,10 +104,10 @@ public class ScenarioDAO {
 
             log.debug("load scenario: {}", scenario.getTitle());
 
-            return scenario;
+            return Optional.of(scenario);
         } catch (Exception ex) {                                                                                        // Catch any Gson errors.
             log.error("Unable to load scenario: {}", directory.getName(), ex);
-            return null;                                                                                                // Null's should be removed from the scenario list.
+            return Optional.empty();                                                                                                // Null's should be removed from the scenario list.
         }
     }
 }

@@ -19,11 +19,14 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.AirfieldView;
 import engima.waratsea.view.airfield.mission.MissionView;
 import engima.waratsea.view.airfield.patrol.PatrolView;
+import engima.waratsea.view.asset.AssetSummaryView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.squadron.SquadronViewType;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableRow;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Getter;
@@ -58,6 +61,7 @@ public class AirfieldDialog {
     private final Provider<MainMapView> mapViewProvider;
     private final Provider<MissionAddDialog> missionAddDetailsDialogProvider;
     private final Provider<MissionEditDialog> missionEditDetailsDialogProvider;
+    private final Provider<AssetSummaryView> assetSummaryViewProvider;
 
     private final ViewProps props;
     private final Rules rules;
@@ -91,6 +95,7 @@ public class AirfieldDialog {
                           final Provider<MainMapView> mapViewProvider,
                           final Provider<MissionAddDialog> missionAddDetailsDialogProvider,
                           final Provider<MissionEditDialog> missionEditDetailsDialogProvider,
+                          final Provider<AssetSummaryView> assetSummaryViewProvider,
                           final ViewProps props,
                           final Rules rules) {
     //CHECKSTYLE:ON
@@ -101,6 +106,7 @@ public class AirfieldDialog {
         this.mapViewProvider = mapViewProvider;
         this.missionAddDetailsDialogProvider = missionAddDetailsDialogProvider;
         this.missionEditDetailsDialogProvider = missionEditDetailsDialogProvider;
+        this.assetSummaryViewProvider = assetSummaryViewProvider;
         this.props = props;
         this.rules = rules;
     }
@@ -132,6 +138,8 @@ public class AirfieldDialog {
         dialog.getOkButton().setOnAction(event -> ok());
 
         initializeMissionTable();
+
+        showAssetSummary();
 
         dialog.show(stage);
 
@@ -328,6 +336,7 @@ public class AirfieldDialog {
         airbase.clearPatrolsAndMissions();
         updatePatrolsAndMissions();
         mapView.drawPatrolRadii(airbase);
+        assetSummaryViewProvider.get().hide();
         stage.close();
     }
 
@@ -335,6 +344,7 @@ public class AirfieldDialog {
      * Call back for the cancel button.
      */
     private void cancel() {
+        assetSummaryViewProvider.get().hide();
         stage.close();
     }
 
@@ -713,5 +723,14 @@ public class AirfieldDialog {
                 .filter(allowed::contains)
                 .findFirst()
                 .orElse(SquadronConfig.NONE);
+    }
+
+    /**
+     * Show the airfield asset summary.
+     */
+    private void showAssetSummary() {
+        Label label = new Label(airbase.getTitle());
+        HBox hBox = new HBox(label);
+        assetSummaryViewProvider.get().show(hBox);
     }
 }

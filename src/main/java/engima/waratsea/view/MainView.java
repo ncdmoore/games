@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.utility.CssResourceProvider;
+import engima.waratsea.view.asset.AssetSummaryView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.turn.TurnView;
 import engima.waratsea.view.weather.WeatherView;
@@ -34,6 +35,7 @@ public class MainView {
     private MainMenu mainMenu;
     private WeatherView weatherView;
     private TurnView turnView;
+    private AssetSummaryView assetSummaryView;
 
     /**
      * Constructor called by guice.
@@ -43,6 +45,7 @@ public class MainView {
      * @param mainMenu The main game menu.
      * @param weatherView The weather view.
      * @param turnView The turn view.
+     * @param assetSummaryView The asset summary view.
      */
     @Inject
     public MainView(final CssResourceProvider cssResourceProvider,
@@ -50,13 +53,15 @@ public class MainView {
                     final MainMapView mainMapView,
                     final MainMenu mainMenu,
                     final WeatherView weatherView,
-                    final TurnView turnView) {
+                    final TurnView turnView,
+                    final AssetSummaryView assetSummaryView) {
         this.cssResourceProvider = cssResourceProvider;
         this.game = game;
         this.mainMapView = mainMapView;
         this.mainMenu = mainMenu;
         this.weatherView = weatherView;
         this.turnView = turnView;
+        this.assetSummaryView = assetSummaryView;
     }
 
     /**
@@ -81,6 +86,7 @@ public class MainView {
         Node map = mainMapView.build();
         Node weather = weatherView.build();
         Node turn = turnView.build();
+        Node assetSummary = assetSummaryView.build();
 
         VBox leftVbox = new VBox(weather, turn);
         VBox mapVbox = new VBox(map);
@@ -89,9 +95,11 @@ public class MainView {
         sp.setContent(mapVbox);
         sp.setFitToWidth(true);
 
+        VBox centerVbox = new VBox(sp, assetSummary);
+
         mainPane.setTop(menuBar);
         mainPane.setLeft(leftVbox);
-        mainPane.setCenter(sp);
+        mainPane.setCenter(centerVbox);
 
         Scene scene = new Scene(mainPane, primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
 
