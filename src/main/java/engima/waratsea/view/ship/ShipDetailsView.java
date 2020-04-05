@@ -118,7 +118,7 @@ public class ShipDetailsView {
         detailsVBox.setId("details-pane");
 
         Node weaponComponentsVBox = buildWeapons(ship);
-        weaponComponentsVBox.setId("components-pane");
+        weaponComponentsVBox.getStyleClass().add("components-pane");
 
         HBox leftHBox = new HBox(detailsVBox, weaponComponentsVBox);
         leftHBox.setId("left-hbox");
@@ -128,10 +128,10 @@ public class ShipDetailsView {
         VBox leftVBox = new VBox(leftHBox, profileBox);
         leftVBox.setId("left-vbox");
 
-        Node performanceComponetsVBox = buildPerformance(ship);
-        performanceComponetsVBox.setId("components-pane");
+        Node performanceComponentsVBox = buildPerformance(ship);
+        performanceComponentsVBox.getStyleClass().add("components-pane");
 
-        HBox hBox = new HBox(leftVBox, performanceComponetsVBox);
+        HBox hBox = new HBox(leftVBox, performanceComponentsVBox);
         hBox.setId("main-hbox");
 
         Tab shipTab = new Tab("Specifications");

@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/SearchPatrol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/SearchPatrol.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/rules/PatrolSearchRules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/rules/PatrolSearchRules.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/util/TitledGridPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/util/TitledGridPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Skua.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Skua.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ship/ShipDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ship/ShipDetailsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/shipDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/shipDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/shipDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/shipDetails.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -289,13 +286,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00154" summary="Add takeoff type to aircraft.">
-      <created>1584748564651</created>
-      <option name="number" value="00154" />
-      <option name="presentableId" value="LOCAL-00154" />
-      <option name="project" value="LOCAL" />
-      <updated>1584748564651</updated>
     </task>
     <task id="LOCAL-00155" summary="Add Bomber and Recon subclasses to Aircraft.">
       <created>1584797530512</created>
@@ -633,7 +623,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586048425013</updated>
     </task>
-    <option name="localTasksCounter" value="203" />
+    <task id="LOCAL-00203" summary="Fix Patrol bug with radius.">
+      <created>1586054919161</created>
+      <option name="number" value="00203" />
+      <option name="presentableId" value="LOCAL-00203" />
+      <option name="project" value="LOCAL" />
+      <updated>1586054919161</updated>
+    </task>
+    <option name="localTasksCounter" value="204" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -647,7 +644,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix individual probability bugs." />
     <MESSAGE value="Add airfield information to squadron forces dialog." />
     <MESSAGE value="Sort targets and squadrons." />
     <MESSAGE value="Add tooltip to for air base squadrons to the base markers." />
@@ -672,7 +668,8 @@
     <MESSAGE value="Add the ability to return to the main start-up screen from the main game screen." />
     <MESSAGE value="Minor cleanup" />
     <MESSAGE value="Add an asset summary tab." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add an asset summary tab." />
+    <MESSAGE value="Fix Patrol bug with radius." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix Patrol bug with radius." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585517448530">
@@ -711,42 +708,42 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1585626150761" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1586048419308">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1586054918083">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1586048419308" />
-    <state width="1738" height="334" key="GridCell.Tab.0.bottom" timestamp="1586054768268">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1586054918083" />
+    <state width="1738" height="257" key="GridCell.Tab.0.bottom" timestamp="1586055881246">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1738" height="334" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1586054768268" />
-    <state width="1738" height="334" key="GridCell.Tab.0.center" timestamp="1586054768268">
+    <state width="1738" height="257" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1586055881246" />
+    <state width="1738" height="257" key="GridCell.Tab.0.center" timestamp="1586055881245">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1738" height="334" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1586054768268" />
-    <state width="1738" height="334" key="GridCell.Tab.0.left" timestamp="1586054768267">
+    <state width="1738" height="257" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1586055881245" />
+    <state width="1738" height="257" key="GridCell.Tab.0.left" timestamp="1586055881244">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1738" height="334" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1586054768267" />
-    <state width="1738" height="334" key="GridCell.Tab.0.right" timestamp="1586054768268">
+    <state width="1738" height="257" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1586055881244" />
+    <state width="1738" height="257" key="GridCell.Tab.0.right" timestamp="1586055881245">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1738" height="334" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1586054768268" />
-    <state width="1738" height="334" key="GridCell.Tab.1.bottom" timestamp="1586054787519">
+    <state width="1738" height="257" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1586055881245" />
+    <state width="1738" height="334" key="GridCell.Tab.1.bottom" timestamp="1586055074264">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1738" height="334" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1586054787519" />
-    <state width="1738" height="334" key="GridCell.Tab.1.center" timestamp="1586054787519">
+    <state width="1738" height="334" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1586055074264" />
+    <state width="1738" height="334" key="GridCell.Tab.1.center" timestamp="1586055074263">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1738" height="334" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1586054787519" />
-    <state width="1738" height="334" key="GridCell.Tab.1.left" timestamp="1586054787519">
+    <state width="1738" height="334" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1586055074263" />
+    <state width="1738" height="334" key="GridCell.Tab.1.left" timestamp="1586055074263">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1738" height="334" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1586054787519" />
-    <state width="1738" height="334" key="GridCell.Tab.1.right" timestamp="1586054787519">
+    <state width="1738" height="334" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1586055074263" />
+    <state width="1738" height="334" key="GridCell.Tab.1.right" timestamp="1586055074264">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1738" height="334" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1586054787519" />
+    <state width="1738" height="334" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1586055074264" />
     <state x="1406" y="420" key="RollbackChangesDialog" timestamp="1586044739962">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -763,10 +760,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1427" y="415" key="VCS.ChangeListViewerDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1585753899611" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1586048430472">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1586054923989">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1586048430472" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1586054923989" />
     <state x="268" y="115" width="2059" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1585363286063">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -795,11 +792,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/rules/PatrolSearchRules.java</url>
-          <line>142</line>
-          <option name="timeStamp" value="49" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/rules/PatrolSearchRules.java</url>
           <line>97</line>
