@@ -129,10 +129,10 @@ public class ScenarioView {
         Image image = imageResourceProvider.getImage(name, scenario.getImage());
         scenarioImage.setImage(image);
 
-        Image axisFlagImage = imageResourceProvider.getImage(name, "axisFlag50x34.png");
+        Image axisFlagImage = imageResourceProvider.getImage(name, props.getString("axis.flag.medium.image"));
         axisFlag.setImage(axisFlagImage);
 
-        Image alliesFlagImage = imageResourceProvider.getImage(name, "alliesFlag50x34.png");
+        Image alliesFlagImage = imageResourceProvider.getImage(name, props.getString("allies.flag.medium.image"));
         alliesFlag.setImage(alliesFlagImage);
 
     }
@@ -189,8 +189,8 @@ public class ScenarioView {
      */
     private Node buildRadioButtons() {
 
-        alliesFlag = imageResourceProvider.getImageView("alliesFlag50x34.png");
-        axisFlag = imageResourceProvider.getImageView("axisFlag50x34.png");
+        alliesFlag = imageResourceProvider.getImageView(props.getString("allies.flag.medium.image"));
+        axisFlag = imageResourceProvider.getImageView(props.getString("axis.flag.medium.image"));
 
         radioButtonAllies = new RadioButton("Allies");
         radioButtonAxis = new RadioButton("Axis");

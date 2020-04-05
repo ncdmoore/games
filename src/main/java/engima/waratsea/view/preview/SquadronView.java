@@ -54,7 +54,7 @@ import java.util.stream.Stream;
  */
 public class SquadronView {
     private static final String CSS_FILE = "squadronView.css";
-    private static final String ROUNDEL_SIZE = "20x20.png";
+    private static final String ROUNDEL = ".roundel.image";
 
     private ViewProps props;
     private CssResourceProvider cssResourceProvider;
@@ -77,8 +77,6 @@ public class SquadronView {
     private GameMap gameMap;
 
     private TaskForcePreviewMapView taskForceMap;
-
-    private Map<Nation, String> flags = new HashMap<>();
 
     private Map<Nation, Label> regionMinimumValue = new HashMap<>();
     private Map<Nation, Label> regionMaximumValue = new HashMap<>();
@@ -118,16 +116,8 @@ public class SquadronView {
         this.gameMap = gameMap;
         this.taskForceMap = taskForceMap;
 
-        flags.put(Nation.BRITISH, "britishFlag50x34.png");
-        flags.put(Nation.ITALIAN, "axisFlag50x34.png");
-        flags.put(Nation.GERMAN, "germanFlag50x34.png");
-        flags.put(Nation.FRENCH, "axisFlag50x34.png");
-        flags.put(Nation.UNITED_STATES, "alliesFlag50x34.png");
-        flags.put(Nation.JAPANESE, "axisFlag50x34.png");
-        flags.put(Nation.AUSTRALIAN, "australian50x34.png");
-
-        Image redX = imageResourceProvider.getImage("red-x18x18.png");
-        Image greenCheck = imageResourceProvider.getImage("greenCheck18x18.png");
+        Image redX = imageResourceProvider.getImage(props.getString("redX.image"));
+        Image greenCheck = imageResourceProvider.getImage(props.getString("greenCheck.image"));
 
         imageMap.put(true, greenCheck);
         imageMap.put(false, redX);
@@ -310,7 +300,9 @@ public class SquadronView {
                 .getHumanPlayer()
                 .getNations()
                 .stream()
-                .map(nation -> imageResourceProvider.getImageView(scenario.getName(), flags.get(nation)))
+                .map(nation -> nation.toString() + ".flag.image")
+                .map(flagName -> props.getString(flagName))
+                .map(flagImage -> imageResourceProvider.getImageView(scenario.getName(), flagImage))
                 .collect(Collectors.toList());
 
         HBox hBox = new HBox();
@@ -514,7 +506,7 @@ public class SquadronView {
 
         tab.setContent(vBox);
 
-        ImageView roundel = imageResourceProvider.getImageView(nation + ROUNDEL_SIZE);
+        ImageView roundel = imageResourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
 
         tab.setGraphic(roundel);
         return tab;
@@ -619,8 +611,8 @@ public class SquadronView {
         availableSquadrons.setMinWidth(props.getInt("squadron.tabPane.width"));
         availableSquadrons.setMaxWidth(props.getInt("squadron.tabPane.width"));
 
-        deployButton.setGraphic(imageResourceProvider.getImageView("rightArrow.png"));
-        removeButton.setGraphic(imageResourceProvider.getImageView("leftArrow.png"));
+        deployButton.setGraphic(imageResourceProvider.getImageView(props.getString("right.arrow.image")));
+        removeButton.setGraphic(imageResourceProvider.getImageView(props.getString("left.arrow.image")));
 
         deployButton.setMinWidth(props.getInt("squadron.button.width"));
         deployButton.setMaxWidth(props.getInt("squadron.button.width"));

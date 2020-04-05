@@ -82,9 +82,9 @@ public class BaseMarker {
         BaseGridType type = baseGrid.getType();
 
         final String imagePrefix = baseGrid.getSide().getValue().toLowerCase();
-        this.imageView = new VBox(imageResourceProvider.getImageView(scenarioName, imagePrefix + type.getValue() + ".png"));
-        this.roundel = new VBox(imageResourceProvider.getImageView(scenarioName, imagePrefix + "Roundel12x12.png"));
-        this.flag = new VBox(imageResourceProvider.getImageView(scenarioName, imagePrefix + "Flag18x12.png"));
+        this.imageView = new VBox(imageResourceProvider.getImageView(scenarioName, props.getString(imagePrefix + "." + type.toLower() + ".base.icon")));
+        this.roundel = new VBox(imageResourceProvider.getImageView(scenarioName, props.getString(imagePrefix + ".roundel.small.image")));
+        this.flag = new VBox(imageResourceProvider.getImageView(scenarioName, props.getString(imagePrefix + ".flag.small.image")));
 
         imageView.setLayoutX(gridView.getX());
         imageView.setLayoutY(gridView.getY());

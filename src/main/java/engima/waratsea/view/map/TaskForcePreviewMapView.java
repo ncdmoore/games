@@ -77,7 +77,7 @@ public class TaskForcePreviewMapView {
      * @return The node containing the map grid.
      */
     public Node draw() {
-        imageView = imageResourceProvider.getImageView("previewMap.png");
+        imageView = imageResourceProvider.getImageView(props.getString("preview.map.image"));
         int gridSize = props.getInt("taskforce.previewMap.gridSize");
 
         Node grid = mapView.draw(imageView, gridSize);
@@ -322,7 +322,7 @@ public class TaskForcePreviewMapView {
         gridPane.add(seaplaneLabel, col3, 1);
         seaplaneLabel.setTooltip(new Tooltip("Can station only seaplane squadrons"));
 
-        Node rangeKey = SquadronRangeMarker.getLegend(0, 0, gridSize / 2);
+        Node rangeKey = SquadronRangeMarker.getLegend(0, 0, (double) gridSize / 2);
         Label rangeLabel = new Label("Combat Radius");
         rangeLabel.setTooltip(new Tooltip("Outer circle: squadron equipped with drop tanks"));
 

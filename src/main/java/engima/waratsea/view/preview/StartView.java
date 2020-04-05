@@ -65,8 +65,8 @@ public class StartView {
     public void show(final Stage stage) {
         int paneWidth = props.getInt("start.image.width");
 
-        ImageView alliesFlag = imageResourceProvider.getImageView("alliesFlag.png");
-        ImageView axisFlag = imageResourceProvider.getImageView("axisFlag.png");
+        ImageView alliesFlag = imageResourceProvider.getImageView(props.getString("allies.flag.large.image"));
+        ImageView axisFlag = imageResourceProvider.getImageView(props.getString("axis.flag.large.image"));
 
         HBox hBox = new HBox(alliesFlag, axisFlag);
         hBox.setId("flags");
@@ -80,7 +80,7 @@ public class StartView {
 
         Node buttons = buildButtons();
 
-        ImageView backGroundImageView = imageResourceProvider.getImageView("start.png");
+        ImageView backGroundImageView = imageResourceProvider.getImageView(props.getString("start.image"));
 
         StackPane mainPane = new StackPane(backGroundImageView, buttons);
         mainPane.setId("main-pane");

@@ -82,4 +82,13 @@ public enum TurnType {
         return value;
     }
 
+    /**
+     * Get the lower case string representation.
+     *
+     * @return The lower case string representation.
+     */
+    public String toLower() {
+        return toString().toLowerCase();
+    }
+
 }

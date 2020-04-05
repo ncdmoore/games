@@ -74,4 +74,13 @@ public enum AirMissionType {
     public String toString() {
         return value;
     }
+
+    /**
+     * Get the String lower case representation of this enum.
+     *
+     * @return The String lower case representation of this enum.
+     */
+    public String toLower() {
+        return toString().toLowerCase();
+    }
 }

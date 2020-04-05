@@ -54,7 +54,7 @@ public class PatrolView {
         this.props = props;
 
         Stream.of(PatrolType.values()).forEach(patrolType -> {
-            patrolListMap.put(patrolType, new ListViewPair<>("patrol", imageResourceProvider));
+            patrolListMap.put(patrolType, new ListViewPair<>("patrol", props, imageResourceProvider));
             patrolSquadronMap.put(patrolType, squadronSummaryViewProvider.get());
             patrolStatsMap.put(patrolType, airfieldPatrolStatsViewProvider.get());
         });

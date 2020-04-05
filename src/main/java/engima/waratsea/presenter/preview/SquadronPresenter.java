@@ -593,7 +593,7 @@ public class SquadronPresenter implements Presenter {
                     view.getAirfieldSteps().get(nation).get(type).setText(selectedAirfield.getStepsForType(type) + "");
                 });
             } else {
-                warnDialogProvider.get().show("Unable to deploy squadron to " + selectedAirfield.getName() + ". " + result + ".");
+                warnDialogProvider.get().show("Unable to deploy squadron to " + selectedAirfield.getTitle() + ". " + result + ".");
             }
         }
     }

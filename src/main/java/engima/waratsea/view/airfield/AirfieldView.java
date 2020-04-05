@@ -5,6 +5,7 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.mission.MissionView;
 import engima.waratsea.view.airfield.patrol.PatrolView;
 import engima.waratsea.view.airfield.ready.AirfieldReadyView;
@@ -21,16 +22,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * The airfield detials dialog view.
+ * The airfield details dialog view.
  */
 public class AirfieldView {
-    private static final String ROUNDEL_SIZE = "20x20.png";
+    private static final String ROUNDEL = ".roundel.image";
 
     private final ImageResourceProvider imageResourceProvider;
     private final Provider<AirfieldSummaryView> airfieldSummaryViewProvider;
     private final Provider<MissionView> airfieldMissionViewProvider;
     private final Provider<PatrolView> airfieldPatrolViewProvider;
     private final Provider<AirfieldReadyView> airfieldReadyViewProvider;
+    private final ViewProps props;
 
     private Airbase airbase;
 
@@ -48,19 +50,22 @@ public class AirfieldView {
      * @param airfieldMissionViewProvider Provides the airfield mission view.
      * @param airfieldPatrolViewProvider  Provides the airfield patrol view.
      * @param airfieldReadyViewProvider   Provides the airfield ready view.
+     * @param props The view properties.
      */
     @Inject
     public AirfieldView(final ImageResourceProvider imageResourceProvider,
                         final Provider<AirfieldSummaryView> airfieldSummaryViewProvider,
                         final Provider<MissionView> airfieldMissionViewProvider,
                         final Provider<PatrolView> airfieldPatrolViewProvider,
-                        final Provider<AirfieldReadyView> airfieldReadyViewProvider) {
+                        final Provider<AirfieldReadyView> airfieldReadyViewProvider,
+                        final ViewProps props) {
         this.imageResourceProvider = imageResourceProvider;
 
         this.airfieldSummaryViewProvider = airfieldSummaryViewProvider;
         this.airfieldMissionViewProvider = airfieldMissionViewProvider;
         this.airfieldPatrolViewProvider = airfieldPatrolViewProvider;
         this.airfieldReadyViewProvider = airfieldReadyViewProvider;
+        this.props = props;
     }
 
     /**
@@ -117,7 +122,7 @@ public class AirfieldView {
         HBox hBox = new HBox(summary, accordion);
         hBox.setId("main-pane");
 
-        ImageView roundel = imageResourceProvider.getImageView(nation + ROUNDEL_SIZE);
+        ImageView roundel = imageResourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
 
         tab.setGraphic(roundel);
         tab.setContent(hBox);

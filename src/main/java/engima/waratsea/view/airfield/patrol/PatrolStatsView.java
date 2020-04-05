@@ -141,7 +141,7 @@ public class PatrolStatsView {
         Paint paint = affectedByWeather ? Color.RED : Color.BLACK;
         label.setTextFill(paint);
 
-        ImageView image = imageProvider.getImageView(weather.getCurrent().toString().toLowerCase() + "50x50.png");
+        ImageView image = imageProvider.getImageView(props.getString(weather.getCurrent().toLower() + ".small.image"));
         VBox imageBox = new VBox(label, image);
 
         imageBox.setId("patrol-weather-box");

@@ -162,7 +162,7 @@ public class MissionEditDialog {
 
         missionDetails.setSelectedTarget(selectedTarget);
 
-        view.getImageView().setImage(imageResourceProvider.getImage(nation.toString() + selectedMissionType.toString() + ".png"));
+        view.getImageView().setImage(imageResourceProvider.getImage(props.getString(nation.toLower() + "." + selectedMissionType.toLower() + ".image")));
 
         missionDetails.updateTargetView(mission, selectedMissionType);
 

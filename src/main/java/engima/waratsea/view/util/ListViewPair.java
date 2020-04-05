@@ -1,6 +1,7 @@
 package engima.waratsea.view.util;
 
 import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,44 +15,31 @@ import java.util.List;
 import java.util.Optional;
 
 public class ListViewPair<T> {
-
     private final String name;
 
-    @Setter
-    private int width;
-
-    @Setter
-    private int height;
-
-    @Setter
-    private int buttonWidth;
+    @Setter private int width;
+    @Setter private int height;
+    @Setter private int buttonWidth;
+    @Getter private ListView<T> available = new ListView<>();
+    @Getter private ListView<T> assigned = new ListView<>();
+    @Getter private Button add = new Button();
+    @Getter private Button remove = new Button();
 
     private Label availableLabel = new Label();
-
-    @Getter
-    private ListView<T> available = new ListView<>();
-
     private Label assignedLabel = new Label();
 
-    @Getter
-    private ListView<T> assigned = new ListView<>();
-
-    @Getter
-    private Button add = new Button();
-
-    @Getter
-    private Button remove = new Button();
-
+    private final ViewProps props;
     private final ImageResourceProvider imageResourceProvider;
 
     /**
      * Constructor called by guice.
-     *
-     * @param name The name used in CSS.
+     *  @param name The name used in CSS.
+     * @param props The view properties.
      * @param imageResourceProvider Provides images.
      */
-    public ListViewPair(final String name, final ImageResourceProvider imageResourceProvider) {
+    public ListViewPair(final String name, final ViewProps props, final ImageResourceProvider imageResourceProvider) {
         this.name = name;
+        this.props = props;
         this.imageResourceProvider = imageResourceProvider;
         add.setDisable(true);
         remove.setDisable(true);
@@ -81,8 +69,8 @@ public class ListViewPair<T> {
      * @return A node that contains the listView pair.
      */
     public Node build() {
-        add.setGraphic(imageResourceProvider.getImageView("rightArrow.png"));
-        remove.setGraphic(imageResourceProvider.getImageView("leftArrow.png"));
+        add.setGraphic(imageResourceProvider.getImageView(props.getString("right.arrow.image")));
+        remove.setGraphic(imageResourceProvider.getImageView(props.getString("left.arrow.image")));
 
         available.setMinWidth(width);
         available.setMaxWidth(width);

@@ -75,7 +75,7 @@ public class AirfieldSummaryView {
     public Node show(final Nation nation) {
         AirfieldType airfieldType = airbase.getAirfieldType();
 
-        ImageView airfieldView = imageResourceProvider.getImageView(nation + "Airfield" + airfieldType + "Details.png");
+        ImageView airfieldView = imageResourceProvider.getImageView(props.getString(nation + ".airfield." + airfieldType + ".image"));
 
         TitledPane airfieldTitle = buildAirfieldTitle();
         TitledGridPane airfieldDetails = buildAirfieldDetails(nation);

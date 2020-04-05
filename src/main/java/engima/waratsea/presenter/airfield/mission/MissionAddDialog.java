@@ -238,7 +238,7 @@ public class MissionAddDialog {
         clearNonMainRoleTabs();
         addNonMainRoleTabs();
 
-        view.getImageView().setImage(imageResourceProvider.getImage(nation.toString() + missionType.toString() + ".png"));
+        view.getImageView().setImage(imageResourceProvider.getImage(props.getString(nation.toLower() + "." + missionType.toLower() + ".image")));
 
         view.getTarget().getItems().clear();
 

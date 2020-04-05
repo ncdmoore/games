@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import engima.waratsea.model.flotilla.Flotilla;
 import engima.waratsea.model.flotilla.FlotillaType;
 import engima.waratsea.model.game.Game;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
@@ -70,8 +69,6 @@ public class FlotillaView {
 
     private TilePane vesselPane;
 
-    private Map<Side, String> flags = new HashMap<>();
-
     /**
      * Constructor called by guice.
      *
@@ -95,9 +92,8 @@ public class FlotillaView {
 
         this.flotillaMap = flotillaMap;
 
-        flags.put(Side.ALLIES, "alliesFlag50x34.png");
-        flags.put(Side.AXIS, "axisFlag50x34.png");
     }
+
     /**
      * Show the task forces summary view.
      *
@@ -214,7 +210,7 @@ public class FlotillaView {
      */
     private Node buildObjectives(final Scenario scenario) {
         Label objectiveLabel = new Label("Objectives: Current Submarine Deployment.");
-        ImageView flag = imageResourceProvider.getImageView(scenario.getName(), flags.get(game.getHumanSide()));
+        ImageView flag = imageResourceProvider.getImageView(scenario.getName(), props.getString(game.getHumanSide().toLower() + ".flag.medium.image"));
 
         HBox hBox = new HBox(flag, objectiveLabel);
         hBox.setId("objectives-pane");

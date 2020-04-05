@@ -3,7 +3,6 @@ package engima.waratsea.view.preview;
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.game.Game;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
@@ -90,8 +89,6 @@ public class TaskForceView {
     private TabPane taskForceTabPane = new TabPane();
     private Map<ShipViewType, Tab> taskForceTabs = new HashMap<>();
 
-    private Map<Side, String> flags = new HashMap<>();
-
     /**
      * Constructor called by guice.
      *
@@ -113,9 +110,6 @@ public class TaskForceView {
         this.imageResourceProvider = imageResourceProvider;
         this.game = game;
         this.taskForceMap = taskForceMap;
-
-        flags.put(Side.ALLIES, "alliesFlag50x34.png");
-        flags.put(Side.AXIS, "axisFlag50x34.png");
     }
 
     /**
@@ -167,7 +161,7 @@ public class TaskForceView {
     private Node buildObjectives(final Scenario scenario) {
         Label objectiveLabel = new Label("Objectives:");
         Label objectiveValue = new Label(scenario.getObjectives());
-        ImageView flag = imageResourceProvider.getImageView(scenario.getName(), flags.get(game.getHumanSide()));
+        ImageView flag = imageResourceProvider.getImageView(scenario.getName(), props.getString(game.getHumanSide().toLower() + ".flag.medium.image"));
 
         HBox hBox = new HBox(flag, objectiveLabel, objectiveValue);
         hBox.setId("objective-pane");

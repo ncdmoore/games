@@ -46,7 +46,7 @@ public class TurnView {
         TitledPane titledPane = new TitledPane();
         titledPane.setText("Turn");
 
-        ImageView imageView = imageResourceProvider.getImageView(turn.getType() + ".png");
+        ImageView imageView = imageResourceProvider.getImageView(props.getString(turn.getType().toLower() + ".image"));
 
         HBox hBox = new HBox(imageView);
         hBox.setId("turn-image-pane");

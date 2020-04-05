@@ -19,18 +19,22 @@ public class WarnDialog {
 
     private CssResourceProvider cssResourceProvider;
     private ImageResourceProvider imageResourceProvider;
+    private ViewProps props;
 
     /**
      * Constructor called by guice.
      *
      * @param cssResourceProvider provides css files.
      * @param imageResourceProvider provides images.
+     * @param props View properties.
      */
     @Inject
     public WarnDialog(final CssResourceProvider cssResourceProvider,
-                      final ImageResourceProvider imageResourceProvider) {
+                      final ImageResourceProvider imageResourceProvider,
+                      final ViewProps props) {
         this.cssResourceProvider = cssResourceProvider;
         this.imageResourceProvider = imageResourceProvider;
+        this.props = props;
     }
 
     /**
@@ -43,9 +47,9 @@ public class WarnDialog {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Warning");
-        stage.setMinWidth(250);
+        stage.setMinWidth(props.getInt("warn.dialog.stage.width"));
 
-        ImageView imageView = imageResourceProvider.getImageView("warnIcon30x28.png");
+        ImageView imageView = imageResourceProvider.getImageView(props.getString("warn.small.icon"));
         Label label = new Label(message);
 
         HBox hBox = new HBox(imageView, label);
@@ -54,10 +58,12 @@ public class WarnDialog {
         Button ok = new Button("Ok");
         ok.setOnAction(event -> close(stage));
 
-        VBox vBox = new VBox(20, hBox, ok);
+        VBox vBox = new VBox(hBox, ok);
         vBox.setId("main-pane");
 
-        Scene scene = new Scene(vBox, 800, 150);
+        int width = props.getInt("warn.dialog.scene.width");
+        int height = props.getInt("warn.dialog.scene.height");
+        Scene scene = new Scene(vBox, width, height);
 
         scene.getStylesheets().add(cssResourceProvider.get(CSS_FILE));
 

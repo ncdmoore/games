@@ -85,7 +85,7 @@ public class MainMapView {
         baseMarkers.put(Side.ALLIES, new ArrayList<>());
         baseMarkers.put(Side.AXIS, new ArrayList<>());
 
-        mapImageView = imageResourceProvider.getImageView("mainMap.png");
+        mapImageView = imageResourceProvider.getImageView(props.getString("main.map.image"));
         int gridSize = props.getInt("taskforce.mainMap.gridSize");
 
         Node mapGrid = mapView.draw(mapImageView, gridSize);

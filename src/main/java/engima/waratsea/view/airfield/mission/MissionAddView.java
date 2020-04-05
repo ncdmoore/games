@@ -273,7 +273,7 @@ public class MissionAddView implements MissionDetailsView {
      * @param role The squadrons role.
      */
     private void createSquadronList(final MissionRole role) {
-        squadrons.put(role, new ListViewPair<>("missions", imageResourceProvider));
+        squadrons.put(role, new ListViewPair<>("missions", props, imageResourceProvider));
         stackPanes.put(role, new StackPane());
 
         Label label = new Label();

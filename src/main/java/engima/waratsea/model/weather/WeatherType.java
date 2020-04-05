@@ -77,4 +77,13 @@ public enum WeatherType {
     public String toString() {
         return value;
     }
+
+    /**
+     * Get the lower case String representation of this enum.
+     *
+     * @return THe lower case String representation of this enum.
+     */
+    public String toLower() {
+        return toString().toLowerCase();
+    }
 }

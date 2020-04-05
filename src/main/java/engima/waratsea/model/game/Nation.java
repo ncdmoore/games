@@ -94,6 +94,15 @@ public enum Nation implements Comparator<Nation> {
     }
 
     /**
+     * Get the lower case String representation of the nation.
+     *
+     * @return The lower case String representation of the nation.
+     */
+    public String toLower() {
+        return toString().toLowerCase();
+    }
+
+    /**
      * Compares its two arguments for order.  Returns a negative integer,
      * zero, or a positive integer as the first argument is less than, equal
      * to, or greater than the second.<p>

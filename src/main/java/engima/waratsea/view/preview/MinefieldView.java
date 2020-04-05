@@ -2,7 +2,6 @@ package engima.waratsea.view.preview;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.game.Game;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.presenter.dto.map.MinefieldDTO;
@@ -25,9 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Getter;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents the minefield view.
@@ -56,8 +53,6 @@ public class MinefieldView {
     private Label minesAvailableValue = new Label();
     private Label minesDeployedValue = new Label();
 
-    private Map<Side, String> flags = new HashMap<>();
-
     /**
      * Constructor called by guice.
      *
@@ -82,9 +77,6 @@ public class MinefieldView {
         this.game = game;
 
         minefieldMap.setSide(game.getHumanSide());
-
-        flags.put(Side.ALLIES, "alliesFlag50x34.png");
-        flags.put(Side.AXIS, "axisFlag50x34.png");
     }
 
     /**
@@ -201,7 +193,7 @@ public class MinefieldView {
      */
     private Node buildObjectives(final Scenario scenario) {
         Label objectiveLabel = new Label("Objectives: Place available mines in each minefield zone.");
-        ImageView flag = imageResourceProvider.getImageView(scenario.getName(), flags.get(game.getHumanSide()));
+        ImageView flag = imageResourceProvider.getImageView(scenario.getName(), props.getString(game.getHumanSide().toLower() + ".flag.medium.image"));
 
         HBox hBox = new HBox(flag, objectiveLabel);
         hBox.setId("objectives-pane");

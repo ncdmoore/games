@@ -27,5 +27,12 @@ public enum BaseGridType {
         this.value = value;
     }
 
-
+    /**
+     * Get the lower case String version of the value.
+     *
+     * @return The String representation of this enum in lower case.
+     */
+    public String toLower() {
+        return value.toLowerCase();
+    }
 }

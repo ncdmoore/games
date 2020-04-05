@@ -44,7 +44,7 @@ public class WeatherView {
 
         Label label = new Label(weather.getCurrent().toString());
 
-        ImageView icon = imageResourceProvider.getImageView(weather.getCurrent().toString().toLowerCase() + ".png");
+        ImageView icon = imageResourceProvider.getImageView(props.getString(weather.getCurrent().toLower() + ".image"));
 
         VBox vBox = new VBox(label, icon);
 

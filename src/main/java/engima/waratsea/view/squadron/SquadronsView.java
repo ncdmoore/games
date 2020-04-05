@@ -6,6 +6,7 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.player.Player;
 import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -18,11 +19,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SquadronsView {
-    private static final String ROUNDEL_SIZE = "20x20.png";
+    private static final String ROUNDEL = ".roundel.image";
     @Getter private Map<Nation, SquadronsNationView> nationView = new HashMap<>();
 
     private final Provider<SquadronsNationView> squadronsNationViewProvider;
     private final ImageResourceProvider imageResourceProvider;
+    private final ViewProps props;
 
     private Player player;
     private SquadronLocationType locationType;
@@ -32,12 +34,15 @@ public class SquadronsView {
      *
      * @param squadronsNationViewProvider The nation's squadron view.
      * @param imageResourceProvider Provides images.
+     * @param props The view properties.
      */
     @Inject
     public SquadronsView(final Provider<SquadronsNationView> squadronsNationViewProvider,
-                         final ImageResourceProvider imageResourceProvider) {
+                         final ImageResourceProvider imageResourceProvider,
+                         final ViewProps props) {
         this.squadronsNationViewProvider = squadronsNationViewProvider;
         this.imageResourceProvider = imageResourceProvider;
+        this.props = props;
     }
 
     /**
@@ -89,7 +94,7 @@ public class SquadronsView {
         SquadronsNationView nationSquadronsView = squadronsNationViewProvider.get();
         nationView.put(nation, nationSquadronsView);
         Node content = nationSquadronsView.build(nation, player.getSquadrons(nation, locationType));
-        ImageView roundel = imageResourceProvider.getImageView(nation + ROUNDEL_SIZE);
+        ImageView roundel = imageResourceProvider.getImageView(props.getString(nation + ROUNDEL));
         tab.setGraphic(roundel);
 
         tab.setContent(content);

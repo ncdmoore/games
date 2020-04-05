@@ -74,7 +74,7 @@ public class MinefieldPreviewMapView {
      * @return The node containing the map grid.
      */
     public Node draw() {
-        ImageView imageView = imageResourceProvider.getImageView("previewMap.png");
+        ImageView imageView = imageResourceProvider.getImageView(props.getString("preview.map.image"));
         int gridSize = props.getInt("taskforce.previewMap.gridSize");
 
         Node grid = mapView.draw(imageView, gridSize);
