@@ -169,7 +169,7 @@ public class SquadronSummaryView {
     private void buildAttacks() {
         attackStats
                 .setWidth(props.getInt("airfield.dialog.profile.width"))
-                .setStyleId("component-grid");
+                .setGridStyleId("component-grid");
 
         ImageView imageView = imageResourceProvider.getImageView("info17x17.png");
         HBox hbox = new HBox(imageView);
@@ -193,7 +193,7 @@ public class SquadronSummaryView {
     private void buildPerformance() {
         performanceStats
                 .setWidth(props.getInt("airfield.dialog.profile.width"))
-                .setStyleId("component-grid");
+                .setGridStyleId("component-grid");
 
         ImageView imageView = imageResourceProvider.getImageView("info17x17.png");
         HBox hbox = new HBox(imageView);

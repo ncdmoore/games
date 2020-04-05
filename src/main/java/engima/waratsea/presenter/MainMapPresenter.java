@@ -6,14 +6,18 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.port.Port;
+import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.presenter.airfield.AirfieldDialog;
 import engima.waratsea.presenter.airfield.patrol.PatrolDialog;
 import engima.waratsea.view.MainMenu;
+import engima.waratsea.view.asset.AirfieldAssetSummaryView;
+import engima.waratsea.view.asset.AssetSummaryView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
 import javafx.event.ActionEvent;
+import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -37,6 +41,8 @@ public class MainMapPresenter {
 
     private Provider<AirfieldDialog> airfieldDetailsDialogProvider;
     private Provider<PatrolDialog> patrolDetailsDialogProvider;
+    private Provider<AssetSummaryView> assetSummaryViewProvider;
+    private Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider;
 
     /**
      * The constructor called by guice.
@@ -45,14 +51,18 @@ public class MainMapPresenter {
      * @param viewProvider Provides the main map view.
      * @param menuProvider Provides the main menu.
      * @param airfieldDetailsDialogProvider Provides airfield details dialog.
-     * @param patrolDetailsDialogProvider Provides partol radius details dialog.
+     * @param patrolDetailsDialogProvider Provides patrol radius details dialog.
+     * @param assetSummaryViewProvider Provides the asset summary view.
+     * @param airfieldAssetSummaryViewProvider Provides the airfield asset summary view.
      */
     @Inject
     public MainMapPresenter(final Game game,
                             final Provider<MainMapView> viewProvider,
                             final Provider<MainMenu> menuProvider,
                             final Provider<AirfieldDialog> airfieldDetailsDialogProvider,
-                            final Provider<PatrolDialog> patrolDetailsDialogProvider) {
+                            final Provider<PatrolDialog> patrolDetailsDialogProvider,
+                            final Provider<AssetSummaryView> assetSummaryViewProvider,
+                            final Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider) {
         this.game = game;
 
         mainMapView = viewProvider.get();
@@ -60,6 +70,8 @@ public class MainMapPresenter {
 
         this.airfieldDetailsDialogProvider = airfieldDetailsDialogProvider;
         this.patrolDetailsDialogProvider = patrolDetailsDialogProvider;
+        this.assetSummaryViewProvider = assetSummaryViewProvider;
+        this.airfieldAssetSummaryViewProvider = airfieldAssetSummaryViewProvider;
     }
 
     /**
@@ -95,7 +107,13 @@ public class MainMapPresenter {
         if (event.getButton() == MouseButton.PRIMARY) {
             VBox imageView = (VBox) event.getSource();
             BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
-            mainMapView.selectMarker(baseMarker);
+            boolean selected = mainMapView.selectMarker(baseMarker);
+
+            if (selected) {
+                addToAssetSummary(baseMarker);
+            } else {
+                removeFromAssetSummary(baseMarker);
+            }
         }
     }
 
@@ -137,5 +155,50 @@ public class MainMapPresenter {
         Circle circle = (Circle) event.getSource();
         List<Patrol> patrols = (List<Patrol>) circle.getUserData();
         patrolDetailsDialogProvider.get().show(patrols);
+    }
+
+    /**
+     * Add the base's airfield to the asset summary if it exists for the given marker.
+     *
+     * @param baseMarker The base marker that was clicked.
+     */
+    private void addToAssetSummary(final BaseMarker baseMarker) {
+        baseMarker
+                .getBaseGrid()
+                .getAirfield()
+                .ifPresent(this::addAirfieldToAssetSummary);
+    }
+
+    /**
+     * Add an airfield to the asset summary.
+     *
+     * @param airfield The airfield to add.
+     */
+    private void addAirfieldToAssetSummary(final Airfield airfield) {
+        AirfieldAssetSummaryView assetView = airfieldAssetSummaryViewProvider.get();
+        Node node = assetView.build();
+        assetView.show(airfield);
+        assetSummaryViewProvider.get().show(AssetType.AIRFIELD, airfield.getTitle(), node);
+    }
+
+    /**
+     * Remove the base's airfield from the asset summary if it exists for the given marker.
+     *
+     * @param baseMarker The base marker that was clicked.
+     */
+    private void removeFromAssetSummary(final BaseMarker baseMarker) {
+        baseMarker
+                .getBaseGrid()
+                .getAirfield()
+                .ifPresent(this::removeAirfieldFromAssetSummary);
+    }
+
+    /**
+     * Remove an airfield from the asset summary.
+     *
+     * @param airfield The airfield to remove.
+     */
+    private void removeAirfieldFromAssetSummary(final Airfield airfield) {
+        assetSummaryViewProvider.get().hide(AssetType.AIRFIELD, airfield.getTitle());
     }
 }

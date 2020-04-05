@@ -29,6 +29,15 @@ public interface SquadronHome {
     Region getRegion(Nation nation);
 
     /**
+     * Get the region's title. The regions title should be independent of the nation. If nations share a region, the
+     * region is represented by a separate java region java object for each nation. This is because each nation's region
+     * has separate requirements. However, the actual map region is the same. Thus the title is the same.
+     *
+     * @return The region's title.
+     */
+    String getRegionTitle();
+
+    /**
      * Get the map reference of the squadron's home base.
      *
      * @return The squadron's home base's map reference.

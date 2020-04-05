@@ -159,6 +159,22 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
+     * Get the region's title. The regions title should
+     * be independent of the nation.
+     *
+     * @return The region's title.
+     */
+    @Override
+    public String getRegionTitle() {
+        return regions
+                .values()
+                .stream()
+                .findFirst()
+                .map(Region::getTitle)
+                .orElse("Unknown");
+    }
+
+    /**
      * Determine if this airfield may be used by the given nation.
      *
      * @param nation The nation.

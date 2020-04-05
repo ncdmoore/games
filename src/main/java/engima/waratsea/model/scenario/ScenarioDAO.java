@@ -59,8 +59,8 @@ public class ScenarioDAO {
                 .filter(this::isReadable)                                                                               //If the directory is not readable exclude it.
                 .map(this::readScenarioSummary)
                 .filter(Optional::isPresent)                                                                            //Filter any null scenarios, these occur when the json file fails to parse.
-                .sorted()                                                                                               //Sort the scenarios.
                 .map(Optional::get)
+                .sorted()                                                                                               //Sort the scenarios.
                 .collect(Collectors.toList());
     }
 

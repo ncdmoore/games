@@ -41,8 +41,7 @@ public class BaseMarker {
 
     private static final int SHADOW_RADIUS = 3;
 
-    @Getter
-    private final BaseGrid baseGrid;
+    @Getter private final BaseGrid baseGrid;
 
     private final MapView mapView;
     private final Game game;
@@ -51,14 +50,9 @@ public class BaseMarker {
     private final VBox flag;
     private final Node title;
 
-    @Getter
-    private final PatrolRadii patrolRadii;
-
-    @Getter
-    private MenuItem airfieldMenuItem;
-
-    @Getter
-    private MenuItem taskForceMenuItem;
+    @Getter private final PatrolRadii patrolRadii;
+    @Getter private MenuItem airfieldMenuItem;
+    @Getter private MenuItem taskForceMenuItem;
 
     private boolean selected = false;
 
@@ -115,23 +109,7 @@ public class BaseMarker {
 
         patrolRadii = new PatrolRadii(mapView, baseGrid, gridView);
 
-
-        if (baseGrid.getSide()  == game.getHumanSide()) {
-
-            ContextMenu contextMenu = new ContextMenu();
-
-            airfieldMenuItem = new MenuItem("Airfield...");
-            airfieldMenuItem.setUserData(getBaseGrid().getAirfield());
-
-            taskForceMenuItem = new MenuItem("Task Forces...");
-            taskForceMenuItem.setDisable(true);
-
-            contextMenu.getItems().addAll(airfieldMenuItem, taskForceMenuItem);
-
-            imageView.setOnContextMenuRequested(e -> contextMenu.show(imageView, e.getScreenX(), e.getScreenY()));
-            roundel.setOnContextMenuRequested(e -> contextMenu.show(imageView, e.getScreenX(), e.getScreenY()));
-            flag.setOnContextMenuRequested(e -> contextMenu.show(imageView, e.getScreenX(), e.getScreenY()));
-        }
+        setUpContextMenus();
     }
 
     /**
@@ -151,8 +129,10 @@ public class BaseMarker {
 
     /**
      * This base marker has been selected.
+     *
+     * @return True if the marker is selected. False if the marker is not selected.
      */
-    public void selectMarker() {
+    public boolean selectMarker() {
         selected = !selected;
 
         if (selected) {
@@ -165,6 +145,7 @@ public class BaseMarker {
         }
 
         drawPatrolRadii();
+        return selected;
     }
 
     /**
@@ -325,5 +306,27 @@ public class BaseMarker {
                 .getAirfield()
                 .map(Airbase::getSquadronMap)
                 .orElse(Collections.emptyMap());
+    }
+
+    /**
+     * Setup the right click context menus for the base marker.
+     */
+    private void setUpContextMenus() {
+        if (baseGrid.getSide()  == game.getHumanSide()) {
+
+            ContextMenu contextMenu = new ContextMenu();
+
+            airfieldMenuItem = new MenuItem("Airfield...");
+            airfieldMenuItem.setUserData(getBaseGrid().getAirfield());
+
+            taskForceMenuItem = new MenuItem("Task Forces...");
+            taskForceMenuItem.setDisable(true);
+
+            contextMenu.getItems().addAll(airfieldMenuItem, taskForceMenuItem);
+
+            imageView.setOnContextMenuRequested(e -> contextMenu.show(imageView, e.getScreenX(), e.getScreenY()));
+            roundel.setOnContextMenuRequested(e -> contextMenu.show(imageView, e.getScreenX(), e.getScreenY()));
+            flag.setOnContextMenuRequested(e -> contextMenu.show(imageView, e.getScreenX(), e.getScreenY()));
+        }
     }
 }

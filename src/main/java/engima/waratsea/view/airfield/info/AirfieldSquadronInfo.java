@@ -18,7 +18,7 @@ public class AirfieldSquadronInfo {
     private Nation nation;
     private Airbase airbase;
 
-    private TitledGridPane squadronCountsPane = new TitledGridPane();
+    private final TitledGridPane squadronCountsPane = new TitledGridPane();
 
     /**
      * Constructor called by guice.
@@ -68,7 +68,7 @@ public class AirfieldSquadronInfo {
      */
     private TitledGridPane buildPane(final TitledGridPane pane) {
         return pane.setWidth(props.getInt("airfield.dialog.airfield.details.width"))
-                .setStyleId("component-grid")
+                .setGridStyleId("component-grid")
                 .buildPane();
     }
 

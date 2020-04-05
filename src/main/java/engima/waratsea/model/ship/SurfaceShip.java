@@ -184,6 +184,17 @@ public class SurfaceShip implements Ship, SquadronHome {
     }
 
     /**
+     * Get the region's title. The regions title should
+     * be independent of the nation.
+     *
+     * @return The region's title.
+     */
+    @Override
+    public String getRegionTitle() {
+        return "Unknown";
+    }
+
+    /**
      * Get the ship's map reference.
      *
      * @return The ship's map reference.

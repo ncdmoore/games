@@ -15,6 +15,15 @@
     -fx-fill: grey;
 }
 
+.asset-component-pane {
+    -fx-collapsible: false;
+}
+
+.component-grid {
+    -fx-background-color: white;
+    -fx-hgap: 15;
+}
+
 #map-base-grid-marker {
     -fx-opacity: 1.0;
 }

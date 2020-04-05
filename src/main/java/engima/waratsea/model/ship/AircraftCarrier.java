@@ -378,6 +378,16 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
+     * Get the region's title. Aircraft carriers do not have regions.
+     *
+     * @return The region's title.
+     */
+    @Override
+    public String getRegionTitle() {
+        return "Unknown";
+    }
+
+    /**
      * Get the ship's name.
      *
      * @return The ship's name.

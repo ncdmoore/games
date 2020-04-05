@@ -35,25 +35,18 @@ import java.util.Map;
 @Slf4j
 @Singleton
 public class MainMapView {
-
     private ImageResourceProvider imageResourceProvider;
     private GameMap gameMap;
     private ViewProps props;
     private Provider<MainMenu> menuProvider;
     private BaseMarkerFactory markerFactory;
 
-
-    @Getter
-    private StackPane map;
-
-    @Getter
-    private ImageView mapImageView;
+    @Getter private StackPane map;
+    @Getter private ImageView mapImageView;
 
     private MapView mapView;
 
     private Map<Side, List<BaseMarker>> baseMarkers = new HashMap<>();
-
-
     private Map<Airbase, BaseMarker> airbases = new HashMap<>();
 
     /**
@@ -79,8 +72,7 @@ public class MainMapView {
         this.markerFactory = markerFactory;
         this.mapView = mapView;
 
-        baseMarkers.put(Side.ALLIES, new ArrayList<>());
-        baseMarkers.put(Side.AXIS, new ArrayList<>());
+
     }
 
     /**
@@ -89,6 +81,9 @@ public class MainMapView {
      * @return The node that contians the map.
      */
     public Node build() {
+        airbases.clear();
+        baseMarkers.put(Side.ALLIES, new ArrayList<>());
+        baseMarkers.put(Side.AXIS, new ArrayList<>());
 
         mapImageView = imageResourceProvider.getImageView("mainMap.png");
         int gridSize = props.getInt("taskforce.mainMap.gridSize");
@@ -140,9 +135,11 @@ public class MainMapView {
      * Draw the given base's marker patrol radii.
      *
      * @param baseMarker A base marker.
+     *
+     * @return True if the marker is selected. False if the marker is not selected.
      */
-    public void selectMarker(final BaseMarker baseMarker) {
-        baseMarker.selectMarker();
+    public boolean selectMarker(final BaseMarker baseMarker) {
+        return baseMarker.selectMarker();
     }
 
     /**

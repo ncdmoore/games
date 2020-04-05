@@ -137,7 +137,7 @@ public class AirfieldSummaryView {
     private TitledGridPane buildAirfieldDetails(final Nation nation) {
         return new TitledGridPane()
                 .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
-                .setStyleId("component-grid")
+                .setGridStyleId("component-grid")
                 .setTitle("Airfield Summary")
                 .buildPane(getAirfieldDetails(nation));
     }
@@ -180,7 +180,7 @@ public class AirfieldSummaryView {
     private TitledGridPane buildAirfieldPatrol(final Nation nation) {
         return new TitledGridPane()
                 .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
-                .setStyleId("component-grid")
+                .setGridStyleId("component-grid")
                 .setTitle("Patrol Summary")
                 .buildPane(getAirfieldPatrolSummary(nation));
     }
@@ -194,7 +194,7 @@ public class AirfieldSummaryView {
     private TitledGridPane buildReady(final Nation nation) {
         return new TitledGridPane()
                 .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
-                .setStyleId("component-grid")
+                .setGridStyleId("component-grid")
                 .setTitle("Ready Summary")
                 .buildPane(getAirfieldReadySummary(nation));
     }

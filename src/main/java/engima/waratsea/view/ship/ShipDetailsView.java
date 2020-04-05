@@ -279,7 +279,7 @@ public class ShipDetailsView {
     private TitledGridPane buildPane(final String title, final Map<String, String> data) {
         return new TitledGridPane()
                 .setWidth(props.getInt("ship.dialog.detailsPane.width"))
-                .setStyleId("component-grid")
+                .setGridStyleId("component-grid")
                 .setTitle(title)
                 .buildPane(data);
     }

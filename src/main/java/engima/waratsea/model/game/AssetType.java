@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
  * Game assets.
  */
 public enum AssetType {
+    AIRFIELD,
+
     @SerializedName(value = "AIRCRAFT", alternate = {"Aircraft", "aircraft"})
     AIRCRAFT,
 
