@@ -3,8 +3,10 @@ package engima.waratsea.view.util;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
@@ -14,9 +16,10 @@ import java.util.Map;
 public class TitledGridPane extends TitledPane {
     private int width;
     private String gridStyleId;
-
+    @Setter private List<ColumnConstraints> columnConstraints;
     @Getter private GridPane gridPane;
     private Map<String, Label> gridValues = new HashMap<>();
+
     /**
      * Set the titled pane's width.
      *
@@ -67,7 +70,6 @@ public class TitledGridPane extends TitledPane {
      * @return An empty titled pane.
      */
     public TitledGridPane buildPane() {
-        gridPane = new GridPane();
         setMinWidth(width);
         setMaxWidth(width);
         setCollapsible(true);
@@ -81,7 +83,6 @@ public class TitledGridPane extends TitledPane {
      * @return A titled pane with the given data displayed in a grid pane.
      */
     public TitledGridPane buildPane(final Map<String, String> data) {
-        gridPane = new GridPane();
         setContent(buildGrid(data));
         setMinWidth(width);
         setMaxWidth(width);
@@ -96,7 +97,6 @@ public class TitledGridPane extends TitledPane {
      * @return A titled pane with the given data displayed in a grid pane.
      */
     public TitledGridPane buildPaneMultiColumn(final Map<String, List<String>> data) {
-        gridPane = new GridPane();
         setContent(buildGridMultiColumn(data));
         setMinWidth(width);
         setMaxWidth(width);
@@ -117,7 +117,7 @@ public class TitledGridPane extends TitledPane {
      * Update an individual grid value.
      *
      * @param key The grid key. The first columns's value.
-     * @param value The grid value. The secod columns's value.
+     * @param value The grid value. The second columns's value.
      */
     public void updateGrid(final String key, final String value) {
         gridValues.get(key).setText(value);
@@ -141,6 +141,7 @@ public class TitledGridPane extends TitledPane {
      * columns. The first column is the key and the second the value.
      */
     private Node buildGrid(final Map<String, String> data) {
+        gridPane = new GridPane();
         int i = 0;
         for (Map.Entry<String, String> entry : data.entrySet()) {
             Label keyLabel = new Label(entry.getKey());
@@ -157,6 +158,10 @@ public class TitledGridPane extends TitledPane {
             gridPane.getStyleClass().add(gridStyleId);
         }
 
+        if (columnConstraints != null) {
+            gridPane.getColumnConstraints().addAll(columnConstraints);
+        }
+
         return gridPane;
     }
 
@@ -168,6 +173,7 @@ public class TitledGridPane extends TitledPane {
      * columns. The first column is the key and the second the value.
      */
     private Node buildGridMultiColumn(final Map<String, List<String>> data) {
+        gridPane = new GridPane();
         int row = 0;
         for (Map.Entry<String, List<String>> entry : data.entrySet()) {
             Label keyLabel = new Label(entry.getKey());
@@ -180,6 +186,10 @@ public class TitledGridPane extends TitledPane {
 
         if (StringUtils.isNotBlank(gridStyleId)) {
             gridPane.getStyleClass().add(gridStyleId);
+        }
+
+        if (columnConstraints != null) {
+            gridPane.getColumnConstraints().addAll(columnConstraints);
         }
 
         return gridPane;

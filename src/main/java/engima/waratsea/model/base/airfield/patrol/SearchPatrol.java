@@ -132,7 +132,7 @@ public class SearchPatrol implements Patrol {
     public List<Squadron> getSquadrons(final int targetRadius) {
         return squadrons
                 .stream()
-                .filter(squadron -> squadron.getRadius() >= targetRadius)
+                .filter(squadron -> squadron.getRadius(SquadronConfig.SEARCH) >= targetRadius)
                 .collect(Collectors.toList());
     }
 
@@ -253,7 +253,7 @@ public class SearchPatrol implements Patrol {
     private void updateMaxRadius() {
         maxRadius = squadrons
                 .stream()
-                .map(squadron -> squadron.getRadius(SquadronConfig.NONE))
+                .map(squadron -> squadron.getRadius(SquadronConfig.SEARCH))
                 .max(Integer::compare)
                 .orElse(0);
     }

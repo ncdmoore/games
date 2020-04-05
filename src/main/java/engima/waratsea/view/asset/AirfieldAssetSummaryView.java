@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AirfieldAssetSummaryView {
@@ -46,7 +47,7 @@ public class AirfieldAssetSummaryView {
         col1.setPercentWidth(firstColumnWidth);
         ColumnConstraints col2 = new ColumnConstraints();
         col2.setPercentWidth(secondColumnWidth);
-        titledGridPane.getGridPane().getColumnConstraints().addAll(col1, col2);
+        titledGridPane.setColumnConstraints(List.of(col1, col2));
 
         return titledGridPane;
     }

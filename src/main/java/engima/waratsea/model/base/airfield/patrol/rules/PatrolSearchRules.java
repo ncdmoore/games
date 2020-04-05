@@ -20,7 +20,7 @@ public class PatrolSearchRules {
     private static final int SHIP_SEARCH_FACTOR = 3;
     private static final int SUB_SEARCH_FACTOR = 1;
     private static final int DEFAULT_STEP_FACTOR = 3;
-    private static final int DEFUALT_DISTANCE_FACTOR = -4;
+    private static final int DEFAULT_DISTANCE_FACTOR = -4;
 
     private static final Map<AssetType, Integer> ASSET_MAP = new HashMap<>();
 
@@ -36,6 +36,7 @@ public class PatrolSearchRules {
 
     private final Weather weather;
     private final Dice dice;
+
     private final int searchFactor;
 
     /**
@@ -189,7 +190,7 @@ public class PatrolSearchRules {
      * @return The distance factor.
      */
     private int getDistanceFactor(final int distance) {
-        return distanceFactor.getOrDefault(distance, DEFUALT_DISTANCE_FACTOR);
+        return distanceFactor.getOrDefault(distance, DEFAULT_DISTANCE_FACTOR);
     }
 
     /**
