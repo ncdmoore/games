@@ -22,6 +22,10 @@ import java.util.Optional;
 @Slf4j
 public class ImageResourceProvider {
 
+    private static final String IMAGE_EXT = ".png";
+    private static final String AIRCRAFT_DIR = "/aircraft/";
+    private static final String SCENARIO_DIR = "/scenarios/";
+    private static final String SHIPS_DIR = "/ships/";
     private static final String IMAGES_DIR = "images/";
     private final GameTitle gameTitle;
 
@@ -142,7 +146,7 @@ public class ImageResourceProvider {
      */
     private Optional<Image> getShipNameImage(final Vessel ship) {
         log.debug("look for ship name '{}'", ship.getName());
-        String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getName() + ".png";
+        String path = gameTitle.getValue() + SHIPS_DIR + ship.getSide() + "/images/" + ship.getName() + IMAGE_EXT;
         return loadImage(path);
     }
 
@@ -154,7 +158,7 @@ public class ImageResourceProvider {
      */
     private Optional<Image> getShipClassImage(final Vessel ship) {
         log.debug("look for ship class '{}'", ship.getShipClass());
-        String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getShipClass() + ".png";
+        String path = gameTitle.getValue() + SHIPS_DIR + ship.getSide() + "/images/" + ship.getShipClass() + IMAGE_EXT;
         return loadImage(path);
     }
 
@@ -166,7 +170,7 @@ public class ImageResourceProvider {
      */
     private Optional<Image> getShipNameProfileImage(final Vessel ship) {
         log.debug("Look for ship name profile '{}'", ship.getName());
-        String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getName() + "-profile.png";
+        String path = gameTitle.getValue() + SHIPS_DIR + ship.getSide() + "/images/" + ship.getName() + "-profile.png";
         return loadImage(path);
     }
 
@@ -178,7 +182,7 @@ public class ImageResourceProvider {
      */
     private Optional<Image> getShipClassProfileImage(final Vessel ship) {
         log.debug("Look for ship class profile '{}'", ship.getShipClass());
-        String path = gameTitle.getValue() + "/ships/" + ship.getSide() + "/images/" + ship.getShipClass() + "-profile.png";
+        String path = gameTitle.getValue() + SHIPS_DIR + ship.getSide() + "/images/" + ship.getShipClass() + "-profile.png";
         return loadImage(path);
     }
 
@@ -189,7 +193,7 @@ public class ImageResourceProvider {
      * @return An optional aircraft image.
      */
     private Optional<Image> getAircraftImage(final Aircraft aircraft) {
-        String path = gameTitle.getValue() + "/aircraft/" + aircraft.getSide() + "/images/" + aircraft.getModel() + ".png";
+        String path = gameTitle.getValue() + AIRCRAFT_DIR + aircraft.getSide() + "/images/" + aircraft.getModel() + IMAGE_EXT;
         return loadImage(path);
     }
 
@@ -201,7 +205,7 @@ public class ImageResourceProvider {
      * @return An optional aircraft profile image.
      */
     private Optional<Image> getAircraftProfileImage(final Side side, final String aircraft) {
-        String path = gameTitle.getValue() + "/aircraft/" + side + "/images/" + aircraft + "-profile.png";
+        String path = gameTitle.getValue() + AIRCRAFT_DIR + side + "/images/" + aircraft + "-profile.png";
         return loadImage(path);
     }
 
@@ -226,7 +230,7 @@ public class ImageResourceProvider {
      * @return The image if it exists.
      */
     public Image getImage(final String scenario, final String resourceName) {
-        String path = gameTitle.getValue() + "/scenarios/" + scenario + "/" + resourceName;
+        String path = gameTitle.getValue() + SCENARIO_DIR + scenario + "/" + resourceName;
         Optional<Image> image = loadImage(path);
         return image.orElseGet(() -> getImage(resourceName));
     }
