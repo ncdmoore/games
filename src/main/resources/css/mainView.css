@@ -21,9 +21,24 @@
 
 .component-grid {
     -fx-background-color: white;
-    -fx-hgap: 15;
+    -fx-hgap: 10;
 }
 
+#airfield-summary-hbox {
+    -fx-background-color: white;
+    -fx-spacing: 10;
+}
+
+
+#airfield-landing-type-vbox {
+    -fx-background-color: white;
+    -fx-spacing: 5;
+    -fx-alignment: center-left;
+}
+
+#airfield-landing-type-vbox .check-box {
+    -fx-opacity: 1.0;
+}
 #map-base-grid-marker {
     -fx-opacity: 1.0;
 }

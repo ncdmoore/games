@@ -12,6 +12,7 @@ import engima.waratsea.model.map.MapException;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
+import engima.waratsea.model.squadron.SquadronException;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.victory.VictoryException;
 import enigma.waratsea.TestModule;
@@ -41,7 +42,7 @@ public class GameTest {
     }
 
     @Test
-    public void testTaskForces() throws ScenarioException, MapException, VictoryException {
+    public void testTaskForces() throws ScenarioException, MapException, VictoryException, SquadronException {
         List<Scenario> scenarios = game.initScenarios();
         game.setScenario(scenarios.get(0));
         game.setHumanSide(Side.ALLIES);

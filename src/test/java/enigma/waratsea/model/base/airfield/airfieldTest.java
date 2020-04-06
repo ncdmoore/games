@@ -16,6 +16,7 @@ import engima.waratsea.model.map.region.RegionFactory;
 import engima.waratsea.model.map.region.data.RegionData;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.SquadronFactory;
 import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.squadron.data.SquadronData;
@@ -326,14 +327,14 @@ public class airfieldTest {
         airfield.getPatrol(PatrolType.SEARCH).addSquadron(reconSquadron);
 
         int searchRadius = airfield.getPatrol(PatrolType.SEARCH).getMaxRadius();
-        int reconRadius = reconSquadron.getRadius();
+        int reconRadius = reconSquadron.getRadius(SquadronConfig.SEARCH);
 
         // Recon plane's radius should be the search's maximum radius.
         Assert.assertEquals(reconRadius, searchRadius);
 
         airfield.getPatrol(PatrolType.SEARCH).removeSquadron(reconSquadron);
 
-        int fighterRadius = fighterSquadron.getRadius();
+        int fighterRadius = fighterSquadron.getRadius(SquadronConfig.SEARCH);
         searchRadius = airfield.getPatrol(PatrolType.SEARCH).getMaxRadius();
 
         Assert.assertEquals(fighterRadius, searchRadius);

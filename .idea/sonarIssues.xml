@@ -1318,6 +1318,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/util/GridPaneMap.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/util/ListViewPair.java">
           <value>
             <set />
@@ -1439,6 +1444,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/properties/view.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/airfieldTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/GameTest.java">
           <value>
             <set />
           </value>
