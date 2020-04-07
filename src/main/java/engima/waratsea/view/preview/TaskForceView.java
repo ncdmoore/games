@@ -7,8 +7,8 @@ import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceState;
-import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
+import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
@@ -409,10 +409,19 @@ public class TaskForceView {
         shipButtons = new ArrayList<>();
 
         setSummaryTab(shipViewTypeMap, squadronTypeMap);
+
         taskForceTabs.values().forEach(tab -> tab.setDisable(true));
+
         shipViewTypeMap.forEach(this::setTabContents);
-        taskForceTabPane.getSelectionModel().selectLast();   // Don't remove this. This is to work around some javafx bug. If this is not here then the summary tab is not drawn correct.
-        taskForceTabPane.getSelectionModel().selectFirst();
+
+        taskForceTabPane.getTabs().clear();
+        taskForceTabPane.getTabs().add(taskForceSummaryTab);
+        taskForceTabPane.getTabs().addAll(taskForceTabs.keySet()
+                .stream()
+                .sorted()
+                .map(taskForceTabs::get)
+                .collect(Collectors.toList()));
+
     }
 
     /**

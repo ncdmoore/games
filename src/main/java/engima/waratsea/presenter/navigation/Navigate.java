@@ -9,7 +9,7 @@ import engima.waratsea.presenter.MainPresenter;
 import engima.waratsea.presenter.preview.MinefieldPresenter;
 import engima.waratsea.presenter.Presenter;
 import engima.waratsea.presenter.preview.SavedGamePresenter;
-import engima.waratsea.presenter.preview.scenario.ScenarioPresenter;
+import engima.waratsea.presenter.preview.ScenarioPresenter;
 import engima.waratsea.presenter.preview.SquadronPresenter;
 import engima.waratsea.presenter.preview.StartPresenter;
 import engima.waratsea.presenter.preview.TaskForcePresenter;

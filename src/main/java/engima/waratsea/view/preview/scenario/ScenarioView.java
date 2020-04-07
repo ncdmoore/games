@@ -1,8 +1,7 @@
-package engima.waratsea.view.preview;
+package engima.waratsea.view.preview.scenario;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.presenter.preview.scenario.ScenarioViewModel;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;

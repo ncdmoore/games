@@ -1,4 +1,4 @@
-package engima.waratsea.presenter.preview.scenario;
+package engima.waratsea.presenter.preview;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -9,6 +9,7 @@ import engima.waratsea.model.squadron.SquadronException;
 import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.presenter.Presenter;
 import engima.waratsea.presenter.navigation.Navigate;
+import engima.waratsea.view.preview.scenario.ScenarioViewModel;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import engima.waratsea.model.game.Game;
@@ -16,7 +17,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.view.FatalErrorDialog;
-import engima.waratsea.view.preview.ScenarioView;
+import engima.waratsea.view.preview.scenario.ScenarioView;
 
 /**
  * This is the scenario presenter. It is responsible for selecting a game side and scenario.

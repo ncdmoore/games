@@ -5,9 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/TaskForcePreviewMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/PreviewMapView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/SquadronView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/SquadronView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/navigation/Navigate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/navigation/Navigate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/scenario/ScenarioPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/ScenarioPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/scenario/ScenarioViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/scenario/ScenarioViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/ScenarioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/scenario/ScenarioView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -282,13 +286,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00160" summary="Patrols now support squadron configurations.">
-      <created>1584835391907</created>
-      <option name="number" value="00160" />
-      <option name="presentableId" value="LOCAL-00160" />
-      <option name="project" value="LOCAL" />
-      <updated>1584835391907</updated>
     </task>
     <task id="LOCAL-00161" summary="Patrols now support squadron configurations.">
       <created>1584835893047</created>
@@ -626,7 +623,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586268234519</updated>
     </task>
-    <option name="localTasksCounter" value="209" />
+    <task id="LOCAL-00209" summary="Add squadron and patrol info to airfield asset view.">
+      <created>1586276360855</created>
+      <option name="number" value="00209" />
+      <option name="presentableId" value="LOCAL-00209" />
+      <option name="project" value="LOCAL" />
+      <updated>1586276360855</updated>
+    </task>
+    <option name="localTasksCounter" value="210" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -705,46 +709,46 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1585626150761" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1586268233279">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1586276360041">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1586268233279" />
-    <state width="1735" height="108" key="GridCell.Tab.0.bottom" timestamp="1586268115767">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1586276360041" />
+    <state width="2173" height="153" key="GridCell.Tab.0.bottom" timestamp="1586301302029">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1735" height="108" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1586268115767" />
-    <state width="1735" height="108" key="GridCell.Tab.0.center" timestamp="1586268115767">
+    <state width="2173" height="153" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1586301302029" />
+    <state width="2173" height="153" key="GridCell.Tab.0.center" timestamp="1586301302028">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1735" height="108" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1586268115767" />
-    <state width="1735" height="108" key="GridCell.Tab.0.left" timestamp="1586268115766">
+    <state width="2173" height="153" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1586301302028" />
+    <state width="2173" height="153" key="GridCell.Tab.0.left" timestamp="1586301302027">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1735" height="108" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1586268115766" />
-    <state width="1735" height="108" key="GridCell.Tab.0.right" timestamp="1586268115767">
+    <state width="2173" height="153" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1586301302027" />
+    <state width="2173" height="153" key="GridCell.Tab.0.right" timestamp="1586301302028">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1735" height="108" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1586268115767" />
-    <state width="1735" height="334" key="GridCell.Tab.1.bottom" timestamp="1586266759940">
+    <state width="2173" height="153" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1586301302028" />
+    <state width="2173" height="208" key="GridCell.Tab.1.bottom" timestamp="1586297144369">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1735" height="334" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1586266759940" />
-    <state width="1735" height="334" key="GridCell.Tab.1.center" timestamp="1586266759939">
+    <state width="2173" height="208" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1586297144369" />
+    <state width="2173" height="208" key="GridCell.Tab.1.center" timestamp="1586297144369">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1735" height="334" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1586266759939" />
-    <state width="1735" height="334" key="GridCell.Tab.1.left" timestamp="1586266759939">
+    <state width="2173" height="208" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1586297144369" />
+    <state width="2173" height="208" key="GridCell.Tab.1.left" timestamp="1586297144368">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1735" height="334" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1586266759939" />
-    <state width="1735" height="334" key="GridCell.Tab.1.right" timestamp="1586266759939">
+    <state width="2173" height="208" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1586297144368" />
+    <state width="2173" height="208" key="GridCell.Tab.1.right" timestamp="1586297144369">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1735" height="334" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1586266759939" />
-    <state x="1406" y="420" key="RollbackChangesDialog" timestamp="1586275127566">
+    <state width="2173" height="208" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1586297144369" />
+    <state x="1406" y="420" key="RollbackChangesDialog" timestamp="1586295917778">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1406" y="420" key="RollbackChangesDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1586275127566" />
+    <state x="1406" y="420" key="RollbackChangesDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1586295917778" />
     <state x="1187" y="283" key="SettingsEditor" timestamp="1584880844409">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -757,10 +761,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1427" y="415" key="VCS.ChangeListViewerDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1585753899611" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1586268239327">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1586276366004">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1586268239327" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1586276366004" />
     <state x="268" y="115" width="2059" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1586266945774">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -773,10 +777,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1393" y="617" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.2560.1349@0.23.2560.1349" timestamp="1584907139324" />
-    <state x="1327" y="411" width="935" height="587" key="find.popup" timestamp="1586134278298">
+    <state x="1327" y="411" width="935" height="587" key="find.popup" timestamp="1586295047565">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1327" y="411" width="935" height="587" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1586134278298" />
+    <state x="1327" y="411" width="935" height="587" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1586295047565" />
     <state x="1696" y="493" key="refactoring.ChangeSignatureDialog" timestamp="1586215498770">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
