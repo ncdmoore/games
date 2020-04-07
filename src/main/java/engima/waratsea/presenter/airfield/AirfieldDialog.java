@@ -21,11 +21,11 @@ import engima.waratsea.view.airfield.AirfieldView;
 import engima.waratsea.view.airfield.mission.MissionView;
 import engima.waratsea.view.airfield.patrol.PatrolView;
 import engima.waratsea.view.asset.AirfieldAssetSummaryView;
+import engima.waratsea.view.asset.AssetId;
 import engima.waratsea.view.asset.AssetSummaryView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.squadron.SquadronViewType;
 import javafx.event.ActionEvent;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableRow;
 import javafx.stage.Modality;
@@ -75,6 +75,8 @@ public class AirfieldDialog {
     private Airbase airbase;
     private boolean hideAssetSummary; // Indicates if the asset view for this airfield should be closed when the
                                       // dialog is closed.
+
+    private AirfieldAssetSummaryView airfieldAssetView;
 
     /**
      * Constructor called by guice.
@@ -346,11 +348,13 @@ public class AirfieldDialog {
         mapView.drawPatrolRadii(airbase);
 
         if (hideAssetSummary) {
+            AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
             assetSummaryViewProvider
                     .get()
-                    .hide(AssetType.AIRFIELD, airbase.getTitle());
+                    .hide(assetId);
         }
 
+        airfieldAssetView.update();
         stage.close();
     }
 
@@ -359,11 +363,13 @@ public class AirfieldDialog {
      */
     private void cancel() {
         if (hideAssetSummary) {
+            AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
             assetSummaryViewProvider
                     .get()
-                    .hide(AssetType.AIRFIELD, airbase.getTitle());
+                    .hide(assetId);
         }
 
+        airfieldAssetView.update();
         stage.close();
     }
 
@@ -676,6 +682,8 @@ public class AirfieldDialog {
         view.getAirfieldSummaryView()
                 .get(nation)
                 .updatePatrolSummary(patrolType, numOnPatrol);
+
+        airfieldAssetView.updatePatrol(patrolType, numOnPatrol);
     }
 
     /**
@@ -748,14 +756,20 @@ public class AirfieldDialog {
      * Show the airfield asset summary.
      */
     private void showAssetSummary() {
-        AirfieldAssetSummaryView assetView = airfieldAssetSummaryViewProvider.get();
+        AssetSummaryView assetManager = assetSummaryViewProvider.get();
+        AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
+        airfieldAssetView = (AirfieldAssetSummaryView) assetManager.getAsset(assetId);
 
-        Node node = assetView.build();
-        assetView.show(airbase);
+        if (airfieldAssetView == null) {
+            airfieldAssetView = airfieldAssetSummaryViewProvider.get();
 
-        // If the asset was already showing, then this dialog will not close it when the dialog itself closes.
-        hideAssetSummary = assetSummaryViewProvider
-                .get()
-                .show(AssetType.AIRFIELD, airbase.getTitle(), node);
+            airfieldAssetView.build();
+            airfieldAssetView.show(airbase);
+
+            assetManager.show(assetId, airfieldAssetView);
+            hideAssetSummary = true;
+        } else {
+            hideAssetSummary = false;
+        }
     }
 }

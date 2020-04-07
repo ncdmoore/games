@@ -1,7 +1,13 @@
 package engima.waratsea.view.preview;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.presenter.preview.scenario.ScenarioViewModel;
+import engima.waratsea.utility.CssResourceProvider;
+import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -10,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -19,9 +24,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Getter;
-import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.utility.CssResourceProvider;
-import engima.waratsea.utility.ImageResourceProvider;
 
 import java.util.List;
 
@@ -103,48 +105,34 @@ public class ScenarioView {
 
     /**
      * .
-     * @param s the scenarios
+     * @param scenarioList the scenarios
      */
-    public void setScenarios(final List<Scenario> s) {
+    public void setScenarios(final List<Scenario> scenarioList) {
         scenarios.getItems().clear();
-        scenarios.getItems().addAll(s);
+        scenarios.getItems().addAll(scenarioList);
     }
 
     /**
-     * Update the view with the selected currently scenario.
-     * @param scenario selected currently scenario
+     * Bind the view to the view model.
+     *
+     * @param scenarioViewModel The scenario view model.
      */
-    public void setScenario(final Scenario scenario) {
-        setScenarioImages(scenario);
-        setScenarioDetails(scenario);
-    }
+    public void bind(final ScenarioViewModel scenarioViewModel) {
+        turnValue.textProperty().bind(scenarioViewModel.getTurn());
+        dateValue.textProperty().bind(scenarioViewModel.getDate());
+        descriptionValue.textProperty().bind(scenarioViewModel.getDescription());
 
-    /**
-     * Set the scenario image.
-     * @param scenario currently selected scenario.
-     */
-    private void setScenarioImages(final Scenario scenario) {
-        String name = scenario.getName();
+        StringProperty name = scenarioViewModel.getName();
+        StringProperty imageName = scenarioViewModel.getImageName();
 
-        Image image = imageResourceProvider.getImage(name, scenario.getImage());
-        scenarioImage.setImage(image);
+        scenarioImage.imageProperty().bind(Bindings.createObjectBinding(() ->
+                imageResourceProvider.getImage(name.getValue(), imageName.getValue()), name, imageName));
 
-        Image axisFlagImage = imageResourceProvider.getImage(name, props.getString("axis.flag.medium.image"));
-        axisFlag.setImage(axisFlagImage);
+        axisFlag.imageProperty().bind(Bindings.createObjectBinding(() ->
+                imageResourceProvider.getImage(name.getValue(), props.getString("axis.flag.medium.image")), name));
 
-        Image alliesFlagImage = imageResourceProvider.getImage(name, props.getString("allies.flag.medium.image"));
-        alliesFlag.setImage(alliesFlagImage);
-
-    }
-
-    /**
-     * Set the scenario details.
-     * @param scenario currently selected scenario.
-     */
-    private void setScenarioDetails(final Scenario scenario) {
-        turnValue.setText(Integer.toString(scenario.getMaxTurns()));
-        dateValue.setText(scenario.getDateString());
-        descriptionValue.setText(scenario.getDescription());
+        alliesFlag.imageProperty().bind(Bindings.createObjectBinding(() ->
+                imageResourceProvider.getImage(name.getValue(), props.getString("allies.flag.medium.image")), name));
     }
 
     /**
@@ -188,9 +176,6 @@ public class ScenarioView {
      * @return The node that contains the side radio buttons.
      */
     private Node buildRadioButtons() {
-
-        alliesFlag = imageResourceProvider.getImageView(props.getString("allies.flag.medium.image"));
-        axisFlag = imageResourceProvider.getImageView(props.getString("axis.flag.medium.image"));
 
         radioButtonAllies = new RadioButton("Allies");
         radioButtonAxis = new RadioButton("Axis");

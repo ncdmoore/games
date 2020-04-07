@@ -13,11 +13,11 @@ import engima.waratsea.presenter.airfield.AirfieldDialog;
 import engima.waratsea.presenter.airfield.patrol.PatrolDialog;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.asset.AirfieldAssetSummaryView;
+import engima.waratsea.view.asset.AssetId;
 import engima.waratsea.view.asset.AssetSummaryView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
 import javafx.event.ActionEvent;
-import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -176,9 +176,10 @@ public class MainMapPresenter {
      */
     private void addAirfieldToAssetSummary(final Airfield airfield) {
         AirfieldAssetSummaryView assetView = airfieldAssetSummaryViewProvider.get();
-        Node node = assetView.build();
+        assetView.build();
         assetView.show(airfield);
-        assetSummaryViewProvider.get().show(AssetType.AIRFIELD, airfield.getTitle(), node);
+        AssetId assetId = new AssetId(AssetType.AIRFIELD, airfield.getTitle());
+        assetSummaryViewProvider.get().show(assetId, assetView);
     }
 
     /**
@@ -199,6 +200,7 @@ public class MainMapPresenter {
      * @param airfield The airfield to remove.
      */
     private void removeAirfieldFromAssetSummary(final Airfield airfield) {
-        assetSummaryViewProvider.get().hide(AssetType.AIRFIELD, airfield.getTitle());
+        AssetId assetId = new AssetId(AssetType.AIRFIELD, airfield.getTitle());
+        assetSummaryViewProvider.get().hide(assetId);
     }
 }

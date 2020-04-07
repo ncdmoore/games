@@ -1,4 +1,4 @@
-package engima.waratsea.presenter.preview;
+package engima.waratsea.presenter.preview.scenario;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -32,6 +32,8 @@ public class ScenarioPresenter implements Presenter {
     private Navigate navigate;
     private Provider<FatalErrorDialog> fatalErrorDialogProvider;
 
+    private ScenarioViewModel scenarioViewModel;
+
     private Game game;
 
     /**
@@ -41,16 +43,20 @@ public class ScenarioPresenter implements Presenter {
      * @param viewProvider Scenario view.
      * @param navigate Controls the screen navigation.
      * @param fatalErrorDialogProvider provides the fatal error dialog.
+     * @param scenarioViewModel The scenario view model.
      */
     @Inject
     public ScenarioPresenter(final Game game,
                              final Provider<ScenarioView> viewProvider,
                              final Navigate navigate,
-                             final Provider<FatalErrorDialog> fatalErrorDialogProvider) {
+                             final Provider<FatalErrorDialog> fatalErrorDialogProvider,
+                             final ScenarioViewModel scenarioViewModel) {
         this.game = game;
         this.viewProvider = viewProvider;
         this.navigate = navigate;
         this.fatalErrorDialogProvider = fatalErrorDialogProvider;
+
+        this.scenarioViewModel = scenarioViewModel;
     }
 
     /**
@@ -60,11 +66,13 @@ public class ScenarioPresenter implements Presenter {
      */
     @Override
     public void show(final Stage primaryStage) {
-        view = viewProvider.get();
-
         this.stage = primaryStage;
 
+        view = viewProvider.get();
+        view.bind(scenarioViewModel);
+
         initScenarios();
+        selectFirstScenario();
 
         view.show(stage);
         view.getContinueButton().setOnAction(event -> continueButton());
@@ -87,8 +95,8 @@ public class ScenarioPresenter implements Presenter {
      * @param scenario The selected scenario.
      */
     private void scenarioSelected(final Scenario scenario) {
-        this.selectedScenario = scenario;
-        view.setScenario(selectedScenario);
+        selectedScenario = scenario;
+        scenarioViewModel.setModel(scenario);
     }
 
     /**
@@ -120,22 +128,26 @@ public class ScenarioPresenter implements Presenter {
      * Load the scenario list with the defined scenarios.
      */
     private void initScenarios() {
-
-        if (view.getScenarios().getItems().isEmpty()) {                                                                 // Only initialize the list once.
-            try {
-                view.setScenarios(game.initScenarios());
-                view.getScenarios()
-                        .getSelectionModel()
-                        .selectedItemProperty()
-                        .addListener((v, oldValue, newValue) -> scenarioSelected(newValue));
-                view.getScenarios().getSelectionModel().select(0);
-            } catch (ScenarioException ex) {
-                log.error("Unable to load scenario summaries", ex);
-                fatalErrorDialogProvider.get().show("Unable to load any game scenarios.");
-            }
-        } else {
-            view.getScenarios().getSelectionModel().select(0);                                                   // Ensure that the first scenario is always selected.
+        try {
+            view.setScenarios(game.initScenarios());
+            view.getScenarios()
+                    .getSelectionModel()
+                    .selectedItemProperty()
+                    .addListener((v, oldValue, newValue) -> scenarioSelected(newValue));
+        } catch (ScenarioException ex) {
+            log.error("Unable to load scenario summaries", ex);
+            fatalErrorDialogProvider.get().show("Unable to load any game scenarios.");
         }
+    }
+
+    /**
+     * Select the first scenario.
+     */
+    private void selectFirstScenario() {
+        view
+                .getScenarios()
+                .getSelectionModel()
+                .selectFirst();
     }
 
     /**

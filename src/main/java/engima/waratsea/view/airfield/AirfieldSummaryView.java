@@ -9,6 +9,7 @@ import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.airfield.info.AirfieldPatrolInfo;
 import engima.waratsea.view.airfield.info.AirfieldSquadronInfo;
 import engima.waratsea.view.squadron.SquadronViewType;
 import engima.waratsea.view.util.TitledGridPane;
@@ -32,10 +33,10 @@ public class AirfieldSummaryView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
     private final AirfieldSquadronInfo airfieldSquadronInfo;
+    private final AirfieldPatrolInfo airfieldPatrolInfo;
 
     private Airbase airbase;
 
-    private TitledGridPane airfieldPatrol;
     private TitledGridPane ready;
 
     /**
@@ -44,15 +45,18 @@ public class AirfieldSummaryView {
      * @param imageResourceProvider Provides images.
      * @param props Provides view properties.
      * @param airfieldSquadronInfo The airfield's squadron information.
+     * @param airfieldPatrolInfo The airfield's patrol information.
      */
     @Inject
     public AirfieldSummaryView(final ImageResourceProvider imageResourceProvider,
                                final ViewProps props,
-                               final AirfieldSquadronInfo airfieldSquadronInfo) {
+                               final AirfieldSquadronInfo airfieldSquadronInfo,
+                               final AirfieldPatrolInfo airfieldPatrolInfo) {
         this.imageResourceProvider = imageResourceProvider;
         this.props = props;
 
         this.airfieldSquadronInfo = airfieldSquadronInfo;
+        this.airfieldPatrolInfo = airfieldPatrolInfo;
     }
 
     /**
@@ -80,7 +84,8 @@ public class AirfieldSummaryView {
         TitledPane airfieldTitle = buildAirfieldTitle();
         TitledGridPane airfieldDetails = buildAirfieldDetails(nation);
         TitledGridPane airfieldSummary = airfieldSquadronInfo.build();
-        airfieldPatrol = buildAirfieldPatrol(nation);
+        TitledGridPane airfieldPatrol = airfieldPatrolInfo.build();
+
         ready = buildReady(nation);
         TitledPane landingTypes = buildLandingTypes();
 
@@ -92,6 +97,7 @@ public class AirfieldSummaryView {
         leftVBox.setId("airfield-summary-vbox");
 
         airfieldSquadronInfo.setAirbase(nation, airbase);
+        airfieldPatrolInfo.setAirbase(nation, airbase);
 
         return leftVBox;
     }
@@ -103,7 +109,7 @@ public class AirfieldSummaryView {
      * @param value The number of squadrons on the patrol.
      */
     public void updatePatrolSummary(final PatrolType key, final int value) {
-        airfieldPatrol.updateGrid(key.getValue() + ":", value + "");
+        airfieldPatrolInfo.update(key, value);
     }
 
     /**
@@ -172,20 +178,6 @@ public class AirfieldSummaryView {
     }
 
     /**
-     * Build the airfield patrol summary.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @return A titled grid pane containing the airfield patrol summary.
-     */
-    private TitledGridPane buildAirfieldPatrol(final Nation nation) {
-        return new TitledGridPane()
-                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
-                .setGridStyleId("component-grid")
-                .setTitle("Patrol Summary")
-                .buildPane(getAirfieldPatrolSummary(nation));
-    }
-
-    /**
      * Build the airfield ready summary.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
@@ -236,23 +228,6 @@ public class AirfieldSummaryView {
         }
         checkBox.setDisable(true);
         return checkBox;
-    }
-
-    /**
-     * Get the airfield squadron patrol summary.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @return A map of patrol type to squadrons on the given patrol.
-     */
-    private Map<String, String> getAirfieldPatrolSummary(final Nation nation) {
-        return Stream.of(PatrolType.values()).sorted().collect(Collectors.toMap(
-                patrolType -> patrolType.getValue() + ":",
-                patrolType -> airbase
-                        .getPatrol(patrolType)
-                        .getSquadrons(nation)
-                        .size() + "",
-                (oldValue, newValue) -> oldValue,
-                LinkedHashMap::new));
     }
 
     /**

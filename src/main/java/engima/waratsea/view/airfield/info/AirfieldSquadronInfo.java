@@ -57,17 +57,16 @@ public class AirfieldSquadronInfo {
      * @return A titled grid pane containing the airfield squadron summary.
      */
     private TitledGridPane buildSquadronCounts() {
-        return buildPane(squadronCountsPane).setTitle("Squadron Summary");
+        return buildPane().setTitle("Squadron Summary");
     }
 
     /**
      * Build a component pane.
      *
-     * @param pane The pane to build.
      * @return The built pane.
      */
-    private TitledGridPane buildPane(final TitledGridPane pane) {
-        return pane.setWidth(props.getInt("airfield.dialog.airfield.details.width"))
+    private TitledGridPane buildPane() {
+        return squadronCountsPane.setWidth(props.getInt("airfield.dialog.airfield.details.width"))
                 .setGridStyleId("component-grid")
                 .buildPane();
     }

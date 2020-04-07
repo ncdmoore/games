@@ -1,7 +1,6 @@
 package engima.waratsea.view.asset;
 
 import com.google.inject.Singleton;
-import engima.waratsea.model.game.AssetType;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -11,11 +10,14 @@ import java.util.Map;
 
 /**
  * Represents the asset summary view at the bottom of the game screen.
+ * This class is essentially a manager of the asset types that are displayed in the asset summary view area at the
+ * bottom of the game screen. This class add's asset views to this area and removes assets from this area.
  */
 @Singleton
 public class AssetSummaryView {
 
-    private Map<String, Tab> map = new HashMap<>();
+    private Map<String, Tab> tabMap = new HashMap<>();
+    private Map<String, AssetView> viewMap = new HashMap<>();
     private TabPane tabPane = new TabPane();
 
     /**
@@ -24,7 +26,7 @@ public class AssetSummaryView {
      * @return The node containing the asset summary view.
      */
     public Node build() {
-        map.clear();
+        tabMap.clear();
         tabPane.getTabs().clear();
         return tabPane;
     }
@@ -32,38 +34,43 @@ public class AssetSummaryView {
     /**
      * Show the given node in the asset summary section.
      *
-     * @param assetType The type of asset.
-     * @param name The name of the asset.
-     * @param node The node to show.
-     * @return True if the asset is newly added. False otherwise.
+     * @param assetId The asset's Id.
+     * @param assetView The asset to show.
      */
-    public boolean show(final AssetType assetType, final String name, final Node node) {
-        String key = assetType.toString() + name;
+    public void show(final AssetId assetId, final AssetView assetView) {
+        String key = assetId.getKey();
 
-        boolean alreadyOnTabPane = map.containsKey(key);
+        boolean alreadyOnTabPane = tabMap.containsKey(key);
 
-        if (alreadyOnTabPane) {
-            selectTab(key);
-            return false;
-        } else {
-            addTab(key, name, node);
-            selectTab(key);
-            return true;
+        if (!alreadyOnTabPane) {
+            addTab(assetId, assetView);
         }
+
+        selectTab(key);
+    }
+
+    /**
+     * Get the asset view of the given asset Id.
+     *
+     * @param assetId The asset's Id.
+     * @return The corresponding asset view of the given asset Id.
+     */
+    public AssetView getAsset(final AssetId assetId) {
+        String key = assetId.getKey();
+        return viewMap.get(key);
     }
 
     /**
      * Hide the asset summary contents.
      *
-     * @param assetType The type of asset to hide.
-     * @param name The name of the asset to hide.
+     *  @param assetId The Id of asset to hide.
      */
-    public void hide(final AssetType assetType, final String name) {
-        String key = assetType.toString() + name;
+    public void hide(final AssetId assetId) {
+        String key = assetId.getKey();
 
-        if (map.containsKey(key)) {
-            tabPane.getTabs().remove(map.get(key));
-            map.remove(key);
+        if (tabMap.containsKey(key)) {
+            tabPane.getTabs().remove(tabMap.get(key));
+            tabMap.remove(key);
         }
     }
 
@@ -75,21 +82,21 @@ public class AssetSummaryView {
     private void selectTab(final String key) {
         tabPane
                 .getSelectionModel()
-                .select(map.get(key));
+                .select(tabMap.get(key));
     }
 
     /**
      * Add a tab to the asset summary view.
      *
-     * @param key Identifies the tab.
-     * @param name The title of the tab.
-     * @param node The contents of the tab.
+     * @param assetId Identifies the asset.
+     * @param assetView The contents of the tab.
      */
-    private void addTab(final String key, final String name, final Node node) {
+    private void addTab(final AssetId assetId, final AssetView assetView) {
         Tab tab = new Tab();
-        tab.setText(name);
-        tab.setContent(node);
+        tab.setText(assetId.getName());
+        tab.setContent(assetView.getNode());
         tabPane.getTabs().add(tab);
-        map.put(key, tab);
+        tabMap.put(assetId.getKey(), tab);
+        viewMap.put(assetId.getKey(), assetView);
     }
 }

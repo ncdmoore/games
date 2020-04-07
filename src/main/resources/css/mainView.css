@@ -24,6 +24,10 @@
     -fx-hgap: 10;
 }
 
+#asset-hbox {
+    -fx-padding: /* top */ 10 /* right */ 10 /* bottom */ 5 /* left */ 10;
+}
+
 #airfield-summary-hbox {
     -fx-background-color: white;
     -fx-spacing: 10;
@@ -39,6 +43,15 @@
 #airfield-landing-type-vbox .check-box {
     -fx-opacity: 1.0;
 }
+
+#airfield-nations-tab-pane {
+    -fx-padding: /* top */ 10 /* right */ 5 /* bottom */ 5 /* left */ 10;
+}
+
+#airfield-nation-tab-hbox {
+    -fx-padding: /* top */ 10 /* right */ 0 /* bottom */ 0 /* left */ 10;
+}
+
 #map-base-grid-marker {
     -fx-opacity: 1.0;
 }

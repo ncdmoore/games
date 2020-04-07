@@ -1,19 +1,27 @@
 package engima.waratsea.view.asset;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.airfield.info.AirfieldPatrolInfo;
+import engima.waratsea.view.airfield.info.AirfieldSquadronInfo;
 import engima.waratsea.view.util.GridPaneMap;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.LinkedHashMap;
@@ -23,7 +31,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Slf4j
-public class AirfieldAssetSummaryView {
+public class AirfieldAssetSummaryView implements AssetView {
+    private static final String ROUNDEL = ".roundel.image";
 
     private final ViewProps props;
     private final ImageResourceProvider imageResourceProvider;
@@ -33,19 +42,34 @@ public class AirfieldAssetSummaryView {
 
     private final TitledPane landingTypesPane = new TitledPane();
 
+    private final TabPane nationsTabPane = new TabPane();
+
+    private final Provider<AirfieldSquadronInfo> airfieldSquadronInfoProvider;
+    private final Provider<AirfieldPatrolInfo> airfieldPatrolInfoProvider;
+
     private Airbase airbase;
+    private AirfieldSquadronInfo squadronInfo;
+    private AirfieldPatrolInfo patrolInfo;
+
+    @Getter private HBox node;
 
     /**
      * Constructor called by guice.
      *
      * @param props The view properties.
      * @param imageResourceProvider Provides images.
+     * @param airfieldSquadronInfoProvider Provides airfield squadron information.
+     * @param airfieldPatrolInfoProvider Provides airfield patrol information.
      */
     @Inject
     public AirfieldAssetSummaryView(final ViewProps props,
-                                    final ImageResourceProvider imageResourceProvider) {
+                                    final ImageResourceProvider imageResourceProvider,
+                                    final Provider<AirfieldSquadronInfo> airfieldSquadronInfoProvider,
+                                    final Provider<AirfieldPatrolInfo> airfieldPatrolInfoProvider) {
         this.props = props;
         this.imageResourceProvider = imageResourceProvider;
+        this.airfieldSquadronInfoProvider = airfieldSquadronInfoProvider;
+        this.airfieldPatrolInfoProvider = airfieldPatrolInfoProvider;
     }
 
     /**
@@ -56,15 +80,15 @@ public class AirfieldAssetSummaryView {
     public Node build() {
         buildSummary();
         buildLandingTypes();
+        buildNationsTabPane();
 
-        HBox hBox = new HBox(summaryPane, landingTypesPane);
-
-        hBox.setFillHeight(true);
+        node = new HBox(summaryPane, landingTypesPane, nationsTabPane);
+        node.setId("asset-hbox");
 
         summaryPane.setMinHeight(props.getInt("asset.pane.component.height"));
         landingTypesPane.setMinHeight(props.getInt("asset.pane.component.height"));
 
-        return hBox;
+        return node;
     }
 
     /**
@@ -77,6 +101,24 @@ public class AirfieldAssetSummaryView {
 
         showSummary();
         showLandingTypes();
+        showNationsTab();
+    }
+
+    /**
+     * Update the patrol with the number of squadrons on patrol.
+     *
+     * @param patrolType The type of patrol.
+     * @param numOnPatrol The number of squadron on patrol of the given type.
+     */
+    public void updatePatrol(final PatrolType patrolType, final int numOnPatrol) {
+        patrolInfo.update(patrolType, numOnPatrol);
+    }
+
+    /**
+     * Update the airfield's asset view based on the current airbase data.
+     */
+    public void update() {
+        patrolInfo.update();
     }
 
     /**
@@ -103,8 +145,16 @@ public class AirfieldAssetSummaryView {
      * Build the landing types.
      */
     private void buildLandingTypes() {
-        landingTypesPane.setText("Supported Landing Types");
+        landingTypesPane.setText("Landing Types");
         landingTypesPane.getStyleClass().add("asset-component-pane");
+    }
+
+    /**
+     * Build the nation's tabs.
+     */
+    private void buildNationsTabPane() {
+        nationsTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        nationsTabPane.setId("airfield-nations-tab-pane");
     }
 
     /**
@@ -135,6 +185,17 @@ public class AirfieldAssetSummaryView {
         vBox.setId("airfield-landing-type-vbox");
 
         landingTypesPane.setContent(vBox);
+    }
+
+    /**
+     * Show the nations tab.
+     */
+    private void showNationsTab() {
+        airbase.
+                getNations()
+                .stream()
+                .map(this::buildNationTab)
+                .forEach(tab -> nationsTabPane.getTabs().add(tab));
     }
 
     /**
@@ -174,5 +235,34 @@ public class AirfieldAssetSummaryView {
         }
         checkBox.setDisable(true);
         return checkBox;
+    }
+
+    /**
+     * Build a nation's tab.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return The nation's tab.
+     */
+    private Tab buildNationTab(final Nation nation) {
+        Tab tab = new Tab();
+        tab.setText(nation.toString());
+        ImageView roundel = imageResourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
+
+        tab.setGraphic(roundel);
+
+        squadronInfo = airfieldSquadronInfoProvider.get();
+        Node squadronInfoNode = squadronInfo.build();
+        squadronInfo.setAirbase(nation, airbase);
+
+        patrolInfo = airfieldPatrolInfoProvider.get();
+        Node patrolInfoNode = patrolInfo.build();
+        patrolInfo.setAirbase(nation, airbase);
+
+        HBox hBox = new HBox(squadronInfoNode, patrolInfoNode);
+        hBox.setId("airfield-nation-tab-hbox");
+
+        tab.setContent(hBox);
+
+        return tab;
     }
 }
