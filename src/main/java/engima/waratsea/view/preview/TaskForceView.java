@@ -12,7 +12,7 @@ import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.map.TaskForcePreviewMapView;
+import engima.waratsea.view.map.PreviewMapView;
 import engima.waratsea.view.map.marker.preview.TargetMarker;
 import engima.waratsea.view.ship.ShipViewType;
 import javafx.beans.binding.Bindings;
@@ -78,7 +78,7 @@ public class TaskForceView {
     private List<Button> shipButtons;
 
     private Game game;
-    private TaskForcePreviewMapView taskForceMap;
+    private PreviewMapView taskForceMap;
 
     private Label stateValue = new Label();
     private Text missionValue = new Text();
@@ -103,7 +103,7 @@ public class TaskForceView {
                          final CssResourceProvider cssResourceProvider,
                          final ImageResourceProvider imageResourceProvider,
                          final Game game,
-                         final TaskForcePreviewMapView taskForceMap) {
+                         final PreviewMapView taskForceMap) {
 
         this.props = props;
         this.cssResourceProvider = cssResourceProvider;

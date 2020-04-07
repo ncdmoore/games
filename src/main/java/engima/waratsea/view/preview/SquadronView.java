@@ -15,7 +15,7 @@ import engima.waratsea.presenter.squadron.Deployment;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.map.TaskForcePreviewMapView;
+import engima.waratsea.view.map.PreviewMapView;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
@@ -76,7 +76,7 @@ public class SquadronView {
     private Game game;
     private GameMap gameMap;
 
-    private TaskForcePreviewMapView taskForceMap;
+    private PreviewMapView taskForceMap;
 
     private Map<Nation, Label> regionMinimumValue = new HashMap<>();
     private Map<Nation, Label> regionMaximumValue = new HashMap<>();
@@ -107,7 +107,7 @@ public class SquadronView {
                         final ImageResourceProvider imageResourceProvider,
                         final Game game,
                         final GameMap gameMap,
-                        final TaskForcePreviewMapView taskForceMap) {
+                        final PreviewMapView taskForceMap) {
 
         this.props = props;
         this.cssResourceProvider = cssResourceProvider;

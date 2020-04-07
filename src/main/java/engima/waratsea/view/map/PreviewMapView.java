@@ -33,7 +33,7 @@ import java.util.Optional;
  * preview map is a map view of the game map.
  */
 @Slf4j
-public class TaskForcePreviewMapView {
+public class PreviewMapView {
 
     private ViewProps props;
     private ImageResourceProvider imageResourceProvider;
@@ -61,10 +61,10 @@ public class TaskForcePreviewMapView {
      * @param mapView A utility to aid in drawing the map grid.
      */
     @Inject
-    public TaskForcePreviewMapView(final ViewProps props,
-                                   final ImageResourceProvider imageResourceProvider,
-                                   final GameMap gameMap,
-                                   final MapView mapView) {
+    public PreviewMapView(final ViewProps props,
+                          final ImageResourceProvider imageResourceProvider,
+                          final GameMap gameMap,
+                          final MapView mapView) {
         this.props = props;
         this.imageResourceProvider = imageResourceProvider;
         this.gameMap = gameMap;
@@ -193,7 +193,7 @@ public class TaskForcePreviewMapView {
         markerMap.get(name).select(mapView, name);                                                                      //Show the task force marker.
 
         Optional.ofNullable(targetMap.get(name))
-                .ifPresent(markers -> markers.forEach(targetMarker -> targetMarker.select(mapView)));       //Show this task force's target markers if any exist.
+                .ifPresent(markers -> markers.forEach(targetMarker -> targetMarker.select(mapView)));                   //Show this task force's target markers if any exist.
     }
 
     /**
@@ -205,7 +205,7 @@ public class TaskForcePreviewMapView {
         markerMap.get(name).clear(mapView);                                                                             //Hide the task force marker.
 
         Optional.ofNullable(targetMap.get(name))
-                .ifPresent(markers -> markers.forEach(targetMarker -> targetMarker.clear(mapView)));        //Hide any target marker's if any exist.
+                .ifPresent(markers -> markers.forEach(targetMarker -> targetMarker.clear(mapView)));                    //Hide any target marker's if any exist.
     }
 
     /**
