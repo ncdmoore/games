@@ -6,7 +6,6 @@ import engima.waratsea.model.game.Game;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.model.taskForce.TaskForceState;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
@@ -15,9 +14,11 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.PreviewMapView;
 import engima.waratsea.view.map.marker.preview.TargetMarker;
 import engima.waratsea.view.ship.ShipViewType;
+import engima.waratsea.view.taskforce.TaskForceViewModel;
 import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -37,20 +38,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -61,33 +57,33 @@ import java.util.stream.Collectors;
 public class TaskForceView {
     private static final String CSS_FILE = "taskForceView.css";
 
-    private ViewProps props;
-    private CssResourceProvider cssResourceProvider;
-    private ImageResourceProvider imageResourceProvider;
+    private final ViewProps props;
+    private final CssResourceProvider cssResourceProvider;
+    private final ImageResourceProvider imageResourceProvider;
 
-    @Getter
-    private ChoiceBox<TaskForce> taskForces = new ChoiceBox<>();
+    @Getter private final ChoiceBox<TaskForce> taskForces = new ChoiceBox<>();
+    @Getter private final Button continueButton = new Button("Continue");
+    @Getter private final Button backButton = new Button("Back");
 
-    @Getter
-    private Button continueButton = new Button("Continue");
+    @Getter private List<Button> shipButtons;
 
-    @Getter
-    private Button backButton = new Button("Back");
+    private final Game game;
+    private final PreviewMapView taskForceMap;
 
-    @Getter
-    private List<Button> shipButtons;
+    private final Label stateValue = new Label();
+    private final Text missionValue = new Text();
+    private final Label reasonsValue = new Label();
+    private final Label locationValue = new Label();
 
-    private Game game;
-    private PreviewMapView taskForceMap;
+    private final Tab taskForceSummaryTab = new Tab("Summary");
+    private final TabPane taskForceTabPane = new TabPane();
+    private Map<ShipViewType, Tab> taskForceTabs;
 
-    private Label stateValue = new Label();
-    private Text missionValue = new Text();
-    private Label reasonsValue = new Label();
-    private Label locationValue = new Label();
+    private final TableView<Pair<String, String>> shipTable = new TableView<>();
+    private final TableView<Pair<String, String>> squadronTable = new TableView<>();
 
-    private Tab taskForceSummaryTab = new Tab("Summary");
-    private TabPane taskForceTabPane = new TabPane();
-    private Map<ShipViewType, Tab> taskForceTabs = new HashMap<>();
+    private final ObjectProperty<Map<ShipViewType, List<Ship>>> shipTypeMap = new SimpleObjectProperty<>(this, "shipTypeMap", Collections.emptyMap());
+    private final ObjectProperty<Map<AircraftType, BigDecimal>> squadronTypeMap = new SimpleObjectProperty<>(this, "squadronTypeMap", Collections.emptyMap());
 
     /**
      * Constructor called by guice.
@@ -153,6 +149,44 @@ public class TaskForceView {
     }
 
     /**
+     * Bind the view to he view model.
+     *
+     * @param viewModel The task force view model.
+     */
+    public void bind(final TaskForceViewModel viewModel) {
+        stateValue.textProperty().bind(viewModel.getState());
+        stateValue.textFillProperty().bind(viewModel.getStateColor());
+        missionValue.textProperty().bind(viewModel.getMission());
+        reasonsValue.textProperty().bind(viewModel.getReason());
+        locationValue.textProperty().bind(viewModel.getLocation());
+
+        shipTable.itemsProperty().bind(viewModel.getShipTypeSummary());
+        bindTableHeight(shipTable, viewModel.getNumShipTypes());
+
+        squadronTable.itemsProperty().bind(viewModel.getSquadronTypeSummary());
+        bindTableHeight(squadronTable, viewModel.getNumSquadronTypes());
+
+        shipTypeMap.bind(viewModel.getShipTypeMap());
+        squadronTypeMap.bind(viewModel.getSquadronTypeMap());
+    }
+
+    /**
+     * Bind the table height so that is shows just the rows present and no blank rows.
+     *
+     * @param table The table.
+     * @param numRows The number of rows the table should have.
+     */
+    private void bindTableHeight(final TableView<Pair<String, String>> table, final IntegerProperty numRows) {
+        int headerSize = props.getInt("taskForce.summary.table.cell.header.size");
+
+        table.prefHeightProperty()
+                .bind(Bindings.createDoubleBinding(() -> numRows.getValue() * table.getFixedCellSize() + headerSize, numRows));
+
+        table.minHeightProperty().bind(table.prefHeightProperty());
+        table.maxHeightProperty().bind(table.prefHeightProperty());
+    }
+
+    /**
      * Build the selected scenario objective's text.
      *
      * @param scenario The selected scenario.
@@ -198,10 +232,9 @@ public class TaskForceView {
     /**
      * Build the task force state and mission details.
      *
-     * @return A node containing the task foce state and mission details.
+     * @return A node containing the task force state and mission details.
      */
     private Node buildTaskForceStateDetails() {
-
         Text stateLabel = new Text("State:");
         Text missionLabel = new Text("Mission:");
         Text locationLabel = new Text("Location:");
@@ -236,7 +269,6 @@ public class TaskForceView {
      * @return The node that contains the task force preview map legend.
      */
     private Node buildLegend() {
-
         VBox vBox = new VBox(taskForceMap.getLegend());
         vBox.setId("map-legend-vbox");
 
@@ -251,13 +283,15 @@ public class TaskForceView {
         return titledPane;
     }
 
-
     /**
      * Build the ship details. This the ships within a task force.
      *
      * @return A node that contains the ship detailed information of the task force.
      */
     private Node buildShipDetails() {
+        buildTable(shipTable, "Ships", "Number");
+        buildTable(squadronTable, "Squadrons", "Steps");
+
         taskForceTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         taskForceTabPane.setMinWidth(props.getInt("taskForce.tabPane.width"));
         taskForceTabPane.setMaxWidth(props.getInt("taskForce.tabPane.width"));
@@ -315,21 +349,8 @@ public class TaskForceView {
      * @param taskForce the selected task force.
      */
     public void setSelectedTaskForce(final TaskForce taskForce) {
-        String name = taskForce.getName();
-        taskForceMap.selectMarker(name);
-
-        stateValue.setText(taskForce.getState().toString());
-        setStateColor(taskForce);
-        missionValue.setText(taskForce.getMission().getType().toString());
-
-        String prefix = taskForce.atFriendlyBase() ? "At port " : "At sea zone ";
-
-        locationValue.setText(prefix + taskForce.getMappedLocation());
-
-        List<String> reasons = taskForce.getActivatedByText();
-
-        reasonsValue.setText(String.join("\n", reasons));
-        setTabs(taskForce);
+        taskForceMap.selectMarker(taskForce.getName());
+        setTabs();
     }
 
     /**
@@ -338,8 +359,7 @@ public class TaskForceView {
      * @param taskForce the task force whose marker is cleared.
      */
     public void clearTaskForce(final TaskForce taskForce) {
-        String name = taskForce.getName();
-        taskForceMap.clearMarker(name);
+        taskForceMap.clearMarker(taskForce.getName());
     }
 
     /**
@@ -388,32 +408,20 @@ public class TaskForceView {
     }
 
     /**
-     * Set the color of the task force state's text field.
-     * @param taskForce The selected task force.
-     */
-    private void setStateColor(final TaskForce taskForce) {
-        Paint color = taskForce.getState() == TaskForceState.RESERVE ? Color.RED : Color.BLACK;
-        stateValue.setTextFill(color);
-    }
-
-    /**
      * Determine which task force details tabs are active for the selected task force.
-     *
-     * @param taskForce The selected task force.
-     */
-    private void setTabs(final TaskForce taskForce) {
-
-        Map<ShipViewType, List<Ship>> shipViewTypeMap = getShipViewTypeMap(taskForce);
-        Map<AircraftType, BigDecimal> squadronTypeMap = getAircraftTypeMap(taskForce);
-
+     **/
+    private void setTabs() {
         shipButtons = new ArrayList<>();
 
-        setSummaryTab(shipViewTypeMap, squadronTypeMap);
+        setSummaryTab();
 
         taskForceTabs.values().forEach(tab -> tab.setDisable(true));
 
-        shipViewTypeMap.forEach(this::setTabContents);
+        shipTypeMap.getValue().forEach(this::setTabContents);
 
+        // We clear and re-add the tabs to get around a javafx bug with refreshing the tab.
+        // If we don't do this javafx only refreshes the tab contents when the mouse moves
+        // over the tab area. This is a randomly occurring problem.
         taskForceTabPane.getTabs().clear();
         taskForceTabPane.getTabs().add(taskForceSummaryTab);
         taskForceTabPane.getTabs().addAll(taskForceTabs.keySet()
@@ -421,94 +429,30 @@ public class TaskForceView {
                 .sorted()
                 .map(taskForceTabs::get)
                 .collect(Collectors.toList()));
-
     }
 
     /**
      * Set the information in the task force summary tab.
-     *
-     * @param shipViewTypeMap The selected task force map of view type's to ships.
-     * @param squadronTypeMap The selected task force map of aircraft type to number of steps.
-     */
-    private void setSummaryTab(final Map<ShipViewType, List<Ship>> shipViewTypeMap,
-                               final Map<AircraftType, BigDecimal> squadronTypeMap) {
-        List<Pair<String, String>> shipRows = shipViewTypeMap
-                .entrySet()
-                .stream()
-                .filter(entry -> !entry.getValue().isEmpty())
-                .map(entry -> new Pair<>(entry.getKey().toString(), entry.getValue().size() + ""))
-                .collect(Collectors.toList());
-        ObservableList<Pair<String, String>> shipData = FXCollections.observableArrayList(shipRows);
-
-        List<Pair<String, String>> squadronRows = squadronTypeMap
-                .entrySet()
-                .stream()
-                .filter(entry -> !(entry.getValue().compareTo(BigDecimal.ZERO) == 0))
-                .map(entry -> new Pair<>(entry.getKey().toString(), stripFraction(entry.getValue().setScale(2, RoundingMode.HALF_UP) + "")))
-                .collect(Collectors.toList());
-        ObservableList<Pair<String, String>> squadronData = FXCollections.observableArrayList(squadronRows);
-
-        HBox hBox = new HBox(buildTable("Ships", "Number", shipData));
+     **/
+    private void setSummaryTab() {
+        HBox hBox = new HBox(new VBox(shipTable));
         hBox.setId("taskforce-summary-hbox");
 
-        if (!squadronTypeMap.isEmpty()) {
-            hBox.getChildren().add(buildTable("Squadrons", "Steps", squadronData));
+        if (!squadronTypeMap.getValue().isEmpty()) {             // Only show squadron summary if squadrons are present.
+            hBox.getChildren().add(new VBox(squadronTable));
         }
 
         taskForceSummaryTab.setContent(hBox);
     }
 
     /**
-     * Map the ship type data into ship view type data. There are many types of ships. But to keep the GUI simple
-     * there is a limited number of ship view types. This method maps all the game ship types into ship view types.
-     *
-     * @param taskForce The selected task force.
-     * @return A map keyed by ship view type that contains the a list of ships.
-     * Map[shipViewType] -> list of ships of that type.
-     */
-    private Map<ShipViewType, List<Ship>> getShipViewTypeMap(final TaskForce taskForce) {
-
-        Map<ShipViewType, List<Ship>> shipViewTypeMap = new LinkedHashMap<>();
-
-        Arrays.stream(ShipViewType.values())
-                .forEach(viewType -> shipViewTypeMap.put(viewType, new ArrayList<>()));
-
-        taskForce.getShipTypeMap()
-                .forEach((type, ships) -> {
-                    ShipViewType viewType = ShipViewType.get(type);
-                    shipViewTypeMap.get(viewType).addAll(ships);
-                });
-
-        return shipViewTypeMap;
-    }
-
-    /**
-     * Get a map of aircraft types within the given task force to the number of steps of the types.
-     *
-     * @param taskForce The selected task force.
-     * @return A map of aircraft type to number of steps of the type.
-     */
-    private Map<AircraftType, BigDecimal> getAircraftTypeMap(final TaskForce taskForce) {
-        return taskForce.getShips()
-                .stream()
-                .map(Ship::getSquadronSummary)
-                .map(Map::entrySet)
-                .flatMap(Collection::stream)
-                .sorted(Map.Entry.comparingByKey())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, BigDecimal::add, LinkedHashMap::new));
-    }
-
-    /**
      * Build a table of summary data.
      *
+     * @param table The table.
      * @param mainLabel The main column's text.
      * @param numberLabel The number column's text.
-     * @param data The summary data.
-     * @return A node containing the summary table.
      */
-    private Node buildTable(final String mainLabel, final String numberLabel, final ObservableList<Pair<String, String>> data) {
-        TableView<Pair<String, String>> table = new TableView<>();
-
+    private void buildTable(final TableView<Pair<String, String>> table, final String mainLabel, final String numberLabel) {
         TableColumn<Pair<String, String>, String> typeColumn = new TableColumn<>(mainLabel);
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("key"));
 
@@ -517,18 +461,8 @@ public class TaskForceView {
 
         table.getColumns().add(typeColumn);
         table.getColumns().add(numberColumn);
-        table.setItems(data);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);   // Needed to keep extra space from being seen after the last column.
         table.setFixedCellSize(props.getInt("taskForce.summary.table.cell.size"));
-        table.prefHeightProperty()
-                .bind(Bindings.size(table.getItems())
-                        .multiply(table.getFixedCellSize())
-                        .add(props.getInt("taskForce.summary.table.cell.header.size")));
-
-        table.minHeightProperty().bind(table.prefHeightProperty());
-        table.maxHeightProperty().bind(table.prefHeightProperty());
-
-        return new VBox(table);
     }
 
     /**
@@ -565,20 +499,5 @@ public class TaskForceView {
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         tab.setContent(sp);
-    }
-
-    /**
-     * Strip off the trailing zero's.
-     *
-     * @param number A number string.
-     * @return If the given number has a zero fraction, then the number is returned with
-     * no trailing zeros.
-     */
-    private String stripFraction(final String number) {
-        String decimal = number.substring(number.indexOf('.') + 1);
-
-        return (Integer.parseInt(decimal) == 0)
-                ? number.substring(0, number.indexOf('.'))
-                : number;
     }
 }

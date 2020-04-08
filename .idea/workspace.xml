@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/navigation/Navigate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/navigation/Navigate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/scenario/ScenarioPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/ScenarioPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/scenario/ScenarioViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/scenario/ScenarioViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/ScenarioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/scenario/ScenarioView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/TaskForcePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/TaskForcePresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceViewModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,12 +91,12 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.import" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/css" />
-      <recent name="$PROJECT_DIR$/src/main/resources/coralSea/css" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/css" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/victory" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images" />
+      <recent name="$PROJECT_DIR$/src/main/resources/coralSea/images" />
+      <recent name="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="engima.waratsea.view.squadron" />
@@ -109,12 +105,12 @@
       <recent name="engima.waratsea.view.airfield.mission.stats" />
       <recent name="engima.waratsea.model.base.airfield.mission.rules" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images" />
-      <recent name="$PROJECT_DIR$/src/main/resources/coralSea/images" />
-      <recent name="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/css" />
+      <recent name="$PROJECT_DIR$/src/main/resources/coralSea/css" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/css" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/victory" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Main">
@@ -286,13 +282,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00161" summary="Patrols now support squadron configurations.">
-      <created>1584835893047</created>
-      <option name="number" value="00161" />
-      <option name="presentableId" value="LOCAL-00161" />
-      <option name="project" value="LOCAL" />
-      <updated>1584835893047</updated>
     </task>
     <task id="LOCAL-00162" summary="Add search squadron configuration.">
       <created>1584882472616</created>
@@ -630,7 +619,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586276360855</updated>
     </task>
-    <option name="localTasksCounter" value="210" />
+    <task id="LOCAL-00210" summary="Fix javafx bug with refreshing tabs for the task force preview screen.">
+      <created>1586301353734</created>
+      <option name="number" value="00210" />
+      <option name="presentableId" value="LOCAL-00210" />
+      <option name="project" value="LOCAL" />
+      <updated>1586301353735</updated>
+    </task>
+    <option name="localTasksCounter" value="211" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -645,7 +641,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add task force squadrons dialog." />
     <MESSAGE value="Add new interface for squadron home." />
     <MESSAGE value="Update squadron details css spacing." />
     <MESSAGE value="Add PatrolDAO." />
@@ -670,7 +665,8 @@
     <MESSAGE value="Move image names to view properties file." />
     <MESSAGE value="Add landing type info to airfield asset view." />
     <MESSAGE value="Add squadron and patrol info to airfield asset view." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add squadron and patrol info to airfield asset view." />
+    <MESSAGE value="Fix javafx bug with refreshing tabs for the task force preview screen." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix javafx bug with refreshing tabs for the task force preview screen." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586106644201">
@@ -689,6 +685,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1148" y="440" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1585521254702" />
+    <state x="1321" y="546" width="455" height="273" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1586308339777">
+      <screen x="0" y="23" width="2560" height="1349" />
+    </state>
+    <state x="1321" y="546" width="455" height="273" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.23.2560.1349@0.23.2560.1349" timestamp="1586308339777" />
     <state x="1441" y="531" key="#com.intellij.refactoring.move.moveInstanceMethod.MoveInstanceMethodDialog" timestamp="1584801279786">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -705,46 +705,46 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1443" y="242" width="950" height="800" key="#xdebugger.evaluate/0.23.2560.1349@0.23.2560.1349" timestamp="1586096465963" />
-    <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1585626150761">
+    <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1586310217398">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1585626150761" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1586276360041">
+    <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1586310217398" />
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1586301352851">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1586276360041" />
-    <state width="2173" height="153" key="GridCell.Tab.0.bottom" timestamp="1586301302029">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1586301352851" />
+    <state width="1934" height="340" key="GridCell.Tab.0.bottom" timestamp="1586310217458">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2173" height="153" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1586301302029" />
-    <state width="2173" height="153" key="GridCell.Tab.0.center" timestamp="1586301302028">
+    <state width="1934" height="340" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1586310217458" />
+    <state width="1934" height="340" key="GridCell.Tab.0.center" timestamp="1586310217457">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2173" height="153" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1586301302028" />
-    <state width="2173" height="153" key="GridCell.Tab.0.left" timestamp="1586301302027">
+    <state width="1934" height="340" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1586310217457" />
+    <state width="1934" height="340" key="GridCell.Tab.0.left" timestamp="1586310217457">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2173" height="153" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1586301302027" />
-    <state width="2173" height="153" key="GridCell.Tab.0.right" timestamp="1586301302028">
+    <state width="1934" height="340" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1586310217457" />
+    <state width="1934" height="340" key="GridCell.Tab.0.right" timestamp="1586310217458">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2173" height="153" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1586301302028" />
-    <state width="2173" height="208" key="GridCell.Tab.1.bottom" timestamp="1586297144369">
+    <state width="1934" height="340" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1586310217458" />
+    <state width="1934" height="208" key="GridCell.Tab.1.bottom" timestamp="1586307952825">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2173" height="208" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1586297144369" />
-    <state width="2173" height="208" key="GridCell.Tab.1.center" timestamp="1586297144369">
+    <state width="1934" height="208" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1586307952825" />
+    <state width="1934" height="208" key="GridCell.Tab.1.center" timestamp="1586307952824">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2173" height="208" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1586297144369" />
-    <state width="2173" height="208" key="GridCell.Tab.1.left" timestamp="1586297144368">
+    <state width="1934" height="208" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1586307952824" />
+    <state width="1934" height="208" key="GridCell.Tab.1.left" timestamp="1586307952824">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2173" height="208" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1586297144368" />
-    <state width="2173" height="208" key="GridCell.Tab.1.right" timestamp="1586297144369">
+    <state width="1934" height="208" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1586307952824" />
+    <state width="1934" height="208" key="GridCell.Tab.1.right" timestamp="1586307952825">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2173" height="208" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1586297144369" />
+    <state width="1934" height="208" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1586307952825" />
     <state x="1406" y="420" key="RollbackChangesDialog" timestamp="1586295917778">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -761,14 +761,14 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1427" y="415" key="VCS.ChangeListViewerDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1585753899611" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1586276366004">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1586301361098">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1586276366004" />
-    <state x="268" y="115" width="2059" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1586266945774">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1586301361098" />
+    <state x="268" y="115" width="2059" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1586302934061">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="268" y="115" width="2059" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1586266945774" />
+    <state x="268" y="115" width="2059" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1586302934061" />
     <state x="936" y="531" key="com.intellij.ide.util.TipDialog" timestamp="1585521328851">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>

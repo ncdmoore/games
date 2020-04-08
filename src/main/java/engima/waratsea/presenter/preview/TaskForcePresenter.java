@@ -15,6 +15,7 @@ import engima.waratsea.presenter.ship.ShipDetailsDialog;
 import engima.waratsea.view.preview.TaskForceView;
 import engima.waratsea.view.map.marker.preview.PopUp;
 import engima.waratsea.view.map.marker.preview.TargetMarker;
+import engima.waratsea.view.taskforce.TaskForceViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
@@ -41,26 +42,30 @@ public class TaskForcePresenter implements Presenter {
     private Stage stage;
 
     private TaskForce selectedTaskForce;
+    private final TaskForceViewModel taskForceViewModel;
 
-    private Provider<TaskForceView> viewProvider;
-    private Provider<ShipDetailsDialog> shipDetailsDialogProvider;
-    private Navigate navigate;
+    private final Provider<TaskForceView> viewProvider;
+    private final Provider<ShipDetailsDialog> shipDetailsDialogProvider;
+    private final Navigate navigate;
 
     /**
      * This is the constructor.
      *
      * @param game The game object.
-     * @param viewProvider The corresponding view,
+     * @param viewProvider The corresponding view.
+     * @param taskForceViewModel The task force view model.
      * @param shipDetailsDialogProvider The ship details dialog provider.
      * @param navigate Provides screen navigation.
      */
     @Inject
     public TaskForcePresenter(final Game game,
                               final Provider<TaskForceView> viewProvider,
+                              final TaskForceViewModel taskForceViewModel,
                               final Provider<ShipDetailsDialog> shipDetailsDialogProvider,
                               final Navigate navigate) {
         this.game = game;
         this.viewProvider = viewProvider;
+        this.taskForceViewModel = taskForceViewModel;
         this.shipDetailsDialogProvider = shipDetailsDialogProvider;
         this.navigate = navigate;
     }
@@ -76,7 +81,7 @@ public class TaskForcePresenter implements Presenter {
     }
 
     /**
-     * Reshows the task force view.
+     * Re-shows the task force view.
      *
      * @param primaryStage the stage that the task force view is placed.
      */
@@ -91,9 +96,10 @@ public class TaskForcePresenter implements Presenter {
      * @param primaryStage The primary stage.
      */
     private void setupView(final Stage primaryStage) {
-        view = viewProvider.get();
-
         this.stage = primaryStage;
+
+        view = viewProvider.get();
+        view.bind(taskForceViewModel);
 
         view.setTaskForces(game.getHumanPlayer().getTaskForces());
         view.getTaskForces().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> taskForceSelected(newValue));
@@ -122,7 +128,7 @@ public class TaskForcePresenter implements Presenter {
     }
 
     /**
-     * Mark the given task force on the preveiw map.
+     * Mark the given task force on the preview map.
      *
      * @param taskForce The selected task force.
      */
@@ -193,6 +199,8 @@ public class TaskForcePresenter implements Presenter {
 
         clearAllTaskForces();
         this.selectedTaskForce = taskForce;
+
+        taskForceViewModel.setModel(taskForce);
 
         view.setSelectedTaskForce(selectedTaskForce);
         view.getShipButtons()
