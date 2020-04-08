@@ -9,6 +9,7 @@ import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.flotilla.FlotillaViewModel;
 import engima.waratsea.view.map.FlotillaPreviewMapView;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -42,30 +43,21 @@ import java.util.stream.Stream;
 public class FlotillaView {
     private static final String CSS_FILE = "flotillaView.css";
 
-    private ViewProps props;
-    private CssResourceProvider cssResourceProvider;
-    private ImageResourceProvider imageResourceProvider;
+    private final ViewProps props;
+    private final CssResourceProvider cssResourceProvider;
+    private final ImageResourceProvider imageResourceProvider;
 
-    private Game game;
-    private FlotillaPreviewMapView flotillaMap;
+    private final Game game;
+    private final FlotillaPreviewMapView flotillaMap;
 
-    @Getter
-    private TabPane flotillaTabPane;
+    private final Map<FlotillaType, Label> stateValue = new HashMap<>();
+    private final Map<FlotillaType, Label> locationValue = new HashMap<>();
 
-    @Getter
-    private Map<FlotillaType, ChoiceBox<Flotilla>> flotillas = new HashMap<>();
-
-    private Map<FlotillaType, Label> stateValue = new HashMap<>();
-    private Map<FlotillaType, Label> locationValue = new HashMap<>();
-
-    @Getter
-    private Button continueButton = new Button("Continue");
-
-    @Getter
-    private Button backButton = new Button("Back");
-
-    @Getter
-    private List<Button> vesselButtons;
+    @Getter private TabPane flotillaTabPane;
+    @Getter private final Map<FlotillaType, ChoiceBox<Flotilla>> flotillas = new HashMap<>();
+    @Getter private final Button continueButton = new Button("Continue");
+    @Getter private final Button backButton = new Button("Back");
+    @Getter private List<Button> vesselButtons;
 
     private TilePane vesselPane;
 
@@ -92,6 +84,10 @@ public class FlotillaView {
 
         this.flotillaMap = flotillaMap;
 
+        Stream.of(FlotillaType.values()).forEach(type -> {
+            stateValue.put(type, new Label());
+            locationValue.put(type, new Label());
+        });
     }
 
     /**
@@ -135,7 +131,20 @@ public class FlotillaView {
     }
 
     /**
-     * Set the minefields.
+     * Bind the view to the view model.
+     *
+     * @param type The flotilla type.
+     * @param viewModel The view model.
+     * @return This object.
+     */
+    public FlotillaView bind(final FlotillaType type, final FlotillaViewModel viewModel) {
+        stateValue.get(type).textProperty().bind(viewModel.getState());
+        locationValue.get(type).textProperty().bind(viewModel.getLocation());
+        return this;
+    }
+
+    /**
+     * Set the flotillas.
      *
      * @param flotillaType The type of flotilla: SUBMARINE or MTB.
      * @param items The flotillas.
@@ -151,8 +160,7 @@ public class FlotillaView {
      * @param flotilla the flotilla whose marker is cleared.
      */
     public void clearFlotilla(final Flotilla flotilla) {
-        String name = flotilla.getName();
-        flotillaMap.clearMarker(name);
+        flotillaMap.clearMarker(flotilla.getName());
     }
 
     /**
@@ -161,8 +169,7 @@ public class FlotillaView {
      * @param flotilla the flotilla whose marker is removed.
      */
     public void removeFlotilla(final Flotilla flotilla) {
-        String name = flotilla.getName();
-        flotillaMap.removeMarker(name);
+        flotillaMap.removeMarker(flotilla.getName());
     }
 
     /**
@@ -178,18 +185,10 @@ public class FlotillaView {
     /**
      * Set the selected flotilla.
      *
-     * @param flotillaType The flotilla type: SUBMARINE or MTB.
      * @param flotilla The selected flotilla
      */
-    public void setSelectedFlotilla(final FlotillaType flotillaType, final Flotilla flotilla) {
+    public void setSelectedFlotilla(final Flotilla flotilla) {
         flotillaMap.selectMarker(flotilla.getName());
-
-        stateValue.get(flotillaType).setText(flotilla.getState().toString());
-
-        String prefix = flotilla.atFriendlyBase() ? "At port " : "At sea zone ";
-
-        locationValue.get(flotillaType).setText(prefix + flotilla.getMappedLocation());
-
         setVesselButtons(flotilla);
     }
 
@@ -299,13 +298,8 @@ public class FlotillaView {
      * @return A node containing the flotilla details.
      */
     private Node buildFlotillaDetails(final FlotillaType flotillaType) {
-
         Text stateLabel = new Text("State:");
         Text locationLabel = new Text("Location:");
-
-        stateValue.put(flotillaType, new Label());
-        locationValue.put(flotillaType, new Label());
-
 
         GridPane gridPane = new GridPane();
         gridPane.setId("flotilla-details-grid");
@@ -334,7 +328,6 @@ public class FlotillaView {
      * @return The node that contains the task force preview map legend.
      */
     private Node buildLegend() {
-
         VBox vBox = new VBox(flotillaMap.getLegend());
         vBox.setId("map-legend-vbox");
 

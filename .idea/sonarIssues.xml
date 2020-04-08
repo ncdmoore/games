@@ -1153,6 +1153,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/flotilla/FlotillaViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/game/GameViewModel.java">
           <value>
             <set />
@@ -1254,11 +1259,6 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/SquadronRangeMarker.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/FlotillaView.java">
           <value>
             <set />
           </value>

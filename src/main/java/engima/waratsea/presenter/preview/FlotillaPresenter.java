@@ -13,6 +13,7 @@ import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.motorTorpedoBoat.MotorTorpedoDetailsDialog;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.presenter.submarine.SubmarineDetailsDialog;
+import engima.waratsea.view.flotilla.FlotillaViewModel;
 import engima.waratsea.view.preview.FlotillaView;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,7 +24,9 @@ import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -33,21 +36,25 @@ import java.util.stream.Stream;
 @Slf4j
 @Singleton
 public class FlotillaPresenter implements Presenter {
-    private Provider<FlotillaView> viewProvider;
-    private Provider<SubmarineDetailsDialog> subDetailsDialogProvider;
-    private Provider<MotorTorpedoDetailsDialog> mtbDetailsDialogProvider;
+    private final Provider<FlotillaView> viewProvider;
+    private final Provider<FlotillaViewModel> viewModelProvider;
+    private final Provider<SubmarineDetailsDialog> subDetailsDialogProvider;
+    private final Provider<MotorTorpedoDetailsDialog> mtbDetailsDialogProvider;
+
+    private final Map<FlotillaType, FlotillaViewModel> viewModelMap = new HashMap<>();
 
     private final Game game;
     private FlotillaView view;
     private Stage stage;
 
-    private Navigate navigate;
+    private final Navigate navigate;
 
     /**
      * This is the constructor.
      *
      * @param game The game object.
      * @param viewProvider The corresponding view,
+     * @param viewModelProvider The view model provider.
      * @param navigate Provides screen navigation.
      * @param subDetailsDialogProvider The submarine details dialog provider.
      * @param mtbDetailsDialogProvider The MTB details dialog provider.
@@ -55,11 +62,13 @@ public class FlotillaPresenter implements Presenter {
     @Inject
     public FlotillaPresenter(final Game game,
                              final Provider<FlotillaView> viewProvider,
+                             final Provider<FlotillaViewModel> viewModelProvider,
                              final Navigate navigate,
                              final Provider<SubmarineDetailsDialog> subDetailsDialogProvider,
                              final Provider<MotorTorpedoDetailsDialog> mtbDetailsDialogProvider) {
         this.game = game;
         this.viewProvider = viewProvider;
+        this.viewModelProvider = viewModelProvider;
         this.navigate = navigate;
         this.subDetailsDialogProvider = subDetailsDialogProvider;
         this.mtbDetailsDialogProvider = mtbDetailsDialogProvider;
@@ -72,9 +81,15 @@ public class FlotillaPresenter implements Presenter {
      */
     @Override
     public void show(final Stage primaryStage) {
+        this.stage = primaryStage;
+
         this.view = viewProvider.get();
 
-        this.stage = primaryStage;
+        Stream.of(FlotillaType.values()).forEach(type -> {
+            FlotillaViewModel flotillaViewModel = viewModelProvider.get();
+            viewModelMap.put(type, flotillaViewModel);
+            view.bind(type, flotillaViewModel);
+        });
 
         view.show(stage, game.getScenario());
 
@@ -171,7 +186,7 @@ public class FlotillaPresenter implements Presenter {
         Flotilla flotilla = view.getFlotillas().get(newFlotillaType).getSelectionModel().getSelectedItem();
         if (flotilla != null) {
             log.info("Set selected flotilla {}", flotilla);
-            view.setSelectedFlotilla(newFlotillaType, flotilla);
+            view.setSelectedFlotilla(flotilla);
             view.getVesselButtons()
                     .forEach(button -> button.setOnAction(this::displayVesselDialog));
         }
@@ -224,7 +239,10 @@ public class FlotillaPresenter implements Presenter {
 
         FlotillaType flotillaType = determineFlotillaType();
 
-        view.setSelectedFlotilla(flotillaType, flotilla);
+        viewModelMap.get(flotillaType).setModel(flotilla);
+
+        view.setSelectedFlotilla(flotilla);
+
         view.getVesselButtons()
                 .forEach(button -> button.setOnAction(this::displayVesselDialog));
     }
