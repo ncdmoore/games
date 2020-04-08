@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/TaskForcePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/TaskForcePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/ScenarioPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/ScenarioPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/scenario/ScenarioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/ScenarioView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/scenario/ScenarioViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/scenario/ScenarioViewModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -282,13 +281,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00163" summary="Add unit test for search squadron configuration.">
-      <created>1584885636052</created>
-      <option name="number" value="00163" />
-      <option name="presentableId" value="LOCAL-00163" />
-      <option name="project" value="LOCAL" />
-      <updated>1584885636052</updated>
     </task>
     <task id="LOCAL-00164" summary="Aircraft with the required naval or land payload have an additional range modifier for search squadron configurations.">
       <created>1584887740514</created>
@@ -626,7 +618,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586310319749</updated>
     </task>
-    <option name="localTasksCounter" value="212" />
+    <task id="LOCAL-00212" summary="Refactor task force preview to use view model.">
+      <created>1586360656858</created>
+      <option name="number" value="00212" />
+      <option name="presentableId" value="LOCAL-00212" />
+      <option name="project" value="LOCAL" />
+      <updated>1586360656858</updated>
+    </task>
+    <option name="localTasksCounter" value="213" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -709,26 +708,26 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1362" y="543" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1586310217398" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1586310317953">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1586360655806">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1586310317953" />
-    <state width="1934" height="340" key="GridCell.Tab.0.bottom" timestamp="1586315505530">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1586360655806" />
+    <state width="1934" height="340" key="GridCell.Tab.0.bottom" timestamp="1586361794692">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1934" height="340" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1586315505530" />
-    <state width="1934" height="340" key="GridCell.Tab.0.center" timestamp="1586315505529">
+    <state width="1934" height="340" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1586361794692" />
+    <state width="1934" height="340" key="GridCell.Tab.0.center" timestamp="1586361794692">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1934" height="340" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1586315505529" />
-    <state width="1934" height="340" key="GridCell.Tab.0.left" timestamp="1586315505529">
+    <state width="1934" height="340" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1586361794692" />
+    <state width="1934" height="340" key="GridCell.Tab.0.left" timestamp="1586361794692">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1934" height="340" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1586315505529" />
-    <state width="1934" height="340" key="GridCell.Tab.0.right" timestamp="1586315505530">
+    <state width="1934" height="340" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1586361794692" />
+    <state width="1934" height="340" key="GridCell.Tab.0.right" timestamp="1586361794692">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1934" height="340" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1586315505530" />
+    <state width="1934" height="340" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1586361794692" />
     <state width="1934" height="208" key="GridCell.Tab.1.bottom" timestamp="1586307952825">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -761,10 +760,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1427" y="415" key="VCS.ChangeListViewerDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1585753899611" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1586310326846">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1586360662517">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1586310326846" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1586360662517" />
     <state x="268" y="115" width="2059" height="1137" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1586353294013">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
