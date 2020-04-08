@@ -69,6 +69,14 @@ public class TaskForceViewModel {
         Paint color = taskForce.getState() == TaskForceState.RESERVE ? Color.RED : Color.BLACK;
         stateColor.set(color);
 
+        // These values must be set to 0 for the case where the underlying table is rebuilt but the model values are not
+        // changed. This happens when one navigates away from the task force screen and then back to it. If this is not
+        // done, the ship and squadron tables have the appearance of zero rows. Setting these values to zero and then
+        // to the correct value, forces the table properties to be updated with the correct height. Recall, the table
+        // height is based off of the number of rows.
+        numShipTypes.setValue(0);
+        numSquadronTypes.setValue(0);
+
         setShipTypeSummary(taskForce);
         setSquadronTypeSummary(taskForce);
     }

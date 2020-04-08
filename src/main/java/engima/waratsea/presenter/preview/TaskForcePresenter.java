@@ -115,6 +115,8 @@ public class TaskForcePresenter implements Presenter {
         view.finish();
         view.getContinueButton().setOnAction(event -> continueButton());
         view.getBackButton().setOnAction(event -> backButton());
+
+        view.getTaskForces().getSelectionModel().clearSelection();
         view.getTaskForces().getSelectionModel().selectFirst();
     }
 
