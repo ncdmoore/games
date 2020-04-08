@@ -155,8 +155,9 @@ public class TaskForceView {
      * Bind the view to he view model.
      *
      * @param viewModel The task force view model.
+     * @return This object.
      */
-    public void bind(final TaskForceViewModel viewModel) {
+    public TaskForceView bind(final TaskForceViewModel viewModel) {
         stateValue.textProperty().bind(viewModel.getState());
         stateValue.textFillProperty().bind(viewModel.getStateColor());
         missionValue.textProperty().bind(viewModel.getMission());
@@ -172,6 +173,8 @@ public class TaskForceView {
         name.bind(viewModel.getName());
         shipTypeMap.bind(viewModel.getShipTypeMap());
         squadronTypeMap.bind(viewModel.getSquadronTypeMap());
+
+        return this;
     }
 
     /**

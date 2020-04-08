@@ -69,8 +69,9 @@ public class ScenarioPresenter implements Presenter {
     public void show(final Stage primaryStage) {
         this.stage = primaryStage;
 
-        view = viewProvider.get();
-        view.bind(scenarioViewModel);
+        view = viewProvider
+                .get()
+                .bind(scenarioViewModel);
 
         initScenarios();
         selectFirstScenario();

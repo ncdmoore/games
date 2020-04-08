@@ -10,7 +10,9 @@ import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.presenter.Presenter;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.view.FatalErrorDialog;
+import engima.waratsea.view.game.GameViewModel;
 import engima.waratsea.view.preview.SavedGameView;
+import engima.waratsea.view.scenario.ScenarioViewModel;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,22 +29,31 @@ public class SavedGamePresenter implements Presenter {
     private Navigate navigate;
     private Provider<FatalErrorDialog> fatalErrorDialogProvider;
 
+    private final ScenarioViewModel scenarioViewModel;
+    private final GameViewModel gameViewModel;
+
     /**
      * The constructor for the saved game presenter. Called by guice.
      *
      * @param game The game.
      * @param viewProvider The starting view.
+     * @param scenarioViewModel The scenario view model.
+     * @param gameViewModel The game view model.
      * @param navigate Used to navigate to the next screen.
      * @param fatalErrorDialogProvider provides the fatal error dialog.
      */
     @Inject
     public SavedGamePresenter(final Game game,
                               final Provider<SavedGameView> viewProvider,
+                              final ScenarioViewModel scenarioViewModel,
+                              final GameViewModel gameViewModel,
                               final Navigate navigate,
                               final Provider<FatalErrorDialog> fatalErrorDialogProvider) {
 
         this.game = game;
         this.viewProvider = viewProvider;
+        this.scenarioViewModel = scenarioViewModel;
+        this.gameViewModel = gameViewModel;
         this.navigate = navigate;
         this.fatalErrorDialogProvider = fatalErrorDialogProvider;
     }
@@ -54,9 +65,12 @@ public class SavedGamePresenter implements Presenter {
      */
     @Override
     public void show(final Stage primaryStage) {
-        view = viewProvider.get();
-
         this.stage = primaryStage;
+
+        view = viewProvider
+                .get()
+                .bind(scenarioViewModel)
+                .bind(gameViewModel);
 
         initScenarios();
 
@@ -82,7 +96,8 @@ public class SavedGamePresenter implements Presenter {
      */
     private void gameSelected(final GameData savedGame) {
         this.selectedSavedGame = savedGame;
-        view.setSelectedSavedGame(savedGame);
+        scenarioViewModel.setModel(savedGame.getScenario());
+        gameViewModel.setModel(savedGame);
     }
 
     /**

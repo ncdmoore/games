@@ -2,17 +2,19 @@ package engima.waratsea.view.preview;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.game.data.GameData;
-import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.game.GameViewModel;
+import engima.waratsea.view.scenario.ScenarioViewModel;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -99,6 +101,37 @@ public class SavedGameView {
     }
 
     /**
+     * Bind this view to the selected scenario view model.
+     *
+     * @param viewModel The selected scenario view model.
+     * @return This object.
+     */
+    public SavedGameView bind(final ScenarioViewModel viewModel) {
+        turnValue.textProperty().bind(viewModel.getTurn());
+        dateValue.textProperty().bind(viewModel.getDate());
+        descriptionValue.textProperty().bind(viewModel.getDescription());
+
+        StringProperty name = viewModel.getName();
+        StringProperty imageName = viewModel.getImageName();
+
+        scenarioImage.imageProperty().bind(Bindings.createObjectBinding(() ->
+                imageResourceProvider.getImage(name.getValue(), imageName.getValue()), name, imageName));
+
+        return this;
+    }
+
+    /**
+     * Bind this view to the selected game view model.
+     *
+     * @param viewModel The selected game view model.
+     * @return This object.
+     */
+    public SavedGameView bind(final GameViewModel viewModel) {
+        sideValue.textProperty().bind(viewModel.getSide());
+        return this;
+    }
+
+    /**
      * Set the saved games in the list view.
      *
      * @param games the saved games.
@@ -106,29 +139,6 @@ public class SavedGameView {
     public void setSavedGames(final List<GameData> games) {
         savedGames.getItems().clear();
         savedGames.getItems().addAll(games);
-    }
-
-    /**
-     * Update the view with the currently selected saved game.
-     *
-     * @param savedGame currently selected saved game.
-     */
-    public void setSelectedSavedGame(final GameData savedGame) {
-        Scenario scenario = savedGame.getScenario();
-        setScenarioImages(scenario);
-        setScenarioDetails(scenario);
-
-        sideValue.setText(savedGame.getHumanSide().toString());
-    }
-
-    /**
-     * Set the scenario details.
-     * @param scenario currently selected scenario.
-     */
-    private void setScenarioDetails(final Scenario scenario) {
-        turnValue.setText(Integer.toString(scenario.getMaxTurns()));
-        dateValue.setText(scenario.getDateString());
-        descriptionValue.setText(scenario.getDescription());
     }
 
     /**
@@ -185,17 +195,5 @@ public class SavedGameView {
         HBox hBox =  new HBox(backButton, continueButton);
         hBox.setId("push-buttons");
         return hBox;
-    }
-
-    /**
-     * Set the scenario image.
-     *
-     * @param scenario currently selected scenario.
-     */
-    private void setScenarioImages(final Scenario scenario) {
-        String name = scenario.getName();
-
-        Image image = imageResourceProvider.getImage(name, scenario.getImage());
-        scenarioImage.setImage(image);
     }
 }

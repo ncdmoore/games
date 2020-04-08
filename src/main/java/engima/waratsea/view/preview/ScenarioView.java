@@ -116,8 +116,9 @@ public class ScenarioView {
      * Bind the view to the view model.
      *
      * @param scenarioViewModel The scenario view model.
+     * @return This object.
      */
-    public void bind(final ScenarioViewModel scenarioViewModel) {
+    public ScenarioView bind(final ScenarioViewModel scenarioViewModel) {
         turnValue.textProperty().bind(scenarioViewModel.getTurn());
         dateValue.textProperty().bind(scenarioViewModel.getDate());
         descriptionValue.textProperty().bind(scenarioViewModel.getDescription());
@@ -133,6 +134,8 @@ public class ScenarioView {
 
         alliesFlag.imageProperty().bind(Bindings.createObjectBinding(() ->
                 imageResourceProvider.getImage(name.getValue(), props.getString("allies.flag.medium.image")), name));
+
+        return this;
     }
 
     /**

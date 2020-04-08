@@ -98,8 +98,9 @@ public class TaskForcePresenter implements Presenter {
     private void setupView(final Stage primaryStage) {
         this.stage = primaryStage;
 
-        view = viewProvider.get();
-        view.bind(taskForceViewModel);
+        view = viewProvider
+                .get()
+                .bind(taskForceViewModel);
 
         view.setTaskForces(game.getHumanPlayer().getTaskForces());
         view.getTaskForces().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> taskForceSelected(newValue));
