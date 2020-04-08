@@ -202,8 +202,10 @@ public class TaskForcePresenter implements Presenter {
 
         taskForceViewModel.setModel(taskForce);
 
-        view.setSelectedTaskForce(selectedTaskForce);
-        view.getShipButtons()
+        view.showSelectedTaskForce();
+
+        view
+                .getShipButtons()
                 .forEach(button -> button.setOnAction(this::displayShipDialog));
     }
 
@@ -211,8 +213,10 @@ public class TaskForcePresenter implements Presenter {
      * Clear all the task force selections.
      */
     private void clearAllTaskForces() {
-        game.getHumanPlayer().getTaskForces()
-                .forEach(taskForce -> view.clearTaskForce(taskForce));
+        game
+                .getHumanPlayer()
+                .getTaskForces()
+                .forEach(view::clearTaskForce);
     }
 
     /**

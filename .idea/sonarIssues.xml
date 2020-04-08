@@ -943,6 +943,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/TaskForcePresenter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/scenario/ScenarioPresenter.java">
           <value>
             <set />

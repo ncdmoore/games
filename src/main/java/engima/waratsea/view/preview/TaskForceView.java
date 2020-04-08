@@ -19,6 +19,8 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -82,6 +84,7 @@ public class TaskForceView {
     private final TableView<Pair<String, String>> shipTable = new TableView<>();
     private final TableView<Pair<String, String>> squadronTable = new TableView<>();
 
+    private final StringProperty name = new SimpleStringProperty();
     private final ObjectProperty<Map<ShipViewType, List<Ship>>> shipTypeMap = new SimpleObjectProperty<>(this, "shipTypeMap", Collections.emptyMap());
     private final ObjectProperty<Map<AircraftType, BigDecimal>> squadronTypeMap = new SimpleObjectProperty<>(this, "squadronTypeMap", Collections.emptyMap());
 
@@ -166,6 +169,7 @@ public class TaskForceView {
         squadronTable.itemsProperty().bind(viewModel.getSquadronTypeSummary());
         bindTableHeight(squadronTable, viewModel.getNumSquadronTypes());
 
+        name.bind(viewModel.getName());
         shipTypeMap.bind(viewModel.getShipTypeMap());
         squadronTypeMap.bind(viewModel.getSquadronTypeMap());
     }
@@ -346,10 +350,9 @@ public class TaskForceView {
     /**
      * Set the selected task force. Show this task force's map marker.
      *
-     * @param taskForce the selected task force.
      */
-    public void setSelectedTaskForce(final TaskForce taskForce) {
-        taskForceMap.selectMarker(taskForce.getName());
+    public void showSelectedTaskForce() {
+        taskForceMap.selectMarker(name.getValue());
         setTabs();
     }
 
@@ -401,6 +404,7 @@ public class TaskForceView {
 
     /**
      * Close the popup.
+     *
      * @param event the mouse event.
      */
     public void closePopup(final MouseEvent event) {
