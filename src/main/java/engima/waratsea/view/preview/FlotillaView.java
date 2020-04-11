@@ -9,7 +9,7 @@ import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.flotilla.FlotillaViewModel;
+import engima.waratsea.viewmodel.FlotillaViewModel;
 import engima.waratsea.view.map.FlotillaPreviewMapView;
 import javafx.scene.Node;
 import javafx.scene.Scene;

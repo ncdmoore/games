@@ -3,10 +3,8 @@ package engima.waratsea.presenter.preview;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import engima.waratsea.model.aircraft.AircraftBaseType;
-import engima.waratsea.model.aircraft.LandingType;
-import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.GameMap;
@@ -16,21 +14,20 @@ import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.presenter.Presenter;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
-import engima.waratsea.presenter.squadron.Deployment;
 import engima.waratsea.presenter.squadron.SquadronDetailsDialog;
-import engima.waratsea.view.preview.SquadronView;
 import engima.waratsea.view.WarnDialog;
 import engima.waratsea.view.map.marker.preview.AirfieldMarker;
+import engima.waratsea.view.preview.SquadronView;
+import engima.waratsea.viewmodel.AirfieldViewModel;
+import engima.waratsea.viewmodel.DeploymentViewModel;
+import engima.waratsea.viewmodel.RegionViewModel;
 import javafx.scene.control.Tab;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -49,19 +46,24 @@ public class SquadronPresenter implements Presenter {
     private SquadronView view;
     private Stage stage;
 
-    private Provider<SquadronView> viewProvider;
-    private Provider<SquadronDetailsDialog> squadronDetailsDialogProvider;
-    private Provider<WarnDialog> warnDialogProvider;
+    private final Provider<SquadronView> viewProvider;
+    private final Provider<RegionViewModel> regionViewModelProvider;
+    private final Provider<AirfieldViewModel> airfieldViewModelProvider;
+    private final Provider<SquadronDetailsDialog> squadronDetailsDialogProvider;
+    private final Provider<WarnDialog> warnDialogProvider;
 
-    private Navigate navigate;
+    private final Navigate navigate;
 
     private List<Nation> nations;
 
     private Airfield selectedAirfield;
-    private Squadron selectedAvailableSquadron;
-    private Squadron selectedAirfieldSquadron;
+    private final Map<Nation, Squadron> selectedAvailableSquadron = new HashMap<>();
+    private final Map<Nation, Squadron> selectedAirfieldSquadron = new HashMap<>();
 
-    private Map<Nation, Map<LandingType, Deployment>> deployment = new LinkedHashMap<>();
+    private final Map<Nation, RegionViewModel> regionViewModelMap = new HashMap<>();
+    private final Map<Nation, AirfieldViewModel> airfieldViewModelMap = new HashMap<>();
+
+    private final DeploymentViewModel deploymentViewModel;
 
     /**
      * This is the constructor.
@@ -69,20 +71,31 @@ public class SquadronPresenter implements Presenter {
      * @param game The game object.
      * @param gameMap The game's map.
      * @param viewProvider The corresponding view.
+     * @param regionViewModelProvider The region view model provider.
+     * @param airfieldViewModelProvider The airfield view model provider.
+     * @param deploymentViewModel The deployment view model.
      * @param squadronDetailsDialogProvider The ship details dialog provider.
      * @param warnDialogProvider The warning dialog provider.
      * @param navigate Provides screen navigation.
      */
+    //CHECKSTYLE:OFF
     @Inject
     public SquadronPresenter(final Game game,
                              final GameMap gameMap,
                              final Provider<SquadronView> viewProvider,
+                             final Provider<RegionViewModel> regionViewModelProvider,
+                             final Provider<AirfieldViewModel> airfieldViewModelProvider,
+                             final DeploymentViewModel deploymentViewModel,
                              final Provider<SquadronDetailsDialog> squadronDetailsDialogProvider,
                              final Provider<WarnDialog> warnDialogProvider,
                              final Navigate navigate) {
+        //CHECKSTYLE:ON
         this.game = game;
         this.gameMap = gameMap;
         this.viewProvider = viewProvider;
+        this.regionViewModelProvider = regionViewModelProvider;
+        this.airfieldViewModelProvider = airfieldViewModelProvider;
+        this.deploymentViewModel = deploymentViewModel;
         this.squadronDetailsDialogProvider = squadronDetailsDialogProvider;
         this.warnDialogProvider = warnDialogProvider;
         this.navigate = navigate;
@@ -95,22 +108,33 @@ public class SquadronPresenter implements Presenter {
      */
     @Override
     public void show(final Stage primaryStage) {
-        view = viewProvider.get();
-
-        initializeDeployment();
-
         this.stage = primaryStage;
 
+        view = viewProvider.get();
+
+        nations = game
+                .getHumanPlayer()
+                .getNations()
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
+
+        deploymentViewModel.init();
+
+        getAndBindViewModel();
+
+        deploymentViewModel.setModel();
+
         view.show(stage, game.getScenario());
+
+        markAllAirfields();
+
         registerCallbacks();
         registerTabChange();
         selectFirstTab();
 
         view.finish();
 
-        view.getDeployButton().setOnAction(event -> deploySquadron());
-        view.getRemoveButton().setOnAction(event -> removeSquadron());
-        view.getDetailsButton().setOnAction(event -> showSquadron());
         view.getContinueButton().setOnAction(event -> continueButton());
         view.getBackButton().setOnAction(event -> backButton());
     }
@@ -126,30 +150,28 @@ public class SquadronPresenter implements Presenter {
     }
 
     /**
-     * Initialize the deployment data.
+     * Get the view model and bind it to the view.
      */
-    private void initializeDeployment() {
-        nations = game
-                .getHumanPlayer()
-                .getNations()
-                .stream()
-                .sorted()
-                .collect(Collectors.toList());
+    private void getAndBindViewModel() {
+        game.getHumanPlayer().getNations().forEach(nation -> {
+            RegionViewModel regionViewModel = regionViewModelProvider.get();
+            regionViewModelMap.put(nation, regionViewModel);
 
-        nations.forEach(nation -> {
-            Map<LandingType, Deployment> deploymentMap = new HashMap<>();
+            AirfieldViewModel airfieldViewModel = airfieldViewModelProvider.get();
+            airfieldViewModelMap.put(nation, airfieldViewModel);
 
-            deploymentMap.put(LandingType.LAND, new Deployment(LandingType.LAND));
-            deploymentMap.put(LandingType.SEAPLANE, new Deployment(LandingType.SEAPLANE));
-
-            deployment.put(nation, deploymentMap);
+            view
+                    .bind(nation, regionViewModel)
+                    .bind(nation, airfieldViewModel)
+                    .bind(nation, deploymentViewModel);
         });
+    }
 
-        nations
-                .forEach(nation -> view.bindDeploymentStats(nation,
-                        new ArrayList<>(deployment
-                                .get(nation)
-                                .values())));
+    /**
+     * Mark each nations airfields.
+     */
+    private void markAllAirfields() {
+        nations.forEach(this::markAirfields);
     }
 
     /**
@@ -184,56 +206,17 @@ public class SquadronPresenter implements Presenter {
     private void tabChanged(final Tab oldTab, final Tab newTab) {
         log.debug("Tab changed from {} to {}", oldTab.getText(), newTab.getText());
 
-        Nation oldNation = determineNation(oldTab.getText());
         Nation newNation = determineNation(newTab.getText());
 
-        // The tab has changed. Remove the old nation's airfields from the map.
-        if (oldNation != newNation) {
-            removeAirfields(oldNation);
-        }
-
-        markAirfields(newNation);
-
-        // This is needed when the tab changes but the region does not. Meaning that last time this tab
-        // was active the same region was selected.
-        // The call to select the first region may not trigger any changes. Thus, we need this code.
-        Region region = view.getRegions().get(newNation).getSelectionModel().getSelectedItem();
-        if (region != null) {
-            view.setSelectedRegion(newNation, region);    // Tell the view of the newly selected region.
-        }
-
-        // This is needed when the tab changes but the airfield does not. Meaning the last time this tab
-        // was active the same airfield was selected.
-        // The call to select first airfield may not trigger any changes. Thus, we need this code.
-        Airfield airfield = view.getAirfields().get(newNation).getSelectionModel().getSelectedItem();
-        if (airfield != null) {
-            view.setSelectedAirfield(newNation, airfield);  // Tell the view of the newly selected airfield.
-            selectedAirfield = airfield;
-        }
-
+        clearRegionSelection(newNation);
         selectFirstRegion(newNation);
-        selectFirstAirfield(newNation);
-
-        updateDeployment(newNation, LandingType.LAND);
-        updateDeployment(newNation, LandingType.SEAPLANE);
-
-        //If the airfield does not change then the select airfield doesn't trigger a callback.
-        //Thus, we set the available squadrons explicitly.
-        setAvailableSquadrons(newNation, selectedAirfield);
-
     }
 
     /**
      * Register callbacks for the region and airfield selection lists for all nations.
      */
     private void registerCallbacks() {
-        nations.forEach(this::registerSelections);
-
-        selectedAirfieldSquadron = null;
-        selectedAvailableSquadron = null;
-
-        view.getAvailableSquadrons().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> availableSquadronSelected(newValue));
-        view.getAirfieldSquadrons().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> airfieldSquadronSelected(newValue));
+        nations.forEach(this::registerCallback);
     }
 
     /**
@@ -241,71 +224,47 @@ public class SquadronPresenter implements Presenter {
      *
      * @param nation The nation: BRITISH, ITALIAN, etc ...
      */
-    private void registerSelections(final Nation nation) {
-        registerRegionSelection(nation);
-        registerAirfieldSelection(nation);
-    }
-
-    /**
-     * Register region selection callback for a given nation.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc ...
-     */
-    private void registerRegionSelection(final Nation nation) {
+    private void registerCallback(final Nation nation) {
         view
                 .getRegions()
                 .get(nation)
                 .getSelectionModel()
                 .selectedItemProperty()
                 .addListener((v, oldValue, newValue) -> regionSelected(newValue));
-    }
 
-    /**
-     * Register airfield selection callback for a given nation.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc ...
-     */
-    private void registerAirfieldSelection(final Nation nation) {
         view
                 .getAirfields()
                 .get(nation)
                 .getSelectionModel()
                 .selectedItemProperty()
                 .addListener((v, oldValue, newValue) -> airfieldSelected(newValue));
+        view
+                .getAvailableSquadrons()
+                .get(nation)
+                .getSelectionModel()
+                .selectedItemProperty()
+                .addListener((v, o, n) -> availableSquadronSelected(nation, n));
+
+        view
+                .getAirfieldSquadrons()
+                .get(nation)
+                .getSelectionModel()
+                .selectedItemProperty()
+                .addListener((v, o, n) -> airfieldSquadronSelected(nation, n));
+
+        view.getDeployButtons().get(nation).setOnAction(event -> deploySquadron(nation));
+        view.getRemoveButtons().get(nation).setOnAction(event -> removeSquadron(nation));
+        view.getDetailsButtons().get(nation).setOnAction(event -> showSquadron(nation));
     }
 
     /**
-     * Update the given nation's squadron deployment totals.
+     * Clear the region selection.
      *
-     * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @param landingType The landing type of the squadron deployment.
+     * @param nation The nation: BRITISH: ITALIAN, etc...
      */
-    private void updateDeployment(final Nation nation, final LandingType landingType) {
-
-        List<Squadron> squadrons = game
-                .getHumanPlayer()
-                .getSquadrons(nation, SquadronLocationType.LAND);
-
-        BigDecimal total = squadrons
-                .stream()
-                .filter(squadron -> squadron.isLandingTypeCompatible(landingType))
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        BigDecimal deployed = squadrons
-                .stream()
-                .filter(squadron -> squadron.isLandingTypeCompatible(landingType))
-                .filter(Squadron::isDeployed)
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        deployment.get(nation).get(landingType).setTotalSteps(total);
-        deployment.get(nation).get(landingType).setDeployedSteps(deployed);
-
-        view.getDeploymentStats().get(nation).refresh();
-
+    private void clearRegionSelection(final Nation nation) {
+        view.getRegions().get(nation).getSelectionModel().clearSelection();
     }
-
 
     /**
      * Select the first region for the given nation.
@@ -331,14 +290,11 @@ public class SquadronPresenter implements Presenter {
      * @param region The selected region.
      */
     private void regionSelected(final Region region) {
-        log.debug("Selected region {}", region);
+        log.info("Selected region {}", region);
 
         Nation nation = determineNation();
 
-        view.getAirfields().get(nation).getItems().clear();
-        view.getAirfields().get(nation).getItems().addAll(region.getAirfields());
-
-        view.setSelectedRegion(nation, region);
+        regionViewModelMap.get(nation).setModel(region);
 
         selectFirstAirfield(nation);
     }
@@ -349,56 +305,33 @@ public class SquadronPresenter implements Presenter {
      * @param airfield The selected airfield.
      */
     private void airfieldSelected(final Airfield airfield) {
-        log.debug("Selected airfield {}", airfield);
-
-        if (airfield == null) {    // This happens when the airfield choice box is cleared.
-            view.clearSquadronRange();
-            return;
-        }
+        log.info("Selected airfield {}", airfield);
 
         Nation nation = determineNation();
+
+        if (airfield == null) {    // This happens when the airfield choice box is cleared.
+            view.clearSquadronRange(nation);
+            return;
+        }
 
         clearAllAirfields();
 
         selectedAirfield = airfield;
 
+        airfieldViewModelMap.get(nation).setModel(nation, airfield);
+
         view.setSelectedAirfield(nation, airfield);
-
-        setAvailableSquadrons(nation, airfield);
-
-        markSquadronRange(selectedAirfield, selectedAvailableSquadron);
-
-    }
-
-    /**
-     * Set the available squadrons based on the type of airfield.
-     *
-     * @param nation The nation BRITISH, ITALIAN, etc.
-     * @param airfield The currently selected airfield.
-     */
-    private void setAvailableSquadrons(final Nation nation, final Airfield airfield) {
-        log.debug("Set the available squadrons for airfield: '{}'", airfield);
-
-        List<Squadron> available = game
-                .getHumanPlayer()
-                .getSquadrons(nation, SquadronLocationType.LAND)
-                .stream()
-                .filter(Squadron::isAvailable)
-                .filter(airfield::canSquadronLand)
-                .collect(Collectors.toList());
-
-        view.getAvailableSquadrons().getItems().clear();
-        view.getAvailableSquadrons().getItems().addAll(available);
     }
 
     /**
      * Callback when an available squadron is selected.
      *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
      * @param squadron The selected available squadron.
      */
-    private void availableSquadronSelected(final Squadron squadron) {
+    private void availableSquadronSelected(final Nation nation, final Squadron squadron) {
         log.debug("Select Squadron {}", squadron);
-        selectedAvailableSquadron = squadron;
+        selectedAvailableSquadron.put(nation, squadron);
 
         // Javafx does not call this callback if the squadron does not change.
         // This causes problems when we click between the available squadron list
@@ -407,20 +340,20 @@ public class SquadronPresenter implements Presenter {
         // in the airfield list. That way when we click back into the airfield list
         // the value is guaranteed to change.
         if (squadron != null) {
-            view.getAirfieldSquadrons().getSelectionModel().clearSelection();
+            view.getAirfieldSquadrons().get(nation).getSelectionModel().clearSelection();
+            markSquadronRange(selectedAirfield, squadron);
         }
-
-        markSquadronRange(selectedAirfield, squadron);
     }
 
     /**
      * Callback when an airfield squadron is selected.
      *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
      * @param squadron The selected airfield squadron.
      */
-    private void airfieldSquadronSelected(final Squadron squadron) {
+    private void airfieldSquadronSelected(final Nation nation, final Squadron squadron) {
         log.debug("Select Squadron {}", squadron);
-        selectedAirfieldSquadron = squadron;
+        selectedAirfieldSquadron.put(nation, squadron);
 
         // Javafx does not call this callback if the squadron does not change.
         // This causes problems when we click between the available squadron list
@@ -429,10 +362,9 @@ public class SquadronPresenter implements Presenter {
         // in the available list. That way when we click back into the available list
         // the value is guaranteed to change.
         if (squadron != null) {
-            view.getAvailableSquadrons().getSelectionModel().clearSelection();
+            view.getAvailableSquadrons().get(nation).getSelectionModel().clearSelection();
+            markSquadronRange(selectedAirfield, squadron);
         }
-
-        markSquadronRange(selectedAirfield, squadron);
     }
 
     /**
@@ -444,7 +376,7 @@ public class SquadronPresenter implements Presenter {
         game.getHumanPlayer().getAirfields()
                 .stream()
                 .filter(airfield -> airfield.usedByNation(nation))
-                .forEach(airfield -> view.clearAirfield(airfield));
+                .forEach(airfield -> view.clearAirfield(nation, airfield));
     }
 
     /**
@@ -476,41 +408,12 @@ public class SquadronPresenter implements Presenter {
     }
 
     /**
-     * Remove all the airfield markers of the given nation from the preview map.
-     *
-     * @param nation The nation of the airfield markers.
-     */
-    private void removeAirfields(final Nation nation) {
-        game
-                .getHumanPlayer()
-                .getAirfields()
-                .stream()
-                .filter(airfield -> airfield.usedByNation(nation))
-                .forEach(this::removeAirfield);
-    }
-
-    /**
-     * Remove an airfield marker from the preview map.
-     *
-     * @param airfield The airfield whose marker is removed.
-     */
-    private void removeAirfield(final Airfield airfield) {
-        view.removeAirfield(airfield);
-    }
-
-    /**
      * Mark the given selected squadron's range radius circle from the given airfield.
      *
      * @param airfield The selected airfield.
      * @param squadron The selected squadron.
      */
     private void markSquadronRange(final Airfield airfield, final Squadron squadron) {
-
-        if (squadron == null) {
-            view.clearSquadronRange();
-            return;
-        }
-
         // Temporarily assign the available squadron to the selected airfield so that the range
         // marker is properly displayed.
         boolean isAvailable = squadron.isAvailable();
@@ -519,6 +422,7 @@ public class SquadronPresenter implements Presenter {
         }
 
         AssetMarkerDTO dto = new AssetMarkerDTO(squadron);
+        dto.setNation(squadron.getNation());
         view.markSquadronRangeOnMap(dto);
 
         // Un-assign the available squadron now that the range has been marked.
@@ -530,12 +434,11 @@ public class SquadronPresenter implements Presenter {
     }
 
     /**
-     * Show the flotilla's popup.
+     * Show the squadron's popup.
      *
-     * @param event The mouse event click on the flotilla marker.
+     * @param event The mouse event click on the squadron marker.
      */
     private void showPopup(final MouseEvent event) {
-
         Nation nation = determineNation();
 
         Shape shape = (Shape) event.getSource();
@@ -561,37 +464,30 @@ public class SquadronPresenter implements Presenter {
      * @param event the mouse event.
      */
     private void closePopup(final MouseEvent event) {
-        view.closePopup(event);
+        Nation nation = determineNation();
+        view.closePopup(nation, event);
     }
 
     /**
      * Deploy the selected squadron.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
      */
-    private void deploySquadron() {
-        log.debug("Deploy {} to {}", selectedAvailableSquadron, selectedAirfield);
+    private void deploySquadron(final Nation nation) {
+        log.debug("Deploy {} to {}", selectedAvailableSquadron.get(nation), selectedAirfield);
 
-        if (selectedAvailableSquadron != null) {
-            // Save off the squadron, because when we remove the selected avaiable squadron
+        if (selectedAvailableSquadron.get(nation) != null) {
+            // Save off the squadron, because when we remove the selected available squadron
             // from the list the selected available squadron changes.
-            Squadron squadron = selectedAvailableSquadron;
+            Squadron squadron = selectedAvailableSquadron.get(nation);
 
-            AirfieldOperation result = selectedAirfield.addSquadron(squadron);
+            AirfieldOperation result = airfieldViewModelMap.get(nation).deploy(squadron);
+            regionViewModelMap.get(nation).refresh();
 
-            if (result == AirfieldOperation.SUCCESS) {                             // Add the squadron to the airfield.
-                view.getAvailableSquadrons().getItems().remove(squadron);          // Remove the squadron from the available list.
-                view.getAirfieldSquadrons().getItems().add(squadron);              // Add the squadron to the airfield list.
+            if (result == AirfieldOperation.SUCCESS) {
+                view.clearSquadronRange(nation);
+                view.getAvailableSquadrons().get(nation).getSelectionModel().selectFirst();
 
-                AircraftBaseType type = squadron.getBaseType();
-
-                updateDeployment(squadron.getNation(), LandingType.LAND);
-                updateDeployment(squadron.getNation(), LandingType.SEAPLANE);
-
-                view.updateRegion(determineNation());
-
-                selectedAirfield.getNations().forEach(nation -> {
-                    view.getAirfieldCurrentValue().get(nation).setText(selectedAirfield.getCurrentSteps() + "");
-                    view.getAirfieldSteps().get(nation).get(type).setText(selectedAirfield.getStepsForType(type) + "");
-                });
             } else {
                 warnDialogProvider.get().show("Unable to deploy squadron to " + selectedAirfield.getTitle() + ". " + result + ".");
             }
@@ -600,56 +496,43 @@ public class SquadronPresenter implements Presenter {
 
     /**
      * Remove the selected squadron from the selected airfield.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
      */
-    private void removeSquadron() {
+    private void removeSquadron(final Nation nation) {
         log.debug("Remove {}", selectedAirfieldSquadron);
 
-        if (selectedAirfieldSquadron != null) {
-            Squadron squadron = selectedAirfieldSquadron;
-
-            view.getAirfieldSquadrons().getItems().remove(squadron);
-
-            selectedAirfield.removeSquadron(squadron);
-
-            updateDeployment(squadron.getNation(), LandingType.LAND);
-            updateDeployment(squadron.getNation(), LandingType.SEAPLANE);
-
-            view.updateRegion(determineNation());
-
-            if (squadron.ofNation(determineNation())) {
-                view.getAvailableSquadrons().getItems().add(squadron);
-            }
-
-            AircraftBaseType type = squadron.getBaseType();
-
-            selectedAirfield.getNations().forEach(nation -> {
-                view.getAirfieldCurrentValue().get(nation).setText(selectedAirfield.getCurrentSteps() + "");
-                view.getAirfieldSteps().get(nation).get(type).setText(selectedAirfield.getStepsForType(type) + "");
-            });
+        if (selectedAirfieldSquadron.get(nation) != null) {
+            Squadron squadron = selectedAirfieldSquadron.get(nation);
+            view.clearSquadronRange(nation);
+            airfieldViewModelMap.get(nation).remove(squadron);
+            regionViewModelMap.get(nation).refresh();
+            view.getAirfieldSquadrons().get(nation).getSelectionModel().selectFirst();
         }
     }
 
     /**
      * Show the selected squadron.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
      */
-    private void showSquadron() {
-        getSelected()
-                .ifPresent(squadron -> squadronDetailsDialogProvider.get().show(squadron));
-
+    private void showSquadron(final Nation nation) {
+        getSelected(nation).ifPresent(squadron -> squadronDetailsDialogProvider.get().show(squadron));
     }
 
     /**
      * Get the current selected squadron.
      *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
      * @return The selected squadron.
      */
-    private Optional<Squadron> getSelected() {
+    private Optional<Squadron> getSelected(final Nation nation) {
         Squadron selectedSquadron = null;
 
-        if (selectedAvailableSquadron != null) {
-           selectedSquadron = selectedAvailableSquadron;
-        } else if (selectedAirfieldSquadron != null) {
-            selectedSquadron = selectedAirfieldSquadron;
+        if (selectedAvailableSquadron.get(nation) != null) {
+           selectedSquadron = selectedAvailableSquadron.get(nation);
+        } else if (selectedAirfieldSquadron.get(nation) != null) {
+            selectedSquadron = selectedAirfieldSquadron.get(nation);
         }
 
         return Optional.ofNullable(selectedSquadron);

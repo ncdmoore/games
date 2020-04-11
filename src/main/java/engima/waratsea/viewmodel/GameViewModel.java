@@ -1,4 +1,4 @@
-package engima.waratsea.view.game;
+package engima.waratsea.viewmodel;
 
 import engima.waratsea.model.game.data.GameData;
 import javafx.beans.property.SimpleStringProperty;

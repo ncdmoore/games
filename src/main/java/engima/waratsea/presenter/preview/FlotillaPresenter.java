@@ -13,7 +13,7 @@ import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.motorTorpedoBoat.MotorTorpedoDetailsDialog;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.presenter.submarine.SubmarineDetailsDialog;
-import engima.waratsea.view.flotilla.FlotillaViewModel;
+import engima.waratsea.viewmodel.FlotillaViewModel;
 import engima.waratsea.view.preview.FlotillaView;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -318,7 +318,6 @@ public class FlotillaPresenter implements Presenter {
      */
     private void displayVesselDialog(final ActionEvent event) {
         log.info("Show vessel dialog");
-
 
         Button button = (Button) event.getSource();
 

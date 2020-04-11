@@ -1,6 +1,7 @@
 package engima.waratsea.view.preview;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import engima.waratsea.model.aircraft.AircraftBaseType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Game;
@@ -16,8 +17,12 @@ import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.PreviewMapView;
+import engima.waratsea.viewmodel.AirfieldViewModel;
+import engima.waratsea.viewmodel.DeploymentViewModel;
+import engima.waratsea.viewmodel.RegionViewModel;
 import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
@@ -46,6 +51,7 @@ import lombok.Getter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -56,40 +62,45 @@ public class SquadronView {
     private static final String CSS_FILE = "squadronView.css";
     private static final String ROUNDEL = ".roundel.image";
 
-    private ViewProps props;
-    private CssResourceProvider cssResourceProvider;
-    private ImageResourceProvider imageResourceProvider;
+    private final ViewProps props;
+    private final CssResourceProvider cssResourceProvider;
+    private final ImageResourceProvider imageResourceProvider;
 
     @Getter private TabPane nationsTabPane;
-    @Getter private Map<Nation, ChoiceBox<Region>> regions = new HashMap<>();
-    @Getter private Map<Nation, ChoiceBox<Airfield>> airfields = new HashMap<>();
-    @Getter private Map<Nation, TableView<Deployment>> deploymentStats = new HashMap<>();
-    @Getter private ListView<Squadron> availableSquadrons = new ListView<>();
-    @Getter private Label squadronAirfieldLabel = new Label();
-    @Getter private ListView<Squadron> airfieldSquadrons = new ListView<>();
-    @Getter private Button deployButton = new Button();
-    @Getter private Button removeButton = new Button();
-    @Getter private Button detailsButton = new Button("Details");
-    @Getter private Button continueButton = new Button("Continue");
-    @Getter private Button backButton = new Button("Back");
+    @Getter private final Map<Nation, ChoiceBox<Region>> regions = new HashMap<>();
+    @Getter private final Map<Nation, ChoiceBox<Airfield>> airfields = new HashMap<>();
+    @Getter private final Map<Nation, TableView<Deployment>> deploymentStats = new HashMap<>();
 
-    private Game game;
-    private GameMap gameMap;
+    @Getter private final Map<Nation, ListView<Squadron>> availableSquadrons = new HashMap<>();
+    @Getter private final Map<Nation, ListView<Squadron>> airfieldSquadrons = new HashMap<>();
 
-    private PreviewMapView taskForceMap;
+    private final Map<Nation, Label> squadronAirfieldLabel = new HashMap<>();
+    @Getter private final Map<Nation, Button> deployButtons = new HashMap<>();
+    @Getter private final Map<Nation, Button> removeButtons = new HashMap<>();
+    @Getter private final Map<Nation, Button> detailsButtons = new HashMap<>();
 
-    private Map<Nation, Label> regionMinimumValue = new HashMap<>();
-    private Map<Nation, Label> regionMaximumValue = new HashMap<>();
-    private Map<Nation, Label> airfieldMaximumValue = new HashMap<>();
-    private Map<Nation, Map<String, ImageView>> regionDeployedValue = new HashMap<>();
+    @Getter private final Button continueButton = new Button("Continue");
+    @Getter private final Button backButton = new Button("Back");
 
-    @Getter
-    private Map<Nation, Label> airfieldCurrentValue = new HashMap<>();
+    private final Game game;
+    private final GameMap gameMap;
 
-    @Getter
-    private Map<Nation, Map<AircraftBaseType, Label>> airfieldSteps = new HashMap<>();
+    private final Map<Nation, PreviewMapView> previewMap = new HashMap<>();
 
-    private Map<Boolean, Image> imageMap = new HashMap<>();
+    private final Map<Nation, Label> regionMinimumValue = new HashMap<>();
+    private final Map<Nation, Label> regionMaximumValue = new HashMap<>();
+    private final Map<Nation, Label> regionCurrentValue = new HashMap<>();
+    private final Map<Nation, Label> airfieldMaximumValue = new HashMap<>();
+    private final Map<Nation, Label> airfieldCurrentValue = new HashMap<>();
+    private final Map<Nation, Label> airfieldAntiAirValue = new HashMap<>();
+
+    private final Map<Nation, Map<Region, ImageView>> regionDeployedValue = new HashMap<>();
+
+    @Getter private final Map<Nation, Map<AircraftBaseType, Label>> airfieldSteps = new HashMap<>();
+
+    private final Map<Boolean, Image> imageMap;
+
+    private final Set<Nation> nations;
 
     /**
      * Constructor called by guice.
@@ -97,9 +108,9 @@ public class SquadronView {
      * @param props view properties.
      * @param cssResourceProvider CSS file provider.
      * @param imageResourceProvider Image file provider.
+     * @param mapProvider Provides the maps.
      * @param game The game.
      * @param gameMap The game map.
-     * @param taskForceMap The task force preview map.
      */
     @Inject
     public SquadronView(final ViewProps props,
@@ -107,31 +118,128 @@ public class SquadronView {
                         final ImageResourceProvider imageResourceProvider,
                         final Game game,
                         final GameMap gameMap,
-                        final PreviewMapView taskForceMap) {
+                        final Provider<PreviewMapView> mapProvider) {
 
         this.props = props;
         this.cssResourceProvider = cssResourceProvider;
         this.imageResourceProvider = imageResourceProvider;
         this.game = game;
         this.gameMap = gameMap;
-        this.taskForceMap = taskForceMap;
 
         Image redX = imageResourceProvider.getImage(props.getString("redX.image"));
         Image greenCheck = imageResourceProvider.getImage(props.getString("greenCheck.image"));
 
-        imageMap.put(true, greenCheck);
-        imageMap.put(false, redX);
+        imageMap = Map.of(true, greenCheck, false, redX);
+
+        nations = game
+                .getHumanPlayer()
+                .getNations();
+
+        nations
+                .forEach(nation -> {
+                    regionMinimumValue.put(nation, new Label());
+                    regionMaximumValue.put(nation, new Label());
+                    regionCurrentValue.put(nation, new Label());
+
+                    airfieldMaximumValue.put(nation, new Label());
+                    airfieldCurrentValue.put(nation, new Label());
+                    airfieldAntiAirValue.put(nation, new Label());
+
+                    regions.put(nation, new ChoiceBox<>());
+                    airfields.put(nation, new ChoiceBox<>());
+
+                    previewMap.put(nation, mapProvider.get());
+
+                    deploymentStats.put(nation, new TableView<>());
+
+                    availableSquadrons.put(nation, new ListView<>());
+                    airfieldSquadrons.put(nation, new ListView<>());
+
+                    deployButtons.put(nation, new Button());
+                    removeButtons.put(nation, new Button());
+                    detailsButtons.put(nation, new Button("Details"));
+
+                    squadronAirfieldLabel.put(nation, new Label());
+
+                    Map<AircraftBaseType, Label> airfieldStepMap = new HashMap<>();
+                    Stream.of(AircraftBaseType.values()).forEach(type -> airfieldStepMap.put(type, new Label()));
+                    airfieldSteps.put(nation, airfieldStepMap);
+
+                    buildMinimumRegion(nation);
+                });
     }
 
     /**
-     * Bind the deployment stats table to the deployment stats.
+     * Bind this view to the region view model.
      *
-     * @param nation The nation BRITISH, ITALIAN, etc ...
-     * @param deployment A list of deployment stats per aircraft landing type.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @param viewModel The region view model.
+     * @return This squadron view.
      */
-    public void bindDeploymentStats(final Nation nation, final List<Deployment> deployment) {
-        deploymentStats.put(nation, new TableView<>());
-        deploymentStats.get(nation).setItems(FXCollections.observableArrayList(deployment));
+    public SquadronView bind(final Nation nation, final RegionViewModel viewModel) {
+        regionMinimumValue.get(nation).textProperty().bind(viewModel.getMinSteps());
+        regionMaximumValue.get(nation).textProperty().bind(viewModel.getMaxSteps());
+        regionCurrentValue.get(nation).textProperty().bind(viewModel.getCurrentSteps());
+
+        airfields.get(nation).itemsProperty().bind(viewModel.getAirfields());
+
+        return this;
+    }
+
+    /**
+     * Bind the view to the airfield view model.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @param viewModel The airfield view model.
+     * @return This squadron view.
+     */
+    public SquadronView bind(final Nation nation, final AirfieldViewModel viewModel) {
+        airfieldMaximumValue.get(nation).textProperty().bind(viewModel.getMaxCapacity());
+        airfieldCurrentValue.get(nation).textProperty().bind(viewModel.getCurrent());
+        airfieldAntiAirValue.get(nation).textProperty().bind(viewModel.getAntiAir());
+
+        airfieldSquadrons.get(nation).itemsProperty().bind(viewModel.getAirfieldSquadrons());
+        availableSquadrons.get(nation).itemsProperty().bind(viewModel.getAvailableSquadrons());
+
+        squadronAirfieldLabel.get(nation).textProperty().bind(viewModel.getAvailableSquadronsTitle());
+
+        airfieldSteps.get(nation).forEach((type, label) -> label.textProperty().bind(viewModel.getAirfieldSteps().get(type)));
+
+        return this;
+    }
+
+    /**
+     * Bind the deployment.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @param viewModel The deployment view model.
+     * @return This squadron view object.
+     */
+    public SquadronView bind(final Nation nation, final DeploymentViewModel viewModel) {
+        TableView<Deployment> table = deploymentStats.get(nation);
+
+        table.itemsProperty().bind(viewModel.getDeployment().get(nation));
+
+        IntegerProperty numRows = viewModel.getNumLandingTypes().get(nation);
+
+        int headerSize = props.getInt("squadron.summary.table.cell.header.size");
+
+        table.prefHeightProperty()
+                .bind(Bindings.createDoubleBinding(() -> numRows.getValue() * table.getFixedCellSize() + headerSize, numRows));
+
+        table.minHeightProperty().bind(table.prefHeightProperty());
+        table.maxHeightProperty().bind(table.prefHeightProperty());
+
+
+        Map<Region, BooleanProperty> regionMap = viewModel.getRegionMinimum().get(nation);
+
+        regionDeployedValue
+                .get(nation)
+                .forEach((region, image) -> image.imageProperty()
+                        .bind(Bindings.createObjectBinding(() -> imageMap.get(regionMap.get(region).getValue()),
+                               regionMap.get(region))));
+
+        return this;
     }
 
     /**
@@ -141,27 +249,12 @@ public class SquadronView {
      * @param scenario The selected scenario.
      */
     public void show(final Stage stage, final Scenario scenario) {
-        Label title = new Label("Squadrons: " + scenario.getTitle());
-        title.setId("title");
-        StackPane titlePane = new StackPane(title);
-        titlePane.setId("title-pane");
-
+        Node titlePane = buildTitle(scenario);
         Node objectivesPane = buildObjectives(scenario);
-
         Node nationTabPane = buildNationTabs();
         Node pushButtons = buildPushButtons();
 
-        Node map = taskForceMap.draw();
-
-
-        Node squadronsPane = buildSquadronsPane();
-
-        VBox rightVBox = new VBox(map, squadronsPane);
-
-        HBox mainPain = new HBox(nationTabPane, rightVBox);
-        mainPain.setId("map-pane");
-
-        VBox vBox = new VBox(titlePane, objectivesPane, mainPain, pushButtons);
+        VBox vBox = new VBox(titlePane, objectivesPane, nationTabPane, pushButtons);
 
         int sceneWidth = props.getInt("taskForce.scene.width");
         int sceneHeight = props.getInt("taskForce.scene.height");
@@ -181,7 +274,8 @@ public class SquadronView {
      */
     public void markAirfieldOnMap(final AssetMarkerDTO dto) {
         dto.setXOffset(props.getInt("taskforce.previewMap.popup.xOffset"));
-        taskForceMap.markAirfield(dto);
+        Nation nation = dto.getNation();
+        previewMap.get(nation).markAirfield(dto);
     }
 
     /**
@@ -190,25 +284,17 @@ public class SquadronView {
      * @param dto The data transfer object.
      */
     public void markSquadronRangeOnMap(final AssetMarkerDTO dto) {
-        taskForceMap.markRange(dto);
+        Nation nation = dto.getNation();
+        previewMap.get(nation).markRange(dto);
     }
 
     /**
      * Clear a squadron's range radius on the preview map.
-     */
-    public void clearSquadronRange() {
-        taskForceMap.clearRange();
-    }
-
-    /**
-     * Set the selected regionl Show the region's details.
      *
-     * @param nation The nation BRITISH, ITALIAN, etc ...
-     * @param region The selected region.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
      */
-    public void setSelectedRegion(final Nation nation, final Region region) {
-        regionMaximumValue.get(nation).setText(region.getMaxSteps() + "");
-        regionMinimumValue.get(nation).setText(region.getMinSteps() + "");
+    public void clearSquadronRange(final Nation nation) {
+        previewMap.get(nation).clearRange();
     }
 
     /**
@@ -218,72 +304,80 @@ public class SquadronView {
      * @param airfield The selected airfield.
      */
     public void setSelectedAirfield(final Nation nation, final Airfield airfield) {
-        String name = airfield.getName();
-        taskForceMap.selectAirfieldMarker(name);
-        airfieldMaximumValue.get(nation).setText(airfield.getMaxCapacity() + "");
-        airfieldCurrentValue.get(nation).setText(airfield.getCurrentSteps() + "");
-
-        squadronAirfieldLabel.setText(airfield.getTitle() + " Squadrons:");
-
-        airfieldSquadrons.getItems().clear();
-        airfieldSquadrons.getItems().addAll(airfield.getSquadrons());
-
-        GridPane gridPane = new GridPane();
-        gridPane.setId("airfield-summary-grid");
-
-        for (AircraftBaseType type : AircraftBaseType.values()) {
-            airfieldSteps.get(nation).get(type).setText(airfield.getStepsForType(type) + "");
-        }
+        previewMap.get(nation).selectAirfieldMarker(airfield.getName());
     }
 
     /**
      * Clear an airfield marker.
      *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
      * @param airfield the airfield whose marker is cleared.
      */
-    public void clearAirfield(final Airfield airfield) {
-        String name = airfield.getName();
-        taskForceMap.clearAirfieldMarker(name);
-    }
-
-    /**
-     * Remove an airfield marker.
-     *
-     * @param airfield the airfield whose marker is removed.
-     */
-    public void removeAirfield(final Airfield airfield) {
-        String name = airfield.getName();
-        taskForceMap.removeAirfieldMarker(name);
-    }
-
-    /**
-     * Update the region's currently deployed steps.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc ...
-     */
-    public void updateRegion(final Nation nation) {
-        gameMap.getNationRegions(game.getHumanSide(), nation).forEach(region -> {
-            if (regionDeployedValue.get(nation).containsKey(region.getName())) {
-                ImageView imageView = regionDeployedValue.get(nation).get(region.getName());
-                imageView.setImage(imageMap.get(region.minimumSatisfied()));
-            }
-        });
+    public void clearAirfield(final Nation nation, final Airfield airfield) {
+        previewMap.get(nation).clearAirfieldMarker(airfield.getName());
     }
 
     /**
      * Finish the task force preview map.
      */
     public void finish() {
-        taskForceMap.finish();
+        nations.forEach(nation -> previewMap.get(nation).finish());
     }
 
     /**
      * Close the popup.
      *
+     * @param nation The nation BRITISH, ITALIAN, etc...
      * @param event the mouse event.
      */
-    public void closePopup(final MouseEvent event) {
-        taskForceMap.closePopup(event);
+    public void closePopup(final Nation nation, final MouseEvent event) {
+        previewMap.get(nation).closePopup(event);
+    }
+
+    /**
+     * Build the minimum region map.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     */
+    private void buildMinimumRegion(final Nation nation) {
+        Map<Region, ImageView> deployedMap = getRegionsWithMinimum(nation)
+                .stream()
+                .collect(Collectors.toMap(
+                        region -> region,
+                        region -> new ImageView()));
+
+
+        regionDeployedValue.put(nation, deployedMap);
+    }
+
+    /**
+     * Get the regions with minimum squadron requirements.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return The regions that have a minimum squadron requirement.
+     */
+    private List<Region> getRegionsWithMinimum(final Nation nation) {
+        return gameMap
+                .getNationRegions(game.getHumanSide(), nation)
+                .stream()
+                .filter(Region::hasMinimumRequirement)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Build the title pane.
+     *
+     * @param scenario The selected scenario.
+     * @return A node containing the title.
+     */
+    private Node buildTitle(final Scenario scenario) {
+        Label title = new Label("Squadrons: " + scenario.getTitle());
+        title.setId("title");
+
+        StackPane titlePane = new StackPane(title);
+        titlePane.setId("title-pane");
+
+        return titlePane;
     }
 
     /**
@@ -301,7 +395,7 @@ public class SquadronView {
                 .getNations()
                 .stream()
                 .map(nation -> nation.toString() + ".flag.image")
-                .map(flagName -> props.getString(flagName))
+                .map(props::getString)
                 .map(flagImage -> imageResourceProvider.getImageView(scenario.getName(), flagImage))
                 .collect(Collectors.toList());
 
@@ -314,6 +408,79 @@ public class SquadronView {
     }
 
     /**
+     * Build the nations tab pane.
+     *
+     * @return The nations tab pane.
+     */
+    private Node buildNationTabs() {
+        nationsTabPane = new TabPane();
+        nationsTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+
+        game
+                .getHumanPlayer()
+                .getNations()
+                .stream()
+                .sorted()
+                .map(this::buildTab)
+                .forEach(tab -> nationsTabPane.getTabs().add(tab));
+
+        return nationsTabPane;
+    }
+
+    /**
+     * Build a nation tab.
+     *
+     * @param nation The nation.
+     * @return The nation tab.
+     */
+    private Tab buildTab(final Nation nation) {
+        Side side = game.getHumanSide();
+
+        Tab tab = new Tab(nation.toString());
+
+        Label regionLabel = new Label("Region:");
+        ChoiceBox<Region> regionChoiceBox = regions.get(nation);
+        regionChoiceBox.getItems().addAll(gameMap.getNationRegions(side, nation));
+        regionChoiceBox.setMinWidth(props.getInt("taskForce.details.width"));
+        regionChoiceBox.setMaxWidth(props.getInt("taskForce.details.width"));
+
+        Node regionDetails = buildRegionDetails(nation);
+
+        VBox regionVBox = new VBox(regionLabel, regionChoiceBox, regionDetails);
+
+        Label airfieldLabel = new Label("Airfield:");
+        ChoiceBox<Airfield> airfieldChoiceBox = airfields.get(nation);
+        airfieldChoiceBox.setMinWidth(props.getInt("taskForce.details.width"));
+        airfieldChoiceBox.setMaxWidth(props.getInt("taskForce.details.width"));
+        VBox airfieldVBox = new VBox(airfieldLabel, airfieldChoiceBox);
+
+        Accordion accordion = new Accordion();
+        TitledPane airfieldDetails = buildAirfieldDetails(nation);
+        TitledPane squadronSummary = buildSquadronSummary(nation);
+        accordion.getPanes().addAll(airfieldDetails, squadronSummary);
+        accordion.setExpandedPane(airfieldDetails);
+
+        VBox leftVBox = new VBox(regionVBox, airfieldVBox, accordion, buildLegend(nation), buildDeployment(nation),  buildRegionDeployment(nation));
+        leftVBox.setId("squadron-vbox");
+        leftVBox.setMinHeight(props.getInt("squadron.left.vbox.length"));
+
+        Node mapNode = previewMap.get(nation).draw();
+        Node squadrons = buildSquadronsPane(nation);
+
+        VBox rightVBox = new VBox(mapNode, squadrons);
+
+        HBox hBox = new HBox(leftVBox, rightVBox);
+        hBox.setId("tab-pane");
+
+        tab.setContent(hBox);
+
+        ImageView roundel = imageResourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
+
+        tab.setGraphic(roundel);
+        return tab;
+    }
+
+    /**
      * Build the region details.
      *
      * @param nation The nation BRITISH, ITALIAN, etc ...
@@ -322,27 +489,26 @@ public class SquadronView {
     private Node buildRegionDetails(final Nation nation) {
         Text regionMinimumLabel = new Text("Region Minimum:");
         Text regionMaximumLabel = new Text("Region Maximum:");
-
-        Label regionMaximum = new Label();
-        regionMaximumValue.put(nation, regionMaximum);
-
-        Label regionMinimum = new Label();
-        regionMinimumValue.put(nation, regionMinimum);
+        Text regionCurrentLabel = new Text("Region Current:");
 
         GridPane gridPane = new GridPane();
         gridPane.setId("region-details-grid");
 
         gridPane.add(regionMinimumLabel, 0, 0);
-        gridPane.add(regionMinimum, 1, 0);
+        gridPane.add(regionMinimumValue.get(nation), 1, 0);
         gridPane.add(regionMaximumLabel, 0, 1);
-        gridPane.add(regionMaximum, 1, 1);
+        gridPane.add(regionMaximumValue.get(nation), 1, 1);
+        gridPane.add(regionCurrentLabel, 0, 2);
+        gridPane.add(regionCurrentValue.get(nation), 1, 2);
 
         VBox vBox = new VBox(gridPane);
+        vBox.setMinWidth(props.getInt("taskForce.details.width"));
+        vBox.setMaxWidth(props.getInt("taskForce.details.width"));
+
         vBox.setId("region-details-vbox");
 
         return vBox;
     }
-
 
     /**
      * Build the task force state and mission details.
@@ -351,23 +517,19 @@ public class SquadronView {
      * @return A node containing the airfield details.
      */
     private TitledPane buildAirfieldDetails(final Nation nation) {
-
         Text airfieldMaximumLabel = new Text("Airfield Maximum:");
         Text airfieldCurrentLabel = new Text("Airfield Current:");
-
-        Label airfieldMaximum = new Label();
-        airfieldMaximumValue.put(nation, airfieldMaximum);
-
-        Label airfieldCurrent = new Label();
-        airfieldCurrentValue.put(nation, airfieldCurrent);
+        Text airfieldAntiAirLabel = new Text("AA Rating:");
 
         GridPane gridPane = new GridPane();
         gridPane.setId("airfield-details-grid");
 
         gridPane.add(airfieldMaximumLabel, 0, 0);
-        gridPane.add(airfieldMaximum, 1, 0);
+        gridPane.add(airfieldMaximumValue.get(nation), 1, 0);
         gridPane.add(airfieldCurrentLabel, 0, 1);
-        gridPane.add(airfieldCurrent, 1, 1);
+        gridPane.add(airfieldCurrentValue.get(nation), 1, 1);
+        gridPane.add(airfieldAntiAirLabel, 0, 2);
+        gridPane.add(airfieldAntiAirValue.get(nation), 1, 2);
 
         VBox vBox = new VBox(gridPane);
         vBox.setId("airfield-details-vbox");
@@ -390,10 +552,6 @@ public class SquadronView {
      * @return The titled pane that contains the squadron summary for the current airfield.
      */
     private TitledPane buildSquadronSummary(final Nation nation) {
-        Map<AircraftBaseType, Label> airfieldStepMap = new HashMap<>();
-        Stream.of(AircraftBaseType.values()).forEach(type -> airfieldStepMap.put(type, new Label()));
-        airfieldSteps.put(nation, airfieldStepMap);
-
         GridPane gridPane = new GridPane();
         gridPane.setId("airfield-summary-grid");
 
@@ -425,8 +583,7 @@ public class SquadronView {
      * @return The node that contains the airfield preview map legend.
      */
     private Node buildLegend(final Nation nation) {
-
-        VBox vBox = new VBox(taskForceMap.getLegendAirfield(nation));
+        VBox vBox = new VBox(previewMap.get(nation).getLegendAirfield(nation));
         vBox.setId("map-legend-vbox");
 
         TitledPane titledPane = new TitledPane();
@@ -438,78 +595,6 @@ public class SquadronView {
         titledPane.setId("map-legend-pane");
 
         return titledPane;
-    }
-
-    /**
-     * Build the nations tab pane.
-     *
-     * @return The nations tab pane.
-     */
-    private Node buildNationTabs() {
-        nationsTabPane = new TabPane();
-        nationsTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        nationsTabPane.setMinWidth(props.getInt("squadron.tabPane.width"));
-        nationsTabPane.setMaxWidth(props.getInt("squadron.tabPane.width"));
-
-        game
-                .getHumanPlayer()
-                .getNations()
-                .stream()
-                .sorted()
-                .map(this::buildTab)
-                .forEach(tab -> nationsTabPane.getTabs().add(tab));
-
-        return nationsTabPane;
-    }
-
-    /**
-     * Build a nation tab.
-     *
-     * @param nation The nation.
-     * @return The nation tab.
-     */
-    private Tab buildTab(final Nation nation) {
-        Side side = game.getHumanSide();
-
-        Tab tab = new Tab(nation.toString());
-
-        Label regionLabel = new Label("Region:");
-        ChoiceBox<Region> regionChoiceBox = new ChoiceBox<>();
-        regionChoiceBox.getItems().addAll(gameMap.getNationRegions(side, nation));
-        regionChoiceBox.setMinWidth(props.getInt("squadron.tabPane.width"));
-        regionChoiceBox.setMaxWidth(props.getInt("squadron.tabPane.width"));
-
-        Node regionDetails = buildRegionDetails(nation);
-
-        VBox regionVBox = new VBox(regionLabel, regionChoiceBox, regionDetails);
-
-        regions.put(nation, regionChoiceBox);
-
-        Label airfieldLabel = new Label("Airfield:");
-        ChoiceBox<Airfield> airfieldChoiceBox = new ChoiceBox<>();
-        airfieldChoiceBox.getItems().addAll(gameMap.getNationAirfields(side, nation));
-        airfieldChoiceBox.setMinWidth(props.getInt("squadron.tabPane.width"));
-        airfieldChoiceBox.setMaxWidth(props.getInt("squadron.tabPane.width"));
-        VBox airfieldVBox = new VBox(airfieldLabel, airfieldChoiceBox);
-
-        airfields.put(nation, airfieldChoiceBox);
-
-        Accordion accordion = new Accordion();
-        TitledPane airfieldDetails = buildAirfieldDetails(nation);
-        TitledPane squadronSummary = buildSquadronSummary(nation);
-        accordion.getPanes().addAll(airfieldDetails, squadronSummary);
-        accordion.setExpandedPane(airfieldDetails);
-
-        VBox vBox = new VBox(regionVBox, airfieldVBox, accordion, buildLegend(nation), buildDeployment(nation),  buildRegionDeployment(nation));
-        vBox.setId("squadron-vbox");
-        vBox.setMinHeight(props.getInt("squadron.left.vbox.length"));
-
-        tab.setContent(vBox);
-
-        ImageView roundel = imageResourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
-
-        tab.setGraphic(roundel);
-        return tab;
     }
 
     /**
@@ -537,17 +622,14 @@ public class SquadronView {
         stats.getColumns().add(deployedColumn);
         stats.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);   // Needed to keep extra space from being seen after the last column.
         stats.setFixedCellSize(props.getInt("squadron.summary.table.cell.size"));
-        stats.prefHeightProperty()
-                .bind(Bindings.size(stats.getItems())
-                        .multiply(stats.getFixedCellSize())
-                        .add(props.getInt("squadron.summary.table.cell.header.size")));
-        stats.minHeightProperty().bind(stats.prefHeightProperty());
-        stats.maxHeightProperty().bind(stats.prefHeightProperty());
 
-        stats.setMinWidth(props.getInt("squadron.summary.width"));
-        stats.setMaxWidth(props.getInt("squadron.summary.width"));
+        stats.setMaxWidth(props.getInt("taskForce.details.width"));
+        stats.setMinWidth(props.getInt("taskForce.details.width"));
 
-        return new VBox(label, stats);
+        VBox vBox = new VBox(label, stats);
+        vBox.setId("deployment-vbox");
+
+        return vBox;
     }
 
 
@@ -558,19 +640,12 @@ public class SquadronView {
      * @return The node containing the region deployment.
      */
     private Node buildRegionDeployment(final Nation nation) {
-        List<Region> regionsWithMinimum = gameMap
-                .getNationRegions(game.getHumanSide(), nation)
-                .stream()
-                .filter(Region::hasMinimumRequirement)
-                .collect(Collectors.toList());
-
-        Map<String, ImageView> deployedMap = new HashMap<>();
-
-        regionDeployedValue.put(nation, deployedMap);
+        List<Region> regionsWithMinimum = getRegionsWithMinimum(nation);
 
         VBox vBox = new VBox();
 
         if (regionsWithMinimum.size() > 0) {
+            Map<Region, ImageView> deployedMap = regionDeployedValue.get(nation);
 
             GridPane gridPane = new GridPane();
             gridPane.setId("region-status-grid");
@@ -578,19 +653,16 @@ public class SquadronView {
             int row = 0;
             for (Region region : regionsWithMinimum) {
                 Label name = new Label(region.getName() + ":");
-                Image image = imageMap.get(region.minimumSatisfied());
-                ImageView deployed = new ImageView(image);
+                ImageView deployed = deployedMap.get(region);
                 name.setTooltip(new Tooltip("Indicates if region minimum squadron deployment satisfied"));
 
                 gridPane.add(name, 0, row);
                 gridPane.add(deployed, 1, row);
 
-                deployedMap.put(region.getName(), deployed);
-
                 row++;
             }
 
-            Label label = new Label("Region Mininum Requirements:");
+            Label label = new Label("Region Minimum Requirements:");
             VBox grid = new VBox(gridPane);
             vBox.getChildren().addAll(label, grid);
             grid.setId("region-status-vbox");
@@ -602,20 +674,28 @@ public class SquadronView {
     /**
      * Build the squadron pane.
      *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
      * @return The squadron pane Hbox.
      */
-    private Node buildSquadronsPane() {
+    private Node buildSquadronsPane(final Nation nation) {
 
-        availableSquadrons.setMinHeight(props.getInt("squadron.list.width"));
-        availableSquadrons.setMaxHeight(props.getInt("squadron.list.width"));
-        availableSquadrons.setMinWidth(props.getInt("squadron.tabPane.width"));
-        availableSquadrons.setMaxWidth(props.getInt("squadron.tabPane.width"));
+        Button deployButton = deployButtons.get(nation);
+        Button removeButton = removeButtons.get(nation);
+        Button detailsButton = detailsButtons.get(nation);
+        Label airfieldLabel = squadronAirfieldLabel.get(nation);
+
+        ListView<Squadron> available = availableSquadrons.get(nation);
+        ListView<Squadron> airfield = airfieldSquadrons.get(nation);
+
+        available.setMinWidth(props.getInt("squadron.tabPane.width"));
+        available.setMaxWidth(props.getInt("squadron.tabPane.width"));
 
         deployButton.setGraphic(imageResourceProvider.getImageView(props.getString("right.arrow.image")));
         removeButton.setGraphic(imageResourceProvider.getImageView(props.getString("left.arrow.image")));
 
         deployButton.setMinWidth(props.getInt("squadron.button.width"));
         deployButton.setMaxWidth(props.getInt("squadron.button.width"));
+
         removeButton.setMaxWidth(props.getInt("squadron.button.width"));
         removeButton.setMinWidth(props.getInt("squadron.button.width"));
         detailsButton.setMaxWidth(props.getInt("squadron.button.width"));
@@ -624,16 +704,14 @@ public class SquadronView {
         VBox buttonVBox = new VBox(deployButton, removeButton, detailsButton);
         buttonVBox.setId("squadron-controls");
 
-        airfieldSquadrons.setMinHeight(props.getInt("squadron.list.width"));
-        airfieldSquadrons.setMaxHeight(props.getInt("squadron.list.width"));
-        airfieldSquadrons.setMinWidth(props.getInt("squadron.tabPane.width"));
-        airfieldSquadrons.setMaxWidth(props.getInt("squadron.tabPane.width"));
+        airfield.setMinWidth(props.getInt("squadron.tabPane.width"));
+        airfield.setMaxWidth(props.getInt("squadron.tabPane.width"));
 
         Label availableLabel = new Label("Available Squadrons:");
 
-        VBox availableVBox = new VBox(availableLabel, availableSquadrons);
+        VBox availableVBox = new VBox(availableLabel, available);
 
-        VBox airfieldVBox = new VBox(squadronAirfieldLabel, airfieldSquadrons);
+        VBox airfieldVBox = new VBox(airfieldLabel, airfield);
 
         HBox hBox = new HBox(availableVBox, buttonVBox, airfieldVBox);
         hBox.setId("squadron-pane");
@@ -651,6 +729,4 @@ public class SquadronView {
         hBox.setId("push-buttons");
         return hBox;
     }
-
-
 }

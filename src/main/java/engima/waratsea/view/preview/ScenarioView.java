@@ -5,7 +5,7 @@ import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.scenario.ScenarioViewModel;
+import engima.waratsea.viewmodel.ScenarioViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.VPos;

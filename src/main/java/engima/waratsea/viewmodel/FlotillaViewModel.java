@@ -1,4 +1,4 @@
-package engima.waratsea.view.flotilla;
+package engima.waratsea.viewmodel;
 
 import engima.waratsea.model.flotilla.Flotilla;
 import javafx.beans.property.SimpleStringProperty;

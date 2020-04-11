@@ -14,7 +14,7 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.PreviewMapView;
 import engima.waratsea.view.map.marker.preview.TargetMarker;
 import engima.waratsea.view.ship.ShipViewType;
-import engima.waratsea.view.taskforce.TaskForceViewModel;
+import engima.waratsea.viewmodel.TaskForceViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;

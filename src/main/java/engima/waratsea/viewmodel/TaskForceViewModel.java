@@ -1,4 +1,4 @@
-package engima.waratsea.view.taskforce;
+package engima.waratsea.viewmodel;
 
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.ship.Ship;

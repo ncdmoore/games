@@ -1,0 +1,31 @@
+{
+  "properties": [
+    {
+      "name" : "sar90",
+      "followupCase" : {
+        "caseType": "sar90",
+        "caseStatus": "suspended_due_to_sar90",
+        "promptFoOriginalCaseHandling": false,
+        "alertEntities": [
+          "PTY", "EXT"
+        ]
+      },
+      "domains" : [
+        {
+          "name": "tm_domain",
+          "suspendAlertDisposition": "sar_90_disposition",
+          "activateAlertDisposition": "act_disposition",
+          "followUpQueue": "tm_sar90_queue",
+          "activateQueue": "tm_alert_queue"
+        },
+        {
+          "name": "another_domain",
+          "suspendAlertDisposition": "sar_90_disposition_for_this_domain",
+          "activateAlertDisposition": "act_disposition_for_this_domain",
+          "followUpQueue": "this_domain_sar90_queue",
+          "activateQueue": "this_domain_activate_queue"
+        }
+      ]
+    }
+  ]
+}

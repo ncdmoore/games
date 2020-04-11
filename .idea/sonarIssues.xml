@@ -1038,6 +1038,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/MissionAddDetailsView.java">
           <value>
             <set />
@@ -1263,6 +1268,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/FlotillaView.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/MinefieldView.java">
           <value>
             <set />
@@ -1299,6 +1309,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/scenario/ScenarioViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/region/RegionViewModel.java">
           <value>
             <set />
           </value>
@@ -1413,6 +1428,46 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/AirfieldViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/DeploymentViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/FlotillaViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/GameViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/PlayerViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/RegionViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/ScenarioViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/TaskForceViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/Skua.json">
           <value>
             <set />
@@ -1429,6 +1484,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/css/shipDetails.css">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/bombAlley/css/squadronView.css">
           <value>
             <set />
           </value>
@@ -1454,6 +1514,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/coralSea/css/shipDetails.css">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/coralSea/css/squadronView.css">
           <value>
             <set />
           </value>
@@ -1504,6 +1569,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/properties/view.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/test.json">
           <value>
             <set />
           </value>

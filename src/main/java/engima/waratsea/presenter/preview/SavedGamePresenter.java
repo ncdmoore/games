@@ -10,9 +10,9 @@ import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.presenter.Presenter;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.view.FatalErrorDialog;
-import engima.waratsea.view.game.GameViewModel;
+import engima.waratsea.viewmodel.GameViewModel;
 import engima.waratsea.view.preview.SavedGameView;
-import engima.waratsea.view.scenario.ScenarioViewModel;
+import engima.waratsea.viewmodel.ScenarioViewModel;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 

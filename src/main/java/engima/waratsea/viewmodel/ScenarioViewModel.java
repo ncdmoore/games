@@ -1,4 +1,4 @@
-package engima.waratsea.view.scenario;
+package engima.waratsea.viewmodel;
 
 import engima.waratsea.model.scenario.Scenario;
 import javafx.beans.property.SimpleStringProperty;

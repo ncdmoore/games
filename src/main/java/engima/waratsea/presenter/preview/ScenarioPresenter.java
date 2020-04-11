@@ -9,7 +9,7 @@ import engima.waratsea.model.squadron.SquadronException;
 import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.presenter.Presenter;
 import engima.waratsea.presenter.navigation.Navigate;
-import engima.waratsea.view.scenario.ScenarioViewModel;
+import engima.waratsea.viewmodel.ScenarioViewModel;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import engima.waratsea.model.game.Game;
