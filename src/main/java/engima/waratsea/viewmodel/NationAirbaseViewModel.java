@@ -259,7 +259,7 @@ public class NationAirbaseViewModel {
      * @param type The patrol type.
      */
     private void initializePatrol(final PatrolType type) {
-        patrolCounts.put(type.toString(), new SimpleIntegerProperty(0));
+        patrolCounts.put(type.getValue(), new SimpleIntegerProperty(0));
     }
 
     /**
@@ -429,7 +429,7 @@ public class NationAirbaseViewModel {
      */
     private void bindPatrolCount(final PatrolType type) {
         patrolCounts
-                .get(type.toString())
+                .get(type.getValue())
                 .bind(patrolViewModels
                         .get(type)
                         .getAssignedCount()

@@ -6,6 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
+
+/**
+ * Represents the type of patrol.
+ *
+ * Note, do not override the toString method as this can cause issues with gson.
+ */
 public enum PatrolType {
     ASW("ASW"),
     CAP("CAP"),
@@ -63,15 +69,5 @@ public enum PatrolType {
      */
     PatrolType(final String value) {
         this.value = value;
-    }
-
-    /**
-     * Get the String representation of this enum.
-     *
-     * @return The String representation.
-     */
-    @Override
-    public String toString() {
-        return value;
     }
 }

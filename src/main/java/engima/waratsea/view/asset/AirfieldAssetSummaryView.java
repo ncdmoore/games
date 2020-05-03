@@ -279,19 +279,25 @@ public class AirfieldAssetSummaryView implements AssetView {
         tab.setGraphic(roundel);
 
         squadronInfo.put(nation, airfieldSquadronInfoProvider.get());
-        Node squadronInfoNode = squadronInfo.get(nation).build();
+        TitledPane squadronInfoNode = squadronInfo.get(nation).build();
+        squadronInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
 
         missionInfo.put(nation, airfieldMissionInfoProvider.get());
-        Node missionInfoNode = missionInfo.get(nation).build();
+        TitledPane missionInfoNode = missionInfo.get(nation).build();
+        missionInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
 
         patrolInfo.put(nation, airfieldPatrolInfoProvider.get());
-        Node patrolInfoNode = patrolInfo.get(nation).build();
+        TitledPane patrolInfoNode = patrolInfo.get(nation).build();
+        patrolInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
 
         readyInfo.put(nation, airfieldReadyInfoProvider.get());
-        Node readyInfoNode = readyInfo.get(nation).build();
+        TitledPane readyInfoNode = readyInfo.get(nation).build();
+        readyInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
 
         HBox hBox = new HBox(squadronInfoNode, missionInfoNode, patrolInfoNode, readyInfoNode);
         hBox.setId("airfield-nation-tab-hbox");
+
+        hBox.setFillHeight(false);
 
         tab.setContent(hBox);
 
