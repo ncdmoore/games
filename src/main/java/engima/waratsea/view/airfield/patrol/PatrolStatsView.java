@@ -1,16 +1,12 @@
 package engima.waratsea.view.airfield.patrol;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
-import engima.waratsea.model.base.airfield.patrol.PatrolDAO;
-import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.base.airfield.patrol.PatrolType;
-import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.weather.Weather;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.viewmodel.PatrolViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -20,27 +16,22 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import lombok.Setter;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class PatrolStatsView {
     private final ViewProps props;
     private final ImageResourceProvider imageProvider;
-    private final PatrolDAO patrolDAO;
-
-    @Setter private Airbase airbase;
-    @Setter private PatrolType patrolType;
 
     private final Weather weather;
 
-    private VBox vBox = new VBox();
-    private HBox hBox = new HBox();
-    private GridPane gridPane = new GridPane();
+    private final VBox vBox = new VBox();
+    private final HBox hBox = new HBox();
+    private final GridPane gridPane = new GridPane();
+
+    private Nation nation;
 
     /**
      * Constructor called by guice.
@@ -48,17 +39,14 @@ public class PatrolStatsView {
      * @param props The view properties.
      * @param imageProvider Provides images.
      * @param weather The current weather.
-     * @param patrolDAO The patrol data access object.
      */
     @Inject
     public PatrolStatsView(final ViewProps props,
                            final ImageResourceProvider imageProvider,
-                           final Weather weather,
-                           final PatrolDAO patrolDAO) {
+                           final Weather weather) {
         this.props = props;
         this.imageProvider = imageProvider;
         this.weather = weather;
-        this.patrolDAO = patrolDAO;
 
         vBox.setId("patrol-stats-pane");
         hBox.setId("patrol-stats-hbox");
@@ -68,14 +56,30 @@ public class PatrolStatsView {
     /**
      * Build the patrol stats view.
      *
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @param assigned The current squadrons assigned to the patrol.
+     * @param selectedNation The nation: BRITISH, ITALIAN, etc...
      * @return A node containing the patrol stats.
      */
-    public Node buildPatrolStats(final Nation nation, final List<Squadron> assigned) {
+    public Node build(final Nation selectedNation) {
+        nation = selectedNation;
+        return vBox;
+    }
 
-        Patrol patrol = getTemporaryPatrol(assigned);
+    /**
+     * Bind to the view model.
+     *
+     * @param viewModel The patrol view model.
+     */
+    public void bind(final PatrolViewModel viewModel) {
+        viewModel.getAssignedAllNations().addListener((o, ov, nv) -> setAssigned(viewModel.getPatrol()));
+        setAssigned(viewModel.getPatrol());
+    }
 
+    /**
+     * Update the patrol stats.
+     *
+     * @param patrol The updated patrol.
+     */
+    private void setAssigned(final Patrol patrol) {
         Map<Integer, Map<String, String>> stats = patrol.getPatrolStats();
 
         vBox.getChildren().clear();
@@ -109,44 +113,8 @@ public class PatrolStatsView {
 
             hBox.getChildren().add(gridPane);
             hBox.getChildren().add(imageBox);
-
             vBox.getChildren().addAll(titlePane, hBox);
         }
-
-        return vBox;
-    }
-
-    /**
-     * Update the patrol stats.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @param assigned The current squqdrons assigned to the patrol.
-     */
-    public void updatePatrolStats(final Nation nation, final List<Squadron> assigned) {
-        gridPane.getChildren().clear();
-        buildPatrolStats(nation, assigned);
-    }
-
-    /**
-     * Build the weather image.
-     *
-     * @param patrol The patrol.
-     *  @return The node containing the weather image.
-     */
-    private Node buildWeather(final Patrol patrol) {
-
-        boolean affectedByWeather = patrol.isAffectedByWeather();
-        String text = affectedByWeather ? "Affected by Weather" : "No Weather Affect";
-        Label label = new Label(text);
-        Paint paint = affectedByWeather ? Color.RED : Color.BLACK;
-        label.setTextFill(paint);
-
-        ImageView image = imageProvider.getImageView(props.getString(weather.getCurrent().toLower() + ".small.image"));
-        VBox imageBox = new VBox(label, image);
-
-        imageBox.setId("patrol-weather-box");
-
-        return imageBox;
     }
 
     /**
@@ -155,17 +123,17 @@ public class PatrolStatsView {
      * @param headers The header strings.
      */
     private void buildHeaders(final Set<String> headers) {
-        Label radiusHeader = new Label("Radius");
-        radiusHeader.setMaxWidth(props.getInt("patrol.grid.label.width"));
-        radiusHeader.setMinWidth(props.getInt("patrol.grid.label.width"));
-        radiusHeader.setId("patrol-details-header");
-        gridPane.add(radiusHeader, 1, 0);
-
         Label blankCorner = new Label("");
         blankCorner.setMaxWidth(props.getInt("patrol.grid.label.width"));
         blankCorner.setMinWidth(props.getInt("patrol.grid.label.width"));
         blankCorner.setId("patrol-details-header");
         gridPane.add(blankCorner, 0, 0);
+
+        Label radiusHeader = new Label("Radius");
+        radiusHeader.setMaxWidth(props.getInt("patrol.grid.label.width"));
+        radiusHeader.setMinWidth(props.getInt("patrol.grid.label.width"));
+        radiusHeader.setId("patrol-details-header");
+        gridPane.add(radiusHeader, 1, 0);
 
         int row = 0;
         int col = 2;
@@ -183,7 +151,7 @@ public class PatrolStatsView {
      * Build the statistic's rows.
      *
      * @param stats The statistic data.
-     * @param ranges The mininum, median and maximum ranges.
+     * @param ranges The minimum, median and maximum ranges.
      */
     private void buildRows(final Map<Integer, Map<String, String>> stats, final Map<String, Integer> ranges) {
         int row = 1;
@@ -225,20 +193,23 @@ public class PatrolStatsView {
     }
 
     /**
-     * Get a temporary patrol.
+     * Build the weather image.
      *
-     * @param assigned The squadron's assigned to the patrol.
-     * @return A temporary patrol.
+     * @param patrol The patrol.
+     * @return The node containing the weather image.
      */
-    private Patrol getTemporaryPatrol(final List<Squadron> assigned) {
-        PatrolData data = new PatrolData();
-        data.setType(patrolType);
-        data.setAirbase(airbase);
-        data.setSquadrons(assigned
-                .stream()
-                .map(Squadron::getName)
-                .collect(Collectors.toList()));
+    private Node buildWeather(final Patrol patrol) {
+        boolean affectedByWeather = patrol.isAffectedByWeather();
+        String text = affectedByWeather ? "Affected by Weather" : "No Weather Affect";
+        Label label = new Label(text);
+        Paint paint = affectedByWeather ? Color.RED : Color.BLACK;
+        label.setTextFill(paint);
 
-        return patrolDAO.load(data);
+        ImageView image = imageProvider.getImageView(props.getString(weather.getCurrent().toLower() + ".small.image"));
+        VBox imageBox = new VBox(label, image);
+
+        imageBox.setId("patrol-weather-box");
+
+        return imageBox;
     }
 }

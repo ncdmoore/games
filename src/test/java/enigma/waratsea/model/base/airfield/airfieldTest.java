@@ -78,7 +78,7 @@ public class airfieldTest {
 
         airfield.getPatrol(PatrolType.SEARCH).addSquadron(squadron);
 
-        List<Squadron> searchSquadrons = airfield.getPatrol(PatrolType.SEARCH).getSquadrons(Nation.BRITISH);
+        List<Squadron> searchSquadrons = airfield.getPatrol(PatrolType.SEARCH).getAssignedSquadrons(Nation.BRITISH);
 
         boolean result = searchSquadrons.contains(squadron);
 
@@ -109,7 +109,7 @@ public class airfieldTest {
 
         airfield.getPatrol(PatrolType.CAP).addSquadron(squadron);
 
-        List<Squadron> searchSquadrons = airfield.getPatrol(PatrolType.CAP).getSquadrons(Nation.BRITISH);
+        List<Squadron> searchSquadrons = airfield.getPatrol(PatrolType.CAP).getAssignedSquadrons(Nation.BRITISH);
 
         boolean result = searchSquadrons.contains(squadron);
 
@@ -140,7 +140,7 @@ public class airfieldTest {
 
         airfield.getPatrol(PatrolType.ASW).addSquadron(squadron);
 
-        List<Squadron> searchSquadrons = airfield.getPatrol(PatrolType.ASW).getSquadrons(Nation.BRITISH);
+        List<Squadron> searchSquadrons = airfield.getPatrol(PatrolType.ASW).getAssignedSquadrons(Nation.BRITISH);
 
         boolean result = searchSquadrons.contains(squadron);
 
@@ -171,7 +171,7 @@ public class airfieldTest {
 
         airfield.getPatrol(PatrolType.CAP).addSquadron(squadron);
 
-        List<Squadron> searchSquadrons = airfield.getPatrol(PatrolType.CAP).getSquadrons(Nation.BRITISH);
+        List<Squadron> searchSquadrons = airfield.getPatrol(PatrolType.CAP).getAssignedSquadrons(Nation.BRITISH);
 
         boolean result = searchSquadrons.contains(squadron);
 
@@ -202,7 +202,7 @@ public class airfieldTest {
 
         airfield.getPatrol(PatrolType.ASW).addSquadron(squadron);
 
-        List<Squadron> searchSquadrons = airfield.getPatrol(PatrolType.ASW).getSquadrons(Nation.BRITISH);
+        List<Squadron> searchSquadrons = airfield.getPatrol(PatrolType.ASW).getAssignedSquadrons(Nation.BRITISH);
 
         boolean result = searchSquadrons.contains(squadron);
 
@@ -233,7 +233,7 @@ public class airfieldTest {
 
         airfield.getPatrol(PatrolType.ASW).addSquadron(squadron);
 
-        List<Squadron> searchSquadrons = airfield.getPatrol(PatrolType.ASW).getSquadrons(Nation.UNITED_STATES);
+        List<Squadron> searchSquadrons = airfield.getPatrol(PatrolType.ASW).getAssignedSquadrons(Nation.UNITED_STATES);
 
         boolean result = searchSquadrons.contains(squadron);
 

@@ -1,11 +1,13 @@
 package engima.waratsea.view.airfield.mission.stats;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
-import engima.waratsea.presenter.airfield.mission.MissionStats;
-import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.viewmodel.AirMissionViewModel;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -13,6 +15,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -21,7 +24,6 @@ public class StrikeView implements StatsView {
     private Label distanceValue = new Label();
     private Label inRouteValue = new Label();
 
-    private MissionStats missionStats;
     private VBox statsVBox;
     private Node statsNode;
 
@@ -42,58 +44,69 @@ public class StrikeView implements StatsView {
      * @return The target view.
      */
     @Override
-    public Node build() {
+    public StrikeView build() {
         Node airbaseStats = buildAirbaseStats();
         statsVBox = new VBox(airbaseStats);
         statsVBox.setId("target-stats-vbox");
+        return this;
+    }
+
+    /**
+     * Get the stats view contents.
+     *
+     * @return The node containing the stats view.
+     */
+    @Override
+    public Node getContents() {
         return statsVBox;
     }
 
     /**
-     * Show the mission stats view.
+     * Bind to the view model.
      *
-     * @param stats The mission stats.
+     * @param viewModel The air mission view model.
      */
     @Override
-    public void show(final MissionStats stats) {
-        missionStats = stats;
-        airbaseTitle.setText(missionStats.getTargetStats().getTitle());
-        distanceValue.setText(missionStats.getTargetStats().getDistance());
-        inRouteValue.setText(missionStats.getTargetStats().getRouteSteps());
-        rebuildSuccessStats();
+    public Node bind(final AirMissionViewModel viewModel) {
+        airbaseTitle.textProperty().bind(Bindings.createStringBinding(() -> getTargetName(viewModel), viewModel.getTarget()));
+        distanceValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetDistance(viewModel), viewModel.getTarget()));
+        inRouteValue.textProperty().bind(viewModel.getTotalStepsInRouteToTarget().asString());
+
+        viewModel.getMissionStats().addListener((o, ov, nv) -> rebuildSuccessStats(nv));
+
+        return statsVBox;
     }
 
     /**
-     * Add a squadron to the current mission under construction.
+     * Get the current target's name.
      *
-     * @param squadron The added squadron.
-     * @param target  The added squadron's target.
+     * @param viewModel The air mission view model.
+     * @return The name of the destination airbase.
      */
-    @Override
-    public void addSquadron(final Squadron squadron, final Target target) {
-        int inRoute = Integer.parseInt(inRouteValue.getText());
-        inRouteValue.setText(inRoute + squadron.getSteps().intValue() + "");
-        rebuildSuccessStats();
+    private String getTargetName(final AirMissionViewModel viewModel) {
+        ObjectProperty<Target> target = viewModel.getTarget();
+        return Optional.ofNullable(target.getValue()).map(Target::getName).orElse("");
     }
 
     /**
-     * Remove a squadron from the mission stats.
+     * Get the current target's distance.
      *
-     * @param squadron The squadron removed from the mission.
-     * @param target   The mission's target.
+     * @param viewModel The air mission view model.
+     * @return The distance to the destination airbase.
      */
-    @Override
-    public void removeSquadron(final Squadron squadron, final Target target) {
-        int inRoute = Integer.parseInt(inRouteValue.getText());
-        inRouteValue.setText(inRoute - squadron.getSteps().intValue() + "");
-        rebuildSuccessStats();
+    private String getTargetDistance(final AirMissionViewModel viewModel) {
+        ObjectProperty<Target> target = viewModel.getTarget();
+        Airbase airbase = viewModel.getAirbase();
+
+        return Optional.ofNullable(target.getValue()).map(t -> t.getDistance(airbase)).orElse(0) + "";
     }
 
     /**
-     * Re-buiod the mission success statistics.
+     * Re-build the mission success statistics.
+     *
+     * @param successStats The mission success stats.
      */
-    private void rebuildSuccessStats() {
-        List<ProbabilityStats> successStats = missionStats.getSuccessStats().get();
+    private void rebuildSuccessStats(final List<ProbabilityStats> successStats) {
 
         statsVBox.getChildren().remove(statsNode);
         statsNode = buildAllSuccessStats(successStats);

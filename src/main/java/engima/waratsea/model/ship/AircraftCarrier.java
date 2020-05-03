@@ -277,21 +277,6 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
-     * Get a list of squadrons for the given nation that can perform the given patrol type.
-     *
-     * @param squadronNation     The nation: BRITISH, ITALIAN, etc.
-     * @param patrolType The type of patrol.
-     * @return A list of squadrons for the given nation that can perform the given patrol.
-     */
-    @Override
-    public List<Squadron> getReadySquadrons(final Nation squadronNation, final PatrolType patrolType) {
-        return getSquadrons(squadronNation)
-                .stream()
-                .filter(squadron -> squadron.canDoPatrol(patrolType))
-                .filter(squadron -> squadron.isAtState(SquadronState.READY))
-                .collect(Collectors.toList());    }
-
-    /**
      * Get a map of nation to list of squadrons.
      *
      * @return A map of nation to list of squadrons.
@@ -557,10 +542,29 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
-     * Clear all of the patrols and missions on this airbase.
+     * Clear all missions for this airbase. This removes all the squadrons from all missions.
      */
     @Override
-    public void clearPatrolsAndMissions() {
+    public void clearMissions() {
+
+    }
+
+    /**
+     * Clear all of the patrols for this airbase. This removes all the squadrons from the patrols.
+     */
+    @Override
+    public void clearPatrols() {
+
+    }
+
+    /**
+     * Upddate the patrol.
+     *
+     * @param patrolType The type of patrol.
+     * @param patrolSquadrons  The squadrons on patrol.
+     */
+    @Override
+    public void updatePatrol(final PatrolType patrolType, final List<Squadron> patrolSquadrons) {
 
     }
 

@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.base.airfield.AirfieldDAO;
 import engima.waratsea.model.base.port.PortDAO;
 import engima.waratsea.model.game.event.GameEvent;
+import engima.waratsea.model.target.TargetDAO;
 
 /**
  * This class manages any classes within the game caches.
@@ -16,17 +17,22 @@ public class GameCaches {
 
     private AirfieldDAO airfieldDAO;
     private PortDAO portDAO;
+    private TargetDAO targetDAO;
 
     /**
      * Constructor called by guice.
      *
      * @param airfieldDAO The airfield Data access object. Provides airfields.
      * @param portDAO The port access object. Provides ports.
+     * @param targetDAO The target access object. Provides targets.
      */
     @Inject
-    public GameCaches(final AirfieldDAO airfieldDAO, final PortDAO portDAO) {
+    public GameCaches(final AirfieldDAO airfieldDAO,
+                      final PortDAO portDAO,
+                      final TargetDAO targetDAO) {
         this.airfieldDAO = airfieldDAO;
         this.portDAO = portDAO;
+        this.targetDAO = targetDAO;
     }
 
     /**
@@ -37,5 +43,6 @@ public class GameCaches {
 
         airfieldDAO.init();
         portDAO.init();
+        targetDAO.init();
     }
 }

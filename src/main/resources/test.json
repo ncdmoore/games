@@ -1,31 +1,1231 @@
 {
-  "properties": [
-    {
-      "name" : "sar90",
-      "followupCase" : {
-        "caseType": "sar90",
-        "caseStatus": "suspended_due_to_sar90",
-        "promptFoOriginalCaseHandling": false,
-        "alertEntities": [
-          "PTY", "EXT"
+  "objectTypeName": "rr_form_config",
+  "fieldValues": {
+    "active_flg": true,
+    "additional_properties": {
+      "properties": {
+        "entityFactConfig": {
+          "suspActvRptFlag": "Y",
+          "cashTranRptFlag": "N",
+          "subjectTableName": "rr_sar_subject"
+        },
+        "SAR90Config": {
+          "SAR90Case": {
+            "caseType": "SAR90",
+            "caseStatus": "S",
+            "promptForOriginalCaseHandling": false,
+            "suspendDuration": 90,
+            "reportSAR90ObjectNames": [
+              "PTY",
+              "EXT"
+            ]
+          },
+          "SAR90Domains": [
+            {
+              "domainId": "tm_domain",
+              "suspendAlertDispositionId": "tm_sar90_suspend",
+              "activateAlertDispositionId": "tm_sar90_activate",
+              "SAR90QueueId": "tm_sar90_queue",
+              "activateQueueId": "tm_alert_queue"
+            }
+          ]
+        }
+      }
+    },
+    "case_mapping": {
+      "create": {
+        "detailsTableName": "rr_sar_report",
+        "assignments": {
+          "rr_report": [
+            {
+              "target": "due_at_dt",
+              "source": 30,
+              "type": "currentDate"
+            },
+            {
+              "target": "report_status_cd",
+              "source": "O",
+              "type": "constant"
+            },
+            {
+              "target": "report_owner",
+              "source": "case_owner"
+            },
+            {
+              "target": "employee_ind",
+              "source": "employee_ind"
+            }
+          ],
+          "rr_sar_report": [
+            {
+              "target": "sar_int_cntl_no",
+              "source": "cases_id"
+            },
+            {
+              "target": "filing_type_cd",
+              "source": "I",
+              "type": "constant"
+            },
+            {
+              "target": "involved_amt",
+              "source": "transaction_aggregate"
+            },
+            {
+              "target": "sar_begin_dt",
+              "source": "review_begin_date"
+            },
+            {
+              "target": "sar_end_dt",
+              "source": "review_end_date"
+            },
+            {
+              "target": "sar_le_contact_agency_nm",
+              "source": "le_contact_agency"
+            },
+            {
+              "target": "sar_le_contact_nm",
+              "source": "le_contact_name"
+            },
+            {
+              "target": "sar_le_contact_phone_no",
+              "source": "le_contact_phone"
+            },
+            {
+              "target": "sar_le_contact_phone_ext",
+              "source": "le_contact_phone_ext"
+            },
+            {
+              "target": "sar_le_contacted_dt",
+              "source": "le_contact_date"
+            },
+            {
+              "target": "employee_ind",
+              "source": "rr_report.employee_ind"
+            },
+            {
+              "target": "parent_entity_id",
+              "source": "rr_report.rr_report_id"
+            },
+            {
+              "target": "parent_entity_type",
+              "source": "rr_report",
+              "type": "constant"
+            }
+          ],
+          "any_default": [
+            {
+              "target": "employee_ind",
+              "source": "rr_report.employee_ind"
+            },
+            {
+              "target": "parent_entity_id",
+              "source": "rr_report.rr_report_id"
+            },
+            {
+              "target": "parent_entity_type",
+              "source": "rr_report",
+              "type": "constant"
+            }
+          ]
+        },
+        "defaultTypes": [
+          "rr_sar_institution",
+          "rr_sar_filer"
         ]
       },
-      "domains" : [
+      "reset": {
+        "correction": {
+          "rr_report": [
+            {
+              "target": "root_entity_id",
+              "source": "rr_report_id",
+              "condition": "empty"
+            },
+            {
+              "target": "parent_entity_id",
+              "source": "rr_report_id"
+            },
+            {
+              "target": "due_at_dt",
+              "source": "accepted_dt",
+              "type": "dateOffset",
+              "offset": 30
+            },
+            {
+              "target": "accepted_dt",
+              "source": null,
+              "type": "constant"
+            },
+            {
+              "target": "rr_efile_id",
+              "source": null,
+              "type": "constant"
+            },
+            {
+              "target": "workflow_status",
+              "source": "",
+              "type": "constant"
+            },
+            {
+              "target": "report_status_cd",
+              "source": "O",
+              "type": "constant"
+            },
+            {
+              "target": "correction_flg",
+              "source": true,
+              "type": "constant"
+            }
+          ],
+          "rr_sar_report": [
+            {
+              "target": "filing_type_cd",
+              "source": "C",
+              "type": "constant"
+            },
+            {
+              "target": "prior_agency_ref_id",
+              "source": "rr_report.agency_ref_id",
+              "condition": "empty"
+            },
+            {
+              "target": "sar_attachment_id",
+              "source": null,
+              "type": "constant"
+            },
+            {
+              "target": "sar_attachment_nm",
+              "source": null,
+              "type": "constant"
+            },
+            {
+              "target": "employee_ind",
+              "source": "rr_report.employee_ind"
+            },
+            {
+              "target": "parent_entity_id",
+              "source": "rr_report.rr_report_id"
+            },
+            {
+              "target": "parent_entity_type",
+              "source": "rr_report",
+              "type": "constant"
+            }
+          ],
+          "any_relationship": [
+            {
+              "target": "employee_ind",
+              "source": "rr_report.employee_ind"
+            },
+            {
+              "target": "parent_entity_id",
+              "source": "rr_report.rr_report_id"
+            },
+            {
+              "target": "parent_entity_type",
+              "source": "rr_report",
+              "type": "constant"
+            }
+          ]
+        },
+        "linkToReport": {
+          "any_entity": [
+            {
+              "target": "employee_ind",
+              "source": "rr_report.employee_ind"
+            },
+            {
+              "target": "parent_entity_id",
+              "source": "rr_report.rr_report_id"
+            },
+            {
+              "target": "parent_entity_type",
+              "source": "rr_report",
+              "type": "constant"
+            }
+          ]
+        },
+        "SAR90": {
+          "rr_sar_report": [
+            {
+              "target": "prior_agency_ref_id",
+              "source": "tm_cases.agency_ref_id",
+              "condition": "notEmpty"
+            },
+            {
+              "target": "continue_activity_flg",
+              "source": true,
+              "type": "constant"
+            },
+            {
+              "target": "filing_type_cd",
+              "source": null,
+              "type": "constant"
+            }
+          ]
+        }
+      }
+    },
+    "effective_from_date": "2019-01-01",
+    "effective_to_date": "2999-12-31",
+    "efile_max_report_count": 60,
+    "ext_mapping": {
+      "parent": {
+        "tableName": "rr_sar_subject",
+        "fieldValues": [
+          {
+            "field": "source_doc_type",
+            "expr": "'EXT'"
+          },
+          {
+            "field": "source_doc_id",
+            "expr": "ext_party_account_comp_key"
+          },
+          {
+            "field": "source_entity_nm",
+            "expr": "full_name"
+          },
+          {
+            "field": "source_entity_number",
+            "expr": "external_party_number"
+          },
+          {
+            "field": "entity_flg",
+            "expr": "ifc(ext_party_type_desc='ORGANIZATION','.true.','.false.')"
+          },
+          {
+            "field": "last_nm",
+            "expr": "ifc(last_name='',full_name,last_name)"
+          },
+          {
+            "field": "last_nm_unknown_flg",
+            "expr": "ifc(last_name='' and full_name='','.true.','.false.')"
+          },
+          {
+            "field": "first_nm",
+            "expr": "first_name"
+          },
+          {
+            "field": "first_nm_unknown_flg",
+            "expr": "ifc(ext_party_type_desc='ORGANIZATION','',ifc(first_name='','.true.','.false.'))"
+          },
+          {
+            "field": "middle_nm",
+            "expr": "middle_name"
+          },
+          {
+            "field": "gender_cd",
+            "expr": "ifc(ext_party_type_desc='INDIVIDUAL',ifc(party_gender='F' or party_gender='M',party_gender,'U'),'')"
+          },
+          {
+            "field": "tin_no",
+            "expr": "compress(party_tax_id,,'KAD')"
+          },
+          {
+            "field": "tin_unknown_flg",
+            "expr": "ifc(compress(party_tax_id,,'KAD')='','.true.','.false.')"
+          },
+          {
+            "field": "tin_type_cd",
+            "expr": "put(party_tax_id_type_code,$extTinType.)"
+          },
+          {
+            "field": "no_id_flg",
+            "expr": "ifc(compress(cat(identification_type_desc,identification_id,identification_country_code,identification_state_code),,'KAD')='','.true.','.false.')"
+          },
+          {
+            "field": "birthday_txt",
+            "expr": "ifc(ext_party_type_desc='INDIVIDUAL' and birth_date >= mdy(1,1,1900),put(birth_date,yymmdd10.),'')"
+          },
+          {
+            "field": "birthday_unknown_flg",
+            "expr": "ifc(ext_party_type_desc='INDIVIDUAL',ifc(birth_date < mdy(1,1,1900),'.true.','.false.'),'')"
+          },
+          {
+            "field": "no_acct_flg",
+            "expr": "ifc(account_number='','.true.','.false.')"
+          }
+        ]
+      },
+      "children": [
         {
-          "name": "tm_domain",
-          "suspendAlertDisposition": "sar_90_disposition",
-          "activateAlertDisposition": "act_disposition",
-          "followUpQueue": "tm_sar90_queue",
-          "activateQueue": "tm_alert_queue"
+          "tableName": "rr_sar_subj_address",
+          "alternateSource": "ADD",
+          "fieldValues": [
+            {
+              "field": "address_txt",
+              "expr": "cat(address_line_1_text,address_line_2_text)"
+            },
+            {
+              "field": "address_unknown_flg",
+              "expr": "ifc(cat(address_line_1_text,address_line_2_text)='','.true.','.false.')"
+            },
+            {
+              "field": "city_nm",
+              "expr": "city_name"
+            },
+            {
+              "field": "city_nm_unknown_flg",
+              "expr": "ifc(city_name='','.true.','.false.')"
+            },
+            {
+              "field": "state_cd",
+              "expr": "ifc(put(country_code,$rr_us_territory.)='Y',country_code,ifc(put(country_code,$rr_north_america.)='Y',put(strip(country_code)||'-'||strip(state_code),$rr_country_state_.),''))"
+            },
+            {
+              "field": "state_unknown_flg",
+              "expr": "ifc(put(country_code,$rr_us_territory.)='Y' or put(country_code,$rr_north_america.)='Y',ifc(put(strip(country_code)||'-'||strip(state_code),$rr_country_state_.)='','.true.','.false.'),'')"
+            },
+            {
+              "field": "postal_cd",
+              "expr": "compress(postal_code,,'KAD')"
+            },
+            {
+              "field": "postal_unknown_flg",
+              "expr": "ifc(compress(postal_code,,'KAD')='','.true.','.false.')"
+            },
+            {
+              "field": "country_cd",
+              "expr": "compress(country_code,,'KA')"
+            },
+            {
+              "field": "country_unknown_flg",
+              "expr": "ifc(compress(country_code,,'KA')='' ,'.true.','.false.')"
+            }
+          ]
         },
         {
-          "name": "another_domain",
-          "suspendAlertDisposition": "sar_90_disposition_for_this_domain",
-          "activateAlertDisposition": "act_disposition_for_this_domain",
-          "followUpQueue": "this_domain_sar90_queue",
-          "activateQueue": "this_domain_activate_queue"
+          "tableName": "rr_sar_subj_id",
+          "fieldValues": [
+            {
+              "field": "subject_id_type_cd",
+              "expr": "put(identification_type_desc,$extSubjectIdType.)"
+            },
+            {
+              "field": "id_no",
+              "expr": "compress(identification_id,,'KAD')"
+            },
+            {
+              "field": "id_authority_state_cd",
+              "expr": "ifc(put(identification_country_code,$rr_us_territory.)='Y',identification_country_code,ifc(put(identification_country_code,$rr_north_america.)='Y',put(strip(identification_country_code)||'-'||strip(identification_state_code),$rr_country_state_.),''))"
+            },
+            {
+              "field": "id_authority_country_cd",
+              "expr": "compress(identification_country_code,,'KA')"
+            },
+            {
+              "field": "subject_id_type_oth_txt",
+              "expr": "ifc(put(identification_type_desc,$extSubjectIdType.)='999',put(identification_type_desc,$extSubjectIdTypeOther.),'')"
+            }
+          ]
+        },
+        {
+          "tableName": "rr_sar_subj_phone",
+          "fieldValues": [
+            {
+              "rowNumber": "1",
+              "field": "phone_type_cd",
+              "expr": "ifc(phone_number_1='','','R')"
+            },
+            {
+              "rowNumber": "1",
+              "field": "phone_no",
+              "expr": "compress(phone_number_1,,'KD')"
+            },
+            {
+              "rowNumber": "2",
+              "field": "phone_type_cd",
+              "expr": "ifc(phone_number_2='','','M')"
+            },
+            {
+              "rowNumber": "2",
+              "field": "phone_no",
+              "expr": "compress(phone_number_2,,'KD')"
+            }
+          ]
+        },
+        {
+          "tableName": "rr_sar_subj_acct",
+          "fieldValues": [
+            {
+              "field": "acct_no",
+              "expr": "compress(account_number,,'KAD')"
+            }
+          ]
+        }
+      ],
+      "format": [
+        {
+          "formatName": "extSubjectIdType",
+          "values": [
+            {
+              "from": ".",
+              "to": "."
+            },
+            {
+              "from": "DL",
+              "to": "5"
+            },
+            {
+              "from": "STI",
+              "to": "5"
+            },
+            {
+              "from": "GC",
+              "to": "7"
+            },
+            {
+              "from": "PA",
+              "to": "6"
+            },
+            {
+              "from": "**OTHER**",
+              "to": "999"
+            }
+          ]
+        },
+        {
+          "formatName": "extSubjectIdTypeOther",
+          "values": [
+            {
+              "from": "EI",
+              "to": "Employee ID"
+            },
+            {
+              "from": "GI",
+              "to": "Government ID"
+            },
+            {
+              "from": "MI",
+              "to": "Military ID"
+            },
+            {
+              "from": "SCI",
+              "to": "School ID"
+            },
+            {
+              "from": "STI",
+              "to": "Employee ID"
+            },
+            {
+              "from": "UI",
+              "to": "Union ID"
+            }
+          ]
+        },
+        {
+          "formatName": "extTinType",
+          "values": [
+            {
+              "from": "E",
+              "to": "2"
+            },
+            {
+              "from": "S",
+              "to": "1"
+            }
+          ]
+        }
+      ]
+    },
+    "form_agency_cd": "FINCEN",
+    "form_country_cd": "US",
+    "form_desc": "US Suspicious Activity Report",
+    "form_type_cd": "SAR",
+    "implementation_type_cd": "SAR",
+    "manual_parties_mapping": {
+      "parent": {
+        "tableName": "rr_sar_subject",
+        "fieldValues": [
+          {
+            "field": "parent_entity_type",
+            "expr": "'rr_report'"
+          },
+          {
+            "field": "parent_entity_id",
+            "expr": "symgetc('_t_rr_report_id')"
+          },
+          {
+            "field": "employee_ind",
+            "expr": "symgetc('_t_employee_ind')"
+          },
+          {
+            "field": "source_doc_type",
+            "expr": "'manual_parties'"
+          },
+          {
+            "field": "source_doc_id",
+            "expr": "manual_party_id"
+          },
+          {
+            "field": "source_entity_nm",
+            "expr": "party_name"
+          },
+          {
+            "field": "source_entity_number",
+            "expr": "party_number"
+          },
+          {
+            "field": "entity_flg",
+            "expr": "ifc(party_type_desc='ORGANIZATION','.true.','.false.')"
+          },
+          {
+            "field": "last_nm",
+            "expr": "ifc(party_last_name='',party_name,party_last_name)"
+          },
+          {
+            "field": "last_nm_unknown_flg",
+            "expr": "ifc(party_last_name='' and party_name='','.true.','.false.')"
+          },
+          {
+            "field": "first_nm",
+            "expr": "party_first_name"
+          },
+          {
+            "field": "first_nm_unknown_flg",
+            "expr": "ifc(party_type_desc='ORGANIZATION','',ifc(party_first_name='','.true.','.false.'))"
+          },
+          {
+            "field": "middle_nm",
+            "expr": "party_middle_name"
+          },
+          {
+            "field": "gender_cd",
+            "expr": "ifc(party_type_desc='INDIVIDUAL',ifc(party_gender='F' or party_gender='M',party_gender,'U'),'')"
+          },
+          {
+            "field": "occupation_txt",
+            "expr": "occupation_desc"
+          },
+          {
+            "field": "naics_cd",
+            "expr": "industry_code_rr"
+          },
+          {
+            "field": "tin_no",
+            "expr": "compress(party_tax_id,,'KAD')"
+          },
+          {
+            "field": "tin_unknown_flg",
+            "expr": "ifc(compress(party_tax_id,,'KAD')='','.true.','.false.')"
+          },
+          {
+            "field": "tin_type_cd",
+            "expr": "put(party_tax_id_type_code,$mpTinType.)"
+          },
+          {
+            "field": "no_id_flg",
+            "expr": "ifc(compress(cat(party_identification_type_desc,party_identification_id,id_authority_state_cd,id_authority_country_cd),,'KAD')='','.true.','.false.')"
+          },
+          {
+            "field": "birthday_txt",
+            "expr": "ifc(party_type_desc='INDIVIDUAL' and party_date_of_birth >= mdy(1,1,1900),put(party_date_of_birth,yymmdd10.),'')"
+          },
+          {
+            "field": "birthday_unknown_flg",
+            "expr": "ifc(party_type_desc='INDIVIDUAL',ifc(party_date_of_birth < mdy(1,1,1900),'.true.','.false.'),'')"
+          },
+          {
+            "field": "no_acct_flg",
+            "expr": "ifc(_acc_cnt > 0 ,'.false.','.true.')"
+          }
+        ]
+      },
+      "children": [
+        {
+          "tableName": "rr_sar_subj_address",
+          "fieldValues": [
+            {
+              "rowNumber": "1",
+              "field": "address_txt",
+              "expr": "cat(street_address_1,street_address_2)"
+            },
+            {
+              "rowNumber": "1",
+              "field": "address_unknown_flg",
+              "expr": "ifc(cat(street_address_1,street_address_2,street_city_name,street_postal_code,street_state_code,street_country_code) ne '' and cat(street_address_1,street_address_2)='','.true.','')"
+            },
+            {
+              "rowNumber": "1",
+              "field": "city_nm",
+              "expr": "street_city_name"
+            },
+            {
+              "rowNumber": "1",
+              "field": "city_nm_unknown_flg",
+              "expr": "ifc(cat(street_address_1,street_address_2,street_city_name,street_postal_code,street_state_code,street_country_code) ne '' and street_city_name='','.true.','')"
+            },
+            {
+              "rowNumber": "1",
+              "field": "state_cd",
+              "expr": "ifc(put(street_country_code,$rr_us_territory.)='Y',street_country_code,ifc(put(street_country_code,$rr_north_america.)='Y',put(strip(street_country_code)||'-'||strip(street_state_code),$rr_country_state_.),''))"
+            },
+            {
+              "rowNumber": "1",
+              "field": "state_unknown_flg",
+              "expr": "ifc(put(street_country_code,$rr_us_territory.)='Y' or put(street_country_code,$rr_north_america.)='Y',ifc(put(strip(street_country_code)||'-'||strip(street_state_code),$rr_country_state_.)='','.true.',''),'')"
+            },
+            {
+              "rowNumber": "1",
+              "field": "postal_cd",
+              "expr": "compress(street_postal_code,,'KAD')"
+            },
+            {
+              "rowNumber": "1",
+              "field": "postal_unknown_flg",
+              "expr": "ifc(cat(street_address_1,street_address_2,street_city_name,street_postal_code,street_state_code,street_country_code) ne '' and street_postal_code='','.true.','')"
+            },
+            {
+              "rowNumber": "1",
+              "field": "country_cd",
+              "expr": "ifc(street_country_code ='', '',street_country_code)"
+            },
+            {
+              "rowNumber": "1",
+              "field": "country_unknown_flg",
+              "expr": "ifc(cat(street_address_1,street_address_2,street_city_name,street_postal_code,street_state_code,street_country_code) ne '' and street_country_code='','.true.','')"
+            },
+            {
+              "rowNumber": "2",
+              "field": "address_txt",
+              "expr": "cat(mailing_address_1,mailing_address_2)"
+            },
+            {
+              "rowNumber": "2",
+              "field": "address_unknown_flg",
+              "expr": "ifc(cat(cat(mailing_address_1,mailing_address_2,mailing_city_name,mailing_postal_code,mailing_state_code,mailing_country_code) ne '' and mailing_address_1,mailing_address_2)='','.true.','')"
+            },
+            {
+              "rowNumber": "2",
+              "field": "city_nm",
+              "expr": "mailing_city_name"
+            },
+            {
+              "rowNumber": "2",
+              "field": "city_nm_unknown_flg",
+              "expr": "ifc(cat(mailing_address_1,mailing_address_2,mailing_city_name,mailing_postal_code,mailing_state_code,mailing_country_code) ne '' and mailing_city_name='','.true.','')"
+            },
+            {
+              "rowNumber": "2",
+              "field": "state_cd",
+              "expr": "ifc(put(mailing_country_code,$rr_us_territory.)='Y',mailing_country_code,ifc(put(mailing_country_code,$rr_north_america.)='Y',put(strip(mailing_country_code)||'-'||strip(mailing_state_code),$rr_country_state_.),''))"
+            },
+            {
+              "rowNumber": "2",
+              "field": "state_unknown_flg",
+              "expr": "ifc(put(mailing_country_code,$rr_us_territory.)='Y' or put(mailing_country_code,$rr_north_america.)='Y',ifc(put(strip(mailing_country_code)||'-'||strip(mailing_state_code),$rr_country_state_.)='','.true.',''),'')"
+            },
+            {
+              "rowNumber": "2",
+              "field": "postal_cd",
+              "expr": "mailing_postal_code"
+            },
+            {
+              "rowNumber": "2",
+              "field": "postal_unknown_flg",
+              "expr": "ifc(cat(mailing_address_1,mailing_address_2,mailing_city_name,mailing_postal_code,mailing_state_code,mailing_country_code) ne '' and mailing_postal_code='','.true.','')"
+            },
+            {
+              "rowNumber": "2",
+              "field": "country_cd",
+              "expr": "mailing_country_code"
+            },
+            {
+              "rowNumber": "2",
+              "field": "country_unknown_flg",
+              "expr": "ifc(cat(mailing_address_1,mailing_address_2,mailing_city_name,mailing_postal_code,mailing_state_code,mailing_country_code) ne '' and  mailing_country_code=''  ,'.true.','')"
+            }
+          ]
+        },
+        {
+          "tableName": "rr_sar_subj_alt_nm",
+          "fieldValues": [
+            {
+              "field": "alternate_nm",
+              "expr": "doing_business_as_name"
+            }
+          ]
+        },
+        {
+          "tableName": "rr_sar_subj_email",
+          "fieldValues": [
+            {
+              "field": "email_address_txt",
+              "expr": "email_address"
+            }
+          ]
+        },
+        {
+          "tableName": "rr_sar_subj_id",
+          "fieldValues": [
+            {
+              "field": "subject_id_type_cd",
+              "expr": "put(party_identification_type_desc,$mpSubjectIdType.)"
+            },
+            {
+              "field": "id_no",
+              "expr": "compress(party_identification_id,,'KAD')"
+            },
+            {
+              "field": "id_authority_state_cd",
+              "expr": "ifc(put(party_id_country_code,$rr_us_territory.)='Y',party_id_country_code,ifc(put(party_id_country_code,$rr_north_america.)='Y',put(strip(party_id_country_code)||'-'||strip(party_id_state_code),$rr_country_state_.),''))"
+            },
+            {
+              "field": "id_authority_country_cd",
+              "expr": "compress(party_id_country_code,,'KA')"
+            },
+            {
+              "field": "subject_id_type_oth_txt",
+              "expr": "ifc(put(party_identification_type_desc,$mpSubjectIdType.)='999',put(party_identification_type_desc,$mpSubjectIdTypeOther.),'')"
+            }
+          ]
+        },
+        {
+          "tableName": "rr_sar_subj_phone",
+          "fieldValues": [
+            {
+              "rowNumber": "1",
+              "field": "phone_type_cd",
+              "expr": "ifc(compress(phone_number_1,,'KD')='','','R')"
+            },
+            {
+              "rowNumber": "1",
+              "field": "phone_no",
+              "expr": "compress(phone_number_1,,'KD')"
+            },
+            {
+              "rowNumber": "2",
+              "field": "phone_type_cd",
+              "expr": "ifc(compress(phone_number_2,,'KD')='','','M')"
+            },
+            {
+              "rowNumber": "2",
+              "field": "phone_no",
+              "expr": "compress(phone_number_2,,'KD')"
+            },
+            {
+              "rowNumber": "3",
+              "field": "phone_type_cd",
+              "expr": "ifc(compress(phone_number_3,,'KD')='','','W')"
+            },
+            {
+              "rowNumber": "3",
+              "field": "phone_no",
+              "expr": "compress(phone_number_3,,'KD')"
+            }
+          ]
+        },
+        {
+          "tableName": "rr_sar_subj_acct",
+          "alternateSource": "ACC",
+          "fieldValues": [
+            {
+              "field": "acct_inst_non_us_flg",
+              "expr": "'.true.'"
+            },
+            {
+              "field": "acct_no",
+              "expr": "compress(account_number,,'KAD')"
+            },
+            {
+              "field": "acct_closed_flg",
+              "expr": "ifc(datepart(account_close_date) <= today() ,'.true.','.false.')"
+            }
+          ]
+        }
+      ],
+      "format": [
+        {
+          "formatName": "mpSubjectIdType",
+          "values": [
+            {
+              "from": ".",
+              "to": "."
+            },
+            {
+              "from": "DL",
+              "to": "5"
+            },
+            {
+              "from": "STI",
+              "to": "5"
+            },
+            {
+              "from": "GC",
+              "to": "7"
+            },
+            {
+              "from": "PA",
+              "to": "6"
+            },
+            {
+              "from": "**OTHER**",
+              "to": "999"
+            }
+          ]
+        },
+        {
+          "formatName": "mpSubjectIdTypeOther",
+          "values": [
+            {
+              "from": "EI",
+              "to": "Employee ID"
+            },
+            {
+              "from": "GI",
+              "to": "Government ID"
+            },
+            {
+              "from": "MI",
+              "to": "Military ID"
+            },
+            {
+              "from": "SCI",
+              "to": "School ID"
+            },
+            {
+              "from": "STI",
+              "to": "Employee ID"
+            },
+            {
+              "from": "UI",
+              "to": "Union ID"
+            }
+          ]
+        },
+        {
+          "formatName": "mpTinType",
+          "values": [
+            {
+              "from": "E",
+              "to": "2"
+            },
+            {
+              "from": "S",
+              "to": "1"
+            }
+          ]
+        }
+      ]
+    },
+    "pty_mapping": {
+      "parent": {
+        "tableName": "rr_sar_subject",
+        "fieldValues": [
+          {
+            "field": "parent_entity_type",
+            "expr": "'rr_report'"
+          },
+          {
+            "field": "parent_entity_id",
+            "expr": "symgetc('_t_rr_report_id')"
+          },
+          {
+            "field": "employee_ind",
+            "expr": "symgetc('_t_employee_ind')"
+          },
+          {
+            "field": "source_doc_type",
+            "expr": "'PTY'"
+          },
+          {
+            "field": "source_doc_id",
+            "expr": "party_number"
+          },
+          {
+            "field": "source_entity_nm",
+            "expr": "party_name"
+          },
+          {
+            "field": "source_entity_number",
+            "expr": "party_number"
+          },
+          {
+            "field": "entity_flg",
+            "expr": "ifc(party_type_desc='ORGANIZATION','.true.','.false.')"
+          },
+          {
+            "field": "last_nm",
+            "expr": "ifc(party_last_name='',party_name,party_last_name)"
+          },
+          {
+            "field": "last_nm_unknown_flg",
+            "expr": "ifc(party_last_name='' and party_name='','.true.','.false.')"
+          },
+          {
+            "field": "first_nm",
+            "expr": "party_first_name"
+          },
+          {
+            "field": "first_nm_unknown_flg",
+            "expr": "ifc(party_type_desc='ORGANIZATION','',ifc(party_first_name='','.true.','.false.'))"
+          },
+          {
+            "field": "middle_nm",
+            "expr": "party_middle_name"
+          },
+          {
+            "field": "gender_cd",
+            "expr": "ifc(party_type_desc='INDIVIDUAL',ifc(party_gender='F' or party_gender='M',party_gender,'U'),'')"
+          },
+          {
+            "field": "occupation_txt",
+            "expr": "occupation_desc"
+          },
+          {
+            "field": "naics_cd",
+            "expr": "industry_code_rr"
+          },
+          {
+            "field": "tin_no",
+            "expr": "compress(party_tax_id,,'KAD')"
+          },
+          {
+            "field": "tin_unknown_flg",
+            "expr": "ifc(party_tax_id='','.true.','.false.')"
+          },
+          {
+            "field": "tin_type_cd",
+            "expr": "put(party_tax_id_type_code,$tinType.)"
+          },
+          {
+            "field": "no_id_flg",
+            "expr": "ifc(compress(cat(party_identification_type_desc,party_identification_id, id_authority_state_cd,id_authority_country_cd),,'KAD')='','.true.','.false.')"
+          },
+          {
+            "field": "birthday_txt",
+            "expr": "ifc(party_type_desc='INDIVIDUAL' and party_date_of_birth >= mdy(1,1,1900),put(party_date_of_birth,yymmdd10.),'')"
+          },
+          {
+            "field": "birthday_unknown_flg",
+            "expr": "ifc(party_type_desc='INDIVIDUAL',ifc(party_date_of_birth < mdy(1,1,1900),'.true.','.false.'),'')"
+          },
+          {
+            "field": "no_acct_flg",
+            "expr": "ifc(_acc_cnt > 0 ,'.false.','.true.')"
+          }
+        ]
+      },
+      "children": [
+        {
+          "tableName": "rr_sar_subj_address",
+          "alternateSource": "ADD",
+          "fieldValues": [
+            {
+              "field": "address_txt",
+              "expr": "cat(address_line_1_text,address_line_2_text)"
+            },
+            {
+              "field": "address_unknown_flg",
+              "expr": "ifc(cat(address_line_1_text,address_line_2_text)='','.true.','.false.')"
+            },
+            {
+              "field": "city_nm",
+              "expr": "city_name"
+            },
+            {
+              "field": "city_nm_unknown_flg",
+              "expr": "ifc(city_name='','.true.','.false.')"
+            },
+            {
+              "field": "state_cd",
+              "expr": "ifc(put(country_code,$rr_us_territory.)='Y',country_code,ifc(put(country_code,$rr_north_america.)='Y',put(strip(country_code)||'-'||strip(state_code),$rr_country_state_.),''))"
+            },
+            {
+              "field": "state_unknown_flg",
+              "expr": "ifc(put(country_code,$rr_us_territory.)='Y' or put(country_code,$rr_north_america.)='Y',ifc(put(strip(country_code)||'-'||strip(state_code),$rr_country_state_.)='','.true.','.false.'),'')"
+            },
+            {
+              "field": "postal_cd",
+              "expr": "compress(postal_code,,'KAD')"
+            },
+            {
+              "field": "postal_unknown_flg",
+              "expr": "ifc(compress(postal_code,,'KAD')='','.true.','.false.')"
+            },
+            {
+              "field": "country_cd",
+              "expr": "compress(country_code,,'KA')"
+            },
+            {
+              "field": "country_unknown_flg",
+              "expr": "ifc(compress(country_code,,'KA')='' ,'.true.','.false.')"
+            }
+          ]
+        },
+        {
+          "tableName": "rr_sar_subj_alt_nm",
+          "fieldValues": [
+            {
+              "field": "alternate_nm",
+              "expr": "doing_business_as_name"
+            }
+          ]
+        },
+        {
+          "tableName": "rr_sar_subj_email",
+          "fieldValues": [
+            {
+              "field": "email_address_txt",
+              "expr": "email_address"
+            }
+          ]
+        },
+        {
+          "tableName": "rr_sar_subj_id",
+          "fieldValues": [
+            {
+              "field": "subject_id_type_cd",
+              "expr": "put(party_identification_type_desc,$subjectIdType.)"
+            },
+            {
+              "field": "id_no",
+              "expr": "compress(party_identification_id,,'KAD')"
+            },
+            {
+              "field": "id_authority_state_cd",
+              "expr": "ifc(put(party_id_country_code,$rr_us_territory.)='Y',party_id_country_code,ifc(put(party_id_country_code,$rr_north_america.)='Y',put(strip(party_id_country_code)||'-'||strip(party_id_state_code),$rr_country_state_.),''))"
+            },
+            {
+              "field": "id_authority_country_cd",
+              "expr": "ifc(party_id_country_code ='$', '',party_id_country_code)"
+            },
+            {
+              "field": "subject_id_type_oth_txt",
+              "expr": "ifc(put(party_identification_type_desc,$subjectIdType.)='999',put(party_identification_type_desc,$subjectIdTypeOther.),'')"
+            }
+          ]
+        },
+        {
+          "tableName": "rr_sar_subj_phone",
+          "fieldValues": [
+            {
+              "rowNumber": "1",
+              "field": "phone_type_cd",
+              "expr": "ifc(phone_number_1='','','R')"
+            },
+            {
+              "rowNumber": "1",
+              "field": "phone_no",
+              "expr": "compress(phone_number_1,,'KD')"
+            },
+            {
+              "rowNumber": "2",
+              "field": "phone_type_cd",
+              "expr": "ifc(phone_number_2='','','M')"
+            },
+            {
+              "rowNumber": "2",
+              "field": "phone_no",
+              "expr": "compress(phone_number_2,,'KD')"
+            },
+            {
+              "rowNumber": "3",
+              "field": "phone_type_cd",
+              "expr": "ifc(phone_number_2='','','W')"
+            },
+            {
+              "rowNumber": "3",
+              "field": "phone_no",
+              "expr": "compress(phone_number_3,,'KD')"
+            }
+          ]
+        },
+        {
+          "tableName": "rr_sar_subj_acct",
+          "alternateSource": "ACC",
+          "fieldValues": [
+            {
+              "field": "acct_inst_non_us_flg",
+              "expr": "'.true.'"
+            },
+            {
+              "field": "acct_no",
+              "expr": "compress(account_number,,'KAD')"
+            },
+            {
+              "field": "acct_closed_flg",
+              "expr": "ifc(datepart(account_close_date) <= today() ,'.true.','.false.')"
+            }
+          ]
+        }
+      ],
+      "format": [
+        {
+          "formatName": "subjectIdType",
+          "values": [
+            {
+              "from": ".",
+              "to": "."
+            },
+            {
+              "from": "DL",
+              "to": "5"
+            },
+            {
+              "from": "STI",
+              "to": "5"
+            },
+            {
+              "from": "GC",
+              "to": "7"
+            },
+            {
+              "from": "PA",
+              "to": "6"
+            },
+            {
+              "from": "**OTHER**",
+              "to": "999"
+            }
+          ]
+        },
+        {
+          "formatName": "subjectIdTypeOther",
+          "values": [
+            {
+              "from": "EI",
+              "to": "Employee ID"
+            },
+            {
+              "from": "GI",
+              "to": "Government ID"
+            },
+            {
+              "from": "MI",
+              "to": "Military ID"
+            },
+            {
+              "from": "SCI",
+              "to": "School ID"
+            },
+            {
+              "from": "STI",
+              "to": "Employee ID"
+            },
+            {
+              "from": "UI",
+              "to": "Union ID"
+            }
+          ]
+        },
+        {
+          "formatName": "tinType",
+          "values": [
+            {
+              "from": "E",
+              "to": "2"
+            },
+            {
+              "from": "S",
+              "to": "1"
+            }
+          ]
         }
       ]
     }
-  ]
+  }
 }
+
+
+ 

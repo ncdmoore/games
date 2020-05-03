@@ -1,35 +1,26 @@
 package engima.waratsea.view.airfield.mission;
 
-import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.target.Target;
+import engima.waratsea.viewmodel.AirMissionViewModel;
+import engima.waratsea.viewmodel.NationAirbaseViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
-/**
- * Represents the mission view details.
- */
 public class MissionView {
+    @Getter private final TableView<AirMissionViewModel> table = new TableView<>();
+    @Getter private final Button add = new Button("Add");
+    @Getter private final Button edit = new Button("Edit");
+    @Getter private final Button delete = new Button("delete");
 
-    @Getter
-    private final TableView<AirMission> table = new TableView<>();
-
-    @Getter
-    private final Button add = new Button("Add");
-
-    @Getter
-    private final Button edit = new Button("Edit");
-
-    @Getter
-    private final Button delete = new Button("delete");
-
+    private TitledPane titledPane = new TitledPane();
 
     /**
      * Show the mission details view.
@@ -37,9 +28,7 @@ public class MissionView {
      * @param nation The nation: BRITISH, ITALIAN, etc.
      * @return A titled pane that contains the mission view.
      */
-    public TitledPane show(final Nation nation) {
-        TitledPane titledPane = new TitledPane();
-
+    public MissionView build(final Nation nation) {
         titledPane.setText("Missions");
 
         setupTable();
@@ -49,17 +38,18 @@ public class MissionView {
 
         titledPane.setContent(vBox);
 
-        return titledPane;
+        return this;
     }
 
     /**
-     * Add a mission to the mission table.
+     * Bind this view to the given view model.
      *
-     * @param mission The mission to add.
+     * @param viewModel The airfield view model.
+     * @return This airfield ready view.
      */
-    public void addMissionToTable(final AirMission mission) {
-        table.getItems().add(mission);
-        table.refresh();
+    public TitledPane bind(final NationAirbaseViewModel viewModel) {
+        table.itemsProperty().bind(viewModel.getMissions());
+        return titledPane;
     }
 
     /**
@@ -67,23 +57,25 @@ public class MissionView {
      *
      * @param mission The mission to delete.
      */
-    public void deleteMissionFromTable(final AirMission mission) {
-        table.getItems().remove(mission);
-        table.refresh();
+    public void deleteMissionFromTable(final AirMissionViewModel mission) {
+        if (mission != null) {
+            table.getItems().remove(mission);
+            table.refresh();
+        }
     }
 
     /**
      * Setup the mission table.
      */
     private void setupTable() {
-        TableColumn<AirMission, String> typeColumn = new TableColumn<>("Mission Type");
-        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        TableColumn<AirMissionViewModel, AirMissionType> typeColumn = new TableColumn<>("Mission Type");
+        typeColumn.setCellValueFactory(cellData -> cellData.getValue().getMissionType());
 
-        TableColumn<AirMission, Target> targetColumn = new TableColumn<>("Target");
-        targetColumn.setCellValueFactory(new PropertyValueFactory<>("target"));
+        TableColumn<AirMissionViewModel, Target> targetColumn = new TableColumn<>("Target");
+        targetColumn.setCellValueFactory(cellData -> cellData.getValue().getTarget());
 
-        TableColumn<AirMission, Integer> numSquadronColumn = new TableColumn<>("Squadrons");
-        numSquadronColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
+        TableColumn<AirMissionViewModel, Integer> numSquadronColumn = new TableColumn<>("Squadrons");
+        numSquadronColumn.setCellValueFactory(cellData -> cellData.getValue().getTotalAssignedCount().asObject());
 
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);   //Limit the table columns to 3.
         table.getColumns().add(typeColumn);

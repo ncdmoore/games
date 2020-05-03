@@ -4,13 +4,16 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.airfield.info.AirfieldMissionInfo;
 import engima.waratsea.view.airfield.info.AirfieldPatrolInfo;
+import engima.waratsea.view.airfield.info.AirfieldReadyInfo;
 import engima.waratsea.view.airfield.info.AirfieldSquadronInfo;
 import engima.waratsea.view.util.GridPaneMap;
+import engima.waratsea.viewmodel.AirbaseViewModel;
+import engima.waratsea.viewmodel.NationAirbaseViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Tab;
@@ -24,6 +27,7 @@ import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,11 +49,18 @@ public class AirfieldAssetSummaryView implements AssetView {
     private final TabPane nationsTabPane = new TabPane();
 
     private final Provider<AirfieldSquadronInfo> airfieldSquadronInfoProvider;
+    private final Provider<AirfieldMissionInfo> airfieldMissionInfoProvider;
     private final Provider<AirfieldPatrolInfo> airfieldPatrolInfoProvider;
+    private final Provider<AirfieldReadyInfo> airfieldReadyInfoProvider;
 
+    @Getter private AirbaseViewModel viewModel;
     private Airbase airbase;
-    private AirfieldSquadronInfo squadronInfo;
-    private AirfieldPatrolInfo patrolInfo;
+    private Map<Nation, AirfieldSquadronInfo> squadronInfo = new HashMap<>();
+    private Map<Nation, AirfieldMissionInfo> missionInfo = new HashMap<>();
+    private Map<Nation, AirfieldPatrolInfo> patrolInfo = new HashMap<>();
+    private Map<Nation, AirfieldReadyInfo> readyInfo = new HashMap<>();
+
+    private ImageView imageView = new ImageView();
 
     @Getter private HBox node;
 
@@ -59,25 +70,35 @@ public class AirfieldAssetSummaryView implements AssetView {
      * @param props The view properties.
      * @param imageResourceProvider Provides images.
      * @param airfieldSquadronInfoProvider Provides airfield squadron information.
+     * @param airfieldMissionInfoProvider Provides airfield mission information.
      * @param airfieldPatrolInfoProvider Provides airfield patrol information.
+     * @param airfieldReadyInfoProvider Provides airfield ready information.
      */
     @Inject
     public AirfieldAssetSummaryView(final ViewProps props,
                                     final ImageResourceProvider imageResourceProvider,
                                     final Provider<AirfieldSquadronInfo> airfieldSquadronInfoProvider,
-                                    final Provider<AirfieldPatrolInfo> airfieldPatrolInfoProvider) {
+                                    final Provider<AirfieldMissionInfo> airfieldMissionInfoProvider,
+                                    final Provider<AirfieldPatrolInfo> airfieldPatrolInfoProvider,
+                                    final Provider<AirfieldReadyInfo> airfieldReadyInfoProvider) {
         this.props = props;
         this.imageResourceProvider = imageResourceProvider;
         this.airfieldSquadronInfoProvider = airfieldSquadronInfoProvider;
+        this.airfieldMissionInfoProvider = airfieldMissionInfoProvider;
         this.airfieldPatrolInfoProvider = airfieldPatrolInfoProvider;
+        this.airfieldReadyInfoProvider = airfieldReadyInfoProvider;
     }
 
     /**
      * Build the airfield's summary for the game's asset pane.
      *
+     * @param airbaseViewModel The airbase view model.
      * @return The node that contains the airfield's asset summary.
      */
-    public Node build() {
+    public AirfieldAssetSummaryView build(final AirbaseViewModel airbaseViewModel) {
+        viewModel = airbaseViewModel;
+        airbase = viewModel.getAirbase();
+
         buildSummary();
         buildLandingTypes();
         buildNationsTabPane();
@@ -88,37 +109,46 @@ public class AirfieldAssetSummaryView implements AssetView {
         summaryPane.setMinHeight(props.getInt("asset.pane.component.height"));
         landingTypesPane.setMinHeight(props.getInt("asset.pane.component.height"));
 
-        return node;
+        bind();
+
+        return this;
     }
 
     /**
-     * Show the given airbase in the asset summary view.
+     * Bind the view model.
+     **/
+    private void bind() {
+        bindSummary();
+        bindLandingTypes();
+
+        airbase
+                .getNations()
+                .forEach(this::bindNation);
+    }
+
+    /**
+     * Bind the patrol view model for the given nation.
      *
-     * @param base The airbase displayed in the asset summary view.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
      */
-    public void show(final Airbase base) {
-        airbase = base;
+    private void bindNation(final Nation nation) {
+        NationAirbaseViewModel nationAirbaseViewModel = viewModel.getNationViewModels().get(nation);
 
-        showSummary();
-        showLandingTypes();
-        showNationsTab();
-    }
+        squadronInfo
+                .get(nation)
+                .bind(nationAirbaseViewModel);
 
-    /**
-     * Update the patrol with the number of squadrons on patrol.
-     *
-     * @param patrolType The type of patrol.
-     * @param numOnPatrol The number of squadron on patrol of the given type.
-     */
-    public void updatePatrol(final PatrolType patrolType, final int numOnPatrol) {
-        patrolInfo.update(patrolType, numOnPatrol);
-    }
+        missionInfo
+                .get(nation)
+                .bind(nationAirbaseViewModel);
 
-    /**
-     * Update the airfield's asset view based on the current airbase data.
-     */
-    public void update() {
-        patrolInfo.update();
+        patrolInfo
+                .get(nation)
+                .bind(nationAirbaseViewModel);
+
+        readyInfo
+                .get(nation)
+                .bind(nationAirbaseViewModel);
     }
 
     /**
@@ -139,6 +169,13 @@ public class AirfieldAssetSummaryView implements AssetView {
         summaryGrid.setGridStyleId("component-grid");
         summaryGrid.setWidth(props.getInt("asset.pane.grid.component.width"));
         summaryGrid.setColumnConstraints(List.of(col1, col2));
+
+        Node grid = summaryGrid.buildGrid();
+
+        HBox hBox = new HBox(imageView, grid);
+        hBox.setId("airfield-summary-hbox");
+
+        summaryPane.setContent(hBox);
     }
 
     /**
@@ -155,27 +192,28 @@ public class AirfieldAssetSummaryView implements AssetView {
     private void buildNationsTabPane() {
         nationsTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         nationsTabPane.setId("airfield-nations-tab-pane");
+
+        airbase.
+                getNations()
+                .stream()
+                .map(this::buildNationTab)
+                .forEach(tab -> nationsTabPane.getTabs().add(tab));
     }
 
     /**
      * Show the summary for the selected airfield.
      */
-    private void showSummary() {
+    private void bindSummary() {
         Image image = imageResourceProvider.getImage(props.getString(airbase.getSide().toLower() + ".airfield.medium.icon"));
+        imageView.setImage(image);
 
-        Node imageView = new ImageView(image);
-        Node grid = summaryGrid.buildGrid(getAirbaseData());
-
-        HBox hBox = new HBox(imageView, grid);
-        hBox.setId("airfield-summary-hbox");
-
-        summaryPane.setContent(hBox);
+        summaryGrid.updateGrid(getAirbaseData());
     }
 
     /**
      * Show landing types.
      */
-    private void showLandingTypes() {
+    private void bindLandingTypes() {
         List<CheckBox> checkBoxes = Stream.of(LandingType.values())
                 .map(this::buildCheckBox)
                 .collect(Collectors.toList());
@@ -187,16 +225,6 @@ public class AirfieldAssetSummaryView implements AssetView {
         landingTypesPane.setContent(vBox);
     }
 
-    /**
-     * Show the nations tab.
-     */
-    private void showNationsTab() {
-        airbase.
-                getNations()
-                .stream()
-                .map(this::buildNationTab)
-                .forEach(tab -> nationsTabPane.getTabs().add(tab));
-    }
 
     /**
      * Get the Airbase's data.
@@ -250,15 +278,19 @@ public class AirfieldAssetSummaryView implements AssetView {
 
         tab.setGraphic(roundel);
 
-        squadronInfo = airfieldSquadronInfoProvider.get();
-        Node squadronInfoNode = squadronInfo.build();
-        squadronInfo.setAirbase(nation, airbase);
+        squadronInfo.put(nation, airfieldSquadronInfoProvider.get());
+        Node squadronInfoNode = squadronInfo.get(nation).build();
 
-        patrolInfo = airfieldPatrolInfoProvider.get();
-        Node patrolInfoNode = patrolInfo.build();
-        patrolInfo.setAirbase(nation, airbase);
+        missionInfo.put(nation, airfieldMissionInfoProvider.get());
+        Node missionInfoNode = missionInfo.get(nation).build();
 
-        HBox hBox = new HBox(squadronInfoNode, patrolInfoNode);
+        patrolInfo.put(nation, airfieldPatrolInfoProvider.get());
+        Node patrolInfoNode = patrolInfo.get(nation).build();
+
+        readyInfo.put(nation, airfieldReadyInfoProvider.get());
+        Node readyInfoNode = readyInfo.get(nation).build();
+
+        HBox hBox = new HBox(squadronInfoNode, missionInfoNode, patrolInfoNode, readyInfoNode);
         hBox.setId("airfield-nation-tab-hbox");
 
         tab.setContent(hBox);

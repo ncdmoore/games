@@ -5,10 +5,10 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.util.BoundTitledGridPane;
 import engima.waratsea.viewmodel.NationAirbaseViewModel;
 
-public class AirfieldSquadronInfo {
+public class AirfieldReadyInfo {
     private final ViewProps props;
 
-    private final BoundTitledGridPane squadronCountsPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane readyCountsPane = new BoundTitledGridPane();
 
     /**
      * Constructor called by guice.
@@ -16,7 +16,7 @@ public class AirfieldSquadronInfo {
      * @param props The view properties.
      */
     @Inject
-    public AirfieldSquadronInfo(final ViewProps props) {
+    public AirfieldReadyInfo(final ViewProps props) {
         this.props = props;
     }
 
@@ -26,10 +26,10 @@ public class AirfieldSquadronInfo {
      * @return A node that contains the squadron counts for each type of aircraft.
      */
     public BoundTitledGridPane build() {
-        return squadronCountsPane
+        return readyCountsPane
                 .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
                 .setGridStyleId("component-grid")
-                .setTitle("Squadron Summary")
+                .setTitle("Ready Summary")
                 .build();
     }
 
@@ -39,6 +39,6 @@ public class AirfieldSquadronInfo {
      * @param viewModel  The nation's airbase view model.
      */
     public void bind(final NationAirbaseViewModel viewModel) {
-        squadronCountsPane.bind(viewModel.getSquadronCounts());
+        readyCountsPane.bind(viewModel.getReadyCounts());
     }
 }

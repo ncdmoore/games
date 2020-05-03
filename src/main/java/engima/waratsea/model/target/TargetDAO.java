@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  * The target data access object. Provides access to all target objects.
@@ -20,6 +21,8 @@ import java.util.function.Function;
 public class TargetDAO {
 
     private Map<TargetType, Function<TargetData, Target>> factoryMap = new HashMap<>();
+
+    private Map<TargetType, Map<String, Target>> cache = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -35,6 +38,15 @@ public class TargetDAO {
         factoryMap.put(TargetType.ENEMY_TASK_FORCE, factory::createEnemyTaskForceTarget);
         factoryMap.put(TargetType.FRIENDLY_TASK_FORCE, factory::createFriendlyTaskForceTarget);
         factoryMap.put(TargetType.SEA_GRID, factory::createSeaGrid);
+
+        Stream.of(TargetType.values()).forEach(type -> cache.put(type, new HashMap<>()));
+    }
+
+    /**
+     * Initialize the cache.
+     */
+    public void init() {
+        cache.values().forEach(Map::clear);
     }
 
     /**
@@ -54,12 +66,19 @@ public class TargetDAO {
      * @return A friendly airfield target that corresponds to the given airfield.
      */
     public Target getFriendlyAirfieldTarget(final Airfield airfield) {
+
+        if (cache.get(TargetType.FRIENDLY_AIRFIELD).containsKey(airfield.getName())) {
+            return cache.get(TargetType.FRIENDLY_AIRFIELD).get(airfield.getName());
+        }
+
         TargetData data = new TargetData();
         data.setSide(airfield.getSide());
         data.setName(airfield.getName());
         data.setType(TargetType.FRIENDLY_AIRFIELD);
 
-        return load(data);
+        Target target = load(data);
+        cache.get(TargetType.FRIENDLY_AIRFIELD).put(airfield.getName(), target);
+        return target;
     }
 
     /**
@@ -69,12 +88,18 @@ public class TargetDAO {
      * @return An enemy airfield target that corresponds to the given airfield.
      */
     public Target getEnemyAirfieldTarget(final Airfield airfield) {
+        if (cache.get(TargetType.ENEMY_AIRFIELD).containsKey(airfield.getName())) {
+            return cache.get(TargetType.ENEMY_AIRFIELD).get(airfield.getName());
+        }
+
         TargetData data = new TargetData();
         data.setSide(airfield.getSide().opposite());
         data.setName(airfield.getName());
         data.setType(TargetType.ENEMY_AIRFIELD);
 
-        return load(data);
+        Target target = load(data);
+        cache.get(TargetType.ENEMY_AIRFIELD).put(airfield.getName(), target);
+        return target;
     }
 
     /**
@@ -84,12 +109,18 @@ public class TargetDAO {
      * @return An enemy port target that corresponds to the given port.
      */
     public Target getEnemyPortTarget(final Port port) {
+        if (cache.get(TargetType.ENEMY_PORT).containsKey(port.getName())) {
+            return cache.get(TargetType.ENEMY_PORT).get(port.getName());
+        }
+
         TargetData data = new TargetData();
         data.setSide(port.getSide().opposite());
         data.setName(port.getName());
         data.setType(TargetType.ENEMY_PORT);
 
-        return load(data);
+        Target target = load(data);
+        cache.get(TargetType.ENEMY_PORT).put(port.getName(), target);
+        return target;
     }
 
     /**
@@ -99,11 +130,17 @@ public class TargetDAO {
      * @return An enemy task force target that corresponds to the given task force.
      */
     public Target getEnemyTaskForceTarget(final TaskForce taskForce) {
+        if (cache.get(TargetType.ENEMY_TASK_FORCE).containsKey(taskForce.getName())) {
+            return cache.get(TargetType.ENEMY_TASK_FORCE).get(taskForce.getName());
+        }
+
         TargetData data = new TargetData();
         data.setSide(taskForce.getSide().opposite());
         data.setName(taskForce.getName());
         data.setType(TargetType.ENEMY_TASK_FORCE);
 
-        return load(data);
+        Target target = load(data);
+        cache.get(TargetType.ENEMY_TASK_FORCE).put(taskForce.getName(), target);
+        return target;
     }
 }

@@ -333,7 +333,7 @@ public class TargetFriendlyAirfield implements Target {
         int airbaseCurrentSteps = getAirfield().getCurrentSteps().intValue();
         int airbaseMissionSteps = getMissionSteps(excludedAirbase);    // excludes current airbase.
 
-        return airbaseMaxSteps > airbaseCurrentSteps + airbaseMissionSteps + currentAirbaseMissionSteps;
+        return airbaseMaxSteps >= airbaseCurrentSteps + airbaseMissionSteps + currentAirbaseMissionSteps;
     }
 
     /**
@@ -367,7 +367,7 @@ public class TargetFriendlyAirfield implements Target {
 
         // If the region's maximum allowed steps is zero, this indicates the region does not have a maximum.
         // Thus, a region with a maximum allowed steps of zero always has capacity.
-        return regionMaxSteps == 0 || regionMaxSteps > regionCurrentSteps + regionMissionSteps + currentAirbaseMissionSteps;
+        return regionMaxSteps == 0 || regionMaxSteps >= regionCurrentSteps + regionMissionSteps + currentAirbaseMissionSteps;
     }
 
     /**

@@ -3,8 +3,6 @@ package engima.waratsea.presenter.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.mission.AirMission;
-import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.Nation;
@@ -25,29 +23,24 @@ import engima.waratsea.view.asset.AssetId;
 import engima.waratsea.view.asset.AssetSummaryView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.squadron.SquadronViewType;
+import engima.waratsea.viewmodel.AirMissionViewModel;
+import engima.waratsea.viewmodel.AirbaseViewModel;
+import engima.waratsea.viewmodel.NationAirbaseViewModel;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableRow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.ListUtils;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * The presenter for the airfield details dialog.
- */
-@Slf4j
 public class AirfieldDialog {
     private static final String CSS_FILE = "airfieldDetails.css";
     private static final Map<PatrolType, LinkedHashSet<SquadronConfig>> CONFIG_MAP = Map.of(
@@ -55,7 +48,6 @@ public class AirfieldDialog {
             PatrolType.CAP,  new LinkedHashSet<>(Collections.singletonList(SquadronConfig.NONE)),
             PatrolType.SEARCH,  new LinkedHashSet<>(Arrays.asList(SquadronConfig.SEARCH, SquadronConfig.NONE)));
 
-    private final MissionDAO missionDAO;
     private final CssResourceProvider cssResourceProvider;
     private final Provider<DialogView> dialogProvider;
     private final Provider<AirfieldView> viewProvider;
@@ -65,23 +57,28 @@ public class AirfieldDialog {
     private final Provider<AssetSummaryView> assetSummaryViewProvider;
     private final Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider;
 
+    private final Provider<AirbaseViewModel> airbaseViewModelProvider;
+
     private final ViewProps props;
     private final Rules rules;
     private Stage stage;
 
-    @Getter private AirfieldView view;
+    @Getter
+    private AirfieldView view;
     private MainMapView mapView;
 
     private Airbase airbase;
-    private boolean hideAssetSummary; // Indicates if the asset view for this airfield should be closed when the
-                                      // dialog is closed.
+    private boolean controlAssetSummaryDisplay; // Indicates if the asset view for this airfield should be closed when the
+    // dialog is closed.
+
+    private AirbaseViewModel viewModel;
+    private Map<Nation, NationAirbaseViewModel> viewModelMap;
 
     private AirfieldAssetSummaryView airfieldAssetView;
 
     /**
      * Constructor called by guice.
      *
-     * @param missionDAO The mission data access object.
      * @param cssResourceProvider Provides the css file.
      * @param dialogProvider Provides the view for this dialog.
      * @param viewProvider Provides the view contents for this dialog.
@@ -90,14 +87,14 @@ public class AirfieldDialog {
      * @param missionEditDetailsDialogProvider Provides the mission details edit dialog.
      * @param assetSummaryViewProvider Provides the asset summary view pane.
      * @param airfieldAssetSummaryViewProvider Provides the airfield data to place in the asset summary view.
+     * @param airbaseViewModelProvider Provides airbase view models for each nation.
      * @param props The view properties.
      * @param rules The game rules.
      */
 
     //CHECKSTYLE:OFF
     @Inject
-    public AirfieldDialog(final MissionDAO missionDAO,
-                          final CssResourceProvider cssResourceProvider,
+    public AirfieldDialog(final CssResourceProvider cssResourceProvider,
                           final Provider<DialogView> dialogProvider,
                           final Provider<AirfieldView> viewProvider,
                           final Provider<MainMapView> mapViewProvider,
@@ -105,10 +102,10 @@ public class AirfieldDialog {
                           final Provider<MissionEditDialog> missionEditDetailsDialogProvider,
                           final Provider<AssetSummaryView> assetSummaryViewProvider,
                           final Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider,
+                          final Provider<AirbaseViewModel> airbaseViewModelProvider,
                           final ViewProps props,
                           final Rules rules) {
-    //CHECKSTYLE:ON
-        this.missionDAO = missionDAO;
+        //CHECKSTYLE:ON
         this.cssResourceProvider = cssResourceProvider;
         this.dialogProvider = dialogProvider;
         this.viewProvider = viewProvider;
@@ -117,6 +114,7 @@ public class AirfieldDialog {
         this.missionEditDetailsDialogProvider = missionEditDetailsDialogProvider;
         this.assetSummaryViewProvider = assetSummaryViewProvider;
         this.airfieldAssetSummaryViewProvider = airfieldAssetSummaryViewProvider;
+        this.airbaseViewModelProvider = airbaseViewModelProvider;
         this.props = props;
         this.rules = rules;
     }
@@ -140,16 +138,14 @@ public class AirfieldDialog {
         dialog.setWidth(props.getInt("airfield.dialog.width"));
         dialog.setHeight(props.getInt("airfield.dialog.height"));
         dialog.setCss(cssResourceProvider.get(CSS_FILE));
-        dialog.setContents(view.show(airbase));
 
-        registerHandlers();
+        buildViewModel();
 
-        dialog.getCancelButton().setOnAction(event -> cancel());
-        dialog.getOkButton().setOnAction(event -> ok());
+        dialog.setContents(view.build(viewModelMap));
 
-        initializeMissionTable();
+        registerHandlers(dialog);
 
-        showAssetSummary();
+        showAirfieldAssetSummary();
 
         dialog.show(stage);
 
@@ -157,110 +153,44 @@ public class AirfieldDialog {
     }
 
     /**
-     * Get a list of all the ready squadrons for the given nation.
+     * Build the view model.
+     */
+    private void buildViewModel() {
+        AssetSummaryView assetManager = assetSummaryViewProvider.get();
+        AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
+
+        airfieldAssetView = (AirfieldAssetSummaryView) assetManager.getAsset(assetId).orElse(null);
+
+        if (airfieldAssetView == null) {
+            viewModel = airbaseViewModelProvider.get();
+            viewModel.setModel(airbase);
+
+            airfieldAssetView = airfieldAssetSummaryViewProvider.get();
+            airfieldAssetView.build(viewModel);
+
+            controlAssetSummaryDisplay = true;
+        } else {
+            viewModel = airfieldAssetView.getViewModel();
+            controlAssetSummaryDisplay = false;
+        }
+
+        viewModelMap = viewModel.getNationViewModels();
+    }
+
+    /**
+     * Register callback handlers.
      *
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @return A list of the given nation's ready squadrons.
+     * @param dialog This dialog's view.
      */
-    public List<Squadron> getReady(final Nation nation) {
-        return view
-                .getAirfieldReadyView()
-                .get(nation)
-                .getReady();
-    }
-
-    /**
-     * Initialize the mission table with copies of the airbase's missions.
-     * This is done so that the missions can be edited, deleted and such
-     * without affecting the model until the "Ok" button is clicked.
-     */
-    private void initializeMissionTable() {
-        airbase.getNations().forEach(nation -> {
-            //Make copies of the missions so they can be manipulated without affecting the data model
-            //until the dialog ok button is clicked.
-            List<AirMission> copies = airbase
-                    .getMissions(nation)
-                    .stream()
-                    .map(AirMission::getData)
-                    .map(data -> data.setAirbase(airbase))
-                    .map(missionDAO::load)
-                    .collect(Collectors.toList());
-
-            view
-                    .getAirfieldMissionView()
-                    .get(nation)
-                    .getTable()
-                    .getItems()
-                    .addAll(copies);
-        });
-    }
-
-    /**
-     * Add the given nation's given squadron to the ready list.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @param squadron The squadron to add.
-     */
-    private void addToReadyList(final Nation nation, final Squadron squadron) {
-        view
-                .getAirfieldReadyView()
-                .get(nation)
-                .add(squadron);
-    }
-
-    /**
-     * Remove a given nation's given squadron from the ready list.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @param squadron The squadron to remove.
-     */
-    private void removeFromReadyList(final Nation nation, final Squadron squadron) {
-        view
-                .getAirfieldReadyView()
-                .get(nation)
-                .remove(squadron);
-    }
-
-    /**
-     * Add a given nation's given squadron to all the patrol available lists.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @param squadron The squadron to add.
-     */
-    private void addToPatrolAvailableList(final Nation nation, final Squadron squadron) {
-        view
-                .getAirfieldPatrolView()
-                .get(nation)
-                .addSquadronToPatrolAvailableList(squadron);
-    }
-    /**
-     * Remove a given nation's given squadron from all the patrol available lists.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @param squadron The squadron to remove.
-     */
-    private void removeFromPatrolAvailableList(final Nation nation, final Squadron squadron) {
-        view
-                .getAirfieldPatrolView()
-                .get(nation)
-                .removeSquadronFromPatrolAvailableList(squadron);
-    }
-
-    /**
-     * Register all handlers.
-     */
-    private void registerHandlers() {
-        registerMissionHandlers();
-        registerPatrolHandlers();
-        registerReadyHandlers();
-    }
-
-    /**
-     * Register the mission handlers for all nations..
-     */
-    private void registerMissionHandlers() {
+    private void registerHandlers(final DialogView dialog) {
         airbase.getNations().forEach(this::registerMissionHandlers);
+        airbase.getNations().forEach(this::registerReadyHandlers);
+        airbase.getNations().forEach(this::registerPatrolHandlers);
+
+        dialog.getCancelButton().setOnAction(event -> cancel());
+        dialog.getOkButton().setOnAction(event -> ok());
     }
+
 
     /**
      * Register the mission handlers for the given nation.
@@ -268,369 +198,292 @@ public class AirfieldDialog {
      * @param nation The nation: BRITISH, ITALIAN, etc...
      */
     private void registerMissionHandlers(final Nation nation) {
-        MissionView missionView = view
-                .getAirfieldMissionView()
-                .get(nation);
+        MissionView missionView = view.getAirfieldMissionView().get(nation);
 
-        missionView.getAdd().setOnAction(this::missionAdd);
-        missionView.getEdit().setOnAction(this::missionEdit);
-        missionView.getDelete().setOnAction(this::missionDelete);
+        missionView.getAdd().setOnAction(event -> missionAdd(nation));
+        missionView.getEdit().setOnAction(event -> missionEdit(nation));
+        missionView.getDelete().setOnAction(event -> missionDelete(nation));
 
         // Handle table double clicks.
         missionView.getTable().setRowFactory(tv -> {
-            TableRow<AirMission> row = new TableRow<>();
+            TableRow<AirMissionViewModel> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    missionEdit();
+                    missionEdit(nation);
                 }
             });
             return row;
 
         });
     }
-
     /**
-     * Register the patrol handlers.
-     **/
-    private void registerPatrolHandlers() {
-        airbase.getNations().forEach(nation -> {
-
-            PatrolView patrolView = view
-                    .getAirfieldPatrolView()
-                    .get(nation);
-
-            Stream.of(PatrolType.values()).forEach(patrolType -> {
-                patrolView
-                        .getAvailableList(patrolType)
-                        .getSelectionModel()
-                        .selectedItemProperty()
-                        .addListener((v, oldValue, newValue) -> patrolAvailableSquadronSelected(newValue, patrolType));
-
-                patrolView
-                        .getAssignedList(patrolType)
-                        .getSelectionModel()
-                        .selectedItemProperty()
-                        .addListener((v, oldValue, newValue) -> patrolAssignedSquadronSelected(newValue, patrolType));
-
-                patrolView
-                        .getAddButton(patrolType)
-                        .setOnAction(this::patrolAddSquadron);
-
-                patrolView
-                        .getRemoveButton(patrolType)
-                        .setOnAction(this::patrolRemoveSquadron);
-            });
-        });
+     * Register patrol callbacks for all patrol types for the given nation.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     */
+    private void registerPatrolHandlers(final Nation nation) {
+       Stream.of(PatrolType.values()).forEach(type -> registerPatrolHandler(nation, type));
     }
 
     /**
-     * Register handlers for when a squadron in a ready list is selected.
-     ***/
-    private void registerReadyHandlers() {
-        airbase.getNations().forEach(nation ->
-            view
-                    .getAirfieldReadyView()
-                    .get(nation)
-                    .getReadyLists()
-                    .forEach((type, listView) -> listView
-                            .getSelectionModel()
-                            .selectedItemProperty()
-                            .addListener((v, oldValue, newValue) -> readySquadronSelected(newValue)))
-        );
+     * Register the callbacks for the given nation and given patrol.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @param patrolType The patrol type.
+     */
+    private void registerPatrolHandler(final Nation nation, final PatrolType patrolType) {
+
+        PatrolView patrolView = view.getAirfieldPatrolView().get(nation);
+
+        patrolView
+                .getAvailable(patrolType)
+                .getSelectionModel()
+                .selectedItemProperty()
+                .addListener((o, ov, nv) -> patrolAvailableSquadronSelected(nation, patrolType, nv));
+
+        patrolView
+                .getAssigned(patrolType)
+                .getSelectionModel()
+                .selectedItemProperty()
+                .addListener((o, ov, nv) -> patrolAssignedSquadronSelected(nation, patrolType, nv));
+
+        patrolView
+                .getAddButton(patrolType)
+                .setOnAction(event -> patrolAddSquadron(event, nation, patrolType));
+
+        patrolView
+                .getRemoveButton(patrolType)
+                .setOnAction(event -> patrolRemoveSquadron(event, nation, patrolType));
+    }
+
+    /**
+     * Register callback handlers for when a squadron in the ready list is selected.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     */
+    private void registerReadyHandlers(final Nation nation) {
+        view
+                .getAirfieldReadyView()
+                .get(nation)
+                .getReadySquadrons()
+                .values()
+                .forEach(lv -> registerHandler(lv, (o, ov, nv) -> readySquadronSelected(nation, nv)));
     }
 
     /**
      * Call back for the ok button.
      */
     private void ok() {
-        airbase.clearPatrolsAndMissions();
-        updatePatrolsAndMissions();
+        airbase.clearMissions();
+        airbase.clearPatrols();
+
+        updatePatrols();
+        updateMissions();
+
         mapView.drawPatrolRadii(airbase);
 
-        if (hideAssetSummary) {
-            AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
-            assetSummaryViewProvider
-                    .get()
-                    .hide(assetId);
-        }
+        hideAirfieldAssetSummary();
 
-        airfieldAssetView.update();
         stage.close();
+    }
+
+    /**
+     * Update the missions.
+     */
+    private void updateMissions() {
+        viewModel
+                .getTotalMissions()
+                .getValue()
+                .stream()
+                .map(AirMissionViewModel::getMission)
+                .forEach(airbase::addMission);
+    }
+
+    /**
+     * Update the patrols.
+     */
+    private void updatePatrols() {
+        Stream
+                .of(PatrolType.values())
+                .forEach(this::updatePatrol);
+    }
+
+    /**
+     * Update the given patrol type.
+     *
+     * @param type The patrol type.
+     */
+    private void updatePatrol(final PatrolType type) {
+        airbase.updatePatrol(type, viewModel
+                .getPatrolViewModels()
+                .get(type)
+                .getAssignedAllNations()
+                .getValue());
     }
 
     /**
      * Call back for the cancel button.
      */
     private void cancel() {
-        if (hideAssetSummary) {
-            AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
-            assetSummaryViewProvider
-                    .get()
-                    .hide(assetId);
-        }
-
-        airfieldAssetView.update();
+        hideAirfieldAssetSummary();
         stage.close();
     }
 
     /**
-     * Update this airbase with the current set of patrols and missions.
-     */
-    private void updatePatrolsAndMissions() {
-        airbase.getNations().forEach(nation -> {
-            updatePatrols(nation);
-            updateMissions(nation);
-        });
-    }
-
-    /**
-     * Update the airbase with the current set of patrols.
+     * Call back for the mission add button.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc...
      */
-    private void updatePatrols(final Nation nation) {
-        Stream.of(PatrolType.values()).forEach(patrolType ->
-            view.getAirfieldPatrolView()
-                    .get(nation)
-                    .getAssignedList(patrolType)
-                    .getItems()
-                    .forEach(squadron -> airbase
-                    .getPatrol(patrolType)
-                    .addSquadron(squadron)));
+    private void missionAdd(final Nation nation) {
+        missionAddDetailsDialogProvider
+                .get()
+                .show(viewModelMap.get(nation));
     }
 
     /**
-     * Update the airbase with the current set of missions.
+     * Call back for the mission edit button.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc...
      */
-    private void updateMissions(final Nation nation) {
-        view
-                .getAirfieldMissionView()
-                .get(nation)
-                .getTable()
-                .getItems()
-                .forEach(mission -> airbase.addMission(mission));
-    }
-
-    /**
-     * Add a mission to this airbase.
-     *
-     * @param event The button action event.
-     */
-    private void missionAdd(final ActionEvent event) {
-        Nation nation = determineNation();
-
-        MissionAddDialog dialog = missionAddDetailsDialogProvider.get();
-
-        dialog
-                .setNation(nation)
-                .setParentDialog(this)
-                .show(airbase);
-
-        //Once the dialog is closed the following code is executed.
-        Optional
-                .ofNullable(dialog.getMission())
-                .ifPresent(mission -> {
-                    view
-                            .getAirfieldMissionView()
-                            .get(nation)
-                            .addMissionToTable(mission);
-
-                    mission.getSquadronsAllRoles().forEach(squadron -> {
-                        removeFromReadyList(nation, squadron);
-                        removeFromPatrolAvailableList(nation, squadron);
-                        updateReadySummary(nation, squadron);
-                    });
-
-                });
-    }
-
-    /**
-     * Edit a mission from this airbase.
-     *
-     * @param event The button action event.
-     */
-    private void missionEdit(final ActionEvent event) {
-        missionEdit();
-    }
-
-    /**
-     * Edit a mission from this airbase.
-     */
-    private void missionEdit() {
-        Nation nation = determineNation();
-
-        MissionEditDialog dialog = missionEditDetailsDialogProvider.get();
-
-        AirMission mission = view
+    private void missionEdit(final Nation nation) {
+        AirMissionViewModel mission = view
                 .getAirfieldMissionView()
                 .get(nation)
                 .getTable()
                 .getSelectionModel()
                 .getSelectedItem();
 
-        dialog.setMission(mission);
+        missionEditDetailsDialogProvider
+                .get()
+                .show(mission);
+    }
 
-        dialog
-                .setNation(nation)
-                .setParentDialog(this)
-                .show(airbase);
-
-        AirMission updatedMission = dialog.getMission();
-
-        List<Squadron> added = ListUtils.subtract(updatedMission.getSquadronsAllRoles(), mission.getSquadronsAllRoles());
-        List<Squadron> removed = ListUtils.subtract(mission.getSquadronsAllRoles(), updatedMission.getSquadronsAllRoles());
+    /**
+     * Call back for the mission delete button.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     */
+    private void missionDelete(final Nation nation) {
+        AirMissionViewModel mission = view
+                .getAirfieldMissionView()
+                .get(nation)
+                .getTable()
+                .getSelectionModel()
+                .getSelectedItem();
 
         view
                 .getAirfieldMissionView()
                 .get(nation)
                 .deleteMissionFromTable(mission);
 
-        view
-                .getAirfieldMissionView()
-                .get(nation)
-                .addMissionToTable(updatedMission);
-
-        added.forEach(squadron -> {
-            removeFromReadyList(nation, squadron);
-            removeFromPatrolAvailableList(nation, squadron);
-            updateReadySummary(nation, squadron);
-        });
-
-        removed.forEach(squadron -> {
-            addToReadyList(nation, squadron);
-            addToPatrolAvailableList(nation, squadron);
-            updateReadySummary(nation, squadron);
-        });
-    }
-
-    /**
-     * Delete a mission to this airbase.
-     *
-     * @param event The button action event.
-     */
-    private void missionDelete(final ActionEvent event) {
-        Nation nation = determineNation();
-
-        AirMission mission = view
-                .getAirfieldMissionView()
-                .get(nation)
-                .getTable()
-                .getSelectionModel()
-                .getSelectedItem();
-
-
-        Optional.ofNullable(mission).ifPresent(deletedMission -> {
-            view
-                    .getAirfieldMissionView()
-                    .get(nation)
-                    .deleteMissionFromTable(deletedMission);
-
-            deletedMission
-                    .getSquadronsAllRoles()
-                    .forEach(squadron -> {
-                        addToReadyList(nation, squadron);
-                        addToPatrolAvailableList(nation, squadron);
-                        updateReadySummary(nation, squadron);
-                    });
-        });
-
-    }
-
-    /**
-     * Add a squadron to the corresponding patrol which is determined from the add button.
-     *
-     * @param event The button action event.
-     */
-    private void patrolAddSquadron(final ActionEvent event) {
-        Button button = (Button) event.getSource();
-        PatrolType type = (PatrolType) button.getUserData();
-
-        Nation nation = determineNation();
-
-        Squadron squadron = view
-                .getAirfieldPatrolView()
-                .get(nation)
-                .assignPatrol(type);
-
-        removeFromPatrolAvailableList(nation, squadron);
-        removeFromReadyList(nation, squadron);
-        updatePatrolSummary(nation, type);
-        updateReadySummary(nation, squadron);
-        updatePatrolStats(nation, type);
-    }
-
-    /**
-     * Remove a squadron from the corresponding patrol which is determined from the remove button.
-     *
-     * @param event The button action event.
-     */
-    private void patrolRemoveSquadron(final ActionEvent event) {
-        Button button = (Button) event.getSource();
-        PatrolType type = (PatrolType) button.getUserData();
-
-        Nation nation = determineNation();
-
-        Squadron squadron = view
-                .getAirfieldPatrolView()
-                .get(nation)
-                .removePatrol(type);
-
-        addToPatrolAvailableList(nation, type, squadron);
-        addToReadyList(nation, squadron);
-        updatePatrolSummary(nation, type);
-        updateReadySummary(nation, squadron);
-        updatePatrolStats(nation, type);
+        viewModelMap.get(nation).removeMission(mission);
     }
 
     /**
      * A squadron from the given patrol type's available list has been selected.
      *
-     * @param patrolSquadron The selected available squadron.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @param squadron The selected available squadron.
      * @param patrolType The given patrol type.
      */
-    private void patrolAvailableSquadronSelected(final Squadron patrolSquadron, final PatrolType patrolType) {
-        Optional.ofNullable(patrolSquadron).ifPresent(squadron -> {
-            Nation nation = determineNation();
+    private void patrolAvailableSquadronSelected(final Nation nation, final PatrolType patrolType, final Squadron squadron) {
+        if (squadron != null) {
             SquadronConfig config = determineConfiguration(squadron, patrolType);
+
+            squadron.setConfig(config);
 
             view
                     .getAirfieldPatrolView()
                     .get(nation)
-                    .selectAvailableSquadron(patrolSquadron, config, patrolType);
-        });
+                    .getAssigned(patrolType)
+                    .getSelectionModel()
+                    .clearSelection();
+
+            view
+                    .getAirfieldPatrolView()
+                    .get(nation)
+                    .selectSquadron(squadron, patrolType, config);
+        }
     }
 
     /**
      * A squadron from the given patrol type's assigned list has been selected.
      *
-     * @param patrolSquadron The selected assigned squadron.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @param squadron The selected available squadron.
      * @param patrolType The given patrol type.
      */
-    private void patrolAssignedSquadronSelected(final Squadron patrolSquadron, final PatrolType patrolType) {
-        Optional.ofNullable(patrolSquadron).ifPresent(squadron -> {
-            Nation nation = determineNation();
+    private void patrolAssignedSquadronSelected(final Nation nation, final PatrolType patrolType, final Squadron squadron) {
+        if (squadron != null) {
             SquadronConfig config = determineConfiguration(squadron, patrolType);
+
+            squadron.setConfig(config);
 
             view
                     .getAirfieldPatrolView()
                     .get(nation)
-                    .selectAssignedSquadron(patrolSquadron, config, patrolType);
-        });
+                    .getAvailable(patrolType)
+                    .getSelectionModel()
+                    .clearSelection();
+
+            view
+                    .getAirfieldPatrolView()
+                    .get(nation)
+                    .selectSquadron(squadron, patrolType, config);
+        }
+    }
+
+    /**
+     * Add a squadron to the corresponding patrol which is specified by the given patrol type.
+     *
+     * @param event The button action event.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @param type The patrol type.
+     */
+    private void patrolAddSquadron(final ActionEvent event, final Nation nation, final PatrolType type) {
+        Squadron squadron = view
+                .getAirfieldPatrolView()
+                .get(nation)
+                .getAvailable(type)
+                .getSelectionModel()
+                .getSelectedItem();
+
+
+        viewModelMap
+                .get(nation)
+                .addToPatrol(type, squadron);
+    }
+
+    /**
+     * Remove a squadron from the corresponding patrol which is specified by the given patrol type.
+     *
+     * @param event The button action event.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @param type The patrol type.
+     */
+    private void patrolRemoveSquadron(final ActionEvent event, final Nation nation, final PatrolType type) {
+        Squadron squadron = view
+                .getAirfieldPatrolView()
+                .get(nation)
+                .getAssigned(type)
+                .getSelectionModel()
+                .getSelectedItem();
+
+        viewModelMap
+                .get(nation)
+                .removeFromPatrol(type, squadron);
     }
 
     /**
      * Call back for a ready squadron selected.
      *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
      * @param readySquadron The selected ready squadron.
      */
-    private void readySquadronSelected(final Squadron readySquadron) {
+    private void readySquadronSelected(final Nation nation, final Squadron readySquadron) {
 
-        Optional.ofNullable(readySquadron).ifPresent(squadron -> {
+        if (readySquadron != null) {
             SquadronViewType type = SquadronViewType.get(readySquadron.getType());
-
-            Nation nation = determineNation();
 
             //Clear all the other ready listView selections. If on clicking a listView
             //that already has a squadron selected and the same squadron is selected,
@@ -640,7 +493,7 @@ public class AirfieldDialog {
             view
                     .getAirfieldReadyView()
                     .get(nation)
-                    .getReadyLists()
+                    .getReadySquadrons()
                     .entrySet()
                     .stream()
                     .filter(entry -> entry.getKey() != type)
@@ -651,82 +504,7 @@ public class AirfieldDialog {
                     .get(nation)
                     .getSquadronSummaryView()
                     .setSelectedSquadron(readySquadron);
-        });
-    }
-
-    /**
-     * Determine the active nation from the active tab.
-     *
-     * @return The active nation.
-     */
-    private Nation determineNation() {
-        String selectedNation = view.getNationsTabPane()
-                .getSelectionModel()
-                .getSelectedItem()
-                .getText();
-
-        return Nation.get(selectedNation);
-    }
-
-    /**
-     * Update the Patrol summary.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @param patrolType The patrol type.
-     */
-    private void updatePatrolSummary(final Nation nation, final PatrolType patrolType) {
-        int numOnPatrol = view.getAirfieldPatrolView()
-                .get(nation)
-                .getNumSquadronsOnPatrol(patrolType);
-
-        view.getAirfieldSummaryView()
-                .get(nation)
-                .updatePatrolSummary(patrolType, numOnPatrol);
-
-        airfieldAssetView.updatePatrol(patrolType, numOnPatrol);
-    }
-
-    /**
-     * Update the ready summary.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @param squadron The squadron that triggers the ready update.
-     */
-    private void updateReadySummary(final Nation nation, final Squadron squadron) {
-        int numReady = view.getAirfieldReadyView()
-                .get(nation)
-                .getReady(SquadronViewType.get(squadron.getType()));
-
-        view.getAirfieldSummaryView()
-                .get(nation)
-                .updateReadySummary(SquadronViewType.get(squadron.getType()), numReady);
-    }
-
-    /**
-     * Update the patrol's stats.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @param patrolType The type of patrol.
-     */
-    private void updatePatrolStats(final Nation nation, final PatrolType patrolType) {
-        view
-                .getAirfieldPatrolView()
-                .get(nation)
-                .updatePatrolStats(nation, patrolType);
-    }
-
-    /**
-     * Add a given nation's given squadron to all the patrol available lists, except for the specified
-     * patrol type.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @param patrolType The patrol type that is not updated.
-     * @param squadron The squadron to add.
-     */
-    private void addToPatrolAvailableList(final Nation nation, final PatrolType patrolType, final Squadron squadron) {
-        view.getAirfieldPatrolView()
-                .get(nation)
-                .addSquadronToPatrolAvailableList(patrolType, squadron);
+        }
     }
 
     /**
@@ -737,8 +515,7 @@ public class AirfieldDialog {
      * @return The best squadron configuration for the given type of patrol.
      */
     private SquadronConfig determineConfiguration(final Squadron squadron, final PatrolType patrolType) {
-        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
-                .setPatrolType(PatrolType.SEARCH);
+        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO().setPatrolType(PatrolType.SEARCH);
 
         Set<SquadronConfig> allowed = rules.getAllowedSquadronConfig(dto);
 
@@ -753,23 +530,34 @@ public class AirfieldDialog {
     }
 
     /**
-     * Show the airfield asset summary.
+     * Utility for registering callback for listview selections.
+     *
+     * @param t list view
+     * @param listener the callback lambda
+     * @param <T> The type of objects in the list view.
      */
-    private void showAssetSummary() {
-        AssetSummaryView assetManager = assetSummaryViewProvider.get();
+    private <T> void registerHandler(final ListView<T> t, final ChangeListener<T> listener) {
+        t
+                .getSelectionModel()
+                .selectedItemProperty()
+                .addListener(listener);
+    }
+
+    /**
+     * Show the airfield's asset summary.
+     */
+    private void showAirfieldAssetSummary() {
         AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
-        airfieldAssetView = (AirfieldAssetSummaryView) assetManager.getAsset(assetId);
+        assetSummaryViewProvider.get().show(assetId, airfieldAssetView);
+    }
 
-        if (airfieldAssetView == null) {
-            airfieldAssetView = airfieldAssetSummaryViewProvider.get();
-
-            airfieldAssetView.build();
-            airfieldAssetView.show(airbase);
-
-            assetManager.show(assetId, airfieldAssetView);
-            hideAssetSummary = true;
-        } else {
-            hideAssetSummary = false;
+    /**
+     * Hide the airfield's asset summary.
+     */
+    private void hideAirfieldAssetSummary() {
+        if (controlAssetSummaryDisplay) {
+            AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
+            assetSummaryViewProvider.get().hide(assetId);
         }
     }
 }

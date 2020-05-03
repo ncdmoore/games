@@ -5,6 +5,7 @@ import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolsData;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.squadron.Squadron;
 import javafx.util.Pair;
 import org.apache.commons.collections4.ListUtils;
 
@@ -83,6 +84,17 @@ public class Patrols {
      */
     public void clear(final Nation nation) {
         patrolMap.forEach(((patrolType, patrol) -> patrol.clearSquadrons(nation)));
+    }
+
+    /**
+     * Update the given patrol with the given list of squadrons.
+     *
+     * @param patrolType The patrol type.
+     * @param squadrons The squadrons on the patrol.
+     */
+    public void update(final PatrolType patrolType, final List<Squadron> squadrons) {
+        Patrol patrol = patrolMap.get(patrolType);
+        squadrons.forEach(patrol::addSquadron);
     }
 
     /**

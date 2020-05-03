@@ -40,6 +40,7 @@ public class SweepPort implements AirMission {
     @Getter
     private final Airbase airbase;
 
+    @Getter
     private final Map<MissionRole, List<Squadron>> squadronMap;
 
     private final String targetBaseName;      //The name of the target port.
@@ -182,6 +183,8 @@ public class SweepPort implements AirMission {
      */
     @Override
     public void addSquadrons() {
+        getTarget();
+
         squadronMap
                 .forEach((role, squadrons) -> squadrons
                         .forEach(squadron -> {

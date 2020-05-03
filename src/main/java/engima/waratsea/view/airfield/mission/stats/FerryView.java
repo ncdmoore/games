@@ -1,16 +1,19 @@
 package engima.waratsea.view.airfield.mission.stats;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.SquadronHome;
 import engima.waratsea.model.target.Target;
-import engima.waratsea.presenter.airfield.mission.MissionStats;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.viewmodel.AirMissionViewModel;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+
+import java.util.Optional;
 
 
 public class FerryView implements StatsView {
@@ -26,8 +29,9 @@ public class FerryView implements StatsView {
     private Label airbaseRegionTitle = new Label();
     private Label airbaseRegionMinStepsValue = new Label();
     private Label airbaseRegionCurrentStepsValue = new Label();
-    private Label airbaseRegionOurRouteValue = new Label();
+    private Label airbaseRegionOutRouteValue = new Label();
 
+    private VBox statsVBox = new VBox();
     private ViewProps props;
     /**
      * Constructor.
@@ -45,84 +49,138 @@ public class FerryView implements StatsView {
      * @return The target view.
      */
     @Override
-    public Node build() {
+    public FerryView build() {
         Node airbaseStats = buildAirbaseStats();
         Node targetRegionStats = buildTargetRegionStats();
         Node airbaseRegionStats = buildAirbaseRegionStats();
 
-        VBox statsVBox = new VBox(airbaseStats, targetRegionStats, airbaseRegionStats);
+        statsVBox.getChildren().addAll(airbaseStats, targetRegionStats, airbaseRegionStats);
         statsVBox.setId("target-stats-vbox");
+        return this;
+    }
+
+    /**
+     * Get the stats view contents.
+     *
+     * @return The node containing the stats view.
+     */
+    @Override
+    public Node getContents() {
         return statsVBox;
     }
 
     /**
-     * Show the mission stats view.
+     * Bind to the view model.
      *
-     * @param missionStats The mission stats.
+     * @param viewModel The air mission view model.
+     * @return The node containing the target view.
      */
     @Override
-    public void show(final MissionStats missionStats) {
-        airbaseTitle.setText(missionStats.getTargetStats().getTitle());
-        distanceValue.setText(missionStats.getTargetStats().getDistance());
-        inRouteValue.setText(missionStats.getTargetStats().getRouteSteps());
-        capacityValue.setText(missionStats.getTargetStats().getCapacitySteps());
-        currentValue.setText(missionStats.getTargetStats().getCurrentSteps());
+    public Node bind(final AirMissionViewModel viewModel) {
+        airbaseTitle.textProperty().bind(Bindings.createStringBinding(() -> getTargetName(viewModel), viewModel.getTarget()));
+        distanceValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetDistance(viewModel), viewModel.getTarget()));
+        inRouteValue.textProperty().bind(viewModel.getTotalStepsInRouteToTarget().asString());
+        capacityValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetCapacity(viewModel), viewModel.getTarget()));
+        currentValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetCurrentSteps(viewModel), viewModel.getTarget()));
 
-        targetRegionTitle.setText(missionStats.getTargetRegionStats().getTitle());
-        targetRegionMaxStepsValue.setText(missionStats.getTargetRegionStats().getMaxSteps());
-        targetRegionCurrentStepsValue.setText(missionStats.getTargetRegionStats().getCurrentSteps());
-        targetRegionInRouteValue.setText(missionStats.getTargetRegionStats().getRouteSteps());
+        targetRegionTitle.textProperty().bind(Bindings.createStringBinding(() -> getTargetRegionTitle(viewModel), viewModel.getTarget()));
+        targetRegionMaxStepsValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetRegionMaxSteps(viewModel), viewModel.getTarget()));
+        targetRegionCurrentStepsValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetRegionCurrentSteps(viewModel), viewModel.getTarget()));
+        targetRegionInRouteValue.textProperty().bind(viewModel.getTotalStepsInRouteToTargetRegion().asString());
 
-        airbaseRegionTitle.setText(missionStats.getAirfieldRegionStats().getTitle());
-        airbaseRegionMinStepsValue.setText(missionStats.getAirfieldRegionStats().getMinSteps());
-        airbaseRegionCurrentStepsValue.setText(missionStats.getAirfieldRegionStats().getCurrentSteps());
-        airbaseRegionOurRouteValue.setText(missionStats.getAirfieldRegionStats().getRouteSteps());
+        airbaseRegionTitle.textProperty().bind(viewModel.getNationAirbaseViewModel().getRegionTitle());
+        airbaseRegionMinStepsValue.textProperty().bind(viewModel.getNationAirbaseViewModel().getRegionMinimum());
+        airbaseRegionCurrentStepsValue.textProperty().bind(viewModel.getNationAirbaseViewModel().getRegionCurrent());
+        airbaseRegionOutRouteValue.textProperty().bind(viewModel.getTotalStepsLeavingRegion().asString());
+
+        return statsVBox;
     }
 
     /**
-     * Add a squadron to the current mission under construction.
+     * Get the current target's name.
      *
-     * @param squadron The added squadron.
-     * @param target  The added squadron's target.
+     * @param viewModel The air mission view model.
+     * @return The name of the destination airbase.
      */
-    @Override
-    public void addSquadron(final Squadron squadron, final Target target) {
-        int inRoute = Integer.parseInt(inRouteValue.getText());
-        int regionInRoute = Integer.parseInt(targetRegionInRouteValue.getText());
-        int regionOutRoute = Integer.parseInt(airbaseRegionOurRouteValue.getText());
-
-        inRouteValue.setText(inRoute + squadron.getSteps().intValue() + "");
-
-        Nation nation = squadron.getNation();
-        SquadronHome airbase = squadron.getHome();
-
-        if (airbase.getRegion(nation) != target.getRegion(nation)) {
-            targetRegionInRouteValue.setText(regionInRoute + squadron.getSteps().intValue() + "");
-            airbaseRegionOurRouteValue.setText(regionOutRoute + squadron.getSteps().intValue() + "");
-        }
+    private String getTargetName(final AirMissionViewModel viewModel) {
+        ObjectProperty<Target> target = viewModel.getTarget();
+        return Optional.ofNullable(target.getValue()).map(Target::getName).orElse("");
     }
 
     /**
-     * Remove a squadron from the mission stats.
+     * Get the current target's distance.
      *
-     * @param squadron The squadron removed from the mission.
-     * @param target   The mission's target.
+     * @param viewModel The air mission view model.
+     * @return The distance to the destination airbase.
      */
-    @Override
-    public void removeSquadron(final Squadron squadron, final Target target) {
-        int inRoute = Integer.parseInt(inRouteValue.getText());
-        int regionInRoute = Integer.parseInt(targetRegionInRouteValue.getText());
-        int regionOutRoute = Integer.parseInt(airbaseRegionOurRouteValue.getText());
+    private String getTargetDistance(final AirMissionViewModel viewModel) {
+        ObjectProperty<Target> target = viewModel.getTarget();
+        Airbase airbase = viewModel.getAirbase();
 
-        inRouteValue.setText(inRoute - squadron.getSteps().intValue() + "");
+        return Optional.ofNullable(target.getValue()).map(t -> t.getDistance(airbase)).orElse(0) + "";
+    }
 
-        Nation nation = squadron.getNation();
-        SquadronHome airbase = squadron.getHome();
+    /**
+     * Get the current target's capacity.
+     *
+     * @param viewModel The air mission view model.
+     * @return The destination airbase's current capacity.
+     */
+    private String getTargetCapacity(final AirMissionViewModel viewModel) {
+        ObjectProperty<Target> target = viewModel.getTarget();
 
-        if (airbase.getRegion(nation) != target.getRegion(nation)) {
-            targetRegionInRouteValue.setText(regionInRoute - squadron.getSteps().intValue() + "");
-            airbaseRegionOurRouteValue.setText(regionOutRoute - squadron.getSteps().intValue() + "");
-        }
+        return Optional.ofNullable(target.getValue()).map(Target::getCapacitySteps).orElse(0) + "";
+    }
+
+    /**
+     * Get the current target's current number of steps.
+     *
+     * @param viewModel The air mission view model.
+     * @return The destination airbase's current stationed number of squadron steps.
+     */
+    private String getTargetCurrentSteps(final AirMissionViewModel viewModel) {
+        ObjectProperty<Target> target = viewModel.getTarget();
+
+        return Optional.ofNullable(target.getValue()).map(Target::getCurrentSteps).orElse(0) + "";
+    }
+
+    /**
+     * Get the current target's region title.
+     *
+     * @param viewModel The air mission view model.
+     * @return The destination airbase's region title.
+     */
+    private String getTargetRegionTitle(final AirMissionViewModel viewModel) {
+        ObjectProperty<Target> target = viewModel.getTarget();
+        Nation nation = viewModel.getNation();
+
+        return Optional.ofNullable(target.getValue()).map(t -> t.getRegionTitle(nation)).orElse("");
+    }
+
+    /**
+     * Get the target regions maximum allowed squadron steps.
+     *
+     * @param viewModel The air mission view model.
+     * @return The destination airbase's region's maximum allowed squadron steps.
+     */
+    private String getTargetRegionMaxSteps(final AirMissionViewModel viewModel) {
+        ObjectProperty<Target> target = viewModel.getTarget();
+        Nation nation = viewModel.getNation();
+
+        return Optional.ofNullable(target.getValue()).map(t -> t.getRegionMaxSteps(nation)).orElse(0) + "";
+    }
+
+    /**
+     * Get the target regions current squadron steps.
+     *
+     * @param viewModel The air mission view model.
+     * @return The destination airbase's region's current squadron steps.
+     */
+    private String getTargetRegionCurrentSteps(final AirMissionViewModel viewModel) {
+        ObjectProperty<Target> target = viewModel.getTarget();
+        Nation nation = viewModel.getNation();
+
+        return Optional.ofNullable(target.getValue()).map(t -> t.getRegionCurrentSteps(nation)).orElse(0) + "";
     }
 
     /**
@@ -132,9 +190,9 @@ public class FerryView implements StatsView {
      */
     private Node buildAirbaseStats() {
         Label distance = new Label("Distance:");
-        Label inRoute = new Label("Steps in route:");
         Label capacity = new Label("Capacity in steps:");
         Label current = new Label("Stationed steps:");
+        Label inRoute = new Label("Steps in route:");
 
         GridPane gridPane = new GridPane();
 
@@ -143,12 +201,13 @@ public class FerryView implements StatsView {
 
         gridPane.add(distance, 0, 0);
         gridPane.add(distanceValue, 1, 0);
-        gridPane.add(inRoute, 0, 1);
-        gridPane.add(inRouteValue, 1, 1);
-        gridPane.add(capacity, 0, row2);
-        gridPane.add(capacityValue, 1, row2);
-        gridPane.add(current, 0, row3);
-        gridPane.add(currentValue, 1, row3);
+        gridPane.add(capacity, 0, 1);
+        gridPane.add(capacityValue, 1, 1);
+        gridPane.add(current, 0, row2);
+        gridPane.add(currentValue, 1, row2);
+        gridPane.add(inRoute, 0, row3);
+        gridPane.add(inRouteValue, 1, row3);
+
         gridPane.setId("target-step-summary-grid");
 
         VBox vBox = new VBox(airbaseTitle, gridPane);
@@ -206,7 +265,7 @@ public class FerryView implements StatsView {
         gridPane.add(airbaseRegionCurrentSteps, 0, 1);
         gridPane.add(airbaseRegionCurrentStepsValue, 1, 1);
         gridPane.add(airbaseRegionOutRoute, 0, row2);
-        gridPane.add(airbaseRegionOurRouteValue, 1, row2);
+        gridPane.add(airbaseRegionOutRouteValue, 1, row2);
         gridPane.setId("region-step-summary-grid");
 
         VBox vBox = new VBox(airbaseRegionTitle, gridPane);

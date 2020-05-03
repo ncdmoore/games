@@ -17,6 +17,7 @@ import engima.waratsea.view.asset.AssetId;
 import engima.waratsea.view.asset.AssetSummaryView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
+import engima.waratsea.viewmodel.AirbaseViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
@@ -43,6 +44,7 @@ public class MainMapPresenter {
     private Provider<PatrolDialog> patrolDetailsDialogProvider;
     private Provider<AssetSummaryView> assetSummaryViewProvider;
     private Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider;
+    private Provider<AirbaseViewModel> airbaseViewModelProvider;
 
     /**
      * The constructor called by guice.
@@ -54,7 +56,9 @@ public class MainMapPresenter {
      * @param patrolDetailsDialogProvider Provides patrol radius details dialog.
      * @param assetSummaryViewProvider Provides the asset summary view.
      * @param airfieldAssetSummaryViewProvider Provides the airfield asset summary view.
+     * @param airbaseViewModelProvider Provides the airbase view models.
      */
+    //CHECKSTYLE:OFF
     @Inject
     public MainMapPresenter(final Game game,
                             final Provider<MainMapView> viewProvider,
@@ -62,7 +66,9 @@ public class MainMapPresenter {
                             final Provider<AirfieldDialog> airfieldDetailsDialogProvider,
                             final Provider<PatrolDialog> patrolDetailsDialogProvider,
                             final Provider<AssetSummaryView> assetSummaryViewProvider,
-                            final Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider) {
+                            final Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider,
+                            final Provider<AirbaseViewModel> airbaseViewModelProvider) {
+        //CHECKSTYLE:ON
         this.game = game;
 
         mainMapView = viewProvider.get();
@@ -72,6 +78,7 @@ public class MainMapPresenter {
         this.patrolDetailsDialogProvider = patrolDetailsDialogProvider;
         this.assetSummaryViewProvider = assetSummaryViewProvider;
         this.airfieldAssetSummaryViewProvider = airfieldAssetSummaryViewProvider;
+        this.airbaseViewModelProvider = airbaseViewModelProvider;
     }
 
     /**
@@ -176,8 +183,13 @@ public class MainMapPresenter {
      */
     private void addAirfieldToAssetSummary(final Airfield airfield) {
         AirfieldAssetSummaryView assetView = airfieldAssetSummaryViewProvider.get();
-        assetView.build();
-        assetView.show(airfield);
+
+        AirbaseViewModel viewModel = airbaseViewModelProvider
+                .get()
+                .setModel(airfield);
+
+        assetView.build(viewModel);
+
         AssetId assetId = new AssetId(AssetType.AIRFIELD, airfield.getTitle());
         assetSummaryViewProvider.get().show(assetId, assetView);
     }

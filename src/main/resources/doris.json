@@ -1,0 +1,27 @@
+{
+  "properties" :
+    {
+      "SAR90Config": {
+        "SAR90Case": {
+          "caseType": "SAR90",
+          "caseStatus": "S",
+          "promptForOriginalCaseHandling": false,
+          "suspendDuration": 90,
+          "reportSAR90ObjectNames": [
+            "PTY",
+            "EXT"
+          ]
+        },
+        "SAR90Domains": [
+          {
+            "domainId": "tm_domain",
+            "suspendAlertDispositionId": "tm_sar90_suspend",
+            "activateAlertDispositionId": "tm_sar90_activate",
+            "SAR90QueueId": "tm_sar90_queue",
+            "activateQueueId": "tm_alert_queue"
+          }
+        ]
+      }
+    }
+}
+

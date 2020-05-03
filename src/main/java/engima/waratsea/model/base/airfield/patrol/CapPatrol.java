@@ -9,6 +9,7 @@ import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronAction;
+import engima.waratsea.model.squadron.state.SquadronState;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -82,13 +83,33 @@ public class CapPatrol implements Patrol {
     }
 
     /**
+     * Get the Patrol type.
+     *
+     * @return The patrol type.
+     */
+    @Override
+    public PatrolType getType() {
+        return PatrolType.CAP;
+    }
+
+    /**
+     * Get the squadrons on patrol.
+     *
+     * @return A list of squadrons on the patrol.
+     */
+    @Override
+    public List<Squadron> getAssignedSquadrons() {
+        return squadrons;
+    }
+
+    /**
      * Get the squadrons on patrol.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
      * @return A list of squadrons on the patrol.
      */
     @Override
-    public List<Squadron> getSquadrons(final Nation nation) {
+    public List<Squadron> getAssignedSquadrons(final Nation nation) {
         return squadrons
                 .stream()
                 .filter(squadron -> squadron.ofNation(nation))
@@ -135,9 +156,24 @@ public class CapPatrol implements Patrol {
      * @return A list of squadrons on patrol that can reach the given target radius.
      */
     @Override
-    public List<Squadron> getSquadrons(final int targetRadius) {
+    public List<Squadron> getAssignedSquadrons(final int targetRadius) {
         return (targetRadius <= RADIUS) ?  squadrons : Collections.emptyList();
     }
+
+    /**
+     * Determine the squadrons available to perform this patrol for the given nation.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return A list of squadrons available for this patrol for the given nation.
+     */
+    @Override
+    public List<Squadron> getAvailableSquadrons(final Nation nation) {
+        return airbase
+                .getSquadrons(nation)
+                .stream()
+                .filter(squadron -> squadron.isAtState(SquadronState.READY))
+                .filter(squadron -> squadron.canDoPatrol(PatrolType.CAP))
+                .collect(Collectors.toList());    }
 
     /**
      * Get the search success rate of the patrol given the distance to the target.
@@ -147,7 +183,7 @@ public class CapPatrol implements Patrol {
      */
     @Override
     public int getSuccessRate(final int distance) {
-        List<Squadron> inRange = getSquadrons(distance);
+        List<Squadron> inRange = getAssignedSquadrons(distance);
         return rules.getBaseSearchSuccess(distance, inRange);
     }
 
@@ -204,7 +240,7 @@ public class CapPatrol implements Patrol {
      * @return A map of data for this patrol that corresponds to the given radius.
      */
     private Map<String, String> getPatrolStat(final int radius) {
-        List<Squadron> inRange = getSquadrons(radius);
+        List<Squadron> inRange = getAssignedSquadrons(radius);
 
         Map<String, String> data = new LinkedHashMap<>();
         data.put("Squadrons", inRange.size() + "");

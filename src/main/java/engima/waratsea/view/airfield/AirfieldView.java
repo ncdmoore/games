@@ -2,13 +2,13 @@ package engima.waratsea.view.airfield;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.mission.MissionView;
 import engima.waratsea.view.airfield.patrol.PatrolView;
 import engima.waratsea.view.airfield.ready.AirfieldReadyView;
+import engima.waratsea.viewmodel.NationAirbaseViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Tab;
@@ -21,9 +21,6 @@ import lombok.Getter;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * The airfield details dialog view.
- */
 public class AirfieldView {
     private static final String ROUNDEL = ".roundel.image";
 
@@ -34,9 +31,10 @@ public class AirfieldView {
     private final Provider<AirfieldReadyView> airfieldReadyViewProvider;
     private final ViewProps props;
 
-    private Airbase airbase;
+    private Map<Nation, NationAirbaseViewModel> viewModelMap;
 
-    @Getter private final TabPane nationsTabPane = new TabPane();
+    private final TabPane nationsTabPane = new TabPane();
+
     @Getter private final Map<Nation, AirfieldSummaryView> airfieldSummaryView = new HashMap<>();
     @Getter private final Map<Nation, MissionView> airfieldMissionView = new HashMap<>();
     @Getter private final Map<Nation, PatrolView> airfieldPatrolView = new HashMap<>();
@@ -60,7 +58,6 @@ public class AirfieldView {
                         final Provider<AirfieldReadyView> airfieldReadyViewProvider,
                         final ViewProps props) {
         this.imageResourceProvider = imageResourceProvider;
-
         this.airfieldSummaryViewProvider = airfieldSummaryViewProvider;
         this.airfieldMissionViewProvider = airfieldMissionViewProvider;
         this.airfieldPatrolViewProvider = airfieldPatrolViewProvider;
@@ -71,16 +68,16 @@ public class AirfieldView {
     /**
      * Show the airbase details.
      *
-     * @param base The airbase whose details are shown.
+     * @param map The airbase view model map.
      * @return A node containing the airbase details.
      */
-    public Node show(final Airbase base) {
-        airbase = base;
+    public Node build(final Map<Nation, NationAirbaseViewModel> map) {
+        viewModelMap = map;
 
         nationsTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        airbase
-                .getNations()
+        viewModelMap
+                .keySet()
                 .stream()
                 .sorted()
                 .map(this::createNationTab)
@@ -96,33 +93,22 @@ public class AirfieldView {
      * @return The nation's tab.
      */
     private Tab createNationTab(final Nation nation) {
+        NationAirbaseViewModel viewModel = viewModelMap.get(nation);
 
-        AirfieldSummaryView summaryView = airfieldSummaryViewProvider.get();
-
-        airfieldSummaryView.put(nation, summaryView);
-        airfieldMissionView.put(nation, airfieldMissionViewProvider.get());
-        airfieldPatrolView.put(nation, airfieldPatrolViewProvider.get());
-        airfieldReadyView.put(nation, airfieldReadyViewProvider.get());
-
-        Tab tab = new Tab(nation.toString());
-
-        Node summary = summaryView
-                .setAirfield(airbase)
-                .show(nation);
-
-        TitledPane missions = buildMissionDetails(nation);
-        TitledPane patrols = buildPatrolDetails(nation);
-        TitledPane ready = buildReadyDetails(nation);
+        Node summary = buildSummary(nation, viewModel);
+        TitledPane missions = buildMissionPane(nation, viewModel);
+        TitledPane patrols = buildPatrolPane(nation, viewModel);
+        TitledPane ready = buildReadyPane(nation, viewModel);
 
         Accordion accordion = new Accordion();
-
         accordion.getPanes().addAll(missions, patrols, ready);
         accordion.setExpandedPane(missions);
 
         HBox hBox = new HBox(summary, accordion);
         hBox.setId("main-pane");
 
-        ImageView roundel = imageResourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
+        Tab tab = new Tab(nation.toString());
+        ImageView roundel = getRoundel(nation);
 
         tab.setGraphic(roundel);
         tab.setContent(hBox);
@@ -131,40 +117,76 @@ public class AirfieldView {
     }
 
     /**
+     * Build the airfield summary pane.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @param viewModel The airbase view model.
+     * @return A node containing the airfield summary.
+     */
+    private Node buildSummary(final Nation nation, final NationAirbaseViewModel viewModel) {
+        airfieldSummaryView.put(nation, airfieldSummaryViewProvider.get());
+
+        return airfieldSummaryView
+                .get(nation)
+                .build(nation)
+                .bind(viewModel);
+    }
+
+    /**
      * Build the mission details pane.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @param viewModel The airbase view model.
      * @return A titled pane containing the mission details of the airfield.
      */
-    private TitledPane buildMissionDetails(final Nation nation) {
+    private TitledPane buildMissionPane(final Nation nation, final NationAirbaseViewModel viewModel) {
+        airfieldMissionView.put(nation, airfieldMissionViewProvider.get());
+
         return airfieldMissionView
                 .get(nation)
-                .show(nation);
+                .build(nation)
+                .bind(viewModel);
     }
 
     /**
      * Build the patrol details pane.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @return A titled pane containing the partol details of the airfield.
+     * @param viewModel The airbase view model.
+     * @return A titled pane containing the patrol details of the airfield.
      */
-    private TitledPane buildPatrolDetails(final Nation nation) {
+    private TitledPane buildPatrolPane(final Nation nation, final NationAirbaseViewModel viewModel) {
+        airfieldPatrolView.put(nation, airfieldPatrolViewProvider.get());
+
         return airfieldPatrolView
                 .get(nation)
-                .setAirbase(airbase)
-                .show(nation);
+                .build(nation)
+                .bind(viewModel);
     }
 
     /**
      * Build the ready details pane.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @param viewModel The airbase view model.
      * @return A titled pane containing the ready details of the airfield.
      */
-    private TitledPane buildReadyDetails(final Nation nation) {
+    private TitledPane buildReadyPane(final Nation nation, final NationAirbaseViewModel viewModel) {
+        airfieldReadyView.put(nation, airfieldReadyViewProvider.get());
+
         return airfieldReadyView
                 .get(nation)
-                .setAirbase(airbase)
-                .show(nation);
+                .build(nation)
+                .bind(viewModel);
+    }
+
+    /**
+     * Get the nation's roundel image.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return The nation's roundel image view.
+     */
+    private ImageView getRoundel(final Nation nation) {
+        return imageResourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
     }
 }

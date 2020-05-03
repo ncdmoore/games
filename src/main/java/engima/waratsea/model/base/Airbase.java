@@ -119,18 +119,7 @@ public interface Airbase extends Base, SquadronHome {
     List<Squadron> getSquadrons(Nation nation, SquadronState state);
 
     /**
-     * Get a list of squadrons for the given nation that can perform the given patrol type.
-     * Not all squadrons can perform all patrols. This method returns the squadrons stationed
-     * at this airbase for the given nation that can perform the specified patrol.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @param patrolType The type of patrol.
-     * @return The squadrons for the given nation that can perform the given patrol.
-     */
-    List<Squadron> getReadySquadrons(Nation nation, PatrolType patrolType);
-
-    /**
-     * Get a map of nation to list of squadrons.
+     * Get a map of nation to list of squadrons for that nation.
      *
      * @return A map of nation to list of squadrons.
      */
@@ -138,10 +127,10 @@ public interface Airbase extends Base, SquadronHome {
 
     /**
      * Get the squadron map for the given nation. This is map of
-     * aircraft type to list of this type of aircraft type squadrons.
+     * aircraft type to a list of squadrons of the type of aircraft.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @return The squadron map keyed by aircraft type for the given nation and given squadron state.
+     * @return A squadron map keyed by aircraft type to list of squadrons of that type.
      */
     Map<AircraftType, List<Squadron>> getSquadronMap(Nation nation);
 
@@ -207,9 +196,20 @@ public interface Airbase extends Base, SquadronHome {
     Patrol getPatrol(PatrolType patrolType);
 
     /**
-     * Clear all of the patrols and missions on this airbase. For patrols this removes all squadrons
-     * from patrols. For missions this removes all missions and therefore removes all the squadrons
-     * on the removed missions.
+     * Clear all missions for this airbase. This removes all the squadrons from all missions.
      */
-    void clearPatrolsAndMissions();
+    void clearMissions();
+
+    /**
+     * Clear all of the patrols for this airbase. This removes all the squadrons from the patrols.
+     */
+    void clearPatrols();
+
+    /**
+     * Upddate the patrol.
+     *
+     * @param patrolType The type of patrol.
+     * @param squadrons The squadrons on patrol.
+     */
+    void updatePatrol(PatrolType patrolType, List<Squadron> squadrons);
 }

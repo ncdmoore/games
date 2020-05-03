@@ -24,12 +24,26 @@ public interface Patrol {
     Airbase getAirbase();
 
     /**
+     * Get the Patrol type.
+     *
+     * @return The patrol type.
+     */
+    PatrolType getType();
+
+    /**
+     * Get the squadrons on patrol.
+     *
+     * @return A list of squadrons on the patrol.
+     */
+    List<Squadron> getAssignedSquadrons();
+
+    /**
      * Get the squadrons on patrol.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
      * @return A list of squadrons on the patrol.
      */
-    List<Squadron> getSquadrons(Nation nation);
+    List<Squadron> getAssignedSquadrons(Nation nation);
 
     /**
      * Determine which squadrons on patrol can reach the given target radius.
@@ -39,7 +53,15 @@ public interface Patrol {
      *                     radius.
      * @return A list of squadrons on patrol that can reach the given target radius.
      */
-    List<Squadron> getSquadrons(int targetRadius);
+    List<Squadron> getAssignedSquadrons(int targetRadius);
+
+    /**
+     * Determine the squadrons available to perform this patrol for the given nation.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return A list of squadrons available for this patrol for the given nation.
+     */
+    List<Squadron> getAvailableSquadrons(Nation nation);
 
     /**
      * Add a squadron to the patrol.

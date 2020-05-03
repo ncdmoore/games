@@ -64,4 +64,14 @@ public enum PatrolType {
     PatrolType(final String value) {
         this.value = value;
     }
+
+    /**
+     * Get the String representation of this enum.
+     *
+     * @return The String representation.
+     */
+    @Override
+    public String toString() {
+        return value;
+    }
 }

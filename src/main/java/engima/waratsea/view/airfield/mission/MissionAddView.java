@@ -2,8 +2,8 @@ package engima.waratsea.view.airfield.mission;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
@@ -11,11 +11,15 @@ import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronSummaryView;
 import engima.waratsea.view.util.ListViewPair;
+import engima.waratsea.viewmodel.AirMissionViewModel;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -28,40 +32,25 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
-/**
- * Represents the mission add dialog details view.
- */
-public class MissionAddView implements MissionDetailsView {
+public class MissionAddView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
 
-    @Getter
-    private final ChoiceBox<AirMissionType> missionType = new ChoiceBox<>();
+    @Getter private final ChoiceBox<AirMissionType> missionType = new ChoiceBox<>();
+    @Getter private final ChoiceBox<Target> target = new ChoiceBox<>();
+    @Getter private final TargetView targetView;
+    @Getter private final TabPane tabPane = new TabPane();
+    @Getter private final Map<MissionRole, Tab> roleTabs = new HashMap<>();
+    @Getter private final Map<MissionRole, ListViewPair<Squadron>> squadrons = new HashMap<>();
 
-    @Getter
-    private final ChoiceBox<Target> target = new ChoiceBox<>();
-
-    @Getter
-    private final TargetView targetView;
-
-    @Getter
-    private final TabPane tabPane = new TabPane();
-
-    @Getter
-    private final Map<MissionRole, Tab> roleTabs = new HashMap<>();
-
-    private final Map<MissionRole, ListViewPair<Squadron>> squadrons = new HashMap<>();
-
-    @Getter
-    private final SquadronSummaryView squadronSummaryView;
-
-    @Getter
-    private final ImageView imageView = new ImageView();
+    @Getter private final SquadronSummaryView squadronSummaryView;
+    @Getter private final ImageView imageView = new ImageView();
 
     private final Map<MissionRole, StackPane> stackPanes = new HashMap<>();
     private final Map<MissionRole, Label> errorLabel = new HashMap<>();
     private final Map<MissionRole, VBox> errorVBox = new HashMap<>();
+
+    private VBox mainVBox = new VBox();
 
     /**
      * Constructor called by guice.
@@ -83,7 +72,8 @@ public class MissionAddView implements MissionDetailsView {
         missionType.setMinWidth(props.getInt("mission.type.list.width"));
         target.setMinWidth(props.getInt("mission.type.list.width"));
 
-        Stream.of(MissionRole.values())
+        Stream
+                .of(MissionRole.values())
                 .forEach(this::createSquadronList);
 
         squadronSummaryView = squadronSummaryViewProvider.get();
@@ -94,20 +84,13 @@ public class MissionAddView implements MissionDetailsView {
      *
      *
      * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @param missionTypes a collection of mission types.
-     * @return A node containing the airbase mission details.
+     * @return This mission add view.
      */
-    public Node show(final Nation nation, final AirMissionType... missionTypes) {
+    public MissionAddView build(final Nation nation) {
+        Node missionNode = buildMissionNode();
+        Node targetNode = buildTargetNode();
 
-        missionType.getItems().addAll(missionTypes);
-
-        Label missionLabel = new Label("Select Mission Type:");
-        VBox missionVBox = new VBox(missionLabel, missionType);
-
-        Label targetLabel = new Label("Select Target:");
-        VBox targetVBox = new VBox(targetLabel, target);
-
-        VBox choiceBoxes = new VBox(missionVBox, targetVBox);
+        VBox choiceBoxes = new VBox(missionNode, targetNode);
         choiceBoxes.setId("choices-pane");
 
         Node targetDetailsBox = targetView.build();
@@ -125,10 +108,52 @@ public class MissionAddView implements MissionDetailsView {
         HBox mainHBox = new HBox(leftVBox, targetDetailsBox);
         mainHBox.setId("main-hbox");
 
-        VBox mainVBox = new VBox(mainHBox, squadronSummaryNode);
-
+        mainVBox.getChildren().addAll(mainHBox, squadronSummaryNode);
         mainVBox.setId("main-pane");
+
+        return this;
+    }
+
+    /**
+     * Bind the view to the view model.
+     *
+     * @param viewModel The air mission view model.
+     * @return The node containing this view.
+     */
+    public Node bind(final AirMissionViewModel viewModel) {
+        missionType.itemsProperty().bind(viewModel.getMissionTypes());
+
+        Stream.of(MissionRole.values()).forEach(role -> {
+            squadrons.get(role).getAvailable().itemsProperty().bind(viewModel.getAvailable().get(role));
+            squadrons.get(role).getAssigned().itemsProperty().bind(viewModel.getAssigned().get(role));
+            squadrons.get(role).getAdd().disableProperty().bind(viewModel.getAvailableExists().get(role));
+            squadrons.get(role).getRemove().disableProperty().bind(viewModel.getAssignedExists().get(role));
+        });
+
+        targetView.bind(viewModel);
+
+        ReadOnlyObjectProperty<AirMissionType> selectedMissionType = missionType.getSelectionModel().selectedItemProperty();
+
+        imageView.imageProperty().bind(Bindings.createObjectBinding(() -> getImage(viewModel.getNation(), selectedMissionType), selectedMissionType));
+
         return mainVBox;
+    }
+
+    /**
+     * Get the mission image.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @param type The selected mission type.
+     * @return The corresponding image for the given mission type.
+     */
+    private Image getImage(final Nation nation, final ReadOnlyObjectProperty<AirMissionType> type) {
+        Image image = null;
+        if (type.getValue() != null) {
+            image = imageResourceProvider.getImage(props.getString(nation.toLower()
+                    + "." + type.getValue().toLower() + ".image"));
+        }
+
+        return image;
     }
 
     /**
@@ -137,62 +162,8 @@ public class MissionAddView implements MissionDetailsView {
      * @param role The squadron mission role.
      * @return The available and assigned mission list view pair.
      */
-    @Override
     public ListViewPair<Squadron> getSquadronList(final MissionRole role) {
         return squadrons.get(role);
-    }
-
-    /**
-     * Assign the selected squadron to the mission.
-     *
-     * @param squadron The squadron that is added.
-     * @param role The squadron's mission role.
-     */
-    @Override
-    public void assign(final Squadron squadron, final MissionRole role) {
-        squadrons.get(role)
-                .add(squadron);
-
-        Stream.of(MissionRole.values())
-                .filter(otherRole -> otherRole != role)
-                .forEach(otherRole -> squadrons.get(otherRole).removeFromAvailable(squadron));
-
-        targetView.getViewMap()
-                .get(missionType.getSelectionModel().getSelectedItem())
-                .addSquadron(squadron, target.getSelectionModel().getSelectedItem());
-    }
-
-    /**
-     * Remove the selected squadron from the mission.
-     *
-     * @param role The squadron's mission role.
-     */
-    @Override
-    public void remove(final MissionRole role) {
-        Squadron squadron = squadrons
-                .get(role)
-                .getAssigned()
-                .getSelectionModel()
-                .getSelectedItem();
-
-        AirMissionType selectedMissionType = missionType.getSelectionModel().getSelectedItem();
-        Target selectedTarget = target.getSelectionModel().getSelectedItem();
-
-        squadrons
-                .get(role)
-                .remove(squadron);
-
-        Stream.of(MissionRole.values())
-                .filter(otherRole -> otherRole != role)
-                .forEach(otherRole -> {
-                    if (squadron.canDoRole(otherRole) && squadron.inRange(selectedTarget, selectedMissionType, otherRole)) {
-                        squadrons.get(otherRole).addToAvailable(squadron);
-                    }
-                });
-
-        targetView.getViewMap()
-                .get(missionType.getSelectionModel().getSelectedItem())
-                .removeSquadron(squadron, selectedTarget);
     }
 
     /**
@@ -214,6 +185,26 @@ public class MissionAddView implements MissionDetailsView {
     public void hideError(final MissionRole role) {
         StackPane stackPane = stackPanes.get(role);
         stackPane.getChildren().remove(errorVBox.get(role));
+    }
+
+    /**
+     * Build the mission node.
+     *
+     * @return A node containing the mission selection controls.
+     */
+    private Node buildMissionNode() {
+        Label missionLabel = new Label("Select Mission Type:");
+        return new VBox(missionLabel, missionType);
+    }
+
+    /**
+     * Build the target node.
+     *
+     * @return A node containing the target selection controls.
+     */
+    private Node buildTargetNode() {
+        Label targetLabel = new Label("Select Target:");
+        return new VBox(targetLabel, target);
     }
 
     /**
@@ -250,8 +241,6 @@ public class MissionAddView implements MissionDetailsView {
         squadronLists.setWidth(props.getInt("airfield.dialog.mission.list.width"));
         squadronLists.setHeight(props.getInt("airfield.dialog.mission.list.height"));
         squadronLists.setButtonWidth(props.getInt("airfield.dialog.mission.button.width"));
-
-        squadronLists.clearAll();
 
         Node squadronNode = squadronLists.build();
 

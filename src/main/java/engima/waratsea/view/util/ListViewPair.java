@@ -11,7 +11,6 @@ import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.Optional;
 
 public class ListViewPair<T> {
@@ -41,8 +40,6 @@ public class ListViewPair<T> {
         this.name = name;
         this.props = props;
         this.imageResourceProvider = imageResourceProvider;
-        add.setDisable(true);
-        remove.setDisable(true);
     }
 
     /**
@@ -109,11 +106,6 @@ public class ListViewPair<T> {
             available.getItems().remove(t);
             assigned.getItems().add(t);
             remove.setDisable(false);
-
-            if (available.getItems().isEmpty()) {
-                add.setDisable(true);
-            }
-
         });
     }
 
@@ -126,103 +118,8 @@ public class ListViewPair<T> {
         Optional.ofNullable(t).ifPresent(element -> {
             assigned.getItems().remove(t);
             available.getItems().add(t);
-            add.setDisable(false);
-
-            if (assigned.getItems().isEmpty()) {
-                remove.setDisable(true);
-            }
         });
     }
-
-    /**
-     * Remove an element from the available list.
-     *
-     * @param t the element that is removed from the available list.
-     */
-    public void removeFromAvailable(final T t) {
-        Optional
-                .ofNullable(t)
-                .ifPresent(element -> {
-                    available.getItems().remove(element);
-
-                    if (available.getItems().isEmpty()) {
-                        add.setDisable(true);
-                    }
-                });
-    }
-
-    /**
-     * Add an element to the available list.
-     *
-     * @param t the element that is added to the available list.
-     */
-    public void addToAvailable(final T t) {
-        Optional
-                .ofNullable(t)
-                .ifPresent(element -> {
-                    available.getItems().add(element);
-                    add.setDisable(false);
-                });
-    }
-
-    /**
-     * Add the given list to the available list.
-     *
-     * @param t The list to add.
-     */
-    public void addAllToAvailable(final List<T> t) {
-        available.getItems().addAll(t);
-        if (!t.isEmpty()) {
-            add.setDisable(false);
-        }
-    }
-
-    /**
-     * Add the given list to the assigned list.
-     *
-     * @param t The list to add.
-     */
-    public void addAllToAssigned(final List<T> t) {
-        assigned.getItems().addAll(t);
-        if (!t.isEmpty()) {
-            remove.setDisable(false);
-        }
-    }
-
-    /**
-     * Clear the current available selection.
-     **/
-    public void clearAvailableSelection() {
-        // Javafx does not call this callback if the element does not change.
-        // This causes problems when we click between the available list
-        // and the assigned list. It's possible for the value to not change.
-        // Thus, when the assigned is selected we clear the selection
-        // in the available list. That way when we click back into the available list
-        // the value is guaranteed to change.
-        available.getSelectionModel().clearSelection();
-    }
-
-    /**
-     * Clear the current assigned selection.
-     **/
-    public void clearAssignedSelection() {
-        // Javafx does not call this callback if the element does not change.
-        // This causes problems when we click between the available list
-        // and the assigned list. It's possible for the value to not change.
-        // Thus, when the assigned is selected we clear the selection
-        // in the available list. That way when we click back into the available list
-        // the value is guaranteed to change.
-        assigned.getSelectionModel().clearSelection();
-    }
-
-    /**
-     * Clear both the current available selection and the current assigned selection.
-     */
-    public void clearSelections() {
-        clearAvailableSelection();
-        clearAssignedSelection();
-    }
-
 
     /**
      * Clear both lists.
@@ -230,7 +127,5 @@ public class ListViewPair<T> {
     public void clearAll() {
         available.getItems().clear();
         assigned.getItems().clear();
-        add.setDisable(true);
-        remove.setDisable(true);
     }
 }

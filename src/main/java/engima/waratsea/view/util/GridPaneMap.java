@@ -31,6 +31,16 @@ public class GridPaneMap {
     }
 
     /**
+     * Build the grid.
+     *
+     * @return The grid pane.
+     */
+    public Node buildGrid() {
+        gridPane = new GridPane();
+        return gridPane;
+    }
+
+    /**
      * Build a grid pane that contains the given data.
      *
      * @param data A map of key, value pairs that serves as the source of the grid data.
@@ -96,6 +106,36 @@ public class GridPaneMap {
         gridPane.setMinWidth(width);
 
         return gridPane;
+    }
+
+    /**
+     * Update the grid.
+     *
+     * @param data The grid's new data.
+     */
+    public void updateGrid(final Map<String, String> data) {
+        int i = 0;
+        for (Map.Entry<String, String> entry : data.entrySet()) {
+            Label keyLabel = new Label(entry.getKey());
+            Label valueLabel = new Label(entry.getValue());
+
+            gridValues.put(entry.getKey(), valueLabel);
+
+            gridPane.add(keyLabel, 0, i);
+            gridPane.add(valueLabel, 1, i);
+            i++;
+        }
+
+        if (StringUtils.isNotBlank(gridStyleId)) {
+            gridPane.getStyleClass().add(gridStyleId);
+        }
+
+        if (columnConstraints != null) {
+            gridPane.getColumnConstraints().addAll(columnConstraints);
+        }
+
+        gridPane.setMaxWidth(width);
+        gridPane.setMinWidth(width);
     }
 
     /**

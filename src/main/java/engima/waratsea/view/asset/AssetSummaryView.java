@@ -7,6 +7,7 @@ import javafx.scene.control.TabPane;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Represents the asset summary view at the bottom of the game screen.
@@ -55,15 +56,15 @@ public class AssetSummaryView {
      * @param assetId The asset's Id.
      * @return The corresponding asset view of the given asset Id.
      */
-    public AssetView getAsset(final AssetId assetId) {
+    public Optional<AssetView> getAsset(final AssetId assetId) {
         String key = assetId.getKey();
-        return viewMap.get(key);
+        return Optional.ofNullable(viewMap.get(key));
     }
 
     /**
      * Hide the asset summary contents.
      *
-     *  @param assetId The Id of asset to hide.
+     *  @param assetId The Id of the asset to hide.
      */
     public void hide(final AssetId assetId) {
         String key = assetId.getKey();
@@ -71,6 +72,7 @@ public class AssetSummaryView {
         if (tabMap.containsKey(key)) {
             tabPane.getTabs().remove(tabMap.get(key));
             tabMap.remove(key);
+            viewMap.remove(key);
         }
     }
 

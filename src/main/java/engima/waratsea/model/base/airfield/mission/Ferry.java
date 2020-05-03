@@ -29,6 +29,7 @@ public class Ferry implements AirMission {
     private final Nation nation;
     private final Airbase startingAirbase;
 
+    @Getter
     private final Map<MissionRole, List<Squadron>> squadronMap;
 
     private final String endingAirbaseName;   //The name of the destination air base.
@@ -175,6 +176,8 @@ public class Ferry implements AirMission {
      */
     @Override
     public void addSquadrons() {
+        getTarget();
+
         squadronMap
                 .get(MissionRole.MAIN)
                 .forEach(squadron -> {

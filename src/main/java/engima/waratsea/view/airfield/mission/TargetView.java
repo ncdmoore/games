@@ -3,14 +3,13 @@ package engima.waratsea.view.airfield.mission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
-import engima.waratsea.presenter.airfield.mission.MissionStats;
 import engima.waratsea.view.airfield.mission.stats.FerryView;
-import engima.waratsea.view.airfield.mission.stats.StrikeView;
 import engima.waratsea.view.airfield.mission.stats.StatsView;
+import engima.waratsea.view.airfield.mission.stats.StrikeView;
+import engima.waratsea.viewmodel.AirMissionViewModel;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
-
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,11 +31,12 @@ public class TargetView {
     @Inject
     public TargetView(final Provider<FerryView> ferryViewProvider,
                       final Provider<StrikeView> strikeViewProvider) {
-        viewMap.put(AirMissionType.FERRY, ferryViewProvider.get());
-        viewMap.put(AirMissionType.LAND_STRIKE, strikeViewProvider.get());
-        viewMap.put(AirMissionType.NAVAL_PORT_STRIKE, strikeViewProvider.get());
-        viewMap.put(AirMissionType.SWEEP_AIRFIELD, strikeViewProvider.get());
-        viewMap.put(AirMissionType.SWEEP_PORT, strikeViewProvider.get());
+        viewMap.put(AirMissionType.FERRY, ferryViewProvider.get().build());
+        viewMap.put(AirMissionType.LAND_STRIKE, strikeViewProvider.get().build());
+        viewMap.put(AirMissionType.NAVAL_PORT_STRIKE, strikeViewProvider.get().build());
+        viewMap.put(AirMissionType.NAVAL_TASK_FORCE_STRIKE, strikeViewProvider.get().build());
+        viewMap.put(AirMissionType.SWEEP_AIRFIELD, strikeViewProvider.get().build());
+        viewMap.put(AirMissionType.SWEEP_PORT, strikeViewProvider.get().build());
     }
 
     /**
@@ -49,22 +49,35 @@ public class TargetView {
     }
 
     /**
+     * Bind the target view to the view model.
+     *
+     * @param viewModel the air mission view model.
+     * @return The node containing the target view.
+     */
+    public Node bind(final AirMissionViewModel viewModel) {
+        viewModel.getMissionType().addListener((o, ov, nv) -> missionTypeSelected(nv));
+
+        viewMap
+                .values()
+                .forEach(targetView -> targetView.bind(viewModel));
+
+        return vBox;
+    }
+
+
+    /**
      * Show the mission statistics.
      *
-     * @param missionStats The mission statistics to show.
+     * @param missionType The mission type to show.
      */
-    public void show(final MissionStats missionStats) {
+    public void missionTypeSelected(final AirMissionType missionType) {
         vBox
                 .getChildren()
                 .clear();
 
         vBox
                 .getChildren()
-                .add(viewMap.get(missionStats.getMissionType()).build());
-
-        viewMap
-                .get(missionStats.getMissionType())
-                .show(missionStats);
+                .add(viewMap.get(missionType).getContents());
     }
 
 }

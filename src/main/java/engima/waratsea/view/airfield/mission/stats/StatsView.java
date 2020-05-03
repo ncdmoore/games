@@ -1,8 +1,6 @@
 package engima.waratsea.view.airfield.mission.stats;
 
-import engima.waratsea.presenter.airfield.mission.MissionStats;
-import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.target.Target;
+import engima.waratsea.viewmodel.AirMissionViewModel;
 import javafx.scene.Node;
 
 /**
@@ -14,28 +12,21 @@ public interface StatsView {
      *
      * @return The stats view.
      */
-    Node build();
+    StatsView build();
 
     /**
-     * Show the mission statistics.
+     * Get the stats view contents.
      *
-     * @param missionStats The mission statistics.
+     * @return The node containing the stats view.
      */
-    void show(MissionStats missionStats);
+    Node getContents();
 
     /**
-     * Add a squadron to the mission stats.
+     * Bind to the view model.
      *
-     * @param squadron The squadron added to the mission.
-     * @param target The mission's target.
+     * @param viewModel The air mission view model.
+     * @return  The node containing the view.
      */
-    void addSquadron(Squadron squadron, Target target);
+    Node bind(AirMissionViewModel viewModel);
 
-    /**
-     * Remove a squadron from the mission stats.
-     *
-     * @param squadron The squadron removed from the mission.
-     * @param target The mission's target.
-     */
-    void removeSquadron(Squadron squadron, Target target);
 }
