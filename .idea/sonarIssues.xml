@@ -1118,6 +1118,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldRegionInfo.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldSquadronInfo.java">
           <value>
             <set />
@@ -1709,6 +1714,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/test.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/test1.json">
           <value>
             <set />
           </value>

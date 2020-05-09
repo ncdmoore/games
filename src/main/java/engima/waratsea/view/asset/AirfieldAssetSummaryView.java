@@ -10,6 +10,7 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.info.AirfieldMissionInfo;
 import engima.waratsea.view.airfield.info.AirfieldPatrolInfo;
 import engima.waratsea.view.airfield.info.AirfieldReadyInfo;
+import engima.waratsea.view.airfield.info.AirfieldRegionInfo;
 import engima.waratsea.view.airfield.info.AirfieldSquadronInfo;
 import engima.waratsea.view.util.GridPaneMap;
 import engima.waratsea.viewmodel.AirbaseViewModel;
@@ -48,6 +49,7 @@ public class AirfieldAssetSummaryView implements AssetView {
 
     private final TabPane nationsTabPane = new TabPane();
 
+    private final Provider<AirfieldRegionInfo> airfieldRegionInfoProvider;
     private final Provider<AirfieldSquadronInfo> airfieldSquadronInfoProvider;
     private final Provider<AirfieldMissionInfo> airfieldMissionInfoProvider;
     private final Provider<AirfieldPatrolInfo> airfieldPatrolInfoProvider;
@@ -55,6 +57,7 @@ public class AirfieldAssetSummaryView implements AssetView {
 
     @Getter private AirbaseViewModel viewModel;
     private Airbase airbase;
+    private Map<Nation, AirfieldRegionInfo> regionInfo = new HashMap<>();
     private Map<Nation, AirfieldSquadronInfo> squadronInfo = new HashMap<>();
     private Map<Nation, AirfieldMissionInfo> missionInfo = new HashMap<>();
     private Map<Nation, AirfieldPatrolInfo> patrolInfo = new HashMap<>();
@@ -69,6 +72,7 @@ public class AirfieldAssetSummaryView implements AssetView {
      *
      * @param props The view properties.
      * @param imageResourceProvider Provides images.
+     * @param airfieldRegionInfoProvider Provides airfield region information.
      * @param airfieldSquadronInfoProvider Provides airfield squadron information.
      * @param airfieldMissionInfoProvider Provides airfield mission information.
      * @param airfieldPatrolInfoProvider Provides airfield patrol information.
@@ -77,12 +81,14 @@ public class AirfieldAssetSummaryView implements AssetView {
     @Inject
     public AirfieldAssetSummaryView(final ViewProps props,
                                     final ImageResourceProvider imageResourceProvider,
+                                    final Provider<AirfieldRegionInfo> airfieldRegionInfoProvider,
                                     final Provider<AirfieldSquadronInfo> airfieldSquadronInfoProvider,
                                     final Provider<AirfieldMissionInfo> airfieldMissionInfoProvider,
                                     final Provider<AirfieldPatrolInfo> airfieldPatrolInfoProvider,
                                     final Provider<AirfieldReadyInfo> airfieldReadyInfoProvider) {
         this.props = props;
         this.imageResourceProvider = imageResourceProvider;
+        this.airfieldRegionInfoProvider = airfieldRegionInfoProvider;
         this.airfieldSquadronInfoProvider = airfieldSquadronInfoProvider;
         this.airfieldMissionInfoProvider = airfieldMissionInfoProvider;
         this.airfieldPatrolInfoProvider = airfieldPatrolInfoProvider;
@@ -133,6 +139,10 @@ public class AirfieldAssetSummaryView implements AssetView {
      */
     private void bindNation(final Nation nation) {
         NationAirbaseViewModel nationAirbaseViewModel = viewModel.getNationViewModels().get(nation);
+
+        regionInfo
+                .get(nation)
+                .bind(nationAirbaseViewModel);
 
         squadronInfo
                 .get(nation)
@@ -278,6 +288,10 @@ public class AirfieldAssetSummaryView implements AssetView {
 
         tab.setGraphic(roundel);
 
+        regionInfo.put(nation, airfieldRegionInfoProvider.get());
+        TitledPane regionInfoNode = regionInfo.get(nation).build();
+        regionInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
+
         squadronInfo.put(nation, airfieldSquadronInfoProvider.get());
         TitledPane squadronInfoNode = squadronInfo.get(nation).build();
         squadronInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
@@ -294,7 +308,7 @@ public class AirfieldAssetSummaryView implements AssetView {
         TitledPane readyInfoNode = readyInfo.get(nation).build();
         readyInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
 
-        HBox hBox = new HBox(squadronInfoNode, missionInfoNode, patrolInfoNode, readyInfoNode);
+        HBox hBox = new HBox(regionInfoNode, squadronInfoNode, missionInfoNode, patrolInfoNode, readyInfoNode);
         hBox.setId("airfield-nation-tab-hbox");
 
         hBox.setFillHeight(false);

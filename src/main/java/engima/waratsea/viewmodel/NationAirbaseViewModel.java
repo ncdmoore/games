@@ -43,6 +43,7 @@ public class NationAirbaseViewModel {
     @Getter private final StringProperty current = new SimpleStringProperty();
     @Getter private final StringProperty antiAir = new SimpleStringProperty();
 
+    @Getter private final StringProperty regionMaximum = new SimpleStringProperty();
     @Getter private final StringProperty regionMinimum = new SimpleStringProperty();
     @Getter private final StringProperty regionCurrent = new SimpleStringProperty();
 
@@ -104,6 +105,7 @@ public class NationAirbaseViewModel {
         current.set(airbase.getCurrentSteps() + "");
         antiAir.set(airbase.getAntiAirRating() + "");
 
+        regionMaximum.set(airbase.getRegion(nation).getMaxSteps() + "");
         regionMinimum.set(airbase.getRegion(nation).getMinSteps() + "");
         regionCurrent.set(airbase.getRegion(nation).getCurrentSteps() + "");
 
