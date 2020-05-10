@@ -1,6 +1,7 @@
 package engima.waratsea.model.map;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.base.Base;
 import engima.waratsea.model.base.airfield.Airfield;
@@ -12,6 +13,7 @@ import engima.waratsea.model.map.region.RegionDAO;
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.model.minefield.MinefieldDAO;
 import engima.waratsea.model.scenario.Scenario;
+import engima.waratsea.model.taskForce.TaskForce;
 import javafx.util.Pair;
 import lombok.Getter;
 import lombok.NonNull;
@@ -49,20 +51,18 @@ public final class GameMap {
 
     private final String defaultGridType;
 
-    private RegionDAO regionDAO;
-    private MinefieldDAO minefieldDAO;
+    private final RegionDAO regionDAO;
+    private final MinefieldDAO minefieldDAO;
+    private final Provider<BaseGrid> baseGridProvider;
+    private final Provider<TaskForceGrid> taskForceGridProvider;
 
-    @Getter
-    private final int rows;
-
-    @Getter
-    private final int columns;
+    @Getter private final int rows;
+    @Getter private final int columns;
 
     private final MultiKeyMap<Integer, GameGrid> gridMap = new MultiKeyMap<>();          //Row, Column to Game grid map.
     private final Map<String, GameGrid> gridRefMap = new HashMap<>();                    //Map reference to Game grid map.
 
     private final Map<Side, Set<Nation>> nations = new HashMap<>();
-
     private final Map<Side, List<Region>> regions = new HashMap<>();
 
     private final Map<Side, List<Airfield>> airfields = new HashMap<>();
@@ -83,19 +83,27 @@ public final class GameMap {
     private final Map<Side, Map<Nation, List<Region>>> nationRegionMap = new HashMap<>();
     private final Map<Side, Map<Nation, List<Airfield>>> nationAirfieldMap = new HashMap<>();
 
+    @Getter private final Map<Side, List<TaskForceGrid>> taskForceGrids = new HashMap<>();
+
     /**
      * The constructor of the GameMap. Called by guice.
      *
      * @param props Map properties.
      * @param regionDAO loads the region data.
      * @param minefieldDAO loads the minefield data.
+     * @param baseGridProvider Provides base grids.
+     * @param taskForceGridProvider Provides task force grids.
      */
     @Inject
     public GameMap(final MapProps props,
                    final RegionDAO regionDAO,
-                   final MinefieldDAO minefieldDAO) {
+                   final MinefieldDAO minefieldDAO,
+                   final Provider<BaseGrid> baseGridProvider,
+                   final Provider<TaskForceGrid> taskForceGridProvider) {
         this.regionDAO = regionDAO;
         this.minefieldDAO = minefieldDAO;
+        this.baseGridProvider = baseGridProvider;
+        this.taskForceGridProvider = taskForceGridProvider;
 
         rows = props.getInt("rows");
         columns = props.getInt("columns");
@@ -103,6 +111,9 @@ public final class GameMap {
         defaultGridType = props.getString("defaultGridType", "LAND");
 
         buildGrid(props);
+
+        taskForceGrids.put(Side.ALLIES, new ArrayList<>());
+        taskForceGrids.put(Side.AXIS, new ArrayList<>());
     }
 
     /**
@@ -240,6 +251,17 @@ public final class GameMap {
      */
     public List<Minefield> getMinefields(final Side side) {
         return minefields.get(side);
+    }
+
+    /**
+     * Add a task force to this map.
+     *
+     * @param side The side: ALLIES or AXIS.
+     * @param taskForce The task force added to this map.
+     */
+    public void addTaskForce(final Side side, final TaskForce taskForce) {
+        TaskForceGrid grid = taskForceGridProvider.get().init(taskForce);
+        taskForceGrids.get(side).add(grid);
     }
 
     /**
@@ -472,8 +494,7 @@ public final class GameMap {
 
         airbases.get(true).forEach(airfield -> baseRefToBaseGrid.get(airfield.getReference()).setAirfield(airfield));
         airbases.get(false).forEach(airfield -> {
-            BaseGrid baseGrid = new BaseGrid(airfield);
-            baseGrid.setGameGrid(getGrid(airfield.getReference()).orElse(null));
+            BaseGrid baseGrid = getAirfieldBaseGrid(airfield);
             baseRefToBaseGrid.put(airfield.getReference(), baseGrid);
         });
 
@@ -487,9 +508,21 @@ public final class GameMap {
      * @return The base grid for the given port.
      */
     private BaseGrid getPortBaseGrid(final Port port) {
-        BaseGrid baseGrid = new BaseGrid(port);
-        baseGrid.setGameGrid(getGrid(port.getReference()).orElse(null));
-        return baseGrid;
+        return baseGridProvider
+                .get()
+                .initPort(port);
+    }
+
+    /**
+     * get the airfield base grid.
+     *
+     * @param airfield The airfield
+     * @return The airfield gird for the given airfield.
+     */
+    private BaseGrid getAirfieldBaseGrid(final Airfield airfield) {
+        return baseGridProvider
+                .get()
+                .initAirfield(airfield);
     }
 
     /**

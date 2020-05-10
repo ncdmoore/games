@@ -60,7 +60,6 @@ public class BaseMarker {
      * The constructor.
      *
      * @param baseGrid The base's map grid.
-     * @param gridView The view of the map grid.
      * @param mapView The map view.
      * @param game The game.
      * @param imageResourceProvider Provides images for this marker.
@@ -68,7 +67,6 @@ public class BaseMarker {
      */
     @Inject
     public BaseMarker(@Assisted final BaseGrid baseGrid,
-                      @Assisted final GridView gridView,
                       @Assisted final MapView mapView,
                       final Game game,
                       final ImageResourceProvider imageResourceProvider,
@@ -85,6 +83,9 @@ public class BaseMarker {
         this.imageView = new VBox(imageResourceProvider.getImageView(scenarioName, props.getString(imagePrefix + "." + type.toLower() + ".base.icon")));
         this.roundel = new VBox(imageResourceProvider.getImageView(scenarioName, props.getString(imagePrefix + ".roundel.small.image")));
         this.flag = new VBox(imageResourceProvider.getImageView(scenarioName, props.getString(imagePrefix + ".flag.small.image")));
+
+        int gridSize = props.getInt("taskforce.mainMap.gridSize");
+        GridView gridView = new GridView(gridSize, baseGrid.getGameGrid());
 
         imageView.setLayoutX(gridView.getX());
         imageView.setLayoutY(gridView.getY());

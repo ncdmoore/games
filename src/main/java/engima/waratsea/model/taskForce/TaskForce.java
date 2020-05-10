@@ -100,6 +100,8 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
         buildShipEvents(data.getReleaseShipEvents());
         buildTurnEvents(data.getReleaseTurnEvents());
 
+        gameMap.addTaskForce(side, this);
+
         finish();
     }
 

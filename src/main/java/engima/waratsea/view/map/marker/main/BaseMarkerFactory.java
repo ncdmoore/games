@@ -1,7 +1,8 @@
 package engima.waratsea.view.map.marker.main;
 
+import com.google.inject.name.Named;
 import engima.waratsea.model.map.BaseGrid;
-import engima.waratsea.view.map.GridView;
+import engima.waratsea.model.map.TaskForceGrid;
 import engima.waratsea.view.map.MapView;
 
 /**
@@ -12,11 +13,19 @@ public interface BaseMarkerFactory {
      * Creates a base marker.
      *
      * @param baseGrid A base grid.
-     * @param gridView A grid view.
      * @param mapView A map view.
      * @return A base marker.
      */
-    BaseMarker create(BaseGrid baseGrid,
-                      GridView gridView,
-                      MapView mapView);
+    @Named("base")
+    BaseMarker createBaseMarker(BaseGrid baseGrid, MapView mapView);
+
+    /**
+     * Creates a task force marker.
+     *
+     * @param taskForceGrid A task force grid.
+     * @param mapView A map view.
+     * @return A task force marker.
+     */
+    @Named("taskforce")
+    TaskForceMarker createTaskForceMarker(TaskForceGrid taskForceGrid, MapView mapView);
 }

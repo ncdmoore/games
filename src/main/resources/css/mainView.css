@@ -57,6 +57,10 @@
     -fx-opacity: 1.0;
 }
 
+#map-taskforce-grid-marker {
+    -fx-opacity: 1.0;
+}
+
 #weather-pane {
     -fx-background-color: whitesmoke;
     -fx-alignment: top-center;

@@ -4,16 +4,19 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.BaseGrid;
 import engima.waratsea.model.map.BaseGridType;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.map.TaskForceGrid;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.marker.main.BaseMarker;
 import engima.waratsea.view.map.marker.main.BaseMarkerFactory;
+import engima.waratsea.view.map.marker.main.TaskForceMarker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -36,6 +39,7 @@ import java.util.Map;
 @Singleton
 public class MainMapView {
     private ImageResourceProvider imageResourceProvider;
+    private Game game;
     private GameMap gameMap;
     private ViewProps props;
     private Provider<MainMenu> menuProvider;
@@ -51,6 +55,7 @@ public class MainMapView {
 
     /**
      * Constructor called by guice.
+     * @param game The game.
      * @param gameMap The game map.
      * @param props The view properties.
      * @param imageResourceProvider provides images.
@@ -59,20 +64,20 @@ public class MainMapView {
      * @param mapView A utility to draw the map's grid.
      */
     @Inject
-    public MainMapView(final GameMap gameMap,
+    public MainMapView(final Game game,
+            final GameMap gameMap,
                        final ViewProps props,
                        final ImageResourceProvider imageResourceProvider,
                        final Provider<MainMenu> menuProvider,
                        final BaseMarkerFactory markerFactory,
                        final MapView mapView) {
+        this.game = game;
         this.gameMap = gameMap;
         this.props = props;
         this.imageResourceProvider = imageResourceProvider;
         this.menuProvider = menuProvider;
         this.markerFactory = markerFactory;
         this.mapView = mapView;
-
-
     }
 
     /**
@@ -92,6 +97,8 @@ public class MainMapView {
 
         drawBaseMarkers(Side.ALLIES);
         drawBaseMarkers(Side.AXIS);
+
+        drawTaskForceMarkers(game.getHumanSide());
 
         mapView.registerMouseClick(this::mouseClicked);
 
@@ -196,8 +203,7 @@ public class MainMapView {
     private void drawBaseMarker(final BaseGrid baseGrid) {
         BaseGridType type = baseGrid.getType();
 
-        int gridSize = props.getInt("taskforce.mainMap.gridSize");
-        BaseMarker baseMarker = markerFactory.create(baseGrid, new GridView(gridSize, baseGrid.getGameGrid()), mapView);
+        BaseMarker baseMarker = markerFactory.createBaseMarker(baseGrid, mapView);
         baseMarkers.get(baseGrid.getSide()).add(baseMarker);
 
         // Save the airfield in a map for easy access.
@@ -209,6 +215,26 @@ public class MainMapView {
         if (displayBaseMarker(type)) {
             baseMarker.draw();
         }
+    }
+
+    /**
+     * Draw all of the task force markers for the given side.
+     *
+     * @param side The side: ALLIES or AXIS.
+     */
+    private void drawTaskForceMarkers(final Side side) {
+        gameMap.getTaskForceGrids().get(side).forEach(this::drawTaskForceMarker);
+    }
+
+    /**
+     * Draw an individual task force marker.
+     *
+     * @param taskForceGrid The task force grid.
+     */
+    private void drawTaskForceMarker(final TaskForceGrid taskForceGrid) {
+        TaskForceMarker taskForceMarker = markerFactory.createTaskForceMarker(taskForceGrid, mapView);
+
+        taskForceMarker.draw();
     }
 
     /**

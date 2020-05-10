@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Draws the partol radii around a map marker such as a airfield or task force with aircraft carriers.
+ * Draws the patrol radii around a map marker such as a airfield or task force with aircraft carriers.
  */
 @Slf4j
 public class PatrolRadii {

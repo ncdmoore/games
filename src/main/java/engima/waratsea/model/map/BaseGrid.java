@@ -1,12 +1,13 @@
 package engima.waratsea.model.map;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Side;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -15,42 +16,65 @@ import java.util.Optional;
 
 /**
  * This class represents a base grid on the game map.
+ *
+ * A base grid may contain an airfield, a port or both an airfield and a port.
+ *
+ * The type of base grid indicates what the grid contains.
  */
 public class BaseGrid implements MarkerGrid {
 
-    @Getter
-    private Side side;
+    private final Provider<GameMap> gameMapProvider;
 
-    @Getter
-    @Setter
-    private GameGrid gameGrid;
-
+    @Getter private Side side;
+    @Getter private GameGrid gameGrid;
+    @Getter private BaseGridType type;
     private Port port;
     private Airfield airfield;
 
-    @Getter
-    private BaseGridType type;
-
     /**
-     * Constructor.
+     * The constructor called by guice.
      *
-     * @param port The port contained in the base grid.
+     * @param gameMapProvider Provides the game map.
      */
-    public BaseGrid(@Nonnull final Port port) {
-        this.port = port;
-        this.type = BaseGridType.PORT;
-        this.side = port.getSide();
+    @Inject
+    public BaseGrid(final Provider<GameMap> gameMapProvider) {
+        this.gameMapProvider = gameMapProvider;
     }
 
     /**
-     * Constructor.
+     * Initialize from a port.
      *
-     * @param airfield The airfield contained in the base grid.
+     * @param seaPort The port contained in the base grid.
+     * @return This base grid.
      */
-    public BaseGrid(@Nonnull final Airfield airfield) {
-        this.airfield = airfield;
-        this.type = determineInitialBaseType(airfield);
-        this.side = airfield.getSide();
+    public BaseGrid initPort(@Nonnull final Port seaPort) {
+        this.port = seaPort;
+        this.type = BaseGridType.PORT;
+        this.side = seaPort.getSide();
+        this.gameGrid = gameMapProvider
+                .get()
+                .getGrid(seaPort.getReference())
+                .orElse(null);
+
+        return this;
+    }
+
+    /**
+     * Initialize from an airfield.
+     *
+     * @param field The airfield contained in the base grid.
+     * @return This base grid.
+     */
+    public BaseGrid initAirfield(@Nonnull final Airfield field) {
+        this.airfield = field;
+        this.type = determineInitialBaseType(field);
+        this.side = field.getSide();
+        this.gameGrid = gameMapProvider
+                .get()
+                .getGrid(field.getReference())
+                .orElse(null);
+
+        return this;
     }
 
     /**
