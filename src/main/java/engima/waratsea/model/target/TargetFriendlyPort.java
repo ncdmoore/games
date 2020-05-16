@@ -317,9 +317,9 @@ public class TargetFriendlyPort implements Target {
      * @return This target's port view.
      */
     private Port getPort() {
-        port = game.getPlayer(side)
-                .getPortMap()
-                .get(name);
+        port = game
+                .getPlayer(side)
+                .getPort(name);
 
         if (port == null) {
             log.error("Cannot find port: '{}' for side: '{}'", name, side);

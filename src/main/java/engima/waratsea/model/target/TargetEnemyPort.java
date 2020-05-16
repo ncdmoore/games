@@ -317,9 +317,9 @@ public class TargetEnemyPort implements Target {
      * @return This target's port view.
      */
     private PortView getPortView() {
-        portView = game.getPlayer(side)
-                .getEnemyPortMap()
-                .get(name);
+        portView = game
+                .getPlayer(side)
+                .getEnemyPort(name);
 
         if (portView == null) {
             log.error("Cannot find port view: '{}' for side: '{}'", name, side);

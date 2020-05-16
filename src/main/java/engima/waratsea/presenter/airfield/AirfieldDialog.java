@@ -127,17 +127,18 @@ public class AirfieldDialog {
     public void show(final Airbase base) {
         airbase = base;
 
-        DialogView dialog = dialogProvider.get();     // The dialog view that contains the airfield details view.
-        view = viewProvider.get();
-        mapView = mapViewProvider.get();
-
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle(airbase.getTitle() + " " +  airbase.getAirfieldType().getTitle() + " Details");
 
+        DialogView dialog = dialogProvider.get();     // The dialog view that contains the airfield details view.
+
         dialog.setWidth(props.getInt("airfield.dialog.width"));
         dialog.setHeight(props.getInt("airfield.dialog.height"));
         dialog.setCss(cssResourceProvider.get(CSS_FILE));
+
+        view = viewProvider.get();
+        mapView = mapViewProvider.get();
 
         buildViewModel();
 

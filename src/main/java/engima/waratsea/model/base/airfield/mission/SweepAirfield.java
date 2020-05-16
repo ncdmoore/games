@@ -241,7 +241,7 @@ public class SweepAirfield implements AirMission {
     private Target getTargetAirbase() {
         targetAirbase = game
                 .getPlayer(airbase.getSide())
-                .getEnemyAirfieldTargets()
+                .getTargets(AirMissionType.SWEEP_AIRFIELD, nation)
                 .stream()
                 .filter(target -> target.getName().equalsIgnoreCase(targetBaseName))
                 .findAny()

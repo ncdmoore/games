@@ -319,9 +319,9 @@ public class TargetFriendlyTaskForce implements Target {
      * @return This target's port view.
      */
     private TaskForce getTaskForce() {
-        taskForce = game.getPlayer(side)
-                .getTaskForceMap()
-                .get(name);
+        taskForce = game
+                .getPlayer(side)
+                .getTaskForce(name);
 
         if (taskForce == null) {
             log.error("Cannot find task force: '{}' for side: '{}'", name, side);

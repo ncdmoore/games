@@ -36,9 +36,6 @@ public enum SeaMissionType {
     @SerializedName(value = "RETREAT", alternate = {"Retreat", "retreat"})
     RETREAT("Retreat"),
 
-    @SerializedName(value = "SUPPORT", alternate = {"Support", "support"})
-    SUPPORT("Support"),
-
     @SerializedName(value = "TRANSPORT", alternate = {"Transport", "transport"})
     TRANSPORT("Transport");
 

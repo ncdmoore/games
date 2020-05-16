@@ -51,6 +51,7 @@ public class MainMapView {
     private MapView mapView;
 
     private Map<Side, List<BaseMarker>> baseMarkers = new HashMap<>();
+    private Map<Side, List<TaskForceMarker>> taskForceMarkers = new HashMap<>();
     private Map<Airbase, BaseMarker> airbases = new HashMap<>();
 
     /**
@@ -89,6 +90,8 @@ public class MainMapView {
         airbases.clear();
         baseMarkers.put(Side.ALLIES, new ArrayList<>());
         baseMarkers.put(Side.AXIS, new ArrayList<>());
+        taskForceMarkers.put(Side.ALLIES, new ArrayList<>());
+        taskForceMarkers.put(Side.AXIS, new ArrayList<>());
 
         mapImageView = imageResourceProvider.getImageView(props.getString("main.map.image"));
         int gridSize = props.getInt("taskforce.mainMap.gridSize");
@@ -126,6 +129,16 @@ public class MainMapView {
      */
     public void setAirfieldMenuHandler(final Side side, final EventHandler<ActionEvent> handler) {
         baseMarkers.get(side).forEach(baseMarker -> baseMarker.setAirfieldMenuHandler(handler));
+    }
+
+    /**
+     * Set the operations menu handler.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @param handler The operations menu item handler.
+     */
+    public void setOperationsMenuHandler(final Side side, final EventHandler<ActionEvent> handler) {
+        taskForceMarkers.get(side).forEach(taskForceMarker -> taskForceMarker.setOperationsMenuHandler(handler));
     }
 
     /**
@@ -233,6 +246,8 @@ public class MainMapView {
      */
     private void drawTaskForceMarker(final TaskForceGrid taskForceGrid) {
         TaskForceMarker taskForceMarker = markerFactory.createTaskForceMarker(taskForceGrid, mapView);
+
+        taskForceMarkers.get(taskForceGrid.getSide()).add(taskForceMarker);
 
         taskForceMarker.draw();
     }

@@ -240,7 +240,7 @@ public class SweepPort implements AirMission {
     private Target getTargetPort() {
         targetPort = game
                 .getPlayer(airbase.getSide())
-                .getEnemyPortTargets()
+                .getTargets(AirMissionType.SWEEP_PORT, nation)
                 .stream()
                 .filter(target -> target.getName().equalsIgnoreCase(targetBaseName))
                 .findAny()

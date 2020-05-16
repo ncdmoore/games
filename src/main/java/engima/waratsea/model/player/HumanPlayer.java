@@ -41,13 +41,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -77,22 +77,25 @@ public class HumanPlayer implements Player {
     @Getter @Setter private Side side;
     @Getter private Set<Nation> nations;
     @Getter private List<TaskForce> taskForces;
-    @Getter private Map<String, TaskForce> taskForceMap;
     @Getter private List<TaskForceView> enemyTaskForces;
-    @Getter private Map<String, TaskForceView> enemyTaskForceMap;
     @Getter private List<Airfield> airfields;
-    @Getter private Map<String, Airfield> airfieldMap;
     @Getter private List<AirfieldView> enemyAirfields;
-    @Getter private Map<String, AirfieldView> enemyAirfieldMap;
     @Getter private List<Port> ports;
-    @Getter private Map<String, Port> portMap;
     @Getter private List<PortView> enemyPorts;
-    @Getter private Map<String, PortView> enemyPortMap;
     @Getter private List<Minefield> minefields;
+
+    private Map<String, TaskForce> taskForceMap;
+    private Map<String, Airfield> airfieldMap;
+    private Map<String, Port> portMap;
+
+    private Map<String, TaskForceView> enemyTaskForceMap;
+    private Map<String, AirfieldView> enemyAirfieldMap;
+    private Map<String, PortView> enemyPortMap;
 
     private final Map<FlotillaType, List<Flotilla>> flotillas = new HashMap<>();
     private final Map<Nation, List<Squadron>> squadrons = new HashMap<>();
     private final Map<SquadronDeploymentType, BiConsumer<Scenario, Player>> deploymentMap = new HashMap<>();
+    private  final Map<AirMissionType, Function<Nation, List<Target>>> targetMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -147,6 +150,13 @@ public class HumanPlayer implements Player {
 
         deploymentMap.put(SquadronDeploymentType.COMPUTER, squadronAI::deploy);
         deploymentMap.put(SquadronDeploymentType.HUMAN,    squadronAI::manualDeployment);
+
+        targetMap.put(AirMissionType.FERRY, this::getFriendlyAirfieldTargets);
+        targetMap.put(AirMissionType.LAND_STRIKE, nation -> getEnemyAirfieldTargets());
+        targetMap.put(AirMissionType.SWEEP_AIRFIELD, nation -> getEnemyAirfieldTargets());
+        targetMap.put(AirMissionType.NAVAL_PORT_STRIKE, nation -> getEnemyPortTargets());
+        targetMap.put(AirMissionType.SWEEP_PORT, nation -> getEnemyPortTargets());
+        targetMap.put(AirMissionType.NAVAL_TASK_FORCE_STRIKE, nation -> getEnemyTaskForceTargets());
     }
 
     /**
@@ -321,6 +331,28 @@ public class HumanPlayer implements Player {
     }
 
     /**
+     * Get the player's task force given its name.
+     *
+     * @param name The task force name.
+     * @return The task force corresponding to the given name.
+     */
+    @Override
+    public TaskForce getTaskForce(final String name) {
+        return taskForceMap.get(name);
+    }
+
+    /**
+     * This gets the enemy player's task force view given its name.
+     *
+     * @param name The name of the enemy task force.
+     * @return The enemy player's task force view corresponding to the given name.
+     */
+    @Override
+    public TaskForceView getEnemyTaskForce(final String name) {
+        return enemyTaskForceMap.get(name);
+    }
+
+    /**
      * This gets all of the player's squadrons for all nations.
      *
      * @return All of the player's squadrons.
@@ -349,6 +381,28 @@ public class HumanPlayer implements Player {
     }
 
     /**
+     * Get the player's airfield given its name.
+     *
+     * @param name The name of the airfield.
+     * @return The airfield corresponding to the given name.
+     */
+    @Override
+    public Airfield getAirfield(final String name) {
+        return airfieldMap.get(name);
+    }
+
+    /**
+     * This gets the enemy player's airfield view given its name.
+     *
+     * @param name The name of the enemy airfield.
+     * @return The enemy player's airfield view corresponding to the given name.
+     */
+    @Override
+    public AirfieldView getEnemyAirfield(final String name) {
+        return enemyAirfieldMap.get(name);
+    }
+
+    /**
      * Load the player's squadrons.
      *
      * @param scenario The selected scenario.
@@ -364,18 +418,52 @@ public class HumanPlayer implements Player {
     }
 
     /**
-     * Get the friendly airfield targets for the given nation.
+     * Get a port given its name.
      *
-     * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @return A list of friendly airfield targets.
+     * @param name The name of the port.
+     * @return The port corresponding to the given name.
      */
     @Override
-    public List<Target> getFriendlyAirfieldTargets(final Nation nation) {
-        return gameMap
-                .getNationAirfields(side, nation)
+    public Port getPort(final String name) {
+        return portMap.get(name);
+    }
+
+    /**
+     * Get the enemy player's port view given its name.
+     *
+     * @param name The name of the enemy port.
+     * @return The enemy port view corresponding to the given name.
+     */
+    @Override
+    public PortView getEnemyPort(final String name) {
+        return enemyPortMap.get(name);
+    }
+
+    /**
+     * Get a list of targets for the given mission type.
+     *
+     * @param missionType The type of mission.
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @return A list of targets for the given mission type.
+     */
+    @Override
+    public List<Target> getTargets(final AirMissionType missionType, final Nation nation) {
+        return targetMap
+                .get(missionType)
+                .apply(nation);
+    }
+
+    /**
+     * Get the enemy task force targets.
+     *
+     * @return A list of enemy task force targets.
+     */
+    private List<Target> getEnemyTaskForceTargets() {
+        return enemyTaskForces
                 .stream()
-                .map(targetDAO::getFriendlyAirfieldTarget)
-                .sorted()
+                .filter(TaskForceView::isSpotted)
+                .map(TaskForceView::getEnemyTaskForce)
+                .map(targetDAO::getEnemyTaskForceTarget)
                 .collect(Collectors.toList());
     }
 
@@ -384,8 +472,7 @@ public class HumanPlayer implements Player {
      *
      * @return A list of enemy airfield targets.
      */
-    @Override
-    public List<Target> getEnemyAirfieldTargets() {
+    private List<Target> getEnemyAirfieldTargets() {
         return gameMap
                 .getAirfields(side.opposite())
                 .stream()
@@ -400,8 +487,7 @@ public class HumanPlayer implements Player {
      *
      * @return A list of enemy port targets.
      */
-    @Override
-    public List<Target> getEnemyPortTargets() {
+    private List<Target> getEnemyPortTargets() {
         return gameMap
                 .getPorts(side.opposite())
                 .stream()
@@ -411,44 +497,18 @@ public class HumanPlayer implements Player {
     }
 
     /**
-     * Get the enemy task force targets.
+     * Get the friendly airfield targets for the given nation.
      *
-     * @return A list of enemy task force targets.
-     */
-    @Override
-    public List<Target> getEnemyTaskForceTargets() {
-        return enemyTaskForces
-                .stream()
-                .filter(TaskForceView::isSpotted)
-                .map(TaskForceView::getEnemyTaskForce)
-                .map(targetDAO::getEnemyTaskForceTarget)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Get a list of targets for the given mission type.
-     *
-     * @param missionType The type of mission.
      * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @return A list of targets for the given mission type.
+     * @return A list of friendly airfield targets.
      */
-    @Override
-    public List<Target> getTargets(final AirMissionType missionType, final Nation nation) {
-        switch (missionType) {
-            case FERRY:
-                return getFriendlyAirfieldTargets(nation);
-            case LAND_STRIKE:
-            case SWEEP_AIRFIELD:
-                return getEnemyAirfieldTargets();
-            case NAVAL_PORT_STRIKE:
-            case SWEEP_PORT:
-                return getEnemyPortTargets();
-            case NAVAL_TASK_FORCE_STRIKE:
-                return getEnemyTaskForceTargets();
-            default:
-                log.error("Unknown mission type: '{}'", missionType);
-                return Collections.emptyList();
-        }
+    private List<Target> getFriendlyAirfieldTargets(final Nation nation) {
+        return gameMap
+                .getNationAirfields(side, nation)
+                .stream()
+                .map(targetDAO::getFriendlyAirfieldTarget)
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     /**

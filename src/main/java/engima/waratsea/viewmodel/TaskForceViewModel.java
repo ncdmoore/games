@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
  */
 public class TaskForceViewModel {
     @Getter private StringProperty name = new SimpleStringProperty();
+    @Getter private StringProperty title = new SimpleStringProperty();
     @Getter private StringProperty state = new SimpleStringProperty();
     @Getter private StringProperty mission = new SimpleStringProperty();
     @Getter private StringProperty location = new SimpleStringProperty();
@@ -54,9 +55,11 @@ public class TaskForceViewModel {
      * Set the task force model.
      *
      * @param taskForce The selected task force.
+     * @return This task force view model.
      */
-    public void setModel(final TaskForce taskForce) {
+    public TaskForceViewModel setModel(final TaskForce taskForce) {
         name.set(taskForce.getName());
+        title.set(taskForce.getTitle());
         state.set(taskForce.getState().toString());
         mission.set(taskForce.getMission().getType().toString());
 
@@ -79,6 +82,8 @@ public class TaskForceViewModel {
 
         setShipTypeSummary(taskForce);
         setSquadronTypeSummary(taskForce);
+
+        return this;
     }
 
     /**

@@ -2,15 +2,15 @@ package enigma.waratsea.model.target;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.model.ship.Shipyard;
 import engima.waratsea.model.target.Target;
-import engima.waratsea.model.taskForce.TaskForceFactory;
 import enigma.waratsea.TestModule;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -42,14 +42,18 @@ public class TargetTest {
     @Test
     public void testTargetEquals() {
 
-        List<Target> airfieldTargets = game.getHumanPlayer().getEnemyAirfieldTargets();
+        List<Target> airfieldTargets = game
+                .getHumanPlayer()
+                .getTargets(AirMissionType.SWEEP_AIRFIELD, Nation.BRITISH);
 
         Target targetOne = airfieldTargets.get(0);
         Target targetTwo = airfieldTargets.get(0);
 
         assertTrue(targetOne.isEqual(targetTwo));
 
-        List<Target> portTargets = game.getHumanPlayer().getEnemyPortTargets();
+        List<Target> portTargets = game
+                .getHumanPlayer()
+                .getTargets(AirMissionType.NAVAL_PORT_STRIKE, Nation.BRITISH);
 
         Target targetThree = portTargets.get(0);
 

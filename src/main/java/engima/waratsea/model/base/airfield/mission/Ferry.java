@@ -227,7 +227,7 @@ public class Ferry implements AirMission {
     private Target getEndingAirbase() {
         endingAirbase = game
                 .getPlayer(startingAirbase.getSide())
-                .getFriendlyAirfieldTargets(nation)
+                .getTargets(AirMissionType.FERRY, nation)
                 .stream()
                 .filter(target -> target.getName().equalsIgnoreCase(endingAirbaseName))
                 .findAny()

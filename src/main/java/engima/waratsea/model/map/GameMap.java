@@ -254,14 +254,21 @@ public final class GameMap {
     }
 
     /**
-     * Add a task force to this map.
+     * Add a task force to this map. If a task force grid already exists for the given task force's map reference,
+     * then the task force is added to that task force grid.
      *
      * @param side The side: ALLIES or AXIS.
      * @param taskForce The task force added to this map.
      */
     public void addTaskForce(final Side side, final TaskForce taskForce) {
-        TaskForceGrid grid = taskForceGridProvider.get().init(taskForce);
-        taskForceGrids.get(side).add(grid);
+
+        taskForceGrids
+                .get(side)
+                .stream()
+                .filter(taskForceGrid -> taskForceGrid.getReference().equalsIgnoreCase(taskForce.getReference()))
+                .findFirst()
+                .ifPresentOrElse(taskForceGrid -> taskForceGrid.add(taskForce),
+                                 () -> createTaskForceGrid(side, taskForce));
     }
 
     /**
@@ -725,5 +732,16 @@ public final class GameMap {
         List<Region> list = new ArrayList<>();
         list.add(region);
         return list;
+    }
+
+    /**
+     * Create a task force grid.
+     *
+     * @param side The side: ALLIES or AXIS.
+     * @param taskForce The task force.
+     */
+    private void createTaskForceGrid(final Side side, final TaskForce taskForce) {
+        TaskForceGrid grid = taskForceGridProvider.get().init(taskForce);
+        taskForceGrids.get(side).add(grid);
     }
 }

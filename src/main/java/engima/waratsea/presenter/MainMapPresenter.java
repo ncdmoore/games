@@ -9,8 +9,10 @@ import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.presenter.airfield.AirfieldDialog;
 import engima.waratsea.presenter.airfield.patrol.PatrolDialog;
+import engima.waratsea.presenter.taskforce.TaskForceDialog;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.asset.AirfieldAssetSummaryView;
 import engima.waratsea.view.asset.AssetId;
@@ -46,6 +48,8 @@ public class MainMapPresenter {
     private Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider;
     private Provider<AirbaseViewModel> airbaseViewModelProvider;
 
+    private Provider<TaskForceDialog> taskForceDialogProvider;
+
     /**
      * The constructor called by guice.
      *
@@ -67,7 +71,8 @@ public class MainMapPresenter {
                             final Provider<PatrolDialog> patrolDetailsDialogProvider,
                             final Provider<AssetSummaryView> assetSummaryViewProvider,
                             final Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider,
-                            final Provider<AirbaseViewModel> airbaseViewModelProvider) {
+                            final Provider<AirbaseViewModel> airbaseViewModelProvider,
+                            final Provider<TaskForceDialog> taskForceDialogProvider) {
         //CHECKSTYLE:ON
         this.game = game;
 
@@ -79,10 +84,12 @@ public class MainMapPresenter {
         this.assetSummaryViewProvider = assetSummaryViewProvider;
         this.airfieldAssetSummaryViewProvider = airfieldAssetSummaryViewProvider;
         this.airbaseViewModelProvider = airbaseViewModelProvider;
+
+        this.taskForceDialogProvider = taskForceDialogProvider;
     }
 
     /**
-     * Setup mouse event handlers for when the base grids are clicked.
+     * Setup mouse event handlers for when the base markers are clicked.
      */
     public void setBaseClickHandler() {
         mainMenu.getShowAirfields().setOnAction(event -> toggleMarkers());
@@ -95,6 +102,15 @@ public class MainMapPresenter {
         mainMapView.setPatrolRadiusClickHandler(humanSide, this::patrolRadiusClickHandler);
 
         mainMapView.setAirfieldMenuHandler(humanSide, this::airfieldHandler);
+    }
+
+    /**
+     * Setup mouse event handlers for when the task force markers are clicked.
+     */
+    public void setTaskForceClickHandler() {
+        Side humanSide =  game.getHumanSide();
+
+        mainMapView.setOperationsMenuHandler(humanSide, this::taskForceOperationsHandler);
     }
 
     /**
@@ -150,6 +166,21 @@ public class MainMapPresenter {
         MenuItem item = (MenuItem) event.getSource();
         Optional<Airfield> airfield = (Optional<Airfield>) item.getUserData();
         airfield.ifPresent(a -> airfieldDetailsDialogProvider.get().show(a));
+    }
+
+    /**
+     * Callback for when the task force marker's operations menu item is selected.
+     *
+     * @param event The click event.
+     */
+    @SuppressWarnings("unchecked")
+    private void taskForceOperationsHandler(final ActionEvent event) {
+        MenuItem item = (MenuItem) event.getSource();
+        List<TaskForce> taskForces = (List<TaskForce>) item.getUserData();
+
+        taskForces.forEach(taskForce -> log.info("marker selected: {}", taskForce.getTitle()));
+
+        taskForceDialogProvider.get().show(taskForces);
     }
 
     /**

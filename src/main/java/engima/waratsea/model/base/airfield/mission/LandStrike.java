@@ -274,7 +274,7 @@ public class LandStrike implements AirMission {
     private Target getTargetAirbase() {
         targetAirbase = game
                 .getPlayer(airbase.getSide())
-                .getEnemyAirfieldTargets()
+                .getTargets(AirMissionType.LAND_STRIKE, nation)
                 .stream()
                 .filter(target -> target.getName().equalsIgnoreCase(targetBaseName))
                 .findAny()

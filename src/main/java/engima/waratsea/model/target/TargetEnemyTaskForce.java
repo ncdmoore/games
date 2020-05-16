@@ -315,9 +315,9 @@ public class TargetEnemyTaskForce implements Target {
      * @return This target's port view.
      */
     private TaskForceView getTaskForceViewView() {
-        taskForceView = game.getPlayer(side)
-                .getEnemyTaskForceMap()
-                .get(name);
+        taskForceView = game
+                .getPlayer(side)
+                .getEnemyTaskForce(name);
 
         if (taskForceView == null) {
             log.error("Cannot find task force view: '{}' for side: '{}'", name, side);

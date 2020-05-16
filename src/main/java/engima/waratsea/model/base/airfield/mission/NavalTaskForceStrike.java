@@ -222,7 +222,7 @@ public class NavalTaskForceStrike implements AirMission {
     private Target getTargetTaskForce() {
         targetTaskForce = game
                 .getPlayer(airbase.getSide())
-                .getEnemyTaskForceTargets()
+                .getTargets(AirMissionType.NAVAL_TASK_FORCE_STRIKE, nation)
                 .stream()
                 .filter(target -> target.getName().equalsIgnoreCase(targetName))
                 .findAny()

@@ -249,7 +249,7 @@ public class NavalPortStrike implements AirMission {
     private Target getTargetPort() {
         targetPort = game
                 .getPlayer(airbase.getSide())
-                .getEnemyPortTargets()
+                .getTargets(AirMissionType.NAVAL_PORT_STRIKE, nation)
                 .stream()
                 .filter(target -> target.getName().equalsIgnoreCase(targetBaseName))
                 .findAny()

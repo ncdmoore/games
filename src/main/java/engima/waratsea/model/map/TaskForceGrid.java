@@ -7,6 +7,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class TaskForceGrid implements MarkerGrid {
     private final Provider<GameMap> gameMapProvider;
 
     @Getter private Side side;
-    private TaskForce taskForce;
+    @Getter private List<TaskForce> taskForces = new ArrayList<>();
 
     /**
      * The constructor called by guice.
@@ -37,15 +38,24 @@ public class TaskForceGrid implements MarkerGrid {
     }
 
     /**
-     * Initialize from the given task force.
+     * Initialize from the given task taskForce.
      *
-     * @param force The task force.
-     * @return This task force grid.
+     * @param taskForce The task force.
+     * @return This task taskForce grid.
      */
-    public TaskForceGrid init(final TaskForce force) {
-        taskForce = force;
-        side = force.getSide();
+    public TaskForceGrid init(final TaskForce taskForce) {
+        taskForces.add(taskForce);
+        side = taskForce.getSide();
         return this;
+    }
+
+    /**
+     * Add a task force to this grid.
+     *
+     * @param taskForce The task force to add.
+     */
+    public void add(final TaskForce taskForce) {
+        taskForces.add(taskForce);
     }
 
     /**
@@ -54,6 +64,7 @@ public class TaskForceGrid implements MarkerGrid {
      * @return The task force grid's game grid.
      */
     public GameGrid getGameGrid() {
+        TaskForce taskForce = taskForces.get(0);
         return gameMapProvider
                 .get()
                 .getGrid(taskForce.getReference())
@@ -74,6 +85,7 @@ public class TaskForceGrid implements MarkerGrid {
      * @return True if the task force is at a base grid. False otherwise.
      */
     public boolean isBaseGrid() {
+        TaskForce taskForce = taskForces.get(0);
         return taskForce.atFriendlyBase() || taskForce.atEnemyBase();
     }
 

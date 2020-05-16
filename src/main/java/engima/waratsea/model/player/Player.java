@@ -21,15 +21,12 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.victory.VictoryException;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
  * Represents players in the game. Note, there are only two players/sides: ALLIES and AXIS.
  */
 public interface Player {
-
-
     /**
      * This gets the side of the player.
      *
@@ -122,18 +119,20 @@ public interface Player {
     List<TaskForce> getTaskForces();
 
     /**
-     * Get the player's task force map. Task force name to task force.
+     * Get the player's task force given its name.
      *
-     * @return The task force map.
+     * @param name The task force name.
+     * @return The task force corresponding to the given name.
      */
-    Map<String, TaskForce> getTaskForceMap();
+    TaskForce getTaskForce(String name);
 
     /**
-     * This gets the enemy player's task force map. Task force name to view of task force.
+     * This gets the enemy player's task force view given its name.
      *
-     * @return The enemy player's task force map.
+     * @param name The name of the enemy task force.
+     * @return The enemy player's task force view corresponding to the given name.
      */
-    Map<String, TaskForceView> getEnemyTaskForceMap();
+    TaskForceView getEnemyTaskForce(String name);
 
     /**
      * Determines if the player has any flotilla's of the given type.
@@ -175,33 +174,20 @@ public interface Player {
     List<Airfield> getAirfields();
 
     /**
-     * Get the player's airfield map. Airfield name to airfield.
+     * Get the player's airfield given its name.
      *
-     * @return The airfield map.
+     * @param name The name of the airfield.
+     * @return The airfield corresponding to the given name.
      */
-    Map<String, Airfield> getAirfieldMap();
+    Airfield getAirfield(String name);
 
     /**
-     * This gets the enemy player's airfield map. Airfield name to view of airfield.
+     * This gets the enemy player's airfield view given its name.
      *
-     * @return The enemy player's airfield map.
+     * @param name The name of the enemy airfield.
+     * @return The enemy player's airfield view corresponding to the given name.
      */
-    Map<String, AirfieldView> getEnemyAirfieldMap();
-
-    /**
-     * Get the friendly airfield targets for the given nation.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @return A list of friendly airfield targets.
-     */
-    List<Target> getFriendlyAirfieldTargets(Nation nation);
-
-    /**
-     * Get the enemy airfield targets.
-     *
-     * @return A list of enemy airfield targets.
-     */
-    List<Target> getEnemyAirfieldTargets();
+   AirfieldView getEnemyAirfield(String name);
 
     /**
      * This gets the player's ports.
@@ -211,32 +197,20 @@ public interface Player {
     List<Port> getPorts();
 
     /**
-     * Get the player's port map. Port name to port.
+     * Get a port given its name.
      *
-     * @return The port map.
+     * @param name The name of the port.
+     * @return The port corresponding to the given name.
      */
-    Map<String, Port> getPortMap();
+    Port getPort(String name);
 
     /**
-     * Get the enemy player's port map. Port name to Port view.
+     * Get the enemy player's port view given its name.
      *
-     * @return The enemy player's port map.
+     * @param name The name of the enemy port.
+     * @return The enemy port view corresponding to the given name.
      */
-    Map<String, PortView> getEnemyPortMap();
-
-    /**
-     * Get the enemy port targets.
-     *
-     * @return A list of enemy port targets.
-     */
-    List<Target> getEnemyPortTargets();
-
-    /**
-     * Get the enemy task force targets.
-     *
-     * @return A list of enemy task force targets.
-     */
-    List<Target> getEnemyTaskForceTargets();
+    PortView getEnemyPort(String name);
 
     /**
      * Get a list of targets for the given mission type.

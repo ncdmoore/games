@@ -316,9 +316,9 @@ public class TargetEnemyAirfield implements Target {
      * @return This target's port view.
      */
     private AirfieldView getAirfieldView() {
-        airfieldView = game.getPlayer(side)
-                .getEnemyAirfieldMap()
-                .get(name);
+        airfieldView = game
+                .getPlayer(side)
+                .getEnemyAirfield(name);
 
         if (airfieldView == null) {
             log.error("Cannot find airfield view: '{}' for side: '{}'", name, side);

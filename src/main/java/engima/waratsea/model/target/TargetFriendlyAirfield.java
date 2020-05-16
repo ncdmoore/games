@@ -384,9 +384,9 @@ public class TargetFriendlyAirfield implements Target {
      * @return This target's airfield view.
      */
     private Airfield getAirfield() {
-        airfield = game.getPlayer(side)
-                .getAirfieldMap()
-                .get(name);
+        airfield = game
+                .getPlayer(side)
+                .getAirfield(name);
 
         if (airfield == null) {
             log.error("Cannot find airfield view: '{}'", name);

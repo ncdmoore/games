@@ -66,7 +66,6 @@ public class TargetDAO {
      * @return A friendly airfield target that corresponds to the given airfield.
      */
     public Target getFriendlyAirfieldTarget(final Airfield airfield) {
-
         if (cache.get(TargetType.FRIENDLY_AIRFIELD).containsKey(airfield.getName())) {
             return cache.get(TargetType.FRIENDLY_AIRFIELD).get(airfield.getName());
         }

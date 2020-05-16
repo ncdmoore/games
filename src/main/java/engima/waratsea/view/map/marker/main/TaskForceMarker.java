@@ -10,6 +10,10 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
@@ -17,8 +21,11 @@ public class TaskForceMarker {
     @Getter
     private final TaskForceGrid taskForceGrid;
 
+    private final Game game;
     private final MapView mapView;
     private final VBox image;
+
+    @Getter private MenuItem operationsMenuItem;
 
     /**
      * Constructor called by guice.
@@ -35,6 +42,7 @@ public class TaskForceMarker {
                                      final Game game,
                                      final ImageResourceProvider imageResourceProvider,
                                      final ViewProps props) {
+        this.game = game;
         this.taskForceGrid = taskForceGrid;
         this.mapView = mapView;
 
@@ -51,6 +59,8 @@ public class TaskForceMarker {
         image.setViewOrder(ViewOrder.MARKER.getValue());
         image.setUserData(this);
         image.setId("map-taskforce-grid-marker");
+
+        setUpContextMenus();
     }
 
     /**
@@ -67,5 +77,31 @@ public class TaskForceMarker {
      */
     public void hide() {
         mapView.remove(image);
+    }
+
+    /**
+     * Set the operations menu handler.
+     *
+     * @param handler The operations menu handler.
+     */
+    public void setOperationsMenuHandler(final EventHandler<ActionEvent> handler) {
+        operationsMenuItem.setOnAction(handler);
+    }
+
+    /**
+     * Setup the right click context menus for the base marker.
+     */
+    private void setUpContextMenus() {
+        if (taskForceGrid.getSide()  == game.getHumanSide()) {
+
+            ContextMenu contextMenu = new ContextMenu();
+
+            operationsMenuItem = new MenuItem("Operations...");
+            operationsMenuItem.setUserData(taskForceGrid.getTaskForces());
+
+            contextMenu.getItems().addAll(operationsMenuItem);
+
+            image.setOnContextMenuRequested(e -> contextMenu.show(image, e.getScreenX(), e.getScreenY()));
+        }
     }
 }
