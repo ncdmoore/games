@@ -7,7 +7,7 @@ import javafx.scene.control.TabPane;
 
 import java.util.List;
 
-public class TaskForceView {
+public class TaskForcesView {
 
     private final TabPane taskforcePane = new TabPane();
 

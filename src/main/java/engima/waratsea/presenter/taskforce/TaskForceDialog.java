@@ -6,7 +6,7 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.taskforce.TaskForceView;
+import engima.waratsea.view.taskforce.TaskForcesView;
 import engima.waratsea.viewmodel.TaskForceViewModel;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -21,12 +21,12 @@ public class TaskForceDialog {
 
     private final CssResourceProvider cssResourceProvider;
     private final Provider<DialogView> dialogProvider;
-    private final Provider<TaskForceView> viewProvider;
+    private final Provider<TaskForcesView> viewProvider;
     private final Provider<TaskForceViewModel> viewModelProvider;
 
     private final ViewProps props;
     private Stage stage;
-    private TaskForceView view;
+    private TaskForcesView view;
 
     private List<TaskForceViewModel> viewModels;
 
@@ -34,7 +34,7 @@ public class TaskForceDialog {
     @Inject
     public TaskForceDialog(final CssResourceProvider cssResourceProvider,
                            final Provider<DialogView> dialogProvider,
-                           final Provider<TaskForceView> viewProvider,
+                           final Provider<TaskForcesView> viewProvider,
                            final Provider<TaskForceViewModel> viewModelProvider,
                            final ViewProps props) {
         //CHECKSTYLE:ON
