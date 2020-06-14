@@ -441,6 +441,15 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
+     * Set the ships ammunition type. Aircraft carrier's don't have ammunition types.
+     *
+     * @param ammunitionType The ship's ammunition type.
+     */
+    @Override
+    public void setAmmunitionType(final AmmunitionType ammunitionType) {
+    }
+
+    /**
      * Get a summary map of squadrons type to number of steps of that type.
      *
      * @return A map of squadrons types to number of steps of that type.
@@ -453,6 +462,16 @@ public class AircraftCarrier implements Ship, Airbase {
                 .collect(Collectors.toMap(Map.Entry::getKey,
                                           e -> sumSteps(e.getValue()),
                                           BigDecimal::add));
+    }
+
+    /**
+     * Get the ship's ammunition type.
+     *
+     * @return The ship's ammunition type.
+     */
+    @Override
+    public AmmunitionType getAmmunitionType() {
+        return AmmunitionType.NORMAL;
     }
 
     /**

@@ -24,6 +24,9 @@ public enum SeaMissionType {
     @SerializedName(value = "MINELAYING", alternate = {"Minelaying, minelaying"})
     MINELAYING("Minelaying"),
 
+    @SerializedName(value = "MINESWEEPING", alternate = {"MineSweeping, mineSweeping"})
+    MINESWEEPING("MineSweeping"),
+
     @SerializedName(value = "INTERCEPT", alternate = {"Intercept", "intercept"})
     INTERCEPT("Intercept"),
 

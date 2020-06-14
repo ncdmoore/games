@@ -77,8 +77,7 @@ public class MainPresenter implements Presenter {
         menuProvider.get().getAirfieldSquadrons().setOnAction(event -> airfieldSquadrons());
         menuProvider.get().getTaskForceSquadrons().setOnAction(event -> taskForceSquadrons());
 
-        mainMapPresenter.setBaseClickHandler();
-        mainMapPresenter.setTaskForceClickHandler();
+        mainMapPresenter.setClickHandlers();
     }
 
     /**

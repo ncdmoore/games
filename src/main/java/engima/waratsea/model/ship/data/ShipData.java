@@ -2,6 +2,7 @@ package engima.waratsea.model.ship.data;
 
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.ship.AmmunitionType;
 import engima.waratsea.model.ship.ShipId;
 import engima.waratsea.model.ship.ShipType;
 import engima.waratsea.model.squadron.data.SquadronData;
@@ -25,6 +26,7 @@ public class ShipData {
     @Getter @Setter private GunData secondary;
     @Getter @Setter private GunData tertiary;
     @Getter @Setter private GunData antiAir;
+    @Getter @Setter private AmmunitionType ammunitionType;
     @Getter @Setter private TorpedoData torpedo;
     @Getter @Setter private AswData asw;
     @Getter @Setter private HullData hull;

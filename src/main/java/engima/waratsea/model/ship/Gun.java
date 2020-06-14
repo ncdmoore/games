@@ -21,7 +21,6 @@ public class Gun implements Component {
     @Setter
     private int health;
 
-
     /**
      * Constructor.
      *

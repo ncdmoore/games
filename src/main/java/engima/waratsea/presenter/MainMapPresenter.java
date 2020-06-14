@@ -91,7 +91,7 @@ public class MainMapPresenter {
     /**
      * Setup mouse event handlers for when the base markers are clicked.
      */
-    public void setBaseClickHandler() {
+    public void setClickHandlers() {
         mainMenu.getShowAirfields().setOnAction(event -> toggleMarkers());
         mainMenu.getShowPorts().setOnAction(event -> toggleMarkers());
 
@@ -102,15 +102,9 @@ public class MainMapPresenter {
         mainMapView.setPatrolRadiusClickHandler(humanSide, this::patrolRadiusClickHandler);
 
         mainMapView.setAirfieldMenuHandler(humanSide, this::airfieldHandler);
-    }
-
-    /**
-     * Setup mouse event handlers for when the task force markers are clicked.
-     */
-    public void setTaskForceClickHandler() {
-        Side humanSide =  game.getHumanSide();
-
-        mainMapView.setOperationsMenuHandler(humanSide, this::taskForceOperationsHandler);
+        mainMapView.setTaskForceOperationsMenuHandler(humanSide, this::taskForceOperationsHandler);
+        mainMapView.setTaskForceDetachMenuHandler(humanSide, this::taskForceDetachHandler);
+        mainMapView.setTaskForceJoinMenuHandler(humanSide, this::taskForceJoinHandler);
     }
 
     /**
@@ -177,11 +171,35 @@ public class MainMapPresenter {
     private void taskForceOperationsHandler(final ActionEvent event) {
         MenuItem item = (MenuItem) event.getSource();
         List<TaskForce> taskForces = (List<TaskForce>) item.getUserData();
-
-        taskForces.forEach(taskForce -> log.info("marker selected: {}", taskForce.getTitle()));
-
         taskForceDialogProvider.get().show(taskForces);
     }
+
+    /**
+     * Callback for when the task force marker's detach menu item is selected.
+     *
+     * @param event The click event.
+     */
+    @SuppressWarnings("unchecked")
+    private void taskForceDetachHandler(final ActionEvent event) {
+        MenuItem item = (MenuItem) event.getSource();
+        List<TaskForce> taskForces = (List<TaskForce>) item.getUserData();
+
+        taskForces.forEach(taskForce -> log.info("marker selected: {} - detach", taskForce.getTitle()));
+    }
+
+    /**
+     * Callback for when the task force marker's detach menu item is selected.
+     *
+     * @param event The click event.
+     */
+    @SuppressWarnings("unchecked")
+    private void taskForceJoinHandler(final ActionEvent event) {
+        MenuItem item = (MenuItem) event.getSource();
+        List<TaskForce> taskForces = (List<TaskForce>) item.getUserData();
+
+        taskForces.forEach(taskForce -> log.info("marker selected: {} - join", taskForce.getTitle()));
+    }
+
 
     /**
      * Callback for when an airfield's patrol radius is clicked.

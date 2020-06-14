@@ -34,6 +34,7 @@ import engima.waratsea.model.target.Target;
 import engima.waratsea.model.target.TargetDAO;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceDAO;
+import engima.waratsea.model.taskForce.mission.SeaMissionType;
 import engima.waratsea.model.victory.VictoryConditions;
 import engima.waratsea.model.victory.VictoryDAO;
 import engima.waratsea.model.victory.VictoryException;
@@ -47,6 +48,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -95,7 +97,8 @@ public class ComputerPlayer implements Player {
 
     private final Map<FlotillaType, List<Flotilla>> flotillas = new HashMap<>();
     private final Map<Nation, List<Squadron>> squadrons = new HashMap<>();
-    private  final Map<AirMissionType, Function<Nation, List<Target>>> targetMap = new HashMap<>();
+    private final Map<AirMissionType, Function<Nation, List<Target>>> airTargetMap = new HashMap<>();
+    private final Map<SeaMissionType, Supplier<List<Target>>> seaTargetMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -152,12 +155,14 @@ public class ComputerPlayer implements Player {
         this.squadronAI = squadronAI;
         this.minefieldAI = minefieldAI;
 
-        targetMap.put(AirMissionType.FERRY, this::getFriendlyAirfieldTargets);
-        targetMap.put(AirMissionType.LAND_STRIKE, nation -> getEnemyAirfieldTargets());
-        targetMap.put(AirMissionType.SWEEP_AIRFIELD, nation -> getEnemyAirfieldTargets());
-        targetMap.put(AirMissionType.NAVAL_PORT_STRIKE, nation -> getEnemyPortTargets());
-        targetMap.put(AirMissionType.SWEEP_PORT, nation -> getEnemyPortTargets());
-        targetMap.put(AirMissionType.NAVAL_TASK_FORCE_STRIKE, nation -> getEnemyTaskForceTargets());
+        airTargetMap.put(AirMissionType.FERRY, this::getFriendlyAirfieldTargets);
+        airTargetMap.put(AirMissionType.LAND_STRIKE, nation -> getEnemyAirfieldTargets());
+        airTargetMap.put(AirMissionType.SWEEP_AIRFIELD, nation -> getEnemyAirfieldTargets());
+        airTargetMap.put(AirMissionType.NAVAL_PORT_STRIKE, nation -> getEnemyPortTargets());
+        airTargetMap.put(AirMissionType.SWEEP_PORT, nation -> getEnemyPortTargets());
+        airTargetMap.put(AirMissionType.NAVAL_TASK_FORCE_STRIKE, nation -> getEnemyTaskForceTargets());
+
+        seaTargetMap.put(SeaMissionType.INTERCEPT, this::getEnemyTaskForceTargets);
     }
 
     /**
@@ -437,11 +442,24 @@ public class ComputerPlayer implements Player {
      * Get a list of targets for the given mission type.
      *
      * @param missionType The type of mission.
+     * @return A list of target for the given mission type.
+     */
+    @Override
+    public List<Target> getTargets(final SeaMissionType missionType) {
+        return seaTargetMap
+                .get(missionType)
+                .get();
+    }
+
+    /**
+     * Get a list of targets for the given mission type.
+     *
+     * @param missionType The type of mission.
      * @return A list of targets for the given mission type.
      */
     @Override
     public List<Target> getTargets(final AirMissionType missionType, final Nation nation) {
-        return targetMap
+        return airTargetMap
                 .get(missionType)
                 .apply(nation);
     }

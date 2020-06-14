@@ -42,6 +42,7 @@ public class SurfaceShip implements Ship, SquadronHome {
     @Getter private Gun secondary;
     @Getter private Gun tertiary;
     @Getter private Gun antiAir;
+    @Getter @Setter private AmmunitionType ammunitionType;
     @Getter private Torpedo torpedo;
     @Getter private Asw asw;
     @Getter private Movement movement;
@@ -73,6 +74,7 @@ public class SurfaceShip implements Ship, SquadronHome {
         secondary = buildGun("Secondary", data.getSecondary());
         tertiary = buildGun("Tertiary", data.getTertiary());
         antiAir = buildGun("Anti-Air", data.getAntiAir());
+        ammunitionType = Optional.ofNullable(data.getAmmunitionType()).orElse(AmmunitionType.NORMAL);
         torpedo = new Torpedo(data.getTorpedo());
         asw = new Asw(data.getAsw());
 
@@ -116,6 +118,7 @@ public class SurfaceShip implements Ship, SquadronHome {
         data.setSecondary(secondary.getData());
         data.setTertiary(tertiary.getData());
         data.setAntiAir(antiAir.getData());
+        data.setAmmunitionType(ammunitionType);
         data.setTorpedo(torpedo.getData());
         data.setAsw(asw.getData());
 

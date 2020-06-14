@@ -189,6 +189,13 @@ public interface Ship extends Vessel, PersistentData<ShipData> {
     Fuel getFuel();
 
     /**
+     * Get the ship's ammunition type.
+     *
+     * @return The ship's ammunition type.
+     */
+    AmmunitionType getAmmunitionType();
+
+    /**
      * Get a list of all the ship components.
      *
      * @return A list of ship components.
@@ -211,6 +218,13 @@ public interface Ship extends Vessel, PersistentData<ShipData> {
      * Call this method to load a ship to its maximum cargoShips capacity.
      */
     void loadCargo();
+
+    /**
+     * Set the ships ammunition type.
+     *
+     * @param ammunitionType The ship's ammunition type.
+     */
+    void setAmmunitionType(AmmunitionType ammunitionType);
 
     /**
      * Get the ship's persistent data.

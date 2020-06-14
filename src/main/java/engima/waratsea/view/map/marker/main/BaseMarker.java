@@ -10,6 +10,7 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.BaseGrid;
 import engima.waratsea.model.map.BaseGridType;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.GridView;
@@ -20,6 +21,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.InnerShadow;
@@ -52,7 +54,9 @@ public class BaseMarker {
 
     @Getter private final PatrolRadii patrolRadii;
     @Getter private MenuItem airfieldMenuItem;
-    @Getter private MenuItem taskForceMenuItem;
+    @Getter private MenuItem taskForceMenuOperations;
+    @Getter private MenuItem taskForceMenuDetach;
+    @Getter private MenuItem taskForceMenuJoin;
 
     private boolean selected = false;
 
@@ -189,6 +193,33 @@ public class BaseMarker {
     }
 
     /**
+     * Set the base task force operations menu item handler.
+     *
+     * @param handler The menu item handler.
+     */
+    public void setTaskForceMenuOperations(final EventHandler<ActionEvent> handler) {
+        taskForceMenuOperations.setOnAction(handler);
+    }
+
+    /**
+     * Set the base task force detach menu item handler.
+     *
+     * @param handler The menu item handler.
+     */
+    public void setTaskForceMenuDetach(final EventHandler<ActionEvent> handler) {
+        taskForceMenuDetach.setOnAction(handler);
+    }
+
+    /**
+     * Set the base task force join menu item handler.
+     *
+     * @param handler The menu item handler.
+     */
+    public void setTaskForceMenuJoin(final EventHandler<ActionEvent> handler) {
+        taskForceMenuJoin.setOnAction(handler);
+    }
+
+    /**
      * Set the base patrol radius clicked handler.
      *
      * @param handler The mouse click handler.
@@ -320,10 +351,28 @@ public class BaseMarker {
             airfieldMenuItem = new MenuItem("Airfield...");
             airfieldMenuItem.setUserData(getBaseGrid().getAirfield());
 
-            taskForceMenuItem = new MenuItem("Task Forces...");
-            taskForceMenuItem.setDisable(true);
+            Menu taskForceMenu = new Menu("Task Force");
+            taskForceMenuOperations = new MenuItem("Operations...");
+            taskForceMenuDetach = new MenuItem("Detach...");
+            taskForceMenuJoin = new MenuItem("Join...");
 
-            contextMenu.getItems().addAll(airfieldMenuItem, taskForceMenuItem);
+            taskForceMenu.getItems().addAll(taskForceMenuOperations, taskForceMenuDetach, taskForceMenuJoin);
+
+            List<TaskForce> taskForces = getBaseGrid()
+                    .getPort()
+                    .map(Port::getTaskForces)
+                    .orElseGet(Collections::emptyList);
+
+            taskForceMenuOperations.setDisable(taskForces.isEmpty());
+            taskForceMenuOperations.setUserData(taskForces);
+
+            taskForceMenuDetach.setDisable(taskForces.isEmpty());
+            taskForceMenuDetach.setUserData(taskForces);
+
+            taskForceMenuJoin.setDisable(taskForces.size() < 2);
+            taskForceMenuJoin.setUserData(taskForces);
+
+            contextMenu.getItems().addAll(airfieldMenuItem, taskForceMenu);
 
             imageView.setOnContextMenuRequested(e -> contextMenu.show(imageView, e.getScreenX(), e.getScreenY()));
             roundel.setOnContextMenuRequested(e -> contextMenu.show(imageView, e.getScreenX(), e.getScreenY()));

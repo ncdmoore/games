@@ -26,6 +26,8 @@ public class TaskForceMarker {
     private final VBox image;
 
     @Getter private MenuItem operationsMenuItem;
+    @Getter private MenuItem detachMenuItem;
+    @Getter private MenuItem joinMenuItem;
 
     /**
      * Constructor called by guice.
@@ -89,6 +91,24 @@ public class TaskForceMarker {
     }
 
     /**
+     * Set the detach menu handler.
+     *
+     * @param handler The detach menu handler.
+     */
+    public void setDetachMenuHandler(final EventHandler<ActionEvent> handler) {
+        detachMenuItem.setOnAction(handler);
+    }
+
+    /**
+     * Set the join menu handler.
+     *
+     * @param handler The join menu handler.
+     */
+    public void setJoinMenuHandler(final EventHandler<ActionEvent> handler) {
+        joinMenuItem.setOnAction(handler);
+    }
+
+    /**
      * Setup the right click context menus for the base marker.
      */
     private void setUpContextMenus() {
@@ -97,9 +117,15 @@ public class TaskForceMarker {
             ContextMenu contextMenu = new ContextMenu();
 
             operationsMenuItem = new MenuItem("Operations...");
-            operationsMenuItem.setUserData(taskForceGrid.getTaskForces());
+            detachMenuItem = new MenuItem("Detach...");
+            joinMenuItem = new MenuItem("Join...");
 
-            contextMenu.getItems().addAll(operationsMenuItem);
+            operationsMenuItem.setUserData(taskForceGrid.getTaskForces());
+            detachMenuItem.setUserData(taskForceGrid.getTaskForces());
+            joinMenuItem.setUserData(taskForceGrid.getTaskForces());
+            joinMenuItem.setDisable(taskForceGrid.getTaskForces().size() < 2);
+
+            contextMenu.getItems().addAll(operationsMenuItem, detachMenuItem, joinMenuItem);
 
             image.setOnContextMenuRequested(e -> contextMenu.show(image, e.getScreenX(), e.getScreenY()));
         }

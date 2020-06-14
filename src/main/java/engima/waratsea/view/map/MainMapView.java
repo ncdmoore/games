@@ -132,13 +132,36 @@ public class MainMapView {
     }
 
     /**
-     * Set the operations menu handler.
+     * Set the base grid's context task force operations menu item.
+     *
+     * @param side The side ALLIES of AXIS.
+     * @param handler The task force menu item handler.
+     */
+    public void setTaskForceOperationsMenuHandler(final Side side, final EventHandler<ActionEvent> handler) {
+        baseMarkers.get(side).forEach(baseMarker -> baseMarker.setTaskForceMenuOperations(handler));
+        taskForceMarkers.get(side).forEach(taskForceMarker -> taskForceMarker.setOperationsMenuHandler(handler));
+    }
+
+    /**
+     * Set the context menu detach menu item handler for the base and task force markers.
      *
      * @param side The side ALLIES or AXIS.
-     * @param handler The operations menu item handler.
+     * @param handler The task force menu item handler.
      */
-    public void setOperationsMenuHandler(final Side side, final EventHandler<ActionEvent> handler) {
-        taskForceMarkers.get(side).forEach(taskForceMarker -> taskForceMarker.setOperationsMenuHandler(handler));
+    public void setTaskForceDetachMenuHandler(final Side side, final EventHandler<ActionEvent> handler) {
+        baseMarkers.get(side).forEach(baseMarker -> baseMarker.setTaskForceMenuDetach(handler));
+        taskForceMarkers.get(side).forEach(taskForceMarker -> taskForceMarker.setDetachMenuHandler(handler));
+    }
+
+    /**
+     * Set the context menu join menu item handler for the base and task force markers.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @param handler The task force menu item handler.
+     */
+    public void setTaskForceJoinMenuHandler(final Side side, final EventHandler<ActionEvent> handler) {
+        baseMarkers.get(side).forEach(baseMarker -> baseMarker.setTaskForceMenuJoin(handler));
+        taskForceMarkers.get(side).forEach(taskForceMarker -> taskForceMarker.setJoinMenuHandler(handler));
     }
 
     /**

@@ -36,7 +36,7 @@ public class Cargo implements Component {
     public Cargo(final CargoData data) {
         this.name = "Cargo";
         this.capacity = data.getCapacity();
-        this.level = 0;
+        this.level = data.getLevel();
     }
 
     /**
@@ -53,7 +53,7 @@ public class Cargo implements Component {
     }
 
     /**
-     * Load all of the cargoShips.
+     * Load the cargo.
      **/
     public void load() {
         level = capacity;

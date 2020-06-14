@@ -4,6 +4,7 @@ import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceState;
+import engima.waratsea.model.taskForce.mission.SeaMissionType;
 import engima.waratsea.view.ship.ShipViewType;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -34,6 +35,8 @@ import java.util.stream.Collectors;
  * to the values in this class.
  */
 public class TaskForceViewModel {
+    @Getter private final ObjectProperty<ObservableList<SeaMissionType>> missionTypes = new SimpleObjectProperty<>();
+
     @Getter private StringProperty name = new SimpleStringProperty();
     @Getter private StringProperty title = new SimpleStringProperty();
     @Getter private StringProperty state = new SimpleStringProperty();

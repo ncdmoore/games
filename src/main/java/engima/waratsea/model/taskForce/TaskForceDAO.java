@@ -102,7 +102,7 @@ public class TaskForceDAO {
 
             log.debug("load task forces for side: {}, number of task forces: {}", side, taskForces.size());
 
-            return seedTaskForces(side, taskForces);
+            return buildTaskForce(side, taskForces);
         } catch (Exception ex) {                                                                                        // Catch any Gson errors.
             log.error("Unable to load task forces: {}", url.getPath(), ex);
             return null;
@@ -116,10 +116,22 @@ public class TaskForceDAO {
      * @param data Task force data from the JSON file.
      * @return An initialized or seeded Task Force.
      */
-    private List<TaskForce> seedTaskForces(final Side side, final List<TaskForceData> data) {
+    private List<TaskForce> buildTaskForce(final Side side, final List<TaskForceData> data) {
         return data.stream()
                 .map(taskForceData -> taskForceFactory.create(side, taskForceData))
+                .peek(this::initTaskForce)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Initialize the task force.
+     *
+     * @param taskForce The task force that is initialized.
+     */
+    private void initTaskForce(final TaskForce taskForce) {
+        if (config.isNew()) {
+            taskForce.init();
+        }
     }
 
 }

@@ -18,6 +18,7 @@ import engima.waratsea.model.squadron.SquadronException;
 import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.model.taskForce.mission.SeaMissionType;
 import engima.waratsea.model.victory.VictoryException;
 
 import java.util.List;
@@ -211,6 +212,14 @@ public interface Player {
      * @return The enemy port view corresponding to the given name.
      */
     PortView getEnemyPort(String name);
+
+    /**
+     * Get a list of targets for the given mission type.
+     *
+     * @param missionType The type of mission.
+     * @return A list of target for the given mission type.
+     */
+    List<Target> getTargets(SeaMissionType missionType);
 
     /**
      * Get a list of targets for the given mission type.

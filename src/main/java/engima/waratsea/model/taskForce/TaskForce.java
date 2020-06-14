@@ -15,6 +15,7 @@ import engima.waratsea.model.game.event.turn.TurnEvent;
 import engima.waratsea.model.game.event.turn.TurnEventMatcher;
 import engima.waratsea.model.game.event.turn.data.TurnMatchData;
 import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.ship.AmmunitionType;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.ship.ShipId;
 import engima.waratsea.model.ship.ShipType;
@@ -24,6 +25,7 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.data.TaskForceData;
 import engima.waratsea.model.taskForce.mission.MissionDAO;
 import engima.waratsea.model.taskForce.mission.SeaMission;
+import engima.waratsea.model.taskForce.mission.SeaMissionType;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
@@ -94,13 +96,13 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
 
         setReference(data.getLocation());
         buildShips(data.getShips());
-        loadCargo(data.getCargoShips());
+        getCargoShips(data.getCargoShips());
         getCarriers();
 
         buildShipEvents(data.getReleaseShipEvents());
         buildTurnEvents(data.getReleaseTurnEvents());
 
-        gameMap.addTaskForce(side, this);
+        gameMap.addTaskForce(side, this);   //Mark the task force on the game map.
 
         finish();
     }
@@ -134,6 +136,20 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
         ships.forEach(ship -> shipyard.save(ship));
     }
 
+    /**
+     * Initialize a task force. This is only done for new games.
+     *
+     * @return This task force.
+     */
+    public TaskForce init() {
+        cargoShips.forEach(Ship::loadCargo);
+
+        if (mission.getType() == SeaMissionType.BOMBARDMENT) {
+            ships.forEach(ship -> ship.setAmmunitionType(AmmunitionType.BOMBARDMENT));
+        }
+
+        return this;
+    }
 
     /**
      * The string representation of this object.
@@ -169,6 +185,17 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
      */
     public boolean atFriendlyBase() {
         return gameMap.isLocationBase(side, reference);
+    }
+
+    /**
+     * Determine if the task force has shore bombardment ammunition.
+     *
+     * @return True if the task force is equipped with shore bombardment ammunition.
+     */
+    public boolean hasBombardmentAmmo() {
+        return ships
+                .stream()
+                .anyMatch(ship -> ship.getAmmunitionType() == AmmunitionType.BOMBARDMENT);
     }
 
     /**
@@ -274,6 +301,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
                 .map(Optional::get)
                 .collect(Collectors.toList());
 
+
         shipMap = ships.stream()
                 .collect(Collectors.toMap(Ship::getName, ship -> ship));
 
@@ -287,11 +315,11 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
      *
      * @param cargoShipNames List of ships carrying cargoShips.
      */
-    private void loadCargo(final List<String> cargoShipNames) {
+    private void getCargoShips(final List<String> cargoShipNames) {
         cargoShips = Optional.ofNullable(cargoShipNames)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(this::loadCargo)
+                .map(shipName -> shipMap.get(shipName))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
@@ -404,23 +432,6 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
             state = TaskForceState.ACTIVE;
             log.info("{} state {}", name, state);
             TurnEvent.unregister(this);
-        }
-    }
-
-    /**
-     * Load the specified ship with cargoShips.
-     *
-     * @param shipName The name of the ship that is loaded with cargoShips.
-     * @return The cargo ship.
-     */
-    private Ship loadCargo(final String shipName) {
-        if (shipMap.containsKey(shipName)) {
-            Ship ship = shipMap.get(shipName);
-            ship.loadCargo();
-            return ship;
-        } else {
-            log.error("Invalid cargo ship name: '{}'", shipName);
-            return null;
         }
     }
 }

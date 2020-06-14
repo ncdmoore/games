@@ -34,6 +34,7 @@ import engima.waratsea.model.target.Target;
 import engima.waratsea.model.target.TargetDAO;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceDAO;
+import engima.waratsea.model.taskForce.mission.SeaMissionType;
 import engima.waratsea.model.victory.VictoryConditions;
 import engima.waratsea.model.victory.VictoryDAO;
 import engima.waratsea.model.victory.VictoryException;
@@ -48,6 +49,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -95,7 +97,8 @@ public class HumanPlayer implements Player {
     private final Map<FlotillaType, List<Flotilla>> flotillas = new HashMap<>();
     private final Map<Nation, List<Squadron>> squadrons = new HashMap<>();
     private final Map<SquadronDeploymentType, BiConsumer<Scenario, Player>> deploymentMap = new HashMap<>();
-    private  final Map<AirMissionType, Function<Nation, List<Target>>> targetMap = new HashMap<>();
+    private final Map<AirMissionType, Function<Nation, List<Target>>> targetMap = new HashMap<>();
+    private final Map<SeaMissionType, Supplier<List<Target>>> seaTargetMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -157,6 +160,8 @@ public class HumanPlayer implements Player {
         targetMap.put(AirMissionType.NAVAL_PORT_STRIKE, nation -> getEnemyPortTargets());
         targetMap.put(AirMissionType.SWEEP_PORT, nation -> getEnemyPortTargets());
         targetMap.put(AirMissionType.NAVAL_TASK_FORCE_STRIKE, nation -> getEnemyTaskForceTargets());
+
+        seaTargetMap.put(SeaMissionType.INTERCEPT, this::getEnemyTaskForceTargets);
     }
 
     /**
@@ -437,6 +442,19 @@ public class HumanPlayer implements Player {
     @Override
     public PortView getEnemyPort(final String name) {
         return enemyPortMap.get(name);
+    }
+
+    /**
+     * Get a list of targets for the given mission type.
+     *
+     * @param missionType The type of mission.
+     * @return A list of target for the given mission type.
+     */
+    @Override
+    public List<Target> getTargets(final SeaMissionType missionType) {
+        return seaTargetMap
+                .get(missionType)
+                .get();
     }
 
     /**
