@@ -41,7 +41,7 @@ public class PatrolRadii {
 
     /**
      * Constructor.
-     *  @param mapView The map view.
+     * @param mapView The map view.
      * @param markerGrid The base grid of the patrol radii.
      * @param gridView The grid view of the base grid.
      */

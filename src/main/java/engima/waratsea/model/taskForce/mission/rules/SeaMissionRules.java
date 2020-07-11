@@ -8,6 +8,7 @@ import engima.waratsea.model.player.Player;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.ship.ShipType;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.model.taskForce.TaskForceState;
 import engima.waratsea.model.taskForce.mission.SeaMissionType;
 
 import java.util.ArrayList;
@@ -74,7 +75,8 @@ public class SeaMissionRules {
             missions.add(SeaMissionType.ESCORT);
         }
 
-        if (!players.get(taskForce.getSide()).getTargets(SeaMissionType.INTERCEPT).isEmpty()) {
+        if (!players.get(taskForce.getSide()).getTargets(SeaMissionType.INTERCEPT).isEmpty()
+                || taskForce.getState() == TaskForceState.RESERVE) {
             missions.add(SeaMissionType.INTERCEPT);
         }
 

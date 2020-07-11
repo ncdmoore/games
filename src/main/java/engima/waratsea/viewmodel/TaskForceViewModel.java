@@ -1,10 +1,12 @@
 package engima.waratsea.viewmodel;
 
+import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceState;
 import engima.waratsea.model.taskForce.mission.SeaMissionType;
+import engima.waratsea.model.taskForce.mission.rules.SeaMissionRules;
 import engima.waratsea.view.ship.ShipViewType;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -35,7 +37,7 @@ import java.util.stream.Collectors;
  * to the values in this class.
  */
 public class TaskForceViewModel {
-    @Getter private final ObjectProperty<ObservableList<SeaMissionType>> missionTypes = new SimpleObjectProperty<>();
+    @Getter private final ObjectProperty<ObservableList<SeaMissionType>> missionTypes = new SimpleObjectProperty<>();   // The task force's available missions.
 
     @Getter private StringProperty name = new SimpleStringProperty();
     @Getter private StringProperty title = new SimpleStringProperty();
@@ -54,6 +56,18 @@ public class TaskForceViewModel {
     @Getter private ObjectProperty<Map<AircraftType, BigDecimal>> squadronTypeMap = new SimpleObjectProperty<>(this, "squadronTypeMap", Collections.emptyMap());
     @Getter private ObjectProperty<ObservableList<Pair<String, String>>> squadronTypeSummary = new SimpleObjectProperty<>(this, "squadronTypeSummary", FXCollections.observableArrayList());
 
+    private final SeaMissionRules seaMissionRules;
+
+    /**
+     * Constructor called by guice.
+     *
+     * @param seaMissionRules The sea mission rules.
+     */
+    @Inject
+    public TaskForceViewModel(final SeaMissionRules seaMissionRules) {
+        this.seaMissionRules = seaMissionRules;
+    }
+
     /**
      * Set the task force model.
      *
@@ -65,6 +79,7 @@ public class TaskForceViewModel {
         title.set(taskForce.getTitle());
         state.set(taskForce.getState().toString());
         mission.set(taskForce.getMission().getType().toString());
+        missionTypes.set(FXCollections.observableArrayList(seaMissionRules.getMissions(taskForce)));
 
         String locationPrefix = taskForce.atFriendlyBase() ? "At port " : "At sea zone ";
         location.set(locationPrefix + taskForce.getMappedLocation());

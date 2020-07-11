@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Represents a marker's grid on the game map. This may be a base grid or a task force grid.
+ */
 public interface MarkerGrid {
     /**
      * Get the marker grid's patrol radii map.

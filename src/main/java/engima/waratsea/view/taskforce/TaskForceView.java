@@ -5,8 +5,6 @@ import engima.waratsea.viewmodel.TaskForceViewModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
-import java.util.List;
-
 public class TaskForceView {
 
     private TaskForceViewModel taskForceViewModel;
@@ -51,20 +49,13 @@ public class TaskForceView {
      */
     private TabPane createOperationTabs() {
         TabPane operationsTabPane = new TabPane();
-
         operationsTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        List<String> operations = List.of("Naval Operations", "Air Operations");
-
-        Tab navalOperations = taskForceNavalOperations.createOperationTab();
-        Tab airOperations = taskForceAirOperations.createOperationTab();
+        Tab navalOperations = taskForceNavalOperations.createOperationTab(taskForceViewModel);
+        Tab airOperations = taskForceAirOperations.createOperationTab(taskForceViewModel);
 
         operationsTabPane.getTabs().addAll(navalOperations, airOperations);
 
         return operationsTabPane;
     }
-
-
-
-
 }
