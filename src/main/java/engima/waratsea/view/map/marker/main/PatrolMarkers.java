@@ -26,9 +26,9 @@ import java.util.stream.Collectors;
  * Draws the patrol radii around a map marker such as a airfield or task force with aircraft carriers.
  */
 @Slf4j
-public class PatrolRadii {
+public class PatrolMarkers {
     @Getter
-    private List<PatrolRadius> radii = Collections.emptyList();
+    private List<PatrolMarker> radii = Collections.emptyList();
 
     private final MapView mapView;
     private final MarkerGrid markerGrid;
@@ -45,7 +45,7 @@ public class PatrolRadii {
      * @param markerGrid The base grid of the patrol radii.
      * @param gridView The grid view of the base grid.
      */
-    public PatrolRadii(final MapView mapView, final MarkerGrid markerGrid, final GridView gridView) {
+    public PatrolMarkers(final MapView mapView, final MarkerGrid markerGrid, final GridView gridView) {
         this.mapView = mapView;
         this.markerGrid = markerGrid;
         this.gridView = gridView;
@@ -55,7 +55,7 @@ public class PatrolRadii {
      * Draw all the marker's patrol radii.
      */
     public void drawRadii() {
-        List<PatrolRadius> newRadii = markerGrid
+        List<PatrolMarker> newRadii = markerGrid
                 .getPatrolRadiiMap()
                 .map(patrolMap -> patrolMap
                         .entrySet()
@@ -66,10 +66,10 @@ public class PatrolRadii {
                 .orElseGet(Collections::emptyList);
 
         // Get any circles that are no longer needed.
-        List<PatrolRadius> removed = ListUtils.subtract(radii, newRadii);
+        List<PatrolMarker> removed = ListUtils.subtract(radii, newRadii);
 
         // Remove the unneeded circles.
-        removed.forEach(PatrolRadius::remove);
+        removed.forEach(PatrolMarker::remove);
 
         radii = newRadii;
     }
@@ -78,7 +78,7 @@ public class PatrolRadii {
      * Remove the circle representing the patrols's radius from the map.
      */
     public void hideRadii() {
-        radii.forEach(PatrolRadius::remove);
+        radii.forEach(PatrolMarker::remove);
     }
 
     /**
@@ -113,12 +113,12 @@ public class PatrolRadii {
      * @param entry A map entry of circle's radius => list of patrols.
      * @return The circle representing the patrols radius.
      */
-    private PatrolRadius draw(final Map.Entry<Integer, List<Patrol>> entry) {
+    private PatrolMarker draw(final Map.Entry<Integer, List<Patrol>> entry) {
 
         int radius = entry.getKey() * gridView.getSize();
 
         // Either get an existing radius or draw a new radius.
-        PatrolRadius patrolRadius = radii
+        PatrolMarker patrolRadius = radii
                 .stream()
                 .filter(existingPatrolRadius -> existingPatrolRadius.matches(radius))
                 .findAny()
@@ -137,8 +137,8 @@ public class PatrolRadii {
      * @param entry An entry in the airbase's patrol map. It contains the max radius -> List of Patrols.
      * @return The new patrol radius.
      */
-    private PatrolRadius buildPatrolRadius(final Map.Entry<Integer, List<Patrol>> entry) {
-        PatrolRadius newPatrolRadius = new PatrolRadius(mapView, gridView);
+    private PatrolMarker buildPatrolRadius(final Map.Entry<Integer, List<Patrol>> entry) {
+        PatrolMarker newPatrolRadius = new PatrolMarker(mapView, gridView);
         newPatrolRadius.drawRadius(entry.getKey(), entry.getValue());
         return newPatrolRadius;
     }

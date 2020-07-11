@@ -52,7 +52,7 @@ public class BaseMarker {
     private final VBox flag;
     private final Node title;
 
-    @Getter private final PatrolRadii patrolRadii;
+    @Getter private final PatrolMarkers patrolRadii;
     @Getter private MenuItem airfieldMenuItem;
     @Getter private MenuItem taskForceMenuOperations;
     @Getter private MenuItem taskForceMenuDetach;
@@ -112,7 +112,7 @@ public class BaseMarker {
 
         title = buildTitle(gridView);
 
-        patrolRadii = new PatrolRadii(mapView, baseGrid, gridView);
+        patrolRadii = new PatrolMarkers(mapView, baseGrid, gridView);
 
         setUpContextMenus();
     }

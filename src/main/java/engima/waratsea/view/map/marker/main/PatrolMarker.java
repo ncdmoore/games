@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class PatrolRadius {
+public class PatrolMarker {
 
     private final MapView mapView;
     private final GridView gridView;
@@ -41,7 +41,7 @@ public class PatrolRadius {
      * @param mapView The map view.
      * @param gridView The grid view.
      */
-    public PatrolRadius(final MapView mapView, final GridView gridView) {
+    public PatrolMarker(final MapView mapView, final GridView gridView) {
         this.mapView = mapView;
         this.gridView = gridView;
     }
