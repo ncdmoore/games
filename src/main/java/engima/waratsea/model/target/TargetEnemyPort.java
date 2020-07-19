@@ -8,6 +8,7 @@ import engima.waratsea.model.enemy.views.port.PortView;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
@@ -97,6 +98,19 @@ public class TargetEnemyPort implements Target {
                 .ofNullable(portView)
                 .orElseGet(this::getPortView)
                 .getLocation();
+    }
+
+    /**
+     * Get the target's game grid.
+     *
+     * @return The target's game grid.
+     */
+    @Override
+    public Optional<GameGrid> getGrid() {
+        return Optional
+                .ofNullable(portView)
+                .orElseGet(this::getPortView)
+                .getGrid();
     }
 
     /**

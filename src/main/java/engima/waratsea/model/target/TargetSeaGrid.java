@@ -5,6 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
@@ -12,13 +13,15 @@ import engima.waratsea.model.target.data.TargetData;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 /**
  * Represents a sea grid target. This is used by mine laying and mine clearing missions.
  */
 @Slf4j
 public class TargetSeaGrid implements Target {
 
-    private String reference;
+    private final String reference;
     private final GameMap gameMap;
 
     /**
@@ -84,6 +87,16 @@ public class TargetSeaGrid implements Target {
     @Override
     public String getLocation() {
         return reference;
+    }
+
+    /**
+     * Get the target's game grid.
+     *
+     * @return The target's game grid.
+     */
+    @Override
+    public Optional<GameGrid> getGrid() {
+        return gameMap.getGrid(reference);
     }
 
     /**

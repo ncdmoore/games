@@ -52,7 +52,9 @@ public class BaseMarker {
     private final VBox flag;
     private final Node title;
 
-    @Getter private final PatrolMarkers patrolRadii;
+    private final PatrolMarkers patrolMarkers;
+    private final MissionMarkers missionMarkers;
+
     @Getter private MenuItem airfieldMenuItem;
     @Getter private MenuItem taskForceMenuOperations;
     @Getter private MenuItem taskForceMenuDetach;
@@ -112,7 +114,8 @@ public class BaseMarker {
 
         title = buildTitle(gridView);
 
-        patrolRadii = new PatrolMarkers(mapView, baseGrid, gridView);
+        patrolMarkers = new PatrolMarkers(mapView, baseGrid, gridView);
+        missionMarkers = new MissionMarkers(mapView, baseGrid, gridView);
 
         setUpContextMenus();
     }
@@ -149,19 +152,21 @@ public class BaseMarker {
             hideTitle();
         }
 
-        drawPatrolRadii();
+        drawPatrolMarkers();
         return selected;
     }
 
     /**
      * Draw this base marker's patrol range.
      */
-    public void drawPatrolRadii() {
+    public void drawPatrolMarkers() {
 
         if (selected) {
-            patrolRadii.drawRadii();
+            patrolMarkers.draw();
+            missionMarkers.draw();
         } else {
-            patrolRadii.hideRadii();
+            patrolMarkers.hide();
+            missionMarkers.hide();
         }
     }
 
@@ -225,7 +230,16 @@ public class BaseMarker {
      * @param handler The mouse click handler.
      */
     public void setPatrolRadiusClickHandler(final EventHandler<? super MouseEvent> handler) {
-        patrolRadii.setRadiusMouseHandler(handler);
+        patrolMarkers.setRadiusMouseHandler(handler);
+    }
+
+    /**
+     * Set the base mission arrow clicked handler.
+     *
+     * @param handler The mouse click handler.
+     */
+    public void setMissionArrowClickHandler(final EventHandler<? super MouseEvent> handler) {
+        missionMarkers.setArrowMouseHandler(handler);
     }
 
     /**
@@ -234,14 +248,14 @@ public class BaseMarker {
      * @param radius The radius to highlight.
      */
     public void highlightRadius(final int radius) {
-        patrolRadii.highlightRadius(radius);
+        patrolMarkers.highlightRadius(radius);
     }
 
     /**
      * Remove this base's highlighted patrol radius.
      */
     public void unhighlightRadius() {
-        patrolRadii.unhighlightRadius();
+        patrolMarkers.unhighlightRadius();
     }
 
     /**

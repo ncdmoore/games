@@ -10,7 +10,7 @@ import lombok.Getter;
  * The view binds its GUI elements to the values in this class.
  */
 public class GameViewModel {
-    @Getter private StringProperty side = new SimpleStringProperty();
+    @Getter private final StringProperty side = new SimpleStringProperty();
 
     /**
      * Set the model.

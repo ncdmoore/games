@@ -20,7 +20,7 @@ public class MissionView {
     @Getter private final Button edit = new Button("Edit");
     @Getter private final Button delete = new Button("delete");
 
-    private TitledPane titledPane = new TitledPane();
+    private final TitledPane titledPane = new TitledPane();
 
     /**
      * Show the mission details view.

@@ -4,8 +4,10 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.airfield.AirfieldType;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.GameGrid;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.ship.data.GunData;
 import engima.waratsea.model.ship.data.ShipData;
@@ -30,6 +32,8 @@ import java.util.stream.Stream;
  * Represents a surface ship: Battleship, cruisers, etc.
  */
 public class SurfaceShip implements Ship, SquadronHome {
+
+    private final GameMap gameMap;
 
     @Getter private final ShipId shipId;
     @Getter private final ShipType type;
@@ -58,10 +62,12 @@ public class SurfaceShip implements Ship, SquadronHome {
      *
      * @param data Ship's data.
      * @param factory The squadron factory.
+     * @param gameMap The game map.
      */
     @Inject
     public SurfaceShip(@Assisted final ShipData data,
-                       final SquadronFactory factory) {
+                       final SquadronFactory factory,
+                       final GameMap gameMap) {
 
         shipId = data.getShipId();
         taskForce = data.getTaskForce();
@@ -86,6 +92,8 @@ public class SurfaceShip implements Ship, SquadronHome {
         originPort = data.getOriginPort();
 
         buildSquadrons(data.getAircraft(), factory);
+
+        this.gameMap = gameMap;
     }
 
     /**
@@ -205,6 +213,16 @@ public class SurfaceShip implements Ship, SquadronHome {
     @Override
     public String getReference() {
         return taskForce.getReference();
+    }
+
+    /**
+     * Get the squadron's home game grid.
+     *
+     * @return The squadron's home game grid.
+     */
+    @Override
+    public Optional<GameGrid> getGrid() {
+        return gameMap.getGrid(getReference());
     }
 
     /**

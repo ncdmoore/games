@@ -27,20 +27,18 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class PatrolMarkers {
-    @Getter
-    private List<PatrolMarker> radii = Collections.emptyList();
+    @Getter private List<PatrolMarker> patrolMarkers = Collections.emptyList();
+    @Setter private EventHandler<? super MouseEvent> radiusMouseHandler;
 
     private final MapView mapView;
     private final MarkerGrid markerGrid;
-    private final GridView gridView;
-
-    @Setter
-    private EventHandler<? super MouseEvent> radiusMouseHandler;
+    private final GridView gridView;       // The base's grid view.
 
     private Circle highlighted;
 
     /**
      * Constructor.
+     *
      * @param mapView The map view.
      * @param markerGrid The base grid of the patrol radii.
      * @param gridView The grid view of the base grid.
@@ -54,31 +52,31 @@ public class PatrolMarkers {
     /**
      * Draw all the marker's patrol radii.
      */
-    public void drawRadii() {
-        List<PatrolMarker> newRadii = markerGrid
-                .getPatrolRadiiMap()
+    public void draw() {
+        List<PatrolMarker> newMarkers = markerGrid
+                .getPatrols()
                 .map(patrolMap -> patrolMap
                         .entrySet()
                         .stream()
                         .filter(this::filterZeroRadius)
-                        .map(this::draw)
+                        .map(this::drawMarker)
                         .collect(Collectors.toList()))
                 .orElseGet(Collections::emptyList);
 
         // Get any circles that are no longer needed.
-        List<PatrolMarker> removed = ListUtils.subtract(radii, newRadii);
+        List<PatrolMarker> removed = ListUtils.subtract(patrolMarkers, newMarkers);
 
         // Remove the unneeded circles.
         removed.forEach(PatrolMarker::remove);
 
-        radii = newRadii;
+        patrolMarkers = newMarkers;
     }
 
     /**
      * Remove the circle representing the patrols's radius from the map.
      */
-    public void hideRadii() {
-        radii.forEach(PatrolMarker::remove);
+    public void hide() {
+        patrolMarkers.forEach(PatrolMarker::remove);
     }
 
     /**
@@ -108,39 +106,39 @@ public class PatrolMarkers {
     }
 
     /**
-     * Draw the patrol's radius circle.
+     * Draw the patrol marker's radius circle.
      *
      * @param entry A map entry of circle's radius => list of patrols.
      * @return The circle representing the patrols radius.
      */
-    private PatrolMarker draw(final Map.Entry<Integer, List<Patrol>> entry) {
+    private PatrolMarker drawMarker(final Map.Entry<Integer, List<Patrol>> entry) {
 
         int radius = entry.getKey() * gridView.getSize();
 
         // Either get an existing radius or draw a new radius.
-        PatrolMarker patrolRadius = radii
+        PatrolMarker patrolMarker = patrolMarkers
                 .stream()
                 .filter(existingPatrolRadius -> existingPatrolRadius.matches(radius))
                 .findAny()
-                .orElseGet(() -> buildPatrolRadius(entry));
+                .orElseGet(() -> buildPatrolMarker(entry));
 
-        patrolRadius.add();
-        patrolRadius.setData(entry.getValue());
-        patrolRadius.setClickHandler(radiusMouseHandler);
+        patrolMarker.add();
+        patrolMarker.setData(entry.getValue());
+        patrolMarker.setClickHandler(radiusMouseHandler);
 
-        return patrolRadius;
+        return patrolMarker;
     }
 
     /**
-     * Build a new patrol radius for this base.
+     * Build a new patrol radius marker for this base.
      *
      * @param entry An entry in the airbase's patrol map. It contains the max radius -> List of Patrols.
      * @return The new patrol radius.
      */
-    private PatrolMarker buildPatrolRadius(final Map.Entry<Integer, List<Patrol>> entry) {
-        PatrolMarker newPatrolRadius = new PatrolMarker(mapView, gridView);
-        newPatrolRadius.drawRadius(entry.getKey(), entry.getValue());
-        return newPatrolRadius;
+    private PatrolMarker buildPatrolMarker(final Map.Entry<Integer, List<Patrol>> entry) {
+        PatrolMarker patrolMarker = new PatrolMarker(mapView, gridView);
+        patrolMarker.drawRadius(entry.getKey(), entry.getValue());
+        return patrolMarker;
     }
 
     /**
@@ -170,7 +168,6 @@ public class PatrolMarkers {
 
     /**
      * Remove the base's highlighted range circle.
-     *
      */
     private void removeHighlightedRadius() {
         Optional

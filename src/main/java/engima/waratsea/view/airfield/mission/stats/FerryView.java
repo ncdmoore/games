@@ -17,22 +17,22 @@ import java.util.Optional;
 
 
 public class FerryView implements StatsView {
-    private Label airbaseTitle = new Label();
-    private Label distanceValue = new Label();
-    private Label inRouteValue = new Label();
-    private Label capacityValue = new Label();
-    private Label currentValue = new Label();
-    private Label targetRegionTitle = new Label();
-    private Label targetRegionMaxStepsValue = new Label();
-    private Label targetRegionCurrentStepsValue = new Label();
-    private Label targetRegionInRouteValue = new Label();
-    private Label airbaseRegionTitle = new Label();
-    private Label airbaseRegionMinStepsValue = new Label();
-    private Label airbaseRegionCurrentStepsValue = new Label();
-    private Label airbaseRegionOutRouteValue = new Label();
+    private final Label airbaseTitle = new Label();
+    private final Label distanceValue = new Label();
+    private final Label inRouteValue = new Label();
+    private final Label capacityValue = new Label();
+    private final Label currentValue = new Label();
+    private final Label targetRegionTitle = new Label();
+    private final Label targetRegionMaxStepsValue = new Label();
+    private final Label targetRegionCurrentStepsValue = new Label();
+    private final Label targetRegionInRouteValue = new Label();
+    private final Label airbaseRegionTitle = new Label();
+    private final Label airbaseRegionMinStepsValue = new Label();
+    private final Label airbaseRegionCurrentStepsValue = new Label();
+    private final Label airbaseRegionOutRouteValue = new Label();
 
-    private VBox statsVBox = new VBox();
-    private ViewProps props;
+    private final VBox statsVBox = new VBox();
+    private final ViewProps props;
     /**
      * Constructor.
      *
@@ -77,7 +77,7 @@ public class FerryView implements StatsView {
      */
     @Override
     public Node bind(final AirMissionViewModel viewModel) {
-        airbaseTitle.textProperty().bind(Bindings.createStringBinding(() -> getTargetName(viewModel), viewModel.getTarget()));
+        airbaseTitle.textProperty().bind(Bindings.createStringBinding(() -> getTargetTitle(viewModel), viewModel.getTarget()));
         distanceValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetDistance(viewModel), viewModel.getTarget()));
         inRouteValue.textProperty().bind(viewModel.getTotalStepsInRouteToTarget().asString());
         capacityValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetCapacity(viewModel), viewModel.getTarget()));
@@ -102,9 +102,9 @@ public class FerryView implements StatsView {
      * @param viewModel The air mission view model.
      * @return The name of the destination airbase.
      */
-    private String getTargetName(final AirMissionViewModel viewModel) {
+    private String getTargetTitle(final AirMissionViewModel viewModel) {
         ObjectProperty<Target> target = viewModel.getTarget();
-        return Optional.ofNullable(target.getValue()).map(Target::getName).orElse("");
+        return Optional.ofNullable(target.getValue()).map(Target::getTitle).orElse("");
     }
 
     /**

@@ -14,27 +14,29 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 public class StrikeView implements StatsView {
-    private Label airbaseTitle = new Label();
-    private Label distanceValue = new Label();
-    private Label inRouteValue = new Label();
+    private final Label airbaseTitle = new Label();
+    private final Label distanceValue = new Label();
+    private final Label inRouteValue = new Label();
 
     private VBox statsVBox;
     private Node statsNode;
+    private final ProbabilityStatsView statsView;
 
-    private ViewProps props;
+    private final ViewProps props;
     /**
      * Constructor.
      *
+     * @param statsView The probability of success view.
      * @param props The view properties.
      */
     @Inject
-    public StrikeView(final ViewProps props) {
+    public StrikeView(final ProbabilityStatsView statsView,
+                      final ViewProps props) {
+        this.statsView = statsView;
         this.props = props;
     }
 
@@ -68,7 +70,7 @@ public class StrikeView implements StatsView {
      */
     @Override
     public Node bind(final AirMissionViewModel viewModel) {
-        airbaseTitle.textProperty().bind(Bindings.createStringBinding(() -> getTargetName(viewModel), viewModel.getTarget()));
+        airbaseTitle.textProperty().bind(Bindings.createStringBinding(() -> getTargetTitle(viewModel), viewModel.getTarget()));
         distanceValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetDistance(viewModel), viewModel.getTarget()));
         inRouteValue.textProperty().bind(viewModel.getTotalStepsInRouteToTarget().asString());
 
@@ -83,9 +85,9 @@ public class StrikeView implements StatsView {
      * @param viewModel The air mission view model.
      * @return The name of the destination airbase.
      */
-    private String getTargetName(final AirMissionViewModel viewModel) {
+    private String getTargetTitle(final AirMissionViewModel viewModel) {
         ObjectProperty<Target> target = viewModel.getTarget();
-        return Optional.ofNullable(target.getValue()).map(Target::getName).orElse("");
+        return Optional.ofNullable(target.getValue()).map(Target::getTitle).orElse("");
     }
 
     /**
@@ -107,9 +109,8 @@ public class StrikeView implements StatsView {
      * @param successStats The mission success stats.
      */
     private void rebuildSuccessStats(final List<ProbabilityStats> successStats) {
-
         statsVBox.getChildren().remove(statsNode);
-        statsNode = buildAllSuccessStats(successStats);
+        statsNode = statsView.build(successStats);
         statsVBox.getChildren().addAll(statsNode);
     }
 
@@ -131,77 +132,6 @@ public class StrikeView implements StatsView {
         gridPane.setId("target-step-summary-grid");
 
         VBox vBox = new VBox(airbaseTitle, gridPane);
-        vBox.setMaxWidth(props.getInt("airfield.dialog.mission.list.width"));
-        vBox.setMinWidth(props.getInt("airfield.dialog.mission.list.width"));
-
-        return vBox;
-    }
-
-    /**
-     * Build the mission success stats.
-     *
-     * @param stats The success stats.
-     * @return The mission success node.
-     */
-    private Node buildAllSuccessStats(final List<ProbabilityStats> stats) {
-       List<Node> nodes = stats
-               .stream()
-               .map(this::buildStats)
-               .collect(Collectors.toList());
-
-       VBox vBox = new VBox();
-       vBox.getChildren().addAll(nodes);
-       vBox.setId("mission-stats-vbox");
-       return vBox;
-    }
-
-    /**
-     * Build a single set of probability stats.
-     *
-     * @param probabilityStats The stats to build.
-     * @return A node containing the built probability stats.
-     */
-    private Node buildStats(final ProbabilityStats probabilityStats) {
-
-        Label title = new Label(probabilityStats.getTitle());
-
-        Label eventHeader = new Label(probabilityStats.getEventColumnTitle());
-        eventHeader.setMaxWidth(props.getInt("mission.grid.label.width"));
-        eventHeader.setMinWidth(props.getInt("mission.grid.label.width"));
-        eventHeader.setId("mission-stats-header");
-
-        Label probHeader = new Label(probabilityStats.getProbabilityColumnTitle());
-        probHeader.setMaxWidth(props.getInt("mission.grid.label.width"));
-        probHeader.setMinWidth(props.getInt("mission.grid.label.width"));
-        probHeader.setId("mission-stats-header");
-
-        GridPane gridPane = new GridPane();
-        gridPane.add(eventHeader, 0, 0);
-        gridPane.add(probHeader, 1, 0);
-        gridPane.setId("mission-stats-grid");
-
-        Map<Integer, Integer> probability = probabilityStats.getProbability();
-
-        int row = 1;
-        for (Map.Entry<Integer, Integer> entry : probability.entrySet()) {
-
-            Label event = new Label(entry.getKey() + "");
-            event.setMaxWidth(props.getInt("mission.grid.label.width"));
-            event.setMinWidth(props.getInt("mission.grid.label.width"));
-            event.setId("mission-stats-cell");
-
-            gridPane.add(event, 0, row);
-
-            Label prob = new Label(entry.getValue() + " %");
-            prob.setMaxWidth(props.getInt("mission.grid.label.width"));
-            prob.setMinWidth(props.getInt("mission.grid.label.width"));
-            prob.setId("mission-stats-cell");
-
-            gridPane.add(prob, 1, row);
-            row++;
-        }
-
-        VBox vBox = new VBox(title, gridPane);
         vBox.setMaxWidth(props.getInt("airfield.dialog.mission.list.width"));
         vBox.setMinWidth(props.getInt("airfield.dialog.mission.list.width"));
 

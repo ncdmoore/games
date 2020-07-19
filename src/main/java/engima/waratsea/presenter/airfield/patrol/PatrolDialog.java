@@ -30,12 +30,12 @@ public class PatrolDialog {
     private static final String CSS_FILE = "patrolDetails.css";
     private static final int SHADOW_RADIUS = 3;
 
-    private CssResourceProvider cssResourceProvider;
-    private Provider<DialogOkOnlyView> dialogProvider;
-    private Provider<PatrolDetailsView> viewProvider;
-    private Provider<MainMapView> mapViewProvider;
+    private final CssResourceProvider cssResourceProvider;
+    private final Provider<DialogOkOnlyView> dialogProvider;
+    private final Provider<PatrolDetailsView> viewProvider;
+    private final Provider<MainMapView> mapViewProvider;
 
-    private ViewProps props;
+    private final ViewProps props;
 
     private DialogOkOnlyView dialog;
 

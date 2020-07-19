@@ -4,9 +4,12 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.enemy.views.taskForce.data.TaskForceViewData;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Optional;
 
 public class TaskForceView implements PersistentData<TaskForceViewData> {
     @Getter
@@ -53,6 +56,15 @@ public class TaskForceView implements PersistentData<TaskForceViewData> {
      */
     public String getLocation() {
         return enemyTaskForce.getReference();
+    }
+
+    /**
+     * Get the task force's game grid.
+     *
+     * @return The task force's game grid.
+     */
+    public Optional<GameGrid> getGrid() {
+        return enemyTaskForce.getGrid();
     }
 
     /**

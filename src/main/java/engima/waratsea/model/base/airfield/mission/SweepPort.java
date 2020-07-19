@@ -34,14 +34,10 @@ public class SweepPort implements AirMission {
     private final Game game;
     private final Dice dice;
 
-    @Getter
-    private final Nation nation;
-
-    @Getter
-    private final Airbase airbase;
-
-    @Getter
-    private final Map<MissionRole, List<Squadron>> squadronMap;
+    @Getter private final int id;
+    @Getter private final Nation nation;
+    @Getter private final Airbase airbase;
+    @Getter private final Map<MissionRole, List<Squadron>> squadronMap;
 
     private final String targetBaseName;      //The name of the target port.
     private Target targetPort;                //The actual target port.
@@ -57,6 +53,7 @@ public class SweepPort implements AirMission {
     public SweepPort(@Assisted final MissionData data,
                                final Game game,
                                final Dice dice) {
+        id = data.getId();
         this.game = game;
         this.dice = dice;
 
@@ -91,6 +88,7 @@ public class SweepPort implements AirMission {
     public MissionData getData() {
         MissionData data = new MissionData();
 
+        data.setId(id);
         data.setType(AirMissionType.SWEEP_PORT);
         data.setNation(nation);
         data.setTarget(targetBaseName);

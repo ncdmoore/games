@@ -5,9 +5,12 @@ import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.data.TargetData;
+
+import java.util.Optional;
 
 
 /**
@@ -50,6 +53,13 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
      * @return The target's location.
      */
     String getLocation();
+
+    /**
+     * Get the target's game grid.
+     *
+     * @return The target's game grid.
+     */
+    Optional<GameGrid> getGrid();
 
     /**
      * Get the target persistent data.

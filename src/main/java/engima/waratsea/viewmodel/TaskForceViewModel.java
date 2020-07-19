@@ -39,22 +39,22 @@ import java.util.stream.Collectors;
 public class TaskForceViewModel {
     @Getter private final ObjectProperty<ObservableList<SeaMissionType>> missionTypes = new SimpleObjectProperty<>();   // The task force's available missions.
 
-    @Getter private StringProperty name = new SimpleStringProperty();
-    @Getter private StringProperty title = new SimpleStringProperty();
-    @Getter private StringProperty state = new SimpleStringProperty();
-    @Getter private StringProperty mission = new SimpleStringProperty();
-    @Getter private StringProperty location = new SimpleStringProperty();
-    @Getter private StringProperty reason = new SimpleStringProperty();  // The reasons the task force becomes active.
+    @Getter private final StringProperty name = new SimpleStringProperty();
+    @Getter private final StringProperty title = new SimpleStringProperty();
+    @Getter private final StringProperty state = new SimpleStringProperty();
+    @Getter private final StringProperty mission = new SimpleStringProperty();
+    @Getter private final StringProperty location = new SimpleStringProperty();
+    @Getter private final StringProperty reason = new SimpleStringProperty();  // The reasons the task force becomes active.
 
-    @Getter private ObjectProperty<Paint> stateColor = new SimpleObjectProperty<>(this, "stateColor", Color.BLACK);
+    @Getter private final ObjectProperty<Paint> stateColor = new SimpleObjectProperty<>(this, "stateColor", Color.BLACK);
 
-    @Getter private IntegerProperty numShipTypes = new SimpleIntegerProperty();
-    @Getter private ObjectProperty<Map<ShipViewType, List<Ship>>> shipTypeMap = new SimpleObjectProperty<>(this, "shipTypeMap", Collections.emptyMap());
-    @Getter private ObjectProperty<ObservableList<Pair<String, String>>> shipTypeSummary = new SimpleObjectProperty<>(this, "shipTypeSummary", FXCollections.observableArrayList());
+    @Getter private final IntegerProperty numShipTypes = new SimpleIntegerProperty();
+    @Getter private final ObjectProperty<Map<ShipViewType, List<Ship>>> shipTypeMap = new SimpleObjectProperty<>(this, "shipTypeMap", Collections.emptyMap());
+    @Getter private final ObjectProperty<ObservableList<Pair<String, String>>> shipTypeSummary = new SimpleObjectProperty<>(this, "shipTypeSummary", FXCollections.observableArrayList());
 
-    @Getter private IntegerProperty numSquadronTypes = new SimpleIntegerProperty();
-    @Getter private ObjectProperty<Map<AircraftType, BigDecimal>> squadronTypeMap = new SimpleObjectProperty<>(this, "squadronTypeMap", Collections.emptyMap());
-    @Getter private ObjectProperty<ObservableList<Pair<String, String>>> squadronTypeSummary = new SimpleObjectProperty<>(this, "squadronTypeSummary", FXCollections.observableArrayList());
+    @Getter private final IntegerProperty numSquadronTypes = new SimpleIntegerProperty();
+    @Getter private final ObjectProperty<Map<AircraftType, BigDecimal>> squadronTypeMap = new SimpleObjectProperty<>(this, "squadronTypeMap", Collections.emptyMap());
+    @Getter private final ObjectProperty<ObservableList<Pair<String, String>>> squadronTypeSummary = new SimpleObjectProperty<>(this, "squadronTypeSummary", FXCollections.observableArrayList());
 
     private final SeaMissionRules seaMissionRules;
 

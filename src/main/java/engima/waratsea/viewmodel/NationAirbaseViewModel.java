@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -52,7 +53,7 @@ public class NationAirbaseViewModel {
     @Getter private final Map<SquadronViewType, ObjectProperty<ObservableList<Squadron>>> readySquadrons = new HashMap<>();
     @Getter private final ObjectProperty<ObservableList<Squadron>> totalReadySquadrons = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
 
-    @Getter private ObjectProperty<ObservableList<AirMissionViewModel>> missions = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
+    @Getter private final ObjectProperty<ObservableList<AirMissionViewModel>> missions = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
 
     @Getter private Map<PatrolType, PatrolViewModel> patrolViewModels;
     private List<AirMissionViewModel> missionViewModels;
@@ -124,7 +125,7 @@ public class NationAirbaseViewModel {
      */
     public void setMissionViewModels(final List<AirMissionViewModel> airbaseMissions) {
         missionViewModels = airbaseMissions;
-        missions.set(FXCollections.observableArrayList(airbaseMissions));
+        missions.set(FXCollections.observableArrayList(missionViewModels));
 
         setMissionCounts();
     }
@@ -193,11 +194,26 @@ public class NationAirbaseViewModel {
     }
 
     /**
-     * Edit a mission within this view model.
+     * Edit a mission within this view model. The old air mission view model is removed
+     * from the list of mission view models. The updated air mission view model is then
+     * added in. This is necessary to correctly reflect the current air missions.
      *
      * @param viewModel The mission view model.
      */
     public void editMission(final AirMissionViewModel viewModel) {
+        // The unique mission id is used to find the mission view model.
+        Optional<AirMissionViewModel> oldViewModel = missionViewModels
+                .stream()
+                .filter(vm -> vm.getId() == viewModel.getId())
+                .findFirst();
+
+        // The 'old' non updated mission view model is removed.
+        oldViewModel.ifPresent(oldMissionVM -> missionViewModels.remove(oldMissionVM));
+
+        // The 'updated' mission view model is then added back in.
+        missionViewModels.add(viewModel);
+        missions.set(FXCollections.observableArrayList(missionViewModels));
+
         removeFromReady(viewModel);       // Remove the mission squadrons from the ready list.
         editReady(viewModel);             // Add any squadrons removed from the mission to the ready list.
     }

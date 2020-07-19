@@ -175,6 +175,16 @@ public class MainMapView {
     }
 
     /**
+     * Set the base grid's mission arrow click handler.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @param handler The base mission arrow click handler.
+     */
+    public void setMissionArrowClickHandler(final Side side, final EventHandler<? super MouseEvent> handler) {
+        baseMarkers.get(side).forEach(baseMarker -> baseMarker.setMissionArrowClickHandler(handler));
+    }
+
+    /**
      * Draw the given base's marker patrol radii.
      *
      * @param baseMarker A base marker.
@@ -191,7 +201,7 @@ public class MainMapView {
      * @param airbase An airbase.
      */
     public void drawPatrolRadii(final Airbase airbase) {
-        airbases.get(airbase).drawPatrolRadii();
+        airbases.get(airbase).drawPatrolMarkers();
     }
 
     /**

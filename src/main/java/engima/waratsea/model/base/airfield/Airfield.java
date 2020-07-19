@@ -17,6 +17,8 @@ import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.base.airfield.patrol.Patrols;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.GameGrid;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
@@ -65,6 +67,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
     private final Missions missions;
     private final Patrols patrols;
+    private final GameMap gameMap;
 
     /**
      * Constructor called by guice.
@@ -73,15 +76,18 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param squadronFactory Squadron factory.
      * @param missions  This airbase's missions.
      * @param patrols This airbase's patrols.
+     * @param gameMap The game map.
      */
     @Inject
     public Airfield(@Assisted final AirfieldData data,
                     final SquadronFactory squadronFactory,
                     final Missions missions,
-                    final Patrols patrols) {
+                    final Patrols patrols,
+                    final GameMap gameMap) {
 
         this.missions = missions;
         this.patrols = patrols;
+        this.gameMap = gameMap;
 
         this.side = data.getSide();
         name = data.getName();
@@ -136,6 +142,16 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public void saveChildrenData() {
+    }
+
+    /**
+     * Get the airfield's game grid.
+     *
+     * @return The airfield's game grid.
+     */
+    @Override
+    public Optional<GameGrid> getGrid() {
+        return gameMap.getGrid(reference);
     }
 
     /**
@@ -236,6 +252,16 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         squadronNameMap.remove(squadron.getName());
 
         squadron.setHome(null);
+    }
+
+    /**
+     * Get all of the airfield's missions.
+     *
+     * @return A list of the missions.
+     */
+    @Override
+    public List<AirMission> getMissions() {
+        return missions.getMissions();
     }
 
     /**

@@ -22,18 +22,18 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Represents an individual patrol marker.
+ */
 @Slf4j
 public class PatrolMarker {
-
     private final MapView mapView;
-    private final GridView gridView;
+    private final GridView gridView;  // The base or task force grid view.
 
     private Circle circle;
-
-    @Getter
-    private Label label;
-
     private VBox vBox;
+
+    @Getter private Label label;
 
     /**
      * Constructor.
@@ -70,7 +70,6 @@ public class PatrolMarker {
 
         circle.setId(id);
         circle.setViewOrder(ViewOrder.RADIUS.getValue() + gridRadius);
-
 
         drawLabel(patrols);
     }

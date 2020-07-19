@@ -35,18 +35,14 @@ public class NavalPortStrike implements AirMission {
 
     private static final Set<Integer> SHIP_HIT_SET = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
 
+    @Getter private final int id;
     private final Game game;
     private final Dice dice;
     private final MissionAirRules rules;
 
-    @Getter
-    private final Nation nation;
-
-    @Getter
-    private final Airbase airbase;
-
-    @Getter
-    private final Map<MissionRole, List<Squadron>> squadronMap;
+    @Getter private final Nation nation;
+    @Getter private final Airbase airbase;
+    @Getter private final Map<MissionRole, List<Squadron>> squadronMap;
 
     private final String targetBaseName;      //The name of the target port.
     private Target targetPort;                //The actual target port.
@@ -64,6 +60,7 @@ public class NavalPortStrike implements AirMission {
                                      final Game game,
                                      final @Named("airStrike") MissionAirRules rules,
                                      final Dice dice) {
+        id = data.getId();
         this.game = game;
         this.rules = rules;
         this.dice = dice;
@@ -98,6 +95,7 @@ public class NavalPortStrike implements AirMission {
     public MissionData getData() {
         MissionData data = new MissionData();
 
+        data.setId(id);
         data.setType(AirMissionType.NAVAL_PORT_STRIKE);
         data.setNation(nation);
         data.setTarget(targetBaseName);

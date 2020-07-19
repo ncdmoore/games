@@ -2,7 +2,10 @@ package engima.waratsea.model.squadron;
 
 import engima.waratsea.model.base.airfield.AirfieldType;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.region.Region;
+
+import java.util.Optional;
 
 public interface SquadronHome {
 
@@ -43,6 +46,13 @@ public interface SquadronHome {
      * @return The squadron's home base's map reference.
      */
     String getReference();
+
+    /**
+     * Get the squadron's home game grid.
+     *
+     * @return The squadron's home game grid.
+     */
+    Optional<GameGrid> getGrid();
 
     /**
      * Get the airfield type of the squadron's home base.

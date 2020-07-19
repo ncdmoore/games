@@ -13,25 +13,12 @@ import javax.annotation.Nonnull;
  * game is saved. This class contains all the persistent data needed by the game class.
  */
 public class GameData implements Comparable<GameData> {
-    @Getter
-    @Setter
-    private Side humanSide;
-
-    @Getter
-    @Setter
-    private Scenario scenario;
-
-    @Getter
-    @Setter
-    private String savedGameName;
-
-    @Getter
-    @Setter
-    private TurnData turn;
-
-    @Getter
-    @Setter
-    private WeatherType weather;
+    @Getter @Setter private Side humanSide;
+    @Getter @Setter private Scenario scenario;
+    @Getter @Setter private String savedGameName;
+    @Getter @Setter private TurnData turn;
+    @Getter @Setter private WeatherType weather;
+    @Getter @Setter private int airMissionId;
 
     /**
      * Called to sort saved games.

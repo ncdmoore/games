@@ -29,13 +29,13 @@ import java.util.stream.Collectors;
 
 @Singleton
 public class DeploymentViewModel {
-    @Getter private Map<Nation, ObjectProperty<ObservableList<Deployment>>> deployment = new HashMap<>();
-    @Getter private Map<Nation, IntegerProperty> numLandingTypes = new HashMap<>();
-    @Getter private Map<Nation, Map<Region, BooleanProperty>> regionMinimum = new HashMap<>();
+    @Getter private final Map<Nation, ObjectProperty<ObservableList<Deployment>>> deployment = new HashMap<>();
+    @Getter private final Map<Nation, IntegerProperty> numLandingTypes = new HashMap<>();
+    @Getter private final Map<Nation, Map<Region, BooleanProperty>> regionMinimum = new HashMap<>();
 
-    private Set<LandingType> landingTypes = Set.of(LandingType.LAND, LandingType.SEAPLANE);
-    private Game game;
-    private GameMap gameMap;
+    private final Set<LandingType> landingTypes = Set.of(LandingType.LAND, LandingType.SEAPLANE);
+    private final Game game;
+    private final GameMap gameMap;
 
     /**
      * Constructor called by guice.

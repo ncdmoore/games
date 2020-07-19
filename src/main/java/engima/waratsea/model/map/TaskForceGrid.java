@@ -2,8 +2,10 @@ package engima.waratsea.model.map;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
 
@@ -96,10 +98,23 @@ public class TaskForceGrid implements MarkerGrid {
      * patrols that can reach that true maximum radius.
      */
     @Override
-    public Optional<Map<Integer, List<Patrol>>> getPatrolRadiiMap() {
+    public Optional<Map<Integer, List<Patrol>>> getPatrols() {
 
         // Will need to get all the task force's patrols and the build a combined map.
 
+
+        return Optional.empty();
+    }
+
+    /**
+     * Get the marker grid's air missions.
+     *
+     * @return A map of the marker grid's air missions keyed by the mission's target.
+     */
+    @Override
+    public Optional<Map<Target, List<AirMission>>> getMissions() {
+
+        // Will need to get all of the task force's missions and build a combined list.
 
         return Optional.empty();
     }

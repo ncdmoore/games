@@ -14,6 +14,7 @@ import engima.waratsea.model.game.event.ship.data.ShipMatchData;
 import engima.waratsea.model.game.event.turn.TurnEvent;
 import engima.waratsea.model.game.event.turn.TurnEventMatcher;
 import engima.waratsea.model.game.event.turn.data.TurnMatchData;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.ship.AmmunitionType;
 import engima.waratsea.model.ship.Ship;
@@ -149,6 +150,15 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
         }
 
         return this;
+    }
+
+    /**
+     * Get the task force's game grid.
+     *
+     * @return The task force's game grid.
+     */
+    public Optional<GameGrid> getGrid() {
+        return gameMap.getGrid(reference);
     }
 
     /**

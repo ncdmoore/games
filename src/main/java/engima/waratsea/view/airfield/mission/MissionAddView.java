@@ -32,6 +32,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Represents the mission being added view.
+ */
 public class MissionAddView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
@@ -50,7 +53,7 @@ public class MissionAddView {
     private final Map<MissionRole, Label> errorLabel = new HashMap<>();
     private final Map<MissionRole, VBox> errorVBox = new HashMap<>();
 
-    private VBox mainVBox = new VBox();
+    private final VBox mainVBox = new VBox();
 
     /**
      * Constructor called by guice.

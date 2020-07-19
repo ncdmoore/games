@@ -23,16 +23,12 @@ import java.util.stream.Stream;
 
 @Slf4j
 public class NavalTaskForceStrike implements AirMission {
+    @Getter private final int id;
     private final Game game;
 
-    @Getter
-    private final Nation nation;
-
-    @Getter
-    private final Airbase airbase;
-
-    @Getter
-    private final Map<MissionRole, List<Squadron>> squadronMap;
+    @Getter private final Nation nation;
+    @Getter private final Airbase airbase;
+    @Getter private final Map<MissionRole, List<Squadron>> squadronMap;
 
     private final String targetName;               //The name of the target task force.
     private Target targetTaskForce;                //The actual target task force.
@@ -46,6 +42,7 @@ public class NavalTaskForceStrike implements AirMission {
     @Inject
     public NavalTaskForceStrike(@Assisted final MissionData data,
                                           final Game game) {
+        id = data.getId();
         this.game = game;
         nation = data.getNation();
 
@@ -77,6 +74,7 @@ public class NavalTaskForceStrike implements AirMission {
     public MissionData getData() {
         MissionData data = new MissionData();
 
+        data.setId(id);
         data.setType(AirMissionType.NAVAL_TASK_FORCE_STRIKE);
         data.setNation(nation);
         data.setTarget(targetName);

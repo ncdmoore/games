@@ -24,19 +24,19 @@ import java.util.stream.Stream;
 
 /**
  * Each nation has its on unique airfield view model. Thus, all of the property values of this view model are for
- * a given nation.
+ * a given nation. This is just used in the preview screens.
  */
 public class AirfieldViewModel {
-    @Getter private StringProperty maxCapacity = new SimpleStringProperty();
-    @Getter private StringProperty current = new SimpleStringProperty();
-    @Getter private StringProperty antiAir = new SimpleStringProperty();
+    @Getter private final StringProperty maxCapacity = new SimpleStringProperty();
+    @Getter private final StringProperty current = new SimpleStringProperty();
+    @Getter private final StringProperty antiAir = new SimpleStringProperty();
 
-    @Getter private ObjectProperty<ObservableList<Squadron>> airfieldSquadrons = new SimpleObjectProperty<>(this, "airfieldSquadrons", FXCollections.emptyObservableList());
-    @Getter private ObjectProperty<ObservableList<Squadron>> availableSquadrons = new SimpleObjectProperty<>(this, "availableSquadrons", FXCollections.emptyObservableList());
+    @Getter private final ObjectProperty<ObservableList<Squadron>> airfieldSquadrons = new SimpleObjectProperty<>(this, "airfieldSquadrons", FXCollections.emptyObservableList());
+    @Getter private final ObjectProperty<ObservableList<Squadron>> availableSquadrons = new SimpleObjectProperty<>(this, "availableSquadrons", FXCollections.emptyObservableList());
 
-    @Getter private StringProperty availableSquadronsTitle = new SimpleStringProperty();
+    @Getter private final StringProperty availableSquadronsTitle = new SimpleStringProperty();
 
-    @Getter private Map<AircraftBaseType, StringProperty> airfieldSteps = new HashMap<>();
+    @Getter private final Map<AircraftBaseType, StringProperty> airfieldSteps = new HashMap<>();
 
     private final Game game;
     private final DeploymentViewModel deploymentViewModel;

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MissionData {
+    @Getter @Setter private int id;
     @Getter @Setter private AirMissionType type;
     @Getter @Setter private Nation nation;
     @Getter private transient Airbase airbase;

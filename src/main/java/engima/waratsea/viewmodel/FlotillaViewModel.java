@@ -6,10 +6,9 @@ import javafx.beans.property.StringProperty;
 import lombok.Getter;
 
 public class FlotillaViewModel {
-
-    @Getter private StringProperty name = new SimpleStringProperty();
-    @Getter private StringProperty state = new SimpleStringProperty();
-    @Getter private StringProperty location = new SimpleStringProperty();
+    @Getter private final StringProperty name = new SimpleStringProperty();
+    @Getter private final StringProperty state = new SimpleStringProperty();
+    @Getter private final StringProperty location = new SimpleStringProperty();
 
     /**
      * Set the model.

@@ -8,6 +8,7 @@ import engima.waratsea.model.enemy.views.airfield.AirfieldView;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
@@ -98,6 +99,19 @@ public class TargetEnemyAirfield implements Target {
                 .ofNullable(airfieldView)
                 .orElseGet(this::getAirfieldView)
                 .getLocation();
+    }
+
+    /**
+     * Get the target's game grid.
+     *
+     * @return The target's game grid.
+     */
+    @Override
+    public Optional<GameGrid> getGrid() {
+        return Optional
+                .ofNullable(airfieldView)
+                .orElseGet(this::getAirfieldView)
+                .getGrid();
     }
 
     /**

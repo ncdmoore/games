@@ -37,8 +37,7 @@ public class MissionEditDialog {
     private AirMissionViewModel viewModel;
     private AirMissionViewModel originalViewModel;
 
-    @Getter
-    private AirMissionType selectedMissionType;
+    @Getter private AirMissionType selectedMissionType;
     @Getter private Target selectedTarget;
 
     private MissionEditView view;

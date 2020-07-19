@@ -1,6 +1,9 @@
 package engima.waratsea.model.base;
 
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.GameGrid;
+
+import java.util.Optional;
 
 /**
  * Implement this interface to provide a base in the game.
@@ -33,6 +36,13 @@ public interface Base extends Comparable<Base> {
      * @return The map reference of the base.
      */
     String getReference();
+
+    /**
+     * Get the base's game grid.
+     *
+     * @return The base's game grid.
+     */
+    Optional<GameGrid> getGrid();
 
     /**
      * Get the airbase's anti aircraft rating.

@@ -13,13 +13,12 @@ import javafx.collections.ObservableList;
 import lombok.Getter;
 
 public class RegionViewModel {
+    @Getter private final ObjectProperty<ObservableList<Airfield>> airfields = new SimpleObjectProperty<>(this, "airfields", FXCollections.emptyObservableList());
 
-    @Getter private ObjectProperty<ObservableList<Airfield>> airfields = new SimpleObjectProperty<>(this, "airfields", FXCollections.emptyObservableList());
-
-    @Getter private StringProperty minSteps = new SimpleStringProperty();
-    @Getter private StringProperty maxSteps = new SimpleStringProperty();
-    @Getter private StringProperty currentSteps = new SimpleStringProperty();
-    @Getter private BooleanProperty minimumSatisfied = new SimpleBooleanProperty();
+    @Getter private final StringProperty minSteps = new SimpleStringProperty();
+    @Getter private final StringProperty maxSteps = new SimpleStringProperty();
+    @Getter private final StringProperty currentSteps = new SimpleStringProperty();
+    @Getter private final BooleanProperty minimumSatisfied = new SimpleBooleanProperty();
 
 
     private Region region;

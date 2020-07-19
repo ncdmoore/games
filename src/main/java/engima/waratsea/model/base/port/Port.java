@@ -7,12 +7,15 @@ import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Base;
 import engima.waratsea.model.base.port.data.PortData;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.GameGrid;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Represents a port within the game.
@@ -27,20 +30,26 @@ public class Port implements Asset, Base, PersistentData<PortData> {
     private final String reference; // A simple string is used to prevent circular logic on mapping names and references.
                                     // Ports are used to map port names to map references. Thus, we just need a map reference.
 
+    private final GameMap gameMap;
+
     @Getter
-    private List<TaskForce> taskForces = new ArrayList<>();
+    private final List<TaskForce> taskForces = new ArrayList<>();
     /**
      * Constructor called by guice.
      *
      * @param data The port data read in from a JSON file.
+     * @param gameMap The game map.
      */
     @Inject
-    public Port(@Assisted final PortData data) {
+    public Port(@Assisted final PortData data,
+                final GameMap gameMap) {
         side = data.getSide();
         name = data.getName();
         size = data.getSize();
         antiAirRating = data.getAntiAir();
         reference = data.getLocation();
+
+        this.gameMap = gameMap;
     }
 
     /**
@@ -63,6 +72,16 @@ public class Port implements Asset, Base, PersistentData<PortData> {
      */
     @Override
     public void saveChildrenData() {
+    }
+
+    /**
+     * Get the port's game grid.
+     *
+     * @return The port's game grid.
+     */
+    @Override
+    public Optional<GameGrid> getGrid() {
+        return gameMap.getGrid(reference);
     }
 
     /**

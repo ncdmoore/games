@@ -19,14 +19,14 @@ import java.util.Map;
  * Represents the mission's target view details.
  */
 public class TargetView {
-    private VBox vBox = new VBox();
-    @Getter private Map<AirMissionType, StatsView> viewMap = new HashMap<>();
+    private final VBox vBox = new VBox();
+    @Getter private final Map<AirMissionType, StatsView> viewMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
      *
      * @param ferryViewProvider The ferry view provider.
-     * @param strikeViewProvider The land strike view provider.
+     * @param strikeViewProvider The strike view provider.
      */
     @Inject
     public TargetView(final Provider<FerryView> ferryViewProvider,

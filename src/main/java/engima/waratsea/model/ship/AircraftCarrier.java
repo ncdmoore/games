@@ -14,6 +14,8 @@ import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.GameGrid;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.ship.data.GunData;
 import engima.waratsea.model.ship.data.ShipData;
@@ -46,6 +48,7 @@ import java.util.stream.Stream;
  */
 public class AircraftCarrier implements Ship, Airbase {
     private final MissionDAO missionDAO;
+    private final GameMap gameMap;
 
     @Getter private final ShipId shipId;
     @Getter private final ShipType type;
@@ -80,13 +83,16 @@ public class AircraftCarrier implements Ship, Airbase {
      * @param data Ship's data.
      * @param factory Squadron factory that makes the squadrons carrier's squadrons.
      * @param missionDAO Mission data access object.
+     * @param gameMap The game map.
      */
     @Inject
     public AircraftCarrier(@Assisted final ShipData data,
                                      final SquadronFactory factory,
-                                     final MissionDAO missionDAO) {
+                                     final MissionDAO missionDAO,
+                                     final GameMap gameMap) {
 
         this.missionDAO = missionDAO;
+        this.gameMap = gameMap;
 
         shipId = data.getShipId();
         taskForce = data.getTaskForce();
@@ -390,6 +396,16 @@ public class AircraftCarrier implements Ship, Airbase {
     @Override
     public String getReference() {
         return taskForce.getReference();
+    }
+
+    /**
+     * Get the base's game grid.
+     *
+     * @return The base's game grid.
+     */
+    @Override
+    public Optional<GameGrid> getGrid() {
+        return gameMap.getGrid(getReference());
     }
 
     /**

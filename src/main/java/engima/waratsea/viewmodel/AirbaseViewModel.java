@@ -23,11 +23,11 @@ import java.util.stream.Stream;
  */
 public class AirbaseViewModel {
     // All missions for all nations originating from this airbase.
-    @Getter private ObjectProperty<ObservableList<AirMissionViewModel>> totalMissions = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
+    @Getter private final ObjectProperty<ObservableList<AirMissionViewModel>> totalMissions = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
 
     @Getter private Map<Nation, List<AirMissionViewModel>> missionViewModels = new HashMap<>();                         // The missions for each nation.
-    @Getter private Map<PatrolType, PatrolViewModel> patrolViewModels = new HashMap<>();                                // The patrols.
-    @Getter private Map<Nation, NationAirbaseViewModel> nationViewModels = new HashMap<>();                             // A given nation's view of this airbase.
+    @Getter private final Map<PatrolType, PatrolViewModel> patrolViewModels = new HashMap<>();                          // The patrols.
+    @Getter private final Map<Nation, NationAirbaseViewModel> nationViewModels = new HashMap<>();                       // A given nation's view of this airbase.
 
     private final Provider<NationAirbaseViewModel> nationAirbaseViewModelProvider;
     private final Provider<AirMissionViewModel> missionViewModelProvider;

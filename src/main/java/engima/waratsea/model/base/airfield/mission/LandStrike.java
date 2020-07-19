@@ -53,18 +53,13 @@ public class LandStrike implements AirMission {
         CAPACITY_REDUCED_MAP.put(AIRFIELD_CAPACITY_REDUCED_BY_2, 2);
     }
 
+    @Getter private final int id;
     private final Game game;
     private final Dice dice;
     private final MissionAirRules rules;
-
-    @Getter
-    private final Nation nation;
-
-    @Getter
-    private final Airbase airbase;
-
-    @Getter
-    private final Map<MissionRole, List<Squadron>> squadronMap;
+    @Getter private final Nation nation;
+    @Getter private final Airbase airbase;
+    @Getter private final Map<MissionRole, List<Squadron>> squadronMap;
 
     private final String targetBaseName;      //The name of the target air base.
     private Target targetAirbase;             //The actual target air base.
@@ -81,6 +76,7 @@ public class LandStrike implements AirMission {
                                 final Game game,
                                 final @Named("airStrike") MissionAirRules rules,
                                 final Dice dice) {
+        id = data.getId();
         this.game = game;
         this.dice = dice;
         this.rules = rules;
@@ -115,6 +111,7 @@ public class LandStrike implements AirMission {
     public MissionData getData() {
         MissionData data = new MissionData();
 
+        data.setId(id);
         data.setType(AirMissionType.LAND_STRIKE);
         data.setNation(nation);
         data.setTarget(targetBaseName);

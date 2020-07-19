@@ -30,17 +30,17 @@ public enum TargetType {
     @SerializedName(value = "SEA_GRID", alternate = {"Sea_Grid", "sea_grid"})
     SEA_GRID;
 
-    private static Map<Class<?>, String> titleMap = new HashMap<>();
+    private static final Map<Class<?>, String> TITLE_MAP = new HashMap<>();
 
     static {
-        titleMap.put(TargetEnemyAirfield.class, "Airfield");
-        titleMap.put(TargetEnemyPort.class, "Port");
-        titleMap.put(TargetEnemyTaskForce.class, "Task Force");
-        titleMap.put(TargetFriendlyAirfield.class, "Airfield");
-        titleMap.put(TargetFriendlyPort.class, "Port");
-        titleMap.put(TargetFriendlyTaskForce.class, "Task Force");
-        titleMap.put(TargetLandGrid.class, "Land Grid");
-        titleMap.put(TargetSeaGrid.class, "Sea Grid");
+        TITLE_MAP.put(TargetEnemyAirfield.class, "Airfield");
+        TITLE_MAP.put(TargetEnemyPort.class, "Port");
+        TITLE_MAP.put(TargetEnemyTaskForce.class, "Task Force");
+        TITLE_MAP.put(TargetFriendlyAirfield.class, "Airfield");
+        TITLE_MAP.put(TargetFriendlyPort.class, "Port");
+        TITLE_MAP.put(TargetFriendlyTaskForce.class, "Task Force");
+        TITLE_MAP.put(TargetLandGrid.class, "Land Grid");
+        TITLE_MAP.put(TargetSeaGrid.class, "Sea Grid");
     }
 
     /**
@@ -50,6 +50,6 @@ public enum TargetType {
      * @return The corresponding title.
      */
     public static String getTitle(final Target target) {
-        return titleMap.get(target.getClass());
+        return TITLE_MAP.get(target.getClass());
     }
 }

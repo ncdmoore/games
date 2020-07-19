@@ -20,6 +20,7 @@ import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This class represents the game. It contains the game rules, game players etc.
@@ -38,6 +39,8 @@ public class Game implements PersistentData<GameData> {
     private final ScenarioDAO scenarioDAO;
     private final GameDAO gameDAO;
     private final GameMap gameMap;
+
+    private final AtomicInteger airMissionId;
 
     @Getter private Side humanSide;
     @Getter private Scenario scenario; // The selected scenario.
@@ -68,6 +71,8 @@ public class Game implements PersistentData<GameData> {
                 final GameMap gameMap) {
         //CHECKSTYLE:ON
 
+        final int startingAirMissionId = 100;
+
         this.turn = turn;
         this.weather = weather;
         this.computerPlayer = computerPlayer;
@@ -77,6 +82,7 @@ public class Game implements PersistentData<GameData> {
         this.scenarioDAO = scenarioDAO;
         this.gameDAO = gameDAO;
         this.gameMap = gameMap;
+        this.airMissionId = new AtomicInteger(startingAirMissionId);
     }
 
     /**
@@ -91,6 +97,7 @@ public class Game implements PersistentData<GameData> {
         getTurn().init(data.getTurn());
         getWeather().setCurrent(data.getWeather());
         setSavedGameName(data.getSavedGameName());
+        airMissionId.set(data.getAirMissionId());
     }
 
     /**
@@ -100,6 +107,7 @@ public class Game implements PersistentData<GameData> {
      */
     public GameData getData() {
         GameData data = new GameData();
+        data.setAirMissionId(airMissionId.get());
         data.setHumanSide(humanSide);
         data.setScenario(scenario);
         data.setTurn(turn.getData());
@@ -114,6 +122,15 @@ public class Game implements PersistentData<GameData> {
      */
     @Override
     public void saveChildrenData() {
+    }
+
+    /**
+     * Get the next air mission id.
+     *
+     * @return The next air mission id.
+     */
+    public int getAirMissionId() {
+        return airMissionId.getAndIncrement();
     }
 
     /**

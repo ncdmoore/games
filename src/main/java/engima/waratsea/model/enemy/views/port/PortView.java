@@ -5,8 +5,11 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.enemy.views.port.data.PortViewData;
+import engima.waratsea.model.map.GameGrid;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Optional;
 
 public class PortView implements PersistentData<PortViewData> {
     @Getter
@@ -48,6 +51,15 @@ public class PortView implements PersistentData<PortViewData> {
      */
     public String getLocation() {
         return enemyPort.getReference();
+    }
+
+    /**
+     * Get the port's game grid.
+     *
+     * @return The port's game grid.
+     */
+    public Optional<GameGrid> getGrid() {
+        return enemyPort.getGrid();
     }
 
     /**

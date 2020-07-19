@@ -30,7 +30,7 @@ public enum AirMissionType {
     private final String title;
 
     @Getter
-    private List<MissionRole> roles;
+    private final List<MissionRole> roles;
 
     private static Map<Class<?>, AirMissionType> typeMap = new HashMap<>();
 

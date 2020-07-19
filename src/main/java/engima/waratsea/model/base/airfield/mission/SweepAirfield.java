@@ -34,14 +34,10 @@ public class SweepAirfield implements AirMission {
     private static final BigDecimal PERCENTAGE = new BigDecimal(100);
     private static final Set<Integer> STEP_HIT_SET = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
 
-    @Getter
-    private final Nation nation;
-
-    @Getter
-    private final Airbase airbase;
-
-    @Getter
-    private final Map<MissionRole, List<Squadron>> squadronMap;
+    @Getter private final int id;
+    @Getter private final Nation nation;
+    @Getter private final Airbase airbase;
+    @Getter private final Map<MissionRole, List<Squadron>> squadronMap;
 
     private final String targetBaseName;      //The name of the target air base.
     private Target targetAirbase;             //The actual target air base.
@@ -57,6 +53,7 @@ public class SweepAirfield implements AirMission {
     public SweepAirfield(@Assisted final MissionData data,
                                    final Game game,
                                    final Dice dice) {
+        id = data.getId();
         this.game = game;
         this.dice = dice;
 
@@ -90,6 +87,7 @@ public class SweepAirfield implements AirMission {
     public MissionData getData() {
         MissionData data = new MissionData();
 
+        data.setId(id);
         data.setType(AirMissionType.SWEEP_AIRFIELD);
         data.setNation(nation);
         data.setTarget(targetBaseName);

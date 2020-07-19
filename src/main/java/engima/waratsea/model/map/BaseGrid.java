@@ -4,15 +4,18 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldType;
+import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.target.Target;
 import lombok.Getter;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * This class represents a base grid on the game map.
@@ -148,8 +151,22 @@ public class BaseGrid implements MarkerGrid {
      * patrols that can reach that true maximum radius.
      */
     @Override
-    public Optional<Map<Integer, List<Patrol>>> getPatrolRadiiMap() {
+    public Optional<Map<Integer, List<Patrol>>> getPatrols() {
         return getAirfield().map(Airfield::getPatrolRadiiMap);
+    }
+
+    /**
+     * Get the marker grid's air missions.
+     *
+     * @return A map of the marker grid's air missions keyed by the mission's target.
+     */
+    @Override
+    public Optional<Map<Target, List<AirMission>>> getMissions() {
+          return getAirfield()
+                  .map(Airfield::getMissions)
+                  .map(airMissions -> airMissions
+                          .stream()
+                          .collect(Collectors.groupingBy(AirMission::getTarget)));
     }
 
     /**

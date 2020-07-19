@@ -37,6 +37,9 @@ import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * A nation's view of an air mission.
+ */
 @Slf4j
 public class AirMissionViewModel {
     @Getter private final ObjectProperty<ObservableList<AirMissionType>> missionTypes = new SimpleObjectProperty<>();         // List of all mission types.
@@ -80,6 +83,8 @@ public class AirMissionViewModel {
     private final Game game;
     private final MissionDAO missionDAO;
     @Getter private AirMission mission;
+
+    @Getter private int id;
 
     @Getter private final ObjectProperty<ObservableList<Squadron>> ready = new SimpleObjectProperty<>(FXCollections.observableList(new ArrayList<>()));
 
@@ -152,11 +157,14 @@ public class AirMissionViewModel {
      * @return This air mission view model.
      */
     public AirMissionViewModel setModel(final AirMission missionModel) {
+
         missionType.setValue(missionModel.getType());
         target.setValue(missionModel.getTarget());
         nation = missionModel.getNation();
 
         mission = buildMission(missionModel);
+        id = missionModel.getId();
+
         checkCapacity = false; // This is an existing mission, so no need to check target capacity.
 
         Stream.of(MissionRole.values())
@@ -264,7 +272,7 @@ public class AirMissionViewModel {
      * Create this mission.
      */
     public void createMission() {
-        mission = buildMission();
+        mission = buildMission(game.getAirMissionId());
         checkCapacity = false;
         nationAirbaseViewModel.addMission(this);
     }
@@ -273,7 +281,7 @@ public class AirMissionViewModel {
      * Update or edit this mission.
      */
     public void editMission() {
-        mission = buildMission();
+        mission = buildMission(id);
         checkCapacity = false;
         nationAirbaseViewModel.editMission(this);
     }
@@ -634,12 +642,17 @@ public class AirMissionViewModel {
     /**
      * Build the mission.
      *
+     * @param airMissionId The air mission id.
      * @return An air mission.
      */
-    private AirMission buildMission() {
-        String targetName = Optional.ofNullable(target.getValue()).map(Target::getName).orElse("");
+    private AirMission buildMission(final int airMissionId) {
+        String targetName = Optional
+                .ofNullable(target.getValue())
+                .map(Target::getName)
+                .orElse("");
 
         MissionData data = new MissionData();
+        data.setId(airMissionId);
         data.setAirbase(airbase);
         data.setNation(nation);
         data.setType(missionType.getValue());
@@ -669,6 +682,7 @@ public class AirMissionViewModel {
      */
     private AirMission buildMission(final AirMission missionModel) {
         MissionData data = new MissionData();
+        data.setId(missionModel.getId());
         data.setAirbase(missionModel.getAirbase());
         data.setNation(missionModel.getNation());
         data.setType(missionModel.getType());
@@ -695,7 +709,7 @@ public class AirMissionViewModel {
      * Update the mission stats.
      */
     private void updateMissionStats() {
-        AirMission tempMission = buildMission();
+        AirMission tempMission = buildMission(0);
         List<ProbabilityStats> stats = tempMission.getMissionProbability();
         missionStats.set(FXCollections.observableArrayList(stats));
     }

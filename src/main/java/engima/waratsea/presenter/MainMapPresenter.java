@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.AssetType;
@@ -11,6 +12,7 @@ import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.presenter.airfield.AirfieldDialog;
+import engima.waratsea.presenter.airfield.mission.MissionDialog;
 import engima.waratsea.presenter.airfield.patrol.PatrolDialog;
 import engima.waratsea.presenter.taskforce.TaskForceDialog;
 import engima.waratsea.view.MainMenu;
@@ -26,6 +28,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Path;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -37,18 +40,18 @@ import java.util.Optional;
 @Slf4j
 @Singleton
 public class MainMapPresenter {
+    private final Game game;
+    private final MainMapView mainMapView;
+    private final MainMenu mainMenu;
 
-    private Game game;
-    private MainMapView mainMapView;
-    private MainMenu mainMenu;
+    private final Provider<AirfieldDialog> airfieldDetailsDialogProvider;
+    private final Provider<PatrolDialog> patrolDetailsDialogProvider;
+    private final Provider<MissionDialog> missionDetailsDialogProvider;
+    private final Provider<AssetSummaryView> assetSummaryViewProvider;
+    private final Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider;
+    private final Provider<AirbaseViewModel> airbaseViewModelProvider;
 
-    private Provider<AirfieldDialog> airfieldDetailsDialogProvider;
-    private Provider<PatrolDialog> patrolDetailsDialogProvider;
-    private Provider<AssetSummaryView> assetSummaryViewProvider;
-    private Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider;
-    private Provider<AirbaseViewModel> airbaseViewModelProvider;
-
-    private Provider<TaskForceDialog> taskForceDialogProvider;
+    private final Provider<TaskForceDialog> taskForceDialogProvider;
 
     /**
      * The constructor called by guice.
@@ -58,6 +61,7 @@ public class MainMapPresenter {
      * @param menuProvider Provides the main menu.
      * @param airfieldDetailsDialogProvider Provides airfield details dialog.
      * @param patrolDetailsDialogProvider Provides patrol radius details dialog.
+     * @param missionDetailsDialogProvider Provides mission arrow details dialog
      * @param assetSummaryViewProvider Provides the asset summary view.
      * @param airfieldAssetSummaryViewProvider Provides the airfield asset summary view.
      * @param airbaseViewModelProvider Provides the airbase view models.
@@ -69,6 +73,7 @@ public class MainMapPresenter {
                             final Provider<MainMenu> menuProvider,
                             final Provider<AirfieldDialog> airfieldDetailsDialogProvider,
                             final Provider<PatrolDialog> patrolDetailsDialogProvider,
+                            final Provider<MissionDialog> missionDetailsDialogProvider,
                             final Provider<AssetSummaryView> assetSummaryViewProvider,
                             final Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider,
                             final Provider<AirbaseViewModel> airbaseViewModelProvider,
@@ -81,6 +86,7 @@ public class MainMapPresenter {
 
         this.airfieldDetailsDialogProvider = airfieldDetailsDialogProvider;
         this.patrolDetailsDialogProvider = patrolDetailsDialogProvider;
+        this.missionDetailsDialogProvider = missionDetailsDialogProvider;
         this.assetSummaryViewProvider = assetSummaryViewProvider;
         this.airfieldAssetSummaryViewProvider = airfieldAssetSummaryViewProvider;
         this.airbaseViewModelProvider = airbaseViewModelProvider;
@@ -100,6 +106,7 @@ public class MainMapPresenter {
         mainMapView.setBaseClickHandler(humanSide.opposite(), this::computerBaseClickHandler);
 
         mainMapView.setPatrolRadiusClickHandler(humanSide, this::patrolRadiusClickHandler);
+        mainMapView.setMissionArrowClickHandler(humanSide, this::missionArrowClickHandler);
 
         mainMapView.setAirfieldMenuHandler(humanSide, this::airfieldHandler);
         mainMapView.setTaskForceOperationsMenuHandler(humanSide, this::taskForceOperationsHandler);
@@ -211,6 +218,18 @@ public class MainMapPresenter {
         Circle circle = (Circle) event.getSource();
         List<Patrol> patrols = (List<Patrol>) circle.getUserData();
         patrolDetailsDialogProvider.get().show(patrols);
+    }
+
+    /**
+     * Callback for when an airfield's mission arrow is clicked.
+     *
+     * @param event The click event.
+     */
+    @SuppressWarnings("unchecked")
+    private void missionArrowClickHandler(final MouseEvent event) {
+        Path arrow = (Path) event.getSource();
+        List<AirMission> missions = (List<AirMission>) arrow.getUserData();
+        missionDetailsDialogProvider.get().show(missions);
     }
 
     /**

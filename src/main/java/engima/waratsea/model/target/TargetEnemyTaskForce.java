@@ -8,6 +8,7 @@ import engima.waratsea.model.enemy.views.taskForce.TaskForceView;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
@@ -24,13 +25,13 @@ import java.util.Optional;
 @Slf4j
 public class TargetEnemyTaskForce implements Target {
 
-    private Game game;
-    private GameMap gameMap;
+    private final Game game;
+    private final GameMap gameMap;
 
     @Getter
-    private String name;
+    private final String name;
 
-    private Side side;
+    private final Side side;
 
     private TaskForceView taskForceView;
 
@@ -95,6 +96,19 @@ public class TargetEnemyTaskForce implements Target {
                 .ofNullable(taskForceView)
                 .orElseGet(this::getTaskForceViewView)
                 .getLocation();
+    }
+
+    /**
+     * Get the target's game grid.
+     *
+     * @return The target's game grid.
+     */
+    @Override
+    public Optional<GameGrid> getGrid() {
+        return Optional
+                .ofNullable(taskForceView)
+                .orElseGet(this::getTaskForceViewView)
+                .getGrid();
     }
 
     /**

@@ -20,6 +20,13 @@ public interface AirMission extends PersistentData<MissionData> {
     MissionData getData();
 
     /**
+     * Get the air mission id.
+     *
+     * @return The air mission's id.
+     */
+    int getId();
+
+    /**
      * Get the airbase from which the mission was launched.
      *
      * @return The airbase from which the mission was launched.

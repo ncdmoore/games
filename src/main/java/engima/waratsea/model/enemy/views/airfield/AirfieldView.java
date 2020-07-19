@@ -5,8 +5,11 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.enemy.views.airfield.data.AirfieldViewData;
+import engima.waratsea.model.map.GameGrid;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Optional;
 
 public class AirfieldView implements PersistentData<AirfieldViewData> {
     @Getter
@@ -48,6 +51,15 @@ public class AirfieldView implements PersistentData<AirfieldViewData> {
      */
     public String getLocation() {
         return enemyAirfield.getReference();
+    }
+
+    /**
+     * Get the airfield's game grid.
+     *
+     * @return The airfield's game grid.
+     */
+    public Optional<GameGrid> getGrid() {
+        return enemyAirfield.getGrid();
     }
 
     /**

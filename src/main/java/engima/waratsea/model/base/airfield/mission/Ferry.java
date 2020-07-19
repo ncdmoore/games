@@ -25,13 +25,11 @@ import java.util.stream.Stream;
 public class Ferry implements AirMission {
     private final Game game;
 
-    @Getter
-    private final Nation nation;
+    @Getter private final int id;
+    @Getter private final Nation nation;
+    @Getter private final Map<MissionRole, List<Squadron>> squadronMap;
+
     private final Airbase startingAirbase;
-
-    @Getter
-    private final Map<MissionRole, List<Squadron>> squadronMap;
-
     private final String endingAirbaseName;   //The name of the destination air base.
     private Target endingAirbase;             //The actual destination air base.
 
@@ -44,6 +42,7 @@ public class Ferry implements AirMission {
     @Inject
     public Ferry(@Assisted final MissionData data,
                            final Game game) {
+        id = data.getId();
         this.game = game;
         nation = data.getNation();
 
@@ -75,6 +74,7 @@ public class Ferry implements AirMission {
     public MissionData getData() {
         MissionData data = new MissionData();
 
+        data.setId(id);
         data.setType(AirMissionType.FERRY);
         data.setNation(nation);
         data.setTarget(endingAirbaseName);

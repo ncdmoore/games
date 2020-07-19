@@ -7,6 +7,7 @@ import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronHome;
 import engima.waratsea.model.squadron.state.SquadronState;
@@ -15,12 +16,20 @@ import engima.waratsea.model.target.Target;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
  * Represents airbases. An airbase may be an airfield (land based airbase) or may be an aircraft carrier.
  */
 public interface Airbase extends Base, SquadronHome {
+
+    /**
+     * Get the airbase's game grid.
+     *
+     * @return The airbase's game grid.
+     */
+    Optional<GameGrid> getGrid();
 
     /**
      * Get the landing types supported by this airbase.
@@ -163,10 +172,17 @@ public interface Airbase extends Base, SquadronHome {
     void removeSquadron(Squadron squadron);
 
     /**
+     * Get the current missions of this airbase for all nations.
+     *
+     * @return The current squadron missions of this airbase.
+     */
+    List<AirMission> getMissions();
+
+    /**
      * Get the current missions of this airbase for the given nation.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @return The current squadron missions of this airbase.
+     * @return The current squadron missions of this airbase for the given nation.
      */
     List<AirMission> getMissions(Nation nation);
 
