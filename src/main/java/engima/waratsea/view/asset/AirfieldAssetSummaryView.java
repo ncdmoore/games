@@ -57,13 +57,13 @@ public class AirfieldAssetSummaryView implements AssetView {
 
     @Getter private AirbaseViewModel viewModel;
     private Airbase airbase;
-    private Map<Nation, AirfieldRegionInfo> regionInfo = new HashMap<>();
-    private Map<Nation, AirfieldSquadronInfo> squadronInfo = new HashMap<>();
-    private Map<Nation, AirfieldMissionInfo> missionInfo = new HashMap<>();
-    private Map<Nation, AirfieldPatrolInfo> patrolInfo = new HashMap<>();
-    private Map<Nation, AirfieldReadyInfo> readyInfo = new HashMap<>();
+    private final Map<Nation, AirfieldRegionInfo> regionInfo = new HashMap<>();
+    private final Map<Nation, AirfieldSquadronInfo> squadronInfo = new HashMap<>();
+    private final Map<Nation, AirfieldMissionInfo> missionInfo = new HashMap<>();
+    private final Map<Nation, AirfieldPatrolInfo> patrolInfo = new HashMap<>();
+    private final Map<Nation, AirfieldReadyInfo> readyInfo = new HashMap<>();
 
-    private ImageView imageView = new ImageView();
+    private final ImageView imageView = new ImageView();
 
     @Getter private HBox node;
 

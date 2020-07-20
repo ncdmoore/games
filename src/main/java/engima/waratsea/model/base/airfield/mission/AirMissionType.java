@@ -16,7 +16,6 @@ import java.util.Map;
  * in the actual strike itself, i.e., attack a ship, or it may serve as an escort.
  */
 public enum AirMissionType {
-
     FERRY("Ferry", "Ferry", Collections.singletonList(MissionRole.MAIN)),
     LAND_STRIKE("Airfield Strike", "Strike", Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT)),
     NAVAL_PORT_STRIKE("Port Strike", "Strike", Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT)),

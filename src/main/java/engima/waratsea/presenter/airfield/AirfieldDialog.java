@@ -3,6 +3,9 @@ package engima.waratsea.presenter.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.mission.MissionDAO;
+import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.Nation;
@@ -33,14 +36,17 @@ import javafx.scene.control.TableRow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 public class AirfieldDialog {
     private static final String CSS_FILE = "airfieldDetails.css";
     private static final Map<PatrolType, LinkedHashSet<SquadronConfig>> CONFIG_MAP = Map.of(
@@ -59,6 +65,7 @@ public class AirfieldDialog {
 
     private final Provider<AirbaseViewModel> airbaseViewModelProvider;
 
+    private final MissionDAO missionDAO;
     private final ViewProps props;
     private final Rules rules;
     private Stage stage;
@@ -69,7 +76,7 @@ public class AirfieldDialog {
 
     private Airbase airbase;
     private boolean controlAssetSummaryDisplay; // Indicates if the asset view for this airfield should be closed when the
-    // dialog is closed.
+                                                // dialog is closed.
 
     private AirbaseViewModel viewModel;
     private Map<Nation, NationAirbaseViewModel> viewModelMap;
@@ -88,6 +95,7 @@ public class AirfieldDialog {
      * @param assetSummaryViewProvider Provides the asset summary view pane.
      * @param airfieldAssetSummaryViewProvider Provides the airfield data to place in the asset summary view.
      * @param airbaseViewModelProvider Provides airbase view models for each nation.
+     * @param missionDAO The mission data access object.
      * @param props The view properties.
      * @param rules The game rules.
      */
@@ -103,6 +111,7 @@ public class AirfieldDialog {
                           final Provider<AssetSummaryView> assetSummaryViewProvider,
                           final Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider,
                           final Provider<AirbaseViewModel> airbaseViewModelProvider,
+                          final MissionDAO missionDAO,
                           final ViewProps props,
                           final Rules rules) {
         //CHECKSTYLE:ON
@@ -115,6 +124,7 @@ public class AirfieldDialog {
         this.assetSummaryViewProvider = assetSummaryViewProvider;
         this.airfieldAssetSummaryViewProvider = airfieldAssetSummaryViewProvider;
         this.airbaseViewModelProvider = airbaseViewModelProvider;
+        this.missionDAO = missionDAO;
         this.props = props;
         this.rules = rules;
     }
@@ -233,7 +243,6 @@ public class AirfieldDialog {
      * @param patrolType The patrol type.
      */
     private void registerPatrolHandler(final Nation nation, final PatrolType patrolType) {
-
         PatrolView patrolView = view.getAirfieldPatrolView().get(nation);
 
         patrolView
@@ -297,7 +306,15 @@ public class AirfieldDialog {
                 .getValue()
                 .stream()
                 .map(AirMissionViewModel::getMission)
-                .forEach(airbase::addMission);
+                .forEach(mission -> {
+                    logMissionUpdate(mission);
+
+                    //Must update a copy of the mission so that the model and view have different copies of the mission.
+                    //This is necessary since the view creates missions.
+                    MissionData data = mission.getData();
+                    data.setAirbase(airbase);
+                    airbase.addMission(missionDAO.load(data));
+                });
     }
 
     /**
@@ -482,7 +499,6 @@ public class AirfieldDialog {
      * @param readySquadron The selected ready squadron.
      */
     private void readySquadronSelected(final Nation nation, final Squadron readySquadron) {
-
         if (readySquadron != null) {
             SquadronViewType type = SquadronViewType.get(readySquadron.getType());
 
@@ -560,5 +576,19 @@ public class AirfieldDialog {
             AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
             assetSummaryViewProvider.get().hide(assetId);
         }
+    }
+
+    /**
+     * Log the mission update.
+     *
+     * @param mission The updated mission.
+     */
+    private void logMissionUpdate(final AirMission mission) {
+        log.debug("Add mission with id: '{}' to airbase: '{}', target: '{}'", new Object[]{mission.getId(), airbase.getTitle(), mission.getTarget().getTitle()});
+
+        mission.getSquadronMap().forEach((role, squadrons) -> {
+            String squadronNames = squadrons.stream().map(Squadron::getTitle).collect(Collectors.joining(","));
+            log.debug("  with squadrons: '{}' for role: '{}'", squadronNames, role);
+        });
     }
 }

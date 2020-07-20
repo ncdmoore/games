@@ -84,6 +84,7 @@ public class AirMissionViewModel {
     private final MissionDAO missionDAO;
     @Getter private AirMission mission;
 
+    @Getter private final IntegerProperty missionId = new SimpleIntegerProperty(0);
     @Getter private int id;
 
     @Getter private final ObjectProperty<ObservableList<Squadron>> ready = new SimpleObjectProperty<>(FXCollections.observableList(new ArrayList<>()));
@@ -99,6 +100,8 @@ public class AirMissionViewModel {
     @Inject
     public AirMissionViewModel(final Game game,
                                final MissionDAO missionDAO) {
+        log.debug("Construct the air mission view ");
+
         this.game = game;
         this.missionDAO = missionDAO;
 
@@ -164,11 +167,24 @@ public class AirMissionViewModel {
 
         mission = buildMission(missionModel);
         id = missionModel.getId();
+        missionId.setValue(id);
+
+        log.debug("Initialize view model with mission id: '{}'", id);
+        log.debug("Mission object: '{}'", mission);
 
         checkCapacity = false; // This is an existing mission, so no need to check target capacity.
 
         Stream.of(MissionRole.values())
-                .forEach(role -> assigned.get(role).set(FXCollections.observableArrayList(mission.getSquadrons(role))));
+                .forEach(role -> {
+                    String assignedNames = mission.getSquadrons(role)
+                            .stream()
+                            .map(Squadron::getTitle)
+                            .collect(Collectors.joining(","));
+
+                    log.debug("Assigned squadrons: '{}' for role: '{}'", assignedNames, role);
+                    assigned.get(role).set(FXCollections.observableArrayList(mission.getSquadrons(role)));
+                });
+
 
         totalAssigned.setValue(FXCollections.observableArrayList(mission.getSquadronsAllRoles()));
         totalAssignedCount.setValue(mission.getSquadronsAllRoles().size());
@@ -223,8 +239,20 @@ public class AirMissionViewModel {
      */
     public void addToMission(final Squadron squadron, final MissionRole role) {
         if (canAddSquadron(squadron)) {
+
+            log.debug("Add squadron: '{}' with role: '{}' to mission id: '{}'", new Object[]{squadron.getTitle(), role.toString(), id});
+
             assigned.get(role).get().add(squadron);
             assignedExists.get(role).set(assigned.get(role).getValue().isEmpty());
+
+            String assignedNames = assigned
+                    .get(role)
+                    .get()
+                    .stream()
+                    .map(Squadron::getTitle)
+                    .collect(Collectors.joining(","));
+
+            log.debug("Assigned squadrons: '{}'", assignedNames);
 
             totalAssigned.setValue(FXCollections.observableArrayList(add(totalAssigned.getValue(), squadron)));
             totalAssignedCount.setValue(totalAssigned.getValue().size());
@@ -242,8 +270,19 @@ public class AirMissionViewModel {
      * @param role The mission role of the removed squadron.
      */
     public void removeFromMission(final Squadron squadron, final MissionRole role) {
+        log.debug("remove squadron: '{}' with role: '{}' to mission id: '{}'", new Object[]{squadron.getTitle(), role.toString(), id});
+
         assigned.get(role).get().remove(squadron);
         assignedExists.get(role).set(assigned.get(role).getValue().isEmpty());
+
+        String assignedNames = assigned
+                .get(role)
+                .get()
+                .stream()
+                .map(Squadron::getTitle)
+                .collect(Collectors.joining(","));
+
+        log.debug("Assigned squadrons: '{}'", assignedNames);
 
         totalAssigned.setValue(FXCollections.observableArrayList(remove(totalAssigned.getValue(), squadron)));
         totalAssignedCount.setValue(totalAssigned.getValue().size());
@@ -257,9 +296,21 @@ public class AirMissionViewModel {
      * Clear the mission of all squadrons.
      */
     public void clearMission() {
+        log.debug("Clear assigned squadrons for id: '{}'", id);
+
         Stream.of(MissionRole.values()).forEach(role -> {
             assigned.get(role).get().clear();
             assignedExists.get(role).set(false);
+
+            String assignedNames = assigned
+                    .get(role)
+                    .get()
+                    .stream()
+                    .map(Squadron::getTitle)
+                    .collect(Collectors.joining(","));
+
+            log.debug("Assigned squadrons: '{}' for role: '{}'", assignedNames, role);
+
         });
 
         totalAssigned.setValue(FXCollections.observableList(new ArrayList<>()));
@@ -272,7 +323,16 @@ public class AirMissionViewModel {
      * Create this mission.
      */
     public void createMission() {
-        mission = buildMission(game.getAirMissionId());
+        int newId = game.getAirMissionId();
+
+        log.debug("Create mission. Build mission id: '{}'", newId);
+
+        mission = buildMission(newId);
+        id = newId;
+        missionId.setValue(id);
+
+        log.debug("Mission object: '{}'", mission);
+
         checkCapacity = false;
         nationAirbaseViewModel.addMission(this);
     }
@@ -281,7 +341,12 @@ public class AirMissionViewModel {
      * Update or edit this mission.
      */
     public void editMission() {
+       log.debug("Edit mission. Build mission id: '{}'", id);
+
         mission = buildMission(id);
+
+        log.debug("Mission object: '{}'", mission);
+
         checkCapacity = false;
         nationAirbaseViewModel.editMission(this);
     }
@@ -709,7 +774,12 @@ public class AirMissionViewModel {
      * Update the mission stats.
      */
     private void updateMissionStats() {
+        log.debug("Build temp mission with id 0");
+
         AirMission tempMission = buildMission(0);
+
+        log.debug("Mission object: '{}'", tempMission);
+
         List<ProbabilityStats> stats = tempMission.getMissionProbability();
         missionStats.set(FXCollections.observableArrayList(stats));
     }

@@ -402,7 +402,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation nation, final SquadronState state) {
-
         return getSquadronMap(nation)
                 .entrySet()
                 .stream()

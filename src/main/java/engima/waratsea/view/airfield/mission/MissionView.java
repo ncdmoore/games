@@ -68,6 +68,9 @@ public class MissionView {
      * Setup the mission table.
      */
     private void setupTable() {
+        TableColumn<AirMissionViewModel, Integer> idColumn = new TableColumn<>("Mission Id");
+        idColumn.setCellValueFactory(cellData -> cellData.getValue().getMissionId().asObject());
+
         TableColumn<AirMissionViewModel, AirMissionType> typeColumn = new TableColumn<>("Mission Type");
         typeColumn.setCellValueFactory(cellData -> cellData.getValue().getMissionType());
 
@@ -78,6 +81,7 @@ public class MissionView {
         numSquadronColumn.setCellValueFactory(cellData -> cellData.getValue().getTotalAssignedCount().asObject());
 
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);   //Limit the table columns to 3.
+        table.getColumns().add(idColumn);
         table.getColumns().add(typeColumn);
         table.getColumns().add(targetColumn);
         table.getColumns().add(numSquadronColumn);

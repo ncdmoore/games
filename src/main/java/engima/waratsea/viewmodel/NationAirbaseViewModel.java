@@ -19,6 +19,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.ListUtils;
 
 import java.util.Collection;
@@ -35,6 +36,7 @@ import java.util.stream.Stream;
  * Each nation has its on unique airfield view model. Thus, all of the property values of this view model are for
  * a given nation.
  */
+@Slf4j
 public class NationAirbaseViewModel {
     @Getter private final StringProperty title = new SimpleStringProperty();
     @Getter private final StringProperty typeTitle = new SimpleStringProperty();
@@ -127,6 +129,10 @@ public class NationAirbaseViewModel {
         missionViewModels = airbaseMissions;
         missions.set(FXCollections.observableArrayList(missionViewModels));
 
+        String ids = missionViewModels.stream().map(AirMissionViewModel::getId).map(i -> Integer.toString(i)).collect(Collectors.joining(","));
+
+        log.debug("Initialize mission view models with ids: '{}'", ids);
+
         setMissionCounts();
     }
 
@@ -189,6 +195,16 @@ public class NationAirbaseViewModel {
     public void addMission(final AirMissionViewModel viewModel) {
         missionViewModels.add(viewModel);
         missions.set(FXCollections.observableArrayList(missionViewModels));
+
+        String ids = missionViewModels
+                .stream()
+                .map(AirMissionViewModel::getId)
+                .map(i -> Integer.toString(i))
+                .collect(Collectors.joining(","));
+
+        log.debug("Add mission with id: '{}'", viewModel.getId());
+        log.debug("All missions view models: '{}'", ids);
+
         removeFromReady(viewModel);            // Remove the mission squadrons from the ready list.
         airbaseViewModel.updateTotalMissions();
     }
@@ -208,13 +224,27 @@ public class NationAirbaseViewModel {
                 .findFirst();
 
         // The 'old' non updated mission view model is removed.
-        oldViewModel.ifPresent(oldMissionVM -> missionViewModels.remove(oldMissionVM));
+        oldViewModel.ifPresent(oldMissionVM -> {
+            log.debug("Remove out of date mission with id: '{}'", oldMissionVM.getId());
+            missionViewModels.remove(oldMissionVM);
+        });
 
         // The 'updated' mission view model is then added back in.
+
+        log.debug("Add newly updated mission with id: '{}'", viewModel.getId());
         missionViewModels.add(viewModel);
         missions.set(FXCollections.observableArrayList(missionViewModels));
 
+        String ids = missionViewModels
+                .stream().map(AirMissionViewModel::getId)
+                .map(i -> Integer.toString(i))
+                .collect(Collectors.joining(","));
+
+        log.debug("All missions view models: '{}'", ids);
+
         removeFromReady(viewModel);       // Remove the mission squadrons from the ready list.
+        airbaseViewModel.updateTotalMissions();
+
         editReady(viewModel);             // Add any squadrons removed from the mission to the ready list.
     }
 
@@ -226,6 +256,12 @@ public class NationAirbaseViewModel {
     public void removeMission(final AirMissionViewModel viewModel) {
         missionViewModels.remove(viewModel);
         missions.set(FXCollections.observableArrayList(missionViewModels));
+
+        String ids = missionViewModels.stream().map(AirMissionViewModel::getId).map(i -> Integer.toString(i)).collect(Collectors.joining(","));
+
+        log.debug("remove mission with id: '{}'", viewModel.getId());
+        log.debug("All missions view models: '{}'", ids);
+
         addToReady(viewModel);
         airbaseViewModel.updateTotalMissions();
     }

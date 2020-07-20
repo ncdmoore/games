@@ -19,10 +19,11 @@ import javafx.scene.control.Tab;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 import java.util.stream.Stream;
-
+@Slf4j
 public class MissionAddDialog {
     private static final String CSS_FILE = "missionDetails.css";
 
@@ -189,9 +190,11 @@ public class MissionAddDialog {
      * @param target The selected target.
      */
     private void targetSelected(final Target target) {
-        selectedTarget = target;
-        viewModel.clearMission();
-        viewModel.setTarget(target);
+        if (target != null) {
+            selectedTarget = target;
+            viewModel.clearMission();
+            viewModel.setTarget(target);
+        }
     }
 
     /**

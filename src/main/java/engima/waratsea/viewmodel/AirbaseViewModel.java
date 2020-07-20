@@ -5,11 +5,13 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.squadron.Squadron;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,6 +23,7 @@ import java.util.stream.Stream;
 /**
  * Represents the view model for a given airbase.
  */
+@Slf4j
 public class AirbaseViewModel {
     // All missions for all nations originating from this airbase.
     @Getter private final ObjectProperty<ObservableList<AirMissionViewModel>> totalMissions = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
@@ -58,6 +61,8 @@ public class AirbaseViewModel {
      * @return This airbase view model.
      */
     public AirbaseViewModel setModel(final Airbase base) {
+        log.debug("Set model for airbase: '{}'", base.getTitle());
+
         airbase = base;
 
         missionViewModels = airbase
@@ -82,11 +87,25 @@ public class AirbaseViewModel {
      * Update the total missions list.
      */
     public void updateTotalMissions() {
+        log.debug("Update total missions for airbase: '{}'", airbase.getTitle());
+
         List<AirMissionViewModel> total = missionViewModels
                 .values()
                 .stream()
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
+
+        log.debug("Total missions: '{}'", total.size());
+
+        total.forEach(mission -> mission.getAssigned().forEach((role, squadron) -> {
+            String squadronNames = squadron
+                    .get()
+                    .stream()
+                    .map(Squadron::getTitle)
+                    .collect(Collectors.joining(","));
+
+            log.debug("Mission id: '{}' role: '{}' squadrons: '{}'", new Object[]{mission.getId(), role, squadronNames});
+        }));
 
         totalMissions.setValue(FXCollections.observableArrayList(total));
     }
