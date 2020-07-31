@@ -100,8 +100,6 @@ public class AirMissionViewModel {
     @Inject
     public AirMissionViewModel(final Game game,
                                final MissionDAO missionDAO) {
-        log.debug("Construct the air mission view ");
-
         this.game = game;
         this.missionDAO = missionDAO;
 
@@ -160,7 +158,6 @@ public class AirMissionViewModel {
      * @return This air mission view model.
      */
     public AirMissionViewModel setModel(final AirMission missionModel) {
-
         missionType.setValue(missionModel.getType());
         target.setValue(missionModel.getTarget());
         nation = missionModel.getNation();

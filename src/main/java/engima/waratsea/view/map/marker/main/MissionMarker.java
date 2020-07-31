@@ -4,13 +4,10 @@ import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import javafx.event.EventHandler;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import lombok.Getter;
 
 import java.util.List;
 
@@ -23,10 +20,6 @@ public class MissionMarker {
     private final GridView targetGridView;
 
     private Path arrow;
-    private VBox vBox;
-
-    @Getter
-    private Label label;
 
     /**
      * Constructor.
@@ -114,5 +107,4 @@ public class MissionMarker {
     public void setClickHandler(final EventHandler<? super MouseEvent> handler) {
         arrow.setOnMouseClicked(handler);
     }
-
 }

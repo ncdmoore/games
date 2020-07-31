@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 
 /**
  * Represents the view model for a given airbase.
+ * All nations that are allowed to use the airbase are included in this view model.
  */
 @Slf4j
 public class AirbaseViewModel {
@@ -29,7 +30,7 @@ public class AirbaseViewModel {
     @Getter private final ObjectProperty<ObservableList<AirMissionViewModel>> totalMissions = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
 
     @Getter private Map<Nation, List<AirMissionViewModel>> missionViewModels = new HashMap<>();                         // The missions for each nation.
-    @Getter private final Map<PatrolType, PatrolViewModel> patrolViewModels = new HashMap<>();                          // The patrols.
+    @Getter private final Map<PatrolType, PatrolViewModel> patrolViewModels = new HashMap<>();                          // The patrols for all nations.
     @Getter private final Map<Nation, NationAirbaseViewModel> nationViewModels = new HashMap<>();                       // A given nation's view of this airbase.
 
     private final Provider<NationAirbaseViewModel> nationAirbaseViewModelProvider;
