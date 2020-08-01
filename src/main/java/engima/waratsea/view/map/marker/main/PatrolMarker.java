@@ -111,7 +111,7 @@ public class PatrolMarker {
         String text = patrols
                 .stream()
                 .map(PatrolType::getTitle)
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining("\\"));
 
         label.setText(text);
     }
