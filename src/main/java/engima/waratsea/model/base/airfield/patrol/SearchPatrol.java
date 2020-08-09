@@ -25,16 +25,12 @@ import java.util.stream.IntStream;
 
 @Slf4j
 public class SearchPatrol implements Patrol {
+    private final List<Squadron> squadrons;
 
-    private List<Squadron> squadrons;
+    @Getter private final Airbase airbase;
+    @Getter private int maxRadius;
 
-    @Getter
-    private final Airbase airbase;
-
-    @Getter
-    private int maxRadius;
-
-    private PatrolAirRules rules;
+    private final PatrolAirRules rules;
 
     /**
      * The constructor.

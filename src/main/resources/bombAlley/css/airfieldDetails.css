@@ -99,6 +99,12 @@
     -fx-padding: /* top: */ 5 /* right: */ 10 /* bottom: */ 0 /* left: */ 10;
 }
 
+.patrol-note {
+    -fx-border-color: black;
+    -fx-background-color: lightsteelblue;
+    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
+}
+
 #ready-tile-pane {
     -fx-pref-columns: 3;
     -fx-hgap: 20;

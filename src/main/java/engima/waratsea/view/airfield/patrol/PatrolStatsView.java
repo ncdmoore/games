@@ -85,33 +85,39 @@ public class PatrolStatsView {
         vBox.getChildren().clear();
         hBox.getChildren().clear();
 
-        if (!stats.isEmpty()) {
+        if (!patrol.getAssignedSquadrons(nation).isEmpty()) {    // Squadrons are assigned to this patrol.
             StackPane titlePane = new StackPane(new Label("Patrol Average Statistics"));
             titlePane.setId("summary-title-pane-" + nation.getFileName().toLowerCase());
 
-            int max = patrol.getTrueMaxRadius();
-            int min = stats.keySet().stream().min(Integer::compareTo).orElse(0);
-            int med = max / 2;
+            if (!stats.isEmpty()) {  // This patrol is effective.
+                int max = patrol.getTrueMaxRadius();
+                int min = stats.keySet().stream().min(Integer::compareTo).orElse(0);
+                int med = max / 2;
 
-            Set<String> headers = stats.get(min).keySet();
+                Set<String> headers = stats.get(min).keySet();
 
-            buildHeaders(headers);
+                buildHeaders(headers);
 
-            Map<String, Integer> ranges = new LinkedHashMap<>();
+                Map<String, Integer> ranges = new LinkedHashMap<>();
 
-            ranges.put("Minimum", min);
-            if (med > 0 && med != min && med != max) {
-                ranges.put("Median", med);
+                ranges.put("Minimum", min);
+                if (med > 0 && med != min && med != max) {
+                    ranges.put("Median", med);
+                }
+                if (max > 0) {
+                    ranges.put("Maximum", max);
+                }
+
+                buildRows(stats, ranges);
+
+                hBox.getChildren().add(gridPane);
+            } else {
+                Label label = new Label("Patrol is ineffective due to weather and/or its strength");
+                label.getStyleClass().add("patrol-note");
+                hBox.getChildren().add(label);
             }
-            if (max > 0) {
-                ranges.put("Maximum", max);
-            }
-
-            buildRows(stats, ranges);
 
             Node imageBox = buildWeather(patrol);
-
-            hBox.getChildren().add(gridPane);
             hBox.getChildren().add(imageBox);
             vBox.getChildren().addAll(titlePane, hBox);
         }
