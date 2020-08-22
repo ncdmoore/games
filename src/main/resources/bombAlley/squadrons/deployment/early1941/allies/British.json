@@ -3,18 +3,21 @@
     "name": "Luqa",
     "recon": 1,
     "fighter": 1,
-    "bomber": 2
+    "bomber": 2,
+    "diveBomber": 1
   },
   {
     "name": "Alexandria",
     "recon": 1,
     "fighter": 1,
-    "bomber": 1
+    "bomber": 1,
+    "diveBomber": 2
   },
   {
     "name": "Famagusta",
     "recon": 2,
     "fighter": 3,
-    "bomber": 3
+    "bomber": 3,
+    "diveBomber": 3
   }
 ]

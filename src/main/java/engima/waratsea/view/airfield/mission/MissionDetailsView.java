@@ -9,6 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -71,9 +73,32 @@ public class MissionDetailsView {
      * @return A tab for the given mission.
      */
     private Tab buildTab(final AirMission mission) {
-        Tab tab = new Tab(mission.getType().getTitle() + ":" + mission.getTarget().getTitle());
+        Tab tab = new Tab("No: " + mission.getId());
+
+        Label missionLabel = new Label("Mission:");
+        Label missionValue = new Label(mission.getType().getTitle());
+        Label targetLabel = new Label("Target:");
+        Label targetValue = new Label(mission.getTarget().getTitle());
+
+        Label squadronCountLabel = new Label("Squadrons:");
+        Label squadronCountValue = new Label(mission.getSquadronsAllRoles().size() + "");
+
+        GridPane gridPane = new GridPane();
+        gridPane.add(missionLabel, 0, 0);
+        gridPane.add(missionValue, 1, 0);
+        gridPane.add(targetLabel, 0, 1);
+        gridPane.add(targetValue, 1, 1);
+        gridPane.add(squadronCountLabel, 0, 2);
+        gridPane.add(squadronCountValue, 1, 2);
+
+        gridPane.setId("mission-details-grid");
+
         Node statsNode = statsView.build(mission.getMissionProbability());
-        tab.setContent(statsNode);
+
+        VBox vBox = new VBox(gridPane, statsNode);
+        vBox.setId("mission-details-vbox");
+
+        tab.setContent(vBox);
         return tab;
     }
 }

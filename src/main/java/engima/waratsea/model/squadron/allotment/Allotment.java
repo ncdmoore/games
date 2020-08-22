@@ -183,7 +183,6 @@ public class Allotment {
      * @return A list of squadron types that are present in this allotment.
      */
     private List<String> getNumDiceNeeded(final AllotmentData data) {
-
         return FUNCTION_MAP
                 .keySet()
                 .stream()

@@ -13,8 +13,8 @@ import java.util.List;
  */
 @Slf4j
 public class AllotmentAircraft {
-    private String type;  // The type of aircraft. BF109E for example.
-    private int number; // The number of squadrons of this type of aircraft.
+    private final String type;  // The type of aircraft. BF109E for example.
+    private final int number; // The number of squadrons of this type of aircraft.
     private SquadronStrength strength; // The strength of this type of squadron.
 
     /**

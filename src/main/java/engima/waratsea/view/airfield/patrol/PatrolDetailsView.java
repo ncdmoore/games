@@ -1,8 +1,10 @@
 package engima.waratsea.view.airfield.patrol;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.aircraft.AircraftBaseType;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
+import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -17,6 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -74,6 +78,69 @@ public class PatrolDetailsView {
     private Tab buildTab(final Patrol patrol) {
         Tab tab = new Tab(PatrolType.getTitle(patrol));
 
+        Node squadronPane = buildSquadrons(patrol);
+        Node radiiPane = buildRadii(patrol);
+
+        VBox vBox = new VBox(squadronPane, radiiPane);
+        vBox.setId("patrol-details-vbox");
+
+        ScrollPane scrollPane = new ScrollPane(vBox);
+        scrollPane.setId("patrol-details-pane");
+
+        tab.setContent(scrollPane);
+
+        return tab;
+    }
+
+    /**
+     * Build the squadron summary.
+     *
+     * @param patrol The patrol.
+     * @return The squadron summary grid.
+     **/
+    private Node buildSquadrons(final Patrol patrol) {
+        GridPane gridPane = new GridPane();
+        AtomicInteger column = new AtomicInteger();
+
+        Map<AircraftBaseType, List<Squadron>> squadronTypeMap = patrol
+                .getAssignedSquadrons()
+                .stream()
+                .collect(Collectors.groupingBy(Squadron::getBaseType));
+
+        Stream.of(AircraftBaseType.values()).forEach(type -> {
+            int col = column.getAndIncrement();
+
+            Label label = new Label(type.toString());
+            label.setMaxWidth(props.getInt("patrol.grid.label.width"));
+            label.setMinWidth(props.getInt("patrol.grid.label.width"));
+            label.setId("patrol-details-header");
+            gridPane.add(label, col, 0);
+
+            int size = Optional
+                    .ofNullable(squadronTypeMap.get(type))
+                    .map(List::size)
+                    .orElse(0);
+
+            Label count = new Label(size + "");
+            count.setMaxWidth(props.getInt("patrol.grid.label.width"));
+            count.setMinWidth(props.getInt("patrol.grid.label.width"));
+            count.setId("patrol-details-cell");
+            gridPane.add(count, col, 1);
+        });
+
+        gridPane.setId("patrol-details-grid");
+
+        Label title = new Label("Patrol Squadron Summary:");
+        return new VBox(title, gridPane);
+    }
+
+    /**
+     * Build the patrol effectiveness radius table.
+     *
+     * @param patrol The patrol.
+     * @return A Node containing the radius effectiveness grid.
+     */
+    private Node buildRadii(final Patrol patrol) {
         GridPane gridPane = new GridPane();
         gridPane.setId("patrol-details-grid");
 
@@ -90,14 +157,9 @@ public class PatrolDetailsView {
             row++;
         }
 
-        VBox vBox = new VBox(gridPane);
+        Label title = new Label("Patrol Effectiveness:");
 
-        ScrollPane scrollPane = new ScrollPane(vBox);
-        scrollPane.setId("patrol-details-pane");
-
-        tab.setContent(scrollPane);
-
-        return tab;
+        return new VBox(title, gridPane);
     }
 
     /**

@@ -9,11 +9,13 @@ import java.util.List;
 public enum AircraftBaseType {
     RECON("Recon"),
     FIGHTER("Fighter"),
-    BOMBER("Bomber");
+    BOMBER("Bomber"),
+    DIVE_BOMBER("Dive Bomber"),
+    TORPEDO_BOMBER("Torpedo Bomber");
 
-    private static List<AircraftBaseType> values = Arrays.asList(AircraftBaseType.values());
+    private static final List<AircraftBaseType> VALUES = Arrays.asList(AircraftBaseType.values());
 
-    private String value;
+    private final String value;
 
     /**
      * The constructor.
@@ -32,15 +34,15 @@ public enum AircraftBaseType {
      * @return The next reference in the enum values list.
      */
     public AircraftBaseType next() {
-        int index = values.indexOf(this);
+        int index = VALUES.indexOf(this);
 
-        if (index + 1 == values.size()) {
+        if (index + 1 == VALUES.size()) {
             index = 0;
         } else {
             index++;
         }
 
-        return values.get(index);
+        return VALUES.get(index);
     }
 
     /**

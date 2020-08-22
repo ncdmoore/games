@@ -34,4 +34,12 @@ public class DeploymentData {
     @Getter
     @Setter
     private int bomber;
+
+    @Getter
+    @Setter
+    private int diveBomber;
+
+    @Getter
+    @Setter
+    private int torpedoBomber;
 }

@@ -19,19 +19,19 @@ public enum AircraftType implements Comparator<AircraftType> {
     POOR_NAVAL_BOMBER("Bomber", "Bomber", AircraftBaseType.BOMBER, "B", 2),
 
     @SerializedName(value = "DIVE_BOMBER", alternate = {"Dive_Bomber", "dive_bomber", "Dive Bomber", "dive bomber"})
-    DIVE_BOMBER("Dive Bomber", "Dive Bomber", AircraftBaseType.BOMBER, "DB", 3),
+    DIVE_BOMBER("Dive Bomber", "Dive Bomber", AircraftBaseType.DIVE_BOMBER, "DB", 3),
 
     @SerializedName(value = "TORPEDO_BOMBER", alternate = {"Torpedo_Bomber", "torpedo_bomber", "Torpedo Bomber", "torpedo bomber"})
-    TORPEDO_BOMBER("Torpedo Bomber", "Torp. Bomber", AircraftBaseType.BOMBER, "TB", 4),
+    TORPEDO_BOMBER("Torpedo Bomber", "Torp. Bomber", AircraftBaseType.TORPEDO_BOMBER, "TB", 4),
 
     @SerializedName(value = "RECONNAISSANCE", alternate = {"Reconnaissance", "reconnaissance"})
     RECONNAISSANCE("Recon", "Recon", AircraftBaseType.RECON, "R", 5);
 
-    private String value;
-    @Getter private String abbreviated;
-    @Getter private AircraftBaseType baseType;
-    @Getter private String designation;
-    private Integer order;  // Enum sort order.
+    private final String value;
+    @Getter private final String abbreviated;
+    @Getter private final AircraftBaseType baseType;
+    @Getter private final String designation;
+    private final Integer order;  // Enum sort order.
 
     /**
      * Constructor.

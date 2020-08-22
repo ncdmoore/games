@@ -308,7 +308,7 @@ public class AirfieldAssetSummaryView implements AssetView {
         TitledPane readyInfoNode = readyInfo.get(nation).build();
         readyInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
 
-        HBox hBox = new HBox(regionInfoNode, squadronInfoNode, missionInfoNode, patrolInfoNode, readyInfoNode);
+        HBox hBox = new HBox(regionInfoNode, squadronInfoNode, readyInfoNode, missionInfoNode, patrolInfoNode);
         hBox.setId("airfield-nation-tab-hbox");
 
         hBox.setFillHeight(false);

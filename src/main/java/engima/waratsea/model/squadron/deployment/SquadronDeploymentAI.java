@@ -29,9 +29,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SquadronDeploymentAI {
 
-    private GameMap gameMap;
-    private SquadronDeploymentDAO deploymentDAO;
-    private SquadronDeploymentMap deploymentMap;                                     //Contains all the airfields for this nation.
+    private final GameMap gameMap;
+    private final SquadronDeploymentDAO deploymentDAO;
+    private final SquadronDeploymentMap deploymentMap;                                     //Contains all the airfields for this nation.
 
     private Scenario scenario;
     private Player player;
@@ -401,7 +401,7 @@ public class SquadronDeploymentAI {
     /**
      * Determine if there are any remaining squadrons in the squadron type map.
      * @return A type for which there are remaining squadrons.
-     * @throws SquadronException Thrown wheen there are no more squadrons.
+     * @throws SquadronException Thrown when there are no more squadrons.
      */
     private AircraftBaseType anySquadronsLeft() throws SquadronException {
         for (AircraftBaseType type: AircraftBaseType.values()) {

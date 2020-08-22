@@ -75,7 +75,6 @@
     -fx-border-color: black;
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, white 0%, khaki 100%);
     -fx-alignment: center
-
 }
 
 #mission-error-text {
@@ -85,4 +84,8 @@
 #controls-pane {
     -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 10 /* left */ 0;
     -fx-spacing: 20;
+}
+
+#mission-details-vbox {
+    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
 }

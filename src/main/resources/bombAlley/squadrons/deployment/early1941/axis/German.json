@@ -3,18 +3,24 @@
     "name": "Augusta",
     "recon": 1,
     "fighter": 1,
-    "bomber": 1
+    "bomber": 1,
+    "diveBomber": 3,
+    "torpedoBomber": 3
   },
   {
     "name": "Borizzo",
     "recon": 1,
     "fighter": 1,
-    "bomber": 1
+    "bomber": 1,
+    "diveBomber": 2,
+    "torpedoBomber": 2
   },
   {
     "name": "Comiso",
     "recon": 1,
     "fighter": 1,
-    "bomber": 1
+    "bomber": 1,
+    "diveBomber": 1,
+    "torpedoBomber": 1
   }
 ]

@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Represents the view of a mission being editied.
+ * Represents the view of a mission being edited.
  */
 public class MissionEditView {
     private final ImageResourceProvider imageResourceProvider;

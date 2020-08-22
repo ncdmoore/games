@@ -14,6 +14,10 @@
     -fx-padding: /* top */ 10 /* bottom */ 0 /* right */ 0 /* left */ 10;
 }
 
+#patrol-details-vbox {
+    -fx-spacing: 30;
+}
+
 #patrol-details-grid {
     -fx-vgap: 1;
     -fx-hgap: 1;

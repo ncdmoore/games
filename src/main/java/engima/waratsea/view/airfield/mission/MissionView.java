@@ -14,6 +14,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
+/**
+ * This class represents the mission view in the airfield dialog.
+ */
 public class MissionView {
     @Getter private final TableView<AirMissionViewModel> table = new TableView<>();
     @Getter private final Button add = new Button("Add");

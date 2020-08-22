@@ -20,7 +20,7 @@ public class AllotmentGroup {
     @Setter
     private int selectSize;
 
-    private List<SquadronData> aircraft;    // A list of "all" available squadron types for this grouping.
+    private final List<SquadronData> aircraft;    // A list of "all" available squadron types for this grouping.
 
     /**
      * Constructor.

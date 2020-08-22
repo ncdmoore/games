@@ -27,7 +27,7 @@ public class SquadronDeployment {
     @Setter
     private List<String> mandatory; //List of mandatory aircraft model's that must be deployed.
 
-    private Map<AircraftBaseType, Integer> rankings = new HashMap<>();
+    private final Map<AircraftBaseType, Integer> rankings = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -45,6 +45,8 @@ public class SquadronDeployment {
         rankings.put(AircraftBaseType.FIGHTER, data.getFighter());
         rankings.put(AircraftBaseType.BOMBER, data.getBomber());
         rankings.put(AircraftBaseType.RECON, data.getRecon());
+        rankings.put(AircraftBaseType.DIVE_BOMBER, data.getDiveBomber());
+        rankings.put(AircraftBaseType.TORPEDO_BOMBER, data.getTorpedoBomber());
     }
 
     /**
