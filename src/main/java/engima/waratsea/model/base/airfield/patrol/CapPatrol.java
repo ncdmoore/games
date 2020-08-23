@@ -6,6 +6,7 @@ import com.google.inject.name.Named;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
+import engima.waratsea.model.base.airfield.patrol.stats.PatrolStats;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronAction;
@@ -28,14 +29,9 @@ public class CapPatrol implements Patrol {
     private static final int RADIUS = 2;
 
     private final PatrolAirRules rules;
-
-    private List<Squadron> squadrons;
-
-    @Getter
-    private final Airbase airbase;
-
-    @Getter
-    private int maxRadius;
+    private final List<Squadron> squadrons;
+    @Getter private final Airbase airbase;
+    @Getter private int maxRadius;
 
     /**
      * The constructor.
@@ -193,16 +189,24 @@ public class CapPatrol implements Patrol {
      * @return A map of data for this patrol.
      */
     @Override
-    public Map<Integer, Map<String, String>> getPatrolStats() {
+    public PatrolStats getPatrolStats() {
+        Map<String, String> toolTips = new HashMap<>();
+        toolTips.put("Intercept", "Intercept effectiveness with weather affects");
+        toolTips.put("No Weather", "Intercept effectiveness without weather affects");
 
         if (squadrons.isEmpty()) {
-            return new HashMap<>();
+            return new PatrolStats();
         }
 
-        return IntStream
+        Map<Integer, Map<String, String>> stats = IntStream
                 .range(0, maxRadius + 1)
                 .boxed()
                 .collect(Collectors.toMap(radius -> radius, this::getPatrolStat));
+
+        PatrolStats patrolStats = new PatrolStats();
+        patrolStats.setData(stats);
+        patrolStats.setMetaData(toolTips);
+        return patrolStats;
     }
 
     /**

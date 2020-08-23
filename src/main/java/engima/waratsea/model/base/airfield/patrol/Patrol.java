@@ -2,11 +2,11 @@ package engima.waratsea.model.base.airfield.patrol;
 
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
+import engima.waratsea.model.base.airfield.patrol.stats.PatrolStats;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 
 import java.util.List;
-import java.util.Map;
 
 public interface Patrol {
     /**
@@ -90,7 +90,7 @@ public interface Patrol {
      *
      * @return A map of data for this patrol.
      */
-    Map<Integer, Map<String, String>> getPatrolStats();
+    PatrolStats getPatrolStats();
 
     /**
      * Get the Patrol's maximum squadron radius. This is the radius of the squadron

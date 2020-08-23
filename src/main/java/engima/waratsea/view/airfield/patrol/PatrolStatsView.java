@@ -80,7 +80,7 @@ public class PatrolStatsView {
      * @param patrol The updated patrol.
      */
     private void setAssigned(final Patrol patrol) {
-        Map<Integer, Map<String, String>> stats = patrol.getPatrolStats();
+        Map<Integer, Map<String, String>> stats = patrol.getPatrolStats().getData();
 
         vBox.getChildren().clear();
         hBox.getChildren().clear();

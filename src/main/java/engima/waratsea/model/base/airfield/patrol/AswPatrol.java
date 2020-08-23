@@ -6,6 +6,7 @@ import com.google.inject.name.Named;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
+import engima.waratsea.model.base.airfield.patrol.stats.PatrolStats;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +34,7 @@ import java.util.stream.IntStream;
 
 @Slf4j
 public class AswPatrol implements Patrol {
-    private List<Squadron> squadrons;         //The squadrons that are on this patrol.
+    private final List<Squadron> squadrons;   //The squadrons that are on this patrol.
     @Getter private final Airbase airbase;    //The airbase from which the patrol is flown.
     @Getter private int maxRadius;            //The maximum patrol radius of this patrol.
     private final PatrolAirRules rules;       //The set of rules that govern this patrol.
@@ -192,13 +194,22 @@ public class AswPatrol implements Patrol {
      * @return A map of data for this patrol.
      */
     @Override
-    public Map<Integer, Map<String, String>> getPatrolStats() {
+    public PatrolStats getPatrolStats() {
+        Map<String, String> toolTips = new HashMap<>();
+        toolTips.put("Search", "Chance submarine is successfully spotted");
+        toolTips.put("Attack", "Chance submarine is successfully attacked");
+
         int trueMaxRadius = getTrueMaxRadius();
 
-        return IntStream
+        Map<Integer, Map<String, String>> stats = IntStream
                 .range(1, trueMaxRadius + 1)
                 .boxed()
                 .collect(Collectors.toMap(radius -> radius, this::getPatrolStat));
+
+        PatrolStats patrolStats = new PatrolStats();
+        patrolStats.setData(stats);
+        patrolStats.setMetaData(toolTips);
+        return patrolStats;
     }
 
     /**

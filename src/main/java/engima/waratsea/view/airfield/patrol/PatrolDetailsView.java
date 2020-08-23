@@ -11,11 +11,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +32,8 @@ import java.util.stream.Stream;
 public class PatrolDetailsView {
     private final ViewProps props;
 
-    @Getter
-    private final Map<PatrolType, List<Label>> labelMap = new HashMap<>();
-
-    @Getter
-    private final TabPane patrolsTabPane = new TabPane();
+    @Getter private final Map<PatrolType, List<Label>> labelMap = new HashMap<>();
+    @Getter private final TabPane patrolsTabPane = new TabPane();
 
     /**
      * Constructor called by guice.
@@ -56,7 +55,6 @@ public class PatrolDetailsView {
      * @return A node containing the airfield details.
      */
     public Node show(final List<Patrol> patrols) {
-
         patrolsTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         List<Tab> tabs = patrols
@@ -111,20 +109,27 @@ public class PatrolDetailsView {
             int col = column.getAndIncrement();
 
             Label label = new Label(type.toString());
-            label.setMaxWidth(props.getInt("patrol.grid.label.width"));
-            label.setMinWidth(props.getInt("patrol.grid.label.width"));
-            label.setId("patrol-details-header");
+            styleHeaderLabel(label);
             gridPane.add(label, col, 0);
 
-            int size = Optional
-                    .ofNullable(squadronTypeMap.get(type))
+            Optional<List<Squadron>> squadrons = Optional
+                    .ofNullable(squadronTypeMap.get(type));
+
+            int size = squadrons
                     .map(List::size)
                     .orElse(0);
 
             Label count = new Label(size + "");
-            count.setMaxWidth(props.getInt("patrol.grid.label.width"));
-            count.setMinWidth(props.getInt("patrol.grid.label.width"));
-            count.setId("patrol-details-cell");
+            styleLabel(count);
+
+            String names = squadrons
+                    .orElseGet(Collections::emptyList)
+                    .stream()
+                    .map(Squadron::getTitle)
+                    .collect(Collectors.joining("\n"));
+
+            count.setTooltip(new Tooltip(names));
+
             gridPane.add(count, col, 1);
         });
 
@@ -146,13 +151,20 @@ public class PatrolDetailsView {
 
         labelMap.get(PatrolType.getType(patrol)).clear();
 
-        Map<Integer, Map<String, String>> data = patrol.getPatrolStats();
+        Map<Integer, Map<String, String>> data = patrol.getPatrolStats().getData();
 
-        buildHeaders(gridPane, data.get(1));
+        buildHeaders(gridPane, patrol);
 
         int row = 1;
         for (Map.Entry<Integer, Map<String, String>> entry : data.entrySet()) {
-            Label radiusLabel = buildRow(gridPane, entry, row);
+            int radius = entry.getKey();
+            String squadrons = patrol
+                    .getAssignedSquadrons(radius)
+                    .stream()
+                    .map(Squadron::getTitle)
+                    .collect(Collectors.joining("\n"));
+
+            Label radiusLabel = buildRow(gridPane, entry, squadrons, row);
             labelMap.get(PatrolType.getType(patrol)).add(radiusLabel);
             row++;
         }
@@ -166,22 +178,30 @@ public class PatrolDetailsView {
      * Build the patrol details grid header.
      *
      * @param gridPane The grid pane that houses the grid.
-     * @param data The data to place in the grid, used to get the label text of the headers.
+     * @param patrol The patrol.
      */
-    private void buildHeaders(final GridPane gridPane, final Map<String, String> data) {
+    private void buildHeaders(final GridPane gridPane, final Patrol patrol) {
+        Map<String, String> data = patrol.getPatrolStats().getData().get(1);
+
         Label label = new Label("Radius");
-        label.setMaxWidth(props.getInt("patrol.grid.label.width"));
-        label.setMinWidth(props.getInt("patrol.grid.label.width"));
-        label.setId("patrol-details-header");
+        styleHeaderLabel(label);
         gridPane.add(label, 0, 0);
 
         int col = 1;
         for (String title: data.keySet()) {
             label = new Label(title);
-            label.setMaxWidth(props.getInt("patrol.grid.label.width"));
-            label.setMinWidth(props.getInt("patrol.grid.label.width"));
-            label.setId("patrol-details-header");
+            styleHeaderLabel(label);
             gridPane.add(label, col, 0);
+
+            String toolTip = patrol
+                    .getPatrolStats()
+                    .getMetaData()
+                    .get(title);
+
+            if (toolTip != null) {
+                label.setTooltip(new Tooltip(toolTip));
+            }
+
             col++;
         }
     }
@@ -191,30 +211,58 @@ public class PatrolDetailsView {
      *
      * @param gridPane The grid pane that houses the grid.
      * @param entry The data to place in the grid.
+     * @param squadrons The squadron titles of all the squadrons that are affective at the given radius.
      * @param row The patrol radius.
      * @return The radius label.
      */
-    private Label buildRow(final GridPane gridPane, final Map.Entry<Integer, Map<String, String>> entry, final int row) {
+    private Label buildRow(final GridPane gridPane, final Map.Entry<Integer, Map<String, String>> entry, final String squadrons, final int row) {
         int radius = entry.getKey();
         Map<String, String> data = entry.getValue();
 
+        // Add the patrol radius label.
         Label radiusLabel = new Label(radius + "");
-        radiusLabel.setMaxWidth(props.getInt("patrol.grid.label.width"));
-        radiusLabel.setMinWidth(props.getInt("patrol.grid.label.width"));
-        radiusLabel.setId("patrol-details-cell");
+        styleLabel(radiusLabel);
         radiusLabel.setUserData(radius);
-
         gridPane.add(radiusLabel, 0, row);
-        int col = 1;
-        for (Map.Entry<String, String> dataEntry : data.entrySet()) {
-            Label label = new Label(dataEntry.getValue());
-            label.setMaxWidth(props.getInt("patrol.grid.label.width"));
-            label.setMinWidth(props.getInt("patrol.grid.label.width"));
-            label.setId("patrol-details-cell");
-            gridPane.add(label, col, row);
-            col++;
-        }
+
+        AtomicInteger col = new AtomicInteger(1);
+
+        // Add the squadron label. Give it a tool tip.
+        data.entrySet().stream().findFirst().ifPresent(e -> {
+            Label label = new Label(e.getValue());
+            styleLabel(label);
+            label.setTooltip(new Tooltip(squadrons));
+            gridPane.add(label, col.getAndIncrement(), row);
+        });
+
+        // Add the remaining row labels.
+        data.entrySet().stream().skip(1).forEach(e -> {
+            Label label = new Label(e.getValue());
+            styleLabel(label);
+            gridPane.add(label, col.getAndIncrement(), row);
+        });
 
         return radiusLabel;
+    }
+
+    /**
+     * Style the table's data row labels.
+     *
+     * @param label A label that is styled.
+     */
+    private void styleHeaderLabel(final Label label) {
+        label.setMaxWidth(props.getInt("patrol.grid.label.width"));
+        label.setMinWidth(props.getInt("patrol.grid.label.width"));
+        label.setId("patrol-details-header");
+    }
+    /**
+     * Style the table's data row labels.
+     *
+     * @param label A label that is styled.
+     */
+    private void styleLabel(final Label label) {
+        label.setMaxWidth(props.getInt("patrol.grid.label.width"));
+        label.setMinWidth(props.getInt("patrol.grid.label.width"));
+        label.setId("patrol-details-cell");
     }
 }
