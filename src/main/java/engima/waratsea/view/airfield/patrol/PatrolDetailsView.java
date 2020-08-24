@@ -108,9 +108,9 @@ public class PatrolDetailsView {
         Stream.of(AircraftBaseType.values()).forEach(type -> {
             int col = column.getAndIncrement();
 
-            Label label = new Label(type.toString());
-            styleHeaderLabel(label);
-            gridPane.add(label, col, 0);
+            Label header = new Label(type.toString());
+            styleHeaderLabel(header);
+            gridPane.add(header, col, 0);
 
             Optional<List<Squadron>> squadrons = Optional
                     .ofNullable(squadronTypeMap.get(type));
@@ -152,19 +152,13 @@ public class PatrolDetailsView {
         labelMap.get(PatrolType.getType(patrol)).clear();
 
         Map<Integer, Map<String, String>> data = patrol.getPatrolStats().getData();
+        Map<Integer, String> toolTipsText = patrol.getPatrolStats().getRowMetaData();
 
         buildHeaders(gridPane, patrol);
 
         int row = 1;
         for (Map.Entry<Integer, Map<String, String>> entry : data.entrySet()) {
-            int radius = entry.getKey();
-            String squadrons = patrol
-                    .getAssignedSquadrons(radius)
-                    .stream()
-                    .map(Squadron::getTitle)
-                    .collect(Collectors.joining("\n"));
-
-            Label radiusLabel = buildRow(gridPane, entry, squadrons, row);
+            Label radiusLabel = buildRow(gridPane, entry, toolTipsText.get(entry.getKey()), row);
             labelMap.get(PatrolType.getType(patrol)).add(radiusLabel);
             row++;
         }
@@ -211,11 +205,11 @@ public class PatrolDetailsView {
      *
      * @param gridPane The grid pane that houses the grid.
      * @param entry The data to place in the grid.
-     * @param squadrons The squadron titles of all the squadrons that are affective at the given radius.
+     * @param toolTipText The squadron titles of all the squadrons that are affective at the given radius.
      * @param row The patrol radius.
      * @return The radius label.
      */
-    private Label buildRow(final GridPane gridPane, final Map.Entry<Integer, Map<String, String>> entry, final String squadrons, final int row) {
+    private Label buildRow(final GridPane gridPane, final Map.Entry<Integer, Map<String, String>> entry, final String toolTipText, final int row) {
         int radius = entry.getKey();
         Map<String, String> data = entry.getValue();
 
@@ -227,18 +221,13 @@ public class PatrolDetailsView {
 
         AtomicInteger col = new AtomicInteger(1);
 
-        // Add the squadron label. Give it a tool tip.
-        data.entrySet().stream().findFirst().ifPresent(e -> {
-            Label label = new Label(e.getValue());
-            styleLabel(label);
-            label.setTooltip(new Tooltip(squadrons));
-            gridPane.add(label, col.getAndIncrement(), row);
-        });
-
         // Add the remaining row labels.
-        data.entrySet().stream().skip(1).forEach(e -> {
-            Label label = new Label(e.getValue());
+        data.forEach((key, value) -> {
+            Label label = new Label(value);
             styleLabel(label);
+            if (toolTipText != null) {
+                label.setTooltip(new Tooltip(toolTipText));
+            }
             gridPane.add(label, col.getAndIncrement(), row);
         });
 

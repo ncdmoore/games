@@ -215,8 +215,8 @@ public class SearchPatrol implements Patrol {
     @Override
     public PatrolStats getPatrolStats() {
         Map<String, String> toolTips = new HashMap<>();
-        toolTips.put("Search", "Search effectiveness with weather affects");
-        toolTips.put("No Weather", "Search effectiveness without weather affects");
+        toolTips.put("Search", "Search effectiveness with present weather affects");
+        toolTips.put("No Weather", "Search effectiveness without any weather affects");
 
         int trueMaxRadius = getTrueMaxRadius();
 
@@ -225,9 +225,15 @@ public class SearchPatrol implements Patrol {
                 .boxed()
                 .collect(Collectors.toMap(radius -> radius, this::getPatrolStat));
 
+        Map<Integer, String> titles = IntStream
+                .range(1, trueMaxRadius + 1)
+                .boxed()
+                .collect(Collectors.toMap(radius -> radius, this::getPatrolSquadrons));
+
         PatrolStats patrolStats = new PatrolStats();
         patrolStats.setData(stats);
         patrolStats.setMetaData(toolTips);
+        patrolStats.setRowMetaData(titles);
 
         return patrolStats;
     }
@@ -277,6 +283,19 @@ public class SearchPatrol implements Patrol {
         data.put("No Weather", rules.getBaseSearchSuccessNoWeather(radius, inRange) + "%");
 
         return data;
+    }
+
+    /**
+     * Get the squadron titles that are affective at the given radius.
+     *
+     * @param radius Patrol radius.
+     * @return A list of squadron titles that are affective at the given radius.
+     */
+    private String getPatrolSquadrons(final int radius) {
+       return getAssignedSquadrons(radius)
+                .stream()
+                .map(Squadron::getTitle)
+                .collect(Collectors.joining("\n"));
     }
 
     /**

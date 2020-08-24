@@ -15,10 +15,15 @@ public class PatrolStats {
     @Setter
     private Map<String, String> metaData;
 
+    @Getter
+    @Setter
+    private Map<Integer, String> rowMetaData;
+
     /**
      * Constructor.
      */
     public PatrolStats() {
-        metaData = new HashMap<>(); // enuser that the metaData map always exists.
+        metaData = new HashMap<>();     // ensure that the metaData map always exists.
+        rowMetaData = new HashMap<>();  // ensure that the rowMetaData map always exists.
     }
 }
