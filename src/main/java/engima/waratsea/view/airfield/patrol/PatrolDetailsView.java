@@ -240,8 +240,8 @@ public class PatrolDetailsView {
      * @param label A label that is styled.
      */
     private void styleHeaderLabel(final Label label) {
-        label.setMaxWidth(props.getInt("patrol.grid.label.width"));
-        label.setMinWidth(props.getInt("patrol.grid.label.width"));
+        label.setMaxWidth(props.getInt("patrol.grid.details.label.width"));
+        label.setMinWidth(props.getInt("patrol.grid.details.label.width"));
         label.setId("patrol-details-header");
     }
     /**
@@ -250,8 +250,8 @@ public class PatrolDetailsView {
      * @param label A label that is styled.
      */
     private void styleLabel(final Label label) {
-        label.setMaxWidth(props.getInt("patrol.grid.label.width"));
-        label.setMinWidth(props.getInt("patrol.grid.label.width"));
+        label.setMaxWidth(props.getInt("patrol.grid.details.label.width"));
+        label.setMinWidth(props.getInt("patrol.grid.details.label.width"));
         label.setId("patrol-details-cell");
     }
 }
