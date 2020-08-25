@@ -84,7 +84,7 @@ public class MissionDetailsView {
         Node summaryNode = buildSummary(mission);
         Node squadronNode = buildSquadrons(mission);
 
-        Node statsNode = statsView.build(mission.getMissionProbability());
+        Node statsNode = statsView.setHorizontal().build(mission.getMissionProbability());
 
         VBox vBox = new VBox(summaryNode, squadronNode, statsNode);
         vBox.setId("mission-details-vbox");

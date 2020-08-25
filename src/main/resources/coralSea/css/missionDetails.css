@@ -58,6 +58,10 @@
     -fx-spacing: 10;
 }
 
+#mission-stats-hbox {
+    -fx-spacing: 75;
+}
+
 #mission-stats-header {
     -fx-background-color: lightsteelblue;
     -fx-font: bold normal 10pt "Lucida Grande";
@@ -168,6 +172,9 @@
     -fx-hgap: 1;
     -fx-vgap: 1;
 }
+
+
+
 
 #mission-details-header {
     -fx-font: bold normal 10pt "Lucida Grande";

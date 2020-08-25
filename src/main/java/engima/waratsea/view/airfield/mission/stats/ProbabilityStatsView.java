@@ -6,6 +6,8 @@ import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.stream.Collectors;
 public class ProbabilityStatsView {
 
     private final ViewProps props;
+    private Pane pane = new VBox();
+
     /**
      * Constructor.
      *
@@ -23,6 +27,18 @@ public class ProbabilityStatsView {
     @Inject
     public ProbabilityStatsView(final ViewProps props) {
         this.props = props;
+        pane.setId("mission-stats-vbox");
+    }
+
+    /**
+     * Set the containing pane to be an HBox.
+     *
+     * @return This object.
+     */
+    public ProbabilityStatsView setHorizontal() {
+        pane = new HBox();
+        pane.setId("mission-stats-hbox");
+        return this;
     }
 
     /**
@@ -37,10 +53,8 @@ public class ProbabilityStatsView {
                 .map(this::buildStats)
                 .collect(Collectors.toList());
 
-        VBox vBox = new VBox();
-        vBox.getChildren().addAll(nodes);
-        vBox.setId("mission-stats-vbox");
-        return vBox;
+        pane.getChildren().addAll(nodes);
+        return pane;
     }
 
     /**

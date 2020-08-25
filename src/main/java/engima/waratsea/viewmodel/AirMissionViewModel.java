@@ -387,7 +387,7 @@ public class AirMissionViewModel {
         Callable<Integer> bindingFunction = () -> totalMissions
                     .getValue()
                     .stream()
-                    .filter(airMission -> airMission != this)
+                    .filter(airMission -> airMission.id != this.id)
                     .filter(airMission -> airMission.getMissionType().getValue() == missionType.getValue())
                     .filter(airMission -> airMission.getTarget().getValue() == target.getValue())
                     .flatMap(airMission -> airMission.getTotalAssigned().getValue().stream())
@@ -432,7 +432,7 @@ public class AirMissionViewModel {
         Callable<Integer> bindingFunction = () -> totalMissions
                 .getValue()
                 .stream()
-                .filter(airMission -> airMission != this)
+                .filter(airMission -> airMission.id != this.id)
                 .filter(airMission -> airMission.getMissionType().getValue() == missionType.getValue())
                 .filter(this::filterTargetRegion)
                 .flatMap(airMission -> airMission.getTotalAssigned().getValue().stream())
@@ -479,7 +479,7 @@ public class AirMissionViewModel {
         Callable<Integer> bindingFunction = () -> totalMissions
                     .getValue()
                     .stream()
-                    .filter(airMission -> airMission != this)
+                    .filter(airMission -> airMission.id != this.id)
                     .filter(airMission -> airMission.getMissionType().getValue() == missionType.getValue())
                     .filter(this::filterAirbaseRegion)
                     .flatMap(airMission -> airMission.getTotalAssigned().getValue().stream())
