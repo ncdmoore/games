@@ -165,8 +165,21 @@
 }
 
 #mission-details-grid {
-    -fx-hgap: 100;
-    -fx-vgap: 5;
+    -fx-hgap: 1;
+    -fx-vgap: 1;
+}
+
+#mission-details-header {
+    -fx-font: bold normal 10pt "Lucida Grande";
+    -fx-background-color: lightsteelblue;
+    -fx-alignment: top-center;
+    -fx-padding: /* top */ 2 /* bottom */ 2 /* right */ 2 /* left */ 2;
+}
+
+#mission-details-cell {
+    -fx-background-color: whitesmoke;
+    -fx-text-fill: black;
+    -fx-alignment: top-center;
 }
 
 .component-grid {

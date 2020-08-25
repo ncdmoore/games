@@ -166,14 +166,32 @@
     -fx-spacing: 20;
 }
 
-#mission-details-grid {
-    -fx-hgap: 100;
+#mission-details-summary-grid {
+    -fx-hgap: 40;
     -fx-vgap: 5;
+}
+
+#mission-details-squadron-grid {
+    -fx-hgap: 1;
+    -fx-vgap: 1;
 }
 
 #mission-details-vbox {
     -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
     -fx-spacing: 30;
+}
+
+#mission-details-header {
+    -fx-font: bold normal 10pt "Lucida Grande";
+    -fx-background-color: lightsteelblue;
+    -fx-alignment: top-center;
+    -fx-padding: /* top */ 2 /* bottom */ 2 /* right */ 2 /* left */ 2;
+}
+
+#mission-details-cell {
+    -fx-background-color: whitesmoke;
+    -fx-text-fill: black;
+    -fx-alignment: top-center;
 }
 
 .component-grid {

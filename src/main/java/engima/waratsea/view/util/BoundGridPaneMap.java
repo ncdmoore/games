@@ -47,6 +47,8 @@ public class BoundGridPaneMap {
 
             valueLabel.textProperty().bind(entry.getValue().asString());
 
+
+
             gridPane.add(keyLabel, 0, i);
             gridPane.add(valueLabel, 1, i);
             i++;
