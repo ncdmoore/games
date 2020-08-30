@@ -245,6 +245,8 @@ public class MissionAddView {
         squadronLists.setHeight(props.getInt("airfield.dialog.mission.list.height"));
         squadronLists.setButtonWidth(props.getInt("airfield.dialog.mission.button.width"));
 
+        squadronLists.setAvailableTitle("Available Squadrons");
+        squadronLists.setAssignedTitle("Assigned Squadrons");
         Node squadronNode = squadronLists.build();
 
         StackPane stackPane = stackPanes.get(role);

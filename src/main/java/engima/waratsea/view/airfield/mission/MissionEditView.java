@@ -255,6 +255,8 @@ public class MissionEditView {
 
         squadronLists.clearAll();
 
+        squadronLists.setAvailableTitle("Available Squadrons");
+        squadronLists.setAssignedTitle("Assigned Squadrons");
         Node squadronNode = squadronLists.build();
 
         StackPane stackPane = stackPanes.get(role);

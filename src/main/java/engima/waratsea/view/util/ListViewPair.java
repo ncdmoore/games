@@ -19,13 +19,13 @@ public class ListViewPair<T> {
     @Setter private int width;
     @Setter private int height;
     @Setter private int buttonWidth;
-    @Getter private ListView<T> available = new ListView<>();
-    @Getter private ListView<T> assigned = new ListView<>();
-    @Getter private Button add = new Button();
-    @Getter private Button remove = new Button();
+    @Getter private final ListView<T> available = new ListView<>();
+    @Getter private final ListView<T> assigned = new ListView<>();
+    @Getter private final Button add = new Button();
+    @Getter private final Button remove = new Button();
 
-    private Label availableLabel = new Label();
-    private Label assignedLabel = new Label();
+    private final Label availableLabel = new Label();
+    private final Label assignedLabel = new Label();
 
     private final ViewProps props;
     private final ImageResourceProvider imageResourceProvider;

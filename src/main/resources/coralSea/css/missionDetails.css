@@ -89,6 +89,7 @@
 }
 
 #missions-list-view-pair {
+    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 0;
     -fx-spacing: 30;
     -fx-alignment: top-left;
 }
