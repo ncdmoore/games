@@ -53,6 +53,7 @@ public class ProbabilityStatsView {
                 .map(this::buildStats)
                 .collect(Collectors.toList());
 
+        pane.getChildren().clear();
         pane.getChildren().addAll(nodes);
         return pane;
     }
