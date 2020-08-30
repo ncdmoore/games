@@ -12,6 +12,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -60,10 +61,13 @@ public class NationAirbaseViewModel {
     @Getter private Map<PatrolType, PatrolViewModel> patrolViewModels;
     private List<AirMissionViewModel> missionViewModels;
 
-    @Getter private final Map<String, IntegerProperty> squadronCounts = new HashMap<>();
-    @Getter private final Map<String, IntegerProperty> missionCounts = new HashMap<>();
+    @Getter private final Map<String, IntegerProperty> squadronCounts = new HashMap<>();     // Per nation.
+    @Getter private final Map<String, IntegerProperty> missionCounts = new HashMap<>();      // Per nation.
     @Getter private final Map<String, IntegerProperty> patrolCounts = new HashMap<>();       // Per nation.
-    @Getter private final Map<String, IntegerProperty> readyCounts = new HashMap<>();
+    @Getter private final Map<String, IntegerProperty> readyCounts = new HashMap<>();        // Per nation.
+
+    @Getter private final BooleanProperty noSquadronsReady = new SimpleBooleanProperty(true); // Per nation
+    @Getter private final BooleanProperty noMissionsExist = new SimpleBooleanProperty(true); // Per nation.
 
     @Getter private AirbaseViewModel airbaseViewModel;
 
@@ -296,6 +300,8 @@ public class NationAirbaseViewModel {
     private void initializeReady(final SquadronViewType type) {
         readySquadrons.put(type, new SimpleObjectProperty<>());
         readyCounts.put(type.toString(), new SimpleIntegerProperty(0));
+
+        bindNoSquadronsReady();
     }
 
     /**
@@ -449,6 +455,8 @@ public class NationAirbaseViewModel {
         Stream
                 .of(AirMissionType.values())
                 .forEach(this::bindMissionCount);
+
+        bindNoMissionsExist();
     }
 
     /**
@@ -465,6 +473,17 @@ public class NationAirbaseViewModel {
                 .reduce(0, Integer::sum);
 
         missionCounts.get(type.toString()).bind(Bindings.createIntegerBinding(bindingFunction, missions));
+    }
+
+    /**
+     * Bind whether this nation has any missions at this airbase.
+     */
+    private void bindNoMissionsExist() {
+        Callable<Boolean> bindingFunction = () -> missions
+                .getValue()
+                .isEmpty();
+
+        noMissionsExist.bind(Bindings.createBooleanBinding(bindingFunction, missions));
     }
 
     /**
@@ -512,5 +531,15 @@ public class NationAirbaseViewModel {
                 .count();
 
         squadronCounts.put(type.toString(), new SimpleIntegerProperty(count));
+    }
+
+    /**
+     * Bind the no squadrons ready property. This property indicates if any squadrons are ready
+     * for this nation at this airbase.
+     */
+    private void bindNoSquadronsReady() {
+        Callable<Boolean> bindingFunction = () -> totalReadySquadrons.getValue().isEmpty();
+
+        noSquadronsReady.bind(Bindings.createBooleanBinding(bindingFunction, totalReadySquadrons));
     }
 }
