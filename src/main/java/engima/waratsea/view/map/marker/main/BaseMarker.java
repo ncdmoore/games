@@ -323,10 +323,7 @@ public class BaseMarker {
      * @return The base marker's tool tip text.
      */
     private String getToolTipText() {
-        String bullet = baseGrid
-                .getAirfield()
-                .map(airfield -> airfield.getNations().size() > 1)
-                .orElse(false) ? "  \u2022  " : "  ";
+        String bullet = "  \u2022  ";
 
         String squadronText = getBaseSquadrons()
                 .entrySet()
@@ -334,12 +331,26 @@ public class BaseMarker {
                 .map(entry -> bullet + entry.getKey().toString() + " : " + entry.getValue().size())
                 .collect(joining("\n"));
 
-        return baseGrid
+        String taskForceText = getBaseTaskForces()
+                .stream()
+                .map(taskForce -> bullet + taskForce.getName() + " " + taskForce.getTitle())
+                .collect(joining("\n"));
+
+        String toolTipSquadrons = baseGrid
                 .getAirfield()
                 .map(Airfield::areSquadronsPresent)
                 .orElse(false)
                 ? "Squadrons Present\n" + squadronText
                 : "No Squadrons";
+
+        String taskForceSquadrons = baseGrid
+                .getPort()
+                .map(Port::areTaskForcesPresent)
+                .orElse(false)
+                ? "Task Forces Present\n" + taskForceText
+                : "No Task Forces";
+
+        return toolTipSquadrons + "\n\n" + taskForceSquadrons;
     }
 
     /**
@@ -352,6 +363,18 @@ public class BaseMarker {
                 .getAirfield()
                 .map(Airbase::getSquadronMap)
                 .orElse(Collections.emptyMap());
+    }
+
+    /**
+     * Get the port's task forces.
+     *
+     * @return A list of task forces.
+     */
+    private List<TaskForce> getBaseTaskForces() {
+        return baseGrid
+                .getPort()
+                .map(Port::getTaskForces)
+                .orElse(Collections.emptyList());
     }
 
     /**

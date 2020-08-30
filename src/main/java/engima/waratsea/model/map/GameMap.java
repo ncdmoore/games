@@ -112,8 +112,7 @@ public final class GameMap {
 
         buildGrid(props);
 
-        taskForceGrids.put(Side.ALLIES, new ArrayList<>());
-        taskForceGrids.put(Side.AXIS, new ArrayList<>());
+
     }
 
     /**
@@ -152,6 +151,9 @@ public final class GameMap {
 
         buildLocationToBaseMap(Side.ALLIES);
         buildLocationToBaseMap(Side.AXIS);
+
+        taskForceGrids.put(Side.ALLIES, new ArrayList<>());
+        taskForceGrids.put(Side.AXIS, new ArrayList<>());
     }
 
     /**

@@ -59,9 +59,9 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
     @Getter private Map<String, Ship> shipMap;
     @Getter private Map<ShipType, List<Ship>> shipTypeMap;
 
-    private Shipyard shipyard;
+    private final Shipyard shipyard;
     private ShipEventMatcherFactory shipEventMatcherFactory;
-    private GameMap gameMap;
+    private final GameMap gameMap;
 
     /**
      * Constructor of Task Force called by guice.
