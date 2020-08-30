@@ -97,11 +97,16 @@ public class MainMapPresenter {
     /**
      * Setup mouse event handlers for when the base markers are clicked.
      */
-    public void setClickHandlers() {
+    public void setMouseEventHandlers() {
         mainMenu.getShowAirfields().setOnAction(event -> toggleMarkers());
         mainMenu.getShowPorts().setOnAction(event -> toggleMarkers());
 
         Side humanSide =  game.getHumanSide();
+        mainMapView.setBaseMouseEnterHandler(humanSide, this::baseMouseEnterHandler);
+        mainMapView.setBaseMouseExitHandler(humanSide, this::baseMouseExitHandler);
+        mainMapView.setBaseMouseEnterHandler(humanSide.opposite(), this::baseMouseEnterHandler);
+        mainMapView.setBaseMouseExitHandler(humanSide.opposite(), this::baseMouseExitHandler);
+
         mainMapView.setBaseClickHandler(humanSide, this::humanBaseClickHandler);
         mainMapView.setBaseClickHandler(humanSide.opposite(), this::computerBaseClickHandler);
 
@@ -120,6 +125,28 @@ public class MainMapPresenter {
     private void toggleMarkers() {
         mainMapView.toggleBaseMarkers(Side.ALLIES);
         mainMapView.toggleBaseMarkers(Side.AXIS);
+    }
+
+    /**
+     * Callback for when a human base grid has a mouse entered event.
+     *
+     * @param event The mouse event.
+     */
+    private void baseMouseEnterHandler(final MouseEvent event) {
+        VBox imageView = (VBox) event.getSource();
+        BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
+        mainMapView.highlightMarker(baseMarker);
+    }
+
+    /**
+     * Callback for when a human base grid has the mouse exit event.
+     *
+     * @param event The mouse event.
+     */
+    private void baseMouseExitHandler(final MouseEvent event) {
+        VBox imageView = (VBox) event.getSource();
+        BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
+        mainMapView.unHighlightMarker(baseMarker);
     }
 
     /**

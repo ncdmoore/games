@@ -19,14 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 @Singleton
 public class MainPresenter implements Presenter {
 
-    private Game game;
+    private final Game game;
 
-    private MainMapPresenter mainMapPresenter;
+    private final MainMapPresenter mainMapPresenter;
 
-    private Provider<MainView> viewProvider;
-    private Provider<MainMenu> menuProvider;
-    private Provider<SquadronsDialog> squadronsDialogProvider;
-    private Provider<StartPresenter> startPresenterProvider;
+    private final Provider<MainView> viewProvider;
+    private final Provider<MainMenu> menuProvider;
+    private final Provider<SquadronsDialog> squadronsDialogProvider;
+    private final Provider<StartPresenter> startPresenterProvider;
     private Stage stage;
 
     /**
@@ -77,7 +77,7 @@ public class MainPresenter implements Presenter {
         menuProvider.get().getAirfieldSquadrons().setOnAction(event -> airfieldSquadrons());
         menuProvider.get().getTaskForceSquadrons().setOnAction(event -> taskForceSquadrons());
 
-        mainMapPresenter.setClickHandlers();
+        mainMapPresenter.setMouseEventHandlers();
     }
 
     /**

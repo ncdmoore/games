@@ -136,6 +136,24 @@ public class BaseMarker {
     }
 
     /**
+     * Highlight the base marker. Show the base's name.
+     */
+    public void highlightMarker() {
+        if (!selected) {
+            showTitle();
+        }
+    }
+
+    /**
+     * Un-highlight the base marker. Hide the base's name.
+     */
+    public void unHighlightMarker() {
+        if (!selected) {
+            hideTitle();
+        }
+    }
+
+    /**
      * This base marker has been selected.
      *
      * @return True if the marker is selected. False if the marker is not selected.
@@ -186,6 +204,28 @@ public class BaseMarker {
         imageView.setOnMouseClicked(handler);
         roundel.setOnMouseClicked(handler);
         flag.setOnMouseClicked(handler);
+    }
+
+    /**
+     * Set the Base marker mouse enter handler.
+     *
+     * @param handler The mouse entered event handler.
+     */
+    public void setBaseMouseEnterHandler(final EventHandler<? super MouseEvent> handler) {
+        imageView.setOnMouseEntered(handler);
+        roundel.setOnMouseEntered(handler);
+        flag.setOnMouseEntered(handler);
+    }
+
+    /**
+     * Set the Base marker mouse exit handler.
+     *
+     * @param handler The mouse exit event handler.
+     */
+    public void setBaseMouseExitHandler(final EventHandler<? super MouseEvent> handler) {
+        imageView.setOnMouseExited(handler);
+        roundel.setOnMouseExited(handler);
+        flag.setOnMouseExited(handler);
     }
 
     /**

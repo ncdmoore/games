@@ -38,21 +38,21 @@ import java.util.Map;
 @Slf4j
 @Singleton
 public class MainMapView {
-    private ImageResourceProvider imageResourceProvider;
-    private Game game;
-    private GameMap gameMap;
-    private ViewProps props;
-    private Provider<MainMenu> menuProvider;
-    private BaseMarkerFactory markerFactory;
+    private final ImageResourceProvider imageResourceProvider;
+    private final Game game;
+    private final GameMap gameMap;
+    private final ViewProps props;
+    private final Provider<MainMenu> menuProvider;
+    private final BaseMarkerFactory markerFactory;
 
     @Getter private StackPane map;
     @Getter private ImageView mapImageView;
 
-    private MapView mapView;
+    private final MapView mapView;
 
-    private Map<Side, List<BaseMarker>> baseMarkers = new HashMap<>();
-    private Map<Side, List<TaskForceMarker>> taskForceMarkers = new HashMap<>();
-    private Map<Airbase, BaseMarker> airbases = new HashMap<>();
+    private final Map<Side, List<BaseMarker>> baseMarkers = new HashMap<>();
+    private final Map<Side, List<TaskForceMarker>> taskForceMarkers = new HashMap<>();
+    private final Map<Airbase, BaseMarker> airbases = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -122,6 +122,26 @@ public class MainMapView {
     }
 
     /**
+     * Set the base grid mouse entered handler.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @param handler The base grid mouse entered handler.
+     */
+    public void setBaseMouseEnterHandler(final Side side, final EventHandler<? super MouseEvent> handler) {
+        baseMarkers.get(side).forEach(baseMarker -> baseMarker.setBaseMouseEnterHandler(handler));
+    }
+
+    /**
+     * Set the base grid mouse exit handler.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @param handler The base grid mouse entered handler.
+     */
+    public void setBaseMouseExitHandler(final Side side, final EventHandler<? super MouseEvent> handler) {
+        baseMarkers.get(side).forEach(baseMarker -> baseMarker.setBaseMouseExitHandler(handler));
+    }
+
+    /**
      * Set the base grid's context airfield menu item.
      *
      * @param side The side ALLIES or AXIS.
@@ -182,6 +202,24 @@ public class MainMapView {
      */
     public void setMissionArrowClickHandler(final Side side, final EventHandler<? super MouseEvent> handler) {
         baseMarkers.get(side).forEach(baseMarker -> baseMarker.setMissionArrowClickHandler(handler));
+    }
+
+    /**
+     * Highlight the given base marker.
+     *
+     * @param baseMarker A base marker.
+     */
+    public void highlightMarker(final BaseMarker baseMarker) {
+        baseMarker.highlightMarker();
+    }
+
+    /**
+     * Un-highlight the given base marker.
+     *
+     * @param baseMarker A base marker.
+     */
+    public void unHighlightMarker(final BaseMarker baseMarker) {
+        baseMarker.unHighlightMarker();
     }
 
     /**
