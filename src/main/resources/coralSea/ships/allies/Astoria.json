@@ -5,29 +5,36 @@
   "secondary":
   {
     "armour": "LIGHT",
-    "maxHealth": 6
+    "maxHealth": 6,
+    "health": 6
   },
   "tertiary":
   {
     "armour": "NONE",
-    "maxHealth": 1
+    "maxHealth": 1,
+    "health": 1
   },
   "antiAir":
   {
     "armour": "NONE",
-    "maxHealth": 2
+    "maxHealth": 2,
+    "health": 2
   },
   "hull": {
     "armour": "LIGHT",
     "maxHealth" : 6,
+    "health": 6,
     "deck": false
   },
   "fuel": {
-    "capacity": 336
+    "capacity": 336,
+    "level": 336
   },
   "movement": {
     "maxEven": 3,
-    "maxOdd": 3
+    "even": 3,
+    "maxOdd": 3,
+    "odd": 3
   },
   "cargo": {
     "capacity": 3

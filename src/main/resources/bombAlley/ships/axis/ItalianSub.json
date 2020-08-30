@@ -4,14 +4,19 @@
   "nationality": "ITALIAN",
   "torpedo": {
     "maxHealth": 1,
-    "maxNumber": 5
+    "health": 1,
+    "maxNumber": 5,
+    "number": 5
   },
   "movement": {
     "maxEven": 1,
-    "maxOdd": 0
+    "even": 1,
+    "maxOdd": 0,
+    "odd": 0
   },
   "fuel": {
-    "capacity": 432
+    "capacity": 432,
+    "level": 452
   },
   "victoryPoints": 4
 }

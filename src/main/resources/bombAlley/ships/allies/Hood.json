@@ -4,33 +4,42 @@
   "nationality": "BRITISH",
   "primary": {
     "armour": "HEAVY",
-    "maxHealth": 10
+    "maxHealth": 10,
+    "health": 10
   },
   "tertiary":
   {
     "armour": "NONE",
-    "maxHealth": 2
+    "maxHealth": 2,
+    "health": 2
   },
   "antiAir":
   {
     "armour": "NONE",
-    "maxHealth": 3
+    "maxHealth": 3,
+    "health": 3
   },
   "torpedo": {
     "maxHealth": 1,
-    "maxNumber": 1
+    "health": 1,
+    "maxNumber": 1,
+    "number": 1
   },
   "hull": {
     "armour": "LIGHT",
     "maxHealth" : 18,
+    "health": 18,
     "deck": true
   },
   "fuel": {
-    "capacity": 360
+    "capacity": 360,
+    "level": 360
   },
   "movement": {
     "maxEven": 3,
-    "maxOdd": 2
+    "even": 3,
+    "maxOdd": 2,
+    "odd": 2
   },
   "victoryPoints": 74
 }

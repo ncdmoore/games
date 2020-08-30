@@ -29,14 +29,6 @@ public class Fuel implements Component {
         this.name = "Fuel";
         this.capacity = data.getCapacity();
         this.level = data.getLevel();
-
-        // This should only happen when a ship is first built at the start of a scenario.
-        // The level is unknown so we set it to the capacity. Note, for an out of fuel
-        // situation the level is set to -1. Thus, the only time the fuel is 0 is when
-        // a ship is first built.
-        if (level == 0) {
-            level = capacity;
-        }
     }
 
     /**

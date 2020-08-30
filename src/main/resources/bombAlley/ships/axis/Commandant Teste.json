@@ -10,19 +10,24 @@
   "tertiary":
   {
     "armour": "NONE",
-    "maxHealth": 1
+    "maxHealth": 1,
+    "health": 1
   },
   "hull": {
     "armour": "NONE",
     "maxHealth" : 5,
+    "health": 5,
     "deck": false
   },
   "fuel": {
-    "capacity": 384
+    "capacity": 384,
+    "level": 384
   },
   "movement": {
     "maxEven": 2,
-    "maxOdd": 2
+    "even": 2,
+    "maxOdd": 2,
+    "odd": 2
   },
   "landingType": [
     "SEAPLANE"

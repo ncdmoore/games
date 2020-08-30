@@ -31,13 +31,6 @@ public class Gun implements Component {
         this.maxHealth = data.getMaxHealth();
         this.armour = data.getArmour();
         this.health = data.getHealth();
-
-        // A gun that is knocked out will have a health of -1.
-        // Thus a value of 0 for health indicates this is a newly
-        // created gun and the health is set to max health.
-        if (health == 0) {
-            health = maxHealth;
-        }
     }
 
     /**

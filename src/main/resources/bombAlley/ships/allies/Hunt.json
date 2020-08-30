@@ -5,7 +5,8 @@
   "tertiary":
   {
     "armour": "NONE",
-    "maxHealth": 1
+    "maxHealth": 1,
+    "health": 1
   },
   "asw": {
     "capable": true
@@ -13,14 +14,18 @@
   "hull": {
     "armour": "NONE",
     "maxHealth" : 1,
+    "health": 1,
     "deck": false
   },
   "fuel": {
-    "capacity": 144
+    "capacity": 144,
+    "level": 144
   },
   "movement": {
     "maxEven": 3,
-    "maxOdd": 3
+    "even": 3,
+    "maxOdd": 3,
+    "odd": 3
   },
   "victoryPoints": 3
 }

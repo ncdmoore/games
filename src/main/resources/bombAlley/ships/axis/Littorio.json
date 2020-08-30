@@ -5,29 +5,36 @@
   "primary":
   {
     "armour": "HEAVY",
-    "maxHealth": 11
+    "maxHealth": 11,
+    "health": 11
   },
   "secondary":
   {
     "armour": "HEAVY",
-    "maxHealth": 5
+    "maxHealth": 5,
+    "health": 5
   },
   "antiAir":
   {
     "armour": "NONE",
-    "maxHealth": 4
+    "maxHealth": 4,
+    "health": 4
   },
   "hull": {
     "armour": "HEAVY",
     "maxHealth" : 15,
+    "health": 15,
     "deck": true
   },
   "fuel": {
-    "capacity": 336
+    "capacity": 336,
+    "level": 336
   },
   "movement": {
     "maxEven": 3,
-    "maxOdd": 3
+    "even": 3,
+    "maxOdd": 3,
+    "odd": 3
   },
   "aircraft": [
     {

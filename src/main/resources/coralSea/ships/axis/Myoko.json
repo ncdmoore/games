@@ -5,34 +5,43 @@
   "secondary":
   {
     "armour": "NONE",
-    "maxHealth": 7
+    "maxHealth": 7,
+    "health": 7
   },
   "tertiary":
   {
     "armour": "NONE",
-    "maxHealth": 1
+    "maxHealth": 1,
+    "health": 1
   },
   "antiAir":
   {
     "armour": "NONE",
-    "maxHealth": 2
+    "maxHealth": 2,
+    "health": 2
   },
   "torpedo":
   {
     "maxHealth": 4,
-    "maxNumber": 2
+    "health": 4,
+    "maxNumber": 2,
+    "number": 1
   },
   "hull": {
     "armour": "LIGHT",
     "maxHealth" : 7,
+    "health": 7,
     "deck": false
   },
   "fuel": {
-    "capacity": 264
+    "capacity": 264,
+    "level": 264
   },
   "movement": {
     "maxEven": 4,
-    "maxOdd": 3
+    "even": 4,
+    "maxOdd": 3,
+    "odd": 3
   },
   "cargo": {
     "capacity": 3

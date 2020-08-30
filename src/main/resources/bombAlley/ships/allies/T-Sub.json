@@ -4,14 +4,19 @@
   "nationality": "BRITISH",
   "torpedo": {
     "maxHealth": 1,
-    "maxNumber": 4
+    "health": 1,
+    "maxNumber": 4,
+    "number": 4
   },
   "movement": {
     "maxEven": 1,
-    "maxOdd": 0
+    "even": 1,
+    "maxOdd": 0,
+    "odd": 0
   },
   "fuel": {
-    "capacity": 432
+    "capacity": 432,
+    "level": 432
   },
   "victoryPoints": 4
 }

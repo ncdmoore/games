@@ -4,24 +4,30 @@
   "nationality": "ITALIAN",
   "flightDeck":
   {
-    "armor": "NONE",
+    "armour": "NONE",
     "capcity": [0, 3]
   },
   "antiAir":
   {
-    "maxHealth": 1
+    "armour": "NONE",
+    "maxHealth": 1,
+    "health": 1
   },
   "hull": {
     "armour": "NONE",
     "maxHealth" : 2,
+    "health": 2,
     "deck": false
   },
   "fuel": {
-    "capacity": 336
+    "capacity": 336,
+    "level": 336
   },
   "movement": {
     "maxEven": 2,
-    "maxOdd": 2
+    "even": 2,
+    "maxOdd": 2,
+    "odd": 2
   },
   "landingType": [
     "SEAPLANE"

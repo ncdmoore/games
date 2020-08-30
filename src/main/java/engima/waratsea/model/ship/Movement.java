@@ -31,18 +31,6 @@ public class Movement implements Component {
         this.maxOdd = data.getMaxOdd();
         this.even = data.getEven();
         this.odd = data.getOdd();
-
-        // An even movement that is knocked out will have a health of -1.
-        // Thus a value of 0 for health indicates this is a newly
-        // created movement and the health is set to max health.
-        if (even == 0) {
-            even = maxEven;
-        }
-
-        if (odd == 0) {
-            odd = maxOdd;
-        }
-
     }
 
     /**

@@ -36,20 +36,6 @@ public class Torpedo implements Component {
         this.health = data.getHealth();
         this.maxNumber = data.getMaxNumber();
         this.number = data.getNumber();
-
-        // A torpedo that is knocked out will have a health of -1.
-        // Thus, a value of 0 for health indicates this is a newly
-        // created torpedo and the health is set to max health.
-        if (health == 0) {
-            health = maxHealth;
-        }
-
-        // A ship with no more torpedo's is set to -1.
-        // Thus, a value of 0 for number indicates this is a newly
-        // created torpedo and the number is set to max number.
-        if (number == 0) {
-            number = maxNumber;
-        }
     }
 
     /**

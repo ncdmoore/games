@@ -35,13 +35,6 @@ public class Hull implements Component {
         this.health = data.getHealth();
         this.armour = data.getArmour();
         this.deck = data.isDeck();
-
-        // If the health is 0 then this is a newly built ship.
-        // Note, sunk ships have a health of -1. So a built ship
-        // should never have a health of 0.
-        if (health == 0) {
-            health = maxHealth;
-        }
     }
 
     /**

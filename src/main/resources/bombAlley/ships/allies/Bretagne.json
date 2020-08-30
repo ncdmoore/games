@@ -4,29 +4,36 @@
   "nationality": "FRENCH",
   "primary": {
     "armour": "HEAVY",
-    "maxHealth": 7
+    "maxHealth": 7,
+    "health": 7
   },
   "tertiary":
   {
     "armour": "LIGHT",
-    "maxHealth": 3
+    "maxHealth": 3,
+    "health": 3
   },
   "antiAir":
   {
     "armour": "NONE",
-    "maxHealth": 3
+    "maxHealth": 3,
+    "health": 3
   },
   "hull": {
     "armour": "HEAVY",
     "maxHealth" : 7,
+    "health": 7,
     "deck": false
   },
   "fuel": {
-    "capacity": 264
+    "capacity": 264,
+    "level": 264
   },
   "movement": {
     "maxEven": 2,
-    "maxOdd": 2
+    "even": 2,
+    "maxOdd": 2,
+    "odd": 2
   },
   "victoryPoints": 59
 }

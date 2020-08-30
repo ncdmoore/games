@@ -10,19 +10,24 @@
   "antiAir":
   {
     "armour": "NONE",
-    "maxHealth": 4
+    "maxHealth": 4,
+    "health": 4
   },
   "hull": {
     "armour": "NONE",
     "maxHealth" : 7,
+    "health": 7,
     "deck": false
   },
   "fuel": {
-    "capacity": 384
+    "capacity": 384,
+    "level": 384
   },
   "movement": {
     "maxEven": 3,
-    "maxOdd": 3
+    "even": 3,
+    "maxOdd": 3,
+    "odd": 3
   },
   "aircraft": [
     {

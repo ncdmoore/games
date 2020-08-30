@@ -5,29 +5,36 @@
   "primary":
   {
     "armour": "HEAVY",
-    "maxHealth": 9
+    "maxHealth": 9,
+    "health": 9
   },
   "tertiary":
   {
     "armour": "NONE",
-    "maxHealth": 5
+    "maxHealth": 5,
+    "health": 5
   },
   "antiAir":
   {
     "armour": "NONE",
-    "maxHealth": 4
+    "maxHealth": 4,
+    "health": 4
   },
   "hull": {
     "armour": "HEAVY",
     "maxHealth" : 15,
+    "health": 15,
     "deck": true
   },
   "fuel": {
-    "capacity": 384
+    "capacity": 384,
+    "level": 384
   },
   "movement": {
     "maxEven": 3,
-    "maxOdd": 3
+    "even": 3,
+    "maxOdd": 3,
+    "odd": 3
   },
   "victoryPoints": 92
 }

@@ -5,24 +5,30 @@
   "tertiary":
   {
     "armour": "NONE",
-    "maxHealth": 2
+    "maxHealth": 2,
+    "health": 2
   },
   "antiAir":
   {
     "armour": "NONE",
-    "maxHealth": 1
+    "maxHealth": 1,
+    "health": 1
   },
   "hull": {
     "armour": "NONE",
     "maxHealth" : 3,
+    "health": 3,
     "deck": false
   },
   "fuel": {
-    "capacity": 264
+    "capacity": 264,
+    "level": 264
   },
   "movement": {
     "maxEven": 2,
-    "maxOdd": 2
+    "even": 2,
+    "maxOdd": 2,
+    "odd": 2
   },
   "cargo": {
     "capacity": 1

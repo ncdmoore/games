@@ -5,15 +5,20 @@
   "tertiary":
   {
     "armour": "NONE",
-    "maxHealth": 1
+    "maxHealth": 1,
+    "health": 1
   },
   "antiAir":
   {
-    "maxHealth": 1
+    "armour": "NONE",
+    "maxHealth": 1,
+    "health": 1
   },
   "torpedo": {
     "maxHealth": 1,
-    "maxNumber": 1
+    "health": 1,
+    "maxNumber": 1,
+    "number": 1
   },
   "asw": {
     "capable": true
@@ -21,14 +26,18 @@
   "hull": {
     "armour": "NONE",
     "maxHealth" : 1,
+    "health": 1,
     "deck": false
   },
   "fuel": {
-    "capacity": 144
+    "capacity": 144,
+    "level": 144
   },
   "movement": {
     "maxEven": 2,
-    "maxOdd": 1
+    "even": 2,
+    "maxOdd": 1,
+    "odd": 1
   },
   "victoryPoints": 3
 }

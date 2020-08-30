@@ -10,19 +10,24 @@
   "tertiary":
   {
     "armour": "NONE",
-    "maxHealth": 1
+    "maxHealth": 1,
+    "health": 1
   },
   "hull": {
     "armour": "NONE",
     "maxHealth" : 3,
+    "health": 3,
     "deck": false
   },
   "fuel": {
-    "capacity": 384
+    "capacity": 384,
+    "level": 384
   },
   "movement": {
     "maxEven": 2,
-    "maxOdd": 1
+    "even": 2,
+    "maxOdd": 1,
+    "odd": 1
   },
   "aircraft": [
   {
