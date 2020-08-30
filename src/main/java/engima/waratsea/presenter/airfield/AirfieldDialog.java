@@ -470,6 +470,16 @@ public class AirfieldDialog {
         viewModelMap
                 .get(nation)
                 .addToPatrol(type, squadron);
+
+        // Go ahead and pre select the next available squadron.
+        // This allows the user to quickly add several squadrons to
+        // a patrol.
+        view
+                .getAirfieldPatrolView()
+                .get(nation)
+                .getAvailable(type)
+                .getSelectionModel()
+                .selectFirst();
     }
 
     /**

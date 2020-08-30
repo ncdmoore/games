@@ -255,6 +255,8 @@ public class MissionAddDialog {
         if (squadron != null) {
             viewModel.addToMission(squadron, role);
 
+            // Go ahead and pre-select the next available squadron.
+            // This allows a user to quickly add squadrons to a mission.
             view
                     .getSquadrons()
                     .get(role)
@@ -279,6 +281,7 @@ public class MissionAddDialog {
 
         if (squadron != null) {
             viewModel.removeFromMission(squadron, role);
+
         }
     }
 
