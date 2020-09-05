@@ -291,22 +291,27 @@ public class AirfieldAssetSummaryView implements AssetView {
         regionInfo.put(nation, airfieldRegionInfoProvider.get());
         TitledPane regionInfoNode = regionInfo.get(nation).build();
         regionInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
+        regionInfoNode.getStyleClass().add("asset-component-pane");
 
         squadronInfo.put(nation, airfieldSquadronInfoProvider.get());
         TitledPane squadronInfoNode = squadronInfo.get(nation).build();
         squadronInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
+        squadronInfoNode.getStyleClass().add("asset-component-pane");
 
         missionInfo.put(nation, airfieldMissionInfoProvider.get());
         TitledPane missionInfoNode = missionInfo.get(nation).build();
         missionInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
+        missionInfoNode.getStyleClass().add("asset-component-pane");
 
         patrolInfo.put(nation, airfieldPatrolInfoProvider.get());
         TitledPane patrolInfoNode = patrolInfo.get(nation).build();
         patrolInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
+        patrolInfoNode.getStyleClass().add("asset-component-pane");
 
         readyInfo.put(nation, airfieldReadyInfoProvider.get());
         TitledPane readyInfoNode = readyInfo.get(nation).build();
         readyInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
+        readyInfoNode.getStyleClass().add("asset-component-pane");
 
         HBox hBox = new HBox(regionInfoNode, squadronInfoNode, readyInfoNode, missionInfoNode, patrolInfoNode);
         hBox.setId("airfield-nation-tab-hbox");

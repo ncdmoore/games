@@ -10,7 +10,7 @@ import java.util.List;
  * Aircraft carrier flight deck.
  */
 public class FlightDeck implements Component {
-    @Getter private String name;
+    @Getter private final String name;
     @Getter private final ArmourType armour;
 
     // The maximum capacity. This is fixed and never changes.
