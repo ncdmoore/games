@@ -5,7 +5,8 @@
   "flightDeck":
   {
     "armour": "NONE",
-    "capacityList": [0, 3]
+    "capacityList": [0, 3],
+    "health": 2
   },
   "antiAir":
   {

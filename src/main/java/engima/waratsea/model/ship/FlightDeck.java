@@ -32,12 +32,6 @@ public class FlightDeck implements Component {
         this.capacityList = data.getCapacityList();
         this.health =  data.getHealth();
         this.maxHealth = capacityList.size();
-
-        // The only time the health is zero is on initial creation of the flight deck.
-        // Note, when a flight deck is knocked out it's value is set to -1.
-        if (health == 0) {
-            health = maxHealth;
-        }
     }
 
     /**

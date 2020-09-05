@@ -160,7 +160,7 @@ public class TaskForceView {
     public TaskForceView bind(final TaskForceViewModel viewModel) {
         stateValue.textProperty().bind(viewModel.getState());
         stateValue.textFillProperty().bind(viewModel.getStateColor());
-        missionValue.textProperty().bind(viewModel.getMission());
+        missionValue.textProperty().bind(viewModel.getMission().asString());
         reasonsValue.textProperty().bind(viewModel.getReason());
         locationValue.textProperty().bind(viewModel.getLocation());
 

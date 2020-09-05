@@ -54,7 +54,7 @@ public class TaskForceNavalOperations {
         Label missionLabel = new Label("Select Mission Type:");
 
         missionType.getItems().addAll(taskForceViewModel.getMissionTypes().getValue());
-        missionType.getSelectionModel().select(SeaMissionType.valueOf(taskForceViewModel.getMission().getValue().toUpperCase()));
+        missionType.getSelectionModel().select(taskForceViewModel.getMission().getValue());
 
         return new VBox(missionLabel, missionType);
     }

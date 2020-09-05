@@ -42,7 +42,8 @@ public class TaskForceViewModel {
     @Getter private final StringProperty name = new SimpleStringProperty();
     @Getter private final StringProperty title = new SimpleStringProperty();
     @Getter private final StringProperty state = new SimpleStringProperty();
-    @Getter private final StringProperty mission = new SimpleStringProperty();
+    @Getter private final ObjectProperty<SeaMissionType> mission = new SimpleObjectProperty<>(this, "missionType");
+
     @Getter private final StringProperty location = new SimpleStringProperty();
     @Getter private final StringProperty reason = new SimpleStringProperty();  // The reasons the task force becomes active.
 
@@ -78,7 +79,7 @@ public class TaskForceViewModel {
         name.set(taskForce.getName());
         title.set(taskForce.getTitle());
         state.set(taskForce.getState().toString());
-        mission.set(taskForce.getMission().getType().toString());
+        mission.set(taskForce.getMission().getType());
         missionTypes.set(FXCollections.observableArrayList(seaMissionRules.getMissions(taskForce)));
 
         String locationPrefix = taskForce.atFriendlyBase() ? "At port " : "At sea zone ";

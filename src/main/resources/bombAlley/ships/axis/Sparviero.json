@@ -4,7 +4,8 @@
   "nationality": "ITALIAN",
   "flightDeck": {
     "armour": "NONE",
-    "capacityList": [0, 2, 4]
+    "capacityList": [0, 2, 4],
+    "health": 3
   },
   "secondary":
   {
