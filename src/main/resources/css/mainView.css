@@ -17,6 +17,7 @@
 
 .asset-component-pane {
     -fx-collapsible: false;
+    -fx-background-color: white;
 }
 
 .component-grid {
@@ -33,6 +34,10 @@
     -fx-spacing: 10;
 }
 
+#airfield-management-vbox {
+    -fx-background-color: white;
+    -fx-alignment: center-left;
+}
 
 #airfield-landing-type-vbox {
     -fx-background-color: white;

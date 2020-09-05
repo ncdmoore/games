@@ -33,6 +33,10 @@
     -fx-spacing: 10;
 }
 
+#airfield-management-vbox {
+    -fx-background-color: white;
+    -fx-alignment: center;
+}
 
 #airfield-landing-type-vbox {
     -fx-background-color: white;

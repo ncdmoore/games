@@ -9,29 +9,18 @@
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/FlightDeck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/FlightDeck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceNavalOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceNavalOperations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/TaskForceViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/TaskForceViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Argus-1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Argus-1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Ark Royal-1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Ark Royal-1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Ark Royal-2.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Ark Royal-2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Commandant Teste.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Commandant Teste.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Eagle-1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Eagle-1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Furious-1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Furious-1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Illustrious-1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Illustrious-1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Illustrious-2.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Illustrious-2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Indomitable-1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Indomitable-1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Aquila.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Aquila.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Commandant Teste.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Commandant Teste.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Sparviero.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/Sparviero.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/ships/allies/Lexington-1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/ships/allies/Lexington-1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/ships/allies/Tangier-1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/ships/allies/Tangier-1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/ships/allies/Yorktown-1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/ships/allies/Yorktown-1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/ships/axis/Kamikawa Maru-1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/ships/axis/Kamikawa Maru-1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/ships/axis/Shoho-1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/ships/axis/Shoho-1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/ships/axis/Shokaku-1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/ships/axis/Shokaku-1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/ships/axis/Zuikaku-1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/ships/axis/Zuikaku-1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/AirfieldOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/AirfieldOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/ScenarioPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/ScenarioPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldSummaryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/ScenarioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/ScenarioView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/properties/view.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -298,13 +287,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00199" summary="Add a game cache manager to clear cache's on new and existing game starts.">
-      <created>1585777085717</created>
-      <option name="number" value="00199" />
-      <option name="presentableId" value="LOCAL-00199" />
-      <option name="project" value="LOCAL" />
-      <updated>1585777085718</updated>
     </task>
     <task id="LOCAL-00200" summary="Add the ability to return to the main start-up screen from the main game screen.">
       <created>1585780138985</created>
@@ -642,7 +624,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599312888468</updated>
     </task>
-    <option name="localTasksCounter" value="248" />
+    <task id="LOCAL-00248" summary="Use enum object property in task force view model.">
+      <created>1599317010836</created>
+      <option name="number" value="00248" />
+      <option name="presentableId" value="LOCAL-00248" />
+      <option name="project" value="LOCAL" />
+      <updated>1599317010836</updated>
+    </task>
+    <option name="localTasksCounter" value="249" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -657,7 +646,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Refactor flotilla preview to use view model." />
     <MESSAGE value="Refactor preview squadron view to use the view model." />
     <MESSAGE value="Refactor airfield dialog and asset summary to use properties." />
     <MESSAGE value="Fix Patrol Type save." />
@@ -682,7 +670,8 @@
     <MESSAGE value="Pre-select the next available squadron for mission assignments." />
     <MESSAGE value="Update gun, torpedo and hull to read current value from ship json at game start." />
     <MESSAGE value="Add context menu to base grid titles." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add context menu to base grid titles." />
+    <MESSAGE value="Use enum object property in task force view model." />
+    <option name="LAST_COMMIT_MESSAGE" value="Use enum object property in task force view model." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1298" y="309" key="#Main" timestamp="1594496773510">
@@ -709,10 +698,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1441" y="531" key="#com.intellij.refactoring.move.moveInstanceMethod.MoveInstanceMethodDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1592178302582" />
-    <state x="939" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1599316892826">
+    <state x="939" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1599327137325">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="939" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1599316892826" />
+    <state x="939" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1599327137325" />
     <state x="1206" y="458" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1595184692097">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -721,30 +710,30 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1566" y="428" width="950" height="800" key="#xdebugger.evaluate/0.23.2560.1349@0.23.2560.1349" timestamp="1595208270729" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1599312883977">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1599317004915">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1599312883977" />
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1599317004915" />
     <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog" timestamp="1595274712488">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1595274712488" />
-    <state width="1847" height="565" key="GridCell.Tab.0.bottom" timestamp="1599316876423">
+    <state width="1559" height="234" key="GridCell.Tab.0.bottom" timestamp="1599331338431">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1847" height="565" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1599316876423" />
-    <state width="1847" height="565" key="GridCell.Tab.0.center" timestamp="1599316876422">
+    <state width="1559" height="234" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1599331338431" />
+    <state width="1559" height="234" key="GridCell.Tab.0.center" timestamp="1599331338431">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1847" height="565" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1599316876422" />
-    <state width="1847" height="565" key="GridCell.Tab.0.left" timestamp="1599316876422">
+    <state width="1559" height="234" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1599331338431" />
+    <state width="1559" height="234" key="GridCell.Tab.0.left" timestamp="1599331338430">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1847" height="565" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1599316876422" />
-    <state width="1847" height="565" key="GridCell.Tab.0.right" timestamp="1599316876423">
+    <state width="1559" height="234" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1599331338430" />
+    <state width="1559" height="234" key="GridCell.Tab.0.right" timestamp="1599331338431">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1847" height="565" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1599316876423" />
+    <state width="1559" height="234" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1599331338431" />
     <state width="1847" height="470" key="GridCell.Tab.1.bottom" timestamp="1599315291123">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -765,10 +754,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1406" y="420" key="RollbackChangesDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1598384190844" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1599312903312">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1599317022052">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1599312903312" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1599317022052" />
     <state x="744" y="138" width="1689" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1598756167413">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -777,10 +766,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="936" y="531" key="com.intellij.ide.util.TipDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1594496364292" />
-    <state x="1004" y="488" width="935" height="587" key="find.popup" timestamp="1598808461216">
+    <state x="1004" y="488" width="935" height="587" key="find.popup" timestamp="1599330513545">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1004" y="488" width="935" height="587" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1598808461216" />
+    <state x="1004" y="488" width="935" height="587" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1599330513545" />
     <state x="1696" y="493" key="refactoring.ChangeSignatureDialog" timestamp="1595089498161">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>

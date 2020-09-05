@@ -9,7 +9,7 @@ public enum AirfieldOperation {
     LANDING_TYPE_NOT_SUPPORTED("Squadron landing type not allowed");
 
     @Getter
-    private String value;
+    private final String value;
 
     /**
      * Constructor.

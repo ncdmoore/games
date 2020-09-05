@@ -3,6 +3,7 @@ package engima.waratsea.presenter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
@@ -23,6 +24,7 @@ import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
 import engima.waratsea.viewmodel.AirbaseViewModel;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -87,8 +89,10 @@ public class MainMapPresenter {
         this.airfieldDetailsDialogProvider = airfieldDetailsDialogProvider;
         this.patrolDetailsDialogProvider = patrolDetailsDialogProvider;
         this.missionDetailsDialogProvider = missionDetailsDialogProvider;
+
         this.assetSummaryViewProvider = assetSummaryViewProvider;
         this.airfieldAssetSummaryViewProvider = airfieldAssetSummaryViewProvider;
+
         this.airbaseViewModelProvider = airbaseViewModelProvider;
 
         this.taskForceDialogProvider = taskForceDialogProvider;
@@ -193,7 +197,7 @@ public class MainMapPresenter {
     private void airfieldHandler(final ActionEvent event) {
         MenuItem item = (MenuItem) event.getSource();
         Optional<Airfield> airfield = (Optional<Airfield>) item.getUserData();
-        airfield.ifPresent(a -> airfieldDetailsDialogProvider.get().show(a));
+        airfield.ifPresent(a -> airfieldDetailsDialogProvider.get().show(a,false));
     }
 
     /**
@@ -272,6 +276,18 @@ public class MainMapPresenter {
     }
 
     /**
+     * Remove the base's airfield from the asset summary if it exists for the given marker.
+     *
+     * @param baseMarker The base marker that was clicked.
+     */
+    private void removeFromAssetSummary(final BaseMarker baseMarker) {
+        baseMarker
+                .getBaseGrid()
+                .getAirfield()
+                .ifPresent(this::removeAirfieldFromAssetSummary);
+    }
+
+    /**
      * Add an airfield to the asset summary.
      *
      * @param airfield The airfield to add.
@@ -287,18 +303,9 @@ public class MainMapPresenter {
 
         AssetId assetId = new AssetId(AssetType.AIRFIELD, airfield.getTitle());
         assetSummaryViewProvider.get().show(assetId, assetView);
-    }
 
-    /**
-     * Remove the base's airfield from the asset summary if it exists for the given marker.
-     *
-     * @param baseMarker The base marker that was clicked.
-     */
-    private void removeFromAssetSummary(final BaseMarker baseMarker) {
-        baseMarker
-                .getBaseGrid()
-                .getAirfield()
-                .ifPresent(this::removeAirfieldFromAssetSummary);
+        assetView.getMissionButton().setOnAction(this::airfieldManageMissions);
+        assetView.getPatrolButton().setOnAction(this::airfieldManagePatrols);
     }
 
     /**
@@ -309,5 +316,29 @@ public class MainMapPresenter {
     private void removeAirfieldFromAssetSummary(final Airfield airfield) {
         AssetId assetId = new AssetId(AssetType.AIRFIELD, airfield.getTitle());
         assetSummaryViewProvider.get().hide(assetId);
+    }
+
+    /**
+     * Callback for manage airfield mission button.
+     *
+     * @param event The button click event.
+     */
+    private void airfieldManageMissions(final ActionEvent event) {
+        Button button = (Button) event.getSource();
+        Airbase airbase = (Airbase) button.getUserData();
+
+        airfieldDetailsDialogProvider.get().show(airbase, false);
+    }
+
+    /**
+     * Callback for manage airfield patrol button.
+     *
+     * @param event The button click event.
+     */
+    private void airfieldManagePatrols(final ActionEvent event) {
+        Button button = (Button) event.getSource();
+        Airbase airbase = (Airbase) button.getUserData();
+
+        airfieldDetailsDialogProvider.get().show(airbase, true);
     }
 }

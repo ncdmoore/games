@@ -33,23 +33,23 @@ import java.util.List;
 public class ScenarioView {
     private static final String CSS_FILE = "scenarioView.css";
 
-    @Getter private ListView<Scenario> scenarios = new ListView<>();
+    @Getter private final ListView<Scenario> scenarios = new ListView<>();
     @Getter private RadioButton radioButtonAllies;
     @Getter private RadioButton radioButtonAxis;
     @Getter private Button backButton;
     @Getter private Button continueButton;
 
-    private ImageView  scenarioImage = new ImageView();
-    private Text dateValue = new Text();
-    private Text turnValue = new Text();
-    private Text descriptionValue = new Text();
+    private final ImageView  scenarioImage = new ImageView();
+    private final Text dateValue = new Text();
+    private final Text turnValue = new Text();
+    private final Text descriptionValue = new Text();
 
-    private ImageView alliesFlag = new ImageView();
-    private ImageView axisFlag = new ImageView();
+    private final ImageView alliesFlag = new ImageView();
+    private final ImageView axisFlag = new ImageView();
 
-    private ViewProps props;
-    private CssResourceProvider cssResourceProvider;
-    private ImageResourceProvider imageResourceProvider;
+    private final ViewProps props;
+    private final CssResourceProvider cssResourceProvider;
+    private final ImageResourceProvider imageResourceProvider;
 
     /**
      * Constructor called by guice.

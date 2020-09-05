@@ -16,6 +16,7 @@ import engima.waratsea.view.util.GridPaneMap;
 import engima.waratsea.viewmodel.AirbaseViewModel;
 import engima.waratsea.viewmodel.NationAirbaseViewModel;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -44,8 +45,11 @@ public class AirfieldAssetSummaryView implements AssetView {
 
     private final TitledPane summaryPane = new TitledPane();
     private final GridPaneMap summaryGrid = new GridPaneMap();
-
     private final TitledPane landingTypesPane = new TitledPane();
+    private final TitledPane managementPane = new TitledPane();
+
+    @Getter private final Button missionButton = new Button("Missions");
+    @Getter private final Button patrolButton = new Button("Patrols");
 
     private final TabPane nationsTabPane = new TabPane();
 
@@ -107,12 +111,14 @@ public class AirfieldAssetSummaryView implements AssetView {
 
         buildSummary();
         buildLandingTypes();
+        buildManagementPane();
         buildNationsTabPane();
 
-        node = new HBox(summaryPane, landingTypesPane, nationsTabPane);
+        node = new HBox(summaryPane, landingTypesPane, managementPane, nationsTabPane);
         node.setId("asset-hbox");
 
         summaryPane.setMinHeight(props.getInt("asset.pane.component.height"));
+        managementPane.setMinHeight(props.getInt("asset.pane.component.height"));
         landingTypesPane.setMinHeight(props.getInt("asset.pane.component.height"));
 
         bind();
@@ -196,6 +202,22 @@ public class AirfieldAssetSummaryView implements AssetView {
         landingTypesPane.getStyleClass().add("asset-component-pane");
     }
 
+    private void buildManagementPane() {
+        managementPane.setText("Airfield Management");
+
+        missionButton.setUserData(airbase);
+        patrolButton.setUserData(airbase);
+
+        missionButton.setMinWidth(props.getInt("asset.pane.button.width"));
+        patrolButton.setMinWidth(props.getInt("asset.pane.button.width"));
+
+        VBox vbox = new VBox(missionButton, patrolButton);
+        vbox.setId("airfield-management-vbox");
+        managementPane.setContent(vbox);
+
+        managementPane.getStyleClass().add("asset-component-pane");
+    }
+
     /**
      * Build the nation's tabs.
      */
@@ -234,7 +256,6 @@ public class AirfieldAssetSummaryView implements AssetView {
 
         landingTypesPane.setContent(vBox);
     }
-
 
     /**
      * Get the Airbase's data.

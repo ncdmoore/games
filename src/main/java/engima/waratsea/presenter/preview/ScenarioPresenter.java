@@ -29,13 +29,13 @@ public class ScenarioPresenter implements Presenter {
     private Stage stage;
 
     private Scenario selectedScenario;
-    private Provider<ScenarioView> viewProvider;
-    private Navigate navigate;
-    private Provider<FatalErrorDialog> fatalErrorDialogProvider;
+    private final Provider<ScenarioView> viewProvider;
+    private final Navigate navigate;
+    private final Provider<FatalErrorDialog> fatalErrorDialogProvider;
 
-    private ScenarioViewModel scenarioViewModel;
+    private final ScenarioViewModel scenarioViewModel;
 
-    private Game game;
+    private final Game game;
 
     /**
      * The constructor for the scenario presenter. Guice will inject the view.

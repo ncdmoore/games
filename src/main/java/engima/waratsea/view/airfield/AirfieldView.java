@@ -17,10 +17,14 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents the airfield dialog details view.
+ */
 public class AirfieldView {
     private static final String ROUNDEL = ".roundel.image";
 
@@ -39,6 +43,8 @@ public class AirfieldView {
     @Getter private final Map<Nation, MissionView> airfieldMissionView = new HashMap<>();
     @Getter private final Map<Nation, PatrolView> airfieldPatrolView = new HashMap<>();
     @Getter private final Map<Nation, AirfieldReadyView> airfieldReadyView = new HashMap<>();
+
+    @Setter private boolean showPatrolPane = false;
 
     /**
      * Constructor called by guice.
@@ -102,7 +108,12 @@ public class AirfieldView {
 
         Accordion accordion = new Accordion();
         accordion.getPanes().addAll(missions, patrols, ready);
-        accordion.setExpandedPane(missions);
+
+        if (showPatrolPane) {
+            accordion.setExpandedPane(patrols);
+        } else {
+            accordion.setExpandedPane(missions);
+        }
 
         HBox hBox = new HBox(summary, accordion);
         hBox.setId("main-pane");

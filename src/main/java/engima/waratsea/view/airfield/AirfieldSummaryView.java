@@ -18,6 +18,10 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
+/**
+ * Represents the airfield summary information on the left hand side of the airfield
+ * details dialog box.
+ */
 public class AirfieldSummaryView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;

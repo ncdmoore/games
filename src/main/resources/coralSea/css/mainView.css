@@ -40,6 +40,11 @@
     -fx-alignment: center-left;
 }
 
+#airfield-management-vbox {
+    -fx-background-color: white;
+    -fx-alignment: center-left;
+}
+
 #airfield-landing-type-vbox .check-box {
     -fx-opacity: 1.0;
 }

@@ -30,7 +30,6 @@ import engima.waratsea.viewmodel.AirMissionViewModel;
 import engima.waratsea.viewmodel.AirbaseViewModel;
 import engima.waratsea.viewmodel.NationAirbaseViewModel;
 import javafx.beans.value.ChangeListener;
-import javafx.event.ActionEvent;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableRow;
 import javafx.stage.Modality;
@@ -46,6 +45,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Represents the airfield details dialog. This is were the airfield missions and patrols are assigned.
+ */
 @Slf4j
 public class AirfieldDialog {
     private static final String CSS_FILE = "airfieldDetails.css";
@@ -133,8 +135,10 @@ public class AirfieldDialog {
      * Show the airfield details dialog.
      *
      * @param base The airfield for which the details are shown.
+     * @param showPatrols Set to true to show the patrols pane by default.
+     *                    Otherwise, the mission pane is shown.
      */
-    public void show(final Airbase base) {
+    public void show(final Airbase base, final boolean showPatrols) {
         airbase = base;
 
         stage = new Stage();
@@ -152,6 +156,7 @@ public class AirfieldDialog {
 
         buildViewModel();
 
+        view.setShowPatrolPane(showPatrols);
         dialog.setContents(view.build(viewModelMap));
 
         registerHandlers(dialog);
@@ -259,11 +264,11 @@ public class AirfieldDialog {
 
         patrolView
                 .getAddButton(patrolType)
-                .setOnAction(event -> patrolAddSquadron(event, nation, patrolType));
+                .setOnAction(event -> patrolAddSquadron(nation, patrolType));
 
         patrolView
                 .getRemoveButton(patrolType)
-                .setOnAction(event -> patrolRemoveSquadron(event, nation, patrolType));
+                .setOnAction(event -> patrolRemoveSquadron(nation, patrolType));
     }
 
     /**
@@ -406,7 +411,7 @@ public class AirfieldDialog {
      */
     private void patrolAvailableSquadronSelected(final Nation nation, final PatrolType patrolType, final Squadron squadron) {
         if (squadron != null) {
-            SquadronConfig config = determineConfiguration(squadron, patrolType);
+            SquadronConfig config = determineConfiguration(patrolType);
 
             squadron.setConfig(config);
 
@@ -433,7 +438,7 @@ public class AirfieldDialog {
      */
     private void patrolAssignedSquadronSelected(final Nation nation, final PatrolType patrolType, final Squadron squadron) {
         if (squadron != null) {
-            SquadronConfig config = determineConfiguration(squadron, patrolType);
+            SquadronConfig config = determineConfiguration(patrolType);
 
             squadron.setConfig(config);
 
@@ -454,11 +459,10 @@ public class AirfieldDialog {
     /**
      * Add a squadron to the corresponding patrol which is specified by the given patrol type.
      *
-     * @param event The button action event.
      * @param nation The nation: BRITISH, ITALIAN, etc...
      * @param type The patrol type.
      */
-    private void patrolAddSquadron(final ActionEvent event, final Nation nation, final PatrolType type) {
+    private void patrolAddSquadron(final Nation nation, final PatrolType type) {
         Squadron squadron = view
                 .getAirfieldPatrolView()
                 .get(nation)
@@ -485,11 +489,10 @@ public class AirfieldDialog {
     /**
      * Remove a squadron from the corresponding patrol which is specified by the given patrol type.
      *
-     * @param event The button action event.
      * @param nation The nation: BRITISH, ITALIAN, etc...
      * @param type The patrol type.
      */
-    private void patrolRemoveSquadron(final ActionEvent event, final Nation nation, final PatrolType type) {
+    private void patrolRemoveSquadron(final Nation nation, final PatrolType type) {
         Squadron squadron = view
                 .getAirfieldPatrolView()
                 .get(nation)
@@ -537,11 +540,10 @@ public class AirfieldDialog {
     /**
      * Determine the best squadron configuration for the given type of patrol.
      *
-     * @param squadron The squadron on patrol.
      * @param patrolType The type of patrol.
      * @return The best squadron configuration for the given type of patrol.
      */
-    private SquadronConfig determineConfiguration(final Squadron squadron, final PatrolType patrolType) {
+    private SquadronConfig determineConfiguration(final PatrolType patrolType) {
         SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO().setPatrolType(PatrolType.SEARCH);
 
         Set<SquadronConfig> allowed = rules.getAllowedSquadronConfig(dto);
