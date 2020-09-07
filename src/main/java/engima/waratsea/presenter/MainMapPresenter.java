@@ -22,6 +22,7 @@ import engima.waratsea.view.asset.AssetId;
 import engima.waratsea.view.asset.AssetSummaryView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
+import engima.waratsea.view.map.marker.main.RegionMarker;
 import engima.waratsea.viewmodel.AirbaseViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -102,10 +103,15 @@ public class MainMapPresenter {
      * Setup mouse event handlers for when the base markers are clicked.
      */
     public void setMouseEventHandlers() {
-        mainMenu.getShowAirfields().setOnAction(event -> toggleMarkers());
-        mainMenu.getShowPorts().setOnAction(event -> toggleMarkers());
+        mainMenu.getShowAirfields().setOnAction(event -> toggleBaseMarkers());
+        mainMenu.getShowPorts().setOnAction(event -> toggleBaseMarkers());
+        mainMenu.getShowRegions().setOnAction(event -> toggleRegionMarkers());
 
         Side humanSide =  game.getHumanSide();
+
+        mainMapView.setRegionMouseEnterHandler(humanSide, this::regionMouseEnterHandler);
+        mainMapView.setRegionMouseExitHandler(humanSide, this::regionMouseExitHandler);
+
         mainMapView.setBaseMouseEnterHandler(humanSide, this::baseMouseEnterHandler);
         mainMapView.setBaseMouseExitHandler(humanSide, this::baseMouseExitHandler);
         mainMapView.setBaseMouseEnterHandler(humanSide.opposite(), this::baseMouseEnterHandler);
@@ -124,9 +130,38 @@ public class MainMapPresenter {
     }
 
     /**
+     * Callback for when the show regions menu item is clicked.
+     */
+    private void toggleRegionMarkers() {
+        mainMapView.toggleRegionMarkers();
+    }
+
+    /**
+     * Call back for when the mouse enters the region label.
+     *
+     * @param event The mouse event.
+     */
+    private void regionMouseEnterHandler(final MouseEvent event) {
+        VBox regionTitle = (VBox) event.getSource();
+        RegionMarker regionMarker = (RegionMarker) regionTitle.getUserData();
+        mainMapView.highlightRegion(regionMarker);
+    }
+
+    /**
+     * Callback for when the mouse exits the region label.
+     *
+     * @param event The mouse event.
+     */
+    private void regionMouseExitHandler(final MouseEvent event) {
+        VBox regionTitle = (VBox) event.getSource();
+        RegionMarker regionMarker = (RegionMarker) regionTitle.getUserData();
+        mainMapView.unHighlightRegion(regionMarker);
+    }
+
+    /**
      * Callback for when the show airfields map menu item is clicked.
      */
-    private void toggleMarkers() {
+    private void toggleBaseMarkers() {
         mainMapView.toggleBaseMarkers(Side.ALLIES);
         mainMapView.toggleBaseMarkers(Side.AXIS);
     }

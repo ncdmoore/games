@@ -3,6 +3,7 @@ package engima.waratsea.view.map.marker.main;
 import com.google.inject.name.Named;
 import engima.waratsea.model.map.BaseGrid;
 import engima.waratsea.model.map.TaskForceGrid;
+import engima.waratsea.model.map.region.RegionGrid;
 import engima.waratsea.view.map.MapView;
 
 /**
@@ -28,4 +29,14 @@ public interface BaseMarkerFactory {
      */
     @Named("taskforce")
     TaskForceMarker createTaskForceMarker(TaskForceGrid taskForceGrid, MapView mapView);
+
+    /**
+     * Creates a region marker.
+     *
+     * @param regionGrid A game map region grid.
+     * @param mapView A map view.
+     * @return A region marker.
+     */
+    @Named("region")
+    RegionMarker createRegionMarker(RegionGrid regionGrid, MapView mapView);
 }

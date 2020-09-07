@@ -10,6 +10,7 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.map.region.RegionDAO;
+import engima.waratsea.model.map.region.RegionGrid;
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.model.minefield.MinefieldDAO;
 import engima.waratsea.model.scenario.Scenario;
@@ -55,6 +56,7 @@ public final class GameMap {
     private final MinefieldDAO minefieldDAO;
     private final Provider<BaseGrid> baseGridProvider;
     private final Provider<TaskForceGrid> taskForceGridProvider;
+    private final Provider<RegionGrid> regionGridProvider;
 
     @Getter private final int rows;
     @Getter private final int columns;
@@ -85,6 +87,8 @@ public final class GameMap {
 
     @Getter private final Map<Side, List<TaskForceGrid>> taskForceGrids = new HashMap<>();
 
+    private final Map<Side, Map<String, RegionGrid>> regionRefToRegion = new HashMap<>();
+
     /**
      * The constructor of the GameMap. Called by guice.
      *
@@ -93,17 +97,20 @@ public final class GameMap {
      * @param minefieldDAO loads the minefield data.
      * @param baseGridProvider Provides base grids.
      * @param taskForceGridProvider Provides task force grids.
+     * @param regionGridProvider Provides region grids.
      */
     @Inject
     public GameMap(final MapProps props,
                    final RegionDAO regionDAO,
                    final MinefieldDAO minefieldDAO,
                    final Provider<BaseGrid> baseGridProvider,
-                   final Provider<TaskForceGrid> taskForceGridProvider) {
+                   final Provider<TaskForceGrid> taskForceGridProvider,
+                   final Provider<RegionGrid> regionGridProvider) {
         this.regionDAO = regionDAO;
         this.minefieldDAO = minefieldDAO;
         this.baseGridProvider = baseGridProvider;
         this.taskForceGridProvider = taskForceGridProvider;
+        this.regionGridProvider = regionGridProvider;
 
         rows = props.getInt("rows");
         columns = props.getInt("columns");
@@ -148,6 +155,9 @@ public final class GameMap {
 
         nationAirfieldMap.put(Side.ALLIES, buildNationAirfieldMap(Side.ALLIES));
         nationAirfieldMap.put(Side.AXIS, buildNationAirfieldMap(Side.AXIS));
+
+        buildRegionRefToRegionMap(Side.ALLIES);
+        buildRegionRefToRegionMap(Side.AXIS);
 
         buildLocationToBaseMap(Side.ALLIES);
         buildLocationToBaseMap(Side.AXIS);
@@ -214,6 +224,16 @@ public final class GameMap {
     }
 
     /**
+     * Get the region grids for the given side.
+     *
+     * @param side The side: ALLIES or AXIS.
+     * @return A list of region grids for the given side.
+     */
+    public List<RegionGrid> getRegionGrids(final Side side) {
+        return new ArrayList<>(regionRefToRegion.get(side).values());
+    }
+
+    /**
      * Get the base grids for the given side.
      *
      * @param side The side: ALLIES or AXIS.
@@ -221,6 +241,16 @@ public final class GameMap {
      */
     public List<BaseGrid> getBaseGrids(final Side side) {
         return new ArrayList<>(baseRefToBase.get(side).values());
+    }
+
+    /**
+     * Get the given side's regions.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @return A list of the given side's regions. This is all nations of the given side regions.
+     */
+    public List<Region> getSideRegions(final Side side) {
+        return regions.get(side);
     }
 
     /**
@@ -486,6 +516,23 @@ public final class GameMap {
     }
 
     /**
+     * Build a map of region central map references to region grids.
+     *
+     * @param side The side ALLIES or AXIS.
+     */
+    private void buildRegionRefToRegionMap(final Side side) {
+        Map<String, RegionGrid> regionRefToRegionGrid = regions
+                .get(side)
+                .stream()
+                .filter(region -> region.getMapRef() != null)
+                .collect(Collectors.toMap(Region::getMapRef,
+                                          this::getRegionGrid,
+                                          RegionGrid::addNation));
+
+        regionRefToRegion.put(side, regionRefToRegionGrid);
+    }
+
+    /**
      * Build a map of base map references to base grids.
      *
      * @param side The side ALLIES or AXIS.
@@ -508,6 +555,18 @@ public final class GameMap {
         });
 
         baseRefToBase.put(side, baseRefToBaseGrid);
+    }
+
+    /**
+     * Get a region grid.
+     *
+     * @param region The region.
+     * @return The corresponding region grid for the given region.
+     */
+    private RegionGrid getRegionGrid(final Region region) {
+        return regionGridProvider
+                .get()
+                .init(region);
     }
 
     /**

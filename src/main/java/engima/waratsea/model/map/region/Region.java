@@ -31,30 +31,20 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class Region {
-
-    @Getter
-    private final String name;
-
-    @Getter
-    private final Side side;
-
-    @Getter
-    private final Nation nation;
+    @Getter private final String name;
+    @Getter private final Side side;
+    @Getter private final Nation nation;
 
     private final String minStepsString;
     private final String maxStepsString;
 
-    @Getter
-    private final List<Airfield> airfields;
+    @Getter private final List<Airfield> airfields;
+    @Getter private final List<Port> ports;
+    @Getter private int minSteps;
+    @Getter private int maxSteps;
 
-    @Getter
-    private final List<Port> ports;
-
-    @Getter
-    private int minSteps;
-
-    @Getter
-    private int maxSteps;
+    @Getter private final String mapRef;  //This is the regions central game grid.
+                                          //Used to mark the region on the game map
 
     /**
      * Constructor of Region called by guice.
@@ -75,7 +65,7 @@ public class Region {
         nation = data.getNation();
         minStepsString = data.getMin();
         maxStepsString = data.getMax();
-
+        mapRef = data.getMapRef();
 
         airfields = Optional.ofNullable(data.getAirfields())
                 .orElseGet(Collections::emptyList)

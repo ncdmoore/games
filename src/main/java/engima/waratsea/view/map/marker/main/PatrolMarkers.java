@@ -23,7 +23,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Draws the patrol radii around a map marker such as a airfield or task force with aircraft carriers.
+ * This class represents all of the patrols for a given airbase.
+ *
+ * It draws the patrol radii around a map marker such as a airfield or task force with aircraft carriers.
  */
 @Slf4j
 public class PatrolMarkers {

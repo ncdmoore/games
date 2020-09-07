@@ -26,6 +26,11 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import lombok.Getter;
@@ -37,7 +42,10 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.joining;
 
-
+/**
+ * Represents a single base marker on the main game map.
+ * A base marker occupies a game grid.
+ */
 @Slf4j
 public class BaseMarker {
 
@@ -47,6 +55,7 @@ public class BaseMarker {
 
     private final MapView mapView;
     private final Game game;
+    private final ViewProps props;
     private final VBox imageView;
     private final VBox roundel;
     private final VBox flag;
@@ -80,6 +89,7 @@ public class BaseMarker {
         this.baseGrid = baseGrid;
         this.mapView = mapView;
         this.game = game;
+        this.props = props;
 
         String scenarioName = game.getScenario().getName();
 
@@ -178,7 +188,6 @@ public class BaseMarker {
      * Draw this base marker's patrol range.
      */
     public void drawPatrolMarkers() {
-
         if (selected) {
             patrolMarkers.draw();
             missionMarkers.draw();
@@ -193,6 +202,26 @@ public class BaseMarker {
      */
     public void hide() {
         mapView.remove(imageView);
+    }
+
+    /**
+     * Draw an outline around the base marker.
+     */
+    public void outline() {
+        BorderWidths borderWidth = new BorderWidths(3.0);
+        String colorName = baseGrid.getSide().toLower() + ".base.outline.color";
+
+        Color color = Color.web(props.getString(colorName));
+        BorderStroke borderStroke = new BorderStroke(color, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, borderWidth);
+
+        imageView.setBorder(new Border(borderStroke));
+    }
+
+    /**
+     * Remove the outline around the base marker.
+     */
+    public void unOutline() {
+        imageView.setBorder(Border.EMPTY);
     }
 
     /**

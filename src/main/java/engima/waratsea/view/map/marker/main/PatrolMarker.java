@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Represents an individual patrol marker.
+ * Represents an individual patrol marker. This is a circle that represents the maximum effective range of the patrol.
  */
 @Slf4j
 public class PatrolMarker {

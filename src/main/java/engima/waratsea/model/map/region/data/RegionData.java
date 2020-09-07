@@ -34,4 +34,8 @@ public class RegionData {
     @Getter
     @Setter
     private List<String> ports;
+
+    @Getter
+    @Setter
+    private String mapRef;
 }

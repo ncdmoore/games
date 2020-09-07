@@ -19,7 +19,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Draws the mission markers for each mission from the originating airbase to the target.
+ * Represents a given airbase's collection of mission markers. All of these markers
+ * originate from the same airbase.
+ *
+ * It draws the mission markers for each mission from the originating airbase to the target.
  */
 @Slf4j
 public class MissionMarkers {

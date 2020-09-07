@@ -4,6 +4,7 @@
     "nation": "ITALIAN",
     "min": "4",
     "max": "0",
+    "mapRef": "BD25",
     "airfields": [
       "Rhodes",
       "Scarpanto"
@@ -17,6 +18,7 @@
     "nation": "ITALIAN",
     "min": "0",
     "max": "0",
+    "mapRef": "AN31",
     "airfields": [
       "Derna",
       "Tripoli",
@@ -34,6 +36,7 @@
     "nation": "ITALIAN",
     "min": "4",
     "max": "HALF",
+    "mapRef": "AC15",
     "airfields": ["Cagliari"],
     "ports": ["Cagliari"]
   },
@@ -42,6 +45,7 @@
     "nation": "ITALIAN",
     "min": "6",
     "max": "HALF",
+    "mapRef": "AJ18",
     "airfields": [
       "Borizzo",
       "Comiso",
@@ -60,6 +64,7 @@
     "nation": "ITALIAN",
     "min": "0",
     "max": "0",
+    "mapRef": "AG24",
     "airfields": ["Pantellaria"],
     "ports": ["Pantellaria"]
   },
@@ -68,6 +73,7 @@
     "nation": "ITALIAN",
     "min": "0",
     "max": "0",
+    "mapRef": "AH10",
     "airfields": [
       "Sarzana",
       "Trieste",
@@ -99,6 +105,7 @@
     "nation": "ITALIAN",
     "min": "0",
     "max": "0",
+    "mapRef": "AS12",
     "airfields": ["Durazzo"],
     "ports": ["Durazzo"]
   }

@@ -42,7 +42,7 @@ public class Port implements Asset, Base, PersistentData<PortData> {
      */
     @Inject
     public Port(@Assisted final PortData data,
-                final GameMap gameMap) {
+                          final GameMap gameMap) {
         side = data.getSide();
         name = data.getName();
         size = data.getSize();

@@ -4,6 +4,7 @@
     "nation": "BRITISH",
     "min": "0",
     "max": "0",
+    "mapRef": "AK22",
     "airfields": [
       "Luqa"
     ],
@@ -16,6 +17,7 @@
     "nation": "BRITISH",
     "min": "0",
     "max": "8",
+    "mapRef": "H20",
     "airfields": [
       "Gibraltar"
     ],
@@ -28,6 +30,7 @@
     "nation": "BRITISH",
     "min": "0",
     "max": "0",
+    "mapRef": "BH33",
     "airfields": [
       "Alexandria",
       "Suez",
@@ -45,6 +48,7 @@
     "nation": "BRITISH",
     "min": "0",
     "max": "0",
+    "mapRef": "BM23",
     "airfields": [
       "Famagusta"
     ],
@@ -57,6 +61,7 @@
     "nation": "BRITISH",
     "min": "0",
     "max": "0",
+    "mapRef": "BO27",
     "airfields": [
       "Haifa"
     ],
@@ -69,6 +74,7 @@
     "nation": "BRITISH",
     "min": "0",
     "max": "0",
+    "mapRef": "AW16",
     "airfields": [
       "Athens",
       "Suda Bay"

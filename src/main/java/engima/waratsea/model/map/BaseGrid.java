@@ -169,6 +169,8 @@ public class BaseGrid implements MarkerGrid {
                           .collect(Collectors.groupingBy(AirMission::getTarget)));
     }
 
+
+
     /**
      * Determine the base grid type based on the airfield alone.
      *

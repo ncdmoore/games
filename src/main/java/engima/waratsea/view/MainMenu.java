@@ -14,17 +14,18 @@ import lombok.Getter;
 @Singleton
 public class MainMenu {
 
-    @Getter private MenuItem save;
-    @Getter private MenuItem exitMain;
-    @Getter private MenuItem exitGame;
+    @Getter private final MenuItem save;
+    @Getter private final MenuItem exitMain;
+    @Getter private final MenuItem exitGame;
 
-    @Getter private CheckMenuItem showAirfields;
-    @Getter private CheckMenuItem showPorts;
+    @Getter private final CheckMenuItem showAirfields;
+    @Getter private final CheckMenuItem showPorts;
+    @Getter private final CheckMenuItem showRegions;
 
-    @Getter private MenuItem airfieldSquadrons;
-    @Getter private MenuItem taskForceSquadrons;
+    @Getter private final MenuItem airfieldSquadrons;
+    @Getter private final MenuItem taskForceSquadrons;
 
-    @Getter private MenuBar menuBar = new MenuBar();
+    @Getter private final MenuBar menuBar = new MenuBar();
 
     /**
      * Constructor called by guice.
@@ -42,7 +43,9 @@ public class MainMenu {
         showAirfields.setSelected(true);
         showPorts = new CheckMenuItem("Show _Ports");
         showPorts.setSelected(true);
-        menuMap.getItems().addAll(showAirfields, showPorts);
+        showRegions = new CheckMenuItem("Show _Regions");
+        showRegions.setSelected(false);
+        menuMap.getItems().addAll(showAirfields, showPorts, showRegions);
 
         Menu menuOOB = new Menu("Forces");
         airfieldSquadrons = new MenuItem("_Airfield Squadrons");

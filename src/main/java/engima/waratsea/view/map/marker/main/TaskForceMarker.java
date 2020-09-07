@@ -17,6 +17,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
+/**
+ * Represents a task force marker on the main game map.
+ * Multiple task forces that occupy the same game grid are represented by a single task force marker.
+ */
 public class TaskForceMarker {
     @Getter
     private final TaskForceGrid taskForceGrid;

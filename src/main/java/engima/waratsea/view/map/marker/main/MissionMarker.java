@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Represents an individual mission's marker.
+ * This is a arrow from the originating airbase to the target.
  */
 public class MissionMarker {
     private final MapView mapView;

@@ -11,11 +11,13 @@ import engima.waratsea.model.map.BaseGridType;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.TaskForceGrid;
+import engima.waratsea.model.map.region.RegionGrid;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.marker.main.BaseMarker;
 import engima.waratsea.view.map.marker.main.BaseMarkerFactory;
+import engima.waratsea.view.map.marker.main.RegionMarker;
 import engima.waratsea.view.map.marker.main.TaskForceMarker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -52,6 +54,7 @@ public class MainMapView {
 
     private final Map<Side, List<BaseMarker>> baseMarkers = new HashMap<>();
     private final Map<Side, List<TaskForceMarker>> taskForceMarkers = new HashMap<>();
+    private final Map<Side, List<RegionMarker>> regionMarkers = new HashMap<>();
     private final Map<Airbase, BaseMarker> airbases = new HashMap<>();
 
     /**
@@ -66,7 +69,7 @@ public class MainMapView {
      */
     @Inject
     public MainMapView(final Game game,
-            final GameMap gameMap,
+                       final GameMap gameMap,
                        final ViewProps props,
                        final ImageResourceProvider imageResourceProvider,
                        final Provider<MainMenu> menuProvider,
@@ -88,6 +91,8 @@ public class MainMapView {
      */
     public Node build() {
         airbases.clear();
+        regionMarkers.put(Side.ALLIES, new ArrayList<>());
+        regionMarkers.put(Side.AXIS, new ArrayList<>());
         baseMarkers.put(Side.ALLIES, new ArrayList<>());
         baseMarkers.put(Side.AXIS, new ArrayList<>());
         taskForceMarkers.put(Side.ALLIES, new ArrayList<>());
@@ -100,6 +105,7 @@ public class MainMapView {
 
         drawBaseMarkers(Side.ALLIES);
         drawBaseMarkers(Side.AXIS);
+        drawRegionMarkers(game.getHumanSide());
 
         drawTaskForceMarkers(game.getHumanSide());
 
@@ -109,6 +115,14 @@ public class MainMapView {
         map.setAlignment(Pos.TOP_LEFT);
 
         return map;
+    }
+
+    public void setRegionMouseEnterHandler(final Side side, final EventHandler<? super MouseEvent> handler) {
+        regionMarkers.get(side).forEach(regionMarker -> regionMarker.setRegionMouseEnterHandler(handler));
+    }
+
+    public void setRegionMouseExitHandler(final Side side, final EventHandler<? super MouseEvent> handler) {
+        regionMarkers.get(side).forEach(regionMarker -> regionMarker.setRegionMouseExitHandler(handler));
     }
 
     /**
@@ -204,6 +218,14 @@ public class MainMapView {
         baseMarkers.get(side).forEach(baseMarker -> baseMarker.setMissionArrowClickHandler(handler));
     }
 
+    public void highlightRegion(final RegionMarker regionMarker) {
+        regionMarker.getBaseMarkers().forEach(this::outlineMarker);
+    }
+
+    public void unHighlightRegion(final RegionMarker regionMarker) {
+        regionMarker.getBaseMarkers().forEach(this::unOutlineMarker);
+    }
+
     /**
      * Highlight the given base marker.
      *
@@ -221,6 +243,8 @@ public class MainMapView {
     public void unHighlightMarker(final BaseMarker baseMarker) {
         baseMarker.unHighlightMarker();
     }
+
+
 
     /**
      * Draw the given base's marker patrol radii.
@@ -262,12 +286,23 @@ public class MainMapView {
     }
 
     /**
-     * Get the given side's base markers.
+     * Toggle the human side's region markers.
+     */
+    public void toggleRegionMarkers() {
+        regionMarkers
+                .get(game.getHumanSide())
+                .forEach(this::toggleMarker);
+    }
+
+    /**
+     * Toggle the given side's base markers.
      *
      * @param side The side ALLIES or AXIS.
      */
     public void toggleBaseMarkers(final Side side) {
-        baseMarkers.get(side).forEach(this::toggleMarker);
+        baseMarkers
+                .get(side)
+                .forEach(this::toggleMarker);
     }
 
     /**
@@ -302,6 +337,24 @@ public class MainMapView {
     }
 
     /**
+     * Draw an outline around the base marker.
+     *
+     * @param baseMarker The base marker that is outlined.
+     */
+    private void outlineMarker(final BaseMarker baseMarker) {
+        baseMarker.outline();
+    }
+
+    /**
+     * Remove the outline from around the base marker.
+     *
+     * @param baseMarker The base marker that has its outline removed.
+     */
+    private void unOutlineMarker(final BaseMarker baseMarker) {
+        baseMarker.unOutline();
+    }
+
+    /**
      * Draw all of the task force markers for the given side.
      *
      * @param side The side: ALLIES or AXIS.
@@ -324,6 +377,38 @@ public class MainMapView {
     }
 
     /**
+     * Draw all of the side's region markers.
+     *
+     * @param side The side: ALLIES or AXIS.
+     */
+    private void drawRegionMarkers(final Side side) {
+        gameMap.getRegionGrids(side).forEach(this::drawRegionMarker);
+    }
+
+    /**
+     * Draw an individual region marker.
+     *
+     * @param regionGrid The region's central grid where's the region's
+     *                   name is displayed on the game map.
+     */
+    private void drawRegionMarker(final RegionGrid regionGrid) {
+        RegionMarker regionMarker = markerFactory.createRegionMarker(regionGrid, mapView);
+
+        regionMarkers.get(regionGrid.getSide()).add(regionMarker);
+
+        regionGrid
+                .getRegions()
+                .stream().flatMap(region -> region.getAirfields().stream())
+                .distinct()
+                .map(airbases::get)
+                .forEach(regionMarker::add);
+
+        if (displayRegionMarker()) {
+            regionMarker.draw();
+        }
+    }
+
+    /**
      * Callback when main map grid is clicked.
      *
      * @param event The mouse click event.
@@ -335,6 +420,19 @@ public class MainMapView {
         GameGrid gameGrid = gameMap.getGrid(gv.getRow(), gv.getColumn());
 
         log.info(gameGrid.getMapReference());
+    }
+
+    /**
+     * Toggle the given region marker.
+     *
+     * @param regionMarker The region marker.
+     */
+    private void toggleMarker(final RegionMarker regionMarker) {
+        if (displayRegionMarker()) {
+            regionMarker.draw();
+        } else {
+            regionMarker.hide();
+        }
     }
 
     /**
@@ -351,10 +449,19 @@ public class MainMapView {
     }
 
     /**
+     * Determine if the region marker should be displayed on the map.
+     *
+     * @return True if the region marker should be displayed. False otherwise.
+     */
+    private boolean displayRegionMarker() {
+        return menuProvider.get().getShowRegions().isSelected();
+    }
+
+    /**
      * Determine if the base marker should be displayed on the map.
      *
      * @param type The type of base that the marker represents.
-     * @return True if the base marker should be displayed. Fasle otherwise.
+     * @return True if the base marker should be displayed. False otherwise.
      */
     private boolean displayBaseMarker(final BaseGridType type) {
         boolean showAirfields = menuProvider.get().getShowAirfields().isSelected();

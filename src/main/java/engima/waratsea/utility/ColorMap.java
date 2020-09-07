@@ -30,7 +30,7 @@ public class ColorMap {
         BASE_COLOR_PROPERTY_MAP.put(Side.AXIS, "axis.base.color");
     }
 
-    private ViewProps props;
+    private final ViewProps props;
 
     /**
      * Constructor called by guice.
