@@ -351,10 +351,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public List<Squadron> getSquadrons(final Nation nation) {
-        return squadrons
-                .stream()
-                .filter(squadron -> squadron.ofNation(nation))
-                .collect(Collectors.toList());
+        return filterNation(nation, squadrons);
     }
 
     /**
@@ -366,11 +363,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public List<Squadron> getSquadrons(final Nation nation, final SquadronState state) {
-        return squadrons
-                .stream()
-                .filter(squadron -> squadron.ofNation(nation))
-                .filter(squadron -> squadron.isAtState(state))
-                .collect(Collectors.toList());
+        return filterNationAndState(nation, state, squadrons);
     }
 
     /**
@@ -385,14 +378,11 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
-                        entry -> entry
-                                .getValue()
-                                .stream()
-                                .filter(squadron -> squadron.ofNation(nation))
-                                .collect(Collectors.toList()),
+                        entry -> filterNation(nation, entry.getValue()),
                         (oldList, newList) -> oldList,
                         LinkedHashMap::new));
     }
+
     /**
      * Get the squadron map for the given nation and given squadron state.
      *
@@ -402,15 +392,16 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation nation, final SquadronState state) {
-        return getSquadronMap(nation)
+
+        if (state == null) {
+            return getSquadronMap(nation);
+        }
+
+        return squadronMap
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
-                        entry -> entry
-                        .getValue()
-                        .stream()
-                        .filter(squadron -> squadron.isAtState(state))
-                        .collect(Collectors.toList()),
+                        entry -> filterNationAndState(nation, state, entry.getValue()),
                         (oldList, newList) -> oldList,
                         LinkedHashMap::new));
     }
@@ -624,6 +615,36 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         }
 
         return landingType.contains(LandingType.LAND) ? AirfieldType.LAND : AirfieldType.SEAPLANE;
+    }
+
+    /**
+     * Filter the given squadrons by nation.
+     *
+     * @param nation A nation.
+     * @param squadrons A list of squadrons.
+     * @return A list of squadrons that are owned by the given nation.
+     */
+    private List<Squadron> filterNation(final Nation nation, final List<Squadron> squadrons) {
+        return squadrons
+                .stream()
+                .filter(squadron -> squadron.ofNation(nation))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Filter the given squadrons by nation and state.
+     *
+     * @param nation The nation.
+     * @param state A squadron state.
+     * @param squadrons A list of squadrons.
+     * @return A list of squadrons that are at the given state for the given nation.
+     */
+    private List<Squadron> filterNationAndState(final Nation nation, final SquadronState state, final List<Squadron> squadrons) {
+        return squadrons
+                .stream()
+                .filter(squadron -> squadron.ofNation(nation))
+                .filter(squadron -> squadron.isAtState(state))
+                .collect(Collectors.toList());
     }
 
     /**

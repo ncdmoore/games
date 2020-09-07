@@ -146,6 +146,18 @@ public class PatrolViewModel {
     }
 
     /**
+     * Determine if the given squadron is on this patrol.
+     *
+     * @param squadron A squadron that is checked to see if it is on this patrol.
+     * @return True if the given squadron is on this patrol. False otherwise.
+     */
+    public boolean isSquadronOnPatrol(final Squadron squadron) {
+        Nation nation = squadron.getNation();
+
+        return assigned.get(nation).getValue().contains(squadron);
+    }
+
+    /**
      * Update the patrol stats. Build a new patrol with the given squadrons on patrol.
      *
      * @param squadronsOnPatrol The squadrons on patrol.

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 public class SquadronsView {
     private static final String ROUNDEL = ".roundel.image";
-    @Getter private Map<Nation, SquadronsNationView> nationView = new HashMap<>();
+    @Getter private final Map<Nation, SquadronsNationView> nationView = new HashMap<>();
 
     private final Provider<SquadronsNationView> squadronsNationViewProvider;
     private final ImageResourceProvider imageResourceProvider;

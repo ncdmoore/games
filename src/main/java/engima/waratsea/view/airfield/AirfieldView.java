@@ -3,11 +3,12 @@ package engima.waratsea.view.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.mission.MissionView;
 import engima.waratsea.view.airfield.patrol.PatrolView;
-import engima.waratsea.view.airfield.ready.AirfieldReadyView;
+import engima.waratsea.view.airfield.squadron.SquadronStateView;
 import engima.waratsea.viewmodel.NationAirbaseViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
@@ -32,7 +33,7 @@ public class AirfieldView {
     private final Provider<AirfieldSummaryView> airfieldSummaryViewProvider;
     private final Provider<MissionView> airfieldMissionViewProvider;
     private final Provider<PatrolView> airfieldPatrolViewProvider;
-    private final Provider<AirfieldReadyView> airfieldReadyViewProvider;
+    private final Provider<SquadronStateView> squadronStateViewProvider;
     private final ViewProps props;
 
     private Map<Nation, NationAirbaseViewModel> viewModelMap;
@@ -42,7 +43,8 @@ public class AirfieldView {
     @Getter private final Map<Nation, AirfieldSummaryView> airfieldSummaryView = new HashMap<>();
     @Getter private final Map<Nation, MissionView> airfieldMissionView = new HashMap<>();
     @Getter private final Map<Nation, PatrolView> airfieldPatrolView = new HashMap<>();
-    @Getter private final Map<Nation, AirfieldReadyView> airfieldReadyView = new HashMap<>();
+    @Getter private final Map<Nation, SquadronStateView> airfieldReadyView = new HashMap<>();
+    @Getter private final Map<Nation, SquadronStateView> airfieldAllView = new HashMap<>();
 
     @Setter private boolean showPatrolPane = false;
 
@@ -53,7 +55,7 @@ public class AirfieldView {
      * @param airfieldSummaryViewProvider Provides the airfield summary view.
      * @param airfieldMissionViewProvider Provides the airfield mission view.
      * @param airfieldPatrolViewProvider  Provides the airfield patrol view.
-     * @param airfieldReadyViewProvider   Provides the airfield ready view.
+     * @param squadronStateViewProvider   Provides the airfield ready view.
      * @param props The view properties.
      */
     @Inject
@@ -61,13 +63,13 @@ public class AirfieldView {
                         final Provider<AirfieldSummaryView> airfieldSummaryViewProvider,
                         final Provider<MissionView> airfieldMissionViewProvider,
                         final Provider<PatrolView> airfieldPatrolViewProvider,
-                        final Provider<AirfieldReadyView> airfieldReadyViewProvider,
+                        final Provider<SquadronStateView> squadronStateViewProvider,
                         final ViewProps props) {
         this.imageResourceProvider = imageResourceProvider;
         this.airfieldSummaryViewProvider = airfieldSummaryViewProvider;
         this.airfieldMissionViewProvider = airfieldMissionViewProvider;
         this.airfieldPatrolViewProvider = airfieldPatrolViewProvider;
-        this.airfieldReadyViewProvider = airfieldReadyViewProvider;
+        this.squadronStateViewProvider = squadronStateViewProvider;
         this.props = props;
     }
 
@@ -105,9 +107,10 @@ public class AirfieldView {
         TitledPane missions = buildMissionPane(nation, viewModel);
         TitledPane patrols = buildPatrolPane(nation, viewModel);
         TitledPane ready = buildReadyPane(nation, viewModel);
+        TitledPane all = buildAllPane(nation, viewModel);
 
         Accordion accordion = new Accordion();
-        accordion.getPanes().addAll(missions, patrols, ready);
+        accordion.getPanes().addAll(missions, patrols, ready, all);
 
         if (showPatrolPane) {
             accordion.setExpandedPane(patrols);
@@ -183,11 +186,27 @@ public class AirfieldView {
      * @return A titled pane containing the ready details of the airfield.
      */
     private TitledPane buildReadyPane(final Nation nation, final NationAirbaseViewModel viewModel) {
-        airfieldReadyView.put(nation, airfieldReadyViewProvider.get());
+        airfieldReadyView.put(nation, squadronStateViewProvider.get());
 
         return airfieldReadyView
                 .get(nation)
-                .build(nation)
+                .build(nation, SquadronState.READY)
+                .bind(viewModel);
+    }
+
+    /**
+     * Build the ready details pane.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @param viewModel The airbase view model.
+     * @return A titled pane containing the ready details of the airfield.
+     */
+    private TitledPane buildAllPane(final Nation nation, final NationAirbaseViewModel viewModel) {
+        airfieldAllView.put(nation, squadronStateViewProvider.get());
+
+        return airfieldAllView
+                .get(nation)
+                .build(nation, null)   // Pass null for the state. A state of null causes all squadrons to be displayed.
                 .bind(viewModel);
     }
 

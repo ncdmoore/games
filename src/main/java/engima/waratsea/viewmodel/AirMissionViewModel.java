@@ -349,6 +349,16 @@ public class AirMissionViewModel {
     }
 
     /**
+     * Determine if the given squadron is on this mission.
+     *
+     * @param squadron A squadron to check and see if it is on this mission.
+     * @return True if the given squadron is on this mission. False otherwise.
+     */
+    public boolean isSquadronOnMission(final Squadron squadron) {
+        return totalAssigned.getValue().contains(squadron);
+    }
+
+    /**
      * Bind the available squadrons.
      *
      * @param viewModel The nation's airbase view model.

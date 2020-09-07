@@ -56,6 +56,8 @@ public class NationAirbaseViewModel {
     @Getter private final Map<SquadronViewType, ObjectProperty<ObservableList<Squadron>>> readySquadrons = new HashMap<>();
     @Getter private final ObjectProperty<ObservableList<Squadron>> totalReadySquadrons = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
 
+    @Getter private final Map<SquadronViewType, ObjectProperty<ObservableList<Squadron>>> allSquadrons = new HashMap<>();
+
     @Getter private final ObjectProperty<ObservableList<AirMissionViewModel>> missions = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
 
     @Getter private Map<PatrolType, PatrolViewModel> patrolViewModels;
@@ -81,7 +83,7 @@ public class NationAirbaseViewModel {
     public NationAirbaseViewModel() {
         Stream
                 .of(SquadronViewType.values())
-                .forEach(this::initializeReady);
+                .forEach(this::initializeSquadrons);
 
         Stream
                 .of(AirMissionType.values())
@@ -119,7 +121,7 @@ public class NationAirbaseViewModel {
         squadrons.set(FXCollections.observableArrayList(airbase.getSquadrons(nation)));
 
         setReadySquadrons();
-        setSquadronCounts();
+        setAllSquadrons();
 
         return this;
     }
@@ -149,6 +151,16 @@ public class NationAirbaseViewModel {
         patrolViewModels = airbasePatrols;
 
         setPatrolCounts();
+    }
+
+    /**
+     * Get the squadron map for the given squadron state.
+     *
+     * @param state The squadron state.
+     * @return A map of squadron view type to list of squadrons at the given state.
+     */
+    public Map<SquadronViewType, ObjectProperty<ObservableList<Squadron>>> getSquadronMap(final SquadronState state) {
+        return (state == null) ? allSquadrons : readySquadrons;
     }
 
     /**
@@ -293,13 +305,32 @@ public class NationAirbaseViewModel {
     }
 
     /**
-     * Initialize the ready squadrons for the given view type.
+     * Determine the state of the given squadron. The state is determined by where the squadron is located
+     * in the view model. It is not determined by the model. Also, note that QUEUED_FOR_MISSION is the same
+     * as ON_MISSION for our purposes here. The same is true of the patrol states.
+     *
+     * @param squadron The squadron whose state is determined.
+     * @return The state of the squadron.
+     */
+    public SquadronState determineSquadronState(final Squadron squadron) {
+        return missionViewModels.stream().anyMatch(mission -> mission.isSquadronOnMission(squadron)) ? SquadronState.ON_MISSION :
+                patrolViewModels.values().stream().anyMatch(patrol -> patrol.isSquadronOnPatrol(squadron)) ? SquadronState.ON_PATROL :
+                        readySquadrons.values().stream().flatMap(p -> p.getValue().stream()).anyMatch(s -> s == squadron) ? SquadronState.READY :
+                                SquadronState.HANGER;
+    }
+
+
+    /**
+     * Initialize the squadrons for the given view type.
      *
      * @param type The squadron view type.
      */
-    private void initializeReady(final SquadronViewType type) {
+    private void initializeSquadrons(final SquadronViewType type) {
         readySquadrons.put(type, new SimpleObjectProperty<>());
         readyCounts.put(type.toString(), new SimpleIntegerProperty(0));
+
+        allSquadrons.put(type, new SimpleObjectProperty<>());
+        squadronCounts.put(type.toString(), new SimpleIntegerProperty(0));
 
         bindNoSquadronsReady();
     }
@@ -338,6 +369,10 @@ public class NationAirbaseViewModel {
         totalReadySquadrons.set(FXCollections.observableArrayList(totalReady));
     }
 
+    private void setAllSquadrons() {
+        getSquadrons(null).forEach(this::setAllSquadron);
+    }
+
     /**
      * Get the squadrons that are in the given state from the airbase.
      *
@@ -364,6 +399,12 @@ public class NationAirbaseViewModel {
         readySquadrons.get(type).set(FXCollections.observableArrayList(ready));
         readyCounts.get(type.toString()).setValue(ready.size());
     }
+
+    private void setAllSquadron(final SquadronViewType type, final List<Squadron> all) {
+        allSquadrons.get(type).set(FXCollections.observableArrayList(all));
+        squadronCounts.get(type.toString()).setValue(all.size());
+    }
+
 
     /**
      * Add all of the air mission squadrons to the ready list.
@@ -507,30 +548,6 @@ public class NationAirbaseViewModel {
                         .get(type)
                         .getAssignedCount()
                         .get(nation));
-    }
-
-    /**
-     * Set the squadron counts.
-     */
-    private void setSquadronCounts() {
-        Stream
-                .of(SquadronViewType.values())
-                .forEach(this::setSquadronCount);
-    }
-
-    /**
-     * Set the given type's squadron count.
-     *
-     * @param type A squadron view type.
-     */
-    private void setSquadronCount(final SquadronViewType type) {
-        int count = (int) squadrons
-                .getValue()
-                .stream()
-                .filter(squadron -> SquadronViewType.get(squadron.getType()) == type)
-                .count();
-
-        squadronCounts.put(type.toString(), new SimpleIntegerProperty(count));
     }
 
     /**

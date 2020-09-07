@@ -14,7 +14,7 @@ public class BoundTitledGridPane extends TitledPane {
     private String gridStyleId;
 
     @Setter private List<ColumnConstraints> columnConstraints;
-    @Getter private BoundGridPaneMap gridPane = new BoundGridPaneMap();
+    @Getter private final BoundGridPaneMap gridPane = new BoundGridPaneMap();
 
     /**
      * Set the titled pane's width.

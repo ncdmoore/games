@@ -20,7 +20,7 @@ import java.util.stream.Stream;
  * This class contains the squadron information for a given nation.
  */
 public class SquadronsNationView {
-    @Getter private Map<SquadronViewType, SquadronsTypeView> squadronsTypeView = new HashMap<>();
+    @Getter private final Map<SquadronViewType, SquadronsTypeView> squadronsTypeView = new HashMap<>();
     private final Provider<SquadronsTypeView> squadronsTypeViewProvider;
 
     private Nation nation;              // The nation: BRITISH, ITALIAN, etc...
@@ -79,7 +79,7 @@ public class SquadronsNationView {
         SquadronsTypeView squadronView = squadronsTypeViewProvider.get();
         squadronsTypeView.put(squadronViewType, squadronView);
 
-        Node squadron = squadronView.build(nation, squadronViewType, squadronsOfNeededType);
+        Node squadron = squadronView.build(nation, squadronsOfNeededType);
 
         boolean disabled = squadronsOfNeededType.isEmpty();
 

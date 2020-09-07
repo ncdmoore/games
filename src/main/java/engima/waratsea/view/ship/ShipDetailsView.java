@@ -45,10 +45,10 @@ public class ShipDetailsView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
 
-    private SquadronDetailsView squadronDetailsView;
+    private final SquadronDetailsView squadronDetailsView;
 
     @Getter
-    private ChoiceBox<Squadron> squadrons = new ChoiceBox<>();
+    private final ChoiceBox<Squadron> squadrons = new ChoiceBox<>();
 
     /**
      * Constructor called by guice.

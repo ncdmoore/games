@@ -13,6 +13,7 @@ import engima.waratsea.model.game.rules.Rules;
 import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
+import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.presenter.airfield.mission.MissionAddDialog;
 import engima.waratsea.presenter.airfield.mission.MissionEditDialog;
 import engima.waratsea.utility.CssResourceProvider;
@@ -200,8 +201,9 @@ public class AirfieldDialog {
      */
     private void registerHandlers(final DialogView dialog) {
         airbase.getNations().forEach(this::registerMissionHandlers);
-        airbase.getNations().forEach(this::registerReadyHandlers);
         airbase.getNations().forEach(this::registerPatrolHandlers);
+        airbase.getNations().forEach(this::registerReadyHandlers);
+        airbase.getNations().forEach(this::registerAllHandlers);
 
         dialog.getCancelButton().setOnAction(event -> cancel());
         dialog.getOkButton().setOnAction(event -> ok());
@@ -280,9 +282,23 @@ public class AirfieldDialog {
         view
                 .getAirfieldReadyView()
                 .get(nation)
-                .getReadySquadrons()
+                .getSquadrons()
                 .values()
                 .forEach(lv -> registerHandler(lv, (o, ov, nv) -> readySquadronSelected(nation, nv)));
+    }
+
+    /**
+     * Register callback handlers for when a squadron in the all list is selected.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     */
+    private void registerAllHandlers(final Nation nation) {
+        view
+                .getAirfieldAllView()
+                .get(nation)
+                .getSquadrons()
+                .values()
+                .forEach(lv -> registerHandler(lv, (o, ov, nv) -> allSquadronSelected(nation, nv)));
     }
 
     /**
@@ -442,6 +458,7 @@ public class AirfieldDialog {
 
             squadron.setConfig(config);
 
+            // Make sure the available squadron list has no selection.
             view
                     .getAirfieldPatrolView()
                     .get(nation)
@@ -523,7 +540,7 @@ public class AirfieldDialog {
             view
                     .getAirfieldReadyView()
                     .get(nation)
-                    .getReadySquadrons()
+                    .getSquadrons()
                     .entrySet()
                     .stream()
                     .filter(entry -> entry.getKey() != type)
@@ -534,6 +551,47 @@ public class AirfieldDialog {
                     .get(nation)
                     .getSquadronSummaryView()
                     .setSelectedSquadron(readySquadron);
+        }
+    }
+
+    /**
+     * Call back for a ready squadron selected.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @param allSquadron The selected ready squadron.
+     */
+    private void allSquadronSelected(final Nation nation, final Squadron allSquadron) {
+        if (allSquadron != null) {
+            SquadronViewType type = SquadronViewType.get(allSquadron.getType());
+
+            //Clear all the other all listView selections. If on clicking a listView
+            //that already has a squadron selected and the same squadron is selected,
+            //then no notification is sent. To avoid this we clear all other listViews
+            //anytime an all squadron is selected. This way when a listView is selected
+            //a notification is guaranteed to be sent.
+            view
+                    .getAirfieldAllView()
+                    .get(nation)
+                    .getSquadrons()
+                    .entrySet()
+                    .stream()
+                    .filter(entry -> entry.getKey() != type)
+                    .forEach(entry -> entry.getValue().getSelectionModel().clearSelection());
+
+            view
+                    .getAirfieldAllView()
+                    .get(nation)
+                    .getSquadronSummaryView()
+                    .setSelectedSquadron(allSquadron);
+
+            SquadronState state = viewModelMap.get(nation).determineSquadronState(allSquadron);
+
+            log.info("Squadron: {} state: {}", allSquadron.getTitle(), state);
+
+            view
+                    .getAirfieldAllView()
+                    .get(nation)
+                    .setState(state);
         }
     }
 

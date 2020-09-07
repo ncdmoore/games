@@ -81,12 +81,12 @@ public enum SquadronState {
         }
     };
 
-    private static Map<SquadronAction, SquadronState> readyMap = new HashMap<>();
-    private static Map<SquadronAction, SquadronState> queuedForPatrolMap = new HashMap<>();
-    private static Map<SquadronAction, SquadronState> queuedForMissionMap = new HashMap<>();
-    private static Map<SquadronAction, SquadronState> onPatrolMap = new HashMap<>();
-    private static Map<SquadronAction, SquadronState> onMissonMap = new HashMap<>();
-    private static Map<SquadronAction, SquadronState> inHangerMap = new HashMap<>();
+    private static final Map<SquadronAction, SquadronState> readyMap = new HashMap<>();
+    private static final Map<SquadronAction, SquadronState> queuedForPatrolMap = new HashMap<>();
+    private static final Map<SquadronAction, SquadronState> queuedForMissionMap = new HashMap<>();
+    private static final Map<SquadronAction, SquadronState> onPatrolMap = new HashMap<>();
+    private static final Map<SquadronAction, SquadronState> onMissonMap = new HashMap<>();
+    private static final Map<SquadronAction, SquadronState> inHangerMap = new HashMap<>();
 
 
     static {
@@ -106,7 +106,7 @@ public enum SquadronState {
         inHangerMap.put(SquadronAction.REFIT, READY);
     }
 
-    private String value;
+    private final String value;
 
     /**
      * Transition to a new state.

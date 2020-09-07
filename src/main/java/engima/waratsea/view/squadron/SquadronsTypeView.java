@@ -23,11 +23,11 @@ import java.util.Map;
  * It also contains the squadron details view.
  */
 public class SquadronsTypeView {
-    @Getter private ListView<Squadron> listView = new ListView<>();
-    @Getter private ChoiceBox<SquadronConfig> choiceBox = new ChoiceBox<>();
+    @Getter private final ListView<Squadron> listView = new ListView<>();
+    @Getter private final ChoiceBox<SquadronConfig> choiceBox = new ChoiceBox<>();
 
-    private SquadronDetailsView squadronDetailsView;
-    private ViewProps props;
+    private final SquadronDetailsView squadronDetailsView;
+    private final ViewProps props;
 
     private final TitledGridPane airfieldPane = new TitledGridPane();
 
@@ -48,11 +48,10 @@ public class SquadronsTypeView {
      * Build the Squadrons view tab.
      *
      * @param nation The nation.
-     * @param type The type of squadrons to display in this tab.
      * @param squadrons The list of squadrons to display in this tab.
      * @return A tab.
      */
-    public Node build(final Nation nation, final SquadronViewType type, final List<Squadron> squadrons) {
+    public Node build(final Nation nation, final List<Squadron> squadrons) {
         listView
                          .getItems()
                          .addAll(squadrons);
@@ -83,7 +82,7 @@ public class SquadronsTypeView {
     /**
      * Build the config box.
      *
-     * @return A node contianing the configuration box.
+     * @return A node containing the configuration box.
      */
     private Node buildConfigBox() {
         Label label = new Label("Squadron Configuration:");

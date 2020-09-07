@@ -33,7 +33,7 @@ public class SquadronsDialog {
     private final Provider<SquadronsView> viewProvider;
     private final CssResourceProvider cssResourceProvider;
 
-    private ViewProps props;
+    private final ViewProps props;
     private SquadronsView view;
     private Stage stage;
 

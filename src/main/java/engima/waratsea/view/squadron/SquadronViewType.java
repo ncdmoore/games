@@ -21,9 +21,9 @@ public enum SquadronViewType {
     RECONNAISSANCE("Reconnaissance");
 
     @Getter
-    private String value;
+    private final String value;
 
-    private static Map<AircraftType, SquadronViewType> viewTypeMap = new HashMap<>();
+    private static final Map<AircraftType, SquadronViewType> viewTypeMap = new HashMap<>();
 
     static {
         viewTypeMap.put(AircraftType.FIGHTER, FIGHTER);
