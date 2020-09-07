@@ -28,6 +28,20 @@
     -fx-padding: /* top */ 10 /* right */ 10 /* bottom */ 5 /* left */ 10;
 }
 
+.region-name-vbox {
+    -fx-background-color: linear-gradient(to right, lightsteelblue 0%, white 50%, lightsteelblue);
+    -fx-border-color: black;
+}
+
+.region-label {
+    -fx-font: bold 12pt "Lucida Grande";
+    -fx-padding: /* top */ 5 /* right */ 5 /* bottom */ 5 /* left */ 5;
+}
+
+.region-tooltip {
+    -fx-font: normal 8pt "Lucida Grande";
+}
+
 #airfield-summary-hbox {
     -fx-background-color: white;
     -fx-spacing: 10;

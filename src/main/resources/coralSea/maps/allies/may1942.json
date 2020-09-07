@@ -4,6 +4,7 @@
     "nation": "AUSTRALIAN",
     "min": "0",
     "max": "0",
+    "mapRef": "C10",
     "airfields": [
       "Port Moresby"
     ],
@@ -16,6 +17,7 @@
     "nation": "UNITED STATES",
     "min": "0",
     "max": "0",
+    "mapRef": "C10",
     "airfields": [
       "Port Moresby"
     ],
@@ -28,6 +30,7 @@
     "nation": "AUSTRALIAN",
     "min": "0",
     "max": "0",
+    "mapRef": "D32",
     "airfields": [
       "Cairns",
       "Townsville"
@@ -42,6 +45,7 @@
     "nation": "UNITED STATES",
     "min": "0",
     "max": "0",
+    "mapRef": "D32",
     "airfields": [
       "Cairns",
       "Townsville"
@@ -56,6 +60,7 @@
     "nation": "UNITED STATES",
     "min": "0",
     "max": "0",
+    "mapRef": "AB15",
     "airfields": [
       "Tulagi"
     ]
@@ -65,6 +70,7 @@
     "nation": "UNITED STATES",
     "min": "0",
     "max": "0",
+    "mapRef": "AM21",
     "airfields": [
       "Espiritu Santo"
     ],
