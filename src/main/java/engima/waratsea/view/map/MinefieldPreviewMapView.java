@@ -6,7 +6,6 @@ import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.presenter.dto.map.MinefieldDTO;
-import engima.waratsea.utility.ColorMap;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.marker.preview.MineMarker;
@@ -34,17 +33,16 @@ import java.util.Set;
  */
 @Slf4j
 public class MinefieldPreviewMapView {
-    private ViewProps props;
-    private ImageResourceProvider imageResourceProvider;
+    private final ViewProps props;
+    private final ImageResourceProvider imageResourceProvider;
 
-    private GameMap gameMap;
-    private MapView mapView;
-    private ColorMap colorMap;
+    private final GameMap gameMap;
+    private final MapView mapView;
 
     @Setter
     private Side side;
 
-    private Set<String> markedMines = new HashSet<>();
+    private final Set<String> markedMines = new HashSet<>();
 
     /**
      * Constructor called by guice.
@@ -53,19 +51,16 @@ public class MinefieldPreviewMapView {
      * @param imageResourceProvider The image resource provider.
      * @param gameMap The game map.
      * @param mapView A utility to aid in drawing the map grid.
-     * @param colorMap The color map.
      */
     @Inject
     public MinefieldPreviewMapView(final ViewProps props,
                                    final ImageResourceProvider imageResourceProvider,
                                    final GameMap gameMap,
-                                   final MapView mapView,
-                                   final ColorMap colorMap) {
+                                   final MapView mapView) {
         this.props = props;
         this.imageResourceProvider = imageResourceProvider;
         this.gameMap = gameMap;
         this.mapView = mapView;
-        this.colorMap = colorMap;
     }
 
     /**
@@ -170,7 +165,7 @@ public class MinefieldPreviewMapView {
 
         GridPane gridPane = new GridPane();
         Node baseKey = MapView.getLegend(0, 0, gridSize);
-        ((Shape) baseKey).setFill(colorMap.getBaseColor(side));
+        ((Shape) baseKey).setFill(Color.web(props.getString(side.toLower() + ".base.color")));
         baseKey.setOpacity(opacity);
 
         Node mineZoneKey = MapView.getLegend(0, 0, gridSize);
@@ -211,7 +206,7 @@ public class MinefieldPreviewMapView {
      */
     private void highlightAndRegisterGrid(final GameGrid gameGrid, final EventHandler<? super MouseEvent> handler) {
 
-        Paint backgroundColor = gameMap.isLocationBase(gameGrid) ? getBaseColor(gameGrid) : Color.GRAY;
+        Paint backgroundColor = gameMap.isLocationBase(gameGrid) ? getBaseColor() : Color.GRAY;
 
         mapView.setBackground(gameGrid, backgroundColor);
         mapView.registerMouseClick(gameGrid, handler);
@@ -220,11 +215,10 @@ public class MinefieldPreviewMapView {
     /**
      * Get the color of a base.
      *
-     * @param gameGrid The game grid.
      * @return The color of the side.
      */
-    private Paint getBaseColor(final GameGrid gameGrid) {
-        return colorMap.getBaseColor(side);
+    private Paint getBaseColor() {
+        return Color.web(props.getString(side.toLower() + ".base.color"));
     }
 
     /**
