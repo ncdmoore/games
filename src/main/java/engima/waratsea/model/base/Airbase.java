@@ -1,5 +1,6 @@
 package engima.waratsea.model.base;
 
+import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
@@ -152,6 +153,13 @@ public interface Airbase extends Base, SquadronHome {
      * @return The squadron map keyed by aircraft type for the given nation and given squadron state.
      */
     Map<AircraftType, List<Squadron>> getSquadronMap(Nation nation, SquadronState state);
+
+    /**
+     * Get a list of the aircraft models present at this airbase.
+     *
+     * @return A unique list of aircraft that represent the aircraft models present at this airbase.
+     */
+    Set<Aircraft> getAircraftModelsPresent();
 
     /**
      * Add a squadron to this airbase. Station the given squadron at this airbase.

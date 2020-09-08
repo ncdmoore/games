@@ -365,6 +365,7 @@ public class AirfieldDialog {
      */
     private void cancel() {
         hideAirfieldAssetSummary();
+        resetAirfieldAssetSummary();
         stage.close();
     }
 
@@ -645,6 +646,21 @@ public class AirfieldDialog {
         if (controlAssetSummaryDisplay) {
             AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
             assetSummaryViewProvider.get().hide(assetId);
+        }
+    }
+
+    /**
+     * Any changes that were not saved to the airfield need to be reflected in the asset summary view of
+     * the airfield. Thus, the airfield's view model is reset to the data stored in the airfield's model.
+     * This way the airfield's asset summary contains the current data from the model. This is only needed
+     * when the airfield asset summary survives this dialog's cancel button, i.e., when this dialog does
+     * not control the display of the airfield asset summary.
+     */
+    private void resetAirfieldAssetSummary() {
+        if (!controlAssetSummaryDisplay) {
+            AirbaseViewModel vm = airbaseViewModelProvider.get();
+            vm.setModel(airbase);
+            airfieldAssetView.reset(vm);   // reset the airfield's asset summary's view of the airfield.
         }
     }
 

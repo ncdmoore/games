@@ -17,9 +17,9 @@ import java.util.Optional;
 @Singleton
 public class AssetSummaryView {
 
-    private Map<String, Tab> tabMap = new HashMap<>();
-    private Map<String, AssetView> viewMap = new HashMap<>();
-    private TabPane tabPane = new TabPane();
+    private final Map<String, Tab> tabMap = new HashMap<>();
+    private final Map<String, AssetView> viewMap = new HashMap<>();
+    private final TabPane tabPane = new TabPane();
 
     /**
      * Build the asset summary view.

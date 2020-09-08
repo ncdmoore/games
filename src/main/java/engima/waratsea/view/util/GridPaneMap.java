@@ -14,7 +14,7 @@ import java.util.Map;
 public class GridPaneMap {
     private int width;
     private GridPane gridPane;
-    private Map<String, Label> gridValues = new HashMap<>();
+    private final Map<String, Label> gridValues = new HashMap<>();
 
     @Setter private String gridStyleId;
     @Setter private List<ColumnConstraints> columnConstraints;

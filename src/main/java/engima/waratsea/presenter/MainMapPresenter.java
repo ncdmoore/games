@@ -3,29 +3,23 @@ package engima.waratsea.presenter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.port.Port;
-import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.presenter.airfield.AirfieldDialog;
 import engima.waratsea.presenter.airfield.mission.MissionDialog;
 import engima.waratsea.presenter.airfield.patrol.PatrolDialog;
+import engima.waratsea.presenter.asset.AssetPresenter;
 import engima.waratsea.presenter.taskforce.TaskForceDialog;
 import engima.waratsea.view.MainMenu;
-import engima.waratsea.view.asset.AirfieldAssetSummaryView;
-import engima.waratsea.view.asset.AssetId;
-import engima.waratsea.view.asset.AssetSummaryView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
 import engima.waratsea.view.map.marker.main.RegionMarker;
-import engima.waratsea.viewmodel.AirbaseViewModel;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -50,9 +44,7 @@ public class MainMapPresenter {
     private final Provider<AirfieldDialog> airfieldDetailsDialogProvider;
     private final Provider<PatrolDialog> patrolDetailsDialogProvider;
     private final Provider<MissionDialog> missionDetailsDialogProvider;
-    private final Provider<AssetSummaryView> assetSummaryViewProvider;
-    private final Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider;
-    private final Provider<AirbaseViewModel> airbaseViewModelProvider;
+    private final AssetPresenter assetPresenter;
 
     private final Provider<TaskForceDialog> taskForceDialogProvider;
 
@@ -65,9 +57,7 @@ public class MainMapPresenter {
      * @param airfieldDetailsDialogProvider Provides airfield details dialog.
      * @param patrolDetailsDialogProvider Provides patrol radius details dialog.
      * @param missionDetailsDialogProvider Provides mission arrow details dialog
-     * @param assetSummaryViewProvider Provides the asset summary view.
-     * @param airfieldAssetSummaryViewProvider Provides the airfield asset summary view.
-     * @param airbaseViewModelProvider Provides the airbase view models.
+     * @param assetPresenter The asset presenter.
      */
     //CHECKSTYLE:OFF
     @Inject
@@ -77,10 +67,8 @@ public class MainMapPresenter {
                             final Provider<AirfieldDialog> airfieldDetailsDialogProvider,
                             final Provider<PatrolDialog> patrolDetailsDialogProvider,
                             final Provider<MissionDialog> missionDetailsDialogProvider,
-                            final Provider<AssetSummaryView> assetSummaryViewProvider,
-                            final Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider,
-                            final Provider<AirbaseViewModel> airbaseViewModelProvider,
-                            final Provider<TaskForceDialog> taskForceDialogProvider) {
+                            final Provider<TaskForceDialog> taskForceDialogProvider,
+                            final AssetPresenter assetPresenter) {
         //CHECKSTYLE:ON
         this.game = game;
 
@@ -91,12 +79,9 @@ public class MainMapPresenter {
         this.patrolDetailsDialogProvider = patrolDetailsDialogProvider;
         this.missionDetailsDialogProvider = missionDetailsDialogProvider;
 
-        this.assetSummaryViewProvider = assetSummaryViewProvider;
-        this.airfieldAssetSummaryViewProvider = airfieldAssetSummaryViewProvider;
-
-        this.airbaseViewModelProvider = airbaseViewModelProvider;
-
         this.taskForceDialogProvider = taskForceDialogProvider;
+
+        this.assetPresenter = assetPresenter;
     }
 
     /**
@@ -200,9 +185,9 @@ public class MainMapPresenter {
             boolean selected = mainMapView.selectMarker(baseMarker);
 
             if (selected) {
-                addToAssetSummary(baseMarker);
+                assetPresenter.humanBaseSelected(baseMarker);
             } else {
-                removeFromAssetSummary(baseMarker);
+                assetPresenter.humanBaseUnSelected(baseMarker);
             }
         }
     }
@@ -296,84 +281,5 @@ public class MainMapPresenter {
         Path arrow = (Path) event.getSource();
         List<AirMission> missions = (List<AirMission>) arrow.getUserData();
         missionDetailsDialogProvider.get().show(missions);
-    }
-
-    /**
-     * Add the base's airfield to the asset summary if it exists for the given marker.
-     *
-     * @param baseMarker The base marker that was clicked.
-     */
-    private void addToAssetSummary(final BaseMarker baseMarker) {
-        baseMarker
-                .getBaseGrid()
-                .getAirfield()
-                .ifPresent(this::addAirfieldToAssetSummary);
-    }
-
-    /**
-     * Remove the base's airfield from the asset summary if it exists for the given marker.
-     *
-     * @param baseMarker The base marker that was clicked.
-     */
-    private void removeFromAssetSummary(final BaseMarker baseMarker) {
-        baseMarker
-                .getBaseGrid()
-                .getAirfield()
-                .ifPresent(this::removeAirfieldFromAssetSummary);
-    }
-
-    /**
-     * Add an airfield to the asset summary.
-     *
-     * @param airfield The airfield to add.
-     */
-    private void addAirfieldToAssetSummary(final Airfield airfield) {
-        AirfieldAssetSummaryView assetView = airfieldAssetSummaryViewProvider.get();
-
-        AirbaseViewModel viewModel = airbaseViewModelProvider
-                .get()
-                .setModel(airfield);
-
-        assetView.build(viewModel);
-
-        AssetId assetId = new AssetId(AssetType.AIRFIELD, airfield.getTitle());
-        assetSummaryViewProvider.get().show(assetId, assetView);
-
-        assetView.getMissionButton().setOnAction(this::airfieldManageMissions);
-        assetView.getPatrolButton().setOnAction(this::airfieldManagePatrols);
-    }
-
-    /**
-     * Remove an airfield from the asset summary.
-     *
-     * @param airfield The airfield to remove.
-     */
-    private void removeAirfieldFromAssetSummary(final Airfield airfield) {
-        AssetId assetId = new AssetId(AssetType.AIRFIELD, airfield.getTitle());
-        assetSummaryViewProvider.get().hide(assetId);
-    }
-
-    /**
-     * Callback for manage airfield mission button.
-     *
-     * @param event The button click event.
-     */
-    private void airfieldManageMissions(final ActionEvent event) {
-        Button button = (Button) event.getSource();
-        Airbase airbase = (Airbase) button.getUserData();
-
-        airfieldDetailsDialogProvider.get().show(airbase, false);
-    }
-
-    /**
-     * Callback for manage airfield patrol button.
-     *
-     * @param event The button click event.
-     */
-    private void airfieldManagePatrols(final ActionEvent event) {
-        Button button = (Button) event.getSource();
-        Airbase airbase = (Airbase) button.getUserData();
-
-        airfieldDetailsDialogProvider.get().show(airbase, true);
     }
 }

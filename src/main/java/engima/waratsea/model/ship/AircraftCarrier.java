@@ -2,6 +2,7 @@ package engima.waratsea.model.ship;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.Airbase;
@@ -335,6 +336,19 @@ public class AircraftCarrier implements Ship, Airbase {
                                 .collect(Collectors.toList()),
                         (oldList, newList) -> oldList,
                         LinkedHashMap::new));
+    }
+
+    /**
+     * Get a list of the aircraft models present at this airbase.
+     *
+     * @return A unique list of aircraft that represent the aircraft models present at this airbase.
+     */
+    @Override
+    public Set<Aircraft> getAircraftModelsPresent() {
+        return squadrons
+                .stream()
+                .map(Squadron::getAircraft)
+                .collect(Collectors.toSet());
     }
 
     /**

@@ -3,6 +3,7 @@ package engima.waratsea.model.base.airfield;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
+import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.aircraft.AircraftBaseType;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.LandingType;
@@ -404,6 +405,19 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                         entry -> filterNationAndState(nation, state, entry.getValue()),
                         (oldList, newList) -> oldList,
                         LinkedHashMap::new));
+    }
+
+    /**
+     * Get a list of the aircraft models present at this airbase.
+     *
+     * @return A unique list of aircraft that represent the aircraft models present at this airbase.
+     */
+    @Override
+    public Set<Aircraft> getAircraftModelsPresent() {
+        return squadrons
+                .stream()
+                .map(Squadron::getAircraft)
+                .collect(Collectors.toSet());
     }
 
     /**

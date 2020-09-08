@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.Comparator;
 
 /**
- * The configuration of the squadron. These are mutually exclusive configuration.
+ * The configuration of the squadron. These are mutually exclusive configurations.
  *
  * The priority of the configuration controls the desirability of the configuration.
  * The lower priority numbers are more desirable.
@@ -21,8 +21,8 @@ public enum SquadronConfig implements Comparator<SquadronConfig> {
     SEARCH("Search", 5),                   // The squadron is equipped for a search. No ordinance and extra fuel.
     STRIPPED_DOWN("Stripped Down", 6);     // The squadron is stripped of ordinance and is loaded with extra fuel. This extends the squadron's range. Exclusive to fighters.
 
-    private String value;
-    @Getter private Integer priority;
+    private final String value;
+    @Getter private final Integer priority;
 
     /**
      * Constructor.

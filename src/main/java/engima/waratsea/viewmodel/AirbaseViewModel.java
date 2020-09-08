@@ -2,6 +2,7 @@ package engima.waratsea.viewmodel;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
@@ -36,6 +37,8 @@ public class AirbaseViewModel {
     private final Provider<NationAirbaseViewModel> nationAirbaseViewModelProvider;
     private final Provider<AirMissionViewModel> missionViewModelProvider;
     private final Provider<PatrolViewModel> patrolViewModelProvider;
+
+    @Getter private final ObjectProperty<ObservableList<Aircraft>> aircraftModels = new SimpleObjectProperty<>();       // List of all aircraft models present at this airbase.
 
     @Getter private Airbase airbase;
 
@@ -80,6 +83,7 @@ public class AirbaseViewModel {
         nationViewModels.forEach((nation, nationVM) -> nationVM.setMissionViewModels(missionViewModels.get(nation)));
 
         updateTotalMissions();
+        setAircraftModels();
 
         return this;
     }
@@ -159,5 +163,13 @@ public class AirbaseViewModel {
      */
     private void addNationViewToMissionView(final Nation nation, final List<AirMissionViewModel> missionVMs) {
         missionVMs.forEach(missionVM -> missionVM.setNationViewModel(nationViewModels.get(nation)));
+    }
+
+    /**
+     * Set the aircraft models present at this airbase.
+     * This is a unique list of aircraft of all nations stationed at this airbase.
+     */
+    private void setAircraftModels() {
+        aircraftModels.setValue(FXCollections.observableArrayList(airbase.getAircraftModelsPresent()));
     }
 }

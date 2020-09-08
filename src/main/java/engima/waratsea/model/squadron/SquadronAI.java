@@ -16,8 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SquadronAI {
 
-    private SquadronDeploymentAI squadronDeploymentAI;
-    private SquadronDeploymentManual squadronDeploymentManual;
+    private final SquadronDeploymentAI squadronDeploymentAI;
+    private final SquadronDeploymentManual squadronDeploymentManual;
 
     /**
      * Constructor called by guice.

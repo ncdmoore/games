@@ -48,7 +48,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
     @Getter private final Side side;
     @Getter private final Nation nation;
     @Getter private final String model;
-    @Getter @Setter private Aircraft aircraft;
+    @Getter private Aircraft aircraft;
     @Getter private String name;
     @Getter @Setter private SquadronStrength strength;
     @Getter private String reference; //This is always a map reference and never a name.

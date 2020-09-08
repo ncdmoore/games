@@ -127,6 +127,18 @@ public class AirfieldAssetSummaryView implements AssetView {
     }
 
     /**
+     * Reset the model binding.
+     *
+     * @param airbaseViewModel The new airbase view model that this object is bound too.
+     */
+    public void reset(final AirbaseViewModel airbaseViewModel) {
+        viewModel = airbaseViewModel;
+        airbase = viewModel.getAirbase();
+
+        bind();
+    }
+
+    /**
      * Bind the view model.
      **/
     private void bind() {
