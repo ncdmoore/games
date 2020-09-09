@@ -135,8 +135,9 @@ public class AirfieldAssetSummaryView implements AssetView {
         viewModel = airbaseViewModel;
         airbase = viewModel.getAirbase();
 
-        bind();
-    }
+        airbase
+                .getNations()
+                .forEach(this::bindNation);    }
 
     /**
      * Bind the view model.

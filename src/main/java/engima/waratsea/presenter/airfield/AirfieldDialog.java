@@ -7,7 +7,6 @@ import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
-import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.rules.Rules;
 import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
@@ -16,15 +15,13 @@ import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.presenter.airfield.mission.MissionAddDialog;
 import engima.waratsea.presenter.airfield.mission.MissionEditDialog;
+import engima.waratsea.presenter.asset.AssetPresenter;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.AirfieldView;
 import engima.waratsea.view.airfield.mission.MissionView;
 import engima.waratsea.view.airfield.patrol.PatrolView;
-import engima.waratsea.view.asset.AirfieldAssetSummaryView;
-import engima.waratsea.view.asset.AssetId;
-import engima.waratsea.view.asset.AssetSummaryView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.squadron.SquadronViewType;
 import engima.waratsea.viewmodel.AirMissionViewModel;
@@ -63,10 +60,7 @@ public class AirfieldDialog {
     private final Provider<MainMapView> mapViewProvider;
     private final Provider<MissionAddDialog> missionAddDetailsDialogProvider;
     private final Provider<MissionEditDialog> missionEditDetailsDialogProvider;
-    private final Provider<AssetSummaryView> assetSummaryViewProvider;
-    private final Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider;
-
-    private final Provider<AirbaseViewModel> airbaseViewModelProvider;
+    private final AssetPresenter assetPresenter;
 
     private final MissionDAO missionDAO;
     private final ViewProps props;
@@ -78,13 +72,9 @@ public class AirfieldDialog {
     private MainMapView mapView;
 
     private Airbase airbase;
-    private boolean controlAssetSummaryDisplay; // Indicates if the asset view for this airfield should be closed when the
-                                                // dialog is closed.
 
     private AirbaseViewModel viewModel;
     private Map<Nation, NationAirbaseViewModel> viewModelMap;
-
-    private AirfieldAssetSummaryView airfieldAssetView;
 
     /**
      * Constructor called by guice.
@@ -95,15 +85,12 @@ public class AirfieldDialog {
      * @param mapViewProvider Provides the view of the main game map.
      * @param missionAddDetailsDialogProvider Provides the mission details add dialog.
      * @param missionEditDetailsDialogProvider Provides the mission details edit dialog.
-     * @param assetSummaryViewProvider Provides the asset summary view pane.
-     * @param airfieldAssetSummaryViewProvider Provides the airfield data to place in the asset summary view.
-     * @param airbaseViewModelProvider Provides airbase view models for each nation.
+     * @param assetPresenter Provides the asset presenters.
      * @param missionDAO The mission data access object.
      * @param props The view properties.
      * @param rules The game rules.
      */
 
-    //CHECKSTYLE:OFF
     @Inject
     public AirfieldDialog(final CssResourceProvider cssResourceProvider,
                           final Provider<DialogView> dialogProvider,
@@ -111,22 +98,17 @@ public class AirfieldDialog {
                           final Provider<MainMapView> mapViewProvider,
                           final Provider<MissionAddDialog> missionAddDetailsDialogProvider,
                           final Provider<MissionEditDialog> missionEditDetailsDialogProvider,
-                          final Provider<AssetSummaryView> assetSummaryViewProvider,
-                          final Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider,
-                          final Provider<AirbaseViewModel> airbaseViewModelProvider,
+                          final AssetPresenter assetPresenter,
                           final MissionDAO missionDAO,
                           final ViewProps props,
                           final Rules rules) {
-        //CHECKSTYLE:ON
         this.cssResourceProvider = cssResourceProvider;
         this.dialogProvider = dialogProvider;
         this.viewProvider = viewProvider;
         this.mapViewProvider = mapViewProvider;
         this.missionAddDetailsDialogProvider = missionAddDetailsDialogProvider;
         this.missionEditDetailsDialogProvider = missionEditDetailsDialogProvider;
-        this.assetSummaryViewProvider = assetSummaryViewProvider;
-        this.airfieldAssetSummaryViewProvider = airfieldAssetSummaryViewProvider;
-        this.airbaseViewModelProvider = airbaseViewModelProvider;
+        this.assetPresenter = assetPresenter;
         this.missionDAO = missionDAO;
         this.props = props;
         this.rules = rules;
@@ -155,43 +137,20 @@ public class AirfieldDialog {
         view = viewProvider.get();
         mapView = mapViewProvider.get();
 
-        buildViewModel();
+        viewModel = assetPresenter
+                .getAirfieldAssetPresenter()
+                .getViewModel(airbase);
+
+        viewModelMap = viewModel.getNationViewModels();
 
         view.setShowPatrolPane(showPatrols);
         dialog.setContents(view.build(viewModelMap));
 
         registerHandlers(dialog);
 
-        showAirfieldAssetSummary();
-
         dialog.show(stage);
 
         // No code can go here. The dialog blocks until closed.
-    }
-
-    /**
-     * Build the view model.
-     */
-    private void buildViewModel() {
-        AssetSummaryView assetManager = assetSummaryViewProvider.get();
-        AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
-
-        airfieldAssetView = (AirfieldAssetSummaryView) assetManager.getAsset(assetId).orElse(null);
-
-        if (airfieldAssetView == null) {
-            viewModel = airbaseViewModelProvider.get();
-            viewModel.setModel(airbase);
-
-            airfieldAssetView = airfieldAssetSummaryViewProvider.get();
-            airfieldAssetView.build(viewModel);
-
-            controlAssetSummaryDisplay = true;
-        } else {
-            viewModel = airfieldAssetView.getViewModel();
-            controlAssetSummaryDisplay = false;
-        }
-
-        viewModelMap = viewModel.getNationViewModels();
     }
 
     /**
@@ -313,7 +272,9 @@ public class AirfieldDialog {
 
         mapView.drawPatrolRadii(airbase);
 
-        hideAirfieldAssetSummary();
+        assetPresenter
+                .getAirfieldAssetPresenter()
+                .hide(airbase, false);
 
         stage.close();
     }
@@ -364,8 +325,10 @@ public class AirfieldDialog {
      * Call back for the cancel button.
      */
     private void cancel() {
-        hideAirfieldAssetSummary();
-        resetAirfieldAssetSummary();
+        assetPresenter
+                .getAirfieldAssetPresenter()
+                .hide(airbase, true);
+
         stage.close();
     }
 
@@ -629,39 +592,6 @@ public class AirfieldDialog {
                 .getSelectionModel()
                 .selectedItemProperty()
                 .addListener(listener);
-    }
-
-    /**
-     * Show the airfield's asset summary.
-     */
-    private void showAirfieldAssetSummary() {
-        AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
-        assetSummaryViewProvider.get().show(assetId, airfieldAssetView);
-    }
-
-    /**
-     * Hide the airfield's asset summary.
-     */
-    private void hideAirfieldAssetSummary() {
-        if (controlAssetSummaryDisplay) {
-            AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
-            assetSummaryViewProvider.get().hide(assetId);
-        }
-    }
-
-    /**
-     * Any changes that were not saved to the airfield need to be reflected in the asset summary view of
-     * the airfield. Thus, the airfield's view model is reset to the data stored in the airfield's model.
-     * This way the airfield's asset summary contains the current data from the model. This is only needed
-     * when the airfield asset summary survives this dialog's cancel button, i.e., when this dialog does
-     * not control the display of the airfield asset summary.
-     */
-    private void resetAirfieldAssetSummary() {
-        if (!controlAssetSummaryDisplay) {
-            AirbaseViewModel vm = airbaseViewModelProvider.get();
-            vm.setModel(airbase);
-            airfieldAssetView.reset(vm);   // reset the airfield's asset summary's view of the airfield.
-        }
     }
 
     /**

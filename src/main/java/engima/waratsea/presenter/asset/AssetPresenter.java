@@ -3,11 +3,12 @@ package engima.waratsea.presenter.asset;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.view.map.marker.main.BaseMarker;
+import lombok.Getter;
 
 @Singleton
 public class AssetPresenter {
 
-    private final AirfieldAssetPresenter airfieldAssetPresenter;
+    @Getter private final AirfieldAssetPresenter airfieldAssetPresenter;
 
     /**
      * Constructor called by guice.
