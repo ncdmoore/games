@@ -105,7 +105,7 @@ public class AirfieldAssetPresenter {
      * @param airbase The airbase whose asset should be hidden.
      * @param reset Inidicates if the asset's view model should be reset.
      */
-    public void hide(final Airbase airbase, boolean reset) {
+    public void hide(final Airbase airbase, final boolean reset) {
         AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
 
         if (hideAssets.contains(assetId.getKey())) {

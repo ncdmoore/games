@@ -86,6 +86,7 @@ public class AirfieldAssetSummaryView implements AssetView {
      * @param airfieldPatrolInfoProvider Provides airfield patrol information.
      * @param airfieldReadyInfoProvider Provides airfield ready information.
      */
+    //CHECKSTYLE:OFF
     @Inject
     public AirfieldAssetSummaryView(final ViewProps props,
                                     final ImageResourceProvider imageResourceProvider,
@@ -95,6 +96,7 @@ public class AirfieldAssetSummaryView implements AssetView {
                                     final Provider<AirfieldMissionInfo> airfieldMissionInfoProvider,
                                     final Provider<AirfieldPatrolInfo> airfieldPatrolInfoProvider,
                                     final Provider<AirfieldReadyInfo> airfieldReadyInfoProvider) {
+        //CHECKSTYLE:ON
         this.props = props;
         this.imageResourceProvider = imageResourceProvider;
         this.airfieldRangeInfoProvider = airfieldRangeInfoProvider;
