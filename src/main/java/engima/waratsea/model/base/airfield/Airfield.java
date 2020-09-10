@@ -410,12 +410,14 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     /**
      * Get a list of the aircraft models present at this airbase.
      *
+     * @param nation The nation.
      * @return A unique list of aircraft that represent the aircraft models present at this airbase.
      */
     @Override
-    public Set<Aircraft> getAircraftModelsPresent() {
+    public Set<Aircraft> getAircraftModelsPresent(final Nation nation) {
         return squadrons
                 .stream()
+                .filter(squadron -> squadron.ofNation(nation))
                 .map(Squadron::getAircraft)
                 .collect(Collectors.toSet());
     }

@@ -1,6 +1,7 @@
 package engima.waratsea.viewmodel;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
@@ -71,6 +72,8 @@ public class NationAirbaseViewModel {
     @Getter private final BooleanProperty noSquadronsReady = new SimpleBooleanProperty(true); // Per nation
     @Getter private final BooleanProperty noMissionsExist = new SimpleBooleanProperty(true); // Per nation.
 
+    @Getter private final ObjectProperty<ObservableList<Aircraft>> aircraftModels = new SimpleObjectProperty<>();       // List of all aircraft models present at this airbase.
+
     @Getter private AirbaseViewModel airbaseViewModel;
 
     @Getter private Airbase airbase;
@@ -122,6 +125,7 @@ public class NationAirbaseViewModel {
 
         setReadySquadrons();
         setAllSquadrons();
+        setAircraftModels();
 
         return this;
     }
@@ -319,6 +323,13 @@ public class NationAirbaseViewModel {
                                 SquadronState.HANGER;
     }
 
+    /**
+     * Set the aircraft models present at this airbase.
+     * This is a unique list of aircraft of all nations stationed at this airbase.
+     */
+    private void setAircraftModels() {
+        aircraftModels.setValue(FXCollections.observableArrayList(airbase.getAircraftModelsPresent(nation)));
+    }
 
     /**
      * Initialize the squadrons for the given view type.
