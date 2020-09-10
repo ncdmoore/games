@@ -8,20 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/ListUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Aircraft.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Aircraft.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Fighter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Fighter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Recon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Recon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/Airbase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/Airbase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldAircraftRangeInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldRangeInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/check-style.xml" beforeDir="false" afterPath="$PROJECT_DIR$/check-style.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +90,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.25979218" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.import" />
+    <property name="settings.editor.selected.configurable" value="org.infernus.idea.checkstyle.CheckStyleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -288,13 +277,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00208" summary="Add squadron and patrol info to airfield asset view.">
-      <created>1586268234519</created>
-      <option name="number" value="00208" />
-      <option name="presentableId" value="LOCAL-00208" />
-      <option name="project" value="LOCAL" />
-      <updated>1586268234519</updated>
     </task>
     <task id="LOCAL-00209" summary="Add squadron and patrol info to airfield asset view.">
       <created>1586276360855</created>
@@ -632,7 +614,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599699123359</updated>
     </task>
-    <option name="localTasksCounter" value="257" />
+    <task id="LOCAL-00257" summary="Add range helper to airfield asset summary view.">
+      <created>1599704167859</created>
+      <option name="number" value="00257" />
+      <option name="presentableId" value="LOCAL-00257" />
+      <option name="project" value="LOCAL" />
+      <updated>1599704167859</updated>
+    </task>
+    <option name="localTasksCounter" value="258" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -647,7 +636,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add task force mission selection to task force details dialog." />
     <MESSAGE value="Rename view partrol markers." />
     <MESSAGE value="Fix view model issues with air mission edit." />
     <MESSAGE value="Make sure new air missions are copied from view model to model when saved." />
@@ -672,7 +660,8 @@
     <MESSAGE value="Fix airfield dialog cancel bug and create asset presenter classes." />
     <MESSAGE value="Update the airfield dialog to interact with asset presenter classes and not the asset views." />
     <MESSAGE value="Make airbase's aircraft model types available per nation." />
-    <option name="LAST_COMMIT_MESSAGE" value="Make airbase's aircraft model types available per nation." />
+    <MESSAGE value="Add range helper to airfield asset summary view." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add range helper to airfield asset summary view." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1298" y="309" key="#Main" timestamp="1594496773510">
@@ -719,30 +708,30 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1337" y="547" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1599417691719" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1599699118750">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1599704162446">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1599699118750" />
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1599704162446" />
     <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog" timestamp="1595274712488">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1595274712488" />
-    <state width="2023" height="234" key="GridCell.Tab.0.bottom" timestamp="1599703066455">
+    <state width="2023" height="234" key="GridCell.Tab.0.bottom" timestamp="1599704032700">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2023" height="234" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1599703066455" />
-    <state width="2023" height="234" key="GridCell.Tab.0.center" timestamp="1599703066455">
+    <state width="2023" height="234" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1599704032700" />
+    <state width="2023" height="234" key="GridCell.Tab.0.center" timestamp="1599704032699">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2023" height="234" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1599703066455" />
-    <state width="2023" height="234" key="GridCell.Tab.0.left" timestamp="1599703066455">
+    <state width="2023" height="234" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1599704032699" />
+    <state width="2023" height="234" key="GridCell.Tab.0.left" timestamp="1599704032699">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2023" height="234" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1599703066455" />
-    <state width="2023" height="234" key="GridCell.Tab.0.right" timestamp="1599703066455">
+    <state width="2023" height="234" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1599704032699" />
+    <state width="2023" height="234" key="GridCell.Tab.0.right" timestamp="1599704032700">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2023" height="234" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1599703066455" />
+    <state width="2023" height="234" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1599704032700" />
     <state width="1812" height="470" key="GridCell.Tab.1.bottom" timestamp="1599396995234">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -763,10 +752,14 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1406" y="420" key="RollbackChangesDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1599693516282" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1599699129285">
+    <state x="1026" y="324" key="SettingsEditor" timestamp="1599705338046">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1599699129285" />
+    <state x="1026" y="324" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1599705338046" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1599704181706">
+      <screen x="0" y="23" width="2560" height="1349" />
+    </state>
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1599704181706" />
     <state x="744" y="138" width="1689" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1598756167413">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>

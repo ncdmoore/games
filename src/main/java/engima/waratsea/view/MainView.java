@@ -28,14 +28,14 @@ import lombok.extern.slf4j.Slf4j;
 public class MainView {
     private static final String CSS_FILE = "mainView.css";
 
-    private Game game;
+    private final Game game;
 
-    private CssResourceProvider cssResourceProvider;
-    private MainMapView mainMapView;
-    private MainMenu mainMenu;
-    private WeatherView weatherView;
-    private TurnView turnView;
-    private AssetSummaryView assetSummaryView;
+    private final CssResourceProvider cssResourceProvider;
+    private final MainMapView mainMapView;
+    private final MainMenu mainMenu;
+    private final WeatherView weatherView;
+    private final TurnView turnView;
+    private final AssetSummaryView assetSummaryView;
 
     /**
      * Constructor called by guice.

@@ -17,9 +17,9 @@ import javafx.stage.Stage;
 public class WarnDialog {
     private static final String CSS_FILE = "warn.css";
 
-    private CssResourceProvider cssResourceProvider;
-    private ImageResourceProvider imageResourceProvider;
-    private ViewProps props;
+    private final CssResourceProvider cssResourceProvider;
+    private final ImageResourceProvider imageResourceProvider;
+    private final ViewProps props;
 
     /**
      * Constructor called by guice.

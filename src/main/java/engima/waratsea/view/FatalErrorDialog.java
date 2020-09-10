@@ -15,7 +15,7 @@ import engima.waratsea.utility.CssResourceProvider;
 public class FatalErrorDialog {
     private static final String CSS_FILE = "fatalError.css";
 
-    private CssResourceProvider cssResourceProvider;
+    private final CssResourceProvider cssResourceProvider;
 
     /**
      * Constructor called by guice.
