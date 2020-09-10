@@ -26,9 +26,11 @@ import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.utility.ListUtil;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.collections4.ListUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
@@ -341,16 +343,25 @@ public class AircraftCarrier implements Ship, Airbase {
     /**
      * Get a list of the aircraft models present at this airbase.
      *
+     * Build a map of models to list of aircraft for that model. Then return the first element of each list.
+     * This gives us a unique list of aircraft per model. Each model of aircraft appears in the list once.
+     * Note, each sublist is guaranteed to contain at least one element.
+     *
      * @param nation The nation.
      * @return A unique list of aircraft that represent the aircraft models present at this airbase.
      */
     @Override
-    public Set<Aircraft> getAircraftModelsPresent(final Nation nation) {
+    public List<Aircraft> getAircraftModelsPresent(final Nation nation) {
         return squadrons
                 .stream()
                 .filter(squadron -> squadron.ofNation(nation))
                 .map(Squadron::getAircraft)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toMap(Aircraft::getModel, ListUtil::createList, ListUtils::union))
+                .values()
+                .stream()
+                .map(aircraft -> aircraft.get(0))
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     /**

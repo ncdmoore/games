@@ -217,6 +217,31 @@ public class Recon implements Aircraft {
     }
 
     /**
+     * Get the String representation of this class.
+     *
+     * @return String representation of this class.
+     */
+    @Override
+    public String toString() {
+        return aircraftId.getModel();
+    }
+
+    /**
+     * Compare two aircraft for sorting purposes.
+     *
+     * @param o the other aircraft.
+     * @return a negative integer, zero, or a positive integer as this object
+     * is less than, equal to, or greater than the specified object.
+     * @throws NullPointerException if the specified object is null
+     * @throws ClassCastException   if the specified object's type prevents it
+     *                              from being compared to this object.
+     */
+    @Override
+    public int compareTo(final Aircraft o) {
+        return getModel().compareTo(o.getModel());
+    }
+
+    /**
      * Get the aircraft's air to air attack factor.
      *
      * @return The aircraft's air to air attack factor.

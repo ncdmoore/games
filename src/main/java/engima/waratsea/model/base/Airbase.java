@@ -160,7 +160,7 @@ public interface Airbase extends Base, SquadronHome {
      * @param nation The nation.
      * @return A unique list of aircraft that represent the aircraft models present at this airbase.
      */
-    Set<Aircraft> getAircraftModelsPresent(Nation nation);
+    List<Aircraft> getAircraftModelsPresent(Nation nation);
 
     /**
      * Add a squadron to this airbase. Station the given squadron at this airbase.

@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Represents an aircraft.
  */
-public interface Aircraft {
+public interface Aircraft extends Comparable<Aircraft> {
 
     /**
      * Get the aircraft's model.

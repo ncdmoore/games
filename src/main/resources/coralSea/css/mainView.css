@@ -47,7 +47,6 @@
     -fx-spacing: 10;
 }
 
-
 #airfield-landing-type-vbox {
     -fx-background-color: white;
     -fx-spacing: 5;
@@ -61,6 +60,10 @@
 
 #airfield-landing-type-vbox .check-box {
     -fx-opacity: 1.0;
+}
+
+#airfield-range-vbox {
+    -fx-background-color: white;
 }
 
 #airfield-nations-tab-pane {

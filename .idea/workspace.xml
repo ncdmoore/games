@@ -8,12 +8,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/ListUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Aircraft.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Aircraft.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Fighter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Fighter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Recon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Recon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/Airbase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/Airbase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/AirbaseViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/AirbaseViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/NationAirbaseViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/NationAirbaseViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldAircraftRangeInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldRangeInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -280,13 +288,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00207" summary="Add landing type info to airfield asset view.">
-      <created>1586134081881</created>
-      <option name="number" value="00207" />
-      <option name="presentableId" value="LOCAL-00207" />
-      <option name="project" value="LOCAL" />
-      <updated>1586134081881</updated>
     </task>
     <task id="LOCAL-00208" summary="Add squadron and patrol info to airfield asset view.">
       <created>1586268234519</created>
@@ -624,7 +625,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599625316675</updated>
     </task>
-    <option name="localTasksCounter" value="256" />
+    <task id="LOCAL-00256" summary="Make airbase's aircraft model types available per nation.">
+      <created>1599699123358</created>
+      <option name="number" value="00256" />
+      <option name="presentableId" value="LOCAL-00256" />
+      <option name="project" value="LOCAL" />
+      <updated>1599699123359</updated>
+    </task>
+    <option name="localTasksCounter" value="257" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -639,7 +647,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add menu items stubs to task force menus" />
     <MESSAGE value="Add task force mission selection to task force details dialog." />
     <MESSAGE value="Rename view partrol markers." />
     <MESSAGE value="Fix view model issues with air mission edit." />
@@ -664,7 +671,8 @@
     <MESSAGE value="Update coral sea data to show map regions on the game map." />
     <MESSAGE value="Fix airfield dialog cancel bug and create asset presenter classes." />
     <MESSAGE value="Update the airfield dialog to interact with asset presenter classes and not the asset views." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update the airfield dialog to interact with asset presenter classes and not the asset views." />
+    <MESSAGE value="Make airbase's aircraft model types available per nation." />
+    <option name="LAST_COMMIT_MESSAGE" value="Make airbase's aircraft model types available per nation." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1298" y="309" key="#Main" timestamp="1594496773510">
@@ -679,10 +687,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1599514587110" />
-    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser" timestamp="1599532786095">
+    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser" timestamp="1599702898424">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser/0.23.2560.1349@0.23.2560.1349" timestamp="1599532786095" />
+    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser/0.23.2560.1349@0.23.2560.1349" timestamp="1599702898424" />
     <state x="1341" y="491" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1594496906192">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -711,30 +719,30 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1337" y="547" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1599417691719" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1599625312596">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1599699118750">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1599625312596" />
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1599699118750" />
     <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog" timestamp="1595274712488">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1595274712488" />
-    <state width="2023" height="234" key="GridCell.Tab.0.bottom" timestamp="1599695105119">
+    <state width="2023" height="234" key="GridCell.Tab.0.bottom" timestamp="1599703066455">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2023" height="234" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1599695105119" />
-    <state width="2023" height="234" key="GridCell.Tab.0.center" timestamp="1599695105118">
+    <state width="2023" height="234" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1599703066455" />
+    <state width="2023" height="234" key="GridCell.Tab.0.center" timestamp="1599703066455">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2023" height="234" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1599695105118" />
-    <state width="2023" height="234" key="GridCell.Tab.0.left" timestamp="1599695105117">
+    <state width="2023" height="234" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1599703066455" />
+    <state width="2023" height="234" key="GridCell.Tab.0.left" timestamp="1599703066455">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2023" height="234" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1599695105117" />
-    <state width="2023" height="234" key="GridCell.Tab.0.right" timestamp="1599695105118">
+    <state width="2023" height="234" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1599703066455" />
+    <state width="2023" height="234" key="GridCell.Tab.0.right" timestamp="1599703066455">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2023" height="234" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1599695105118" />
+    <state width="2023" height="234" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1599703066455" />
     <state width="1812" height="470" key="GridCell.Tab.1.bottom" timestamp="1599396995234">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -755,10 +763,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1406" y="420" key="RollbackChangesDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1599693516282" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1599625321803">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1599699129285">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1599625321803" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1599699129285" />
     <state x="744" y="138" width="1689" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1598756167413">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -767,10 +775,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="936" y="531" key="com.intellij.ide.util.TipDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1594496364292" />
-    <state x="1004" y="488" width="935" height="587" key="find.popup" timestamp="1599531875689">
+    <state x="1014" y="527" width="935" height="587" key="find.popup" timestamp="1599702111387">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1004" y="488" width="935" height="587" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1599531875689" />
+    <state x="1014" y="527" width="935" height="587" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1599702111387" />
     <state x="1696" y="493" key="refactoring.ChangeSignatureDialog" timestamp="1599624803753">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
