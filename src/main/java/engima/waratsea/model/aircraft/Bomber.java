@@ -6,6 +6,7 @@ import engima.waratsea.model.aircraft.data.AircraftData;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.game.rules.Rules;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.target.Target;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Represents a bomber aircraft.
@@ -31,7 +33,6 @@ public class Bomber implements Aircraft {
 
     private final Map<AttackType, FunctionalMap<SquadronConfig, AttackFactor>> attackMap = new HashMap<>();
 
-    @Getter
     private final Set<SquadronConfig> configuration = Set.of(
             SquadronConfig.NONE,
             SquadronConfig.SEARCH,
@@ -51,18 +52,22 @@ public class Bomber implements Aircraft {
     private final AttackFactor naval;
     private final AttackFactor air;
     private final AttackFactor land;
-    private final Probability probability;
     private final Performance performance;
+
+    private final Probability probability;
+    private final Rules rules;
 
     /**
      * The constructor called by guice.
      *
      * @param data The aircraft data read in from a JSON file.
      * @param probability Probability utility.
+     * @param rules The game rules.
      */
     @Inject
     public Bomber(@Assisted final AircraftData data,
-                            final Probability probability) {
+                            final Probability probability,
+                            final Rules rules) {
         this.aircraftId = data.getAircraftId();
         this.type = data.getType();
         this.designation = data.getDesignation();
@@ -78,6 +83,7 @@ public class Bomber implements Aircraft {
         this.frame = new Frame(data.getFrame());
 
         this.probability = probability;
+        this.rules = rules;
 
         probability.setConfigurations(configuration);
 
@@ -104,6 +110,19 @@ public class Bomber implements Aircraft {
     @Override
     public Side getSide() {
         return aircraftId.getSide();
+    }
+
+    /**
+     * Get the aircraft's squadron configurations.
+     *
+     * @return The aircraft's allowed squadron configurations.
+     */
+    @Override
+    public Set<SquadronConfig> getConfiguration() {
+        return configuration.
+                stream()
+                .filter(squadronConfig -> rules.isSquadronConfigAllowed(nationality, squadronConfig))
+                .collect(Collectors.toSet());
     }
 
     /**

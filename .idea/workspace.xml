@@ -7,8 +7,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/check-style.xml" beforeDir="false" afterPath="$PROJECT_DIR$/check-style.xml" afterDir="false" />
+    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="Add range marker to airfield asset summary views.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/RangeMarker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Fighter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Fighter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/PoorNavalBomber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Recon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Recon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/Rules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/Rules.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/SquadronConfigRules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/SquadronConfigRules.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/MissionAddDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/MissionAddDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/asset/AirfieldAssetPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/asset/AirfieldAssetPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/squadron/SquadronsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/squadron/SquadronsDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldRangeInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldRangeInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MainMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MainMapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/BaseMarker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/BaseMarker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/NationAirbaseViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/NationAirbaseViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/view.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/properties/view.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -275,13 +297,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00210" summary="Fix javafx bug with refreshing tabs for the task force preview screen.">
-      <created>1586301353734</created>
-      <option name="number" value="00210" />
-      <option name="presentableId" value="LOCAL-00210" />
-      <option name="project" value="LOCAL" />
-      <updated>1586301353735</updated>
     </task>
     <task id="LOCAL-00211" summary="Refactor task force preview to use view model.">
       <created>1586310319749</created>
@@ -619,7 +634,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599705464411</updated>
     </task>
-    <option name="localTasksCounter" value="259" />
+    <task id="LOCAL-00259" summary="Code cleanup">
+      <created>1599705988920</created>
+      <option name="number" value="00259" />
+      <option name="presentableId" value="LOCAL-00259" />
+      <option name="project" value="LOCAL" />
+      <updated>1599705988920</updated>
+    </task>
+    <option name="localTasksCounter" value="260" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -634,7 +656,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fix view model issues with air mission edit." />
     <MESSAGE value="Make sure new air missions are copied from view model to model when saved." />
     <MESSAGE value="Handle case when patrol has assigned squadrons but no stats." />
     <MESSAGE value="Add additional base aircraft types." />
@@ -659,7 +680,8 @@
     <MESSAGE value="Make airbase's aircraft model types available per nation." />
     <MESSAGE value="Add range helper to airfield asset summary view." />
     <MESSAGE value="Code cleanup" />
-    <option name="LAST_COMMIT_MESSAGE" value="Code cleanup" />
+    <MESSAGE value="Add range marker to airfield asset summary views." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add range marker to airfield asset summary views." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1298" y="309" key="#Main" timestamp="1594496773510">
@@ -690,10 +712,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1441" y="531" key="#com.intellij.refactoring.move.moveInstanceMethod.MoveInstanceMethodDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1592178302582" />
-    <state x="939" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1599605374817">
+    <state x="939" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1599939141899">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="939" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1599605374817" />
+    <state x="939" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1599939141899" />
     <state x="1206" y="458" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1595184692097">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -706,58 +728,58 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1337" y="547" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1599417691719" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1599705457216">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1600026939411">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1599705457216" />
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1600026939411" />
     <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog" timestamp="1595274712488">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1595274712488" />
-    <state width="2023" height="327" key="GridCell.Tab.0.bottom" timestamp="1599705490045">
+    <state width="2023" height="327" key="GridCell.Tab.0.bottom" timestamp="1600026939362">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2023" height="327" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1599705490045" />
-    <state width="2023" height="327" key="GridCell.Tab.0.center" timestamp="1599705490044">
+    <state width="2023" height="327" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1600026939362" />
+    <state width="2023" height="327" key="GridCell.Tab.0.center" timestamp="1600026939335">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2023" height="327" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1599705490044" />
-    <state width="2023" height="327" key="GridCell.Tab.0.left" timestamp="1599705490044">
+    <state width="2023" height="327" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1600026939335" />
+    <state width="2023" height="327" key="GridCell.Tab.0.left" timestamp="1600026939335">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2023" height="327" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1599705490044" />
-    <state width="2023" height="327" key="GridCell.Tab.0.right" timestamp="1599705490044">
+    <state width="2023" height="327" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1600026939335" />
+    <state width="2023" height="327" key="GridCell.Tab.0.right" timestamp="1600026939336">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2023" height="327" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1599705490044" />
-    <state width="1812" height="470" key="GridCell.Tab.1.bottom" timestamp="1599396995234">
+    <state width="2023" height="327" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1600026939336" />
+    <state width="2023" height="470" key="GridCell.Tab.1.bottom" timestamp="1599997898806">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1812" height="470" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1599396995234" />
-    <state width="1812" height="470" key="GridCell.Tab.1.center" timestamp="1599396995234">
+    <state width="2023" height="470" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1599997898806" />
+    <state width="2023" height="470" key="GridCell.Tab.1.center" timestamp="1599997898806">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1812" height="470" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1599396995234" />
-    <state width="1812" height="470" key="GridCell.Tab.1.left" timestamp="1599396995234">
+    <state width="2023" height="470" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1599997898806" />
+    <state width="2023" height="470" key="GridCell.Tab.1.left" timestamp="1599997898806">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1812" height="470" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1599396995234" />
-    <state width="1812" height="470" key="GridCell.Tab.1.right" timestamp="1599396995234">
+    <state width="2023" height="470" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1599997898806" />
+    <state width="2023" height="470" key="GridCell.Tab.1.right" timestamp="1599997898806">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1812" height="470" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1599396995234" />
+    <state width="2023" height="470" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1599997898806" />
     <state x="1406" y="420" key="RollbackChangesDialog" timestamp="1599693516282">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1406" y="420" key="RollbackChangesDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1599693516282" />
-    <state x="1026" y="324" key="SettingsEditor" timestamp="1599705338046">
+    <state x="1026" y="324" width="1295" height="837" key="SettingsEditor" timestamp="1599782819380">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1026" y="324" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1599705338046" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1599704181706">
+    <state x="1026" y="324" width="1295" height="837" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1599782819380" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1599705992046">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1599704181706" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1599705992046" />
     <state x="744" y="138" width="1689" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1598756167413">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -766,14 +788,14 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="936" y="531" key="com.intellij.ide.util.TipDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1594496364292" />
-    <state x="1014" y="527" width="935" height="587" key="find.popup" timestamp="1599705606949">
+    <state x="1014" y="527" width="935" height="587" key="find.popup" timestamp="1600026972135">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1014" y="527" width="935" height="587" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1599705606949" />
-    <state x="1696" y="493" key="refactoring.ChangeSignatureDialog" timestamp="1599624803753">
+    <state x="1014" y="527" width="935" height="587" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1600026972135" />
+    <state x="1696" y="493" key="refactoring.ChangeSignatureDialog" timestamp="1599999007864">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1696" y="493" key="refactoring.ChangeSignatureDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1599624803753" />
+    <state x="1696" y="493" key="refactoring.ChangeSignatureDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1599999007864" />
     <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup" timestamp="1598828858408">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -791,6 +813,16 @@
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceNavalOperations.java</url>
           <line>55</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/asset/AssetPresenter.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AssetSummaryView.java</url>
+          <line>69</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

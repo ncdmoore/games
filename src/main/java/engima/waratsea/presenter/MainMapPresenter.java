@@ -159,7 +159,7 @@ public class MainMapPresenter {
     private void baseMouseEnterHandler(final MouseEvent event) {
         VBox imageView = (VBox) event.getSource();
         BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
-        mainMapView.highlightMarker(baseMarker);
+        mainMapView.highlightBaseMarker(baseMarker);
     }
 
     /**
@@ -170,7 +170,7 @@ public class MainMapPresenter {
     private void baseMouseExitHandler(final MouseEvent event) {
         VBox imageView = (VBox) event.getSource();
         BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
-        mainMapView.unHighlightMarker(baseMarker);
+        mainMapView.unHighlightBaseMarker(baseMarker);
     }
 
     /**
@@ -182,7 +182,7 @@ public class MainMapPresenter {
         if (event.getButton() == MouseButton.PRIMARY) {
             VBox imageView = (VBox) event.getSource();
             BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
-            boolean selected = mainMapView.selectMarker(baseMarker);
+            boolean selected = mainMapView.selectBaseMarker(baseMarker);
 
             if (selected) {
                 assetPresenter.humanBaseSelected(baseMarker);
@@ -217,7 +217,7 @@ public class MainMapPresenter {
     private void airfieldHandler(final ActionEvent event) {
         MenuItem item = (MenuItem) event.getSource();
         Optional<Airfield> airfield = (Optional<Airfield>) item.getUserData();
-        airfield.ifPresent(a -> airfieldDetailsDialogProvider.get().show(a,false));
+        airfield.ifPresent(a -> airfieldDetailsDialogProvider.get().show(a, false));
     }
 
     /**

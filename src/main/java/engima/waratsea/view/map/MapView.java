@@ -23,23 +23,19 @@ import org.apache.commons.collections4.map.MultiKeyMap;
 @Slf4j
 public class MapView {
     private static final double GRID_OPACITY = 0.07;
-
     private static final double BACKGROUND_OPACITY = 0.45;
 
-    private GameMap gameMap;
+    private final GameMap gameMap;
 
     private int numberOfRows;
     private int numberOfColumns;
 
-    @Getter
-    private ImageView background;
+    @Getter private ImageView background;
+    @Getter private int gridSize;
 
-    @Getter
-    private int gridSize;
+    private final Group map = new Group();
 
-    private Group map = new Group();
-
-    private MultiKeyMap<Integer, Rectangle> grid = new MultiKeyMap<>();    //Row, Column to Rectangle map.
+    private final MultiKeyMap<Integer, Rectangle> grid = new MultiKeyMap<>();    //Row, Column to Rectangle map.
 
     /**
      * Constructor called by guice.
@@ -53,7 +49,6 @@ public class MapView {
 
     /**
      * Draw the map's grid.
-     *
      *
      * @param backgroundImage The background image of the map.
      * @param sizeOfTheGrids Size of the square grid in pixels.

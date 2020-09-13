@@ -7,6 +7,7 @@ import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.view.squadron.SquadronViewType;
 import javafx.beans.binding.Bindings;
@@ -25,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.ListUtils;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -73,6 +75,9 @@ public class NationAirbaseViewModel {
     @Getter private final BooleanProperty noMissionsExist = new SimpleBooleanProperty(true); // Per nation.
 
     @Getter private final ObjectProperty<ObservableList<Aircraft>> aircraftModels = new SimpleObjectProperty<>();       // List of all aircraft models present at this airbase.
+    @Getter private final ObjectProperty<Aircraft> selectedAircraft = new SimpleObjectProperty<>();                             // The selected aircraft model.
+    @Getter private final ObjectProperty<ObservableList<SquadronConfig>> squadronConfigs = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
+    @Getter private final ObjectProperty<SquadronConfig> selectedConfig = new SimpleObjectProperty<>();
 
     @Getter private AirbaseViewModel airbaseViewModel;
 
@@ -317,10 +322,28 @@ public class NationAirbaseViewModel {
      * @return The state of the squadron.
      */
     public SquadronState determineSquadronState(final Squadron squadron) {
-        return missionViewModels.stream().anyMatch(mission -> mission.isSquadronOnMission(squadron)) ? SquadronState.ON_MISSION :
-                patrolViewModels.values().stream().anyMatch(patrol -> patrol.isSquadronOnPatrol(squadron)) ? SquadronState.ON_PATROL :
-                        readySquadrons.values().stream().flatMap(p -> p.getValue().stream()).anyMatch(s -> s == squadron) ? SquadronState.READY :
-                                SquadronState.HANGER;
+        return missionViewModels.stream().anyMatch(mission -> mission.isSquadronOnMission(squadron)) ? SquadronState.ON_MISSION
+                : patrolViewModels.values().stream().anyMatch(patrol -> patrol.isSquadronOnPatrol(squadron)) ? SquadronState.ON_PATROL
+                : readySquadrons.values().stream().flatMap(p -> p.getValue().stream()).anyMatch(s -> s == squadron) ? SquadronState.READY
+                : SquadronState.HANGER;
+    }
+
+    /**
+     * Set the selected aircraft.
+     *
+     * @param aircraft The selected aircraft.
+     */
+    public void setSelectedAircraft(final Aircraft aircraft) {
+        selectedAircraft.setValue(aircraft);
+    }
+
+    /**
+     * Set the selected squadron configuration.
+     *
+     * @param config The selected squadron configuration.
+     */
+    public void setSelectedConfig(final SquadronConfig config) {
+        selectedConfig.setValue(config);
     }
 
     /**
@@ -329,6 +352,21 @@ public class NationAirbaseViewModel {
      */
     private void setAircraftModels() {
         aircraftModels.setValue(FXCollections.observableArrayList(airbase.getAircraftModelsPresent(nation)));
+
+        Callable<ObservableList<SquadronConfig>> bindingFunction = () -> {
+            List<SquadronConfig> configs = Optional
+                    .ofNullable(selectedAircraft.getValue())
+                    .map(aircraft -> aircraft.getConfiguration()
+                            .stream()
+                            .sorted()
+                            .collect(Collectors.toList()))
+                    .orElse(Collections.emptyList());
+            return FXCollections.observableArrayList(configs);
+        };
+
+        squadronConfigs.bind(Bindings.createObjectBinding(bindingFunction, selectedAircraft));
+
+        selectedAircraft.setValue(aircraftModels.getValue().get(0));
     }
 
     /**
@@ -415,7 +453,6 @@ public class NationAirbaseViewModel {
         allSquadrons.get(type).set(FXCollections.observableArrayList(all));
         squadronCounts.get(type.toString()).setValue(all.size());
     }
-
 
     /**
      * Add all of the air mission squadrons to the ready list.

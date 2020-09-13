@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.game.rules.Rules;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.SquadronLocationType;
@@ -38,7 +37,6 @@ public class SquadronsDialog {
     private Stage stage;
 
     private final Game game;
-    private final Rules rules;
 
     /**
      * The constructor called by guice.
@@ -48,21 +46,18 @@ public class SquadronsDialog {
      * @param cssResourceProvider The CSS resource provider.
      * @param props The view properties.
      * @param game The game.
-     * @param rules The game rules.
      */
     @Inject
     public SquadronsDialog(final Provider<DialogOkOnlyView> dialogProvider,
                            final Provider<SquadronsView> viewProvider,
                            final CssResourceProvider cssResourceProvider,
                            final ViewProps props,
-                           final Game game,
-                           final Rules rules) {
+                           final Game game) {
         this.dialogProvider = dialogProvider;
         this.viewProvider = viewProvider;
         this.cssResourceProvider = cssResourceProvider;
         this.props = props;
         this.game = game;
-        this.rules = rules;
     }
 
     /**
@@ -256,7 +251,6 @@ public class SquadronsDialog {
                 .getAircraft()
                 .getConfiguration()
                 .stream()
-                .filter(rules::isSquadronConfigAllowed)
                 .sorted()
                 .collect(Collectors.toList());
 

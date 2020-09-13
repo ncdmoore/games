@@ -2,20 +2,25 @@ package engima.waratsea.view.airfield.info;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.Aircraft;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.NationAirbaseViewModel;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
 
 public class AirfieldRangeInfo {
     private final ViewProps props;
 
     private final TitledPane titledPane = new TitledPane();
 
-    private final ChoiceBox<Aircraft> aircraftModels = new ChoiceBox<>();
-
+    @Getter private final ChoiceBox<Aircraft> aircraftModels = new ChoiceBox<>();
+    @Getter private final ChoiceBox<SquadronConfig> config = new ChoiceBox<>();
+    @Getter private final CheckBox showRangeOnMap = new CheckBox("Show Radius");
 
     /**
      * Constructor called by guice.
@@ -34,16 +39,30 @@ public class AirfieldRangeInfo {
      */
     public TitledPane build() {
         titledPane.setText("Range Helper");
-        titledPane.setMinWidth(props.getInt("airfield.dialog.airfield.details.width"));
-        titledPane.setMaxWidth(props.getInt("airfield.dialog.airfield.details.width"));
+        titledPane.setMinWidth(props.getInt("asset.range.pane.width"));
+        titledPane.setMaxWidth(props.getInt("asset.range.pane.width"));
         titledPane.getStyleClass().add("component-grid");
 
-        Label label = new Label("Aircraft Models:");
+        aircraftModels.setMinWidth(props.getInt("asset.range.choice.width"));
+        config.setMinWidth(props.getInt("asset.range.choice.width"));
 
-        VBox vBox = new VBox(label, aircraftModels);
-        vBox.setId("airfield-range-vbox");
+        Label modelLabel = new Label("Aircraft Model:");
+        VBox modelVbox = new VBox(modelLabel, aircraftModels);
 
-        titledPane.setContent(vBox);
+        Label configLabel = new Label("Squadron Config:");
+        VBox configVbox = new VBox(configLabel, config);
+
+        VBox choicesVbox = new VBox(modelVbox, configVbox);
+        choicesVbox.setId("airfield-range-choices-vbox");
+
+        Label blank = new Label();
+        VBox checksVbox = new VBox(blank, showRangeOnMap);
+        checksVbox.setId("airfield-range-checks-vbox");
+
+        HBox mainHbox = new HBox(choicesVbox, checksVbox);
+        mainHbox.setId("airfield-range-hbox");
+
+        titledPane.setContent(mainHbox);
 
         return titledPane;
     }
@@ -55,6 +74,7 @@ public class AirfieldRangeInfo {
      */
     public void bind(final NationAirbaseViewModel viewModel) {
         aircraftModels.itemsProperty().bind(viewModel.getAircraftModels());
-        aircraftModels.getSelectionModel().selectFirst();
+
+        config.itemsProperty().bind(viewModel.getSquadronConfigs());
     }
 }

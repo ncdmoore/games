@@ -52,7 +52,7 @@ public class AirfieldAssetSummaryView implements AssetView {
     @Getter private final Button missionButton = new Button("Missions");
     @Getter private final Button patrolButton = new Button("Patrols");
 
-    private final TabPane nationsTabPane = new TabPane();
+    @Getter private final TabPane nationsTabPane = new TabPane();
 
     private final Provider<AirfieldRegionInfo> airfieldRegionInfoProvider;
     private final Provider<AirfieldSquadronInfo> airfieldSquadronInfoProvider;
@@ -63,7 +63,7 @@ public class AirfieldAssetSummaryView implements AssetView {
 
     @Getter private AirbaseViewModel viewModel;
     private Airbase airbase;
-    private final Map<Nation, AirfieldRangeInfo> rangeInfo = new HashMap<>();
+    @Getter private final Map<Nation, AirfieldRangeInfo> rangeInfo = new HashMap<>();
     private final Map<Nation, AirfieldRegionInfo> regionInfo = new HashMap<>();
     private final Map<Nation, AirfieldSquadronInfo> squadronInfo = new HashMap<>();
     private final Map<Nation, AirfieldMissionInfo> missionInfo = new HashMap<>();
@@ -145,7 +145,8 @@ public class AirfieldAssetSummaryView implements AssetView {
 
         airbase
                 .getNations()
-                .forEach(this::bindNation);    }
+                .forEach(this::bindNation);
+    }
 
     /**
      * Bind the view model.
@@ -330,6 +331,7 @@ public class AirfieldAssetSummaryView implements AssetView {
     private Tab buildNationTab(final Nation nation) {
         Tab tab = new Tab();
         tab.setText(nation.toString());
+        tab.setUserData(nation);
         ImageView roundel = imageResourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
 
         tab.setGraphic(roundel);

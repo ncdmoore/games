@@ -117,10 +117,22 @@ public class MainMapView {
         return map;
     }
 
+    /**
+     * Set the region mouse enter handler.
+     *
+     * @param side The side: ALLIES or AXIS.
+     * @param handler The mouse enter handler.
+     */
     public void setRegionMouseEnterHandler(final Side side, final EventHandler<? super MouseEvent> handler) {
         regionMarkers.get(side).forEach(regionMarker -> regionMarker.setRegionMouseEnterHandler(handler));
     }
 
+    /**
+     * Set the region mouse exit handler.
+     *
+     * @param side The side: ALLIES or AXIS.
+     * @param handler The mouse exit handler.
+     */
     public void setRegionMouseExitHandler(final Side side, final EventHandler<? super MouseEvent> handler) {
         regionMarkers.get(side).forEach(regionMarker -> regionMarker.setRegionMouseExitHandler(handler));
     }
@@ -218,10 +230,20 @@ public class MainMapView {
         baseMarkers.get(side).forEach(baseMarker -> baseMarker.setMissionArrowClickHandler(handler));
     }
 
+    /**
+     * Highlight the region marker.
+     *
+     * @param regionMarker The region marker highlighted.
+     */
     public void highlightRegion(final RegionMarker regionMarker) {
         regionMarker.getBaseMarkers().forEach(this::outlineMarker);
     }
 
+    /**
+     * Un-highlight the region marker.
+     *
+     * @param regionMarker The region marker that is un-highlighted.
+     */
     public void unHighlightRegion(final RegionMarker regionMarker) {
         regionMarker.getBaseMarkers().forEach(this::unOutlineMarker);
     }
@@ -231,7 +253,7 @@ public class MainMapView {
      *
      * @param baseMarker A base marker.
      */
-    public void highlightMarker(final BaseMarker baseMarker) {
+    public void highlightBaseMarker(final BaseMarker baseMarker) {
         baseMarker.highlightMarker();
     }
 
@@ -240,11 +262,9 @@ public class MainMapView {
      *
      * @param baseMarker A base marker.
      */
-    public void unHighlightMarker(final BaseMarker baseMarker) {
+    public void unHighlightBaseMarker(final BaseMarker baseMarker) {
         baseMarker.unHighlightMarker();
     }
-
-
 
     /**
      * Draw the given base's marker patrol radii.
@@ -253,7 +273,7 @@ public class MainMapView {
      *
      * @return True if the marker is selected. False if the marker is not selected.
      */
-    public boolean selectMarker(final BaseMarker baseMarker) {
+    public boolean selectBaseMarker(final BaseMarker baseMarker) {
         return baseMarker.selectMarker();
     }
 
@@ -262,8 +282,8 @@ public class MainMapView {
      *
      * @param airbase An airbase.
      */
-    public void drawPatrolRadii(final Airbase airbase) {
-        airbases.get(airbase).drawPatrolMarkers();
+    public void toggleBaseMarkers(final Airbase airbase) {
+        airbases.get(airbase).toggleMarkers();
     }
 
     /**
@@ -283,6 +303,25 @@ public class MainMapView {
      */
     public void unhighlightPatrolRadius(final Airbase airbase) {
         airbases.get(airbase).unhighlightRadius();
+    }
+
+    /**
+     * Draw the range marker for the given airbase.
+     *
+     * @param airbase The airbase.
+     * @param radius The range radius.
+     */
+    public void drawRangeMarker(final Airbase airbase, final int radius) {
+        airbases.get(airbase).drawRangeMarker(radius);
+    }
+
+    /**
+     * Hide the range marker for the given airbase.
+     *
+     * @param airbase The airbase.
+     */
+    public void hideRangeMarker(final Airbase airbase) {
+        airbases.get(airbase).hideRangeMarker();
     }
 
     /**

@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.TurnType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
@@ -21,7 +22,6 @@ import java.util.Set;
  */
 @Singleton
 public class Rules {
-
     private final TurnRules turnRules;
     private final WeatherRules weatherRules;
     private final AirMissionRules airMissionRules;
@@ -109,10 +109,11 @@ public class Rules {
     /**
      * Determine if the given squadron configuration is allowed by the current game.
      *
+     * @param nation The squadron's nation.
      * @param config A squadron configuration.
      * @return True if the squadron configuration is allowed by the current game. False otherwise.
      */
-    public boolean isSquadronConfigAllowed(final SquadronConfig config) {
-        return squadronConfigRules.isAllowed(config);
+    public boolean isSquadronConfigAllowed(final Nation nation, final SquadronConfig config) {
+        return squadronConfigRules.isAllowed(nation, config);
     }
 }

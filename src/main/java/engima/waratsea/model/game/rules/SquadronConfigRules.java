@@ -17,12 +17,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Singleton
 public class SquadronConfigRules {
     private final GameTitle gameTitle;
 
     private final Map<GameName, Set<SquadronConfig>> gameRules = new HashMap<>();
+    private final Map<Nation, Set<SquadronConfig>> nationRules = new HashMap<>();
     private final Map<MissionRole, SquadronConfig> dropTankRules = new HashMap<>();
     private final Map<AirMissionType, SquadronConfig> leanEngineRules = new HashMap<>();
 
@@ -48,6 +50,30 @@ public class SquadronConfigRules {
                 SquadronConfig.SEARCH,
                 SquadronConfig.REDUCED_PAYLOAD));
 
+        Set<SquadronConfig> defaultNation = Set.of(SquadronConfig.NONE, SquadronConfig.DROP_TANKS, SquadronConfig.SEARCH);
+
+        Stream.of(Nation.values()).forEach(nation -> nationRules.put(nation, defaultNation));
+
+        nationRules.put(Nation.BRITISH, Set.of(
+                SquadronConfig.NONE,
+                SquadronConfig.DROP_TANKS,
+                SquadronConfig.SEARCH,
+                SquadronConfig.STRIPPED_DOWN
+        ));
+
+        nationRules.put(Nation.ITALIAN, Set.of(
+                SquadronConfig.NONE,
+                SquadronConfig.DROP_TANKS,
+                SquadronConfig.SEARCH,
+                SquadronConfig.LEAN_ENGINE
+        ));
+
+        Set<SquadronConfig> defaultCoralSeaNation = Set.of(SquadronConfig.NONE, SquadronConfig.DROP_TANKS, SquadronConfig.SEARCH, SquadronConfig.REDUCED_PAYLOAD);
+
+        nationRules.put(Nation.JAPANESE, defaultCoralSeaNation);
+        nationRules.put(Nation.AUSTRALIAN, defaultCoralSeaNation);
+        nationRules.put(Nation.UNITED_STATES, defaultCoralSeaNation);
+
         dropTankRules.put(MissionRole.ESCORT, SquadronConfig.DROP_TANKS);
         dropTankRules.put(MissionRole.MAIN, SquadronConfig.NONE);
 
@@ -56,17 +82,20 @@ public class SquadronConfigRules {
     }
 
     /**
-     * Determine if the current game allows the given configuration.
+     * Determine if the current game and nation allows the given configuration.
+     * This basically is used to determine all of the potential configurations
+     * a squadron may use. The particular game and squadron's nation control the
+     * potential squadron configurations.
      *
+     * @param nation The squadron's nation.
      * @param config  A squadron configuration.
      * @return True if the current game allows the given configuration. False otherwise.
      */
-    public boolean isAllowed(final SquadronConfig config) {
+    public boolean isAllowed(final Nation nation, final SquadronConfig config) {
         GameName gameName = gameTitle.getName();
 
-        return gameRules
-                .get(gameName)
-                .contains(config);
+        return gameRules.get(gameName).contains(config)
+                && nationRules.get(nation).contains(config);
     }
 
     /**

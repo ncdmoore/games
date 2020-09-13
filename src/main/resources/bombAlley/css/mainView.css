@@ -62,8 +62,18 @@
     -fx-opacity: 1.0;
 }
 
-#airfield-range-vbox {
+#airfield-range-choices-vbox {
     -fx-background-color: white;
+    -fx-spacing: 10;
+}
+
+#airfield-range-checks-vbox {
+    -fx-background-color: white;
+}
+
+#airfield-range-hbox {
+    -fx-background-color: white;
+    -fx-spacing: 20;
 }
 
 #airfield-nations-tab-pane {

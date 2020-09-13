@@ -51,9 +51,10 @@ public class MissionAddDialog {
      * @param cssResourceProvider Provides the css file.
      * @param dialogProvider Provides the view for this dialog.
      * @param viewProvider Provides the view contents for this dialog.
+     * @param missionViewModelProvider Provides mission view models.
+     * @param warnDialogProvider Provides warning dialogs.
      * @param props The view properties.
      */
-    //CHECKSTYLE:OFF
     @Inject
     public MissionAddDialog(final CssResourceProvider cssResourceProvider,
                             final Provider<DialogView> dialogProvider,
@@ -68,7 +69,6 @@ public class MissionAddDialog {
         this.warnDialogProvider = warnDialogProvider;
         this.props = props;
     }
-    //CHECKSTYLE:ON
 
     /**
      * Show the airfield details dialog.

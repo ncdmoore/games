@@ -63,6 +63,7 @@ public class BaseMarker {
 
     private final PatrolMarkers patrolMarkers;
     private final MissionMarkers missionMarkers;
+    private final RangeMarker rangeMarker;
 
     @Getter private MenuItem airfieldMenuItem;
     @Getter private MenuItem taskForceMenuOperations;
@@ -126,6 +127,7 @@ public class BaseMarker {
 
         patrolMarkers = new PatrolMarkers(mapView, baseGrid, gridView);
         missionMarkers = new MissionMarkers(mapView, baseGrid, gridView);
+        rangeMarker = new RangeMarker(mapView, gridView);
 
         setUpContextMenus();
     }
@@ -180,20 +182,21 @@ public class BaseMarker {
             hideTitle();
         }
 
-        drawPatrolMarkers();
+        toggleMarkers();
         return selected;
     }
 
     /**
      * Draw this base marker's patrol range.
      */
-    public void drawPatrolMarkers() {
+    public void toggleMarkers() {
         if (selected) {
             patrolMarkers.draw();
             missionMarkers.draw();
         } else {
             patrolMarkers.hide();
             missionMarkers.hide();
+            rangeMarker.hide();
         }
     }
 
@@ -208,7 +211,7 @@ public class BaseMarker {
      * Draw an outline around the base marker.
      */
     public void outline() {
-        BorderWidths borderWidth = new BorderWidths(3.0);
+        BorderWidths borderWidth = new BorderWidths(props.getDouble("range.marker.border.thickness"));
         String colorName = baseGrid.getSide().toLower() + ".base.outline.color";
 
         Color color = Color.web(props.getString(colorName));
@@ -325,6 +328,22 @@ public class BaseMarker {
      */
     public void unhighlightRadius() {
         patrolMarkers.unhighlightRadius();
+    }
+
+    /**
+     * Draw the base's range marker.
+     *
+     * @param radius The radius of the range marker.
+     */
+    public void drawRangeMarker(final int radius) {
+        rangeMarker.draw(radius);
+    }
+
+    /**
+     * Draw the base's range marker.
+     */
+    public void hideRangeMarker() {
+        rangeMarker.hide();
     }
 
     /**

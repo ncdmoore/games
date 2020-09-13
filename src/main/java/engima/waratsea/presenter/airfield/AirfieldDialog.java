@@ -91,6 +91,7 @@ public class AirfieldDialog {
      * @param rules The game rules.
      */
 
+    //CHECKSTYLE:OFF
     @Inject
     public AirfieldDialog(final CssResourceProvider cssResourceProvider,
                           final Provider<DialogView> dialogProvider,
@@ -102,6 +103,7 @@ public class AirfieldDialog {
                           final MissionDAO missionDAO,
                           final ViewProps props,
                           final Rules rules) {
+        //CHECKSTYLE:ON
         this.cssResourceProvider = cssResourceProvider;
         this.dialogProvider = dialogProvider;
         this.viewProvider = viewProvider;
@@ -270,7 +272,7 @@ public class AirfieldDialog {
         updatePatrols();
         updateMissions();
 
-        mapView.drawPatrolRadii(airbase);
+        mapView.toggleBaseMarkers(airbase);
 
         assetPresenter
                 .getAirfieldAssetPresenter()
@@ -328,6 +330,8 @@ public class AirfieldDialog {
         assetPresenter
                 .getAirfieldAssetPresenter()
                 .hide(airbase, true);
+
+        mapView.toggleBaseMarkers(airbase);
 
         stage.close();
     }
