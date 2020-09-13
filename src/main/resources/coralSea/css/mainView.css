@@ -64,7 +64,11 @@
 
 #airfield-range-choices-vbox {
     -fx-background-color: white;
-        -fx-spacing: 10;
+    -fx-spacing: 10;
+}
+
+#airfield-range-checks-vbox {
+    -fx-background-color: white;
 }
 
 #airfield-range-hbox {
