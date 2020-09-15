@@ -47,17 +47,17 @@ public enum Nation implements Comparator<Nation> {
     private final String shipPrefix;
 
 
-    private static Map<String, Nation> valueMap = new HashMap<>();
+    private static final Map<String, Nation> VALUE_MAP = new HashMap<>();
     static {
-        valueMap.put("Australian", Nation.AUSTRALIAN);
-        valueMap.put("British", Nation.BRITISH);
-        valueMap.put("French", Nation.FRENCH);
-        valueMap.put("German", Nation.GERMAN);
-        valueMap.put("Greek", Nation.GREEK);
-        valueMap.put("Italian", Nation.ITALIAN);
-        valueMap.put("Japanese", Nation.JAPANESE);
-        valueMap.put("Polish", Nation.POLISH);
-        valueMap.put("United States", Nation.UNITED_STATES);
+        VALUE_MAP.put("Australian", Nation.AUSTRALIAN);
+        VALUE_MAP.put("British", Nation.BRITISH);
+        VALUE_MAP.put("French", Nation.FRENCH);
+        VALUE_MAP.put("German", Nation.GERMAN);
+        VALUE_MAP.put("Greek", Nation.GREEK);
+        VALUE_MAP.put("Italian", Nation.ITALIAN);
+        VALUE_MAP.put("Japanese", Nation.JAPANESE);
+        VALUE_MAP.put("Polish", Nation.POLISH);
+        VALUE_MAP.put("United States", Nation.UNITED_STATES);
     }
 
     /**
@@ -80,7 +80,7 @@ public enum Nation implements Comparator<Nation> {
      * @return The corresponding enum to the given value.
      */
     public static Nation get(final String value) {
-        return valueMap.get(value);
+        return VALUE_MAP.get(value);
     }
 
     /**

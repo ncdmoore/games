@@ -40,6 +40,7 @@ public class NavalPortStrike implements AirMission {
     private final Dice dice;
     private final MissionAirRules rules;
 
+    @Getter private final AirMissionType type = AirMissionType.NAVAL_PORT_STRIKE;
     @Getter private final Nation nation;
     @Getter private final Airbase airbase;
     @Getter private final Map<MissionRole, List<Squadron>> squadronMap;
@@ -119,16 +120,6 @@ public class NavalPortStrike implements AirMission {
     @Override
     public void saveChildrenData() {
 
-    }
-
-    /**
-     * Get the mission's type.
-     *
-     * @return The type of mission.
-     */
-    @Override
-    public AirMissionType getType() {
-        return AirMissionType.getType(this);
     }
 
     /**

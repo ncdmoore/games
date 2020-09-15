@@ -34,6 +34,7 @@ public class SweepPort implements AirMission {
     private final Game game;
     private final Dice dice;
 
+    @Getter private final AirMissionType type = AirMissionType.SWEEP_PORT;
     @Getter private final int id;
     @Getter private final Nation nation;
     @Getter private final Airbase airbase;
@@ -112,16 +113,6 @@ public class SweepPort implements AirMission {
     @Override
     public void saveChildrenData() {
 
-    }
-
-    /**
-     * Get the mission's type.
-     *
-     * @return The type of mission.
-     */
-    @Override
-    public AirMissionType getType() {
-        return AirMissionType.getType(this);
     }
 
     /**

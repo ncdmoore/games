@@ -29,7 +29,7 @@ public enum GameName {
     }
 
     @Getter
-    private String value;
+    private final String value;
 
     /**
      * Constructor.

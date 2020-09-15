@@ -23,10 +23,10 @@ public enum SquadronStrength {
     @SerializedName(value = "SIXTH", alternate = {"Sixth", "sixth"})
     SIXTH("1/6", StepSize.ONE_THIRD); // Sixth is for battleship and cruiser float planes.
 
-    private String value;
+    private final String value;
 
     @Getter
-    private BigDecimal steps;
+    private final BigDecimal steps;
 
     /**
      * The constructor.

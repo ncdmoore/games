@@ -17,7 +17,7 @@ public enum ArmourType {
     NONE("None");
 
     @Getter
-    private String value;
+    private final String value;
 
     /**
      * The constructor.

@@ -15,7 +15,7 @@ public enum TaskForceState {
     @SerializedName(value = "RESERVE", alternate = {"Reserve", "reserve"})
     RESERVE("Reserve");
 
-    private String value;
+    private final String value;
 
     /**
      * Constructor.

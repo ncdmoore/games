@@ -26,6 +26,7 @@ public class NavalTaskForceStrike implements AirMission {
     @Getter private final int id;
     private final Game game;
 
+    @Getter private final AirMissionType type = AirMissionType.NAVAL_TASK_FORCE_STRIKE;
     @Getter private final Nation nation;
     @Getter private final Airbase airbase;
     @Getter private final Map<MissionRole, List<Squadron>> squadronMap;
@@ -98,16 +99,6 @@ public class NavalTaskForceStrike implements AirMission {
     @Override
     public void saveChildrenData() {
 
-    }
-
-    /**
-     * Get the mission's type.
-     *
-     * @return The type of mission.
-     */
-    @Override
-    public AirMissionType getType() {
-        return AirMissionType.getType(this);
     }
 
     /**

@@ -34,6 +34,7 @@ public class SweepAirfield implements AirMission {
     private static final BigDecimal PERCENTAGE = new BigDecimal(100);
     private static final Set<Integer> STEP_HIT_SET = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
 
+    @Getter private final AirMissionType type = AirMissionType.SWEEP_AIRFIELD;
     @Getter private final int id;
     @Getter private final Nation nation;
     @Getter private final Airbase airbase;
@@ -111,16 +112,6 @@ public class SweepAirfield implements AirMission {
     @Override
     public void saveChildrenData() {
 
-    }
-
-    /**
-     * Get the mission's type.
-     *
-     * @return The type of mission.
-     */
-    @Override
-    public AirMissionType getType() {
-        return AirMissionType.getType(this);
     }
 
     /**

@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 public class Ferry implements AirMission {
     private final Game game;
 
+    @Getter private final AirMissionType type = AirMissionType.FERRY;
     @Getter private final int id;
     @Getter private final Nation nation;
     @Getter private final Map<MissionRole, List<Squadron>> squadronMap;
@@ -107,16 +108,6 @@ public class Ferry implements AirMission {
     @Override
     public Airbase getAirbase() {
         return startingAirbase;
-    }
-
-    /**
-     * Get the mission's type.
-     *
-     * @return The type of mission.
-     */
-    @Override
-    public AirMissionType getType() {
-        return AirMissionType.getType(this);
     }
 
     /**

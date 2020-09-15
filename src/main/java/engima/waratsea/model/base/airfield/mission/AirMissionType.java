@@ -4,9 +4,7 @@ import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class represents an air mission type. These are the types of mission a squadron may perform. Though
@@ -31,17 +29,6 @@ public enum AirMissionType {
     @Getter
     private final List<MissionRole> roles;
 
-    private static final Map<Class<?>, AirMissionType> TYPE_MAP = new HashMap<>();
-
-    static {
-        TYPE_MAP.put(Ferry.class, FERRY);
-        TYPE_MAP.put(LandStrike.class, LAND_STRIKE);
-        TYPE_MAP.put(NavalPortStrike.class, NAVAL_PORT_STRIKE);
-        TYPE_MAP.put(NavalTaskForceStrike.class, NAVAL_TASK_FORCE_STRIKE);
-        TYPE_MAP.put(SweepAirfield.class, SWEEP_AIRFIELD);
-        TYPE_MAP.put(SweepPort.class, SWEEP_PORT);
-    }
-
     /**
      * Constructor.
      *
@@ -53,16 +40,6 @@ public enum AirMissionType {
         this.value = value;
         this.title = title;
         this.roles = roles;
-    }
-
-    /**
-     * Get the enum mission type given a mission object.
-     *
-     * @param mission A air base mission.
-     * @return The mission type enum of the given mission object.
-     */
-    public static AirMissionType getType(final AirMission mission) {
-        return TYPE_MAP.get(mission.getClass());
     }
 
     /**

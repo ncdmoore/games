@@ -45,7 +45,7 @@ public enum ShipType {
     @SerializedName(value = "TRANSPORT", alternate = {"Transport", "transport"})
     TRANSPORT("Transport");
 
-    private String value;
+    private final String value;
 
     /**
      * Constructor.

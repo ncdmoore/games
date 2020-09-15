@@ -52,7 +52,7 @@ public enum TurnType {
     };
 
     @Getter
-    private String value;
+    private final String value;
 
     /**
      * Constructor.
