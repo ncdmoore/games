@@ -31,15 +31,15 @@ public enum AirMissionType {
     @Getter
     private final List<MissionRole> roles;
 
-    private static Map<Class<?>, AirMissionType> typeMap = new HashMap<>();
+    private static final Map<Class<?>, AirMissionType> TYPE_MAP = new HashMap<>();
 
     static {
-        typeMap.put(Ferry.class, FERRY);
-        typeMap.put(LandStrike.class, LAND_STRIKE);
-        typeMap.put(NavalPortStrike.class, NAVAL_PORT_STRIKE);
-        typeMap.put(NavalTaskForceStrike.class, NAVAL_TASK_FORCE_STRIKE);
-        typeMap.put(SweepAirfield.class, SWEEP_AIRFIELD);
-        typeMap.put(SweepPort.class, SWEEP_PORT);
+        TYPE_MAP.put(Ferry.class, FERRY);
+        TYPE_MAP.put(LandStrike.class, LAND_STRIKE);
+        TYPE_MAP.put(NavalPortStrike.class, NAVAL_PORT_STRIKE);
+        TYPE_MAP.put(NavalTaskForceStrike.class, NAVAL_TASK_FORCE_STRIKE);
+        TYPE_MAP.put(SweepAirfield.class, SWEEP_AIRFIELD);
+        TYPE_MAP.put(SweepPort.class, SWEEP_PORT);
     }
 
     /**
@@ -62,7 +62,7 @@ public enum AirMissionType {
      * @return The mission type enum of the given mission object.
      */
     public static AirMissionType getType(final AirMission mission) {
-        return typeMap.get(mission.getClass());
+        return TYPE_MAP.get(mission.getClass());
     }
 
     /**
