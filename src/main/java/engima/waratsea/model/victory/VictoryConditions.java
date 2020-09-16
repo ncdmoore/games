@@ -36,16 +36,16 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
     private int totalVictoryPoints;
 
     @Getter
-    private String objectives;
+    private final String objectives;
 
-    private List<VictoryCondition<ShipEvent, ShipVictoryData>> defaultShips;              // The default victory conditions for ship.
-    private List<VictoryCondition<ShipEvent, ShipVictoryData>> scenarioShips;             // Scenario specific victory conditions for ships. These may override the default.
-    private List<VictoryCondition<ShipEvent, ShipVictoryData>> requiredShips;             // Scenario required ship victory conditions.
+    private final List<VictoryCondition<ShipEvent, ShipVictoryData>> defaultShips;              // The default victory conditions for ship.
+    private final List<VictoryCondition<ShipEvent, ShipVictoryData>> scenarioShips;             // Scenario specific victory conditions for ships. These may override the default.
+    private final List<VictoryCondition<ShipEvent, ShipVictoryData>> requiredShips;             // Scenario required ship victory conditions.
 
-    private List<VictoryCondition<SquadronEvent, SquadronVictoryData>> defaultSquadron;   // The default victory condition for squadrons.
-    private List<VictoryCondition<SquadronEvent, SquadronVictoryData>> scenarioSquadron;  // Scenario specific victory condition for squadrons.
+    private final List<VictoryCondition<SquadronEvent, SquadronVictoryData>> defaultSquadron;   // The default victory condition for squadrons.
+    private final List<VictoryCondition<SquadronEvent, SquadronVictoryData>> scenarioSquadron;  // Scenario specific victory condition for squadrons.
 
-    private List<VictoryCondition<AirfieldEvent, AirfieldVictoryData>> scenarioAirfields; // Scenario specific victory condition for airfields.
+    private final List<VictoryCondition<AirfieldEvent, AirfieldVictoryData>> scenarioAirfields; // Scenario specific victory condition for airfields.
 
     /**
      * Holds the result of a victory condition check.
@@ -83,7 +83,7 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
     }
 
     @Getter
-    private List<History> history = new ArrayList<>();
+    private final List<History> history = new ArrayList<>();
 
     /**
      * Constructor of the a side's victory.

@@ -31,8 +31,8 @@ import java.nio.file.Paths;
 @Slf4j
 @Singleton
 public class VictoryDAO {
-    private Resource config;
-    private VictoryConditionsFactory factory;
+    private final Resource config;
+    private final VictoryConditionsFactory factory;
 
     /**
      * Constructor called by guice.

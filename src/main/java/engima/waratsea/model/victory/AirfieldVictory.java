@@ -14,16 +14,16 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class AirfieldVictory implements VictoryCondition<AirfieldEvent, AirfieldVictoryData> {
-    private AirfieldEventMatcher matcher;
+    private final AirfieldEventMatcher matcher;
 
-    private int points;              // The points awarded for each occurrence of this victory condition.
-    private int totalPoints;         // The total points awarded for all occurrences of this victory condition
-    private int requiredPoints;      // The total points required for this victory condition to be met.
-                                     // Note, not all victory conditions have a total point requirement.
-                                     // In fact most do not have any total point requirement.
-    private int requiredOccurrences; // The number of times the underlying event must occur before any points are awarded.
-    private int occurrenceCount;     // The number of times the event has occurred before any points are awarded.
-                                     // This value is reset every time the required number of occurrences are reached.
+    private final int points;              // The points awarded for each occurrence of this victory condition.
+    private int totalPoints;               // The total points awarded for all occurrences of this victory condition
+    private final int requiredPoints;      // The total points required for this victory condition to be met.
+                                           // Note, not all victory conditions have a total point requirement.
+                                           // In fact most do not have any total point requirement.
+    private final int requiredOccurrences; // The number of times the underlying event must occur before any points are awarded.
+    private int occurrenceCount;           // The number of times the event has occurred before any points are awarded.
+                                           // This value is reset every time the required number of occurrences are reached.
 
     @Getter
     private boolean requirementMet;

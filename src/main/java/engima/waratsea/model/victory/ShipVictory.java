@@ -26,38 +26,38 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
     // This now becomes 4.   (12 / 3 = 4)
     private static final int CARGO_CAPACITY_UNLOAD_FACTOR = 4;
     private static final int OUT_OF_FUEL_FACTOR = 2;
-    private GameMap gameMap;
+    private final GameMap gameMap;
 
-    private ShipEventMatcher matcher;
+    private final ShipEventMatcher matcher;
 
-    private int points;              // The points awarded for each occurrence of this victory condition.
-    private int totalPoints;         // The total points awarded for all occurrences of this victory condition
-    private int requiredPoints;      // The total points required for this victory condition to be met.
-                                     // Note, not all victory conditions have a total point requirement.
-                                     // In fact most do not have any total point requirement.
-    private int requiredOccurrences; // The number of times the underlying event must occur before any points are awarded.
-    private int occurrenceCount;     // The number of times the event has occurred before any points are awarded.
-                                     // This value is reset every time the required number of occurrences are reached.
+    private final int points;              // The points awarded for each occurrence of this victory condition.
+    private int totalPoints;               // The total points awarded for all occurrences of this victory condition
+    private final int requiredPoints;      // The total points required for this victory condition to be met.
+                                           // Note, not all victory conditions have a total point requirement.
+                                           // In fact most do not have any total point requirement.
+    private final int requiredOccurrences; // The number of times the underlying event must occur before any points are awarded.
+    private int occurrenceCount;           // The number of times the event has occurred before any points are awarded.
+                                           // This value is reset every time the required number of occurrences are reached.
 
     @Getter
     private boolean requirementMet;  // Indicates if this victory condition is satisfied.
 
     // All events have a default victory calculation, that can be overridden. To override the victory conditions specify
     // the points in the event json.
-    private static BiFunction<Integer, ShipEvent, Integer> getShip = (p, e) -> p == 0 ? e.getShip().getVictoryPoints() : p;
-    private static BiFunction<Integer, ShipEvent, Integer> getOutOfFuel = (p, e) -> e.getShip().getVictoryPoints() / OUT_OF_FUEL_FACTOR;
-    private static BiFunction<Integer, ShipEvent, Integer> getCargoUnloaded = (p, e) -> p == 0 ? e.getShip().getCargo().getCapacity() * CARGO_CAPACITY_UNLOAD_FACTOR : p;
-    private static BiFunction<Integer, ShipEvent, Integer> getDefault = (p, e) -> p;
+    private static final BiFunction<Integer, ShipEvent, Integer> GET_SHIP = (p, e) -> p == 0 ? e.getShip().getVictoryPoints() : p;
+    private static final BiFunction<Integer, ShipEvent, Integer> GET_OUT_OF_FUEL = (p, e) -> e.getShip().getVictoryPoints() / OUT_OF_FUEL_FACTOR;
+    private static final BiFunction<Integer, ShipEvent, Integer> GET_CARGO_UNLOADED = (p, e) -> p == 0 ? e.getShip().getCargo().getCapacity() * CARGO_CAPACITY_UNLOAD_FACTOR : p;
+    private static final BiFunction<Integer, ShipEvent, Integer> GET_DEFAULT = (p, e) -> p;
 
     private static final Map<ShipEventAction, BiFunction<Integer, ShipEvent, Integer>> FUNCTION_MAP = new HashMap<>();
     static {
-        FUNCTION_MAP.put(ShipEventAction.SUNK, getShip);
-        FUNCTION_MAP.put(ShipEventAction.OUT_OF_FUEL, getOutOfFuel);
-        FUNCTION_MAP.put(ShipEventAction.CARGO_UNLOADED, getCargoUnloaded);
-        FUNCTION_MAP.put(ShipEventAction.ARRIVAL, getShip);
+        FUNCTION_MAP.put(ShipEventAction.SUNK, GET_SHIP);
+        FUNCTION_MAP.put(ShipEventAction.OUT_OF_FUEL, GET_OUT_OF_FUEL);
+        FUNCTION_MAP.put(ShipEventAction.CARGO_UNLOADED, GET_CARGO_UNLOADED);
+        FUNCTION_MAP.put(ShipEventAction.ARRIVAL, GET_SHIP);
     }
 
-    private BiFunction<Integer, ShipEvent, Integer> calculation;
+    private final BiFunction<Integer, ShipEvent, Integer> calculation;
 
     /**
      * Constructor.
@@ -194,6 +194,6 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
      * @return The victory point calculation function.
      */
     private BiFunction<Integer, ShipEvent, Integer> setCalculationFunction() {
-        return  FUNCTION_MAP.getOrDefault(ShipEventAction.valueOf(matcher.getAction()), getDefault);
+        return  FUNCTION_MAP.getOrDefault(ShipEventAction.valueOf(matcher.getAction()), GET_DEFAULT);
     }
 }

@@ -22,11 +22,11 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
 
     private final GameMap gameMap;
 
-    private List<ShipEventMatcher> matchers;
+    private final List<ShipEventMatcher> matchers;
 
-    private int totalPoints;      //Used just to ensure the required points are met. This does not count toward total victory score.
-                                  //The ship victory points will be stored in the ShipVictory class.
-    private int requiredPoints;   //The number of points required for this victory condition to be satisfied.
+    private int totalPoints;            //Used just to ensure the required points are met. This does not count toward total victory score.
+                                        //The ship victory points will be stored in the ShipVictory class.
+    private final int requiredPoints;   //The number of points required for this victory condition to be satisfied.
 
     @Getter
     private boolean requirementMet;
