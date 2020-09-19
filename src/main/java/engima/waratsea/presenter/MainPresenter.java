@@ -7,6 +7,7 @@ import engima.waratsea.model.game.Game;
 import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.presenter.preview.StartPresenter;
 import engima.waratsea.presenter.squadron.SquadronsDialog;
+import engima.waratsea.presenter.victory.VictoryDialog;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.MainView;
 import javafx.stage.Stage;
@@ -26,7 +27,9 @@ public class MainPresenter implements Presenter {
     private final Provider<MainView> viewProvider;
     private final Provider<MainMenu> menuProvider;
     private final Provider<SquadronsDialog> squadronsDialogProvider;
+    private final Provider<VictoryDialog> victoryDialogProvider;
     private final Provider<StartPresenter> startPresenterProvider;
+
     private Stage stage;
 
     /**
@@ -35,6 +38,7 @@ public class MainPresenter implements Presenter {
      * @param game The game.
      * @param mainMapPresenter The main map presenter.
      * @param squadronsDialogProvider The squadrons dialog provider.
+     * @param victoryDialogProvider The victory dialog provider.
      * @param viewProvider The main view provider.
      * @param menuProvider The main menu provider.
      * @param startPresenterProvider The start screen provider.
@@ -43,6 +47,7 @@ public class MainPresenter implements Presenter {
     public MainPresenter(final Game game,
                          final MainMapPresenter mainMapPresenter,
                          final Provider<SquadronsDialog> squadronsDialogProvider,
+                         final Provider<VictoryDialog> victoryDialogProvider,
                          final Provider<MainView> viewProvider,
                          final Provider<MainMenu> menuProvider,
                          final Provider<StartPresenter> startPresenterProvider) {
@@ -51,6 +56,7 @@ public class MainPresenter implements Presenter {
         this.viewProvider = viewProvider;
         this.menuProvider = menuProvider;
         this.squadronsDialogProvider = squadronsDialogProvider;
+        this.victoryDialogProvider = victoryDialogProvider;
         this.startPresenterProvider = startPresenterProvider;
     }
 
@@ -76,6 +82,8 @@ public class MainPresenter implements Presenter {
 
         menuProvider.get().getAirfieldSquadrons().setOnAction(event -> airfieldSquadrons());
         menuProvider.get().getTaskForceSquadrons().setOnAction(event -> taskForceSquadrons());
+
+        menuProvider.get().getVictoryConditions().setOnAction(event -> victoryConditions());
 
         mainMapPresenter.setMouseEventHandlers();
     }
@@ -133,5 +141,12 @@ public class MainPresenter implements Presenter {
      */
     private void taskForceSquadrons() {
         squadronsDialogProvider.get().show(SquadronLocationType.SEA);
+    }
+
+    /**
+     * Show the player's victory conditions.
+     */
+    private void victoryConditions() {
+        victoryDialogProvider.get().show();
     }
 }

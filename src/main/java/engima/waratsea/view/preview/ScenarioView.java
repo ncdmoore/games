@@ -7,6 +7,7 @@ import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.ScenarioViewModel;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
@@ -26,6 +27,7 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Defines the scenario selection view.
@@ -123,17 +125,21 @@ public class ScenarioView {
         dateValue.textProperty().bind(scenarioViewModel.getDate());
         descriptionValue.textProperty().bind(scenarioViewModel.getDescription());
 
+        ObjectProperty<Scenario> scenario = scenarioViewModel.getScenario();
         StringProperty name = scenarioViewModel.getName();
-        StringProperty imageName = scenarioViewModel.getImageName();
 
         scenarioImage.imageProperty().bind(Bindings.createObjectBinding(() ->
-                imageResourceProvider.getImage(name.getValue(), imageName.getValue()), name, imageName));
+                Optional.ofNullable(scenario.getValue())
+                        .map(s -> imageResourceProvider.getImage(s.getName(), s.getImage()))
+                        .orElse(null), scenario));
 
         axisFlag.imageProperty().bind(Bindings.createObjectBinding(() ->
                 imageResourceProvider.getImage(name.getValue(), props.getString("axis.flag.medium.image")), name));
 
         alliesFlag.imageProperty().bind(Bindings.createObjectBinding(() ->
                 imageResourceProvider.getImage(name.getValue(), props.getString("allies.flag.medium.image")), name));
+
+        scenarioViewModel.getScenario().bind(scenarios.getSelectionModel().selectedItemProperty());
 
         return this;
     }

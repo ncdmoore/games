@@ -35,19 +35,19 @@ import java.util.Optional;
 @Slf4j
 public class PreviewMapView {
 
-    private ViewProps props;
-    private ImageResourceProvider imageResourceProvider;
+    private final ViewProps props;
+    private final ImageResourceProvider imageResourceProvider;
 
-    private GameMap gameMap;
-    private MapView mapView;
+    private final GameMap gameMap;
+    private final MapView mapView;
 
-    private Map<String, TaskForceMarker> markerMap = new HashMap<>();                //marker name (task force name)-> grid.
-    private Map<String, TaskForceMarker> mapRefMarkerMap = new HashMap<>();          //map reference -> grid.
+    private final Map<String, TaskForceMarker> markerMap = new HashMap<>();                //marker name (task force name)-> grid.
+    private final Map<String, TaskForceMarker> mapRefMarkerMap = new HashMap<>();          //map reference -> grid.
 
-    private Map<String, List<TargetMarker>> targetMap = new HashMap<>();             //marker name (task force name) -> grid.
-    private List<TargetMarker> targetMarkers = new ArrayList<>();
+    private final Map<String, List<TargetMarker>> targetMap = new HashMap<>();             //marker name (task force name) -> grid.
+    private final List<TargetMarker> targetMarkers = new ArrayList<>();
 
-    private Map<String, AirfieldMarker> airfieldMarkerMap = new HashMap<>();
+    private final Map<String, AirfieldMarker> airfieldMarkerMap = new HashMap<>();
 
     private SquadronRangeMarker rangeMarker;
 

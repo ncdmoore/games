@@ -8,7 +8,7 @@ public enum SquadronEventAction {
     DAMAGED("damaged"),
     DESTROYED("destroyed");
 
-    private String value;
+    private final String value;
 
     /**
      * Constructor.

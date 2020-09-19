@@ -231,6 +231,7 @@ public class ImageResourceProvider {
      */
     public Image getImage(final String scenario, final String resourceName) {
         String path = gameTitle.getValue() + SCENARIO_DIR + scenario + "/" + resourceName;
+        log.debug("get image: {}", path);
         Optional<Image> image = loadImage(path);
         return image.orElseGet(() -> getImage(resourceName));
     }

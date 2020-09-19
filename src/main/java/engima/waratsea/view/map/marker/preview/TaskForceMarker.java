@@ -28,7 +28,7 @@ public class TaskForceMarker {
 
     private Rectangle rectangle;
 
-    private List<Asset> taskForces;
+    private final List<Asset> taskForces;
 
     /**
      * Construct a marker.

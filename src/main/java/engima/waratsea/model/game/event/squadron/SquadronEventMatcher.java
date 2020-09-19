@@ -52,7 +52,7 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
     @Getter
     private final AssetType by;    // The game asset Ship, aircraft or sub that caused the event to fire. The asset that did the event.
 
-    private GameMap gameMap;
+    private final GameMap gameMap;
 
     /**
      * Constructor called by guice.
@@ -335,7 +335,8 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
      * @return The value that is actually logged.
      */
     private Object logValue(final Object value) {
-        return Optional.ofNullable(value).orElse("*");
+        return Optional.ofNullable(value)
+                .orElse("*");
     }
 
 

@@ -192,7 +192,7 @@ public class AirfieldAssetPresenter {
                 .getAircraftModels()
                 .getSelectionModel()
                 .selectedItemProperty()
-                .addListener((v, oldAircraft, newAircraft) -> aircraftSelected(nation, viewModel, assetView, newAircraft));
+                .addListener((v, oldAircraft, newAircraft) -> aircraftSelected(assetView, newAircraft));
 
         rangeInfoView
                 .getConfig()
@@ -271,15 +271,11 @@ public class AirfieldAssetPresenter {
     /**
      * The aircraft in the range information pane is selected.
      *
-     * @param nation    The nation.
-     * @param viewModel The airbase view model.
      * @param assetView The airfield asset summary view.
      * @param aircraft  The selected aircraft.
      */
-    private void aircraftSelected(final Nation nation, final AirbaseViewModel viewModel, final AirfieldAssetSummaryView assetView, final Aircraft aircraft) {
+    private void aircraftSelected(final AirfieldAssetSummaryView assetView, final Aircraft aircraft) {
         if (aircraft != null) {
-            viewModel.getNationViewModels().get(nation).setSelectedAircraft(aircraft);
-
             assetView
                     .getRangeInfo()
                     .get(aircraft.getNationality())
@@ -298,8 +294,6 @@ public class AirfieldAssetPresenter {
      * @param config    The selected squadron configuration.
      */
     private void squadronConfigSelected(final Nation nation, final AirbaseViewModel viewModel, final AirfieldAssetSummaryView assetView, final SquadronConfig config) {
-        viewModel.getNationViewModels().get(nation).setSelectedConfig(config);
-
         if (config != null && assetView.getRangeInfo().get(nation).getShowRangeOnMap().isSelected()) {
             Nation tabNation = (Nation) assetView.getNationsTabPane().getSelectionModel().getSelectedItem().getUserData();
 
@@ -311,7 +305,6 @@ public class AirfieldAssetPresenter {
                 mainMapViewProvider.get().drawRangeMarker(airbase, range);
             }
         }
-
     }
 
     /**

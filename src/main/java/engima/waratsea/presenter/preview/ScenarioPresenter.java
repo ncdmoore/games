@@ -3,21 +3,20 @@ package engima.waratsea.presenter.preview;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Resource;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.MapException;
+import engima.waratsea.model.scenario.ScenarioException;
 import engima.waratsea.model.squadron.SquadronException;
 import engima.waratsea.model.victory.VictoryException;
 import engima.waratsea.presenter.Presenter;
 import engima.waratsea.presenter.navigation.Navigate;
+import engima.waratsea.view.FatalErrorDialog;
+import engima.waratsea.view.preview.ScenarioView;
 import engima.waratsea.viewmodel.ScenarioViewModel;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import engima.waratsea.model.game.Game;
-import engima.waratsea.model.game.Side;
-import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.model.scenario.ScenarioException;
-import engima.waratsea.view.FatalErrorDialog;
-import engima.waratsea.view.preview.ScenarioView;
 
 /**
  * This is the scenario presenter. It is responsible for selecting a game side and scenario.
@@ -28,7 +27,6 @@ public class ScenarioPresenter implements Presenter {
     private ScenarioView view;
     private Stage stage;
 
-    private Scenario selectedScenario;
     private final Provider<ScenarioView> viewProvider;
     private final Navigate navigate;
     private final Provider<FatalErrorDialog> fatalErrorDialogProvider;
@@ -92,16 +90,6 @@ public class ScenarioPresenter implements Presenter {
     }
 
     /**
-     * Callback when a scenario is selected.
-     *
-     * @param scenario The selected scenario.
-     */
-    private void scenarioSelected(final Scenario scenario) {
-        selectedScenario = scenario;
-        scenarioViewModel.setModel(scenario);
-    }
-
-    /**
      * Callback when the continue button is clicked.
      *
      * The scenario and side have now been selected and are set in the game object.
@@ -110,7 +98,7 @@ public class ScenarioPresenter implements Presenter {
         Side side = view.getRadioButtonAllies().isSelected() ? Side.ALLIES : Side.AXIS;
 
         game.setNew();
-        game.setScenario(selectedScenario);
+        game.setScenario(scenarioViewModel.getScenario().getValue());
         game.setHumanSide(side);
         game.setSavedGameName(Resource.DEFAULT_SAVED_GAME);
 
@@ -132,10 +120,6 @@ public class ScenarioPresenter implements Presenter {
     private void initScenarios() {
         try {
             view.setScenarios(game.initScenarios());
-            view.getScenarios()
-                    .getSelectionModel()
-                    .selectedItemProperty()
-                    .addListener((v, oldValue, newValue) -> scenarioSelected(newValue));
         } catch (ScenarioException ex) {
             log.error("Unable to load scenario summaries", ex);
             fatalErrorDialogProvider.get().show("Unable to load any game scenarios.");

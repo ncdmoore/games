@@ -329,24 +329,6 @@ public class NationAirbaseViewModel {
     }
 
     /**
-     * Set the selected aircraft.
-     *
-     * @param aircraft The selected aircraft.
-     */
-    public void setSelectedAircraft(final Aircraft aircraft) {
-        selectedAircraft.setValue(aircraft);
-    }
-
-    /**
-     * Set the selected squadron configuration.
-     *
-     * @param config The selected squadron configuration.
-     */
-    public void setSelectedConfig(final SquadronConfig config) {
-        selectedConfig.setValue(config);
-    }
-
-    /**
      * Set the aircraft models present at this airbase.
      * This is a unique list of aircraft of all nations stationed at this airbase.
      */

@@ -74,7 +74,9 @@ public class AirfieldRangeInfo {
      */
     public void bind(final NationAirbaseViewModel viewModel) {
         aircraftModels.itemsProperty().bind(viewModel.getAircraftModels());
+        viewModel.getSelectedAircraft().bind(aircraftModels.getSelectionModel().selectedItemProperty());
 
         config.itemsProperty().bind(viewModel.getSquadronConfigs());
+        viewModel.getSelectedConfig().bind(config.getSelectionModel().selectedItemProperty());
     }
 }

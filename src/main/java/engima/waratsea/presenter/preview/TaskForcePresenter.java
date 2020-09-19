@@ -198,8 +198,6 @@ public class TaskForcePresenter implements Presenter {
      * @param taskForce the selected task force.
      */
     private void taskForceSelected(final TaskForce taskForce) {
-        log.info("Task force selected: {}", taskForce.getName());
-
         clearAllTaskForces();
         this.selectedTaskForce = taskForce;
 

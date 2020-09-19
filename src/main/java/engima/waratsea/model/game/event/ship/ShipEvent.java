@@ -61,7 +61,7 @@ public class ShipEvent extends GameEvent {
 
     @Getter
     @Setter
-    private AssetType by;                       // The game asset ship, sub or aircraft that caused the event. The asset that did the event. Not all events have a by.
+    private AssetType by;                   // The game asset ship, sub or aircraft that caused the event. The asset that did the event. Not all events have a by.
 
     /**
      * This is how an event is fired and all the event handlers receive

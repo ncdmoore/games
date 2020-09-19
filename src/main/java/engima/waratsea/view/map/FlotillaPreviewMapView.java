@@ -25,13 +25,13 @@ import java.util.Map;
  */
 @Slf4j
 public class FlotillaPreviewMapView {
-    private ViewProps props;
-    private ImageResourceProvider imageResourceProvider;
+    private final ViewProps props;
+    private final ImageResourceProvider imageResourceProvider;
 
-    private GameMap gameMap;
-    private MapView mapView;
+    private final GameMap gameMap;
+    private final MapView mapView;
 
-    private Map<String, TaskForceMarker> markerMap = new HashMap<>();                //marker name -> grid.
+    private final Map<String, TaskForceMarker> markerMap = new HashMap<>();                //marker name -> grid.
 
     /**
      * Constructor called by guice.

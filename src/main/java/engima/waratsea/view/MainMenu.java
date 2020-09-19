@@ -25,6 +25,8 @@ public class MainMenu {
     @Getter private final MenuItem airfieldSquadrons;
     @Getter private final MenuItem taskForceSquadrons;
 
+    @Getter private final MenuItem victoryConditions;
+
     @Getter private final MenuBar menuBar = new MenuBar();
 
     /**
@@ -52,7 +54,11 @@ public class MainMenu {
         taskForceSquadrons = new MenuItem("_Task Force Squadrons");
         menuOOB.getItems().addAll(airfieldSquadrons, taskForceSquadrons);
 
-        menuBar.getMenus().addAll(menuFile, menuMap, menuOOB);
-        menuBar.setUseSystemMenuBar(true);                          // Menu will appear in mac system menu area like all other mac applications.
+        Menu menuVictory = new Menu("Victory");
+        victoryConditions = new MenuItem("_Victory Conditions");
+        menuVictory.getItems().add(victoryConditions);
+
+        menuBar.getMenus().addAll(menuFile, menuMap, menuOOB, menuVictory);
+        menuBar.setUseSystemMenuBar(true);                                    // Menu will appear in mac system menu area like all other mac applications.
     }
 }

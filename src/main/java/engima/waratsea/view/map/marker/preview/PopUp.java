@@ -34,10 +34,10 @@ public class PopUp {
     private final String style;
     private final EventHandler<? super MouseEvent> eventHandler;
 
-    private VBox popUp = new VBox();
-    private List<String> names = new ArrayList<>();
+    private final VBox popUp = new VBox();
+    private final List<String> names = new ArrayList<>();
 
-    private Map<String, Label> namesMap = new HashMap<>();
+    private final Map<String, Label> namesMap = new HashMap<>();
 
     /**
      * Construct a popup for a given marker.

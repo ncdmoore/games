@@ -43,7 +43,6 @@ public class TaskForceDialog {
         this.viewProvider = viewProvider;
         this.viewModelProvider = viewModelProvider;
         this.props = props;
-
     }
 
     /**
@@ -103,8 +102,6 @@ public class TaskForceDialog {
      * @param dialog This dialog's view.
      */
     private void registerHandlers(final DialogView dialog) {
-
-
         dialog.getCancelButton().setOnAction(event -> cancel());
         dialog.getOkButton().setOnAction(event -> ok());
     }

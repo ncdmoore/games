@@ -5,10 +5,9 @@ import engima.waratsea.model.game.data.GameData;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.viewmodel.GameViewModel;
-import engima.waratsea.viewmodel.ScenarioViewModel;
+import engima.waratsea.viewmodel.SavedGameViewModel;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -25,18 +24,19 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SavedGameView {
     private static final String CSS_FILE = "savedGameView.css";
 
     @Getter
-    private ListView<GameData> savedGames = new ListView<>();
+    private final ListView<GameData> savedGames = new ListView<>();
 
-    private ImageView scenarioImage = new ImageView();
-    private Text dateValue = new Text();
-    private Text turnValue = new Text();
-    private Text descriptionValue = new Text();
-    private Text sideValue = new Text();
+    private final ImageView scenarioImage = new ImageView();
+    private final Text dateValue = new Text();
+    private final Text turnValue = new Text();
+    private final Text descriptionValue = new Text();
+    private final Text sideValue = new Text();
 
     @Getter
     private Button continueButton;
@@ -44,9 +44,9 @@ public class SavedGameView {
     @Getter
     private Button backButton;
 
-    private ViewProps props;
-    private CssResourceProvider cssResourceProvider;
-    private ImageResourceProvider imageResourceProvider;
+    private final ViewProps props;
+    private final CssResourceProvider cssResourceProvider;
+    private final ImageResourceProvider imageResourceProvider;
 
     /**
      * Constructor called by guice.
@@ -106,28 +106,22 @@ public class SavedGameView {
      * @param viewModel The selected scenario view model.
      * @return This object.
      */
-    public SavedGameView bind(final ScenarioViewModel viewModel) {
+    public SavedGameView bind(final SavedGameViewModel viewModel) {
         turnValue.textProperty().bind(viewModel.getTurn());
         dateValue.textProperty().bind(viewModel.getDate());
         descriptionValue.textProperty().bind(viewModel.getDescription());
 
-        StringProperty name = viewModel.getName();
-        StringProperty imageName = viewModel.getImageName();
+        ObjectProperty<GameData> game = viewModel.getGame();
 
         scenarioImage.imageProperty().bind(Bindings.createObjectBinding(() ->
-                imageResourceProvider.getImage(name.getValue(), imageName.getValue()), name, imageName));
+                Optional.ofNullable(game.getValue())
+                        .map(g -> imageResourceProvider.getImage(g.getScenario().getName(), g.getScenario().getImage()))
+                        .orElse(null), game));
 
-        return this;
-    }
-
-    /**
-     * Bind this view to the selected game view model.
-     *
-     * @param viewModel The selected game view model.
-     * @return This object.
-     */
-    public SavedGameView bind(final GameViewModel viewModel) {
         sideValue.textProperty().bind(viewModel.getSide());
+
+        viewModel.getGame().bind(savedGames.getSelectionModel().selectedItemProperty());
+
         return this;
     }
 
