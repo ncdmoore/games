@@ -353,6 +353,25 @@ public final class GameMap {
                 .collect(toList());
     }
 
+    public String convertReferenceToName(final String reference) {
+        String name = convertPortReferenceToName(reference);
+
+        if (name.equalsIgnoreCase(reference)) {
+            name = convertAirfieldReferenceToName(reference);
+        }
+
+        if (name.equalsIgnoreCase(ANY_ENEMY_BASE)) {
+            name = "Any enemy base";
+        }
+
+        if (name.equalsIgnoreCase(ANY_FRIENDLY_BASE)) {
+            name = "Any friendly base";
+        }
+
+        return name;
+    }
+
+
     /**
      * Convert a reference name to a map reference. For example, the name Gibraltar is converted to H22.
      *

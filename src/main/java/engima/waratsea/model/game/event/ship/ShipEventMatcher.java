@@ -51,6 +51,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     @Getter
     private final List<String> portOrigins;
 
+    @Getter
     private final List<String> locations; // A list of locations to match. This is the reference where the event occurred.
 
     @Getter
@@ -122,6 +123,34 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
                 && isLocationEqual(firedEvent.getShip())
                 && isPortOriginEqual(firedEvent.getShip())
                 && isByEqual(firedEvent.getBy());
+    }
+
+    public String getActionString() {
+        try {
+            return ShipEventAction.valueOf(action).toString();
+        } catch (IllegalArgumentException ex) {
+            return action;
+        }
+    }
+
+    public String getShipNamesString() {
+        return logName(names);
+    }
+
+    public String getNationString() {
+        return logValue(nation).toString();
+    }
+
+    public String getShipTypesString() {
+        return logShip(shipTypes);
+    }
+
+    public String getLocationsString() {
+        return logLocation(locations);
+    }
+
+    public String getPortOriginString() {
+        return logLocation(portOrigins);
     }
 
     /**
@@ -233,7 +262,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     private String getLocations(@NotNull final List<String> shipLocations) {
         return shipLocations.stream()
                 .filter(Objects::nonNull)
-                .map(gameMap::convertPortReferenceToName)
+                .map(gameMap::convertReferenceToName)
                 .collect(Collectors.joining(", "));
     }
 
@@ -395,7 +424,6 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     private Object logValue(final Object value) {
         return Optional.ofNullable(value).orElse("*");
     }
-
 
     /**
      * The ship names are converted into a comma separated string if possible. If not ship names are specified then "*"

@@ -75,7 +75,7 @@ public class ComputerPlayer implements Player {
     private final SquadronAI squadronAI;
     private final MinefieldAI minefieldAI;
 
-    private VictoryConditions victoryConditions;
+    @Getter private VictoryConditions victoryConditions;
 
     @Getter @Setter private Side side;
     @Getter private Set<Nation> nations;

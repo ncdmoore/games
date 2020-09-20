@@ -2,6 +2,8 @@
   "objectives": "Battleships and Cruisers at Alexandria are ordered to bombard any of the following Italian ports Tobruk, Benghazi, Tripoli, Rhodes or Scarpanto.",
   "scenarioShip": [
     {
+      "title": "Bombardment of Tobruk",
+      "description": "Friendly battleship or cruiser conducts shore bombardment of Tobruk, Libya",
       "event": {
         "side": "ALLIES",
         "action": "BOMBARDMENT",
@@ -12,6 +14,8 @@
       "requiredOccurrences": 2
     },
     {
+      "title": "Bombardment of Rhodes",
+      "description": "Friendly battleship or cruiser conducts shore bombardment of Rhodes",
       "event": {
         "side": "ALLIES",
         "action": "BOMBARDMENT",

@@ -2,12 +2,15 @@ package engima.waratsea.presenter.victory;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import engima.waratsea.model.victory.VictoryType;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogOkOnlyView;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.victory.VictoryView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.util.stream.Stream;
 
 public class VictoryDialog {
     private static final String CSS_FILE = "victoryDetails.css";
@@ -46,6 +49,14 @@ public class VictoryDialog {
         dialog.setCss(cssResourceProvider.get(CSS_FILE));
 
         dialog.setContents(view.build());
+
+        Stream
+                .of(VictoryType.values())
+                .forEach(type -> view
+                        .getVictoryConditions()
+                        .get(type)
+                        .getSelectionModel()
+                        .selectFirst());
 
         dialog.getOkButton().setOnAction(event -> ok());
 

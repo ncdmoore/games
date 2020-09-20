@@ -10,6 +10,13 @@ import java.util.List;
  * Ship victory condition data read in from JSON file.
  */
 public class ShipVictoryData {
+    @Getter
+    @Setter
+    private String title;
+
+    @Getter
+    @Setter
+    private String description;
 
     @Getter
     @Setter

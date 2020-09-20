@@ -74,7 +74,7 @@ public class HumanPlayer implements Player {
 
     private final FlotillaAI flotillaAI;
 
-    private VictoryConditions victoryConditions;
+    @Getter private VictoryConditions victoryConditions;
 
     @Getter @Setter private Side side;
     @Getter private Set<Nation> nations;

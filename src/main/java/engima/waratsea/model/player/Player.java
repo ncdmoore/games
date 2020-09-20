@@ -19,6 +19,7 @@ import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.mission.SeaMissionType;
+import engima.waratsea.model.victory.VictoryConditions;
 import engima.waratsea.model.victory.VictoryException;
 
 import java.util.List;
@@ -236,4 +237,11 @@ public interface Player {
      * @return The player's minefields.
      */
     List<Minefield> getMinefields();
+
+    /**
+     * Get the player's victory conditions.
+     *
+     * @return The player's victory conditions.
+     */
+    VictoryConditions getVictoryConditions();
 }

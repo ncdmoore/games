@@ -1,18 +1,24 @@
 {
   "defaultShip": [
     {
+      "title": "Ship Sunk",
+      "description": "Sink an enemy ship",
       "event": {
         "side": "AXIS",
         "action": "SUNK"
       }
     },
     {
+      "title": "Ship Out of Fuel",
+      "description": "Force an enemy ship to run out of fuel",
       "event": {
         "side": "AXIS",
         "action": "OUT_OF_FUEL"
       }
     },
     {
+      "title": "Capital Ship's Hull Damaged",
+      "description": "Damage the hull of an enemy capital ship",
       "event": {
         "side": "AXIS",
         "action": "DAMAGED_HULL",
@@ -21,6 +27,8 @@
       "points": 3
     },
     {
+      "title": "Ship's Hull Damaged",
+      "description": "Damage the hull of an enemy non-capital ship",
       "event": {
         "side": "AXIS",
         "action": "DAMAGED_HULL",
@@ -29,6 +37,8 @@
       "points": 1
     },
     {
+      "title": "Ship's Primary Gun Damaged",
+      "description": "Damage the primary gun of an enemy ship",
       "event": {
         "side": "AXIS",
         "action": "DAMAGED_PRIMARY"
@@ -36,6 +46,8 @@
       "points": 3
     },
     {
+      "title": "Battleship Conducts Bombardment",
+      "description": "Friendly battleship conducts shore bombardment",
       "event": {
         "side": "ALLIES",
         "action": "BOMBARDMENT",
@@ -45,6 +57,8 @@
       "points": 5
     },
     {
+      "title": "Cruiser Conducts Bombardment",
+      "description": "Friendly cruiser conducts shore bombardment",
       "event": {
         "side": "ALLIES",
         "action": "BOMBARDMENT",

@@ -16,6 +16,11 @@
 }
 
 
+#victory-details-grid {
+    -fx-hgap: 40;
+    -fx-vgap: 2;
+}
+
 #controls-pane {
     -fx-padding: /* top */ 15 /* right */ 0 /* bottom */ 15 /* left */ 0;
 }

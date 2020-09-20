@@ -4,26 +4,26 @@ package engima.waratsea.model.game.event.ship;
  * Represents the type of ship event actions. A ship may be attacked, spotted, damaged, sunk, etc.
  */
 public enum ShipEventAction {
-    ARRIVAL("arrival"),
-    ATTACKED("attacked"),
-    BOMBARDMENT("bombardment"),
-    CARGO_LOADED("cargo loaded"),
-    CARGO_UNLOADED("cargo unloaded"),
-    DAMAGED_HULL("damaged hull"),
-    DAMAGED_PRIMARY("damaged primary"),
-    DAMAGED_SECONDARY("damaged secondary"),
-    DAMAGED_TERTIARY("damaged tertiary"),
-    DAMAGED_ANTI_AIR("damaged anti-air"),
-    DAMAGED_TORPEDO_MOUNT("damaged torpedo mount"),
-    DAMAGED_MOVEMENT_REDUCED("damaged movement reduced"),
-    DAMAGED_DEAD_IN_WATER("damaged dead in water"),
-    MINEFIELD_LAID("minefield laid"),
-    MINEFIELD_CLEARED("minefield cleared"),
-    OUT_OF_FUEL("out of fuel"),
-    SPOTTED("spotted"),
-    SUNK("sunk");
+    ARRIVAL("Arrival"),
+    ATTACKED("Attacked"),
+    BOMBARDMENT("Bombardment"),
+    CARGO_LOADED("Cargo loaded"),
+    CARGO_UNLOADED("Cargo unloaded"),
+    DAMAGED_HULL("Damaged hull"),
+    DAMAGED_PRIMARY("Damaged primary"),
+    DAMAGED_SECONDARY("Damaged secondary"),
+    DAMAGED_TERTIARY("Damaged tertiary"),
+    DAMAGED_ANTI_AIR("Damaged anti-air"),
+    DAMAGED_TORPEDO_MOUNT("Damaged torpedo mount"),
+    DAMAGED_MOVEMENT_REDUCED("Damaged movement reduced"),
+    DAMAGED_DEAD_IN_WATER("Damaged dead in water"),
+    MINEFIELD_LAID("Minefield laid"),
+    MINEFIELD_CLEARED("Minefield cleared"),
+    OUT_OF_FUEL("Out of fuel"),
+    SPOTTED("Spotted"),
+    SUNK("Sunk");
 
-    private String value;
+    private final String value;
 
     /**
      * Constructor.

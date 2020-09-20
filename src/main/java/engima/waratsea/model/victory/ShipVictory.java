@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
@@ -30,6 +31,8 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
 
     private final ShipEventMatcher matcher;
 
+    private final String title;
+    private final String description;
     private final int points;              // The points awarded for each occurrence of this victory condition.
     private int totalPoints;               // The total points awarded for all occurrences of this victory condition
     private final int requiredPoints;      // The total points required for this victory condition to be met.
@@ -71,6 +74,8 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
                        final ShipEventMatcherFactory factory,
                        final GameMap gameMap) {
 
+        title = data.getTitle();
+        description = data.getDescription();
         matcher = factory.create(data.getEvent());
         points = data.getPoints();
         totalPoints = data.getTotalPoints();
@@ -101,6 +106,8 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
     @Override
     public ShipVictoryData getData() {
         ShipVictoryData data = new ShipVictoryData();
+        data.setTitle(title);
+        data.setDescription(description);
         data.setEvent(matcher.getData());
         data.setPoints(points);
         data.setTotalPoints(totalPoints);
@@ -186,6 +193,34 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
         }
 
         return result;
+    }
+
+    /**
+     * Get the victory conditions details.
+     *
+     * @return The victory conditions detials in generic form.
+     */
+    public VictoryConditionDetails getDetails() {
+        Map<String, String> info = new LinkedHashMap<>();
+
+        VictoryConditionDetails details = new VictoryConditionDetails();
+
+        details.setKey(title);
+        details.setInfo(info);
+
+        info.put("Description:", description);
+        info.put("Action:", matcher.getActionString());
+        info.put("Ship Names:", matcher.getShipNamesString());
+        info.put("Side:", matcher.getSide().toString());
+        info.put("Nation:", matcher.getNationString());
+        info.put("Ship Type:", matcher.getShipTypesString());
+        info.put("Location:", matcher.getLocationsString());
+        info.put("Port Origin:", matcher.getPortOriginString());
+        info.put("Points:", points + "");
+        info.put("Required Points:", requiredPoints + "");
+        info.put("Required Occurrences:", requiredOccurrences + "");
+
+        return details;
     }
 
     /**

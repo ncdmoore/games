@@ -320,8 +320,10 @@ public class AirfieldAssetPresenter {
         if (show) {
             Aircraft aircraft = viewModel.getNationViewModels().get(nation).getSelectedAircraft().getValue();
             SquadronConfig config = viewModel.getNationViewModels().get(nation).getSelectedConfig().getValue();
-            int range = aircraft.getRadius().get(config);
-            mainMapViewProvider.get().drawRangeMarker(airbase, range);
+            if (aircraft != null) {
+                int range = aircraft.getRadius().get(config);
+                mainMapViewProvider.get().drawRangeMarker(airbase, range);
+            }
         } else {
             mainMapViewProvider.get().hideRangeMarker(airbase);
         }

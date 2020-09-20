@@ -120,6 +120,16 @@ public class SquadronVictory implements VictoryCondition<SquadronEvent, Squadron
     }
 
     /**
+     * Get the victory conditions details.
+     *
+     * @return The victory conditions detials in generic form.
+     */
+    @Override
+    public VictoryConditionDetails getDetails() {
+        return null;
+    }
+
+    /**
      * Save any of this object's children persistent data.
      * Not all objects will have children with persistent data.
      */

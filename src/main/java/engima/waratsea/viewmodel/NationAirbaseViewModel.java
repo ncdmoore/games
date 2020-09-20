@@ -348,7 +348,9 @@ public class NationAirbaseViewModel {
 
         squadronConfigs.bind(Bindings.createObjectBinding(bindingFunction, selectedAircraft));
 
-        selectedAircraft.setValue(aircraftModels.getValue().get(0));
+        if (!aircraftModels.getValue().isEmpty()) {
+            selectedAircraft.setValue(aircraftModels.getValue().get(0));
+        }
     }
 
     /**

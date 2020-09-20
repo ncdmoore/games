@@ -11,7 +11,7 @@ import com.google.inject.name.Named;
 public interface ShipVictoryFactory<E, D> {
 
     /**
-     * Create's the ship victory condition.
+     * Creates the ship victory condition.
      *
      * @param data Ship victory data from a JSON file.
      * @return The ship victory object.
@@ -21,7 +21,7 @@ public interface ShipVictoryFactory<E, D> {
 
 
     /**
-     * Create's the ship victory condition.
+     * Creates the ship victory condition.
      *
      * @param data Ship victory data from a JSON file.
      * @return The ship victory object.

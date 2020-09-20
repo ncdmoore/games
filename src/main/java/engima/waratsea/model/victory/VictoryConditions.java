@@ -16,6 +16,7 @@ import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.ListUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -161,6 +162,18 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
         return conditionMet(scenarioShips)
                 && conditionMet(requiredShips)
                 && conditionMet(scenarioAirfields);
+    }
+
+    /**
+     * Get the generic victory conditions details.
+     *
+     * @return A list of all of the generic victory conditions.
+     */
+    public List<VictoryConditionDetails> getDetails(final VictoryType victoryType) {
+        return ListUtils.union(defaultShips, scenarioShips)
+                .stream()
+                .map(VictoryCondition::getDetails)
+                .collect(Collectors.toList());
     }
 
     /**
