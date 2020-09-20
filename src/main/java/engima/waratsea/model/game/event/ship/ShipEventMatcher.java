@@ -353,7 +353,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
     }
 
     /**
-     * Determine if the fired event reference mathces the desired reference.
+     * Determine if the fired event reference matches the desired reference.
      *
      * @param ship The fired event ship.
      * @return True if the ship's reference matched. False otherwise.
