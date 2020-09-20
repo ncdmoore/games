@@ -10,6 +10,18 @@ import lombok.Setter;
 public class AirfieldVictoryData {
     @Getter
     @Setter
+    private String title;
+
+    @Getter
+    @Setter
+    private String description;
+
+    @Getter
+    @Setter
+    private String award;
+
+    @Getter
+    @Setter
     private AirfieldMatchData event;
 
     @Getter

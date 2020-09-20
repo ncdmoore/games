@@ -119,6 +119,64 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
     }
 
     /**
+     * Get the squadron event action String representation.
+     *
+     * @return Get the squadron event action String representation.
+     */
+    public String getActionString() {
+        try {
+            return SquadronEventAction.valueOf(action).toString();
+        } catch (IllegalArgumentException ex) {
+            return action;
+        }
+    }
+
+    /**
+     * Get the squadron names string.
+     *
+     * @return The squadron names string.
+     */
+    public String getSquadronNamesString() {
+        return logName(names);
+    }
+
+    /**
+     * The squadron aircraft model string.
+     *
+     * @return The squadron aircraft model string.
+     */
+    public String getAircraftModelString() {
+        return logName(aircraftModels);
+    }
+
+    /**
+     * The squadron aircraft type string.
+     *
+     * @return The squadron aircraft type string.
+     */
+    public String getAircraftTypeString() {
+        return logAircraft(aircraftTypes);
+    }
+
+    /**
+     * Get the location of the squadron event.
+     *
+     * @return The location of the squadron event.
+     */
+    public String getLocationsString() {
+        return logLocation(locations);
+    }
+
+    /**
+     * Get the airfield origin of the squadron that performed the event.
+     *
+     * @return The airfield origin of the squadron that performed the event.
+     */
+    public String getAirfieldOriginString() {
+        return logLocation(airfieldOrigins);
+    }
+
+    /**
      * Log the ship event match criteria.
      */
     public void log() {
@@ -131,6 +189,7 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
         log.debug("Match reference {}", logLocation(locations));
         log.debug("Match by {}", logValue(by));
     }
+
 
     /**
      * Parse the string version of aircraft types into a list of AircraftTypes.

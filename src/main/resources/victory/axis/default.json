@@ -77,6 +77,9 @@
   ],
   "defaultSquadron": [
     {
+      "title": "Step Destroyed",
+      "description": "Destroy a step of an enemy squadron",
+      "award": "6 points",
       "event": {
         "side": "ALLIES",
         "action": "DAMAGED"

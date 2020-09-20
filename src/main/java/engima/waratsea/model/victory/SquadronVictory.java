@@ -9,6 +9,9 @@ import engima.waratsea.model.victory.data.SquadronVictoryData;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * Represents a squadron victory condition.
  *
@@ -22,6 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 public class SquadronVictory implements VictoryCondition<SquadronEvent, SquadronVictoryData> {
     private final SquadronEventMatcher matcher;
 
+    private final String title;
+    private final String description;
+    private final String award;
     private final int points;              // The points awarded for each occurrence of this victory condition.
     private final int totalPoints;         // The total points awarded for all occurrences of this victory condition
     private final int requiredPoints;      // The total points required for this victory condition to be met.
@@ -44,6 +50,9 @@ public class SquadronVictory implements VictoryCondition<SquadronEvent, Squadron
     public SquadronVictory(@Assisted final SquadronVictoryData data,
                                      final SquadronEventMatcherFactory factory) {
 
+        title = data.getTitle();
+        description = data.getDescription();
+        award = data.getAward();
         matcher = factory.create(data.getEvent());
         points = data.getPoints();
         totalPoints = data.getTotalPoints();
@@ -108,6 +117,9 @@ public class SquadronVictory implements VictoryCondition<SquadronEvent, Squadron
     @Override
     public SquadronVictoryData getData() {
         SquadronVictoryData data = new SquadronVictoryData();
+        data.setTitle(title);
+        data.setDescription(description);
+        data.setAward(award);
         data.setEvent(matcher.getData());
         data.setPoints(points);
         data.setTotalPoints(totalPoints);
@@ -126,7 +138,26 @@ public class SquadronVictory implements VictoryCondition<SquadronEvent, Squadron
      */
     @Override
     public VictoryConditionDetails getDetails() {
-        return null;
+        Map<String, String> info = new LinkedHashMap<>();
+
+        VictoryConditionDetails details = new VictoryConditionDetails();
+
+        details.setKey(title);
+        details.setInfo(info);
+
+        info.put("Description:", description);
+        info.put("Award:", award);
+        info.put("Action:", matcher.getActionString());
+        info.put("Squadron Names:", matcher.getSquadronNamesString());
+        info.put("Side:", matcher.getSide().toString());
+        info.put("Aircraft model", matcher.getAircraftModelString());
+        info.put("Aircraft Type:", matcher.getAircraftTypeString());
+        info.put("Location:", matcher.getLocationsString());
+        info.put("Port Origin:", matcher.getAirfieldOriginString());
+        info.put("Required Points:", requiredPoints + "");
+        info.put("Required Occurrences:", requiredOccurrences + "");
+
+        return details;
     }
 
     /**

@@ -4,9 +4,9 @@ package engima.waratsea.model.game.event.squadron;
  * Represents the type of squadron event actions. A squadron may be damaged, destroyed, etc.
  */
 public enum SquadronEventAction {
-    ARRIVAL("arrival"),
-    DAMAGED("damaged"),
-    DESTROYED("destroyed");
+    ARRIVAL("Arrival"),
+    DAMAGED("Damaged"),
+    DESTROYED("Destroyed");
 
     private final String value;
 

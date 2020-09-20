@@ -17,6 +17,9 @@
   ],
   "scenarioAirfield": [
     {
+      "title": "Damage Cagliari Airfield",
+      "description": "Reduce the Cagliari airfield's capacity by a single step",
+      "award": "5 points",
       "event": {
         "action": "DAMAGE",
         "side": "AXIS",
@@ -25,6 +28,9 @@
       "points": 5
     },
     {
+      "title": "Repair Cagliari Airfield",
+      "description": "Italians repair a damaged Cagliari airfield's capacity by a single step",
+      "award": "-5 points",
       "event": {
         "action": "REPAIR",
         "side": "AXIS",

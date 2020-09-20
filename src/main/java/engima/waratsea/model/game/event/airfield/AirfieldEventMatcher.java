@@ -87,6 +87,28 @@ public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
     }
 
     /**
+     * Get the airfield action event String representation.
+     *
+     * @return The airfield action event String representation.
+     */
+    public String getActionString() {
+        try {
+            return AirfieldEventAction.valueOf(action).toString();
+        } catch (IllegalArgumentException ex) {
+            return action;
+        }
+    }
+
+    /**
+     * Get the airfield names String representation.
+     *
+     * @return The airfield names String representation.
+     */
+    public String getAirfieldNamesString() {
+        return logName(names);
+    }
+
+    /**
      * Log the ship event match criteria.
      */
     public void log() {

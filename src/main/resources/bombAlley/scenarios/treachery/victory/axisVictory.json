@@ -4,20 +4,24 @@
     {
       "title": "Ship Arrival at Marseille",
       "description": "Any ship arrival at the port of Marseille, France",
+      "award": "need to figure it out",
       "event": {
         "side": "AXIS",
         "action": "ARRIVAL",
         "location": "Marseille"
-      }
+      },
+      "points": 0
     },
     {
       "title": "Ship Arrival at Toulon",
       "description": "Any ship arrival at the port of Toulon, France",
+      "award": "need to figure it out",
       "event": {
         "side": "AXIS",
         "action": "ARRIVAL",
         "location": "Toulon"
-      }
+      },
+      "points": 0
     }
   ]
 }

@@ -125,6 +125,11 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
                 && isByEqual(firedEvent.getBy());
     }
 
+    /**
+     * Get the ship event action String representation.
+     *
+     * @return The ship event action String representation.
+     */
     public String getActionString() {
         try {
             return ShipEventAction.valueOf(action).toString();
@@ -133,22 +138,47 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
         }
     }
 
+    /**
+     * Get the ship names string.
+     *
+     * @return The ship names string.
+     */
     public String getShipNamesString() {
         return logName(names);
     }
 
+    /**
+     * Get the nation string.
+     *
+     * @return The nation string.
+     */
     public String getNationString() {
         return logValue(nation).toString();
     }
 
+    /**
+     * Get the ship types string.
+     *
+     * @return The ship types string.
+     */
     public String getShipTypesString() {
         return logShip(shipTypes);
     }
 
+    /**
+     * Get the location string of where the ship event occurred.
+     *
+     * @return The location string.
+     */
     public String getLocationsString() {
         return logLocation(locations);
     }
 
+    /**
+     * Get the port origin of the ship that experienced the event.
+     *
+     * @return The ship's port origin.
+     */
     public String getPortOriginString() {
         return logLocation(portOrigins);
     }

@@ -51,7 +51,7 @@ public interface VictoryCondition<E, D> extends PersistentData<D> {
     /**
      * Get the victory conditions details.
      *
-     * @return The victory conditions detials in generic form.
+     * @return The victory conditions details in generic form.
      */
     VictoryConditionDetails getDetails();
 }

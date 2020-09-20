@@ -7,12 +7,12 @@ import com.google.gson.annotations.SerializedName;
  */
 public enum AirfieldEventAction {
     @SerializedName(value = "DAMAGE", alternate = {"Damage", "damage"})
-    DAMAGE("damage"),
+    DAMAGE("Damage"),
 
     @SerializedName(value = "REPAIR", alternate = {"Repair", "repair"})
-    REPAIR("repair");
+    REPAIR("Repair");
 
-    private String value;
+    private final String value;
 
     /**
      * Constructor.

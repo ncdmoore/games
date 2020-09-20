@@ -167,13 +167,20 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
     /**
      * Get the generic victory conditions details.
      *
+     * @param victoryType The type of victory conditions to get the details of.
      * @return A list of all of the generic victory conditions.
      */
     public List<VictoryConditionDetails> getDetails(final VictoryType victoryType) {
-        return ListUtils.union(defaultShips, scenarioShips)
-                .stream()
-                .map(VictoryCondition::getDetails)
-                .collect(Collectors.toList());
+        switch (victoryType) {
+            case SHIP:
+                return getShipVictoryDetails();
+            case SQUADRON:
+                return getSquadronVictoryDetails();
+            case AIRFIELD:
+                return getAirfieldVictoryDetails();
+            default:
+                throw new RuntimeException("Unknown victory type: " + victoryType);
+        }
     }
 
     /**
@@ -338,5 +345,26 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
                 .orElseGet(Collections::emptyList)
                 .stream()
                 .allMatch(VictoryCondition::isRequirementMet);
+    }
+
+    private List<VictoryConditionDetails> getShipVictoryDetails() {
+        return ListUtils.union(defaultShips, scenarioShips)
+                .stream()
+                .map(VictoryCondition::getDetails)
+                .collect(Collectors.toList());
+    }
+
+    private List<VictoryConditionDetails> getSquadronVictoryDetails() {
+        return ListUtils.union(defaultSquadron, scenarioSquadron)
+                .stream()
+                .map(VictoryCondition::getDetails)
+                .collect(Collectors.toList());
+    }
+
+    private List<VictoryConditionDetails> getAirfieldVictoryDetails() {
+        return scenarioAirfields
+                .stream()
+                .map(VictoryCondition::getDetails)
+                .collect(Collectors.toList());
     }
 }
