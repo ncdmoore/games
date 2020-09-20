@@ -2,6 +2,9 @@
   "objectives": "Unload Convoy at Malta. Ferry the Hurricanes and Fulmars to Malta. Bombard Tripoli. Evacuate ships at Athens and AW22 to Alexandria.",
   "scenarioSquadron": [
     {
+      "title": "Ferry Hurricanes",
+      "description": "Ferry Hurricanes from Ark Royal to Malta",
+      "award": "4 points",
       "event": {
         "side": "ALLIES",
         "action": "ARRIVAL",
@@ -12,6 +15,9 @@
       "points": 4
     },
     {
+      "title": "Ferry Fulmars",
+      "description": "Ferry Fulmars from Ark Royal to Malta",
+      "award": "4 points",
       "event": {
         "side": "ALLIES",
         "action": "ARRIVAL",
@@ -24,6 +30,9 @@
   ],
   "scenarioShip": [
     {
+      "title": "British Deliver Cargo to Alexandria",
+      "description": "Unload cargo from the cruiser, destroyers and transports from Greece at Alexandria",
+      "award": "4 times the ship's cargo capacity",
       "event": {
         "side": "ALLIES",
         "nation": "BRITISH",
@@ -34,6 +43,9 @@
       }
     },
     {
+      "title": "Greek Cruisers Deliver Cargo to Alexandria",
+      "description": "Unload cargo from the cruisers from Athens at Alexandria",
+      "award": "6 points",
       "event": {
         "side": "ALLIES",
         "nation": "GREEK",
@@ -45,6 +57,9 @@
       "points": 6
     },
     {
+      "title": "Creek Destroyers Deliver Cargo to Alexandria",
+      "description": "Unload cargo from the destroyers from Athens at Alexandria",
+      "award": "2 points",
       "event": {
         "side": "ALLIES",
         "nation": "GREEK",
@@ -56,6 +71,9 @@
       "points": 2
     },
     {
+      "title": "Deliver Cargo to Malta",
+      "description": "Unload cargo from the cruisers and destroyers from Gibraltar at Malta",
+      "award": "4 times the ship's cargo capacity",
       "event": {
         "side": "ALLIES",
         "nation": "BRITISH",
@@ -66,6 +84,9 @@
       }
     },
     {
+      "title": "Sail Dido to Alexandria",
+      "description": "Sail CL47 Dido from Gibraltar or Malta to Alexandria",
+      "award": "2 points",
       "event": {
         "side": "ALLIES",
         "action": "ARRIVAL",
@@ -77,6 +98,9 @@
       "points": 2
     },
     {
+      "title": "Sail Abdiel to Alexandria",
+      "description": "Sail ML02 Abdiel from Gibraltar or Malta to Alexandria",
+      "award": "2 points",
       "event": {
         "side": "ALLIES",
         "action": "ARRIVAL",
@@ -88,6 +112,9 @@
       "points": 2
     },
     {
+      "title": "Battleships Conducts Bombardment",
+      "description": "Friendly battleship conducts shore bombardment of Tripoli",
+      "award": "15 points",
       "event": {
         "side": "ALLIES",
         "action": "BOMBARDMENT",

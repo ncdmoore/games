@@ -2,6 +2,9 @@
   "objectives": "Unload the cargo carried by the Excess, Fast and MW.5 convoys at Malta.",
   "scenarioShip": [
     {
+      "title": "Deliver Transport's Cargo to Malta",
+      "description": "Unload cargo from any transport at Malta",
+      "award": "4 times the ship's cargo capacity",
       "event": {
         "side": "ALLIES",
         "action": "CARGO_UNLOADED",
@@ -10,6 +13,9 @@
       }
     },
     {
+      "title": "Deliver Cruiser's Cargo to Malta",
+      "description": "Unload cargo from from cruisers from Athens at Malta",
+      "award": "8 points",
       "event": {
         "side": "ALLIES",
         "action": "CARGO_UNLOADED",

@@ -20,6 +20,10 @@ public class ShipVictoryData {
 
     @Getter
     @Setter
+    private String award;
+
+    @Getter
+    @Setter
     private ShipMatchData event;
 
     @Getter

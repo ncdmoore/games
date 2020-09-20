@@ -2,6 +2,9 @@
   "objectives": "Prevent British reinforcement of Malta.",
   "scenarioShip": [
     {
+      "title": "Sink Gloucester",
+      "description": "Sink CL38 Gloucester",
+      "award": "12 points",
       "event": {
         "side": "ALLIES",
         "action": "SUNK",
@@ -11,6 +14,9 @@
       "points": 12
     },
     {
+      "title": "Sink Liverpool",
+      "description": "Sink CL39 Liverpool",
+      "award": "12 points",
       "event": {
         "side": "ALLIES",
         "action": "SUNK",

@@ -2,6 +2,9 @@
   "objectives": "Ferry the Hurricanes to Malta. Reduce the aircraft capacity of Cagliari airfield.",
   "scenarioSquadron": [
     {
+      "title": "Ferry Hurricanes",
+      "description": "Ferry Hurricanes from Argus to Malta",
+      "award": "6 points",
       "event": {
         "side": "ALLIES",
         "action": "ARRIVAL",

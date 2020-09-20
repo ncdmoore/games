@@ -4,6 +4,7 @@
     {
       "title": "Bombardment of Tobruk",
       "description": "Friendly battleship or cruiser conducts shore bombardment of Tobruk, Libya",
+      "award": "3 points",
       "event": {
         "side": "ALLIES",
         "action": "BOMBARDMENT",
@@ -16,6 +17,7 @@
     {
       "title": "Bombardment of Rhodes",
       "description": "Friendly battleship or cruiser conducts shore bombardment of Rhodes",
+      "award": "4 points",
       "event": {
         "side": "ALLIES",
         "action": "BOMBARDMENT",

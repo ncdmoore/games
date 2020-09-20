@@ -1,0 +1,38 @@
+[
+  {
+    "name": "TF1",
+    "title": "Aegean Force",
+    "location": "AS26",
+    "state": "ACTIVE",
+    "mission": {
+      "type": "PATROL"
+    },
+    "ships": [
+      "CL03 Bande Nere",
+      "CL04 Colleoni"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "Rhodes Force",
+    "location": "Rhodes",
+    "state": "ACTIVE",
+    "mission": {
+      "type": "PATROL"
+    },
+    "ships": [
+      "DE46 Spica-1",
+      "DE47 Spica-2",
+      "DE48 Spica-3",
+      "DE49 Spica-4",
+      "DE50 Spica-5",
+      "DE51 Spica-6",
+      "DE52 Spica-7",
+      "DE53 Spica-8",
+      "DE54 Spica-9",
+      "DE55 Spica-10",
+      "DE56 Spica-11",
+      "DE57 Spica-12"
+    ]
+  }
+]

@@ -2,6 +2,9 @@
   "objectives": "Unload the cargo carried by the supply force in Benghazi.",
   "scenarioShip": [
     {
+      "title": "Deliver Cargo to Benghazi",
+      "description": "Unload cargo from the destroyer escorts at Benghazi, Libya",
+      "award": "8 points",
       "event": {
         "side": "AXIS",
         "action": "CARGO_UNLOADED",

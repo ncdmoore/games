@@ -1,0 +1,11 @@
+{
+  "name": "wineDarkSea",
+  "title": "Wine Dark Sea",
+  "id": 5,
+  "image": "firstSortie.png",
+  "date": "06/17/1940",
+  "weather": "CLEAR",
+  "maxTurns": 40,
+  "description": "Despite the nearby Italian bases in the Dodecanese Islands, the British continued to conduct trade through the Aegean Sea. This annoyed Supermarina, the Italian naval command, who may have had word of an upcoming British convoy. Accordingly, they sent two cruisers to reinforce their Aegean Command and sweep that sea of enemy shipping. The Italians ran into unexpected opposition just north of Crete.",
+  "map": "june1940"
+}

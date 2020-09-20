@@ -3,6 +3,7 @@ package engima.waratsea.view.victory;
 import com.google.inject.Inject;
 import engima.waratsea.model.victory.VictoryConditionDetails;
 import engima.waratsea.model.victory.VictoryType;
+import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.VictoryViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -20,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class VictoryView {
+    private final ViewProps props;
 
     private final TabPane victoryTabPane = new TabPane();
 
@@ -30,12 +32,18 @@ public class VictoryView {
     private final VictoryViewModel viewModel;
 
     @Inject
-    public VictoryView(final VictoryViewModel viewModel) {
+    public VictoryView(final VictoryViewModel viewModel,
+                       final ViewProps props) {
         this.viewModel = viewModel;
+        this.props = props;
+
+        viewModel.init();
 
         Stream.of(VictoryType.values())
                 .forEach(victoryType -> {
-                    victoryConditions.put(victoryType, new ListView<>());
+                    ListView<VictoryConditionDetails> listView = new ListView<>();
+                    listView.setMinWidth(props.getInt("victory.dialog.list.width"));
+                    victoryConditions.put(victoryType, listView);
                     victoryDetailsGrid.put(victoryType, new HashMap<>());
                 });
     }

@@ -2,6 +2,9 @@
   "objectives": "Unload the cargo carried by the convoy at Tripoli or Benghazi.",
   "scenarioShip": [
     {
+      "title": "Deliver Cargo to Tripoli or Benghazi",
+      "description": "Unload the destroyer escorts from Naples at Tripoli or Benghazi, Libya",
+      "award": "4 times the ship's cargo capacity",
       "event": {
         "side": "AXIS",
         "action": "CARGO_UNLOADED",

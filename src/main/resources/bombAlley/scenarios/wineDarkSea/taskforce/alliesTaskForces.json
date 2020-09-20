@@ -1,0 +1,109 @@
+[
+  {
+    "name": "TF1",
+    "title": "Athens Convoy",
+    "location": "Alexandria",
+    "state": "ACTIVE",
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Malta"
+        }
+      ]
+    },
+    "ships": [
+      "CL12 Capetown",
+      "CL39 Liverpool",
+      "DD35 Dainty",
+      "DD38 Defender",
+      "DD40 Diamond",
+      "TR01",
+      "TR02",
+      "TR03",
+      "TR04",
+      "TR05",
+      "TR06"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "Main Force",
+    "location": "AZ26",
+    "state": "ACTIVE",
+    "mission": {
+      "type": "PATROL"
+    },
+    "ships": [
+      "BB02 Warspite",
+      "BB05 Malaya",
+      "BB08 Royal Sovereign",
+      "CVL04 Eagle-1",
+      "CL27 Neptune",
+      "DD73 Hostile",
+      "DD114 Janus",
+      "DD118 Juno",
+      "DE25 V&W-25",
+      "DE26 V&W-26"
+    ]
+  },
+  {
+    "name": "TF3",
+    "title": "Bombardment Force",
+    "location": "BE26",
+    "state": "ACTIVE",
+    "mission": {
+      "type": "PATROL"
+    },
+    "ships": [
+      "CL28 Orion",
+      "DE27 V&W-27",
+      "DE28 V&W-28"
+    ]
+  },
+  {
+    "name": "TF4",
+    "title": "Patrol Force",
+    "location": "AX22",
+    "state": "ACTIVE",
+    "mission": {
+      "type": "PATROL"
+    },
+    "ships": [
+      "CL03 Sydney",
+      "DD69 Hasty",
+      "DD70 Havock",
+      "DD72 Hero",
+      "DD76 Hyperion",
+      "DD78 Ilex"
+    ]
+  },
+  {
+    "name": "TF5",
+    "title": "Alexandria Convoy",
+    "location": "AW20",
+    "state": "ACTIVE",
+    "mission": {
+      "type": "TRANSPORT",
+      "targets": [
+        {
+          "type": "FRIENDLY_PORT",
+          "name": "Alexandria"
+        }
+      ]
+    },
+    "ships": [
+      "TR13",
+      "TR14",
+      "TR15",
+      "TR16"
+    ],
+    "cargoShips": [
+      "TR13",
+      "TR14",
+      "TR15",
+      "TR16"
+    ]
+  }
+]

@@ -27,18 +27,24 @@ public class VictoryViewModel {
     private final Game game;
 
     @Getter
-    private final Map<VictoryType, ObjectProperty<ObservableList<VictoryConditionDetails>>> victoryConditions;
+    private Map<VictoryType, ObjectProperty<ObservableList<VictoryConditionDetails>>> victoryConditions;
 
     @Getter
-    private final Map<VictoryType, ObjectProperty<VictoryConditionDetails>> selectedConditions;
+    private Map<VictoryType, ObjectProperty<VictoryConditionDetails>> selectedConditions;
 
     @Getter
-    private final Map<VictoryType, Map<String, StringProperty>> selectedConditionDetails;
+    private Map<VictoryType, Map<String, StringProperty>> selectedConditionDetails;
 
     @Inject
     public VictoryViewModel(final Game game) {
         this.game = game;
+    }
 
+    /**
+     * Initialize the victory conditions view model. The model depends upon the human player's
+     * victory conditions which are known at game start.
+     */
+    public void init() {
         victoryConditions = Stream
                 .of(VictoryType.values())
                 .collect(Collectors.toMap(type -> type, this::buildList));

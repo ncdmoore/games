@@ -15,9 +15,9 @@ import engima.waratsea.model.target.TargetDAO;
 @Singleton
 public class GameCaches {
 
-    private AirfieldDAO airfieldDAO;
-    private PortDAO portDAO;
-    private TargetDAO targetDAO;
+    private final AirfieldDAO airfieldDAO;
+    private final PortDAO portDAO;
+    private final TargetDAO targetDAO;
 
     /**
      * Constructor called by guice.

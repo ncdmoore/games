@@ -3,6 +3,7 @@
     {
       "title": "Ship Sunk",
       "description": "Sink an enemy ship",
+      "award": "The sunk ship's victory points",
       "event": {
         "side": "AXIS",
         "action": "SUNK"
@@ -11,6 +12,7 @@
     {
       "title": "Ship Out of Fuel",
       "description": "Force an enemy ship to run out of fuel",
+      "award": "One half of the out of fuel ship's victory points",
       "event": {
         "side": "AXIS",
         "action": "OUT_OF_FUEL"
@@ -19,6 +21,7 @@
     {
       "title": "Capital Ship's Hull Damaged",
       "description": "Damage the hull of an enemy capital ship",
+      "award": "3 points",
       "event": {
         "side": "AXIS",
         "action": "DAMAGED_HULL",
@@ -29,6 +32,7 @@
     {
       "title": "Ship's Hull Damaged",
       "description": "Damage the hull of an enemy non-capital ship",
+      "award": "1 point",
       "event": {
         "side": "AXIS",
         "action": "DAMAGED_HULL",
@@ -39,6 +43,7 @@
     {
       "title": "Ship's Primary Gun Damaged",
       "description": "Damage the primary gun of an enemy ship",
+      "award": "3 points",
       "event": {
         "side": "AXIS",
         "action": "DAMAGED_PRIMARY"
@@ -48,6 +53,7 @@
     {
       "title": "Battleship Conducts Bombardment",
       "description": "Friendly battleship conducts shore bombardment",
+      "award": "5 points",
       "event": {
         "side": "ALLIES",
         "action": "BOMBARDMENT",
@@ -59,6 +65,7 @@
     {
       "title": "Cruiser Conducts Bombardment",
       "description": "Friendly cruiser conducts shore bombardment",
+      "award": "1 point",
       "event": {
         "side": "ALLIES",
         "action": "BOMBARDMENT",

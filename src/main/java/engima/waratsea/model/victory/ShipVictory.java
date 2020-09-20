@@ -33,6 +33,7 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
 
     private final String title;
     private final String description;
+    private final String award;
     private final int points;              // The points awarded for each occurrence of this victory condition.
     private int totalPoints;               // The total points awarded for all occurrences of this victory condition
     private final int requiredPoints;      // The total points required for this victory condition to be met.
@@ -76,6 +77,7 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
 
         title = data.getTitle();
         description = data.getDescription();
+        award = data.getAward();
         matcher = factory.create(data.getEvent());
         points = data.getPoints();
         totalPoints = data.getTotalPoints();
@@ -108,6 +110,7 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
         ShipVictoryData data = new ShipVictoryData();
         data.setTitle(title);
         data.setDescription(description);
+        data.setAward(award);
         data.setEvent(matcher.getData());
         data.setPoints(points);
         data.setTotalPoints(totalPoints);
@@ -209,6 +212,7 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
         details.setInfo(info);
 
         info.put("Description:", description);
+        info.put("Award:", award);
         info.put("Action:", matcher.getActionString());
         info.put("Ship Names:", matcher.getShipNamesString());
         info.put("Side:", matcher.getSide().toString());
@@ -216,7 +220,6 @@ public class ShipVictory implements VictoryCondition<ShipEvent, ShipVictoryData>
         info.put("Ship Type:", matcher.getShipTypesString());
         info.put("Location:", matcher.getLocationsString());
         info.put("Port Origin:", matcher.getPortOriginString());
-        info.put("Points:", points + "");
         info.put("Required Points:", requiredPoints + "");
         info.put("Required Occurrences:", requiredOccurrences + "");
 

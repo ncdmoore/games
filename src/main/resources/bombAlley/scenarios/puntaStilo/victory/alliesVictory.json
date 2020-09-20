@@ -2,15 +2,22 @@
   "objectives": "Ferry the MS convoy transports (they have no cargo) to Alexandria. Unload the cargo carried by the MF convoy at Malta.",
   "scenarioShip": [
     {
+      "title": "Ferry Transports to Alexandria",
+      "description": "Ferry the empty transports from Malta to Alexandria",
+      "award": "12 points",
       "event": {
         "side": "ALLIES",
         "action": "ARRIVAL",
         "shipType": "TRANSPORT",
         "location": "Alexandria",
         "startingLocation": "Malta"
-      }
+      },
+      "points": 12
     },
     {
+      "title": "Deliver Cargo to Malta",
+      "description": "Unload the transports at Malta",
+      "award": "4 times the ship's cargo capacity",
       "event": {
         "side": "ALLIES",
         "action": "CARGO_UNLOADED",

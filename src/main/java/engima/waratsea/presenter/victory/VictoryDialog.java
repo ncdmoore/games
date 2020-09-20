@@ -50,6 +50,7 @@ public class VictoryDialog {
 
         dialog.setContents(view.build());
 
+        // Select the first victory condition for each type of victory condition.
         Stream
                 .of(VictoryType.values())
                 .forEach(type -> view
