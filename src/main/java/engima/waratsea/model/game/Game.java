@@ -30,6 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Game implements PersistentData<GameData> {
     @Getter private final Player computerPlayer;
     @Getter private final Player humanPlayer;
+    @Getter private final Player neutralPlayer;
     @Getter private final Weather weather;
     @Getter private final Turn turn;
 
@@ -52,6 +53,7 @@ public class Game implements PersistentData<GameData> {
      * @param weather The game weather.
      * @param computerPlayer The computer player.
      * @param humanPlayer The human player.
+     * @param neutralPlayer The neutral player.
      * @param resource The game configuration.
      * @param gameCaches The game caches.
      * @param scenarioDAO  The scenario data abstraction object.
@@ -64,6 +66,7 @@ public class Game implements PersistentData<GameData> {
                 final Weather weather,
                 final @Named("Computer") Player computerPlayer,
                 final @Named("Human") Player humanPlayer,
+                final @Named("Neutral") Player neutralPlayer,
                 final Resource resource,
                 final GameCaches gameCaches,
                 final ScenarioDAO scenarioDAO,
@@ -77,6 +80,7 @@ public class Game implements PersistentData<GameData> {
         this.weather = weather;
         this.computerPlayer = computerPlayer;
         this.humanPlayer = humanPlayer;
+        this.neutralPlayer = neutralPlayer;
         this.resource = resource;
         this.gameCaches = gameCaches;
         this.scenarioDAO = scenarioDAO;
@@ -192,6 +196,7 @@ public class Game implements PersistentData<GameData> {
 
         playerMap.put(side, humanPlayer);
         playerMap.put(side.opposite(), computerPlayer);
+        playerMap.put(Side.NEUTRAL, neutralPlayer);
     }
 
     /**
@@ -264,6 +269,7 @@ public class Game implements PersistentData<GameData> {
         humanPlayer.saveAssets(scenario);
         computerPlayer.saveVictory(scenario);
         computerPlayer.saveAssets(scenario);
+        neutralPlayer.saveAssets(scenario);
     }
 
     /**
@@ -276,6 +282,7 @@ public class Game implements PersistentData<GameData> {
         humanPlayer.saveAssets(scenario);
         computerPlayer.saveVictory(scenario);
         computerPlayer.saveAssets(scenario);
+        neutralPlayer.saveAssets(scenario);
     }
 
     /**
@@ -303,6 +310,7 @@ public class Game implements PersistentData<GameData> {
     private void setNations() {
         humanPlayer.setNations();
         computerPlayer.setNations();
+        neutralPlayer.setNations();
     }
 
     /**
@@ -331,6 +339,7 @@ public class Game implements PersistentData<GameData> {
     private void buildAssets() throws ScenarioException {
         humanPlayer.buildAssets(scenario);
         computerPlayer.buildAssets(scenario);
+        neutralPlayer.buildAssets(scenario);
     }
 
     /**

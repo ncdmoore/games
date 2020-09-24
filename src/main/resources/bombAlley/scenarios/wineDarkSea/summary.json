@@ -2,7 +2,7 @@
   "name": "wineDarkSea",
   "title": "Wine Dark Sea",
   "id": 5,
-  "image": "firstSortie.png",
+  "image": "wineDarkSea.png",
   "date": "06/17/1940",
   "weather": "CLEAR",
   "maxTurns": 40,

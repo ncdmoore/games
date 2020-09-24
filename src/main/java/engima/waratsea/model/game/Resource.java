@@ -59,16 +59,19 @@ public final class Resource {
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Aircraft.class.getSimpleName(),                 "/aircraft/axis/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Port.class.getSimpleName(),                     "/ports/allies/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Port.class.getSimpleName(),                     "/ports/axis/");
+        SIDE_FILE_MAP.put(Side.NEUTRAL.toString(),    Port.class.getSimpleName(),                     "/ports/neutral/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     PortView.class.getSimpleName(),                 "/enemy/ports/allies/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       PortView.class.getSimpleName(),                 "/enemy/ports/axis/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Airfield.class.getSimpleName(),                 "/airfields/allies/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Airfield.class.getSimpleName(),                 "/airfields/axis/");
+        SIDE_FILE_MAP.put(Side.NEUTRAL.toString(),    Airfield.class.getSimpleName(),                 "/airfields/neutral/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     AirfieldView.class.getSimpleName(),             "/enemy/airfields/allies/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       AirfieldView.class.getSimpleName(),             "/enemy/airfields/axis/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     TaskForceView.class.getSimpleName(),            "/enemy/taskforces/allies/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       TaskForceView.class.getSimpleName(),            "/enemy/taskforces/axis/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Region.class.getSimpleName(),                   "/maps/allies/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Region.class.getSimpleName(),                   "/maps/axis/");
+        SIDE_FILE_MAP.put(Side.NEUTRAL.toString(),    Region.class.getSimpleName(),                   "/maps/neutral/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Ship.class.getSimpleName(),                     "/ships/allies/");
         SIDE_FILE_MAP.put(Side.AXIS.toString(),       Ship.class.getSimpleName(),                     "/ships/axis/");
         SIDE_FILE_MAP.put(Side.ALLIES.toString(),     Allotment.class.getSimpleName(),                "/squadrons/allotment/");
@@ -145,7 +148,7 @@ public final class Resource {
     public Optional<URL> getGameURL(final Side side, final Class<?> clazz, final String name) {
         String entityName = clazz.getSimpleName();
         String fileName = gameTitle.getValue() + SIDE_FILE_MAP.get(side.toString(), entityName) + name;
-        log.debug("'{}' URL: '{}'", entityName, fileName);
+        log.info("'{}' URL: '{}'", entityName, fileName);
         return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
     }
 

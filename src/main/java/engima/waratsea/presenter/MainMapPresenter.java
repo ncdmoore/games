@@ -101,6 +101,8 @@ public class MainMapPresenter {
         mainMapView.setBaseMouseExitHandler(humanSide, this::baseMouseExitHandler);
         mainMapView.setBaseMouseEnterHandler(humanSide.opposite(), this::baseMouseEnterHandler);
         mainMapView.setBaseMouseExitHandler(humanSide.opposite(), this::baseMouseExitHandler);
+        mainMapView.setBaseMouseEnterHandler(Side.NEUTRAL, this::baseMouseEnterHandler);
+        mainMapView.setBaseMouseExitHandler(Side.NEUTRAL, this::baseMouseExitHandler);
 
         mainMapView.setBaseClickHandler(humanSide, this::humanBaseClickHandler);
         mainMapView.setBaseClickHandler(humanSide.opposite(), this::computerBaseClickHandler);

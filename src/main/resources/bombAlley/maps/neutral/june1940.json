@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Greece",
+    "nation": "GREEK",
+    "min": "0",
+    "max": "0",
+    "mapRef": "AW16",
+    "airfields": [
+      "Athens",
+      "Suda Bay"
+    ],
+    "ports": [
+      "Athens",
+      "Suda Bay"
+    ]
+  }
+]

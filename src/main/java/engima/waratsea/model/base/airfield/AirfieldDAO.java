@@ -29,11 +29,11 @@ import java.util.Optional;
 @Slf4j
 @Singleton
 public class AirfieldDAO {
-    private Resource config;
-    private AirfieldFactory factory;
+    private final Resource config;
+    private final AirfieldFactory factory;
 
 
-    private Map<String, Airfield> cache = new HashMap<>();
+    private final Map<String, Airfield> cache = new HashMap<>();
 
     /**
      * Constructor called by guice.

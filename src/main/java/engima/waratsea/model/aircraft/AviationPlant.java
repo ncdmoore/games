@@ -26,13 +26,13 @@ import java.util.function.Function;
 @Singleton
 public class AviationPlant {
     // Aircraft type to aircraft factory map.
-    private Map<AircraftType, Function<AircraftData, Aircraft>> factoryMap = new HashMap<>();
+    private final Map<AircraftType, Function<AircraftData, Aircraft>> factoryMap = new HashMap<>();
 
     //Each side has a map of aircraft model names to aircraft model data. This acts as a cash for data read in from JSON files.
-    private Map<Side, Map<String, AircraftData>> aircraftDataMap = new HashMap<>();
+    private final Map<Side, Map<String, AircraftData>> aircraftDataMap = new HashMap<>();
 
-    private Resource config;
-    private AircraftFactory factory;
+    private final Resource config;
+    private final AircraftFactory factory;
 
     /**
      * The constructor called by guice.

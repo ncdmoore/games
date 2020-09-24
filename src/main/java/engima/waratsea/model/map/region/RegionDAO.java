@@ -31,8 +31,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @Singleton
 public class RegionDAO {
-    private Resource confg;
-    private RegionFactory factory;
+    private final Resource config;
+    private final RegionFactory factory;
 
     /**
      * Constructor called by guice.
@@ -43,7 +43,7 @@ public class RegionDAO {
     @Inject
     public RegionDAO(final Resource config,
                      final RegionFactory factory) {
-        this.confg = config;
+        this.config = config;
         this.factory = factory;
     }
 
@@ -70,7 +70,7 @@ public class RegionDAO {
      */
     private List<Region> loadScenarioSpecific(final Scenario scenario, final Side side)  {
         log.info("load specific regions scenario: '{}', side: {}", scenario.getTitle(), side);
-        List<Region> regions = confg
+        List<Region> regions = config
                 .getScenarioURL(side, Region.class, scenario.getMap() + ".json")
                 .map(url -> readRegions(scenario, url, side))
                 .orElse(null);
@@ -89,7 +89,7 @@ public class RegionDAO {
      */
     private List<Region> loadDefault(final Scenario scenario, final Side side) throws MapException {
         log.info("Load default regions for scenario: {}, side: {}", scenario.getTitle(), side);
-        return confg
+        return config
                 .getGameURL(side, Region.class, scenario.getMap() + ".json")
                 .map(url -> readRegions(scenario, url, side))
                 .orElseThrow(() -> new MapException("Unable to load map: '" + scenario.getMap() + ".json' for '" + scenario.getTitle() + "' for " + side));

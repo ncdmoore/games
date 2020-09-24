@@ -4,6 +4,7 @@
     {
       "title": "Deliver Cargo to Alexandria",
       "description": "Unload cargo from the transports at the port of Alexandria, Egypt",
+      "award": "4 times the ship's cargo capacity",
       "event": {
         "side": "ALLIES",
         "action": "CARGO_UNLOADED",
@@ -15,11 +16,12 @@
     {
       "title": "Deliver Cargo to Athens",
       "description": "Unload cargo from the transports at the port of Athens",
+      "award": "4 times the ship's cargo capacity",
       "event": {
         "side": "ALLIES",
         "action": "CARGO_UNLOADED",
         "shipType": "TRANSPORT",
-        "location": "Malta",
+        "location": "Athens",
         "startingLocation": "Alexandria"
       }
     }

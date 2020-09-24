@@ -1,0 +1,12 @@
+{
+  "name": "Suda Bay",
+  "province": "Crete",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 10,
+  "antiAir": 3,
+  "location": "AY24"
+}

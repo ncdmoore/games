@@ -118,8 +118,6 @@ public final class GameMap {
         defaultGridType = props.getString("defaultGridType", "LAND");
 
         buildGrid(props);
-
-
     }
 
     /**
@@ -131,39 +129,50 @@ public final class GameMap {
     public void load(final Scenario scenario) throws MapException {
         regions.put(Side.ALLIES, regionDAO.loadRegions(scenario, Side.ALLIES));
         regions.put(Side.AXIS, regionDAO.loadRegions(scenario, Side.AXIS));
+        regions.put(Side.NEUTRAL, regionDAO.loadRegions(scenario, Side.NEUTRAL));
 
         airfields.put(Side.ALLIES, buildAirfields(Side.ALLIES));
         airfields.put(Side.AXIS, buildAirfields(Side.AXIS));
+        airfields.put(Side.NEUTRAL, buildAirfields(Side.NEUTRAL));
 
         ports.put(Side.ALLIES, buildPorts(Side.ALLIES));
         ports.put(Side.AXIS, buildPorts(Side.AXIS));
+        ports.put(Side.NEUTRAL, buildPorts(Side.NEUTRAL));
 
         minefields.put(Side.ALLIES, minefieldDAO.load(Side.ALLIES));
         minefields.put(Side.AXIS, minefieldDAO.load(Side.AXIS));
 
         nationRegionMap.put(Side.ALLIES, buildRegionMap(Side.ALLIES));
         nationRegionMap.put(Side.AXIS, buildRegionMap(Side.AXIS));
+        nationRegionMap.put(Side.NEUTRAL, buildRegionMap(Side.NEUTRAL));
 
         airfieldMap.put(Side.ALLIES, buildAirfieldMap(airfields.get(Side.ALLIES)));
         airfieldMap.put(Side.AXIS, buildAirfieldMap(airfields.get(Side.AXIS)));
+        airfieldMap.put(Side.NEUTRAL, buildAirfieldMap(airfields.get(Side.NEUTRAL)));
 
         portMap.put(Side.ALLIES, buildPortMap(ports.get(Side.ALLIES)));
         portMap.put(Side.AXIS, buildPortMap(ports.get(Side.AXIS)));
+        portMap.put(Side.NEUTRAL, buildPortMap(ports.get(Side.NEUTRAL)));
 
         nations.put(Side.ALLIES, buildNationsMap(Side.ALLIES));
         nations.put(Side.AXIS, buildNationsMap(Side.AXIS));
+        nations.put(Side.NEUTRAL, buildNationsMap(Side.NEUTRAL));
 
         nationAirfieldMap.put(Side.ALLIES, buildNationAirfieldMap(Side.ALLIES));
         nationAirfieldMap.put(Side.AXIS, buildNationAirfieldMap(Side.AXIS));
+        nationAirfieldMap.put(Side.NEUTRAL, buildNationAirfieldMap(Side.NEUTRAL));
 
         buildRegionRefToRegionMap(Side.ALLIES);
         buildRegionRefToRegionMap(Side.AXIS);
+        buildRegionRefToRegionMap(Side.NEUTRAL);
 
         buildLocationToBaseMap(Side.ALLIES);
         buildLocationToBaseMap(Side.AXIS);
+        buildLocationToBaseMap(Side.NEUTRAL);
 
         taskForceGrids.put(Side.ALLIES, new ArrayList<>());
         taskForceGrids.put(Side.AXIS, new ArrayList<>());
+        taskForceGrids.put(Side.NEUTRAL, new ArrayList<>());
     }
 
     /**
@@ -336,6 +345,12 @@ public final class GameMap {
             }
         }
 
+       /* Stream
+                .of(Side.values())
+                .map(side -> portRefToName.get(side).containsKey(mapRef) || airfieldRefToName.get(side).containsKey(mapRef))
+                .reduce((b1, b2) -> b1 || b2 )
+                .orElse(false);*/
+
         return false;
     }
 
@@ -380,7 +395,7 @@ public final class GameMap {
      */
     public String convertNameToReference(@NonNull final String name) {
         Matcher matcher = PATTERN.matcher(name);
-        return  matcher.matches() ? name : Optional.ofNullable(getBaseReference(name)).orElse(name);
+        return  matcher.matches() ? name : getBaseReference(name).orElse(name);
     }
 
     /**
@@ -390,7 +405,7 @@ public final class GameMap {
      * @return The corresponding port reference name.
      */
     public String convertPortReferenceToName(final String reference) {
-        return Optional.ofNullable(getPortName(reference)).orElse(reference);
+        return getPortName(reference).orElse(reference);
     }
 
     /**
@@ -400,7 +415,7 @@ public final class GameMap {
      * @return The corresponding airfield reference name.
      */
     public String convertAirfieldReferenceToName(final String reference) {
-        return Optional.ofNullable(getAirfieldName(reference)).orElse(reference);
+        return getAirfieldName(reference).orElse(reference);
     }
 
     /**
@@ -672,13 +687,15 @@ public final class GameMap {
      * @param name The name of the base.
      * @return The map reference of the base.
      */
-    private String getBaseReference(final String name) {
-        String ref = baseNameToRef.get(Side.ALLIES).get(name);
-        if (ref == null) {
-            ref = baseNameToRef.get(Side.AXIS).get(name);
+    private Optional<String> getBaseReference(final String name) {
+        for (Side side: Side.values()) {
+            String ref = baseNameToRef.get(side).get(name);
+            if (ref != null) {
+                return  Optional.of(ref);
+            }
         }
 
-        return ref;
+        return Optional.empty();
     }
 
     /**
@@ -687,14 +704,15 @@ public final class GameMap {
      * @param reference The base's map reference.
      * @return The name of the base.
      */
-    private String getPortName(final String reference) {
-        String name = portRefToName.get(Side.ALLIES).get(reference);
-        if (name == null) {
-            name = portRefToName.get(Side.AXIS).get(reference);
+    private Optional<String> getPortName(final String reference) {
+        for (Side side: Side.values()) {
+            String name = portRefToName.get(side).get(reference);
+            if (name != null) {
+                return  Optional.of(name);
+            }
         }
 
-        // name may be null at this point if the reference does not map to a port.
-        return name;
+        return Optional.empty();
     }
 
     /**
@@ -703,13 +721,15 @@ public final class GameMap {
      * @param reference The base's map reference.
      * @return The name of the base.
      */
-    private String getAirfieldName(final String reference) {
-        String name = airfieldRefToName.get(Side.ALLIES).get(reference);
-        if (name == null) {
-            name = airfieldRefToName.get(Side.AXIS).get(reference);
+    private Optional<String> getAirfieldName(final String reference) {
+        for (Side side: Side.values()) {
+            String name = airfieldRefToName.get(side).get(reference);
+            if (name != null) {
+                return  Optional.of(name);
+            }
         }
 
-        return name;
+        return Optional.empty();
     }
 
     /**

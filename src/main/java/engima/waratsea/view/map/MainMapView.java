@@ -95,6 +95,7 @@ public class MainMapView {
         regionMarkers.put(Side.AXIS, new ArrayList<>());
         baseMarkers.put(Side.ALLIES, new ArrayList<>());
         baseMarkers.put(Side.AXIS, new ArrayList<>());
+        baseMarkers.put(Side.NEUTRAL, new ArrayList<>());
         taskForceMarkers.put(Side.ALLIES, new ArrayList<>());
         taskForceMarkers.put(Side.AXIS, new ArrayList<>());
 
@@ -105,6 +106,8 @@ public class MainMapView {
 
         drawBaseMarkers(Side.ALLIES);
         drawBaseMarkers(Side.AXIS);
+        drawBaseMarkers(Side.NEUTRAL);
+
         drawRegionMarkers(game.getHumanSide());
 
         drawTaskForceMarkers(game.getHumanSide());

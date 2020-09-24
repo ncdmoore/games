@@ -41,14 +41,14 @@ public class TargetFriendlyPort implements Target {
     /**
      * Constructor called by guice.
      *
-     * @param data The target data read in from a JSON file.
-     * @param game The game.
+     * @param data    The target data read in from a JSON file.
+     * @param game    The game.
      * @param gameMap The game map.
      */
     @Inject
     public TargetFriendlyPort(@Assisted final TargetData data,
-                                        final Game game,
-                                        final GameMap gameMap) {
+                              final Game game,
+                              final GameMap gameMap) {
         this.game = game;
         this.gameMap = gameMap;
 
@@ -326,14 +326,17 @@ public class TargetFriendlyPort implements Target {
     }
 
     /**
-     * Get the port view for this target.
+     * Get the port for this target.
      *
-     * @return This target's port view.
+     * @return This target's port.
      */
     private Port getPort() {
-        port = game
-                .getPlayer(side)
-                .getPort(name);
+        for (Side friendlySide : side.getFriendly()) {
+            port = game.getPlayer(friendlySide).getPort(name);
+            if (port != null) {
+                break;
+            }
+        }
 
         if (port == null) {
             log.error("Cannot find port: '{}' for side: '{}'", name, side);

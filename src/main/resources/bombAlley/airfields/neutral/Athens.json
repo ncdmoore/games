@@ -1,0 +1,11 @@
+{
+  "name": "Athens",
+  "landingType": [
+    "LAND",
+    "SEAPLANE",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 8,
+  "location": "AX19"
+}

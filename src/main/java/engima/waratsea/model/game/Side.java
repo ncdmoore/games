@@ -2,13 +2,15 @@ package engima.waratsea.model.game;
 
 import lombok.Getter;
 
+import java.util.List;
+
 /**
  * WW2 at sea contains two combatants or sides.
  */
 public enum Side {
-
     ALLIES("Allies", "Allied"),
-    AXIS("Axis", "Axis");
+    AXIS("Axis", "Axis"),
+    NEUTRAL("Neutral", "Neutral");
 
     @Getter
     private final String value;
@@ -33,7 +35,30 @@ public enum Side {
      * @return The opposing side is returned.
      */
     public Side opposite() {
-        return this == ALLIES ? AXIS : ALLIES;
+        switch (this) {
+            case ALLIES:
+                return AXIS;
+            case AXIS:
+                return ALLIES;
+            default:
+                return NEUTRAL;
+        }
+    }
+
+    /**
+     * Get the friendly sides for this side.
+     *
+     * @return The friendly sides.
+     */
+    public List<Side> getFriendly() {
+        switch (this) {
+            case ALLIES:
+                return List.of(ALLIES, NEUTRAL);
+            case AXIS:
+                return List.of(AXIS, NEUTRAL);
+            default:
+                return List.of(NEUTRAL);
+        }
     }
 
     /**

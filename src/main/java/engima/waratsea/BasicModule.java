@@ -64,6 +64,7 @@ import engima.waratsea.model.motorTorpedoBoat.MotorTorpedoBoat;
 import engima.waratsea.model.motorTorpedoBoat.MotorTorpedoBoatFactory;
 import engima.waratsea.model.player.ComputerPlayer;
 import engima.waratsea.model.player.HumanPlayer;
+import engima.waratsea.model.player.NeutralPlayer;
 import engima.waratsea.model.player.Player;
 import engima.waratsea.model.ship.AircraftCarrier;
 import engima.waratsea.model.ship.Ship;
@@ -131,6 +132,7 @@ public class BasicModule extends AbstractModule {
     protected void configure() {
         bind(Player.class).annotatedWith(Names.named("Human")).to(HumanPlayer.class);
         bind(Player.class).annotatedWith(Names.named("Computer")).to(ComputerPlayer.class);
+        bind(Player.class).annotatedWith(Names.named("Neutral")).to(NeutralPlayer.class);
 
         install(new FactoryModuleBuilder().implement(TaskForce.class, TaskForce.class).build(TaskForceFactory.class));
         install(new FactoryModuleBuilder()
