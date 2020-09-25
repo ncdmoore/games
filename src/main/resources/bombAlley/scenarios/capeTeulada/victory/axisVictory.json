@@ -1,0 +1,18 @@
+{
+  "objectives": "Conduct shore bombardment at AR15 in Greece.",
+  "scenarioShip": [
+    {
+      "title": "Bombardment of Greece",
+      "description": "Destroyers conducts shore bombardment of AR15, Greece",
+      "award": "2 points",
+      "event": {
+        "side": "AXIS",
+        "action": "BOMBARDMENT",
+        "name": "DD03 Da Recco, DD07 Pessagno, DD08 Pigafetta, DD51 Riboty",
+        "shipType": "DESTROYER, DESTROYER_ESCORT",
+        "location": "AR15"
+      },
+      "points": 2
+    }
+  ]
+}

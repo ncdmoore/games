@@ -88,6 +88,7 @@ import engima.waratsea.model.target.TargetEnemyPort;
 import engima.waratsea.model.target.TargetFriendlyAirfield;
 import engima.waratsea.model.target.TargetFriendlyPort;
 import engima.waratsea.model.target.TargetFriendlyTaskForce;
+import engima.waratsea.model.target.TargetLandGrid;
 import engima.waratsea.model.target.TargetSeaGrid;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
@@ -235,6 +236,7 @@ public class BasicModule extends AbstractModule {
                 .implement(Target.class, Names.named("enemyTaskForce"), TargetEnemyTaskForce.class)
                 .implement(Target.class, Names.named("friendlyTaskForce"), TargetFriendlyTaskForce.class)
                 .implement(Target.class, Names.named("seaGrid"), TargetSeaGrid.class)
+                .implement(Target.class, Names.named("landGrid"), TargetLandGrid.class)
                 .build(TargetFactory.class));
 
 

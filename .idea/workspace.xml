@@ -8,13 +8,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/capeTeulada/victory/alliesVictory.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/capeTeulada/victory/axisVictory.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/maps/axis/june1940.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/minefield/alliesMinefields.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/minefield/axisMinefields.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/minefield/deployment/alliesMinefield.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/minefield/deployment/axisMinefield.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/squadrons/allotment/1940/allies/British.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/squadrons/allotment/1940/axis/Italian.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/squadrons/deployment/1940/allies/British.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/squadrons/deployment/1940/axis/Italian.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/RequiredShipVictory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/RequiredShipVictory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryConditions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryConditions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/victory/VictoryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/victory/VictoryView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/victory/alliesVictory.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/victory/alliesVictory.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/victoryDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/victoryDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/BasicModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/BasicModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetLandGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetLandGrid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetSeaGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/target/TargetSeaGrid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/capeTeulada/taskforce/axisTaskForces.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/capeTeulada/taskforce/axisTaskForces.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/summary.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/summary.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/TestModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/TestModule.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +107,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/bombAlley/maps/neutral" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/capeTeulada/victory" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.25979218" />
@@ -98,12 +116,12 @@
     <property name="settings.editor.selected.configurable" value="org.infernus.idea.checkstyle.CheckStyleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/flotilla" />
-      <recent name="$PROJECT_DIR$/src/main/resources/coralSea/images" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/capeTeulada/victory" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/maps/axis" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/squadrons/deployment/1940/axis" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/squadrons/deployment/1940/allies" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/squadrons/allotment/1940/axis" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="engima.waratsea.viewmodel" />
@@ -112,12 +130,12 @@
       <recent name="engima.waratsea.view.airfield.info" />
       <recent name="engima.waratsea.view.squadron" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/maps/neutral" />
-      <recent name="$PROJECT_DIR$/src/main/resources/coralSea/maps/neutral" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/maps/neutral" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/neutral" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/ports/neutral" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/flotilla" />
+      <recent name="$PROJECT_DIR$/src/main/resources/coralSea/images" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Main">
@@ -273,11 +291,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
         <item itemvalue="Gradle.WorldWarTwoAtSea [build]" />
         <item itemvalue="Gradle.WorldWarTwoAtSea [clean]" />
         <item itemvalue="JUnit.TargetTest.testTargetEquals" />
         <item itemvalue="JUnit.ShipyardTest" />
-        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
       </list>
     </recent_temporary>
   </component>
@@ -292,13 +310,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00226" summary="Add menu items stubs to task force menus">
-      <created>1592167319354</created>
-      <option name="number" value="00226" />
-      <option name="presentableId" value="LOCAL-00226" />
-      <option name="project" value="LOCAL" />
-      <updated>1592167319354</updated>
     </task>
     <task id="LOCAL-00227" summary="Add task force mission selection to task force details dialog.">
       <created>1594496146027</created>
@@ -636,7 +647,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601037412050</updated>
     </task>
-    <option name="localTasksCounter" value="275" />
+    <task id="LOCAL-00275" summary="Add required ship victory conditions to victory dialog.">
+      <created>1601049497712</created>
+      <option name="number" value="00275" />
+      <option name="presentableId" value="LOCAL-00275" />
+      <option name="project" value="LOCAL" />
+      <updated>1601049497713</updated>
+    </task>
+    <option name="localTasksCounter" value="276" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -651,7 +669,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add squadron summary to mission details dialog." />
     <MESSAGE value="Add task force names and title's to base grid tool tip text." />
     <MESSAGE value="Fix probability stats view being duplicated on mission view." />
     <MESSAGE value="Add available and assigned text labels to mission add and edit views." />
@@ -676,7 +693,8 @@
     <MESSAGE value="Add victory conditions dialog." />
     <MESSAGE value="Add a neutral player with neutral ports and airfields." />
     <MESSAGE value="Don't show victory types if there are no conditions for that type." />
-    <option name="LAST_COMMIT_MESSAGE" value="Don't show victory types if there are no conditions for that type." />
+    <MESSAGE value="Add required ship victory conditions to victory dialog." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add required ship victory conditions to victory dialog." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1298" y="309" key="#Main" timestamp="1594496773510">
@@ -691,10 +709,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1600987693276" />
-    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser" timestamp="1600980798886">
+    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser" timestamp="1601053326386">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser/0.23.2560.1349@0.23.2560.1349" timestamp="1600980798886" />
+    <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser/0.23.2560.1349@0.23.2560.1349" timestamp="1601053326386" />
     <state x="1341" y="491" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1594496906192">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -719,30 +737,30 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1337" y="547" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1600645261731" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1601037408020">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1601049492057">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1601037408020" />
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1601049492057" />
     <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog" timestamp="1595274712488">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1595274712488" />
-    <state width="1965" height="276" key="GridCell.Tab.0.bottom" timestamp="1601049287764">
+    <state width="1965" height="221" key="GridCell.Tab.0.bottom" timestamp="1601056603073">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1965" height="276" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1601049287764" />
-    <state width="1965" height="276" key="GridCell.Tab.0.center" timestamp="1601049287763">
+    <state width="1965" height="221" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1601056603073" />
+    <state width="1965" height="221" key="GridCell.Tab.0.center" timestamp="1601056603072">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1965" height="276" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1601049287763" />
-    <state width="1965" height="276" key="GridCell.Tab.0.left" timestamp="1601049287763">
+    <state width="1965" height="221" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1601056603072" />
+    <state width="1965" height="221" key="GridCell.Tab.0.left" timestamp="1601056603072">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1965" height="276" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1601049287763" />
-    <state width="1965" height="276" key="GridCell.Tab.0.right" timestamp="1601049287764">
+    <state width="1965" height="221" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1601056603072" />
+    <state width="1965" height="221" key="GridCell.Tab.0.right" timestamp="1601056603073">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1965" height="276" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1601049287764" />
+    <state width="1965" height="221" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1601056603073" />
     <state width="1997" height="518" key="GridCell.Tab.1.bottom" timestamp="1601037449266">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -767,10 +785,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1026" y="324" width="1295" height="837" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1600621738866" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1601037417827">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1601049504664">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1601037417827" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1601049504664" />
     <state x="744" y="138" width="1689" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1598756167413">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -783,10 +801,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1050" y="421" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.23.2560.1349@0.23.2560.1349" timestamp="1600688274252" />
-    <state x="1014" y="527" width="935" height="587" key="find.popup" timestamp="1601047787193">
+    <state x="1014" y="527" width="935" height="587" key="find.popup" timestamp="1601056345116">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1014" y="527" width="935" height="587" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1601047787193" />
+    <state x="1014" y="527" width="935" height="587" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1601056345116" />
     <state x="1696" y="493" key="refactoring.ChangeSignatureDialog" timestamp="1599999007864">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>

@@ -1,0 +1,58 @@
+{
+  "objectives": "Unload the cargo carried by the east-bound convoy at Malta. Unload the cargo carried by the west-bound convoy at Malta.",
+  "scenarioShip": [
+    {
+      "title": "Deliver Cargo to Malta from Cruisers",
+      "description": "Unload cargo from the cruiser at the port of Malta",
+      "award": "8 times the ship's cargo capacity",
+      "event": {
+        "side": "ALLIES",
+        "action": "CARGO_UNLOADED",
+        "shipType": "CRUISER",
+        "name": "CL37 Southhampton, CL40 Manchester",
+        "location": "Malta",
+        "startingLocation": "Gibraltar"
+      }
+    },
+    {
+      "title": "Deliver Cargo to Malta from Transports",
+      "description": "Unload cargo from the transports at the port of Malta",
+      "award": "4 times the ship's cargo capacity",
+      "event": {
+        "side": "ALLIES",
+        "action": "CARGO_UNLOADED",
+        "shipType": "TRANSPORT",
+        "location": "Malta",
+        "startingLocation": "Gibraltar, Alexandria"
+      }
+    },
+    {
+      "title": "Sail Ramillies to Gibraltar",
+      "description": "Sail BB10 Ramillies from Alexandria to Gibraltar",
+      "award": "4 points",
+      "event": {
+        "side": "ALLIES",
+        "action": "ARRIVAL",
+        "name": "BB10 Ramillies",
+        "shipType": "BATTLESHIP",
+        "location": "Gibraltar",
+        "startingLocation": "Alexandria"
+      },
+      "points": 4
+    },
+    {
+      "title": "Sail Berwick to Gibraltar",
+      "description": "Sail CA01 Berwick from Alexandria to Gibraltar",
+      "award": "4 points",
+      "event": {
+        "side": "ALLIES",
+        "action": "ARRIVAL",
+        "name": "CA01 Berwick",
+        "shipType": "CRUISER",
+        "location": "Gibraltar",
+        "startingLocation": "Alexandria"
+      },
+      "points": 4
+    }
+  ]
+}

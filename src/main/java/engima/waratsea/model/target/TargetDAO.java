@@ -19,10 +19,8 @@ import java.util.stream.Stream;
 @Singleton
 @Slf4j
 public class TargetDAO {
-
-    private Map<TargetType, Function<TargetData, Target>> factoryMap = new HashMap<>();
-
-    private Map<TargetType, Map<String, Target>> cache = new HashMap<>();
+    private final Map<TargetType, Function<TargetData, Target>> factoryMap = new HashMap<>();
+    private final Map<TargetType, Map<String, Target>> cache = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -38,6 +36,7 @@ public class TargetDAO {
         factoryMap.put(TargetType.ENEMY_TASK_FORCE, factory::createEnemyTaskForceTarget);
         factoryMap.put(TargetType.FRIENDLY_TASK_FORCE, factory::createFriendlyTaskForceTarget);
         factoryMap.put(TargetType.SEA_GRID, factory::createSeaGrid);
+        factoryMap.put(TargetType.LAND_GRID, factory::createLandGrid);
 
         Stream.of(TargetType.values()).forEach(type -> cache.put(type, new HashMap<>()));
     }

@@ -64,9 +64,15 @@
     "location": "AN13",
     "state": "RESERVE",
     "mission": {
-      "type": "BOMBARDMENT"
+      "type": "BOMBARDMENT",
+      "targets": [
+        {
+          "type": "LAND_GRID",
+          "name": "AR15"
+        }
+      ]
     },
-    "releaseTurnEvents" : [
+    "releaseTurnEvents": [
       {
         "turn": 24
       }
@@ -88,7 +94,7 @@
     "mission": {
       "type": "INTERCEPT"
     },
-    "releaseShipEvents" : [
+    "releaseShipEvents": [
       {
         "action": "ATTACKED",
         "side": "AXIS",

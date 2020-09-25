@@ -1,0 +1,49 @@
+{
+  "nation": "BRITISH",
+  "fighters": {
+    "dice": 0,
+    "factor": 4,
+    "groups": [
+      {
+        "selectSize": 2,
+        "aircraft": [
+          {
+            "type": "Hurricane-1",
+            "number": 2
+          }
+        ]
+      }
+    ]
+  },
+  "bombers": {
+    "dice": 0,
+    "factor": 2,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Beaufort",
+            "number": 1
+          }
+        ]
+      }
+    ]
+  },
+  "recon": {
+    "dice": 0,
+    "factor": 4,
+    "groups": [
+      {
+        "selectSize": 2,
+        "aircraft": [
+          {
+            "type": "Sunderland",
+            "number": 2
+          }
+        ]
+      }
+    ]
+  }
+}
+

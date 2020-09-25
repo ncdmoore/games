@@ -66,9 +66,18 @@ public interface TargetFactory {
      * Creates a sea grid target. This is used in mine laying or clearing.
      *
      * @param data Target data read from a JSON file.
-     * @return A target initialized with the deata from the JSON file.
+     * @return A target initialized with the data from the JSON file.
      */
     @Named("seaGrid")
     Target createSeaGrid(TargetData data);
+
+    /**
+     * Creates a land grid target. This is used in bombardment missions.
+     *
+     * @param data Target data read from a JSON file.
+     * @return A target initialized with the data from the JSON file.
+     */
+    @Named("landGrid")
+    Target createLandGrid(TargetData data);
 
 }

@@ -20,7 +20,6 @@ import java.util.Optional;
  */
 @Slf4j
 public class TargetSeaGrid implements Target {
-
     private final String reference;
     private final GameMap gameMap;
 
@@ -33,10 +32,10 @@ public class TargetSeaGrid implements Target {
     @Inject
     public TargetSeaGrid(@Assisted final TargetData data,
                                    final GameMap gameMap) {
-
         this.gameMap = gameMap;
         reference = data.getName();
     }
+
     /**
      * Get the name of the target.
      *

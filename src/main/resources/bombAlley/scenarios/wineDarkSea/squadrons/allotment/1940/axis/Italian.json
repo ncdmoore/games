@@ -1,0 +1,58 @@
+{
+  "nation": "ITALIAN",
+  "bombers": {
+    "dice": 0,
+    "factor": 8,
+    "groups": [
+      {
+        "selectSize": 4,
+        "aircraft": [
+          {
+            "type": "SM81",
+            "number": 4
+          }
+        ]
+      }
+    ]
+  },
+  "fighters": {
+    "dice": 0,
+    "factor": 4,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "CR32",
+            "number": 1
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "CR42",
+            "number": 1
+          }
+        ]
+      }
+    ]
+  },
+  "recon": {
+    "dice": 0,
+    "factor": 2,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "RO44",
+            "number": 1
+          }
+        ]
+      }
+    ]
+  }
+}
+

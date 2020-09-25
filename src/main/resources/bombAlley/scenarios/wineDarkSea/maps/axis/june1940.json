@@ -1,0 +1,112 @@
+[
+  {
+    "name": "East",
+    "nation": "ITALIAN",
+    "min": "0",
+    "max": "0",
+    "mapRef": "BD25",
+    "airfields": [
+      "Rhodes",
+      "Scarpanto"
+    ],
+    "ports": [
+      "Rhodes"
+    ]
+  },
+  {
+    "name": "Libya",
+    "nation": "ITALIAN",
+    "min": "0",
+    "max": "0",
+    "mapRef": "AN31",
+    "airfields": [
+      "Derna",
+      "Tripoli",
+      "Benghazi",
+      "Tobruk"
+    ],
+    "ports": [
+      "Tripoli",
+      "Benghazi",
+      "Tobruk"
+    ]
+  },
+  {
+    "name": "Sardinia",
+    "nation": "ITALIAN",
+    "min": "0",
+    "max": "0",
+    "mapRef": "AC15",
+    "airfields": ["Cagliari"],
+    "ports": ["Cagliari"]
+  },
+  {
+    "name": "Sicily",
+    "nation": "ITALIAN",
+    "min": "0",
+    "max": "0",
+    "mapRef": "AJ18",
+    "airfields": [
+      "Borizzo",
+      "Comiso",
+      "Augusta",
+      "Palermo",
+      "Messina"
+    ],
+    "ports": [
+      "Palermo",
+      "Messina",
+      "Augusta"
+    ]
+  },
+  {
+    "name": "Pantellaria",
+    "nation": "ITALIAN",
+    "min": "0",
+    "max": "0",
+    "mapRef": "AG24",
+    "airfields": ["Pantellaria"],
+    "ports": ["Pantellaria"]
+  },
+  {
+    "name": "Italy",
+    "nation": "ITALIAN",
+    "min": "0",
+    "max": "0",
+    "mapRef": "AH10",
+    "airfields": [
+      "Sarzana",
+      "Trieste",
+      "Rome",
+      "Naples",
+      "Foggia",
+      "Grottaglie",
+      "Lecce",
+      "Genoa",
+      "La Spezia",
+      "Leghorn",
+      "Brindisi",
+      "Pola",
+      "Taranto"
+    ],
+    "ports": [
+      "Genoa",
+      "La Spezia",
+      "Leghorn",
+      "Naples",
+      "Taranto",
+      "Brindisi",
+      "Pola",
+      "Trieste"
+    ]
+  },
+  {
+    "name": "Albania",
+    "nation": "ITALIAN",
+    "min": "0",
+    "max": "0",
+    "mapRef": "AS12",
+    "airfields": ["Durazzo"],
+    "ports": ["Durazzo"]
+  }
+]
