@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Malta",
+    "nation": "BRITISH",
+    "min": "0",
+    "max": "0",
+    "mapRef": "AK22",
+    "airfields": [
+      "Luqa-1940"
+    ],
+    "ports": [
+      "Malta"
+    ]
+  },
+  {
+    "name": "Gibraltar",
+    "nation": "BRITISH",
+    "min": "0",
+    "max": "8",
+    "mapRef": "H20",
+    "airfields": [
+      "Gibraltar"
+    ],
+    "ports": [
+      "Gibraltar"
+    ]
+  },
+  {
+    "name": "Egypt",
+    "nation": "BRITISH",
+    "min": "0",
+    "max": "0",
+    "mapRef": "BH33",
+    "airfields": [
+      "Alexandria",
+      "Suez",
+      "Aboukir",
+      "Port Said"
+    ],
+    "ports": [
+      "Alexandria",
+      "Port Said",
+      "Suez"
+    ]
+  },
+  {
+    "name": "Cyprus",
+    "nation": "BRITISH",
+    "min": "0",
+    "max": "0",
+    "mapRef": "BM23",
+    "airfields": [
+      "Famagusta"
+    ],
+    "ports": [
+      "Famagusta"
+    ]
+  },
+  {
+    "name": "Palestine",
+    "nation": "BRITISH",
+    "min": "0",
+    "max": "0",
+    "mapRef": "BO27",
+    "airfields": [
+      "Haifa"
+    ],
+    "ports": [
+      "Haifa"
+    ]
+  }
+]

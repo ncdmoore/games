@@ -48,7 +48,6 @@ import static java.util.stream.Collectors.joining;
  */
 @Slf4j
 public class BaseMarker {
-
     private static final int SHADOW_RADIUS = 3;
 
     @Getter private final BaseGrid baseGrid;
@@ -506,7 +505,6 @@ public class BaseMarker {
             flag.setOnContextMenuRequested(e -> contextMenu.show(imageView, e.getScreenX(), e.getScreenY()));
 
             title.setOnContextMenuRequested(e -> contextMenu.show(imageView, e.getScreenX(), e.getScreenY()));
-
         }
     }
 }
