@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -72,15 +73,22 @@ public class VictoryView {
     private void buildTab(final VictoryType victoryType) {
         Tab tab = new Tab(victoryType.toString() + " Victory Conditions");
 
-        Label label = new Label(victoryType.toString() + " Victory Condition:");
-        VBox vBox = new VBox(label, victoryConditions.get(victoryType));
+        TitledPane titledPane = new TitledPane();
+        titledPane.setText(victoryType.getDescription());
+        titledPane.setId("description-pane");
+
+        Label victoryTypeLabel = new Label(victoryType.toString() + " Victory Condition:");
+        VBox conditionsVBox = new VBox(victoryTypeLabel, victoryConditions.get(victoryType));
 
         Node grid = buildGrid(victoryType);
 
-        HBox hBox = new HBox(vBox, grid);
-        hBox.setId("main-pane");
+        HBox hBox = new HBox(conditionsVBox, grid);
+        hBox.setId("main-hbox");
 
-        tab.setContent(hBox);
+        VBox mainVBox = new VBox(titledPane, hBox);
+        mainVBox.setId("main-pane");
+
+        tab.setContent(mainVBox);
 
         if (!viewModel.getVictoryConditions().get(victoryType).getValue().isEmpty()) {
             victoryTabPane.getTabs().add(tab);

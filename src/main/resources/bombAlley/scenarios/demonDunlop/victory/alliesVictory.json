@@ -127,6 +127,8 @@
   ],
   "requiredShip": [
     {
+      "title": "Deliver Cargo to Alexandria",
+      "description": "Unload 20 points worth of cargo at Alexandria from British or Greek ships that start at Athens or AW22",
       "events": [
         {
           "action": "CARGO_UNLOADED",

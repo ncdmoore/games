@@ -9,7 +9,12 @@
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/RequiredShipVictory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/RequiredShipVictory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryConditions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryConditions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/VictoryType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/victory/VictoryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/victory/VictoryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/victory/alliesVictory.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/victory/alliesVictory.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/victoryDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/victoryDetails.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -262,17 +267,17 @@
       <item itemvalue="Gradle.WorldWarTwoAtSea [clean]" />
       <item itemvalue="Gradle.WorldWarTwoAtSea [build]" />
       <item itemvalue="JUnit.All in worldWarTwoAtSea.test" />
+      <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
       <item itemvalue="JUnit.ShipyardTest" />
       <item itemvalue="JUnit.TargetTest.testTargetEquals" />
-      <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.WorldWarTwoAtSea [build]" />
         <item itemvalue="Gradle.WorldWarTwoAtSea [clean]" />
-        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
         <item itemvalue="JUnit.TargetTest.testTargetEquals" />
         <item itemvalue="JUnit.ShipyardTest" />
+        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
       </list>
     </recent_temporary>
   </component>
@@ -287,13 +292,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00225" summary="Add menu items stubs to task force menus">
-      <created>1592166460985</created>
-      <option name="number" value="00225" />
-      <option name="presentableId" value="LOCAL-00225" />
-      <option name="project" value="LOCAL" />
-      <updated>1592166460985</updated>
     </task>
     <task id="LOCAL-00226" summary="Add menu items stubs to task force menus">
       <created>1592167319354</created>
@@ -631,7 +629,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601035867792</updated>
     </task>
-    <option name="localTasksCounter" value="274" />
+    <task id="LOCAL-00274" summary="Don't show victory types if there are no conditions for that type.">
+      <created>1601037412050</created>
+      <option name="number" value="00274" />
+      <option name="presentableId" value="LOCAL-00274" />
+      <option name="project" value="LOCAL" />
+      <updated>1601037412050</updated>
+    </task>
+    <option name="localTasksCounter" value="275" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -698,10 +703,6 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1345" y="435" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1594496382178" />
-    <state x="1441" y="531" key="#com.intellij.refactoring.move.moveInstanceMethod.MoveInstanceMethodDialog" timestamp="1592178302582">
-      <screen x="0" y="23" width="2560" height="1349" />
-    </state>
-    <state x="1441" y="531" key="#com.intellij.refactoring.move.moveInstanceMethod.MoveInstanceMethodDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1592178302582" />
     <state x="939" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1600615409077">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -718,46 +719,46 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1337" y="547" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1600645261731" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1601035867492">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1601037408020">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1601035867492" />
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1601037408020" />
     <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog" timestamp="1595274712488">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1595274712488" />
-    <state width="2016" height="437" key="GridCell.Tab.0.bottom" timestamp="1601036683625">
+    <state width="1965" height="276" key="GridCell.Tab.0.bottom" timestamp="1601049287764">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2016" height="437" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1601036683625" />
-    <state width="2016" height="437" key="GridCell.Tab.0.center" timestamp="1601036683625">
+    <state width="1965" height="276" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1601049287764" />
+    <state width="1965" height="276" key="GridCell.Tab.0.center" timestamp="1601049287763">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2016" height="437" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1601036683625" />
-    <state width="2016" height="437" key="GridCell.Tab.0.left" timestamp="1601036683624">
+    <state width="1965" height="276" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1601049287763" />
+    <state width="1965" height="276" key="GridCell.Tab.0.left" timestamp="1601049287763">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2016" height="437" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1601036683624" />
-    <state width="2016" height="437" key="GridCell.Tab.0.right" timestamp="1601036683625">
+    <state width="1965" height="276" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1601049287763" />
+    <state width="1965" height="276" key="GridCell.Tab.0.right" timestamp="1601049287764">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2016" height="437" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1601036683625" />
-    <state width="1997" height="518" key="GridCell.Tab.1.bottom" timestamp="1600984952401">
+    <state width="1965" height="276" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1601049287764" />
+    <state width="1997" height="518" key="GridCell.Tab.1.bottom" timestamp="1601037449266">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1997" height="518" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1600984952401" />
-    <state width="1997" height="518" key="GridCell.Tab.1.center" timestamp="1600984952400">
+    <state width="1997" height="518" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1601037449266" />
+    <state width="1997" height="518" key="GridCell.Tab.1.center" timestamp="1601037449266">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1997" height="518" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1600984952400" />
-    <state width="1997" height="518" key="GridCell.Tab.1.left" timestamp="1600984952399">
+    <state width="1997" height="518" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1601037449266" />
+    <state width="1997" height="518" key="GridCell.Tab.1.left" timestamp="1601037449266">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1997" height="518" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1600984952399" />
-    <state width="1997" height="518" key="GridCell.Tab.1.right" timestamp="1600984952400">
+    <state width="1997" height="518" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1601037449266" />
+    <state width="1997" height="518" key="GridCell.Tab.1.right" timestamp="1601037449266">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1997" height="518" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1600984952400" />
+    <state width="1997" height="518" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1601037449266" />
     <state x="1406" y="420" key="RollbackChangesDialog" timestamp="1600624191335">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -766,10 +767,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1026" y="324" width="1295" height="837" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1600621738866" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1601035871458">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1601037417827">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1601035871458" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1601037417827" />
     <state x="744" y="138" width="1689" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1598756167413">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -782,10 +783,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1050" y="421" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.23.2560.1349@0.23.2560.1349" timestamp="1600688274252" />
-    <state x="1014" y="527" width="935" height="587" key="find.popup" timestamp="1600662174830">
+    <state x="1014" y="527" width="935" height="587" key="find.popup" timestamp="1601047787193">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1014" y="527" width="935" height="587" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1600662174830" />
+    <state x="1014" y="527" width="935" height="587" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1601047787193" />
     <state x="1696" y="493" key="refactoring.ChangeSignatureDialog" timestamp="1599999007864">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>

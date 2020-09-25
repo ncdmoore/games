@@ -11,7 +11,9 @@ import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -22,6 +24,8 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
 
     private final GameMap gameMap;
 
+    private final String title;
+    private final String description;
     private final List<ShipEventMatcher> matchers;
 
     private int totalPoints;            //Used just to ensure the required points are met. This does not count toward total victory score.
@@ -49,6 +53,8 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
                 .map(factory::create)
                 .collect(Collectors.toList());
 
+        title = data.getTitle();
+        description = data.getDescription();
         totalPoints = data.getTotalPoints();
         requiredPoints = data.getRequiredPoints();
 
@@ -67,6 +73,8 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
     @Override
     public ShipVictoryData getData() {
         ShipVictoryData data = new ShipVictoryData();
+        data.setTitle(title);
+        data.setDescription(description);
         data.setEvents(PersistentUtility.getData(matchers));
         data.setRequirementMet(requirementMet);
         data.setTotalPoints(totalPoints);
@@ -81,7 +89,18 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
      */
     @Override
     public VictoryConditionDetails getDetails() {
-        return null;
+        Map<String, String> info = new LinkedHashMap<>();
+
+        VictoryConditionDetails details = new VictoryConditionDetails();
+
+        details.setKey(title);
+        details.setInfo(info);
+
+        info.put("Description:", description);
+        info.putAll(getShipEventInfo());
+        info.put("Required Points:", requiredPoints + "");
+
+        return details;
     }
 
     /**
@@ -91,7 +110,6 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
     @Override
     public void saveChildrenData() {
     }
-
 
     /**
      * Determine if a ship event thrown results in meeting the required victory condition.
@@ -105,8 +123,6 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
         boolean matched = matchers
                 .stream()
                 .anyMatch(matcher -> matcher.match(event));
-
-
 
         String location = gameMap.convertPortReferenceToName(event.getShip().getTaskForce().getReference());
 
@@ -143,4 +159,25 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
     public int getPoints(final ShipEvent event) {
         return 0;
     }
+
+    private Map<String, String> getShipEventInfo() {
+        return matchers
+                .stream()
+                .map(this::getEventDetails)
+                .flatMap(map -> map.entrySet().stream())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> String.join(",", v1, v2), LinkedHashMap::new));
+    }
+
+    private Map<String, String> getEventDetails(final ShipEventMatcher matcher) {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("Action:", matcher.getActionString());
+        map.put("Ship names:", matcher.getShipNamesString());
+        map.put("Side:", matcher.getSide().toString());
+        map.put("Nation:", matcher.getNationString());
+        map.put("Ship Types:", matcher.getShipTypesString());
+        map.put("Location:", matcher.getLocationsString());
+        map.put("Port Origin:", matcher.getPortOriginString());
+        return map;
+    }
+
 }

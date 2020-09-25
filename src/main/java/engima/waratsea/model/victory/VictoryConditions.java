@@ -16,14 +16,15 @@ import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.ListUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Represents a side's victory conditions for the game.
@@ -178,6 +179,8 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
                 return getSquadronVictoryDetails();
             case AIRFIELD:
                 return getAirfieldVictoryDetails();
+            case REQUIRED_SHIP:
+                return getRequiredShipVictoryDetails();
             default:
                 throw new RuntimeException("Unknown victory type: " + victoryType);
         }
@@ -348,15 +351,15 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
     }
 
     private List<VictoryConditionDetails> getShipVictoryDetails() {
-        return ListUtils.union(defaultShips, scenarioShips)
-                .stream()
+        return Stream.of(defaultShips, scenarioShips)
+                .flatMap(Collection::stream)
                 .map(VictoryCondition::getDetails)
                 .collect(Collectors.toList());
     }
 
     private List<VictoryConditionDetails> getSquadronVictoryDetails() {
-        return ListUtils.union(defaultSquadron, scenarioSquadron)
-                .stream()
+        return Stream.of(defaultSquadron, scenarioSquadron)
+                .flatMap(Collection::stream)
                 .map(VictoryCondition::getDetails)
                 .collect(Collectors.toList());
     }
@@ -364,6 +367,13 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
     private List<VictoryConditionDetails> getAirfieldVictoryDetails() {
         return scenarioAirfields
                 .stream()
+                .map(VictoryCondition::getDetails)
+                .collect(Collectors.toList());
+    }
+
+    private List<VictoryConditionDetails> getRequiredShipVictoryDetails() {
+        return Stream.of(requiredShips)
+                .flatMap(Collection::stream)
                 .map(VictoryCondition::getDetails)
                 .collect(Collectors.toList());
     }
