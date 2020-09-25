@@ -78,7 +78,9 @@ public class VictoryView {
 
         tab.setContent(hBox);
 
-        victoryTabPane.getTabs().add(tab);
+        if (!viewModel.getVictoryConditions().get(victoryType).getValue().isEmpty()) {
+            victoryTabPane.getTabs().add(tab);
+        }
 
         bindTab(victoryType);
 
