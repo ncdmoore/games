@@ -47,6 +47,14 @@
     -fx-spacing: 10;
 }
 
+#airfield-summary-image-vbox {
+    -fx-spacing: 20;
+}
+
+#airfield-summary-flag-vbox {
+    -fx-spacing: 5;
+}
+
 #airfield-management-vbox {
     -fx-background-color: white;
     -fx-alignment: center;

@@ -8,12 +8,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/maps/allies/october1940.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/maps/axis/october1940.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/maps/neutral/october1940.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/BritishFlag30x20.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/FrenchFlag30x20.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/GermanFlag30x20.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/ItalianFlag30x20.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/images/AustralianFlag30x20.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/images/JapaneseFlag30x20.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/images/United StatesFlag30x20.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/images/alliesAirfieldIcon30x30.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/images/axisAirfieldIcon30x30.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/BaseMarker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/BaseMarker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/capeTeulada/summary.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/capeTeulada/summary.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/view.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/properties/view.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/properties/view.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,10 +123,10 @@
       <recent name="engima.waratsea.view.squadron" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/coralSea/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/flotilla" />
-      <recent name="$PROJECT_DIR$/src/main/resources/coralSea/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images" />
     </key>
   </component>
@@ -291,13 +302,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00228" summary="Rename view partrol markers.">
-      <created>1594499867641</created>
-      <option name="number" value="00228" />
-      <option name="presentableId" value="LOCAL-00228" />
-      <option name="project" value="LOCAL" />
-      <updated>1594499867641</updated>
     </task>
     <task id="LOCAL-00229" summary="Fix view model issues with air mission edit.">
       <created>1595190492727</created>
@@ -635,7 +639,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601056899182</updated>
     </task>
-    <option name="localTasksCounter" value="277" />
+    <task id="LOCAL-00277" summary="Add required ship victory conditions to victory dialog.">
+      <created>1601058505940</created>
+      <option name="number" value="00277" />
+      <option name="presentableId" value="LOCAL-00277" />
+      <option name="project" value="LOCAL" />
+      <updated>1601058505940</updated>
+    </task>
+    <option name="localTasksCounter" value="278" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -686,10 +697,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1013" y="266" key="#Project_Structure/0.23.2560.1349@0.23.2560.1349" timestamp="1599513681506" />
-    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600987693276">
+    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601072451567">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1600987693276" />
+    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1601072451567" />
     <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser" timestamp="1601053326386">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -718,30 +729,30 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1337" y="547" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1600645261731" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1601056893009">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1601058501600">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1601056893009" />
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1601058501600" />
     <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog" timestamp="1595274712488">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1595274712488" />
-    <state width="1965" height="221" key="GridCell.Tab.0.bottom" timestamp="1601058186357">
+    <state width="1965" height="221" key="GridCell.Tab.0.bottom" timestamp="1601072300917">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1965" height="221" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1601058186357" />
-    <state width="1965" height="221" key="GridCell.Tab.0.center" timestamp="1601058186356">
+    <state width="1965" height="221" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1601072300917" />
+    <state width="1965" height="221" key="GridCell.Tab.0.center" timestamp="1601072300916">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1965" height="221" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1601058186356" />
-    <state width="1965" height="221" key="GridCell.Tab.0.left" timestamp="1601058186356">
+    <state width="1965" height="221" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1601072300916" />
+    <state width="1965" height="221" key="GridCell.Tab.0.left" timestamp="1601072300915">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1965" height="221" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1601058186356" />
-    <state width="1965" height="221" key="GridCell.Tab.0.right" timestamp="1601058186357">
+    <state width="1965" height="221" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1601072300915" />
+    <state width="1965" height="221" key="GridCell.Tab.0.right" timestamp="1601072300916">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1965" height="221" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1601058186357" />
+    <state width="1965" height="221" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1601072300916" />
     <state width="1997" height="518" key="GridCell.Tab.1.bottom" timestamp="1601037449266">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -766,10 +777,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1026" y="324" width="1295" height="837" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1600621738866" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1601056904742">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1601058510527">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1601056904742" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1601058510527" />
     <state x="744" y="138" width="1689" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1598756167413">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -782,10 +793,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1050" y="421" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.23.2560.1349@0.23.2560.1349" timestamp="1600688274252" />
-    <state x="1014" y="527" width="935" height="587" key="find.popup" timestamp="1601056345116">
+    <state x="694" y="280" width="1255" height="834" key="find.popup" timestamp="1601065615308">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1014" y="527" width="935" height="587" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1601056345116" />
+    <state x="694" y="280" width="1255" height="834" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1601065615308" />
     <state x="1696" y="493" key="refactoring.ChangeSignatureDialog" timestamp="1599999007864">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>

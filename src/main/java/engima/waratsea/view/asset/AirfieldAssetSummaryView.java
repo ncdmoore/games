@@ -27,6 +27,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Pair;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -70,7 +71,9 @@ public class AirfieldAssetSummaryView implements AssetView {
     private final Map<Nation, AirfieldPatrolInfo> patrolInfo = new HashMap<>();
     private final Map<Nation, AirfieldReadyInfo> readyInfo = new HashMap<>();
 
-    private final ImageView imageView = new ImageView();
+    private final ImageView assetImage = new ImageView();
+
+    private Map<Nation, ImageView> flagImageViews;
 
     @Getter private HBox node;
 
@@ -214,7 +217,21 @@ public class AirfieldAssetSummaryView implements AssetView {
 
         Node grid = summaryGrid.buildGrid();
 
-        HBox hBox = new HBox(imageView, grid);
+        flagImageViews = airbase
+                .getNations()
+                .stream()
+                .map(nation -> new Pair<>(nation, new ImageView()))
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
+
+        VBox flagVBox = new VBox();
+        flagVBox.getChildren().addAll(flagImageViews.values());
+        flagVBox.setId("airfield-summary-flag-vbox");
+
+        VBox imageVBox = new VBox(assetImage, flagVBox);
+
+        imageVBox.setId("airfield-summary-image-vbox");
+
+        HBox hBox = new HBox(imageVBox, grid);
         hBox.setId("airfield-summary-hbox");
 
         summaryPane.setContent(hBox);
@@ -263,7 +280,12 @@ public class AirfieldAssetSummaryView implements AssetView {
      */
     private void bindSummary() {
         Image image = imageResourceProvider.getImage(props.getString(airbase.getSide().toLower() + ".airfield.medium.icon"));
-        imageView.setImage(image);
+        assetImage.setImage(image);
+
+        airbase.getNations().forEach(nation -> {
+            Image flag = imageResourceProvider.getImage(props.getString(nation.toString() + ".flag.small.image"));
+            flagImageViews.get(nation).setImage(flag);
+        });
 
         summaryGrid.updateGrid(getAirbaseData());
     }
