@@ -21,7 +21,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class VictoryView {
-    private final ViewProps props;
 
     private final TabPane victoryTabPane = new TabPane();
 
@@ -35,7 +34,6 @@ public class VictoryView {
     public VictoryView(final VictoryViewModel viewModel,
                        final ViewProps props) {
         this.viewModel = viewModel;
-        this.props = props;
 
         viewModel.init();
 
