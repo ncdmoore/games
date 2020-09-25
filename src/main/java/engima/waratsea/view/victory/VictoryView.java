@@ -70,7 +70,7 @@ public class VictoryView {
      * @param victoryType The type of victory.
      */
     private void buildTab(final VictoryType victoryType) {
-        Tab tab = new Tab(victoryType.toString());
+        Tab tab = new Tab(victoryType.toString() + " Victory Conditions");
 
         Label label = new Label(victoryType.toString() + " Victory Condition:");
         VBox vBox = new VBox(label, victoryConditions.get(victoryType));
