@@ -20,8 +20,11 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
+/**
+ * This class represents the victory conditions view shown in the victory dialog box
+ * accessed from the game menu bar.
+ */
 public class VictoryView {
-
     private final TabPane victoryTabPane = new TabPane();
 
     @Getter
@@ -61,8 +64,11 @@ public class VictoryView {
         return victoryTabPane;
     }
 
-
-
+    /**
+     * Build a victory condition tab for the given type of victory.
+     *
+     * @param victoryType The type of victory.
+     */
     private void buildTab(final VictoryType victoryType) {
         Tab tab = new Tab(victoryType.toString());
 
@@ -81,9 +87,14 @@ public class VictoryView {
         }
 
         bindTab(victoryType);
-
     }
 
+    /**
+     * Build the victory grid for an individual victory type.
+     *
+     * @param victoryType The victory type.
+     * @return The node containing the grid.
+     */
     private Node buildGrid(final VictoryType victoryType) {
         GridPane gridPane = new GridPane();
 
@@ -104,6 +115,11 @@ public class VictoryView {
         return gridPane;
     }
 
+    /**
+     * Bind the victory conditions tab elements for the given victory type to the view model.
+     *
+     * @param victoryType The victory type.
+     */
     private void bindTab(final VictoryType victoryType) {
         victoryConditions
                 .get(victoryType)
