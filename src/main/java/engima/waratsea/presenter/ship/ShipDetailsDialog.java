@@ -19,10 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 public class ShipDetailsDialog {
     private static final String CSS_FILE = "shipDetails.css";
 
-    private CssResourceProvider cssResourceProvider;
-    private Provider<DialogOkOnlyView> dialogProvider;
-    private Provider<ShipDetailsView> viewProvider;
-    private ViewProps props;
+    private final CssResourceProvider cssResourceProvider;
+    private final Provider<DialogOkOnlyView> dialogProvider;
+    private final Provider<ShipDetailsView> viewProvider;
+    private final ViewProps props;
 
     private Stage stage;
     private ShipDetailsView view;

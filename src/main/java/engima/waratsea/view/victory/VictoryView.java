@@ -50,7 +50,6 @@ public class VictoryView {
                 });
     }
 
-
     /**
      * Build the victory conditions view.
      *
