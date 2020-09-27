@@ -5,7 +5,7 @@ import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.viewmodel.AirMissionViewModel;
+import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;

@@ -2,8 +2,7 @@ package engima.waratsea.view.squadron;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.viewmodel.squadrons.NationSquadronsViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -11,9 +10,7 @@ import javafx.scene.layout.VBox;
 import lombok.Getter;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -23,8 +20,7 @@ public class SquadronsNationView {
     @Getter private final Map<SquadronViewType, SquadronsTypeView> squadronsTypeView = new HashMap<>();
     private final Provider<SquadronsTypeView> squadronsTypeViewProvider;
 
-    private Nation nation;              // The nation: BRITISH, ITALIAN, etc...
-    private List<Squadron> squadrons;   // The squadrons for the above nation.
+    private NationSquadronsViewModel viewModel;
 
     /**
      * Constructor called by guice.
@@ -39,13 +35,11 @@ public class SquadronsNationView {
     /**
      * Show the squadron's view.
      *
-     * @param squadronNation The nation.
-     * @param squadronList The nation's squadrons.
+     * @param vm The view model.
      * @return a node that contains the squadron's view.
      */
-    public Node build(final Nation squadronNation, final List<Squadron> squadronList) {
-        nation = squadronNation;
-        squadrons = squadronList;
+    public Node buildAndBind(final NationSquadronsViewModel vm) {
+        viewModel = vm;
 
         TabPane squadronViewTabs = new TabPane();
         squadronViewTabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
@@ -69,22 +63,21 @@ public class SquadronsNationView {
     private Tab createTab(final SquadronViewType squadronViewType) {
         Tab tab = new Tab(squadronViewType.toString());
 
-        tab.setUserData(squadronViewType);
-
-        List<Squadron> squadronsOfNeededType = squadrons
-                .stream()
-                .filter(squadron -> SquadronViewType.get(squadron.getType()) == squadronViewType)
-                .collect(Collectors.toList());
-
         SquadronsTypeView squadronView = squadronsTypeViewProvider.get();
         squadronsTypeView.put(squadronViewType, squadronView);
 
-        Node squadron = squadronView.build(nation, squadronsOfNeededType);
+        Node squadron = squadronView.buildAndBind(viewModel.getType(squadronViewType));
 
-        boolean disabled = squadronsOfNeededType.isEmpty();
+        boolean disabled = viewModel
+                .getType(squadronViewType)
+                .getSquadrons()
+                .getValue()
+                .isEmpty();
 
+        tab.setUserData(squadronViewType);
         tab.setDisable(disabled);
         tab.setContent(squadron);
+
         return tab;
     }
 

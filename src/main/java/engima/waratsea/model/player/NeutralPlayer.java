@@ -238,6 +238,17 @@ public class NeutralPlayer implements Player {
     }
 
     /**
+     * This gets the player's squadrons for the given location type.
+     *
+     * @param locationType Where the squadron is located; LAND or SEA.
+     * @return A list of squadrons at the given location.
+     */
+    @Override
+    public List<Squadron> getSquadrons(final SquadronLocationType locationType) {
+        return Collections.emptyList();
+    }
+
+    /**
      * Get the player's airfield given its name.
      *
      * @param name The name of the airfield.

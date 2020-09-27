@@ -1,6 +1,7 @@
 package engima.waratsea.view.util;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.ColumnConstraints;
 import lombok.Getter;
@@ -72,9 +73,30 @@ public class BoundTitledGridPane extends TitledPane {
      * @param data The data that is contained within the grid.
      * @return This titled pane.
      */
-    public BoundTitledGridPane bind(final Map<String, IntegerProperty> data) {
-        setContent(gridPane.buildAndBind(data));
+    public BoundTitledGridPane bindIntegers(final Map<String, IntegerProperty> data) {
+        setContent(gridPane.buildAndBindIntegers(data));
         return this;
     }
 
+    /**
+     * Bind the grid data.
+     *
+     * @param data The data that is contained within the grid.
+     * @return This titled pane.
+     */
+    public BoundTitledGridPane bindStrings(final Map<String, StringProperty> data) {
+        setContent(gridPane.buildAndBindStrings(data));
+        return this;
+    }
+
+    /**
+     * Bind the grid data.
+     *
+     * @param data The data that is contained within the grid.
+     * @return This titled pane.
+     */
+    public BoundTitledGridPane bindListStrings(final Map<String, List<StringProperty>> data) {
+        setContent(gridPane.buildAndBindListStrings(data));
+        return this;
+    }
 }

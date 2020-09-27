@@ -6,7 +6,7 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.weather.Weather;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.viewmodel.PatrolViewModel;
+import engima.waratsea.viewmodel.airfield.PatrolViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;

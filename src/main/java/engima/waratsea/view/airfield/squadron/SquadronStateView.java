@@ -9,7 +9,7 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronSummaryView;
 import engima.waratsea.view.squadron.SquadronViewType;
 import engima.waratsea.view.util.TitledGridPane;
-import engima.waratsea.viewmodel.NationAirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -55,6 +55,7 @@ public class SquadronStateView {
      * Build the ready details pane.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
+     * @param state The squadron's state.
      * @return A titled pane containing the ready details of the airfield.
      */
     public SquadronStateView build(final Nation nation, final SquadronState state) {

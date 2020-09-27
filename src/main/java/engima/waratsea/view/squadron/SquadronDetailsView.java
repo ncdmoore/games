@@ -1,74 +1,52 @@
 package engima.waratsea.view.squadron;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.aircraft.Aircraft;
-import engima.waratsea.model.aircraft.AttackType;
-import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.SquadronConfig;
-import engima.waratsea.model.squadron.SquadronFactor;
-import engima.waratsea.utility.ImageResourceProvider;
-import engima.waratsea.utility.Probability;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.util.TitledGridPane;
+import engima.waratsea.view.util.BoundTitledGridPane;
+import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * The detail view of a squadron.
  */
 public class SquadronDetailsView {
-    private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
-    private final Probability probability;
 
     private final Label title = new Label();
+    private final Node titlePane = new StackPane(title);
     private final ImageView aircraftImage = new ImageView();
     private final ImageView aircraftProfile = new ImageView();
-    private final TitledGridPane squadronDetailsPane = new TitledGridPane();
-    private final TitledGridPane aircraftDetailsPane = new TitledGridPane();
-    private final TitledGridPane aircraftLandPane = new TitledGridPane();
-    private final TitledGridPane aircraftNavalPane = new TitledGridPane();
-    private final TitledGridPane aircraftAirToAirPane = new TitledGridPane();
-    private final TitledGridPane aircraftPerformancePane = new TitledGridPane();
-    private final TitledGridPane aircraftFramePane = new TitledGridPane();
+    private final BoundTitledGridPane squadronDetailsPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane aircraftDetailsPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane aircraftLandPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane aircraftNavalPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane aircraftAirPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane aircraftPerformancePane = new BoundTitledGridPane();
+    private final BoundTitledGridPane aircraftFramePane = new BoundTitledGridPane();
 
     /**
      * Constructor called by guice.
      *
-     * @param imageResourceProvider Provides images.
      * @param props View properties.
-     * @param probability Probability utility.
      */
     @Inject
-    public SquadronDetailsView(final ImageResourceProvider imageResourceProvider,
-                               final ViewProps props,
-                               final Probability probability) {
-        this.imageResourceProvider = imageResourceProvider;
+    public SquadronDetailsView(final ViewProps props) {
         this.props = props;
-        this.probability = probability;
     }
 
     /**
      * Show the squadron details.
      *
-     * @param nation The nation.
      * @return A node containing the squadron details.
      */
-    public Node build(final Nation nation) {
-        Node titleBox = buildTitle(nation);
+    public Node build() {
+        Node titleBox = buildTitle();
         Node imageBox = buildImages();
         Node weaponsBox = buildWeapons();
         Node performanceBox = buildPerformance();
@@ -83,47 +61,33 @@ public class SquadronDetailsView {
     }
 
     /**
-     * Set the selected squadron.
+     * Bind to the view model.
      *
-     * @param squadron The selected squadron.
-     * @param config The selected squadron's configuration.
+     * @param viewModel The squadron view model.
      */
-    public void setSquadron(final Squadron squadron, final SquadronConfig config) {
-        title.setText(squadron.getTitle());
-        aircraftImage.setImage(getImage(squadron));
-        aircraftProfile.setImage(getProfile(squadron));
+    public void bind(final SquadronViewModel viewModel) {
+        title.textProperty().bind(viewModel.getTitle());
+        titlePane.idProperty().bind(viewModel.getTitleId());
 
-        squadronDetailsPane.updatePane(getSquadronDetailsData(squadron));
-        aircraftDetailsPane.updatePane(getAircraftDetailsData(squadron));
+        aircraftImage.imageProperty().bind(viewModel.getAircraftImage());
+        aircraftProfile.imageProperty().bind(viewModel.getAircraftProfile());
 
-        aircraftLandPane.updatePaneMultiColumn(getAttackFactor(
-                squadron.getFactor(AttackType.LAND, config),
-                squadron.getHitProbability(AttackType.LAND, config)));
-
-        aircraftNavalPane.updatePaneMultiColumn(getAttackFactor(
-                squadron.getFactor(AttackType.NAVAL, config),
-                squadron.getHitProbability(AttackType.NAVAL, config)));
-
-        aircraftAirToAirPane.updatePaneMultiColumn(getAttackFactor(
-                squadron.getFactor(AttackType.AIR, config),
-                squadron.getHitProbability(AttackType.AIR, config)));
-
-        aircraftPerformancePane.updatePaneMultiColumn(getPerformance(squadron, config));
-        aircraftFramePane.updatePane(getFrame(squadron));
+        squadronDetailsPane.bindStrings(viewModel.getSquadronDetails());
+        aircraftDetailsPane.bindStrings(viewModel.getAircraftDetails());
+        aircraftLandPane.bindListStrings(viewModel.getLandAttack());
+        aircraftNavalPane.bindListStrings(viewModel.getNavalAttack());
+        aircraftAirPane.bindListStrings(viewModel.getAirAttack());
+        aircraftPerformancePane.bindListStrings(viewModel.getPerformance());
+        aircraftFramePane.bindStrings(viewModel.getFrame());
     }
 
     /**
      * Build the title.
      *
-     * @param nation The nation.
      * @return The title pane.
      */
-    private Node buildTitle(final Nation nation) {
+    private Node buildTitle() {
         title.setId("title");
-
-        StackPane titlePane = new StackPane(title);
-        titlePane.setId("title-pane-" + nation.getFileName().toLowerCase());
-
         return titlePane;
     }
 
@@ -168,7 +132,6 @@ public class SquadronDetailsView {
         titledPane.getStyleClass().add("component-grid");
         titledPane.setContent(vBox);
         return titledPane;
-
     }
 
     /**
@@ -194,11 +157,11 @@ public class SquadronDetailsView {
      * @return The node containing the aircraft's performance boxes.
      */
     private Node buildPerformance() {
-        buildPane(aircraftAirToAirPane).setTitle("Air Attack");
+        buildPane(aircraftAirPane).setTitle("Air Attack");
         buildPane(aircraftPerformancePane).setTitle("Range");
         buildPane(aircraftFramePane).setTitle("Frame");
 
-        VBox vBox = new VBox(aircraftAirToAirPane, aircraftPerformancePane, aircraftFramePane);
+        VBox vBox = new VBox(aircraftAirPane, aircraftPerformancePane, aircraftFramePane);
         vBox.getStyleClass().add("components-pane");
 
         return vBox;
@@ -210,106 +173,9 @@ public class SquadronDetailsView {
      * @param pane The pane to build.
      * @return The built pane.
      */
-    private TitledGridPane buildPane(final TitledGridPane pane) {
+    private BoundTitledGridPane buildPane(final BoundTitledGridPane pane) {
         return pane.setWidth(props.getInt("ship.dialog.detailsPane.width"))
                 .setGridStyleId("component-grid")
-                .buildPane();
-    }
-
-    /**
-     * Get the squadron details.
-     *
-     * @param squadron The selected squadron.
-     * @return The squadron's details.
-     */
-    private Map<String, String> getSquadronDetailsData(final Squadron squadron) {
-        Map<String, String> details = new LinkedHashMap<>();
-        details.put("Name:", squadron.getName());
-        details.put("Strength:", squadron.getStrength() + "");
-        return details;
-    }
-
-    /**
-     * Get the aircraft details.
-     *
-     * @param squadron The selected squadron.
-     * @return The aircraft's details.
-     */
-    private Map<String, String> getAircraftDetailsData(final Squadron squadron) {
-        Aircraft aircraft = squadron.getAircraft();
-        Map<String, String> details = new LinkedHashMap<>();
-        details.put("Model:", aircraft.getModel());
-        details.put("Type:", aircraft.getType() + "");
-        details.put("Nationality:", aircraft.getNationality().toString());
-        details.put("Service:", aircraft.getService().toString());
-        return details;
-    }
-
-    /**
-     * Get the squadron's attack factor data.
-     *
-     * @param factor The attack factor.
-     * @param prob The probability of success.
-     * @return The aircraft's attack data.
-     */
-    private Map<String, List<String>> getAttackFactor(final SquadronFactor factor, final double prob) {
-        Map<String, List<String>> details = new LinkedHashMap<>();
-        String defensive = factor.isDefensive() ? " (D)" : "";
-        details.put("Factor:", Arrays.asList(factor.getFactor() + defensive, "Hit:", probability.percentage(prob) + "%"));
-        details.put("Modifier:", Collections.singletonList(factor.getModifier() + ""));
-        return details;
-    }
-
-    /**
-     * Get the squadron's ferryDistance data.
-     *
-     * @param squadron The selected squadron.
-     * @param config The selected squadron's configuration.
-     * @return The squadron's ferryDistance data.
-     */
-    private Map<String, List<String>> getPerformance(final Squadron squadron, final SquadronConfig config) {
-        Aircraft aircraft = squadron.getAircraft();
-        Map<String, List<String>> details = new LinkedHashMap<>();
-        details.put("Range:", Arrays.asList(aircraft.getRange() + "", "Radius:", aircraft.getRadius().get(config) + ""));
-        details.put("Endurance:", Arrays.asList(aircraft.getEndurance().get(config) + "", "Ferry:", aircraft.getFerryDistance().get(config) + ""));
-        details.put("Altitude Rating:", Collections.singletonList(aircraft.getAltitude().toString()));
-        details.put("Landing Type:", Collections.singletonList(aircraft.getLanding().toString()));
-        return details;
-    }
-
-    /**
-     * Get the squadron's frame data.
-     *
-     * @param squadron The selected squadron.
-     * @return The squadron's frame data.
-     */
-    private Map<String, String> getFrame(final Squadron squadron) {
-        Aircraft aircraft = squadron.getAircraft();
-        Map<String, String> details = new LinkedHashMap<>();
-        details.put("Frame:", aircraft.getFrame().getFrame() + "");
-        details.put("Fragile:", aircraft.getFrame().isFragile() + "");
-        return details;
-    }
-
-    /**
-     * Get the aircraft's image.
-     *
-     * @param squadron The selected squadron.
-     * @return The aircraft's image view.
-     */
-    private Image getImage(final Squadron squadron) {
-        Aircraft aircraft = squadron.getAircraft();
-        return imageResourceProvider.getAircraftImageView(aircraft);
-    }
-
-    /**
-     * Get the aircraft's profile image.
-     *
-     * @param squadron The selected squadron.
-     * @return The aircraft's profile image view.
-     */
-    private Image getProfile(final Squadron squadron) {
-        Aircraft aircraft = squadron.getAircraft();
-        return imageResourceProvider.getAircraftProfileImageView(squadron.getSide(), aircraft.getModel());
+                .build();
     }
 }

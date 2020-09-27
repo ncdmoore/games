@@ -3,7 +3,7 @@ package engima.waratsea.view.airfield.info;
 import com.google.inject.Inject;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.util.BoundTitledGridPane;
-import engima.waratsea.viewmodel.NationAirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -58,6 +58,6 @@ public class AirfieldRegionInfo {
         regionCounts.put("Maximum (Steps):", maximum);
         regionCounts.put("Current (Steps):", current);
 
-        regionCountsPane.bind(regionCounts);
+        regionCountsPane.bindIntegers(regionCounts);
     }
 }

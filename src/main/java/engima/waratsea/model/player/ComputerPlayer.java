@@ -42,6 +42,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -380,6 +381,19 @@ public class ComputerPlayer implements Player {
     }
 
     /**
+     * This gets the player's squadrons for the given location type.
+     *
+     * @param locationType Where the squadron is located; LAND or SEA.
+     * @return A list of squadrons at the given location.
+     */
+    @Override
+    public List<Squadron> getSquadrons(final SquadronLocationType locationType) {
+        return locationType == SquadronLocationType.LAND
+                ? getLandSquadrons()
+                : getTaskForceSquadrons();
+    }
+
+    /**
      * Get the player's airfield given its name.
      *
      * @param name The name of the airfield.
@@ -556,6 +570,14 @@ public class ComputerPlayer implements Player {
          squadrons.put(nation, aviationPlant.load(scenario, side, nation));
     }
 
+    private List<Squadron> getLandSquadrons() {
+        return squadrons
+                .values()
+                .stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+    }
+
     /**
      * Get squadrons for the given nation that are stationed within the player's
      * task forces.
@@ -569,6 +591,13 @@ public class ComputerPlayer implements Player {
                 .stream()
                 .flatMap(taskForce -> taskForce.getSquadrons().stream())
                 .filter(squadron -> squadron.ofNation(nation))
+                .collect(Collectors.toList());
+    }
+
+    private List<Squadron> getTaskForceSquadrons() {
+        return taskForces
+                .stream()
+                .flatMap(taskForce -> taskForce.getSquadrons().stream())
                 .collect(Collectors.toList());
     }
 }

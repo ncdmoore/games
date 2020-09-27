@@ -13,7 +13,7 @@ import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.WarnDialog;
 import engima.waratsea.view.airfield.mission.MissionEditView;
-import engima.waratsea.viewmodel.AirMissionViewModel;
+import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Getter;

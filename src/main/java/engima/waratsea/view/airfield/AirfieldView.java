@@ -9,7 +9,7 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.mission.MissionView;
 import engima.waratsea.view.airfield.patrol.PatrolView;
 import engima.waratsea.view.airfield.squadron.SquadronStateView;
-import engima.waratsea.viewmodel.NationAirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Tab;

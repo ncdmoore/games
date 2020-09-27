@@ -18,7 +18,7 @@ import engima.waratsea.presenter.squadron.SquadronDetailsDialog;
 import engima.waratsea.view.WarnDialog;
 import engima.waratsea.view.map.marker.preview.AirfieldMarker;
 import engima.waratsea.view.preview.SquadronView;
-import engima.waratsea.viewmodel.AirfieldViewModel;
+import engima.waratsea.viewmodel.airfield.AirfieldViewModel;
 import engima.waratsea.viewmodel.DeploymentViewModel;
 import engima.waratsea.viewmodel.RegionViewModel;
 import javafx.scene.control.Tab;

@@ -1,6 +1,6 @@
 package engima.waratsea.view.airfield.mission.stats;
 
-import engima.waratsea.viewmodel.AirMissionViewModel;
+import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
 import javafx.scene.Node;
 
 /**

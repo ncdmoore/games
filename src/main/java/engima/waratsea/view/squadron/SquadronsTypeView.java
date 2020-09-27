@@ -1,11 +1,11 @@
 package engima.waratsea.view.squadron;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.util.TitledGridPane;
+import engima.waratsea.view.util.BoundTitledGridPane;
+import engima.waratsea.viewmodel.squadrons.SquadronsViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -13,10 +13,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * This class contains the squadron list view for squadrons of a particular squadron view type.
@@ -29,7 +25,7 @@ public class SquadronsTypeView {
     private final SquadronDetailsView squadronDetailsView;
     private final ViewProps props;
 
-    private final TitledGridPane airfieldPane = new TitledGridPane();
+    private final BoundTitledGridPane airfieldPane = new BoundTitledGridPane();
 
     /**
      * Constructor called by guice.
@@ -47,17 +43,12 @@ public class SquadronsTypeView {
     /**
      * Build the Squadrons view tab.
      *
-     * @param nation The nation.
-     * @param squadrons The list of squadrons to display in this tab.
+     * @param viewModel The squadron view model.
      * @return A tab.
      */
-    public Node build(final Nation nation, final List<Squadron> squadrons) {
-        listView
-                         .getItems()
-                         .addAll(squadrons);
-
+    public Node buildAndBind(final SquadronsViewModel viewModel) {
         Node configBox = buildConfigBox();
-        Node squadronBox = squadronDetailsView.build(nation);
+        Node squadronBox = squadronDetailsView.build();
         Node airfieldBox = buildAirfieldBox();
 
         VBox vBox = new VBox(configBox, squadronBox, airfieldBox);
@@ -65,18 +56,18 @@ public class SquadronsTypeView {
 
         HBox hBox = new HBox(listView, vBox);
         hBox.setId("squadron-type-hbox");
-        return hBox;
-    }
 
-    /**
-     * Set the selected squadron.
-     *
-     * @param squadron The selected squadron.
-     * @param config The selected squadron's configuration.
-     */
-    public void setSquadron(final Squadron squadron, final SquadronConfig config) {
-        squadronDetailsView.setSquadron(squadron, config);
-        airfieldPane.updatePane(getAirfield(squadron));
+        listView.itemsProperty().bind(viewModel.getSquadrons());
+        choiceBox.itemsProperty().bind(viewModel.getConfigurations());
+
+        airfieldPane.bindStrings(viewModel.getSquadronViewModel().getAirfield());
+
+        viewModel.getSquadronViewModel().getSquadron().bind(listView.getSelectionModel().selectedItemProperty());
+        viewModel.getSquadronViewModel().getConfiguration().bind(choiceBox.getSelectionModel().selectedItemProperty());
+
+        squadronDetailsView.bind(viewModel.getSquadronViewModel());
+
+        return hBox;
     }
 
     /**
@@ -97,31 +88,10 @@ public class SquadronsTypeView {
      * @return The airfield box.
      */
     private Node buildAirfieldBox() {
-        return buildPane(airfieldPane).setTitle("Airfield");
-    }
-
-    /**
-     * Build a component pane.
-     *
-     * @param pane The pane to build.
-     * @return The built pane.
-     */
-    private TitledGridPane buildPane(final TitledGridPane pane) {
-        return pane.setWidth(props.getInt("ship.dialog.detailsPane.width"))
+        return airfieldPane
+                .setWidth(props.getInt("ship.dialog.detailsPane.width"))
                 .setGridStyleId("component-grid")
-                .buildPane();
-    }
-
-    /**
-     * Get the squadron's airfield data.
-     *
-     * @param squadron The squadron.
-     * @return The squadron's airfield data.
-     */
-    private Map<String, String> getAirfield(final Squadron squadron) {
-        Map<String, String> airfield = new LinkedHashMap<>();
-        airfield.put("Airfield:", squadron.getHome().getTitle());
-        airfield.put("Squadron Status:", squadron.getState().toString());
-        return airfield;
+                .setTitle("Airfield")
+                .build();
     }
 }

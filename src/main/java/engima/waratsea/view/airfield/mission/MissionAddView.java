@@ -11,7 +11,7 @@ import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronSummaryView;
 import engima.waratsea.view.util.ListViewPair;
-import engima.waratsea.viewmodel.AirMissionViewModel;
+import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.scene.Node;

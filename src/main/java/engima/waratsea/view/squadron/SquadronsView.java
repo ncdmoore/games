@@ -3,10 +3,9 @@ package engima.waratsea.view.squadron;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.player.Player;
-import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.viewmodel.squadrons.SideSquadronsViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -18,6 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The squadron view used by the forces menu.
+ */
 public class SquadronsView {
     private static final String ROUNDEL = ".roundel.image";
     @Getter private final Map<Nation, SquadronsNationView> nationView = new HashMap<>();
@@ -26,8 +28,7 @@ public class SquadronsView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
 
-    private Player player;
-    private SquadronLocationType locationType;
+    private SideSquadronsViewModel viewModel;
 
     /**
      * Constructor called by guice.
@@ -48,18 +49,16 @@ public class SquadronsView {
     /**
      * Show the squadron's view.
      *
-     * @param humanPlayer The human player.
-     * @param type Where the squadron is located on LAND or at SEA.
+     * @param vm The view model.
      * @return a node that contains the squadron's view.
      */
-    public Node show(final Player humanPlayer, final SquadronLocationType type) {
-        player = humanPlayer;
-        locationType = type;
+    public Node buildAndBind(final SideSquadronsViewModel vm) {
+        viewModel = vm;
 
         TabPane nationViewTabs = new TabPane();
         nationViewTabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        List<Tab> tabs = player
+        List<Tab> tabs = viewModel
                 .getNations()
                 .stream()
                 .map(this::createTab)
@@ -89,15 +88,15 @@ public class SquadronsView {
     private Tab createTab(final Nation nation) {
         Tab tab = new Tab(nation.toString());
 
-        tab.setUserData(nation);
-
         SquadronsNationView nationSquadronsView = squadronsNationViewProvider.get();
         nationView.put(nation, nationSquadronsView);
-        Node content = nationSquadronsView.build(nation, player.getSquadrons(nation, locationType));
+        Node content = nationSquadronsView.buildAndBind(viewModel.getNationViewModel(nation));
         ImageView roundel = imageResourceProvider.getImageView(props.getString(nation + ROUNDEL));
-        tab.setGraphic(roundel);
 
+        tab.setGraphic(roundel);
         tab.setContent(content);
+        tab.setUserData(nation);
+
         return tab;
     }
 

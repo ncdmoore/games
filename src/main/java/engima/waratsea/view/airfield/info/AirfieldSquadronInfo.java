@@ -3,7 +3,7 @@ package engima.waratsea.view.airfield.info;
 import com.google.inject.Inject;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.util.BoundTitledGridPane;
-import engima.waratsea.viewmodel.NationAirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
 
 public class AirfieldSquadronInfo {
     private final ViewProps props;
@@ -39,6 +39,6 @@ public class AirfieldSquadronInfo {
      * @param viewModel  The nation's airbase view model.
      */
     public void bind(final NationAirbaseViewModel viewModel) {
-        squadronCountsPane.bind(viewModel.getSquadronCounts());
+        squadronCountsPane.bindIntegers(viewModel.getSquadronCounts());
     }
 }

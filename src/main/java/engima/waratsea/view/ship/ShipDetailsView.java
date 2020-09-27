@@ -5,12 +5,12 @@ import com.google.inject.Provider;
 import engima.waratsea.model.ship.Component;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronDetailsView;
 import engima.waratsea.view.squadron.SquadronViewType;
 import engima.waratsea.view.util.TitledGridPane;
+import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -45,7 +45,9 @@ public class ShipDetailsView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
 
+    private final SquadronViewModel viewModel;
     private final SquadronDetailsView squadronDetailsView;
+
 
     @Getter
     private final ChoiceBox<Squadron> squadrons = new ChoiceBox<>();
@@ -55,15 +57,18 @@ public class ShipDetailsView {
      *
      * @param imageResourceProvider Provides images.
      * @param props View properties.
-     * @param squadronDetailsViewProvider The squadron details view.
+     * @param squadronViewModelProvider Provides the squadron view model.
+     * @param squadronDetailsViewProvider Provides the squadron details view.
      */
     @Inject
     public ShipDetailsView(final ImageResourceProvider imageResourceProvider,
                            final ViewProps props,
+                           final Provider<SquadronViewModel> squadronViewModelProvider,
                            final Provider<SquadronDetailsView> squadronDetailsViewProvider) {
         this.imageResourceProvider = imageResourceProvider;
         this.props = props;
 
+        this.viewModel = squadronViewModelProvider.get();
         this.squadronDetailsView = squadronDetailsViewProvider.get();
     }
 
@@ -73,7 +78,7 @@ public class ShipDetailsView {
      * @param ship The the ship to show.
      * @return A node that contains the ship details.
      */
-    public Node show(final Ship ship) {
+    public Node build(final Ship ship) {
         Label title = new Label(getPrefix(ship) + ship.getTitle());
         title.setId("title");
 
@@ -91,15 +96,6 @@ public class ShipDetailsView {
         mainPane.setId("main-pane");
 
         return mainPane;
-    }
-
-    /**
-     * Select one of the ship's squadrons.
-     *
-     * @param squadron The selected squadron.
-     */
-    public void selectSquadron(final Squadron squadron) {
-        squadronDetailsView.setSquadron(squadron, SquadronConfig.NONE);
     }
 
     /**
@@ -201,7 +197,7 @@ public class ShipDetailsView {
     /**
      * Build the ship's aircraft tab.
      *
-     * @param ship The ship whose aircraft informatin is shown in the tab.
+     * @param ship The ship whose aircraft information is shown in the tab.
      * @return The aircraft tab.
      */
     private Tab buildAircraftTab(final Ship ship) {
@@ -211,7 +207,7 @@ public class ShipDetailsView {
         VBox aircraftListBox = new VBox(new Label("Select Squadron:"), squadrons);
         aircraftListBox.setId("aircraft-list");
 
-        Node aircraftBox = squadronDetailsView.build(ship.getNation());
+        Node aircraftBox = squadronDetailsView.build();
 
         VBox vBox = new VBox(aircraftListBox, aircraftBox);
 
@@ -219,7 +215,18 @@ public class ShipDetailsView {
         aircraftTab.setClosable(false);
         aircraftTab.setContent(vBox);
 
+        bindAircraftTab();
+
         return aircraftTab;
+    }
+
+    /**
+     * Bind the aircraft data to the view.
+     */
+    private void bindAircraftTab() {
+        squadronDetailsView.bind(viewModel);
+        viewModel.getSquadron().bind(squadrons.getSelectionModel().selectedItemProperty());
+        squadrons.getSelectionModel().selectFirst();
     }
 
     /**

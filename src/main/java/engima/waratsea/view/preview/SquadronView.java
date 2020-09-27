@@ -17,7 +17,7 @@ import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.PreviewMapView;
-import engima.waratsea.viewmodel.AirfieldViewModel;
+import engima.waratsea.viewmodel.airfield.AirfieldViewModel;
 import engima.waratsea.viewmodel.DeploymentViewModel;
 import engima.waratsea.viewmodel.RegionViewModel;
 import javafx.beans.binding.Bindings;

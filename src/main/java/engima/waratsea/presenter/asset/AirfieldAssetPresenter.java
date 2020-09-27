@@ -15,7 +15,7 @@ import engima.waratsea.view.asset.AirfieldAssetSummaryView;
 import engima.waratsea.view.asset.AssetId;
 import engima.waratsea.view.asset.AssetSummaryView;
 import engima.waratsea.view.map.MainMapView;
-import engima.waratsea.viewmodel.AirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;

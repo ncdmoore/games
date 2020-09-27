@@ -1,6 +1,7 @@
 package engima.waratsea.view.util;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
@@ -29,6 +30,41 @@ public class BoundGridPaneMap {
         return this;
     }
 
+    /**
+     * Build a grid pane that contains the given data.
+     *
+     * @param data A map of key, value pairs that serves as the source of the grid data.
+     * @return A grid pane. Each row contains two
+     * columns. The first column is the key and the second the value.
+     */
+    public Node buildAndBindIntegers(final Map<String, IntegerProperty> data) {
+        GridPane gridPane = new GridPane();
+
+        int row = 0;
+        for (Map.Entry<String, IntegerProperty> entry : data.entrySet()) {
+            Label keyLabel = new Label(entry.getKey());
+            Label valueLabel = new Label();
+
+            valueLabel.textProperty().bind(entry.getValue().asString());
+
+            gridPane.add(keyLabel, 0, row);
+            gridPane.add(valueLabel, 1, row);
+            row++;
+        }
+
+        if (StringUtils.isNotBlank(gridStyleId)) {
+            gridPane.getStyleClass().add(gridStyleId);
+        }
+
+        if (columnConstraints != null) {
+            gridPane.getColumnConstraints().addAll(columnConstraints);
+        }
+
+        gridPane.setMaxWidth(width);
+        gridPane.setMinWidth(width);
+
+        return gridPane;
+    }
 
     /**
      * Build a grid pane that contains the given data.
@@ -37,21 +73,55 @@ public class BoundGridPaneMap {
      * @return A grid pane. Each row contains two
      * columns. The first column is the key and the second the value.
      */
-    public Node buildAndBind(final Map<String, IntegerProperty> data) {
+    public Node buildAndBindStrings(final Map<String, StringProperty> data) {
         GridPane gridPane = new GridPane();
 
-        int i = 0;
-        for (Map.Entry<String, IntegerProperty> entry : data.entrySet()) {
+        int row = 0;
+        for (Map.Entry<String, StringProperty> entry : data.entrySet()) {
             Label keyLabel = new Label(entry.getKey());
             Label valueLabel = new Label();
 
-            valueLabel.textProperty().bind(entry.getValue().asString());
+            valueLabel.textProperty().bind(entry.getValue());
 
+            gridPane.add(keyLabel, 0, row);
+            gridPane.add(valueLabel, 1, row);
+            row++;
+        }
 
+        if (StringUtils.isNotBlank(gridStyleId)) {
+            gridPane.getStyleClass().add(gridStyleId);
+        }
 
-            gridPane.add(keyLabel, 0, i);
-            gridPane.add(valueLabel, 1, i);
-            i++;
+        if (columnConstraints != null) {
+            gridPane.getColumnConstraints().addAll(columnConstraints);
+        }
+
+        gridPane.setMaxWidth(width);
+        gridPane.setMinWidth(width);
+
+        return gridPane;
+    }
+
+    /**
+     * Build a grid pane that contains the given data.
+     *
+     * @param data A map of key, value pairs that serves as the source of the grid data.
+     * @return A grid pane. Each row contains two
+     * columns. The first column is the key and the second the value.
+     */
+    public Node buildAndBindListStrings(final Map<String, List<StringProperty>> data) {
+        GridPane gridPane = new GridPane();
+
+        int row = 0;
+        for (Map.Entry<String, List<StringProperty>> entry : data.entrySet()) {
+            Label keyLabel = new Label(entry.getKey());
+            gridPane.add(keyLabel, 0, row);
+            for (int column = 0; column < entry.getValue().size(); column++) {
+                Label valueLabel = new Label();
+                valueLabel.textProperty().bind(entry.getValue().get(column));
+                gridPane.add(valueLabel, column + 1, row);
+            }
+            row++;
         }
 
         if (StringUtils.isNotBlank(gridStyleId)) {

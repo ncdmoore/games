@@ -169,6 +169,14 @@ public interface Player {
     List<Squadron> getSquadrons(Nation nation, SquadronLocationType locationType);
 
     /**
+     * This gets the player's squadrons for the given location type.
+     *
+     * @param locationType Where the squadron is located; LAND or SEA.
+     * @return A list of squadrons at the given location.
+     */
+    List<Squadron> getSquadrons(SquadronLocationType locationType);
+
+    /**
      * This gets the player's airfields.
      *
      * @return The player's airfields.

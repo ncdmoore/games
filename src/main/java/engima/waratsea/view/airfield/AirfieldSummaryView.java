@@ -11,7 +11,7 @@ import engima.waratsea.view.airfield.info.AirfieldReadyInfo;
 import engima.waratsea.view.airfield.info.AirfieldPatrolInfo;
 import engima.waratsea.view.airfield.info.AirfieldSquadronInfo;
 import engima.waratsea.view.util.BoundTitledGridPane;
-import engima.waratsea.viewmodel.NationAirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.TitledPane;

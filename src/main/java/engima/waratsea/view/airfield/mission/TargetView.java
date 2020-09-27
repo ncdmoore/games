@@ -6,7 +6,7 @@ import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.view.airfield.mission.stats.FerryView;
 import engima.waratsea.view.airfield.mission.stats.StatsView;
 import engima.waratsea.view.airfield.mission.stats.StrikeView;
-import engima.waratsea.viewmodel.AirMissionViewModel;
+import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import lombok.Getter;

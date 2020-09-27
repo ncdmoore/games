@@ -1,4 +1,4 @@
-package engima.waratsea.viewmodel;
+package engima.waratsea.viewmodel.airfield;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.AircraftBaseType;
@@ -8,6 +8,7 @@ import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronLocationType;
+import engima.waratsea.viewmodel.DeploymentViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
