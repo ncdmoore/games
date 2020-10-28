@@ -9,7 +9,9 @@ import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronDetailsView;
 import engima.waratsea.view.squadron.SquadronViewType;
+import engima.waratsea.view.util.BoundTitledGridPane;
 import engima.waratsea.view.util.TitledGridPane;
+import engima.waratsea.viewmodel.ship.ShipViewModel;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
@@ -45,7 +47,14 @@ public class ShipDetailsView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
 
-    private final SquadronViewModel viewModel;
+    private final BoundTitledGridPane shipDetailsPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane surfaceWeaponsPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane antiAirWeaponsPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane torpedoPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane armourPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane performancePane = new BoundTitledGridPane();
+
+    private final SquadronViewModel squadronViewModel;
     private final SquadronDetailsView squadronDetailsView;
 
 
@@ -68,7 +77,7 @@ public class ShipDetailsView {
         this.imageResourceProvider = imageResourceProvider;
         this.props = props;
 
-        this.viewModel = squadronViewModelProvider.get();
+        this.squadronViewModel = squadronViewModelProvider.get();
         this.squadronDetailsView = squadronDetailsViewProvider.get();
     }
 
@@ -99,6 +108,20 @@ public class ShipDetailsView {
     }
 
     /**
+     * Bind to the view model.
+     *
+     * @param viewModel The ship view model.
+     */
+    public void bind(final ShipViewModel viewModel) {
+        shipDetailsPane.bindStrings(viewModel.getShipDetailsData());
+        surfaceWeaponsPane.bindStrings(viewModel.getSurfaceWeaponData());
+        antiAirWeaponsPane.bindStrings(viewModel.getAntiAirWeaponData());
+        torpedoPane.bindListStrings(viewModel.getTorpedoData());
+        armourPane.bindStrings(viewModel.getArmourData());
+        performancePane.bindStrings(viewModel.getMovementData());
+    }
+
+    /**
      * Build the ship tab.
      *
      * @param ship The ship whose specification is shown in the tab.
@@ -108,12 +131,12 @@ public class ShipDetailsView {
         VBox shipVBox = new VBox(getImage(ship));
         shipVBox.setId("ship-image");
 
-        TitledPane shipDetailsPane = buildPane("Ship Details", getShipDetailsData(ship));
+        buildPane(shipDetailsPane).setTitle("Ship Details");
 
         VBox detailsVBox = new VBox(shipVBox, shipDetailsPane);
         detailsVBox.setId("details-pane");
 
-        Node weaponComponentsVBox = buildWeapons(ship);
+        Node weaponComponentsVBox = buildWeapons();
         weaponComponentsVBox.getStyleClass().add("components-pane");
 
         HBox leftHBox = new HBox(detailsVBox, weaponComponentsVBox);
@@ -224,8 +247,8 @@ public class ShipDetailsView {
      * Bind the aircraft data to the view.
      */
     private void bindAircraftTab() {
-        squadronDetailsView.bind(viewModel);
-        viewModel.getSquadron().bind(squadrons.getSelectionModel().selectedItemProperty());
+        squadronDetailsView.bind(squadronViewModel);
+        squadronViewModel.getSquadron().bind(squadrons.getSelectionModel().selectedItemProperty());
         squadrons.getSelectionModel().selectFirst();
     }
 
@@ -250,14 +273,13 @@ public class ShipDetailsView {
     /**
      * Build the ship weapon components.
      *
-     * @param ship The ship.
      * @return The node that contains the ship components.
      */
-    private Node buildWeapons(final Ship ship) {
-        TitledGridPane surfaceWeaponsPane = buildPane("Surface Weapons", getSurfaceWeaponData(ship));
-        TitledGridPane antiAirWeaponsPane = buildPane("Anti-Air Weapons", getAntiAirWeaponData(ship));
-        TitledGridPane torpedoPane = buildPane("Torpedos", getTorpedoData(ship));
-        TitledGridPane armourPane = buildPane("Armour", getArmourData(ship));
+    private Node buildWeapons() {
+        buildPane(surfaceWeaponsPane).setTitle("Surface Weapons");
+        buildPane(antiAirWeaponsPane).setTitle("Anti-Air Weapons");
+        buildPane(torpedoPane).setTitle("Torpedoes");
+        buildPane(armourPane).setTitle("Armour");
         return new VBox(surfaceWeaponsPane, antiAirWeaponsPane, torpedoPane, armourPane);
     }
 
@@ -268,12 +290,12 @@ public class ShipDetailsView {
      * @return The node that contains the ship components.
      */
     private Node buildPerformance(final Ship ship) {
-        TitledGridPane speedPane = buildPane("Movement", getMovementData(ship));
+        buildPane(performancePane).setTitle("Movement:");
         TitledGridPane aswPane = buildPane("ASW", getAswData(ship));
         TitledGridPane fuelPane = buildPane("Fuel", getFuelData(ship));
         TitledGridPane squadronPane = buildPane("Aircraft", getSquadronSummary(ship));
         TitledGridPane cargoPane = buildPane("Cargo", getCargoData(ship));
-        return new VBox(speedPane, aswPane, fuelPane, squadronPane, cargoPane);
+        return new VBox(performancePane, aswPane, fuelPane, squadronPane, cargoPane);
     }
 
     /**
@@ -292,76 +314,17 @@ public class ShipDetailsView {
     }
 
     /**
-     * Get the ship's surface weapon data.
+     * Build a component pane.
      *
-     * @param ship The ship whose surface weapon data is retreived.
-     * @return A map of the ship's surface weapon data.
+     * @param pane The pane to build.
+     * @return The built pane.
      */
-    private Map<String, String> getShipDetailsData(final Ship ship) {
-        Map<String, String> details = new LinkedHashMap<>();
-        details.put("Name:", ship.getTitle());
-        details.put("Type:", ship.getType().toString());
-        details.put("Class:", ship.getShipClass());
-        details.put("Nationality:", ship.getNation().toString());
-        details.put("Victory Points:", ship.getVictoryPoints() + "");
-        details.put("", "");
-        return details;
+    private BoundTitledGridPane buildPane(final BoundTitledGridPane pane) {
+        return pane.setWidth(props.getInt("ship.dialog.detailsPane.width"))
+                .setGridStyleId("component-grid")
+                .build();
     }
 
-    /**
-     * Get the ship's surface weapon data.
-     *
-     * @param ship The ship whose surface weapon data is retreived.
-     * @return A map of the ship's surface weapon data.
-     */
-    private Map<String, String> getSurfaceWeaponData(final Ship ship) {
-        Map<String, String> weapons = new LinkedHashMap<>();
-        weapons.put("Primary:", ship.getPrimary().getHealth() + "");
-        weapons.put("Secondary:", ship.getSecondary().getHealth() + "");
-        weapons.put("Tertiary:", ship.getTertiary().getHealth() + "");
-        return weapons;
-    }
-
-    /**
-     * Get the ship's anti air weapon data.
-     *
-     * @param ship The ship whose anti air weapon data is retrieved.
-     * @return A map of the ship's anti-air weapon data.
-     */
-    private Map<String, String> getAntiAirWeaponData(final Ship ship) {
-        Map<String, String> weapons = new LinkedHashMap<>();
-        weapons.put("Anti Air:", ship.getAntiAir().getHealth() + "");
-        return weapons;
-    }
-
-    /**
-     * Get the ship's torpedo data.
-     *
-     * @param ship The ship whose torpedo data is retrieved.
-     * @return A map of the ship's torpedo data.
-     */
-    private Map<String, String> getTorpedoData(final Ship ship) {
-        Map<String, String> weapons = new LinkedHashMap<>();
-        weapons.put("Torpedo:", ship.getTorpedo().getHealth() + "");
-        return weapons;
-    }
-
-    /**
-     * Get the ship's armour data.
-     *
-     * @param ship The ship's whose armour data is retrieved.
-     * @return A map of the armour type to armour value.
-     */
-    private Map<String, String> getArmourData(final Ship ship) {
-        Map<String, String> armour = new LinkedHashMap<>();
-        armour.put("Primary:", ship.getPrimary().getArmour().toString());
-        armour.put("Secondary:", ship.getSecondary().getArmour().toString());
-        armour.put("Tertiary:", ship.getTertiary().getArmour().toString());
-        armour.put("Anti Air:", ship.getAntiAir().getArmour().toString());
-        armour.put("Hull:", ship.getHull().getArmour().toString());
-        armour.put("Deck:", ship.getHull().isDeck() + "");
-        return armour;
-    }
 
     /**
      * Get the ship's ASW data.
@@ -374,19 +337,7 @@ public class ShipDetailsView {
         asw.put("ASW Capable:", ship.getAsw().isAsw() + "");
         return asw;
     }
-    /**
-     * Get the ship's movement data.
-     *
-     * @param ship The ship whose movement is retrieved.
-     * @return A map of the movement per turn type.
-     */
-    private Map<String, String> getMovementData(final Ship ship) {
-        Map<String, String> speed = new LinkedHashMap<>();
-        speed.put("Even turns:", ship.getMovement().getEven() + "");
-        speed.put("Odd turns:", ship.getMovement().getOdd() + "");
-        speed.put("", "");
-        return speed;
-    }
+
 
     /**
      * Get the ship's fuel data.

@@ -15,10 +15,10 @@ public class Movement implements Component {
     private final int maxOdd;
 
     @Getter
-    private int even;
+    private final int even;
 
     @Getter
-    private int odd;
+    private final int odd;
 
     /**
      * Constructor.

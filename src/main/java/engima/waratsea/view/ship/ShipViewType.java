@@ -19,23 +19,23 @@ public enum ShipViewType  {
     TRANSPORT("Transport");
 
     @Getter
-    private String value;
+    private final String value;
 
-    private static Map<ShipType, ShipViewType> viewTypeMap = new HashMap<>();
+    private static final Map<ShipType, ShipViewType> VIEW_TYPE_MAP = new HashMap<>();
 
     static {
-        viewTypeMap.put(ShipType.AIRCRAFT_CARRIER, AIRCRAFT_CARRIER);
-        viewTypeMap.put(ShipType.SEAPLANE_CARRIER, AIRCRAFT_CARRIER);
-        viewTypeMap.put(ShipType.BATTLECRUISER, BATTLESHIP);
-        viewTypeMap.put(ShipType.BATTLESHIP, BATTLESHIP);
-        viewTypeMap.put(ShipType.CRUISER, CRUISER);
-        viewTypeMap.put(ShipType.DESTROYER, DESTROYER);
-        viewTypeMap.put(ShipType.DESTROYER_ESCORT, DESTROYER_ESCORT);
-        viewTypeMap.put(ShipType.MINESWEEPER, PATROL);
-        viewTypeMap.put(ShipType.MINELAYER, PATROL);
-        viewTypeMap.put(ShipType.SLOOP, PATROL);
-        viewTypeMap.put(ShipType.OILER, TRANSPORT);
-        viewTypeMap.put(ShipType.TRANSPORT, TRANSPORT);
+        VIEW_TYPE_MAP.put(ShipType.AIRCRAFT_CARRIER, AIRCRAFT_CARRIER);
+        VIEW_TYPE_MAP.put(ShipType.SEAPLANE_CARRIER, AIRCRAFT_CARRIER);
+        VIEW_TYPE_MAP.put(ShipType.BATTLECRUISER, BATTLESHIP);
+        VIEW_TYPE_MAP.put(ShipType.BATTLESHIP, BATTLESHIP);
+        VIEW_TYPE_MAP.put(ShipType.CRUISER, CRUISER);
+        VIEW_TYPE_MAP.put(ShipType.DESTROYER, DESTROYER);
+        VIEW_TYPE_MAP.put(ShipType.DESTROYER_ESCORT, DESTROYER_ESCORT);
+        VIEW_TYPE_MAP.put(ShipType.MINESWEEPER, PATROL);
+        VIEW_TYPE_MAP.put(ShipType.MINELAYER, PATROL);
+        VIEW_TYPE_MAP.put(ShipType.SLOOP, PATROL);
+        VIEW_TYPE_MAP.put(ShipType.OILER, TRANSPORT);
+        VIEW_TYPE_MAP.put(ShipType.TRANSPORT, TRANSPORT);
     }
 
     /**
@@ -54,7 +54,7 @@ public enum ShipViewType  {
      * @return The view ship type.
      */
     public static ShipViewType get(final ShipType type) {
-        return viewTypeMap.get(type);
+        return VIEW_TYPE_MAP.get(type);
     }
 
     /**

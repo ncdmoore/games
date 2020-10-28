@@ -7,6 +7,7 @@ import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogOkOnlyView;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.ship.ShipDetailsView;
+import engima.waratsea.viewmodel.ship.ShipViewModel;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ public class ShipDetailsDialog {
     private final CssResourceProvider cssResourceProvider;
     private final Provider<DialogOkOnlyView> dialogProvider;
     private final Provider<ShipDetailsView> viewProvider;
+    private final Provider<ShipViewModel> viewModelProvider;
     private final ViewProps props;
 
     private Stage stage;
@@ -31,16 +33,19 @@ public class ShipDetailsDialog {
      * @param cssResourceProvider Provides the css file.
      * @param dialogProvider Provides the view for this dialog.
      * @param viewProvider Provides the view contents of the dialog.
+     * @param viewModelProvider Provides the view model.
      * @param props The view properties.
      */
     @Inject
     public ShipDetailsDialog(final CssResourceProvider cssResourceProvider,
                              final Provider<DialogOkOnlyView> dialogProvider,
                              final Provider<ShipDetailsView> viewProvider,
+                             final Provider<ShipViewModel> viewModelProvider,
                              final ViewProps props) {
         this.cssResourceProvider = cssResourceProvider;
         this.dialogProvider = dialogProvider;
         this.viewProvider = viewProvider;
+        this.viewModelProvider = viewModelProvider;
         this.props = props;
     }
 
@@ -50,8 +55,11 @@ public class ShipDetailsDialog {
      * @param ship The id of the ship for which the details are shown.
      */
     public void show(final Ship ship) {
-        ShipDetailsView view = viewProvider.get();    // The ship details view.
+        ShipViewModel viewModel = viewModelProvider.get();
+        ShipDetailsView view = viewProvider.get();          // The ship details view.
         DialogOkOnlyView dialog = dialogProvider.get();     // The dialog view that contains the ship details view.
+
+        viewModel.set(ship);
 
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -59,8 +67,10 @@ public class ShipDetailsDialog {
 
         dialog.setWidth(props.getInt("ship.dialog.width"));
         dialog.setHeight(props.getInt("ship.dialog.height"));
-        dialog.setContents(view.build(ship));              // Add the ship details to the dialog.
+        dialog.setContents(view.build(ship));               // Add the ship details to the dialog.
         dialog.setCss(cssResourceProvider.get(CSS_FILE));
+
+        view.bind(viewModel);
 
         dialog.getOkButton().setOnAction(event -> close());
 
