@@ -1,18 +1,28 @@
 package engima.waratsea.viewmodel.ship;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.ship.Ship;
+import engima.waratsea.view.squadron.SquadronViewType;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
+
+import static engima.waratsea.model.squadron.StepSize.ONE_THIRD;
+import static engima.waratsea.model.squadron.StepSize.TWO_THIRDS;
 
 public class ShipViewModel {
     @Getter
@@ -43,6 +53,11 @@ public class ShipViewModel {
 
     private final StringProperty evenMovement = new SimpleStringProperty();
     private final StringProperty oddMovement = new SimpleStringProperty();
+    private final StringProperty aswCapable = new SimpleStringProperty();
+    private final StringProperty cargo = new SimpleStringProperty();
+    private final StringProperty fuel = new SimpleStringProperty();
+
+    private final ObjectProperty<ObservableMap<String, String>> squadronSummary = new SimpleObjectProperty<>(FXCollections.emptyObservableMap());
 
 
     @Inject
@@ -53,6 +68,10 @@ public class ShipViewModel {
         bindTorpedo();
         bindArmour();
         bindMovement();
+        bindAsw();
+        bindFuel();
+        bindCargo();
+        bindSquadronCount();
     }
 
     /**
@@ -143,6 +162,53 @@ public class ShipViewModel {
         speed.put("Odd turns:", oddMovement);
         speed.put("", new SimpleStringProperty(""));
         return speed;
+    }
+
+    /**
+     * Get the ship's ASW data.
+     *
+     * @return A map of the ASW data.
+     */
+    public Map<String, StringProperty> getAswData() {
+        Map<String, StringProperty> asw = new LinkedHashMap<>();
+        asw.put("ASW Capable:", aswCapable);
+        return asw;
+    }
+
+    /**
+     * Get the ship's fuel data.
+     *
+     * @return The ship's fuel data.
+     */
+    public Map<String, StringProperty> getFuelData() {
+        Map<String, StringProperty> fuelData = new LinkedHashMap<>();
+        fuelData.put("Remaining Fuel:", fuel);
+        return fuelData;
+    }
+
+    /**
+     * Get the ship's cargo data.
+     *
+     * @return The ship's cargo data.
+     */
+    public Map<String, StringProperty> getCargoData() {
+        Map<String, StringProperty> cargoData = new LinkedHashMap<>();
+        cargoData.put("Current Cargo:", cargo);
+        return cargoData;
+    }
+
+    /**
+     * Get the ship's squadron data.
+     *
+     * @return The ship's squadron data.
+     */
+    public Map<String, StringProperty> getSquadronSummary() {
+        return squadronSummary
+                .getValue()
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey,
+                        e -> new SimpleStringProperty(e.getValue())));
     }
 
     private void bindDetails() {
@@ -265,5 +331,83 @@ public class ShipViewModel {
                 .ofNullable(ship.getValue())
                 .map(s -> s.getMovement().getOdd() + "")
                 .orElse(""), ship));
+    }
+
+    private void bindAsw() {
+        aswCapable.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(ship.getValue())
+                .map(s -> s.getAsw().isAsw() + "")
+                .orElse(""), ship));
+    }
+
+    private void bindFuel() {
+        fuel.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(ship.getValue())
+                .map(s -> s.getFuel().getHealth() + "")
+                .orElse(""), ship));
+    }
+
+    private void bindCargo() {
+        cargo.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(ship.getValue())
+                .map(s -> s.getCargo().getHealth() + "")
+                .orElse(""), ship));
+    }
+
+    private void bindSquadronCount() {
+        Callable<ObservableMap<String, String>> bindingFunction = () -> {
+            Map<String, String> summary = Optional
+                    .ofNullable(ship.getValue())
+                    .map(s -> convertToView(s.getSquadronSummary()))
+                    .orElse(noSquadronMap());
+
+            return FXCollections.observableMap(summary);
+        };
+
+        squadronSummary.bind(Bindings.createObjectBinding(bindingFunction, ship));
+    }
+
+
+    private Map<String, String> convertToView(final Map<AircraftType, BigDecimal> inputMap) {
+        Map<String, String> squadronMap = SquadronViewType
+                .convertBigDecimal(inputMap)
+                .entrySet()
+                .stream()
+                .filter(e -> e.getValue().compareTo(BigDecimal.ZERO) > 0)
+                .collect(Collectors.toMap(e -> e.getKey().toString() + ":",
+                        e -> formatSteps(e.getValue())));
+
+        if (squadronMap.isEmpty()) {
+            squadronMap.put("No aircraft", "");
+        }
+
+        return squadronMap;
+    }
+
+    private Map<String, String> noSquadronMap() {
+        return Map.of("No aircraft", "");
+    }
+
+    /**
+     * Format the aircraft type steps.
+     *
+     * @param steps The number of steps of a given aircraft type.
+     * @return A string value that represents the total number of steps of the aircraft type.
+     */
+    private String formatSteps(final BigDecimal steps) {
+        String stepString = steps + "";
+
+        BigDecimal oneThird = new BigDecimal(ONE_THIRD);
+        BigDecimal twoThirds = new BigDecimal(TWO_THIRDS);
+
+        if (steps.compareTo(BigDecimal.ZERO) > 0 && steps.compareTo(oneThird) <= 0) {
+            return "1/3 of a step";
+        } else if (steps.compareTo(oneThird) > 0 && steps.compareTo(twoThirds) <= 0) {
+            return "2/3 of a step";
+        } else if (steps.compareTo(BigDecimal.ONE) == 0) {
+            return stepString + " step";
+        } else {
+            return stepString + " steps";
+        }
     }
 }

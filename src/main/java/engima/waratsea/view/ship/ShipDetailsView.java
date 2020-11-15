@@ -8,9 +8,7 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronDetailsView;
-import engima.waratsea.view.squadron.SquadronViewType;
 import engima.waratsea.view.util.BoundTitledGridPane;
-import engima.waratsea.view.util.TitledGridPane;
 import engima.waratsea.viewmodel.ship.ShipViewModel;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.scene.Node;
@@ -28,16 +26,10 @@ import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
-
-import static engima.waratsea.model.squadron.StepSize.ONE_THIRD;
-import static engima.waratsea.model.squadron.StepSize.TWO_THIRDS;
 
 /**
  * The ship details view.
@@ -53,6 +45,10 @@ public class ShipDetailsView {
     private final BoundTitledGridPane torpedoPane = new BoundTitledGridPane();
     private final BoundTitledGridPane armourPane = new BoundTitledGridPane();
     private final BoundTitledGridPane performancePane = new BoundTitledGridPane();
+    private final BoundTitledGridPane aswPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane fuelPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane squadronPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane cargoPane = new BoundTitledGridPane();
 
     private final SquadronViewModel squadronViewModel;
     private final SquadronDetailsView squadronDetailsView;
@@ -119,6 +115,10 @@ public class ShipDetailsView {
         torpedoPane.bindListStrings(viewModel.getTorpedoData());
         armourPane.bindStrings(viewModel.getArmourData());
         performancePane.bindStrings(viewModel.getMovementData());
+        fuelPane.bindStrings(viewModel.getFuelData());
+        aswPane.bindStrings(viewModel.getAswData());
+        squadronPane.bindStrings(viewModel.getSquadronSummary());
+        cargoPane.bindStrings(viewModel.getCargoData());
     }
 
     /**
@@ -147,7 +147,7 @@ public class ShipDetailsView {
         VBox leftVBox = new VBox(leftHBox, profileBox);
         leftVBox.setId("left-vbox");
 
-        Node performanceComponentsVBox = buildPerformance(ship);
+        Node performanceComponentsVBox = buildPerformance();
         performanceComponentsVBox.getStyleClass().add("components-pane");
 
         HBox hBox = new HBox(leftVBox, performanceComponentsVBox);
@@ -286,31 +286,15 @@ public class ShipDetailsView {
     /**
      * Build the ship performance components.
      *
-     * @param ship The ship.
      * @return The node that contains the ship components.
      */
-    private Node buildPerformance(final Ship ship) {
+    private Node buildPerformance() {
         buildPane(performancePane).setTitle("Movement:");
-        TitledGridPane aswPane = buildPane("ASW", getAswData(ship));
-        TitledGridPane fuelPane = buildPane("Fuel", getFuelData(ship));
-        TitledGridPane squadronPane = buildPane("Aircraft", getSquadronSummary(ship));
-        TitledGridPane cargoPane = buildPane("Cargo", getCargoData(ship));
+        buildPane(aswPane).setTitle("ASW");
+        buildPane(fuelPane).setTitle("Fuel");
+        buildPane(squadronPane).setTitle("Aircraft");
+        buildPane(cargoPane).setTitle("Cargo");
         return new VBox(performancePane, aswPane, fuelPane, squadronPane, cargoPane);
-    }
-
-    /**
-     * Build the component titled pane.
-     *
-     * @param title The title of the pane.
-     * @param data The data contained within the pane.
-     * @return The titled pane.
-     */
-    private TitledGridPane buildPane(final String title, final Map<String, String> data) {
-        return new TitledGridPane()
-                .setWidth(props.getInt("ship.dialog.detailsPane.width"))
-                .setGridStyleId("component-grid")
-                .setTitle(title)
-                .buildPane(data);
     }
 
     /**
@@ -323,65 +307,6 @@ public class ShipDetailsView {
         return pane.setWidth(props.getInt("ship.dialog.detailsPane.width"))
                 .setGridStyleId("component-grid")
                 .build();
-    }
-
-
-    /**
-     * Get the ship's ASW data.
-     *
-     * @param ship The ship's whose ASW data is retrieved.
-     * @return A map of the ASW data.
-     */
-    private Map<String, String> getAswData(final Ship ship) {
-        Map<String, String> asw = new LinkedHashMap<>();
-        asw.put("ASW Capable:", ship.getAsw().isAsw() + "");
-        return asw;
-    }
-
-
-    /**
-     * Get the ship's fuel data.
-     *
-     * @param ship The ship whose fuel data is retrieved.
-     * @return The ship's fuel data.
-     */
-    private Map<String, String> getFuelData(final Ship ship) {
-        Map<String, String> fueldata = new LinkedHashMap<>();
-        fueldata.put("Remaing Fuel:", ship.getFuel().getLevel() + "");
-        return fueldata;
-    }
-
-    /**
-     * Get the ship's cargo data.
-     *
-     * @param ship The ship whose cargo data is retrieved
-     * @return The ship's cargo data.
-     */
-    private Map<String, String> getCargoData(final Ship ship) {
-        Map<String, String> cargoData = new LinkedHashMap<>();
-        cargoData.put("Current Cargo:", ship.getCargo().getLevel() + "");
-        return cargoData;
-    }
-
-    /**
-     * Get a summary of the ship's squadrons by type of aircraft.
-     *
-     * @param ship The ship whose squadrons are retrieved.
-     * @return A map of aircraft type to number of steps of that type.
-     */
-    private Map<String, String> getSquadronSummary(final Ship ship) {
-        Map<String, String> summary = SquadronViewType
-                .convertBigDecimal(ship.getSquadronSummary())
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(e -> e.getKey().toString() + ":",
-                                          e -> formatSteps(e.getValue())));
-
-        if (summary.isEmpty()) {
-            summary.put("No aircraft", "");
-        }
-
-         return summary;
     }
 
     /**
@@ -412,28 +337,5 @@ public class ShipDetailsView {
      */
     private ImageView getProfileImage(final Ship ship) {
         return imageResourceProvider.getShipProfileImageView(ship);
-    }
-
-    /**
-     * Format the aircraft type steps.
-     *
-     * @param steps The number of steps of a given aircraft type.
-     * @return A string value that represents the total number of steps of the aircraft type.
-     */
-    private String formatSteps(final BigDecimal steps) {
-        String stepString = steps + "";
-
-        BigDecimal oneThird = new BigDecimal(ONE_THIRD);
-        BigDecimal twoThirds = new BigDecimal(TWO_THIRDS);
-
-        if (steps.compareTo(BigDecimal.ZERO) > 0 && steps.compareTo(oneThird) <= 0) {
-            return "1/3 of a step";
-        } else if (steps.compareTo(oneThird) > 0 && steps.compareTo(twoThirds) <= 0) {
-            return "2/3 of a step";
-        } else if (steps.compareTo(BigDecimal.ONE) == 0) {
-            return stepString + " step";
-        } else {
-            return stepString + " steps";
-        }
     }
 }

@@ -2,11 +2,9 @@ package engima.waratsea.view.squadron;
 
 import engima.waratsea.model.aircraft.AircraftType;
 import lombok.Getter;
-import org.apache.commons.collections4.ListUtils;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -23,15 +21,15 @@ public enum SquadronViewType {
     @Getter
     private final String value;
 
-    private static final Map<AircraftType, SquadronViewType> viewTypeMap = new HashMap<>();
+    private static final Map<AircraftType, SquadronViewType> VIEW_TYPE_MAP = new HashMap<>();
 
     static {
-        viewTypeMap.put(AircraftType.FIGHTER, FIGHTER);
-        viewTypeMap.put(AircraftType.BOMBER, BOMBER);
-        viewTypeMap.put(AircraftType.POOR_NAVAL_BOMBER, BOMBER);
-        viewTypeMap.put(AircraftType.DIVE_BOMBER, DIVE_BOMBER);
-        viewTypeMap.put(AircraftType.TORPEDO_BOMBER, TORPEDO_BOMBER);
-        viewTypeMap.put(AircraftType.RECONNAISSANCE, RECONNAISSANCE);
+        VIEW_TYPE_MAP.put(AircraftType.FIGHTER, FIGHTER);
+        VIEW_TYPE_MAP.put(AircraftType.BOMBER, BOMBER);
+        VIEW_TYPE_MAP.put(AircraftType.POOR_NAVAL_BOMBER, BOMBER);
+        VIEW_TYPE_MAP.put(AircraftType.DIVE_BOMBER, DIVE_BOMBER);
+        VIEW_TYPE_MAP.put(AircraftType.TORPEDO_BOMBER, TORPEDO_BOMBER);
+        VIEW_TYPE_MAP.put(AircraftType.RECONNAISSANCE, RECONNAISSANCE);
     }
 
     /**
@@ -50,23 +48,7 @@ public enum SquadronViewType {
      * @return The view squadron type.
      */
     public static SquadronViewType get(final AircraftType type) {
-        return viewTypeMap.get(type);
-    }
-
-    /**
-     * Convert a model squadron type map to a view squadron type map.
-     *
-     * @param <T> The type of list.
-     * @param map The map to convert.
-     * @return A converted map.
-     */
-    public static <T> Map<SquadronViewType, List<T>> convertList(final Map<AircraftType, List<T>> map) {
-        return map.entrySet()
-                .stream()
-                .collect(Collectors.toMap(
-                        entry -> get(entry.getKey()),     // Convert to squadron view type key.
-                        Map.Entry::getValue,              // Copy over the squadron list.
-                        ListUtils::union));               // Merge any aircraft type keys that map to the same squadron view type.
+        return VIEW_TYPE_MAP.get(type);
     }
 
     /**
@@ -81,20 +63,6 @@ public enum SquadronViewType {
                         entry -> get(entry.getKey()),     // Convert to squadron view type key.
                         Map.Entry::getValue,              // Copy over the squadron list.
                         BigDecimal::add));                // Merge any aircraft type keys that map to the same squadron view type.
-    }
-
-    /**
-     * Convert a model squadron type map to a view squadron type map.
-     * @param map The map to convert.
-     * @return A converted map.
-     */
-    public static Map<SquadronViewType, Integer> convertInteger(final Map<AircraftType, Integer> map) {
-        return map.entrySet()
-                .stream()
-                .collect(Collectors.toMap(
-                        entry -> get(entry.getKey()),     // Convert to squadron view type key.
-                        Map.Entry::getValue,              // Copy over the squadron list.
-                        Integer::sum));                   // Merge any aircraft type keys that map to the same squadron view type.
     }
 
     /**

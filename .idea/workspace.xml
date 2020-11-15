@@ -7,15 +7,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="Re-write squadron views to use bindings.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/ship/ShipViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
+    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Movement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Movement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/SurfaceShip.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/SurfaceShip.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/ship/ShipDetailsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/ship/ShipDetailsDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ship/ShipDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ship/ShipDetailsView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ship/ShipViewType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ship/ShipViewType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronViewType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronViewType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/ship/ShipViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/ship/ShipViewModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +127,7 @@
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="engima.waratsea.Main" />
       <module name="enigma.worldWarTwoAtSea.main" />
-      <option name="PROGRAM_PARAMETERS" value="game=coralSea" />
+      <option name="PROGRAM_PARAMETERS" value="game=bombAlley" />
       <option name="VM_PARAMETERS" value="--module-path /Library/java/JavaVirtualMachines/javafx-sdk-12.0.2/lib --add-modules javafx.controls,javafx.fxml" />
       <extension name="coverage">
         <pattern>
@@ -293,13 +289,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00232" summary="Make sure new air missions are copied from view model to model when saved.">
-      <created>1596298225312</created>
-      <option name="number" value="00232" />
-      <option name="presentableId" value="LOCAL-00232" />
-      <option name="project" value="LOCAL" />
-      <updated>1596298225313</updated>
     </task>
     <task id="LOCAL-00233" summary="Handle case when patrol has assigned squadrons but no stats.">
       <created>1596992064271</created>
@@ -637,7 +626,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601243861846</updated>
     </task>
-    <option name="localTasksCounter" value="281" />
+    <task id="LOCAL-00281" summary="Re-write ship views to use bindings.">
+      <created>1603926687693</created>
+      <option name="number" value="00281" />
+      <option name="presentableId" value="LOCAL-00281" />
+      <option name="project" value="LOCAL" />
+      <updated>1603926687693</updated>
+    </task>
+    <option name="localTasksCounter" value="282" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -652,7 +648,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add available and assigned text labels to mission add and edit views." />
     <MESSAGE value="Bind mission add and edit buttons to squadrons ready and missions exists respectively." />
     <MESSAGE value="Show base name when mouse hover's over base's grid." />
     <MESSAGE value="Pre-select the next available squadron for mission assignments." />
@@ -677,17 +672,18 @@
     <MESSAGE value="Add flags to airfield asset summary" />
     <MESSAGE value="Code cleanup" />
     <MESSAGE value="Re-write squadron views to use bindings." />
-    <option name="LAST_COMMIT_MESSAGE" value="Re-write squadron views to use bindings." />
+    <MESSAGE value="Re-write ship views to use bindings." />
+    <option name="LAST_COMMIT_MESSAGE" value="Re-write ship views to use bindings." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1013" y="266" key="#Project_Structure" timestamp="1599513681506">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1013" y="266" key="#Project_Structure/0.23.2560.1349@0.23.2560.1349" timestamp="1599513681506" />
-    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603397482545">
+    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605455075407">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1603397482545" />
+    <state x="1068" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1605455075407" />
     <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser" timestamp="1601143839461">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -696,10 +692,6 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="939" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1601215448236" />
-    <state x="1206" y="458" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1595184692097">
-      <screen x="0" y="23" width="2560" height="1349" />
-    </state>
-    <state x="1206" y="458" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1595184692097" />
     <state x="1566" y="428" width="950" height="800" key="#xdebugger.evaluate" timestamp="1600984939526">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -708,30 +700,26 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1337" y="547" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1600645261731" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1603038754748">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1603926683325">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1603038754748" />
-    <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog" timestamp="1595274712488">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1603926683325" />
+    <state width="1996" height="150" key="GridCell.Tab.0.bottom" timestamp="1605454954664">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="452" y="133" width="1967" height="1124" key="DiffContextDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1595274712488" />
-    <state width="1996" height="150" key="GridCell.Tab.0.bottom" timestamp="1603397486352">
+    <state width="1996" height="150" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1605454954664" />
+    <state width="1996" height="150" key="GridCell.Tab.0.center" timestamp="1605454954663">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1996" height="150" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1603397486352" />
-    <state width="1996" height="150" key="GridCell.Tab.0.center" timestamp="1603397486352">
+    <state width="1996" height="150" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1605454954663" />
+    <state width="1996" height="150" key="GridCell.Tab.0.left" timestamp="1605454954663">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1996" height="150" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1603397486352" />
-    <state width="1996" height="150" key="GridCell.Tab.0.left" timestamp="1603397486351">
+    <state width="1996" height="150" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1605454954663" />
+    <state width="1996" height="150" key="GridCell.Tab.0.right" timestamp="1605454954663">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1996" height="150" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1603397486351" />
-    <state width="1996" height="150" key="GridCell.Tab.0.right" timestamp="1603397486352">
-      <screen x="0" y="23" width="2560" height="1349" />
-    </state>
-    <state width="1996" height="150" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1603397486352" />
+    <state width="1996" height="150" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1605454954663" />
     <state width="1828" height="325" key="GridCell.Tab.1.bottom" timestamp="1603217504001">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -756,10 +744,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1026" y="324" width="1295" height="837" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1600621738866" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1601243869428">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1603926698543">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1601243869428" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1603926698543" />
     <state x="744" y="138" width="1689" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1601238339468">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -776,10 +764,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1696" y="493" key="refactoring.ChangeSignatureDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1601165175567" />
-    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup" timestamp="1601225352577">
+    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup" timestamp="1603927937008">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1601225352577" />
+    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1603927937008" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
