@@ -3,6 +3,8 @@ package engima.waratsea.viewmodel.ship;
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.ship.Ship;
+import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.squadron.SquadronViewType;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
@@ -10,10 +12,13 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.scene.image.Image;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,9 +64,13 @@ public class ShipViewModel {
 
     private final ObjectProperty<ObservableMap<String, String>> squadronSummary = new SimpleObjectProperty<>(FXCollections.emptyObservableMap());
 
+    @Getter private final ObjectProperty<Image> shipImage = new SimpleObjectProperty<>();
+    @Getter private final ObjectProperty<Image> shipProfileImage = new SimpleObjectProperty<>();
+
+    @Getter private final ObjectProperty<ObservableList<Squadron>> squadrons = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
 
     @Inject
-    public ShipViewModel() {
+    public ShipViewModel(final ImageResourceProvider imageResourceProvider) {
         bindDetails();
         bindSurface();
         bindAntiAir();
@@ -72,6 +81,8 @@ public class ShipViewModel {
         bindFuel();
         bindCargo();
         bindSquadronCount();
+        bindImages(imageResourceProvider);
+        bindSquadrons();
     }
 
     /**
@@ -367,6 +378,31 @@ public class ShipViewModel {
         squadronSummary.bind(Bindings.createObjectBinding(bindingFunction, ship));
     }
 
+
+    private void bindImages(final ImageResourceProvider imageResourceProvider) {
+        shipImage.bind(Bindings.createObjectBinding(() -> Optional
+                .ofNullable(ship.getValue())
+                .map(imageResourceProvider::getShipImage)
+                .orElse(null), ship));
+
+        shipProfileImage.bind(Bindings.createObjectBinding(() -> Optional
+                .ofNullable(ship.getValue())
+                .map(imageResourceProvider::getShipProfileImage)
+                .orElse(null), ship));
+    }
+
+    private void bindSquadrons() {
+        Callable<ObservableList<Squadron>> bindingFunction = () -> {
+            List<Squadron> shipsSquadrons = Optional
+                    .ofNullable(ship.getValue())
+                    .map(Ship::getSquadrons)
+                    .orElse(Collections.emptyList());
+
+            return FXCollections.observableList(shipsSquadrons);
+        };
+
+        squadrons.bind(Bindings.createObjectBinding(bindingFunction, ship));
+    }
 
     private Map<String, String> convertToView(final Map<AircraftType, BigDecimal> inputMap) {
         Map<String, String> squadronMap = SquadronViewType

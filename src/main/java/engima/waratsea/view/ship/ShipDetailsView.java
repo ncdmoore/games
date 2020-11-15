@@ -5,7 +5,6 @@ import com.google.inject.Provider;
 import engima.waratsea.model.ship.Component;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronDetailsView;
 import engima.waratsea.view.util.BoundTitledGridPane;
@@ -36,7 +35,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class ShipDetailsView {
-    private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
 
     private final BoundTitledGridPane shipDetailsPane = new BoundTitledGridPane();
@@ -50,6 +48,9 @@ public class ShipDetailsView {
     private final BoundTitledGridPane squadronPane = new BoundTitledGridPane();
     private final BoundTitledGridPane cargoPane = new BoundTitledGridPane();
 
+    private final ImageView shipImage = new ImageView();
+    private final ImageView shipProfileImage = new ImageView();
+
     private final SquadronViewModel squadronViewModel;
     private final SquadronDetailsView squadronDetailsView;
 
@@ -60,17 +61,14 @@ public class ShipDetailsView {
     /**
      * Constructor called by guice.
      *
-     * @param imageResourceProvider Provides images.
      * @param props View properties.
      * @param squadronViewModelProvider Provides the squadron view model.
      * @param squadronDetailsViewProvider Provides the squadron details view.
      */
     @Inject
-    public ShipDetailsView(final ImageResourceProvider imageResourceProvider,
-                           final ViewProps props,
+    public ShipDetailsView(final ViewProps props,
                            final Provider<SquadronViewModel> squadronViewModelProvider,
                            final Provider<SquadronDetailsView> squadronDetailsViewProvider) {
-        this.imageResourceProvider = imageResourceProvider;
         this.props = props;
 
         this.squadronViewModel = squadronViewModelProvider.get();
@@ -91,10 +89,10 @@ public class ShipDetailsView {
         titlePane.setId("title-pane-" + ship.getSide().getPossessive().toLowerCase());
 
         TabPane tabPane = new TabPane();
-        tabPane.getTabs().add(buildShipTab(ship));
+        tabPane.getTabs().add(buildShipTab());
         tabPane.getTabs().add(buildStatusTab(ship));
         if (ship.hasAircraft()) {
-            tabPane.getTabs().add(buildAircraftTab(ship));
+            tabPane.getTabs().add(buildAircraftTab());
         }
 
         VBox mainPane = new VBox(titlePane, tabPane);
@@ -119,16 +117,21 @@ public class ShipDetailsView {
         aswPane.bindStrings(viewModel.getAswData());
         squadronPane.bindStrings(viewModel.getSquadronSummary());
         cargoPane.bindStrings(viewModel.getCargoData());
+
+        shipImage.imageProperty().bind(viewModel.getShipImage());
+        shipProfileImage.imageProperty().bind(viewModel.getShipProfileImage());
+
+        squadrons.itemsProperty().bind(viewModel.getSquadrons());
+        squadrons.getSelectionModel().selectFirst();                                                                    // Force the first squadron to be shown.
     }
 
     /**
      * Build the ship tab.
      *
-     * @param ship The ship whose specification is shown in the tab.
      * @return The ship tab.
      */
-    private Tab buildShipTab(final Ship ship) {
-        VBox shipVBox = new VBox(getImage(ship));
+    private Tab buildShipTab() {
+        VBox shipVBox = new VBox(shipImage);
         shipVBox.setId("ship-image");
 
         buildPane(shipDetailsPane).setTitle("Ship Details");
@@ -142,7 +145,7 @@ public class ShipDetailsView {
         HBox leftHBox = new HBox(detailsVBox, weaponComponentsVBox);
         leftHBox.setId("left-hbox");
 
-        Node profileBox = buildProfile(ship);
+        Node profileBox = buildProfile();
 
         VBox leftVBox = new VBox(leftHBox, profileBox);
         leftVBox.setId("left-vbox");
@@ -220,13 +223,9 @@ public class ShipDetailsView {
     /**
      * Build the ship's aircraft tab.
      *
-     * @param ship The ship whose aircraft information is shown in the tab.
      * @return The aircraft tab.
      */
-    private Tab buildAircraftTab(final Ship ship) {
-        squadrons.getItems().clear();
-        squadrons.getItems().addAll(ship.getSquadrons());
-
+    private Tab buildAircraftTab() {
         VBox aircraftListBox = new VBox(new Label("Select Squadron:"), squadrons);
         aircraftListBox.setId("aircraft-list");
 
@@ -249,20 +248,18 @@ public class ShipDetailsView {
     private void bindAircraftTab() {
         squadronDetailsView.bind(squadronViewModel);
         squadronViewModel.getSquadron().bind(squadrons.getSelectionModel().selectedItemProperty());
-        squadrons.getSelectionModel().selectFirst();
     }
 
     /**
      * Build the ship's profile image.
      *
-     * @param ship The ship whose profile is built.
      * @return The node that contains the ship's profile image.
      */
-    private Node buildProfile(final Ship ship) {
+    private Node buildProfile() {
         TitledPane titledPane = new TitledPane();
         titledPane.setText("Ship Profile");
 
-        VBox shipVBox = new VBox(getProfileImage(ship));
+        VBox shipVBox = new VBox(shipProfileImage);
         shipVBox.setId("profile-vbox");
 
         titledPane.setContent(shipVBox);
@@ -317,25 +314,5 @@ public class ShipDetailsView {
      */
     private String getPrefix(final Ship ship) {
         return ship.getNation().getShipPrefix() + " ";
-    }
-
-    /**
-     * Get the ship's image.
-     *
-     * @param ship The ship.
-     * @return The ship's image view.
-     */
-    private ImageView getImage(final Ship ship) {
-        return imageResourceProvider.getShipImageView(ship);
-    }
-
-    /**
-     * Get the ship's profile image.
-     *
-     * @param ship The ship.
-     * @return The ship's profile image view.
-     */
-    private ImageView getProfileImage(final Ship ship) {
-        return imageResourceProvider.getShipProfileImageView(ship);
     }
 }

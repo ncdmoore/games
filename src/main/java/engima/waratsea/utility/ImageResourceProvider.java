@@ -83,6 +83,26 @@ public class ImageResourceProvider {
     }
 
     /**
+     * Get a ship image. Attempt to get an image for the ship name. If that fails get the image for the ship's
+     * class.
+     *
+     * @param ship The ship whose image is retrieved.
+     * @return The ship's image view.
+     */
+    public Image getShipImage(final Vessel ship) {
+        Image image = getShipNameImage(ship)
+                .orElseGet(() -> getShipClassImage(ship)
+                        .orElse(null));
+
+        if (image == null) {
+            log.error("Unable to load ship image for {}", ship.getName());
+        }
+
+        return image;
+
+    }
+
+    /**
      * Get the ship profile image. Attempt to get an image for the ship name. If that fails get the image for the
      * ship's class.
      *
@@ -99,6 +119,25 @@ public class ImageResourceProvider {
         }
 
         return new ImageView(image);
+    }
+
+    /**
+     * Get the ship profile image. Attempt to get an image for the ship name. If that fails get the image for the
+     * ship's class.
+     *
+     * @param ship The ship whose image is retrieved.
+     * @return The ship's image view.
+     */
+    public Image getShipProfileImage(final Vessel ship) {
+        Image image = getShipNameProfileImage(ship)
+                .orElseGet(() -> getShipClassProfileImage(ship)
+                        .orElse(null));
+
+        if (image == null) {
+            log.error("Unable to load the ship profile image for '{}' of class '{}'", ship.getName(), ship.getShipClass());
+        }
+
+        return image;
     }
 
     /**
