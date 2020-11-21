@@ -23,7 +23,7 @@
   "hull": {
     "armour": "LIGHT",
     "maxHealth" : 6,
-    "health": 1,
+    "health": 6,
     "deck": false
   },
   "fuel": {
