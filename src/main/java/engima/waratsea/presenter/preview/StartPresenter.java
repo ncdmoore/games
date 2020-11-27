@@ -18,9 +18,9 @@ import engima.waratsea.view.preview.StartView;
 public class StartPresenter implements Presenter {
     private Stage stage;
 
-    private Provider<StartView> viewProvider;
+    private final Provider<StartView> viewProvider;
 
-    private Navigate navigate;
+    private final Navigate navigate;
 
     /**
      * The constructor for the start presenter. Guice will inject the view and the scenario presenter.
@@ -42,12 +42,11 @@ public class StartPresenter implements Presenter {
      */
     @Override
     public void show(final Stage primaryStage) {
-        StartView view = viewProvider.get();
-
         this.stage = primaryStage;
 
-        view.show(stage);
+        StartView view = viewProvider.get();
 
+        view.show(stage);
         view.getNewButton().setOnAction(event -> newGame());
         view.getSavedButton().setOnAction(event -> savedGame());
         view.getOptionsButton().setOnAction(event -> options());

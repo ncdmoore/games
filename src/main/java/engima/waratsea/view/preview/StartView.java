@@ -21,24 +21,16 @@ import engima.waratsea.utility.ImageResourceProvider;
  * This class contains the start view GUI components.
  */
 public class StartView {
-
     private static final String CSS_FILE = "startView.css";
 
-    @Getter
-    private Button newButton;
+    @Getter private Button newButton;
+    @Getter private Button savedButton;
+    @Getter private Button quitButton;
+    @Getter private Button optionsButton;
 
-    @Getter
-    private Button savedButton;
-
-    @Getter
-    private Button quitButton;
-
-    @Getter
-    private Button optionsButton;
-
-    private ViewProps props;
-    private ImageResourceProvider imageResourceProvider;
-    private CssResourceProvider cssResourceProvider;
+    private final ViewProps props;
+    private final ImageResourceProvider imageResourceProvider;
+    private final CssResourceProvider cssResourceProvider;
 
     /**
      * This is the constructor for the StartView.
@@ -100,7 +92,9 @@ public class StartView {
 
         Scene scene = new Scene(vBox, sceneWidth, sceneHeight);
 
-        scene.getStylesheets().add(cssResourceProvider.get(CSS_FILE));
+        scene
+                .getStylesheets()
+                .add(cssResourceProvider.get(CSS_FILE));
 
         stage.setScene(scene);
         stage.show();

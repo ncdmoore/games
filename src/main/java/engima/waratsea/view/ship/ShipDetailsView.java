@@ -2,12 +2,11 @@ package engima.waratsea.view.ship;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.model.ship.Component;
-import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronDetailsView;
 import engima.waratsea.view.util.BoundTitledGridPane;
+import engima.waratsea.viewmodel.ship.ComponentViewModel;
 import engima.waratsea.viewmodel.ship.ShipViewModel;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.scene.Node;
@@ -37,6 +36,7 @@ import java.util.stream.Collectors;
 public class ShipDetailsView {
     private final ViewProps props;
 
+    private final Label title = new Label();
     private final BoundTitledGridPane shipDetailsPane = new BoundTitledGridPane();
     private final BoundTitledGridPane surfaceWeaponsPane = new BoundTitledGridPane();
     private final BoundTitledGridPane antiAirWeaponsPane = new BoundTitledGridPane();
@@ -53,7 +53,6 @@ public class ShipDetailsView {
 
     private final SquadronViewModel squadronViewModel;
     private final SquadronDetailsView squadronDetailsView;
-
 
     @Getter
     private final ChoiceBox<Squadron> squadrons = new ChoiceBox<>();
@@ -78,20 +77,19 @@ public class ShipDetailsView {
     /**
      * Show the ship details view.
      *
-     * @param ship The the ship to show.
+     * @param viewModel The the ship view model to show.
      * @return A node that contains the ship details.
      */
-    public Node build(final Ship ship) {
-        Label title = new Label(getPrefix(ship) + ship.getTitle());
+    public Node build(final ShipViewModel viewModel) {
         title.setId("title");
 
         StackPane titlePane = new StackPane(title);
-        titlePane.setId("title-pane-" + ship.getSide().getPossessive().toLowerCase());
+        titlePane.setId("title-pane-" + viewModel.getSide().getPossessive().toLowerCase());
 
         TabPane tabPane = new TabPane();
         tabPane.getTabs().add(buildShipTab());
-        tabPane.getTabs().add(buildStatusTab(ship));
-        if (ship.hasAircraft()) {
+        tabPane.getTabs().add(buildStatusTab(viewModel));
+        if (viewModel.hasAircraft()) {
             tabPane.getTabs().add(buildAircraftTab());
         }
 
@@ -107,6 +105,8 @@ public class ShipDetailsView {
      * @param viewModel The ship view model.
      */
     public void bind(final ShipViewModel viewModel) {
+        title.textProperty().bind(viewModel.getFullTitle());
+
         shipDetailsPane.bindStrings(viewModel.getShipDetailsData());
         surfaceWeaponsPane.bindStrings(viewModel.getSurfaceWeaponData());
         antiAirWeaponsPane.bindStrings(viewModel.getAntiAirWeaponData());
@@ -134,7 +134,7 @@ public class ShipDetailsView {
         VBox shipVBox = new VBox(shipImage);
         shipVBox.setId("ship-image");
 
-        buildPane(shipDetailsPane).setTitle("Ship Details");
+        buildPane(shipDetailsPane, "Ship Details");
 
         VBox detailsVBox = new VBox(shipVBox, shipDetailsPane);
         detailsVBox.setId("details-pane");
@@ -166,18 +166,18 @@ public class ShipDetailsView {
     /**
      * Build the ship's status.
      *
-     * @param ship THe ship whose status is shown in the tab.
+     * @param viewModel THe ship whose status is shown in the tab.
      * @return The ship's status tab.
      */
-    private Tab buildStatusTab(final Ship ship) {
-
+    private Tab buildStatusTab(final ShipViewModel viewModel) {
         GridPane gridPane = new GridPane();
         gridPane.setId("status-grid");
 
-        List<List<Node>> progressBars = ship
+        List<List<Node>> progressBars = viewModel
                 .getComponents()
+                .getValue()
                 .stream()
-                .map(this::buildProgressBar)
+                .map(this:: buildProgressBar)
                 .collect(Collectors.toList());
 
         for (int row = 0; row < progressBars.size(); row++) {
@@ -205,14 +205,14 @@ public class ShipDetailsView {
      * @param component The ship's component.
      * @return The node that contains the progress bar.
      */
-    private ArrayList<Node> buildProgressBar(final Component component) {
-        int maxHealth = component.getMaxHealth();
+    private ArrayList<Node> buildProgressBar(final ComponentViewModel component) {
+        Label titleLabel = new Label();
+        titleLabel.textProperty().bind(component.getTitle());
 
-        Label titleLabel = new Label(component.getName() + ":");
-
-        double percent = component.getHealth() * 1.0 / maxHealth;
-        Label values = new Label(component.getHealth() + "/" + maxHealth + " " + component.getUnits());
-        ProgressBar progressBar = new ProgressBar(percent);
+        Label values = new Label();
+        values.textProperty().bind(component.getValue());
+        ProgressBar progressBar = new ProgressBar();
+        progressBar.progressProperty().bind(component.getPercent());
         progressBar.setMaxWidth(props.getInt("ship.dialog.status.progressBar.width"));
         progressBar.setMinWidth(props.getInt("ship.dialog.status.progressBar.width"));
         progressBar.getStyleClass().add("green-bar");
@@ -273,10 +273,10 @@ public class ShipDetailsView {
      * @return The node that contains the ship components.
      */
     private Node buildWeapons() {
-        buildPane(surfaceWeaponsPane).setTitle("Surface Weapons");
-        buildPane(antiAirWeaponsPane).setTitle("Anti-Air Weapons");
-        buildPane(torpedoPane).setTitle("Torpedoes");
-        buildPane(armourPane).setTitle("Armour");
+        buildPane(surfaceWeaponsPane, "Surface Weapons");
+        buildPane(antiAirWeaponsPane, "Anti-Air Weapons");
+        buildPane(torpedoPane, "Torpedoes");
+        buildPane(armourPane, "Armour");
         return new VBox(surfaceWeaponsPane, antiAirWeaponsPane, torpedoPane, armourPane);
     }
 
@@ -286,11 +286,11 @@ public class ShipDetailsView {
      * @return The node that contains the ship components.
      */
     private Node buildPerformance() {
-        buildPane(performancePane).setTitle("Movement:");
-        buildPane(aswPane).setTitle("ASW");
-        buildPane(fuelPane).setTitle("Fuel");
-        buildPane(squadronPane).setTitle("Aircraft");
-        buildPane(cargoPane).setTitle("Cargo");
+        buildPane(performancePane, "Movement:");
+        buildPane(aswPane, "ASW");
+        buildPane(fuelPane, "Fuel");
+        buildPane(squadronPane, "Aircraft");
+        buildPane(cargoPane, "Cargo");
         return new VBox(performancePane, aswPane, fuelPane, squadronPane, cargoPane);
     }
 
@@ -298,21 +298,12 @@ public class ShipDetailsView {
      * Build a component pane.
      *
      * @param pane The pane to build.
-     * @return The built pane.
+     * @param paneTitle The pane's title.
      */
-    private BoundTitledGridPane buildPane(final BoundTitledGridPane pane) {
-        return pane.setWidth(props.getInt("ship.dialog.detailsPane.width"))
+    private void buildPane(final BoundTitledGridPane pane, final String paneTitle) {
+         pane.setWidth(props.getInt("ship.dialog.detailsPane.width"))
                 .setGridStyleId("component-grid")
-                .build();
-    }
-
-    /**
-     * Get the ship prefix.
-     *
-     * @param ship The ship.
-     * @return The ship's prefix.
-     */
-    private String getPrefix(final Ship ship) {
-        return ship.getNation().getShipPrefix() + " ";
+                .build()
+                .setTitle(paneTitle);
     }
 }

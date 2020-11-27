@@ -2,6 +2,8 @@ package engima.waratsea.viewmodel.ship;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.AircraftType;
+import engima.waratsea.model.game.Side;
+import engima.waratsea.model.ship.Component;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.ImageResourceProvider;
@@ -30,8 +32,8 @@ import static engima.waratsea.model.squadron.StepSize.ONE_THIRD;
 import static engima.waratsea.model.squadron.StepSize.TWO_THIRDS;
 
 public class ShipViewModel {
-    @Getter
-    private final ObjectProperty<Ship> ship = new SimpleObjectProperty<>();
+    @Getter private final ObjectProperty<Ship> ship = new SimpleObjectProperty<>();
+    @Getter private final StringProperty fullTitle = new SimpleStringProperty();
 
     private final StringProperty title = new SimpleStringProperty();
     private final StringProperty prefixAndTitle = new SimpleStringProperty();
@@ -68,6 +70,7 @@ public class ShipViewModel {
     @Getter private final ObjectProperty<Image> shipProfileImage = new SimpleObjectProperty<>();
 
     @Getter private final ObjectProperty<ObservableList<Squadron>> squadrons = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
+    @Getter private final ObjectProperty<ObservableList<ComponentViewModel>> components = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
 
     @Inject
     public ShipViewModel(final ImageResourceProvider imageResourceProvider) {
@@ -83,6 +86,7 @@ public class ShipViewModel {
         bindSquadronCount();
         bindImages(imageResourceProvider);
         bindSquadrons();
+        bindComponents();
     }
 
     /**
@@ -92,6 +96,28 @@ public class ShipViewModel {
      */
     public void set(final Ship newShip) {
         ship.setValue(newShip);
+    }
+
+    /**
+     * Get the ship's side.
+     *
+     * @return The ship's side.
+     */
+    public Side getSide() {
+        return Optional.ofNullable(ship.getValue())
+                .map(Ship::getSide)
+                .orElseThrow();
+    }
+
+    /**
+     * Indicates if this ship has aircraft.
+     *
+     * @return true if the ship has aircraft; false otherwise.
+     */
+    public boolean hasAircraft() {
+        return Optional.ofNullable(ship.getValue())
+                .map(Ship::hasAircraft)
+                .orElse(false);
     }
 
     /**
@@ -226,6 +252,11 @@ public class ShipViewModel {
         title.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(ship.getValue())
                 .map(Ship::getTitle)
+                .orElse(""), ship));
+
+        fullTitle.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(ship.getValue())
+                .map(s -> getPrefix(s) + s.getTitle())
                 .orElse(""), ship));
 
         prefixAndTitle.bind(Bindings.createStringBinding(() -> Optional
@@ -404,6 +435,20 @@ public class ShipViewModel {
         squadrons.bind(Bindings.createObjectBinding(bindingFunction, ship));
     }
 
+    private void bindComponents() {
+        Callable<ObservableList<ComponentViewModel>> bindingFunction = () -> {
+            List<ComponentViewModel> shipComponents = Optional
+                    .ofNullable(ship.getValue())
+                    .map(Ship::getComponents)
+                    .map(this::getComponentViewModels)
+                    .orElse(Collections.emptyList());
+
+            return FXCollections.observableList(shipComponents);
+        };
+
+        components.bind(Bindings.createObjectBinding(bindingFunction, ship));
+    }
+
     private Map<String, String> convertToView(final Map<AircraftType, BigDecimal> inputMap) {
         Map<String, String> squadronMap = SquadronViewType
                 .convertBigDecimal(inputMap)
@@ -445,5 +490,16 @@ public class ShipViewModel {
         } else {
             return stepString + " steps";
         }
+    }
+
+    private List<ComponentViewModel> getComponentViewModels(final List<Component> componentList) {
+        return componentList
+                .stream()
+                .map(ComponentViewModel::new)
+                .collect(Collectors.toList());
+    }
+
+    private String getPrefix(final Ship aShip) {
+        return aShip.getNation().getShipPrefix() + " ";
     }
 }
