@@ -284,7 +284,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      * @return True if the squadron is in the desired state. False otherwise.
      */
     public boolean isAtState(final SquadronState desiredState) {
-        return state == desiredState;
+        return state == desiredState || desiredState == SquadronState.ALL;
     }
 
     /**

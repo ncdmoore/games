@@ -9,12 +9,10 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.viewmodel.DeploymentViewModel;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -32,8 +30,8 @@ public class AirfieldViewModel {
     @Getter private final StringProperty current = new SimpleStringProperty();
     @Getter private final StringProperty antiAir = new SimpleStringProperty();
 
-    @Getter private final ObjectProperty<ObservableList<Squadron>> airfieldSquadrons = new SimpleObjectProperty<>(this, "airfieldSquadrons", FXCollections.emptyObservableList());
-    @Getter private final ObjectProperty<ObservableList<Squadron>> availableSquadrons = new SimpleObjectProperty<>(this, "availableSquadrons", FXCollections.emptyObservableList());
+    @Getter private final SimpleListProperty<Squadron> airfieldSquadrons = new SimpleListProperty<>(this, "airfieldSquadrons", FXCollections.emptyObservableList());
+    @Getter private final SimpleListProperty<Squadron> availableSquadrons = new SimpleListProperty<>(this, "availableSquadrons", FXCollections.emptyObservableList());
 
     @Getter private final StringProperty availableSquadronsTitle = new SimpleStringProperty();
 

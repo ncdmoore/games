@@ -6,10 +6,8 @@ import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +25,7 @@ import java.util.stream.Stream;
 @Slf4j
 public class AirbaseViewModel {
     // All missions for all nations originating from this airbase.
-    @Getter private final ObjectProperty<ObservableList<AirMissionViewModel>> totalMissions = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
+    @Getter private final SimpleListProperty<AirMissionViewModel> totalMissions = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
     @Getter private Map<Nation, List<AirMissionViewModel>> missionViewModels = new HashMap<>();                         // The missions for each nation.
     @Getter private final Map<PatrolType, PatrolViewModel> patrolViewModels = new HashMap<>();                          // The patrols for all nations.

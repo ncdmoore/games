@@ -11,12 +11,10 @@ import engima.waratsea.model.squadron.Squadron;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -33,10 +31,10 @@ import java.util.stream.Collectors;
  * This is because all nations squadrons count towards the effectiveness of the patrol.
  */
 public class PatrolViewModel {
-    @Getter private final ObjectProperty<ObservableList<Squadron>> assignedAllNations = new SimpleObjectProperty<>();   // All nation's squadrons on patrol. Needed for stats.
+    @Getter private final SimpleListProperty<Squadron> assignedAllNations = new SimpleListProperty<>();   // All nation's squadrons on patrol. Needed for stats.
 
-    @Getter private final Map<Nation, ObjectProperty<ObservableList<Squadron>>> available = new HashMap<>();
-    @Getter private final Map<Nation, ObjectProperty<ObservableList<Squadron>>> assigned = new HashMap<>();
+    @Getter private final Map<Nation, SimpleListProperty<Squadron>> available = new HashMap<>();
+    @Getter private final Map<Nation, SimpleListProperty<Squadron>> assigned = new HashMap<>();
 
     @Getter private final Map<Nation, IntegerProperty> assignedCount = new HashMap<>();
 
@@ -93,8 +91,8 @@ public class PatrolViewModel {
         Set<Nation> nations = viewModels.keySet();
 
         nations.forEach(nation -> {
-            available.put(nation, new SimpleObjectProperty<>());
-            ObjectProperty<ObservableList<Squadron>> allReady = viewModels.get(nation).getTotalReadySquadrons();
+            available.put(nation, new SimpleListProperty<>());
+            SimpleListProperty<Squadron> allReady = viewModels.get(nation).getTotalReadySquadrons();
             available.get(nation).bind(Bindings.createObjectBinding(() -> FXCollections.observableArrayList(filter(allReady)), allReady));
 
             availableExists.put(nation, new SimpleBooleanProperty());
@@ -108,10 +106,7 @@ public class PatrolViewModel {
      */
     public void addToPatrol(final Squadron squadron) {
         Nation nation = squadron.getNation();
-
         assigned.get(nation).get().add(squadron);
-        assignedExists.get(nation).set(assigned.get(nation).getValue().isEmpty());
-        assignedCount.get(nation).set(assigned.get(nation).getValue().size());
 
         // Must create a new list to the change listeners fire.
         List<Squadron> all = new ArrayList<>(assignedAllNations.get());
@@ -130,10 +125,7 @@ public class PatrolViewModel {
      */
     public void removeFromPatrol(final Squadron squadron) {
         Nation nation = squadron.getNation();
-
         assigned.get(nation).get().remove(squadron);
-        assignedExists.get(nation).set(assigned.get(nation).getValue().isEmpty());
-        assignedCount.get(nation).set(assigned.get(nation).getValue().size());
 
         // Must create a new list to the change listeners fire.
         List<Squadron> all = new ArrayList<>(assignedAllNations.get());
@@ -217,9 +209,12 @@ public class PatrolViewModel {
     private void setAssignedSquadrons(final Nation nation) {
         List<Squadron> assignedToPatrol = patrol.getAssignedSquadrons(nation);
 
-        assigned.put(nation, new SimpleObjectProperty<>(FXCollections.observableArrayList(assignedToPatrol)));
+        assigned.put(nation, new SimpleListProperty<>(FXCollections.observableArrayList(assignedToPatrol)));
         assignedExists.put(nation, new SimpleBooleanProperty(assignedToPatrol.isEmpty()));
+        assignedExists.get(nation).bind(Bindings.createBooleanBinding(() -> assigned.get(nation).getValue().isEmpty(), assigned.get(nation)));
+
         assignedCount.put(nation, new SimpleIntegerProperty(assignedToPatrol.size()));
+        assignedCount.get(nation).bind(assigned.get(nation).sizeProperty());
     }
 
     /**
@@ -228,7 +223,7 @@ public class PatrolViewModel {
      * @param allReady All ready squadrons at this airbase.
      * @return A list of ready squadrons that are allowed to do this patrol.
      */
-    private List<Squadron> filter(final ObjectProperty<ObservableList<Squadron>> allReady) {
+    private List<Squadron> filter(final SimpleListProperty<Squadron> allReady) {
         return allReady
                 .getValue()
                 .stream()

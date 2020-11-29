@@ -80,11 +80,10 @@ public class SquadronStateView {
         VBox vBox = new VBox(tilePane, summaryNode);
 
         // Right now the only client of this class that does not pass in a squadron state is the
-        // airfield dialog's view of all squadrons. In a sense, null implies all squadrons.
-        // The state of squadrons in the all view varies. Thus, anytime a squadron is selected
+        // airfield dialog's view of all squadrons. Thus, anytime a squadron is selected
         // in the all state the squadrons state is displayed. We need a state 'node' to hold the
         // value of the squadron's state for display.
-        if (state == null) {
+        if (state == SquadronState.ALL) {
             buildStateNode();
             vBox.getChildren().add(stateLabel);
         }

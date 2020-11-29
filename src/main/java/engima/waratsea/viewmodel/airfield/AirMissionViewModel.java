@@ -20,6 +20,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,16 +43,16 @@ import java.util.stream.Stream;
  */
 @Slf4j
 public class AirMissionViewModel {
-    @Getter private final ObjectProperty<ObservableList<AirMissionType>> missionTypes = new SimpleObjectProperty<>();         // List of all mission types.
+    @Getter private final SimpleListProperty<AirMissionType> missionTypes = new SimpleListProperty<>();                 // List of all mission types.
 
-    @Getter private final Map<MissionRole, ObjectProperty<ObservableList<Squadron>>> available = new HashMap<>();             // List of available squadrons for a particular role.
-    @Getter private final Map<MissionRole, ObjectProperty<ObservableList<Squadron>>> assigned = new HashMap<>();              // List of squadrons assigned to this mission for a particular role.
+    @Getter private final Map<MissionRole, SimpleListProperty<Squadron>> available = new HashMap<>();                   // List of available squadrons for a particular role.
+    @Getter private final Map<MissionRole, SimpleListProperty<Squadron>> assigned = new HashMap<>();                    // List of squadrons assigned to this mission for a particular role.
 
-    @Getter private final Map<MissionRole, BooleanProperty> availableExists = new HashMap<>();                                // Indicates if any available squadrons exist for a particular role.
-    @Getter private final Map<MissionRole, BooleanProperty> assignedExists = new HashMap<>();                                 // Indicates if any assigned squadrons exist for a particular role.
+    @Getter private final Map<MissionRole, BooleanProperty> availableExists = new HashMap<>();                          // Indicates if any available squadrons exist for a particular role.
+    @Getter private final Map<MissionRole, BooleanProperty> assignedExists = new HashMap<>();                           // Indicates if any assigned squadrons exist for a particular role.
 
-    @Getter private final ObjectProperty<ObservableList<Squadron>> totalAssigned = new SimpleObjectProperty<>(FXCollections.observableList(new ArrayList<>()));
-    @Getter private final IntegerProperty totalAssignedCount = new SimpleIntegerProperty(0);                        // Total number of squadrons on the mission. Includes all roles.
+    @Getter private final SimpleListProperty<Squadron> totalAssigned = new SimpleListProperty<>(FXCollections.observableList(new ArrayList<>()));
+    @Getter private final IntegerProperty totalAssignedCount = new SimpleIntegerProperty(0);                  // Total number of squadrons on the mission. Includes all roles.
 
     @Getter private final IntegerProperty totalStepsInRouteToTarget = new SimpleIntegerProperty(0);
     private final IntegerProperty totalStepsInRouteToTargetThisMission = new SimpleIntegerProperty(0);
@@ -65,7 +66,7 @@ public class AirMissionViewModel {
     private final IntegerProperty totalStepsFromThisMissionLeavingRegion = new SimpleIntegerProperty(0);
     private final IntegerProperty totalStepsFromOtherMissionsLeavingRegion = new SimpleIntegerProperty(0);
 
-    @Getter private final ObjectProperty<ObservableList<ProbabilityStats>> missionStats = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
+    @Getter private final SimpleListProperty<ProbabilityStats> missionStats = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
     @Getter private final Map<MissionRole, BooleanProperty> error = new HashMap<>();
     @Getter private final Map<MissionRole, String> errorText = new HashMap<>();
@@ -87,7 +88,7 @@ public class AirMissionViewModel {
     @Getter private final IntegerProperty missionId = new SimpleIntegerProperty(0);
     @Getter private int id;
 
-    @Getter private final ObjectProperty<ObservableList<Squadron>> ready = new SimpleObjectProperty<>(FXCollections.observableList(new ArrayList<>()));
+    @Getter private final SimpleListProperty<Squadron> ready = new SimpleListProperty<>(FXCollections.observableList(new ArrayList<>()));
 
     private boolean checkCapacity = true;  //For new missions the capacity of the target is checked. For existing mission it is not.
 
@@ -106,10 +107,10 @@ public class AirMissionViewModel {
         missionTypes.setValue(FXCollections.observableArrayList(AirMissionType.values()));
 
         Stream.of(MissionRole.values()).forEach(role -> {
-            available.put(role, new SimpleObjectProperty<>());
+            available.put(role, new SimpleListProperty<>());
             availableExists.put(role, new SimpleBooleanProperty());
 
-            assigned.put(role, new SimpleObjectProperty<>(FXCollections.observableArrayList(new ArrayList<>())));
+            assigned.put(role, new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>())));
             assignedExists.put(role, new SimpleBooleanProperty(false));
 
             error.put(role, new SimpleBooleanProperty());
@@ -390,7 +391,7 @@ public class AirMissionViewModel {
      * Bind the total steps in route to the target from all other missions originating from this airbase.
      */
     private void bindTotalStepsInRouteToTargetOtherMissions() {
-        ObjectProperty<ObservableList<AirMissionViewModel>> totalMissions = nationAirbaseViewModel
+        SimpleListProperty<AirMissionViewModel> totalMissions = nationAirbaseViewModel
                 .getAirbaseViewModel()
                 .getTotalMissions();
 
@@ -435,7 +436,7 @@ public class AirMissionViewModel {
      * Bind the total steps in route to the target's region from all other missions.
      */
     private void bindTotalStepsInRouteToTargetRegionOtherMissions() {
-        ObjectProperty<ObservableList<AirMissionViewModel>> totalMissions = nationAirbaseViewModel
+        SimpleListProperty<AirMissionViewModel> totalMissions = nationAirbaseViewModel
                 .getAirbaseViewModel()
                 .getTotalMissions();
 
@@ -482,7 +483,7 @@ public class AirMissionViewModel {
      * Bind the total steps leaving this airbase's region from all the other missions of this airbase.
      */
     private void bindTotalStepsFromOtherMissionsLeavingRegion() {
-        ObjectProperty<ObservableList<AirMissionViewModel>> totalMissions = nationAirbaseViewModel
+        SimpleListProperty<AirMissionViewModel> totalMissions = nationAirbaseViewModel
                 .getAirbaseViewModel()
                 .getTotalMissions();
 
@@ -526,7 +527,7 @@ public class AirMissionViewModel {
     private List<Squadron> filter(final ObjectProperty<AirMissionType> selectedMissionType,
                                   final ObjectProperty<Target> selectedTarget,
                                   final MissionRole role,
-                                  final ObjectProperty<ObservableList<Squadron>> allReady) {
+                                  final SimpleListProperty<Squadron> allReady) {
 
         clearError(role);
 

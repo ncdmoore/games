@@ -16,6 +16,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -23,12 +24,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.ListUtils;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -54,29 +52,20 @@ public class NationAirbaseViewModel {
     @Getter private final StringProperty regionMinimum = new SimpleStringProperty();
     @Getter private final StringProperty regionCurrent = new SimpleStringProperty();
 
-    @Getter private final ObjectProperty<ObservableList<Squadron>> squadrons = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
-
-    @Getter private final Map<SquadronViewType, ObjectProperty<ObservableList<Squadron>>> readySquadrons = new HashMap<>();
-    @Getter private final ObjectProperty<ObservableList<Squadron>> totalReadySquadrons = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
-
-    @Getter private final Map<SquadronViewType, ObjectProperty<ObservableList<Squadron>>> allSquadrons = new HashMap<>();
-
-    @Getter private final ObjectProperty<ObservableList<AirMissionViewModel>> missions = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
+    @Getter private final SimpleListProperty<AirMissionViewModel> missions = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
     @Getter private Map<PatrolType, PatrolViewModel> patrolViewModels;
     private List<AirMissionViewModel> missionViewModels;
+    private final Map<SquadronState, SquadronStateViewModel> squadronStateViewModel = new HashMap<>();
 
-    @Getter private final Map<String, IntegerProperty> squadronCounts = new HashMap<>();     // Per nation.
     @Getter private final Map<String, IntegerProperty> missionCounts = new HashMap<>();      // Per nation.
     @Getter private final Map<String, IntegerProperty> patrolCounts = new HashMap<>();       // Per nation.
-    @Getter private final Map<String, IntegerProperty> readyCounts = new HashMap<>();        // Per nation.
 
-    @Getter private final BooleanProperty noSquadronsReady = new SimpleBooleanProperty(true); // Per nation
     @Getter private final BooleanProperty noMissionsExist = new SimpleBooleanProperty(true); // Per nation.
 
-    @Getter private final ObjectProperty<ObservableList<Aircraft>> aircraftModels = new SimpleObjectProperty<>();       // List of all aircraft models present at this airbase.
-    @Getter private final ObjectProperty<Aircraft> selectedAircraft = new SimpleObjectProperty<>();                             // The selected aircraft model.
-    @Getter private final ObjectProperty<ObservableList<SquadronConfig>> squadronConfigs = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
+    @Getter private final SimpleListProperty<Aircraft> aircraftModels = new SimpleListProperty<>();       // List of all aircraft models present at this airbase.
+    @Getter private final ObjectProperty<Aircraft> selectedAircraft = new SimpleObjectProperty<>();                     // The selected aircraft model.
+    @Getter private final SimpleListProperty<SquadronConfig> squadronConfigs = new SimpleListProperty<>(FXCollections.emptyObservableList());
     @Getter private final ObjectProperty<SquadronConfig> selectedConfig = new SimpleObjectProperty<>();
 
     @Getter private AirbaseViewModel airbaseViewModel;
@@ -90,16 +79,15 @@ public class NationAirbaseViewModel {
     @Inject
     public NationAirbaseViewModel() {
         Stream
-                .of(SquadronViewType.values())
-                .forEach(this::initializeSquadrons);
-
-        Stream
                 .of(AirMissionType.values())
                 .forEach(this::initializeMission);
 
         Stream
                 .of(PatrolType.values())
                 .forEach(this::initializePatrol);
+
+        squadronStateViewModel.put(SquadronState.READY, new SquadronStateViewModel());
+        squadronStateViewModel.put(SquadronState.ALL, new SquadronStateViewModel());
     }
 
     /**
@@ -126,11 +114,10 @@ public class NationAirbaseViewModel {
         regionMinimum.set(airbase.getRegion(nation).getMinSteps() + "");
         regionCurrent.set(airbase.getRegion(nation).getCurrentSteps() + "");
 
-        squadrons.set(FXCollections.observableArrayList(airbase.getSquadrons(nation)));
-
-        setReadySquadrons();
-        setAllSquadrons();
         setAircraftModels();
+
+        squadronStateViewModel.get(SquadronState.READY).init(airbase, nation, SquadronState.READY);
+        squadronStateViewModel.get(SquadronState.ALL).init(airbase, nation, SquadronState.ALL);
 
         return this;
     }
@@ -168,8 +155,10 @@ public class NationAirbaseViewModel {
      * @param state The squadron state.
      * @return A map of squadron view type to list of squadrons at the given state.
      */
-    public Map<SquadronViewType, ObjectProperty<ObservableList<Squadron>>> getSquadronMap(final SquadronState state) {
-        return (state == null) ? allSquadrons : readySquadrons;
+    public Map<SquadronViewType, SimpleListProperty<Squadron>> getSquadronMap(final SquadronState state) {
+        return  squadronStateViewModel
+                .get(state)
+                .getSquadronMap();
     }
 
     /**
@@ -178,7 +167,7 @@ public class NationAirbaseViewModel {
      * @param type The patrol type.
      * @return The squadrons assigned to the given patrol type.
      */
-    public ObjectProperty<ObservableList<Squadron>> getAssignedPatrolSquadrons(final PatrolType type) {
+    public SimpleListProperty<Squadron> getAssignedPatrolSquadrons(final PatrolType type) {
         return patrolViewModels.get(type).getAssigned().get(nation);
     }
 
@@ -188,7 +177,7 @@ public class NationAirbaseViewModel {
      * @param type The patrol type.
      * @return The squadrons available for the given patrol type.
      */
-    public ObjectProperty<ObservableList<Squadron>> getAvailablePatrolSquadrons(final PatrolType type) {
+    public SimpleListProperty<Squadron> getAvailablePatrolSquadrons(final PatrolType type) {
         return patrolViewModels.get(type).getAvailable().get(nation);
     }
 
@@ -210,6 +199,33 @@ public class NationAirbaseViewModel {
      */
     public BooleanProperty getAvailablePatrolExists(final PatrolType type) {
         return patrolViewModels.get(type).getAvailableExists().get(nation);
+    }
+
+    /**
+     * Get the total ready squadrons.
+     *
+     * @return The total ready squadrons.
+     */
+    public SimpleListProperty<Squadron> getTotalReadySquadrons() {
+        return squadronStateViewModel.get(SquadronState.READY).getSquadrons();
+    }
+
+    /**
+     * Get the total ready counts.
+     *
+     * @return The total ready counts.
+     */
+    public Map<String, IntegerProperty> getReadyCounts() {
+         return getCounts(SquadronState.READY);
+    }
+
+    /**
+     * Get the total squadron counts.
+     *
+     * @return The total squadron counts.
+     */
+    public Map<String, IntegerProperty> getSquadronCounts() {
+        return getCounts(SquadronState.ALL);
     }
 
     /**
@@ -324,8 +340,17 @@ public class NationAirbaseViewModel {
     public SquadronState determineSquadronState(final Squadron squadron) {
         return missionViewModels.stream().anyMatch(mission -> mission.isSquadronOnMission(squadron)) ? SquadronState.ON_MISSION
                 : patrolViewModels.values().stream().anyMatch(patrol -> patrol.isSquadronOnPatrol(squadron)) ? SquadronState.ON_PATROL
-                : readySquadrons.values().stream().flatMap(p -> p.getValue().stream()).anyMatch(s -> s == squadron) ? SquadronState.READY
+                : squadronStateViewModel.get(SquadronState.READY).isPresent(squadron) ? SquadronState.READY
                 : SquadronState.HANGER;
+    }
+
+    /**
+     * Get whether there are any ready squadrons.
+     *
+     * @return Property that indicates if there are any ready squadrons.
+     */
+    public BooleanProperty getNoSquadronsReady() {
+        return squadronStateViewModel.get(SquadronState.READY).getNoSquadronsPresent();
     }
 
     /**
@@ -354,21 +379,6 @@ public class NationAirbaseViewModel {
     }
 
     /**
-     * Initialize the squadrons for the given view type.
-     *
-     * @param type The squadron view type.
-     */
-    private void initializeSquadrons(final SquadronViewType type) {
-        readySquadrons.put(type, new SimpleObjectProperty<>());
-        readyCounts.put(type.toString(), new SimpleIntegerProperty(0));
-
-        allSquadrons.put(type, new SimpleObjectProperty<>());
-        squadronCounts.put(type.toString(), new SimpleIntegerProperty(0));
-
-        bindNoSquadronsReady();
-    }
-
-    /**
      * Initialize the mission squadron count for the given mission type.
      *
      * @param type The mission type.
@@ -384,58 +394,6 @@ public class NationAirbaseViewModel {
      */
     private void initializePatrol(final PatrolType type) {
         patrolCounts.put(type.getValue(), new SimpleIntegerProperty(0));
-    }
-
-    /**
-     * Set the airbase's ready squadrons.
-     */
-    private void setReadySquadrons() {
-        getSquadrons(SquadronState.READY).forEach(this::setReadySquadron);
-
-        List<Squadron> totalReady = readySquadrons
-                .values()
-                .stream()
-                .map(ObjectProperty::get)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-
-        totalReadySquadrons.set(FXCollections.observableArrayList(totalReady));
-    }
-
-    private void setAllSquadrons() {
-        getSquadrons(null).forEach(this::setAllSquadron);
-    }
-
-    /**
-     * Get the squadrons that are in the given state from the airbase.
-     *
-     * @param state A squadron state.
-     * @return A map of squadron types to squadrons of that type that are in the given state.
-     */
-    private Map<SquadronViewType, List<Squadron>> getSquadrons(final SquadronState state) {
-        return airbase.getSquadronMap(nation, state)
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(e -> SquadronViewType.get(e.getKey()),
-                        Map.Entry::getValue,
-                        ListUtils::union,
-                        LinkedHashMap::new));
-    }
-
-    /**
-     * Set the ready squadron of the given squadron type.
-     *
-     * @param type The squadron type.
-     * @param ready The ready squadrons of the given type.
-     */
-    private void setReadySquadron(final SquadronViewType type, final List<Squadron> ready) {
-        readySquadrons.get(type).set(FXCollections.observableArrayList(ready));
-        readyCounts.get(type.toString()).setValue(ready.size());
-    }
-
-    private void setAllSquadron(final SquadronViewType type, final List<Squadron> all) {
-        allSquadrons.get(type).set(FXCollections.observableArrayList(all));
-        squadronCounts.get(type.toString()).setValue(all.size());
     }
 
     /**
@@ -471,20 +429,7 @@ public class NationAirbaseViewModel {
      * @param squadron The squadron added.
      */
     private void addToReady(final Squadron squadron) {
-        if (!totalReadySquadrons.get().contains(squadron)) {   // If the squadron is already in the ready list don't add it again.
-
-            SquadronViewType type = SquadronViewType.get(squadron.getType());
-
-            readySquadrons.get(type).get().add(squadron);
-            readyCounts.get(type.toString()).setValue(readySquadrons.get(type).getValue().size());
-
-            // Have to set the value of the totalReadySquadrons property to trigger the custom object binding used by observers.
-            // Modifying the list by calling add or remove does not work. This seems like a Javafx bug.
-            List<Squadron> totalReady = totalReadySquadrons.get();
-            totalReady.add(squadron);
-
-            totalReadySquadrons.set(FXCollections.observableArrayList(totalReady));
-        }
+        squadronStateViewModel.get(SquadronState.READY).add(squadron);
     }
 
     /**
@@ -508,17 +453,7 @@ public class NationAirbaseViewModel {
      * @param squadron The squadron removed.
      */
     private void removeFromReady(final Squadron squadron) {
-        SquadronViewType type = SquadronViewType.get(squadron.getType());
-
-        readySquadrons.get(type).get().remove(squadron);
-        readyCounts.get(type.toString()).setValue(readySquadrons.get(type).getValue().size());
-
-        // Have to set the value of the totalReadySquadrons property to trigger the custom object binding used by observers.
-        // Modifying the list by calling add or remove does not work. This seems like a Javafx bug.
-        List<Squadron> totalReady = totalReadySquadrons.get();
-        totalReady.remove(squadron);
-
-        totalReadySquadrons.set(FXCollections.observableArrayList(totalReady));
+        squadronStateViewModel.get(SquadronState.READY).remove(squadron);
     }
 
     /**
@@ -582,13 +517,12 @@ public class NationAirbaseViewModel {
                         .get(nation));
     }
 
-    /**
-     * Bind the no squadrons ready property. This property indicates if any squadrons are ready
-     * for this nation at this airbase.
-     */
-    private void bindNoSquadronsReady() {
-        Callable<Boolean> bindingFunction = () -> totalReadySquadrons.getValue().isEmpty();
-
-        noSquadronsReady.bind(Bindings.createBooleanBinding(bindingFunction, totalReadySquadrons));
+    private Map<String, IntegerProperty> getCounts(final SquadronState state) {
+        return squadronStateViewModel
+                .get(state)
+                .getCountMap()
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(e -> e.getKey().toString(), Map.Entry::getValue));
     }
 }

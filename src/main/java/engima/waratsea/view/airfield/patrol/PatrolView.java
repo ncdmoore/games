@@ -34,7 +34,6 @@ public class PatrolView {
 
     private final TitledPane titledPane = new TitledPane();
 
-
     /**
      * Constructor called by guice.
      *

@@ -54,6 +54,7 @@ public class MissionView {
         table.itemsProperty().bind(viewModel.getMissions());
         add.disableProperty().bind(viewModel.getNoSquadronsReady());
         edit.disableProperty().bind(viewModel.getNoMissionsExist());
+        delete.disableProperty().bind(viewModel.getNoMissionsExist());
 
         return titledPane;
     }

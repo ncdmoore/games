@@ -206,7 +206,7 @@ public class AirfieldView {
 
         return airfieldAllView
                 .get(nation)
-                .build(nation, null)   // Pass null for the state. A state of null causes all squadrons to be displayed.
+                .build(nation, SquadronState.ALL)
                 .bind(viewModel);
     }
 

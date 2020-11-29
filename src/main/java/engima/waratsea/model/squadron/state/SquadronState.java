@@ -17,7 +17,7 @@ public enum SquadronState {
          * @return The new squadron state.
          */
         public SquadronState transition(final SquadronAction action) {
-            return readyMap.getOrDefault(action, READY);
+            return READY_MAP.getOrDefault(action, READY);
         }
     },
 
@@ -29,7 +29,7 @@ public enum SquadronState {
          * @return The new squadron state.
          */
         public SquadronState transition(final SquadronAction action) {
-            return queuedForPatrolMap.getOrDefault(action, QUEUED_FOR_PATROL);
+            return QUEUED_FOR_PATROL_MAP.getOrDefault(action, QUEUED_FOR_PATROL);
         }
     },
 
@@ -41,7 +41,7 @@ public enum SquadronState {
          * @return The new squadron state.
          */
         public SquadronState transition(final SquadronAction action) {
-            return queuedForMissionMap.getOrDefault(action, QUEUED_FOR_MISSION);
+            return QUEUED_FOR_MISSION_MAP.getOrDefault(action, QUEUED_FOR_MISSION);
         }
     },
 
@@ -53,7 +53,7 @@ public enum SquadronState {
          * @return The new squadron state.
          */
         public SquadronState transition(final SquadronAction action) {
-            return onPatrolMap.getOrDefault(action, ON_PATROL);
+            return ON_PATROL_MAP.getOrDefault(action, ON_PATROL);
         }
     },
 
@@ -65,7 +65,7 @@ public enum SquadronState {
          * @return The new squadron state.
          */
         public SquadronState transition(final SquadronAction action) {
-            return onMissonMap.getOrDefault(action, ON_MISSION);
+            return ON_MISSON_MAP.getOrDefault(action, ON_MISSION);
         }
     },
 
@@ -77,33 +77,41 @@ public enum SquadronState {
          * @return The new squadron state.
          */
         public SquadronState transition(final SquadronAction action) {
-            return inHangerMap.getOrDefault(action, HANGER);
+            return IN_HANGER_MAP.getOrDefault(action, HANGER);
+        }
+    },
+
+    ALL("All") { //This is used to get all of the squadrons regardless of their state. It represents 'all' states.
+                       //No squadron should ever have this state.
+        @Override
+        public SquadronState transition(final SquadronAction action) {
+            throw new RuntimeException(); // No squadron should ever have this state.
         }
     };
 
-    private static final Map<SquadronAction, SquadronState> readyMap = new HashMap<>();
-    private static final Map<SquadronAction, SquadronState> queuedForPatrolMap = new HashMap<>();
-    private static final Map<SquadronAction, SquadronState> queuedForMissionMap = new HashMap<>();
-    private static final Map<SquadronAction, SquadronState> onPatrolMap = new HashMap<>();
-    private static final Map<SquadronAction, SquadronState> onMissonMap = new HashMap<>();
-    private static final Map<SquadronAction, SquadronState> inHangerMap = new HashMap<>();
+    private static final Map<SquadronAction, SquadronState> READY_MAP = new HashMap<>();
+    private static final Map<SquadronAction, SquadronState> QUEUED_FOR_PATROL_MAP = new HashMap<>();
+    private static final Map<SquadronAction, SquadronState> QUEUED_FOR_MISSION_MAP = new HashMap<>();
+    private static final Map<SquadronAction, SquadronState> ON_PATROL_MAP = new HashMap<>();
+    private static final Map<SquadronAction, SquadronState> ON_MISSON_MAP = new HashMap<>();
+    private static final Map<SquadronAction, SquadronState> IN_HANGER_MAP = new HashMap<>();
 
 
     static {
-        readyMap.put(SquadronAction.ASSIGN_TO_MISSION, QUEUED_FOR_MISSION);
-        readyMap.put(SquadronAction.ASSIGN_TO_PATROL, QUEUED_FOR_PATROL);
+        READY_MAP.put(SquadronAction.ASSIGN_TO_MISSION, QUEUED_FOR_MISSION);
+        READY_MAP.put(SquadronAction.ASSIGN_TO_PATROL, QUEUED_FOR_PATROL);
 
-        queuedForPatrolMap.put(SquadronAction.DO_PATROL, ON_PATROL);
-        queuedForPatrolMap.put(SquadronAction.REMOVE_FROM_PATROL, READY);
+        QUEUED_FOR_PATROL_MAP.put(SquadronAction.DO_PATROL, ON_PATROL);
+        QUEUED_FOR_PATROL_MAP.put(SquadronAction.REMOVE_FROM_PATROL, READY);
 
-        queuedForMissionMap.put(SquadronAction.DO_MISSION, ON_MISSION);
-        queuedForMissionMap.put(SquadronAction.REMOVE_FROM_MISSION, READY);
+        QUEUED_FOR_MISSION_MAP.put(SquadronAction.DO_MISSION, ON_MISSION);
+        QUEUED_FOR_MISSION_MAP.put(SquadronAction.REMOVE_FROM_MISSION, READY);
 
-        onPatrolMap.put(SquadronAction.REMOVE_FROM_PATROL, HANGER);
+        ON_PATROL_MAP.put(SquadronAction.REMOVE_FROM_PATROL, HANGER);
 
-        onMissonMap.put(SquadronAction.RETURN, HANGER);
+        ON_MISSON_MAP.put(SquadronAction.RETURN, HANGER);
 
-        inHangerMap.put(SquadronAction.REFIT, READY);
+        IN_HANGER_MAP.put(SquadronAction.REFIT, READY);
     }
 
     private final String value;
