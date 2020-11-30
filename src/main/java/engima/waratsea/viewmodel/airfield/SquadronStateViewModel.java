@@ -5,7 +5,6 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.view.squadron.SquadronViewType;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -21,7 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -191,10 +189,6 @@ public class SquadronStateViewModel {
      * for this nation at this airbase.
      */
     private void bindNoSquadronsPresent() {
-        Callable<Boolean> bindingFunction = () -> Optional.ofNullable(squadrons.getValue())
-                .map(List::isEmpty)
-                .orElse(true);
-
-        noSquadronsPresent.bind(Bindings.createBooleanBinding(bindingFunction, squadrons));
+        noSquadronsPresent.bind(squadrons.emptyProperty());
     }
 }

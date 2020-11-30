@@ -96,7 +96,7 @@ public class PatrolViewModel {
             available.get(nation).bind(Bindings.createObjectBinding(() -> FXCollections.observableArrayList(filter(allReady)), allReady));
 
             availableExists.put(nation, new SimpleBooleanProperty());
-            availableExists.get(nation).bind(Bindings.createBooleanBinding(() -> available.get(nation).getValue().isEmpty(), available.get(nation)));
+            availableExists.get(nation).bind(available.get(nation).emptyProperty());
         });
     }
     /**
@@ -211,7 +211,7 @@ public class PatrolViewModel {
 
         assigned.put(nation, new SimpleListProperty<>(FXCollections.observableArrayList(assignedToPatrol)));
         assignedExists.put(nation, new SimpleBooleanProperty(assignedToPatrol.isEmpty()));
-        assignedExists.get(nation).bind(Bindings.createBooleanBinding(() -> assigned.get(nation).getValue().isEmpty(), assigned.get(nation)));
+        assignedExists.get(nation).bind(assigned.get(nation).emptyProperty());
 
         assignedCount.put(nation, new SimpleIntegerProperty(assignedToPatrol.size()));
         assignedCount.get(nation).bind(assigned.get(nation).sizeProperty());

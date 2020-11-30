@@ -370,7 +370,7 @@ public class AirMissionViewModel {
 
         Stream.of(MissionRole.values()).forEach(role -> {
             available.get(role).bind(Bindings.createObjectBinding(() -> FXCollections.observableArrayList(filter(missionType, target, role, ready)), missionType, target, ready));
-            availableExists.get(role).bind(Bindings.createBooleanBinding(() -> available.get(role).getValue().isEmpty(), available.get(role)));
+            availableExists.get(role).bind(available.get(role).emptyProperty());
         });
     }
 
