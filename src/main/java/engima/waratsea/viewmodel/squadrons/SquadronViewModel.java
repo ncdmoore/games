@@ -5,16 +5,20 @@ import engima.waratsea.model.aircraft.AttackType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.SquadronFactor;
+import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.utility.Probability;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 import lombok.Getter;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,14 +31,20 @@ public class SquadronViewModel {
 
     @Getter private final ObjectProperty<SquadronConfig> configuration = new SimpleObjectProperty<>();
 
+    @Getter private final ObjectProperty<SquadronState> state = new SimpleObjectProperty<>();
+
+    @Getter private final BooleanProperty present = new SimpleBooleanProperty();
+
     @Getter private final StringProperty title = new SimpleStringProperty();
     @Getter private final StringProperty titleId = new SimpleStringProperty();
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty strength = new SimpleStringProperty();
     private final StringProperty model = new SimpleStringProperty();
     private final StringProperty type = new SimpleStringProperty();
+    private final StringProperty abbreviatedType = new SimpleStringProperty();
     private final StringProperty nation = new SimpleStringProperty();
     private final StringProperty service = new SimpleStringProperty();
+    private final StringProperty equipped = new SimpleStringProperty();
 
     private final StringProperty landFactor = new SimpleStringProperty();
     private final StringProperty landModifier = new SimpleStringProperty();
@@ -48,6 +58,10 @@ public class SquadronViewModel {
     private final StringProperty airModifier = new SimpleStringProperty();
     private final StringProperty airProb = new SimpleStringProperty();
 
+    private final StringProperty airSummary = new SimpleStringProperty();
+    private final StringProperty landSummary = new SimpleStringProperty();
+    private final StringProperty navalSummary = new SimpleStringProperty();
+
     private final StringProperty range = new SimpleStringProperty();
     private final StringProperty radius = new SimpleStringProperty();
     private final StringProperty endurance = new SimpleStringProperty();
@@ -60,6 +74,7 @@ public class SquadronViewModel {
 
     @Getter private final ObjectProperty<Image> aircraftImage = new SimpleObjectProperty<>();
     @Getter private final ObjectProperty<Image> aircraftProfile = new SimpleObjectProperty<>();
+    @Getter private final ObjectProperty<Image> aircraftProfileSummary = new SimpleObjectProperty<>();
 
     private final StringProperty airfield = new SimpleStringProperty();
     private final StringProperty status = new SimpleStringProperty();
@@ -86,7 +101,32 @@ public class SquadronViewModel {
      */
     public void set(final Squadron newSquadron) {
         squadron.setValue(newSquadron);
+        state.setValue(SquadronState.READY);
         configuration.setValue(SquadronConfig.NONE);
+    }
+
+    /**
+     * Set the backing data for this view model.
+     *
+     * @param newSquadron The squadron.
+     * @param newState The squadron state.
+     */
+    public void set(final Squadron newSquadron, final SquadronState newState) {
+        squadron.setValue(newSquadron);
+        state.setValue(newState);
+        configuration.setValue(SquadronConfig.NONE);
+    }
+
+    /**
+     * Set the backing data for this view model.
+     *
+     * @param newSquadron The squadron.
+     * @param newConfig The squadron's config.
+     */
+    public void set(final Squadron newSquadron, final SquadronConfig newConfig) {
+        squadron.setValue(newSquadron);
+        state.setValue(SquadronState.READY);
+        configuration.setValue(newConfig);
     }
 
     /**
@@ -190,7 +230,44 @@ public class SquadronViewModel {
         return details;
     }
 
+    /**
+     * Get the squadron's attack summary.
+     *
+     * @return The squadron's attack summary.
+     */
+    public Map<String, List<StringProperty>> getAttackSummary() {
+        Map<String, List<StringProperty>> summary = new LinkedHashMap<>();
+        summary.put("Type:", List.of(abbreviatedType));
+        summary.put("Strength:", List.of(strength));
+        summary.put(" ", Collections.emptyList());
+        summary.put("Air-to-Air Attack:", List.of(airSummary, airProb));
+        summary.put("Land Attack:", List.of(landSummary, landProb));
+        summary.put("Naval Attack:", List.of(navalSummary, navalProb));
+        return summary;
+    }
+
+    /**
+     * Get the squadron's performance summary.
+     *
+     * @return The squadron's performance summary.
+     */
+    public Map<String, StringProperty> getPerformanceSummary() {
+        Map<String, StringProperty> summary = new LinkedHashMap<>();
+        summary.put("Landing Type:", landing);
+        summary.put("Altitude Rating:", altitude);
+        summary.put(" ", new SimpleStringProperty(""));
+        summary.put("Equipped:", equipped);
+        summary.put("Radius:", radius);
+        summary.put("Endurance:", endurance);
+
+        return summary;
+    }
+
     private void bindDetails() {
+        present.bind(Bindings.createBooleanBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .isPresent(), squadron));
+
         title.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
                 .map(Squadron::getTitle)
@@ -221,6 +298,11 @@ public class SquadronViewModel {
                 .map(s -> s.getAircraft().getType().toString())
                 .orElse(""), squadron));
 
+        abbreviatedType.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(s -> s.getAircraft().getType().getAbbreviated())
+                .orElse(""), squadron));
+
         nation.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
                 .map(s -> s.getNation().toString())
@@ -230,6 +312,11 @@ public class SquadronViewModel {
                 .ofNullable(squadron.getValue())
                 .map(s -> s.getAircraft().getService().toString())
                 .orElse(""), squadron));
+
+        equipped.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(configuration.getValue())
+                .map(SquadronConfig::toString)
+                .orElse(""), configuration));
     }
 
     private void bindLandAttack() {
@@ -243,6 +330,12 @@ public class SquadronViewModel {
                 .ofNullable(squadron.getValue())
                 .map(s -> getFactor(AttackType.LAND))
                 .map(f -> f.getModifier() + "")
+                .orElse(""), squadron, configuration));
+
+        landSummary.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(s -> getFactor(AttackType.LAND))
+                .map(this::getAttackSummary)
                 .orElse(""), squadron, configuration));
 
         landProb.bind(Bindings.createStringBinding(() -> Optional
@@ -262,6 +355,12 @@ public class SquadronViewModel {
                 .ofNullable(squadron.getValue())
                 .map(s -> getFactor(AttackType.NAVAL))
                 .map(f -> f.getModifier() + "")
+                .orElse(""), squadron, configuration));
+
+        navalSummary.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(s -> getFactor(AttackType.NAVAL))
+                .map(this::getAttackSummary)
                 .orElse(""), squadron, configuration));
 
         navalProb.bind(Bindings.createStringBinding(() -> Optional
@@ -286,6 +385,12 @@ public class SquadronViewModel {
         airProb.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
                 .map(s -> getProbability(AttackType.AIR))
+                .orElse(""), squadron, configuration));
+
+        airSummary.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(s -> getFactor(AttackType.AIR))
+                .map(this::getAttackSummary)
                 .orElse(""), squadron, configuration));
     }
 
@@ -343,6 +448,11 @@ public class SquadronViewModel {
                 .ofNullable(squadron.getValue())
                 .map(s -> imageResourceProvider.getAircraftProfileImageView(s.getSide(), s.getAircraft().getModel()))
                 .orElse(null), squadron));
+
+        aircraftProfileSummary.bind(Bindings.createObjectBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(s -> imageResourceProvider.getAircraftProfileImageView(s.getSide(), s.getAircraft().getModel() + "-240"))
+                .orElse(null), squadron));
     }
 
     private void bindAirfieldProperties() {
@@ -380,5 +490,14 @@ public class SquadronViewModel {
     private String getFerry() {
         SquadronConfig config = Optional.ofNullable(configuration.getValue()).orElse(SquadronConfig.NONE);
         return squadron.getValue().getAircraft().getFerryDistance().get(config) + "";
+    }
+
+
+
+    private String getAttackSummary(final SquadronFactor factor) {
+        return factor.getModifier() != 0
+                ? factor.getFactor() + " (" + factor.getModifier() + ")"
+                : factor.isDefensive() ? factor.getFactor() + " (D)"
+                : factor.getFactor() + "";
     }
 }

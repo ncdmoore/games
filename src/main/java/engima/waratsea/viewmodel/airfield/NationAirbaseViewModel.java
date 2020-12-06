@@ -1,6 +1,7 @@
 package engima.waratsea.viewmodel.airfield;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
@@ -56,7 +57,7 @@ public class NationAirbaseViewModel {
 
     @Getter private Map<PatrolType, PatrolViewModel> patrolViewModels;
     private List<AirMissionViewModel> missionViewModels;
-    private final Map<SquadronState, SquadronStateViewModel> squadronStateViewModel = new HashMap<>();
+    @Getter private final Map<SquadronState, SquadronStateViewModel> squadronStateViewModel = new HashMap<>();
 
     @Getter private final Map<String, IntegerProperty> missionCounts = new HashMap<>();      // Per nation.
     @Getter private final Map<String, IntegerProperty> patrolCounts = new HashMap<>();       // Per nation.
@@ -75,9 +76,11 @@ public class NationAirbaseViewModel {
 
     /**
      * Constructor called by guice.
+     *
+     * @param provider A squadron state view model provider.
      **/
     @Inject
-    public NationAirbaseViewModel() {
+    public NationAirbaseViewModel(final Provider<SquadronStateViewModel> provider) {
         Stream
                 .of(AirMissionType.values())
                 .forEach(this::initializeMission);
@@ -86,8 +89,8 @@ public class NationAirbaseViewModel {
                 .of(PatrolType.values())
                 .forEach(this::initializePatrol);
 
-        squadronStateViewModel.put(SquadronState.READY, new SquadronStateViewModel());
-        squadronStateViewModel.put(SquadronState.ALL, new SquadronStateViewModel());
+        squadronStateViewModel.put(SquadronState.READY, provider.get());
+        squadronStateViewModel.put(SquadronState.ALL, provider.get());
     }
 
     /**

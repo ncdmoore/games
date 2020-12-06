@@ -1,7 +1,6 @@
 package engima.waratsea.view.airfield.mission;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Nation;
@@ -62,16 +61,17 @@ public class MissionEditView {
      * @param props The view properties.
      * @param targetView The target view.
      * @param imageResourceProvider Provides images.
-     * @param squadronSummaryViewProvider Provides squadron summaries.
+     * @param squadronSummaryView Squadron summary view.
      */
     @Inject
     public MissionEditView(final ViewProps props,
                            final TargetView targetView,
                            final ImageResourceProvider imageResourceProvider,
-                           final Provider<SquadronSummaryView> squadronSummaryViewProvider) {
+                           final SquadronSummaryView squadronSummaryView) {
         this.imageResourceProvider = imageResourceProvider;
         this.props = props;
         this.targetView = targetView;
+        this.squadronSummaryView = squadronSummaryView;
 
         missionType.setMinWidth(props.getInt("mission.type.list.width"));
         target.setMinWidth(props.getInt("mission.type.list.width"));
@@ -79,7 +79,6 @@ public class MissionEditView {
         Stream.of(MissionRole.values())
                 .forEach(this::createSquadronList);
 
-        squadronSummaryView = squadronSummaryViewProvider.get();
     }
 
     /**
@@ -103,7 +102,7 @@ public class MissionEditView {
 
         Node squadronsList = buildSquadronLists();
 
-        Node squadronSummaryNode = squadronSummaryView.show(nation);
+        Node squadronSummaryNode = squadronSummaryView.build(nation);
 
         VBox leftVBox = new VBox(hBox, squadronsList);
         leftVBox.setId("left-vbox");
@@ -144,6 +143,8 @@ public class MissionEditView {
 
         // Manually trigger the mission type selection for edits.
         targetView.missionTypeSelected(viewModel.getMissionType().getValue());
+
+        squadronSummaryView.bind(viewModel.getSelectedSquadron());
 
         return mainVBox;
     }

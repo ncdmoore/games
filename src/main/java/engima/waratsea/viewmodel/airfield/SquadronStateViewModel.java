@@ -1,10 +1,12 @@
 package engima.waratsea.viewmodel.airfield;
 
+import com.google.inject.Inject;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.view.squadron.SquadronViewType;
+import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -25,11 +27,13 @@ import java.util.stream.Stream;
 
 /**
  * This class represents the airbase view of the squadrons for a given nation that have a given state.
+ * It is currently used in the airfield dialog to show all the squadrons that have a particular state.
  */
 public class SquadronStateViewModel {
-    private Airbase airbase;         // The airbase where the squadrons at this given state are stationed.
-    private Nation nation;           // The nation of the squadrons at this given state.
-    private SquadronState state;     // The given squadron state.
+    private Airbase airbase;                                  // The airbase where the squadrons at this given state are stationed.
+    private Nation nation;                                    // The nation of the squadrons at this given state.
+    private SquadronState state;                              // The given squadron state.
+    @Getter private final SquadronViewModel selectedSquadron; // The currently selected squadron for this given state.
 
     // Map of squadron view type to list of squadrons of that view type
     @Getter private final Map<SquadronViewType, SimpleListProperty<Squadron>> squadronMap = new HashMap<>();
@@ -44,13 +48,16 @@ public class SquadronStateViewModel {
     // Indicates if there are any squadrons at this given state.
     @Getter private final BooleanProperty noSquadronsPresent = new SimpleBooleanProperty(true);
 
-    public SquadronStateViewModel() {
+    @Inject
+    public SquadronStateViewModel(final SquadronViewModel squadronViewModel) {
         Stream
                 .of(SquadronViewType.values())
                 .forEach(type -> {
                     squadronMap.put(type, new SimpleListProperty<>());
                     countMap.put(type, new SimpleIntegerProperty());
                 });
+
+        selectedSquadron = squadronViewModel;
 
         bindCounts();
         bindNoSquadronsPresent();

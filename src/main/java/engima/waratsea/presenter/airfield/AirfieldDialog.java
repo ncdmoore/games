@@ -406,10 +406,13 @@ public class AirfieldDialog {
                     .getSelectionModel()
                     .clearSelection();
 
-            view
-                    .getAirfieldPatrolView()
+            viewModelMap
                     .get(nation)
-                    .selectSquadron(squadron, patrolType, config);
+                    .getPatrolViewModels()
+                    .get(patrolType)
+                    .getSelectedSquadron()
+                    .get(nation)
+                    .set(squadron, config);
         }
     }
 
@@ -434,10 +437,14 @@ public class AirfieldDialog {
                     .getSelectionModel()
                     .clearSelection();
 
-            view
-                    .getAirfieldPatrolView()
+
+            viewModelMap
                     .get(nation)
-                    .selectSquadron(squadron, patrolType, config);
+                    .getPatrolViewModels()
+                    .get(patrolType)
+                    .getSelectedSquadron()
+                    .get(nation)
+                    .set(squadron, config);
         }
     }
 
@@ -514,11 +521,12 @@ public class AirfieldDialog {
                     .filter(entry -> entry.getKey() != type)
                     .forEach(entry -> entry.getValue().getSelectionModel().clearSelection());
 
-            view
-                    .getAirfieldReadyView()
+            viewModelMap
                     .get(nation)
-                    .getSquadronSummaryView()
-                    .setSelectedSquadron(readySquadron);
+                    .getSquadronStateViewModel()
+                    .get(SquadronState.READY)
+                    .getSelectedSquadron()
+                    .set(readySquadron);
         }
     }
 
@@ -531,6 +539,7 @@ public class AirfieldDialog {
     private void allSquadronSelected(final Nation nation, final Squadron allSquadron) {
         if (allSquadron != null) {
             SquadronViewType type = SquadronViewType.get(allSquadron.getType());
+            SquadronState state = viewModelMap.get(nation).determineSquadronState(allSquadron);
 
             //Clear all the other all listView selections. If on clicking a listView
             //that already has a squadron selected and the same squadron is selected,
@@ -546,13 +555,12 @@ public class AirfieldDialog {
                     .filter(entry -> entry.getKey() != type)
                     .forEach(entry -> entry.getValue().getSelectionModel().clearSelection());
 
-            view
-                    .getAirfieldAllView()
+            viewModelMap
                     .get(nation)
-                    .getSquadronSummaryView()
-                    .setSelectedSquadron(allSquadron);
-
-            SquadronState state = viewModelMap.get(nation).determineSquadronState(allSquadron);
+                    .getSquadronStateViewModel()
+                    .get(SquadronState.ALL)
+                    .getSelectedSquadron()
+                    .set(allSquadron, state);
 
             log.info("Squadron: {} state: {}", allSquadron.getTitle(), state);
 

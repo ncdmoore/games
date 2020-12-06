@@ -5,7 +5,6 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronSummaryView;
@@ -91,6 +90,8 @@ public class PatrolView {
 
         patrolStatsMap.forEach((type, stats) -> stats.bind(viewModel.getPatrolViewModels().get(type)));
 
+        patrolSummaryMap.forEach((type, summary) -> summary.bind(viewModel.getPatrolViewModels().get(type).getSelectedSquadron().get(viewModel.getNation())));
+
         return titledPane;
     }
 
@@ -135,20 +136,6 @@ public class PatrolView {
     }
 
     /**
-     * Select a squadron.
-     *
-     * @param squadron The selected squadron.
-     * @param patrolType The patrol type.
-     * @param config The selected squadron's configuration.
-     */
-    public void selectSquadron(final Squadron squadron, final PatrolType patrolType, final SquadronConfig config) {
-        patrolSummaryMap
-                .get(patrolType)
-                .setConfig(config)
-                .setSelectedSquadron(squadron);
-    }
-
-    /**
      * Build a patrol tab.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
@@ -173,7 +160,7 @@ public class PatrolView {
 
         Node squadronSummaryView = patrolSummaryMap
                 .get(patrolType)
-                .show(nation);
+                .build(nation);
 
         Node listNode = lists.build();
 

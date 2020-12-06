@@ -162,10 +162,10 @@ public class MissionEditDialog {
      */
     private void availableSquadronSelected(final MissionRole role, final Squadron squadron) {
         if (squadron != null) {
-            view
-                    .getSquadronSummaryView()
-                    .setConfig(SquadronConfig.NONE)
-                    .setSelectedSquadron(squadron);
+
+            viewModel
+                    .getSelectedSquadron()
+                    .set(squadron);
 
             view
                     .getSquadronList(role)
@@ -183,10 +183,11 @@ public class MissionEditDialog {
      */
     private void assignedSquadronSelected(final MissionRole role, final Squadron squadron) {
         if (squadron != null) {
-            setConfig(role, squadron);
-            view
-                    .getSquadronSummaryView()
-                    .setSelectedSquadron(squadron);
+            SquadronConfig config = getConfig(role, squadron);
+
+            viewModel
+                    .getSelectedSquadron()
+                    .set(squadron, config);
 
             view
                     .getSquadronList(role)
@@ -274,13 +275,13 @@ public class MissionEditDialog {
     }
 
     /**
-     * Set the squadron's role.
+     * Get the squadron's config.
      *
      * @param role The mission role.
      * @param squadron The selected squadron.
+     * @return The squadron configuration.
      */
-    private void setConfig(final MissionRole role, final Squadron squadron) {
-        SquadronConfig config = squadron.determineConfig(selectedTarget, selectedMissionType, role);
-        view.getSquadronSummaryView().setConfig(config);
+    private SquadronConfig getConfig(final MissionRole role, final Squadron squadron) {
+        return squadron.determineConfig(selectedTarget, selectedMissionType, role);
     }
 }

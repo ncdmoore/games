@@ -1,6 +1,7 @@
 package engima.waratsea.viewmodel.airfield;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolDAO;
@@ -8,6 +9,7 @@ import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -31,6 +33,8 @@ import java.util.stream.Collectors;
  * This is because all nations squadrons count towards the effectiveness of the patrol.
  */
 public class PatrolViewModel {
+    private final Provider<SquadronViewModel> squadronViewModelProvider;
+
     @Getter private final SimpleListProperty<Squadron> assignedAllNations = new SimpleListProperty<>();   // All nation's squadrons on patrol. Needed for stats.
 
     @Getter private final Map<Nation, SimpleListProperty<Squadron>> available = new HashMap<>();
@@ -40,6 +44,8 @@ public class PatrolViewModel {
 
     @Getter private final Map<Nation, BooleanProperty> availableExists = new HashMap<>();
     @Getter private final Map<Nation, BooleanProperty> assignedExists = new HashMap<>();
+
+    @Getter private final Map<Nation, SquadronViewModel> selectedSquadron = new HashMap<>();             // The currently selected squadron for this patrol per nation.
 
     @Getter private Patrol patrol;
 
@@ -52,10 +58,12 @@ public class PatrolViewModel {
      * Constructor called by guice.
      *
      * @param patrolDAO The patrol data access object. Needed for patrol statistics.
+     * @param squadronViewModelProvider Provides squadron view models.
      */
     @Inject
-    public PatrolViewModel(final PatrolDAO patrolDAO) {
+    public PatrolViewModel(final PatrolDAO patrolDAO, final Provider<SquadronViewModel> squadronViewModelProvider) {
         this.patrolDAO = patrolDAO;
+        this.squadronViewModelProvider = squadronViewModelProvider;
     }
 
     /**
@@ -73,6 +81,7 @@ public class PatrolViewModel {
         Set<Nation> nations = patrolModel.getAirbase().getNations();
 
         nations.forEach(this::setAssignedSquadrons);
+        nations.forEach(nation -> selectedSquadron.put(nation, squadronViewModelProvider.get()));
         assignedAllNations.set(FXCollections.observableArrayList(patrolModel.getAssignedSquadrons()));
 
         return this;

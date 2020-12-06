@@ -13,6 +13,7 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
+import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectExpression;
 import javafx.beans.property.BooleanProperty;
@@ -51,7 +52,9 @@ public class AirMissionViewModel {
     @Getter private final Map<MissionRole, BooleanProperty> availableExists = new HashMap<>();                          // Indicates if any available squadrons exist for a particular role.
     @Getter private final Map<MissionRole, BooleanProperty> assignedExists = new HashMap<>();                           // Indicates if any assigned squadrons exist for a particular role.
 
-    @Getter private final SimpleListProperty<Squadron> totalAssigned = new SimpleListProperty<>(FXCollections.observableList(new ArrayList<>()));
+    @Getter private final SquadronViewModel selectedSquadron; // The currently selected squadron for this given state.
+
+    @Getter private final SimpleListProperty<Squadron> totalAssigned = new SimpleListProperty<>(FXCollections.emptyObservableList());
     @Getter private final IntegerProperty totalAssignedCount = new SimpleIntegerProperty(0);                  // Total number of squadrons on the mission. Includes all roles.
 
     @Getter private final IntegerProperty totalStepsInRouteToTarget = new SimpleIntegerProperty(0);
@@ -97,12 +100,15 @@ public class AirMissionViewModel {
      *
      * @param game The game.
      * @param missionDAO The mission data access object.
+     * @param squadronViewModel The selected squadron view model.
      */
     @Inject
     public AirMissionViewModel(final Game game,
-                               final MissionDAO missionDAO) {
+                               final MissionDAO missionDAO,
+                               final SquadronViewModel squadronViewModel) {
         this.game = game;
         this.missionDAO = missionDAO;
+        this.selectedSquadron = squadronViewModel;
 
         missionTypes.setValue(FXCollections.observableArrayList(AirMissionType.values()));
 

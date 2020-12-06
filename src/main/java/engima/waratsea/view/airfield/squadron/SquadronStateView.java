@@ -1,7 +1,6 @@
 package engima.waratsea.view.airfield.squadron;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronState;
@@ -10,6 +9,7 @@ import engima.waratsea.view.squadron.SquadronSummaryView;
 import engima.waratsea.view.squadron.SquadronViewType;
 import engima.waratsea.view.util.TitledGridPane;
 import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
+import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -31,7 +31,7 @@ public class SquadronStateView {
     private final ViewProps props;
 
     @Getter private final Map<SquadronViewType, ListView<Squadron>> squadrons = new HashMap<>();
-    @Getter private final SquadronSummaryView squadronSummaryView;
+    @Getter private final SquadronSummaryView newSquadronSummaryView;
 
     private final TitledPane titledPane = new TitledPane();
     private final TitledGridPane stateLabel = new TitledGridPane();
@@ -42,13 +42,13 @@ public class SquadronStateView {
      * Constructor called by guice.
      *
      * @param props View properties.
-     * @param squadronSummaryViewProvider Provides the squadron summary view.
+     * @param newSquadronSummaryView The squadron summary view.
      */
     @Inject
     public SquadronStateView(final ViewProps props,
-                             final Provider<SquadronSummaryView> squadronSummaryViewProvider) {
+                             final SquadronSummaryView newSquadronSummaryView) {
         this.props = props;
-        this.squadronSummaryView = squadronSummaryViewProvider.get();
+        this.newSquadronSummaryView = newSquadronSummaryView;
     }
 
     /**
@@ -75,7 +75,8 @@ public class SquadronStateView {
                 .map(this::buildReadyList)
                 .forEach(node -> tilePane.getChildren().add(node));
 
-        Node summaryNode = squadronSummaryView.show(nation);
+        Node summaryNode = newSquadronSummaryView.build(nation);
+
 
         VBox vBox = new VBox(tilePane, summaryNode);
 
@@ -100,7 +101,17 @@ public class SquadronStateView {
      * @return This airfield ready view.
      */
     public TitledPane bind(final NationAirbaseViewModel viewModel) {
-        squadrons.forEach((type, list) -> list.itemsProperty().bind(viewModel.getSquadronMap(squadronState).get(type)));
+        squadrons.forEach((type, list) -> list
+                .itemsProperty()
+                .bind(viewModel.getSquadronMap(squadronState).get(type)));
+
+        SquadronViewModel selectedSquadronVM = viewModel
+                .getSquadronStateViewModel()
+                .get(squadronState)
+                .getSelectedSquadron();
+
+        newSquadronSummaryView.bind(selectedSquadronVM);
+
         return titledPane;
     }
 
