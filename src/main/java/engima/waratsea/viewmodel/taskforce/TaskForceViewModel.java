@@ -2,7 +2,6 @@ package engima.waratsea.viewmodel.taskforce;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.AircraftType;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceState;
@@ -90,7 +89,7 @@ public class TaskForceViewModel {
         bindTitles();
         bindDetails();
         bindShipTypeMap();
-        bindAircraftTypeMap();
+        bindSquadronTypeMap();
         bindShipTypeSummary();
         bindSquadronTypeSummary();
         bindImages(imageResourceProvider, props);
@@ -171,7 +170,7 @@ public class TaskForceViewModel {
         shipTypeMap.bind(Bindings.createObjectBinding(bindingFunction, taskForce));
     }
 
-    private void bindAircraftTypeMap() {
+    private void bindSquadronTypeMap() {
         Callable<MapProperty<AircraftType, BigDecimal>> bindingFunction = () -> {
             Map<AircraftType, BigDecimal> map = Optional
                     .ofNullable(taskForce.getValue())
@@ -317,8 +316,6 @@ public class TaskForceViewModel {
     }
 
     private String getImageName(final TaskForce force, final ViewProps props) {
-        Side side = force.getSide();
-        return props.getString(side.toLower() + ".taskforce.details.image");
-
+        return props.getString(force.getSide().toLower() + ".taskforce.details.image");
     }
 }
