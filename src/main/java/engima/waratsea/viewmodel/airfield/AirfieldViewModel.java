@@ -9,6 +9,7 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.viewmodel.DeploymentViewModel;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -30,8 +31,8 @@ public class AirfieldViewModel {
     @Getter private final StringProperty current = new SimpleStringProperty();
     @Getter private final StringProperty antiAir = new SimpleStringProperty();
 
-    @Getter private final SimpleListProperty<Squadron> airfieldSquadrons = new SimpleListProperty<>(this, "airfieldSquadrons", FXCollections.emptyObservableList());
-    @Getter private final SimpleListProperty<Squadron> availableSquadrons = new SimpleListProperty<>(this, "availableSquadrons", FXCollections.emptyObservableList());
+    @Getter private final ListProperty<Squadron> airfieldSquadrons = new SimpleListProperty<>(FXCollections.emptyObservableList());
+    @Getter private final ListProperty<Squadron> availableSquadrons = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
     @Getter private final StringProperty availableSquadronsTitle = new SimpleStringProperty();
 

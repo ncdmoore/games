@@ -1,6 +1,6 @@
 package engima.waratsea.view.taskforce;
 
-import engima.waratsea.viewmodel.TaskForceViewModel;
+import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.scene.control.Tab;
 
 public class TaskForceAirOperations {

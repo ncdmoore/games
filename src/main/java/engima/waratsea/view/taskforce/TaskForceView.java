@@ -1,10 +1,13 @@
 package engima.waratsea.view.taskforce;
 
 import com.google.inject.Inject;
-import engima.waratsea.viewmodel.TaskForceViewModel;
+import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
+/**
+ * Represents an individual task force view.
+ */
 public class TaskForceView {
 
     private TaskForceViewModel taskForceViewModel;
@@ -35,8 +38,7 @@ public class TaskForceView {
         taskForceViewModel = taskForce;
 
         Tab tab = new Tab();
-        tab.setText(taskForce.getName().getValue() + " " + taskForce.getTitle().getValue());
-
+        tab.textProperty().bind(taskForce.getNameAndTitle());
         tab.setContent(createOperationTabs());
 
         return tab;

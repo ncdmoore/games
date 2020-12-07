@@ -4,8 +4,9 @@ import com.google.inject.Inject;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
@@ -21,14 +22,10 @@ import java.util.stream.Collectors;
  * It also contains a currently selected squadron.
  */
 public class SquadronsViewModel {
-    @Getter
-    private final ObjectProperty<ObservableList<Squadron>> squadrons = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
+    @Getter private final ListProperty<Squadron> squadrons = new SimpleListProperty<>(FXCollections.emptyObservableList());
+    @Getter private final ListProperty<SquadronConfig> configurations = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
-    @Getter
-    private final ObjectProperty<ObservableList<SquadronConfig>> configurations = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
-
-    @Getter
-    private final SquadronViewModel squadronViewModel;
+    @Getter private final SquadronViewModel squadronViewModel;
 
     @Inject
     public SquadronsViewModel(final SquadronViewModel squadronViewModel) {

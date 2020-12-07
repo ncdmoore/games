@@ -142,7 +142,7 @@ public class AirfieldView {
 
         return airfieldSummaryView
                 .get(nation)
-                .build(nation)
+                .build()
                 .bind(viewModel);
     }
 

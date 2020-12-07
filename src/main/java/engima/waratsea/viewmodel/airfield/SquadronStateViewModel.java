@@ -9,6 +9,7 @@ import engima.waratsea.view.squadron.SquadronViewType;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -36,12 +37,12 @@ public class SquadronStateViewModel {
     @Getter private final SquadronViewModel selectedSquadron; // The currently selected squadron for this given state.
 
     // Map of squadron view type to list of squadrons of that view type
-    @Getter private final Map<SquadronViewType, SimpleListProperty<Squadron>> squadronMap = new HashMap<>();
+    @Getter private final Map<SquadronViewType, ListProperty<Squadron>> squadronMap = new HashMap<>();
 
     @Getter private final Map<SquadronViewType, IntegerProperty> countMap = new HashMap<>();
 
     // Convenience list that contains all of the squadrons at the given base for the given nation that are at the given state.
-    @Getter private final SimpleListProperty<Squadron> squadrons = new SimpleListProperty<>(FXCollections.emptyObservableList());
+    @Getter private final ListProperty<Squadron> squadrons = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
     @Getter private final IntegerProperty count = new SimpleIntegerProperty();
 

@@ -18,6 +18,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectExpression;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -44,7 +45,7 @@ import java.util.stream.Stream;
  */
 @Slf4j
 public class AirMissionViewModel {
-    @Getter private final SimpleListProperty<AirMissionType> missionTypes = new SimpleListProperty<>();                 // List of all mission types.
+    @Getter private final ListProperty<AirMissionType> missionTypes = new SimpleListProperty<>();                       // List of all mission types.
 
     @Getter private final Map<MissionRole, SimpleListProperty<Squadron>> available = new HashMap<>();                   // List of available squadrons for a particular role.
     @Getter private final Map<MissionRole, SimpleListProperty<Squadron>> assigned = new HashMap<>();                    // List of squadrons assigned to this mission for a particular role.
@@ -52,9 +53,9 @@ public class AirMissionViewModel {
     @Getter private final Map<MissionRole, BooleanProperty> availableExists = new HashMap<>();                          // Indicates if any available squadrons exist for a particular role.
     @Getter private final Map<MissionRole, BooleanProperty> assignedExists = new HashMap<>();                           // Indicates if any assigned squadrons exist for a particular role.
 
-    @Getter private final SquadronViewModel selectedSquadron; // The currently selected squadron for this given state.
+    @Getter private final SquadronViewModel selectedSquadron;                                                           // The currently selected squadron for this given state.
 
-    @Getter private final SimpleListProperty<Squadron> totalAssigned = new SimpleListProperty<>(FXCollections.emptyObservableList());
+    @Getter private final ListProperty<Squadron> totalAssigned = new SimpleListProperty<>(FXCollections.emptyObservableList());
     @Getter private final IntegerProperty totalAssignedCount = new SimpleIntegerProperty(0);                  // Total number of squadrons on the mission. Includes all roles.
 
     @Getter private final IntegerProperty totalStepsInRouteToTarget = new SimpleIntegerProperty(0);
@@ -69,7 +70,7 @@ public class AirMissionViewModel {
     private final IntegerProperty totalStepsFromThisMissionLeavingRegion = new SimpleIntegerProperty(0);
     private final IntegerProperty totalStepsFromOtherMissionsLeavingRegion = new SimpleIntegerProperty(0);
 
-    @Getter private final SimpleListProperty<ProbabilityStats> missionStats = new SimpleListProperty<>(FXCollections.emptyObservableList());
+    @Getter private final ListProperty<ProbabilityStats> missionStats = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
     @Getter private final Map<MissionRole, BooleanProperty> error = new HashMap<>();
     @Getter private final Map<MissionRole, String> errorText = new HashMap<>();
@@ -205,7 +206,7 @@ public class AirMissionViewModel {
      */
     public AirMissionViewModel setNationViewModel(final NationAirbaseViewModel viewModel) {
         nationAirbaseViewModel = viewModel;
-        airbase = viewModel.getAirbase();
+        airbase = viewModel.getAirbase().getValue();
 
         bindAvailable(viewModel);
         bindTotalStepsInRouteToTargetThisMission();
@@ -397,7 +398,7 @@ public class AirMissionViewModel {
      * Bind the total steps in route to the target from all other missions originating from this airbase.
      */
     private void bindTotalStepsInRouteToTargetOtherMissions() {
-        SimpleListProperty<AirMissionViewModel> totalMissions = nationAirbaseViewModel
+        ListProperty<AirMissionViewModel> totalMissions = nationAirbaseViewModel
                 .getAirbaseViewModel()
                 .getTotalMissions();
 
@@ -442,7 +443,7 @@ public class AirMissionViewModel {
      * Bind the total steps in route to the target's region from all other missions.
      */
     private void bindTotalStepsInRouteToTargetRegionOtherMissions() {
-        SimpleListProperty<AirMissionViewModel> totalMissions = nationAirbaseViewModel
+        ListProperty<AirMissionViewModel> totalMissions = nationAirbaseViewModel
                 .getAirbaseViewModel()
                 .getTotalMissions();
 
@@ -489,7 +490,7 @@ public class AirMissionViewModel {
      * Bind the total steps leaving this airbase's region from all the other missions of this airbase.
      */
     private void bindTotalStepsFromOtherMissionsLeavingRegion() {
-        SimpleListProperty<AirMissionViewModel> totalMissions = nationAirbaseViewModel
+        ListProperty<AirMissionViewModel> totalMissions = nationAirbaseViewModel
                 .getAirbaseViewModel()
                 .getTotalMissions();
 
@@ -533,7 +534,7 @@ public class AirMissionViewModel {
     private List<Squadron> filter(final ObjectProperty<AirMissionType> selectedMissionType,
                                   final ObjectProperty<Target> selectedTarget,
                                   final MissionRole role,
-                                  final SimpleListProperty<Squadron> allReady) {
+                                  final ListProperty<Squadron> allReady) {
 
         clearError(role);
 

@@ -15,7 +15,7 @@ import engima.waratsea.presenter.ship.ShipDetailsDialog;
 import engima.waratsea.view.preview.TaskForceView;
 import engima.waratsea.view.map.marker.preview.PopUp;
 import engima.waratsea.view.map.marker.preview.TargetMarker;
-import engima.waratsea.viewmodel.TaskForceViewModel;
+import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;

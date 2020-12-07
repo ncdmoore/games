@@ -13,6 +13,7 @@ import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -101,7 +102,7 @@ public class PatrolViewModel {
 
         nations.forEach(nation -> {
             available.put(nation, new SimpleListProperty<>());
-            SimpleListProperty<Squadron> allReady = viewModels.get(nation).getTotalReadySquadrons();
+            ListProperty<Squadron> allReady = viewModels.get(nation).getTotalReadySquadrons();
             available.get(nation).bind(Bindings.createObjectBinding(() -> FXCollections.observableArrayList(filter(allReady)), allReady));
 
             availableExists.put(nation, new SimpleBooleanProperty());
@@ -232,7 +233,7 @@ public class PatrolViewModel {
      * @param allReady All ready squadrons at this airbase.
      * @return A list of ready squadrons that are allowed to do this patrol.
      */
-    private List<Squadron> filter(final SimpleListProperty<Squadron> allReady) {
+    private List<Squadron> filter(final ListProperty<Squadron> allReady) {
         return allReady
                 .getValue()
                 .stream()

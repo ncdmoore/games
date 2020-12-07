@@ -2,13 +2,17 @@ package engima.waratsea.view.taskforce;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.viewmodel.TaskForceViewModel;
+import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 import java.util.List;
 
+/**
+ * This represents the task forces view as shown in the task force dialog box.
+ * This class basically contains all of the individual task force views - one for each task force.
+ */
 public class TaskForcesView {
 
     private final Provider<TaskForceView> taskForceViewProvider;

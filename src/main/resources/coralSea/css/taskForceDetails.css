@@ -16,6 +16,13 @@
     -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
 }
 
+#taskforce-summary-vbox {
+    -fx-spacing: 5;
+}
+
+#taskforce-title-pane {
+    -fx-collapsible: false;
+}
 
 #controls-pane {
     -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 10 /* left */ 0;

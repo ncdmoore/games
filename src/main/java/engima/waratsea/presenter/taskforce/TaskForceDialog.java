@@ -7,7 +7,7 @@ import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.taskforce.TaskForcesView;
-import engima.waratsea.viewmodel.TaskForceViewModel;
+import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 

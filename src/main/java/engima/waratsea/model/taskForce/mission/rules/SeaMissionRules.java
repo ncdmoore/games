@@ -19,9 +19,9 @@ import java.util.Map;
 @Singleton
 public class SeaMissionRules {
 
-    private Map<Side, Player> players = new HashMap<>();
+    private final Map<Side, Player> players = new HashMap<>();
 
-    private List<SeaMissionType> unqualified = List.of(SeaMissionType.FERRY, SeaMissionType.PATROL, SeaMissionType.RETREAT);
+    private final List<SeaMissionType> unqualified = List.of(SeaMissionType.FERRY, SeaMissionType.PATROL, SeaMissionType.RETREAT);
 
     /**
      * Constructor called by guice.
