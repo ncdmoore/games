@@ -9,7 +9,9 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.squadron.SquadronViewType;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -69,8 +71,8 @@ public class ShipViewModel {
     @Getter private final ObjectProperty<Image> shipImage = new SimpleObjectProperty<>();
     @Getter private final ObjectProperty<Image> shipProfileImage = new SimpleObjectProperty<>();
 
-    @Getter private final ObjectProperty<ObservableList<Squadron>> squadrons = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
-    @Getter private final ObjectProperty<ObservableList<ComponentViewModel>> components = new SimpleObjectProperty<>(FXCollections.emptyObservableList());
+    @Getter private final ListProperty<Squadron> squadrons = new SimpleListProperty<>(FXCollections.emptyObservableList());
+    @Getter private final ListProperty<ComponentViewModel> components = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
     @Inject
     public ShipViewModel(final ImageResourceProvider imageResourceProvider) {
