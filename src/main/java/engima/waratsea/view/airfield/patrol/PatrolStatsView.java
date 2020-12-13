@@ -2,6 +2,7 @@ package engima.waratsea.view.airfield.patrol;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
+import engima.waratsea.model.base.airfield.patrol.stats.PatrolStat;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.weather.Weather;
 import engima.waratsea.utility.ImageResourceProvider;
@@ -9,6 +10,7 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.airfield.PatrolViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -80,7 +82,7 @@ public class PatrolStatsView {
      * @param patrol The updated patrol.
      */
     private void setAssigned(final Patrol patrol) {
-        Map<Integer, Map<String, String>> stats = patrol.getPatrolStats().getData();
+        Map<Integer, Map<String, PatrolStat>> stats = patrol.getPatrolStats().getData();
 
         vBox.getChildren().clear();
         hBox.getChildren().clear();
@@ -96,18 +98,9 @@ public class PatrolStatsView {
 
                 Set<String> headers = stats.get(min).keySet();
 
+                Map<String, Integer> ranges = getRanges(min, med, max);
+
                 buildHeaders(headers);
-
-                Map<String, Integer> ranges = new LinkedHashMap<>();
-
-                ranges.put("Minimum", min);
-                if (med > 0 && med != min && med != max) {
-                    ranges.put("Median", med);
-                }
-                if (max > 0) {
-                    ranges.put("Maximum", max);
-                }
-
                 buildRows(stats, ranges);
 
                 hBox.getChildren().add(gridPane);
@@ -129,25 +122,16 @@ public class PatrolStatsView {
      * @param headers The header strings.
      */
     private void buildHeaders(final Set<String> headers) {
-        Label blankCorner = new Label("");
-        blankCorner.setMaxWidth(props.getInt("patrol.grid.label.width"));
-        blankCorner.setMinWidth(props.getInt("patrol.grid.label.width"));
-        blankCorner.setId("patrol-details-header");
-        gridPane.add(blankCorner, 0, 0);
+        Label blankCorner = getHeaderLabel("");
+        Label radiusHeader = getHeaderLabel("Radius");
 
-        Label radiusHeader = new Label("Radius");
-        radiusHeader.setMaxWidth(props.getInt("patrol.grid.label.width"));
-        radiusHeader.setMinWidth(props.getInt("patrol.grid.label.width"));
-        radiusHeader.setId("patrol-details-header");
+        gridPane.add(blankCorner, 0, 0);
         gridPane.add(radiusHeader, 1, 0);
 
         int row = 0;
         int col = 2;
         for (String header : headers) {
-            Label headerLabel = new Label(header);
-            headerLabel.setMaxWidth(props.getInt("patrol.grid.label.width"));
-            headerLabel.setMinWidth(props.getInt("patrol.grid.label.width"));
-            headerLabel.setId("patrol-details-header");
+            Label headerLabel = getHeaderLabel(header);
             gridPane.add(headerLabel, col, row);
             col++;
         }
@@ -159,20 +143,13 @@ public class PatrolStatsView {
      * @param stats The statistic data.
      * @param ranges The minimum, median and maximum ranges.
      */
-    private void buildRows(final Map<Integer, Map<String, String>> stats, final Map<String, Integer> ranges) {
+    private void buildRows(final Map<Integer, Map<String, PatrolStat>> stats, final Map<String, Integer> ranges) {
         int row = 1;
         for (Map.Entry<String, Integer> entry : ranges.entrySet()) {
-            Label rowLabel = new Label(entry.getKey());
-            rowLabel.setMaxWidth(props.getInt("patrol.grid.label.width"));
-            rowLabel.setMinWidth(props.getInt("patrol.grid.label.width"));
-            rowLabel.setId("patrol-details-row-header");
+            Label rowLabel = getRowHeaderLabel(entry.getKey());
+            Label radiusLabel = getCellLabel(entry.getValue() + "");
+
             gridPane.add(rowLabel, 0, row);
-
-            Label radiusLabel = new Label(entry.getValue() + "");
-            radiusLabel.setMaxWidth(props.getInt("patrol.grid.label.width"));
-            radiusLabel.setMinWidth(props.getInt("patrol.grid.label.width"));
-            radiusLabel.setId("patrol-stats-cell");
-
             gridPane.add(radiusLabel, 1, row);
 
             buildPatrolStatRow(stats.get(entry.getValue()), row);
@@ -186,13 +163,15 @@ public class PatrolStatsView {
      * @param row The row of stats.
      * @param rowIndex The row index.
      */
-    private void buildPatrolStatRow(final Map<String, String> row, final int rowIndex) {
+    private void buildPatrolStatRow(final Map<String, PatrolStat> row, final int rowIndex) {
         int col = 2;
-        for (Map.Entry<String, String> rowEntry : row.entrySet()) {
-            Label label = new Label(rowEntry.getValue());
-            label.setMaxWidth(props.getInt("patrol.grid.label.width"));
-            label.setMinWidth(props.getInt("patrol.grid.label.width"));
-            label.setId("patrol-stats-cell");
+        for (Map.Entry<String, PatrolStat> rowEntry : row.entrySet()) {
+            Label label = getCellLabel(rowEntry.getValue().getValue());
+
+            if (rowEntry.getValue().getFactors() != null) {
+                label.setTooltip(new Tooltip(rowEntry.getValue().getFactors()));
+            }
+
             gridPane.add(label, col, rowIndex);
             col++;
         }
@@ -217,5 +196,43 @@ public class PatrolStatsView {
         imageBox.setId("patrol-weather-box");
 
         return imageBox;
+    }
+
+    private Map<String, Integer> getRanges(final int min, final int med, final int max) {
+        Map<String, Integer> ranges = new LinkedHashMap<>();
+
+        ranges.put("Minimum", min);
+        if (med > 0 && med != min && med != max) {
+            ranges.put("Median", med);
+        }
+        if (max > 0) {
+            ranges.put("Maximum", max);
+        }
+
+        return ranges;
+    }
+
+    private Label getHeaderLabel(final String text) {
+        Label label = new Label(text);
+        label.setMaxWidth(props.getInt("patrol.grid.label.width"));
+        label.setMinWidth(props.getInt("patrol.grid.label.width"));
+        label.setId("patrol-details-header");
+        return label;
+    }
+
+    private Label getRowHeaderLabel(final String text) {
+        Label label = new Label(text);
+        label.setMaxWidth(props.getInt("patrol.grid.label.width"));
+        label.setMinWidth(props.getInt("patrol.grid.label.width"));
+        label.setId("patrol-details-row-header");
+        return label;
+    }
+
+    private Label getCellLabel(final String text) {
+        Label label = new Label(text);
+        label.setMaxWidth(props.getInt("patrol.grid.label.width"));
+        label.setMinWidth(props.getInt("patrol.grid.label.width"));
+        label.setId("patrol-stats-cell");
+        return label;
     }
 }

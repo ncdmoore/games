@@ -211,14 +211,14 @@ public class Bomber implements Aircraft {
     }
 
     /**
-     * Get the probability the aircraft will hit during air-to-air attack including any game factors
+     * Get the probability the aircraft will hit during an attack including any game factors
      * such as weather and type of target.
      *
      *
      * @param attackType The attack type.
      * @param target   The target.
-     * @param modifier The circumstance air-to-air attack modifier: weather, type of target, etc...
-     * @return The probability this aircraft will hit in an air-to-air attack.
+     * @param modifier The circumstance attack modifier: weather, type of target, etc...
+     * @return The probability this aircraft will hit in an attack.
      */
     @Override
     public Map<SquadronConfig, Double> getHitIndividualProbability(final AttackType attackType, final Target target, final int modifier) {

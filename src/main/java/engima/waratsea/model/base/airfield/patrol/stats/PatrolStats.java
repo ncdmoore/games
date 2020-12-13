@@ -9,21 +9,16 @@ import java.util.Map;
 public class PatrolStats {
     @Getter
     @Setter
-    private Map<Integer, Map<String, String>> data;
+    private Map<Integer, Map<String, PatrolStat>> data;
 
     @Getter
     @Setter
-    private Map<String, String> metaData;
-
-    @Getter
-    @Setter
-    private Map<Integer, String> rowMetaData;
+    private Map<String, String> metaData; // Map of patrol radius to squadron names that can reach the radius.
 
     /**
      * Constructor.
      */
     public PatrolStats() {
         metaData = new HashMap<>();     // ensure that the metaData map always exists.
-        rowMetaData = new HashMap<>();  // ensure that the rowMetaData map always exists.
-    }
+     }
 }

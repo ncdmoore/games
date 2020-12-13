@@ -3,6 +3,7 @@ package engima.waratsea.model.base.airfield.patrol.rules;
 import engima.waratsea.model.squadron.Squadron;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PatrolAirRules {
 
@@ -39,4 +40,22 @@ public interface PatrolAirRules {
      * @return True if the weather affects the patrol. False otherwise.
      */
     boolean isAffectedByWeather();
+
+    /**
+     * The base search success factors.
+     *
+     * @param distance The distance to the target from the patrol base.
+     * @param squadrons The squadrons that are within range of the target.
+     * @return A map of factor name to factor value.
+     */
+    Map<String, String> getBaseSearchFactors(int distance, List<Squadron> squadrons);
+
+    /**
+     * The base attack success factors.
+     *
+     * @param distance The distance to the target from the patrol base.
+     * @param squadrons The squadrons that are within range of the target.
+     * @return A map of factor name to factor value.
+     */
+    Map<String, String> getBaseAttackFactors(int distance, List<Squadron> squadrons);
 }

@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.AircraftBaseType;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
+import engima.waratsea.model.base.airfield.patrol.stats.PatrolStat;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
@@ -151,14 +152,13 @@ public class PatrolDetailsView {
 
         labelMap.get(PatrolType.getType(patrol)).clear();
 
-        Map<Integer, Map<String, String>> data = patrol.getPatrolStats().getData();
-        Map<Integer, String> toolTipsText = patrol.getPatrolStats().getRowMetaData();
+        Map<Integer, Map<String, PatrolStat>> data = patrol.getPatrolStats().getData();
 
         buildHeaders(gridPane, patrol);
 
         int row = 1;
-        for (Map.Entry<Integer, Map<String, String>> entry : data.entrySet()) {
-            Label radiusLabel = buildRow(gridPane, entry, toolTipsText.get(entry.getKey()), row);
+        for (Map.Entry<Integer, Map<String, PatrolStat>> entry : data.entrySet()) {
+            Label radiusLabel = buildRow(gridPane, entry, row);
             labelMap.get(PatrolType.getType(patrol)).add(radiusLabel);
             row++;
         }
@@ -175,7 +175,7 @@ public class PatrolDetailsView {
      * @param patrol The patrol.
      */
     private void buildHeaders(final GridPane gridPane, final Patrol patrol) {
-        Map<String, String> data = patrol.getPatrolStats().getData().get(1);
+        Map<String, PatrolStat> data = patrol.getPatrolStats().getData().get(1);
 
         Label label = new Label("Radius");
         styleHeaderLabel(label);
@@ -205,13 +205,12 @@ public class PatrolDetailsView {
      *
      * @param gridPane The grid pane that houses the grid.
      * @param entry The data to place in the grid.
-     * @param toolTipText The squadron titles of all the squadrons that are affective at the given radius.
      * @param row The patrol radius.
      * @return The radius label.
      */
-    private Label buildRow(final GridPane gridPane, final Map.Entry<Integer, Map<String, String>> entry, final String toolTipText, final int row) {
+    private Label buildRow(final GridPane gridPane, final Map.Entry<Integer, Map<String, PatrolStat>> entry, final int row) {
         int radius = entry.getKey();
-        Map<String, String> data = entry.getValue();
+        Map<String, PatrolStat> data = entry.getValue();
 
         // Add the patrol radius label.
         Label radiusLabel = new Label(radius + "");
@@ -222,11 +221,11 @@ public class PatrolDetailsView {
         AtomicInteger col = new AtomicInteger(1);
 
         // Add the remaining row labels.
-        data.forEach((key, value) -> {
-            Label label = new Label(value);
+        data.forEach((key, stat) -> {
+            Label label = new Label(stat.getValue());
             styleLabel(label);
-            if (toolTipText != null) {
-                label.setTooltip(new Tooltip(toolTipText));
+            if (stat.getFactors() != null) {
+                label.setTooltip(new Tooltip(stat.getFactors()));
             }
             gridPane.add(label, col.getAndIncrement(), row);
         });

@@ -239,12 +239,9 @@ public class PoorNavalBomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Double> getHitIndividualProbability(final AttackType attackType, final Target target, final int modifier) {
-
-        if (attackType == AttackType.NAVAL) {
-            return getNavalHitIndividualProbability(target, modifier);
-        }
-
-       return probability.getIndividualHitProbability(attackMap.get(attackType).execute(), modifier);
+        return (attackType == AttackType.NAVAL)
+                ? getNavalHitIndividualProbability(target, modifier)
+                : probability.getIndividualHitProbability(attackMap.get(attackType).execute(), modifier);
     }
 
     /**

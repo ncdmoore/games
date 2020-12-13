@@ -10,6 +10,7 @@ import engima.waratsea.utility.Dice;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -94,12 +95,11 @@ public class PatrolSearchRules {
      */
     public int getBaseSearchSuccess(final int distance, final List<Squadron> squadrons) {
         int factor = getBaseFactor(distance, squadrons);
-
         return dice.probabilityPercentage(factor + searchFactor, 1);
     }
 
     /**
-     * Get the chance of a spotting a task force excluding current weather conditions.
+     * Get the chance of spotting a task force excluding current weather conditions.
      *
      * @param distance The distance of the target from the air base.
      * @param squadrons The number of squadrons involved in the search.
@@ -107,8 +107,28 @@ public class PatrolSearchRules {
      */
     public int getBaseSearchSuccessNoWeather(final int distance, final List<Squadron> squadrons) {
         int factor = getBaseFactorNoWeather(distance, squadrons);
-
         return dice.probabilityPercentage(factor + searchFactor, 1);
+    }
+
+    /**
+     * Get the factors that determine the chance of spotting a tas force.
+     *
+     * @param distance The distance of the target from the air base.
+     * @param squadrons The number of squadrons involved in the search.
+     * @return A map of factor name to factor value.
+     */
+    public Map<String, String> getBaseFactors(final int distance, final List<Squadron> squadrons) {
+        int steps = getSteps(squadrons);
+        boolean fighterPresent = areFightersPresent(squadrons);
+
+        Map<String, String> factorMap = new LinkedHashMap<>();
+        factorMap.put("Base", searchFactor + "");
+        factorMap.put("Distance", getDistanceFactor(distance) + "");
+        factorMap.put("Steps", getStepFactor(steps) + "");
+        factorMap.put("Fighters", getFighterFactor(fighterPresent) + "");
+        factorMap.put("Weather", getWeatherFactor() + "");
+
+        return factorMap;
     }
 
     /**
@@ -130,16 +150,8 @@ public class PatrolSearchRules {
      * @return The base factor.
      */
     private int getBaseFactor(final int distance, final List<Squadron> squadrons) {
-        int steps = squadrons
-                .stream()
-                .map(Squadron::getSteps)
-                .map(BigDecimal::intValue)
-                .reduce(0, Integer::sum);
-
-        boolean fighterPresent = squadrons
-                .stream()
-                .anyMatch(squadron -> squadron.getType() == AircraftType.FIGHTER);
-
+        int steps = getSteps(squadrons);
+        boolean fighterPresent = areFightersPresent(squadrons);
         return getDistanceFactor(distance) + getWeatherFactor() + getStepFactor(steps) + getFighterFactor(fighterPresent);
     }
 
@@ -151,16 +163,8 @@ public class PatrolSearchRules {
      * @return The base factor excluding weather conditions.
      */
     private int getBaseFactorNoWeather(final int distance, final List<Squadron> squadrons) {
-        int steps = squadrons
-                .stream()
-                .map(Squadron::getSteps)
-                .map(BigDecimal::intValue)
-                .reduce(0, Integer::sum);
-
-        boolean fighterPresent = squadrons
-                .stream()
-                .anyMatch(squadron -> squadron.getType() == AircraftType.FIGHTER);
-
+        int steps = getSteps(squadrons);
+        boolean fighterPresent = areFightersPresent(squadrons);
         return getDistanceFactor(distance) + getStepFactor(steps) + getFighterFactor(fighterPresent);
     }
 
@@ -201,5 +205,31 @@ public class PatrolSearchRules {
      */
     private int getFighterFactor(final boolean present) {
         return fighterFactor.get(present);
+    }
+
+    /**
+     * Get the number of steps involved in the patrol.
+     *
+     * @param squadrons The squadrons on the patrol.
+     * @return The number of steps on the patrol.
+     */
+    private int getSteps(final List<Squadron> squadrons) {
+        return squadrons
+                .stream()
+                .map(Squadron::getSteps)
+                .map(BigDecimal::intValue)
+                .reduce(0, Integer::sum);
+    }
+
+    /**
+     * Determine if any fighters are present on the patrol.
+     *
+     * @param squadrons The squadrons on the patrol.
+     * @return True if one of the squadrons on the patrol is a fighter squadron. False otherwise.
+     */
+    private boolean areFightersPresent(final List<Squadron> squadrons) {
+        return squadrons
+                .stream()
+                .anyMatch(squadron -> squadron.getType() == AircraftType.FIGHTER);
     }
 }

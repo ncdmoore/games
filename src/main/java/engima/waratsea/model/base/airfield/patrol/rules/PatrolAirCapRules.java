@@ -6,6 +6,7 @@ import engima.waratsea.model.weather.Weather;
 import engima.waratsea.model.weather.WeatherType;
 import engima.waratsea.utility.Dice;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +86,30 @@ public class PatrolAirCapRules implements PatrolAirRules {
     @Override
     public boolean isAffectedByWeather() {
         return weatherFactor.get(weather.getCurrent()) < 0;
+    }
+
+    /**
+     * The base search success factors.
+     *
+     * @param distance  The distance to the target from the patrol base.
+     * @param squadrons The squadrons that are within range of the target.
+     * @return A map of factor name to factor value.
+     */
+    @Override
+    public Map<String, String> getBaseSearchFactors(final int distance, final List<Squadron> squadrons) {
+        return null;
+    }
+
+    /**
+     * The base attack success factors.
+     *
+     * @param distance  The distance to the target from the patrol base.
+     * @param squadrons The squadrons that are within range of the target.
+     * @return A map of factor name to factor value.
+     */
+    @Override
+    public Map<String, String> getBaseAttackFactors(int distance, final List<Squadron> squadrons) {
+        return Collections.emptyMap();
     }
 
     /**

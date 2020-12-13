@@ -214,11 +214,11 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
     }
 
     /**
-     * Get the squadron's air-to-air hit probability.
+     * Get the squadron's hit probability.
      *
      * @param attackType The attack type.
      * @param squadronConfig A squadron configuration.
-     * @return The squadron's air-to-air hit probability.
+     * @return The squadron's hit probability.
      */
     public double getHitProbability(final AttackType attackType, final SquadronConfig squadronConfig) {
         return aircraft.getHitProbability(attackType, strength).get(squadronConfig);

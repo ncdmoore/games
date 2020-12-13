@@ -6,7 +6,9 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.weather.Weather;
 import engima.waratsea.utility.Dice;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A singleton that calculates air search results.
@@ -48,6 +50,30 @@ public class PatrolAirSearchRules implements PatrolAirRules {
     @Override
     public int getBaseSearchSuccessNoWeather(final int distance, final List<Squadron> squadrons) {
         return searchRules.getBaseSearchSuccessNoWeather(distance, squadrons);
+    }
+
+    /**
+     * The base search success factors.
+     *
+     * @param distance The distance to the target from the patrol base.
+     * @param squadrons The squadrons that are within range of the target.
+     * @return A map of factor name to factor value.
+     */
+    @Override
+    public Map<String, String> getBaseSearchFactors(final int distance, final List<Squadron> squadrons) {
+        return searchRules.getBaseFactors(distance, squadrons);
+    }
+
+    /**
+     * The base attack success factors.
+     *
+     * @param distance  The distance to the target from the patrol base.
+     * @param squadrons The squadrons that are within range of the target.
+     * @return A map of factor name to factor value.
+     */
+    @Override
+    public Map<String, String> getBaseAttackFactors(final int distance, final List<Squadron> squadrons) {
+        return Collections.emptyMap();
     }
 
     /**

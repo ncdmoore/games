@@ -9,6 +9,7 @@ import engima.waratsea.utility.Dice;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class PatrolAirAswRules implements PatrolAirRules {
 
     private static final int STEP_FACTOR = 5;
 
-    private Map<WeatherType, Integer> weatherFactor = new HashMap<>();
+    private final Map<WeatherType, Integer> weatherFactor = new HashMap<>();
 
     private final Weather weather;
     private final Dice dice;
@@ -60,7 +61,7 @@ public class PatrolAirAswRules implements PatrolAirRules {
      * @return An integer indicating the percentage chance of success.
      */
     public int getBaseAttackSuccess(final int distance, final List<Squadron> squadrons) {
-        int factor = getBaseFactor(squadrons);
+        int factor = getBaseAttackFactor(squadrons);
         int canSearch = getBaseSearchSuccess(distance, squadrons);
         return canSearch > 0 ? dice.probabilityPercentage(factor + ATTACK_FACTOR, 1) : 0;
     }
@@ -73,6 +74,38 @@ public class PatrolAirAswRules implements PatrolAirRules {
     @Override
     public boolean isAffectedByWeather() {
         return weatherFactor.get(weather.getCurrent()) < 0 || searchRules.isAffectedByWeather();
+    }
+
+    /**
+     * The base search success factors.
+     *
+     * @param distance  The distance to the target from the patrol base.
+     * @param squadrons The squadrons that are within range of the target.
+     * @return A map of factor name to factor value.
+     */
+    @Override
+    public Map<String, String> getBaseSearchFactors(final int distance, final List<Squadron> squadrons) {
+        return searchRules.getBaseFactors(distance, squadrons);
+    }
+
+    /**
+     * The base attack success factors.
+     *
+     * @param distance  The distance to the target from the patrol base.
+     * @param squadrons The squadrons that are within range of the target.
+     * @return A map of factor name to factor value.
+     */
+    @Override
+    public Map<String, String> getBaseAttackFactors(final int distance, final List<Squadron> squadrons) {
+        int steps = getSteps(squadrons);
+
+        Map<String, String> factors = new LinkedHashMap<>();
+
+        factors.put("Base", ATTACK_FACTOR + "");
+        factors.put("Weather", getWeatherFactor() + "");
+        factors.put("Steps", getStepFactor(steps) + "");
+
+        return factors;
     }
 
     /**
@@ -105,13 +138,8 @@ public class PatrolAirAswRules implements PatrolAirRules {
      * @param squadrons The number of squadrons involved in the air search.
      * @return The base factor.
      */
-    private int getBaseFactor(final List<Squadron> squadrons) {
-        int steps = squadrons
-                .stream()
-                .map(Squadron::getSteps)
-                .map(BigDecimal::intValue)
-                .reduce(0, Integer::sum);
-
+    private int getBaseAttackFactor(final List<Squadron> squadrons) {
+        int steps = getSteps(squadrons);
         return  getWeatherFactor() + getStepFactor(steps);
     }
 
@@ -131,5 +159,19 @@ public class PatrolAirAswRules implements PatrolAirRules {
      */
     private int getWeatherFactor() {
         return weatherFactor.get(weather.getCurrent());
+    }
+
+    /**
+     * Get the number of steps of squadrons on patrol.
+     *
+     * @param squadrons The squadrons on patrol.
+     * @return The number of steps on patrol.
+     */
+    private int getSteps(final List<Squadron> squadrons) {
+        return squadrons
+                .stream()
+                .map(Squadron::getSteps)
+                .map(BigDecimal::intValue)
+                .reduce(0, Integer::sum);
     }
 }

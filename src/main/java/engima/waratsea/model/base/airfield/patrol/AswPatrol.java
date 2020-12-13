@@ -6,6 +6,7 @@ import com.google.inject.name.Named;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
+import engima.waratsea.model.base.airfield.patrol.stats.PatrolStat;
 import engima.waratsea.model.base.airfield.patrol.stats.PatrolStats;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
@@ -201,20 +202,14 @@ public class AswPatrol implements Patrol {
 
         int trueMaxRadius = getTrueMaxRadius();
 
-        Map<Integer, Map<String, String>> stats = IntStream
+        Map<Integer, Map<String, PatrolStat>> stats = IntStream
                 .range(1, trueMaxRadius + 1)
                 .boxed()
                 .collect(Collectors.toMap(radius -> radius, this::getPatrolStat));
 
-        Map<Integer, String> titles = IntStream
-                .range(1, trueMaxRadius + 1)
-                .boxed()
-                .collect(Collectors.toMap(radius -> radius, this::getPatrolSquadrons));
-
         PatrolStats patrolStats = new PatrolStats();
         patrolStats.setData(stats);
         patrolStats.setMetaData(toolTips);
-        patrolStats.setRowMetaData(titles);
         return patrolStats;
     }
 
@@ -277,14 +272,14 @@ public class AswPatrol implements Patrol {
      * @param radius The patrol radius.
      * @return A map of data for this patrol that corresponds to the given radius.
      */
-    private Map<String, String> getPatrolStat(final int radius) {
+    private Map<String, PatrolStat> getPatrolStat(final int radius) {
         List<Squadron> inRange = getAssignedSquadrons(radius);
 
-        Map<String, String> data = new LinkedHashMap<>();
-        data.put("Squadrons", inRange.size() + "");
-        data.put("Steps", inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add) + "");
-        data.put("Search", getSuccessRate(radius) + " %");
-        data.put("Attack", rules.getBaseAttackSuccess(radius, inRange) + "%");
+        Map<String, PatrolStat> data = new LinkedHashMap<>();
+        data.put("Squadrons", new PatrolStat(inRange.size(), getPatrolSquadrons(radius)));
+        data.put("Steps", new PatrolStat(inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add)));
+        data.put("Search", new PatrolStat(getSuccessRate(radius) + " %", getPatrolSearchFactors(radius)));
+        data.put("Attack", new PatrolStat(rules.getBaseAttackSuccess(radius, inRange) + "%", getPatrolAttackFactors(radius)));
 
         return data;
     }
@@ -300,6 +295,56 @@ public class AswPatrol implements Patrol {
                 .stream()
                 .map(Squadron::getTitle)
                 .collect(Collectors.joining("\n"));
+    }
+
+    /**
+     * Get the patrol search factors at the given radius.
+     *
+     * @param radius Patrol radius.
+     * @return A string that specifies the factors that determine the patrols search success.
+     */
+    private String getPatrolSearchFactors(final int radius) {
+        return getSearchFactors(radius)
+                .entrySet()
+                .stream()
+                .map(e -> e.getKey() + " = " + e.getValue())
+                .collect(Collectors.joining("\n"));
+    }
+
+    /**
+     * Get the patrol attack factors at the given radius.
+     *
+     * @param radius Patrol radius.
+     * @return A string that specifies the factors that determine the patrols attack success.
+     */
+    private String getPatrolAttackFactors(final int radius) {
+        return getAttackFactors(radius)
+                .entrySet()
+                .stream()
+                .map(e -> e.getKey() + " = " + e.getValue())
+                .collect(Collectors.joining("\n"));
+    }
+
+    /**
+     * Get the patrol search success factors.
+     *
+     * @param radius The distance to the target.
+     * @return A map of factor name to factor value.
+     */
+    private Map<String, String> getSearchFactors(final int radius) {
+        List<Squadron> inRange = getAssignedSquadrons(radius);
+        return rules.getBaseSearchFactors(radius, inRange);
+    }
+
+    /**
+     * Get the patrol attack success factors.
+     *
+     * @param radius The distance to the target.
+     * @return A map of factor name to factor value.
+     */
+    private Map<String, String> getAttackFactors(final int radius) {
+        List<Squadron> inRange = getAssignedSquadrons(radius);
+        return rules.getBaseAttackFactors(radius, inRange);
     }
 
     /**

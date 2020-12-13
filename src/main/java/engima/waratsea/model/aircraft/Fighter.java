@@ -161,8 +161,8 @@ public class Fighter implements Aircraft {
      *
      * @param attackType The attack type.
      * @param target   The target.
-     * @param modifier The circumstance air-to-air attack modifier: weather, type of target, etc...
-     * @return The probability this aircraft will hit in an air-to-air attack.
+     * @param modifier The circumstance an attack modifier: weather, type of target, etc...
+     * @return The probability this aircraft will hit in an attack.
      */
     @Override
     public Map<SquadronConfig, Double> getHitIndividualProbability(final AttackType attackType, final Target target, final int modifier) {
