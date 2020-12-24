@@ -31,7 +31,7 @@ public class SquadronStateView {
     private final ViewProps props;
 
     @Getter private final Map<SquadronViewType, ListView<Squadron>> squadrons = new HashMap<>();
-    @Getter private final SquadronSummaryView newSquadronSummaryView;
+    @Getter private final SquadronSummaryView squadronSummaryView;
 
     private final TitledPane titledPane = new TitledPane();
     private final TitledGridPane stateLabel = new TitledGridPane();
@@ -42,13 +42,13 @@ public class SquadronStateView {
      * Constructor called by guice.
      *
      * @param props View properties.
-     * @param newSquadronSummaryView The squadron summary view.
+     * @param squadronSummaryView The squadron summary view.
      */
     @Inject
     public SquadronStateView(final ViewProps props,
-                             final SquadronSummaryView newSquadronSummaryView) {
+                             final SquadronSummaryView squadronSummaryView) {
         this.props = props;
-        this.newSquadronSummaryView = newSquadronSummaryView;
+        this.squadronSummaryView = squadronSummaryView;
     }
 
     /**
@@ -72,10 +72,10 @@ public class SquadronStateView {
 
         Stream
                 .of(SquadronViewType.values())
-                .map(this::buildReadyList)
+                .map(this::buildSquadronList)
                 .forEach(node -> tilePane.getChildren().add(node));
 
-        Node summaryNode = newSquadronSummaryView.build(nation);
+        Node summaryNode = squadronSummaryView.build(nation);
 
 
         VBox vBox = new VBox(tilePane, summaryNode);
@@ -110,7 +110,7 @@ public class SquadronStateView {
                 .get(squadronState)
                 .getSelectedSquadron();
 
-        newSquadronSummaryView.bind(selectedSquadronVM);
+        squadronSummaryView.bind(selectedSquadronVM);
 
         return titledPane;
     }
@@ -133,7 +133,7 @@ public class SquadronStateView {
      * @param type The type of squadron.
      * @return A node containing the given squadron type's ready list.
      */
-    private Node buildReadyList(final SquadronViewType type) {
+    private Node buildSquadronList(final SquadronViewType type) {
         Label title = new Label(type + ":");
 
         ListView<Squadron> listView = new ListView<>();

@@ -21,10 +21,6 @@ public class PatrolStat {
         this.value = value;
     }
 
-    public PatrolStat(final int value) {
-        this.value = value + "";
-    }
-
     public PatrolStat(final BigDecimal value) {
         this.value = value + "";
     }

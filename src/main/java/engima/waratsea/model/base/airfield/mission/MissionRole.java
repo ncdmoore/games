@@ -3,6 +3,8 @@ package engima.waratsea.model.base.airfield.mission;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 
+import java.util.stream.Stream;
+
 public enum MissionRole {
     @SerializedName(value = "MAIN", alternate = {"Main", "main"})
     MAIN("Main"),
@@ -11,7 +13,7 @@ public enum MissionRole {
     ESCORT("Escort");
 
     @Getter
-    private String value;
+    private final String value;
 
     /**
      * Constructor.
@@ -30,5 +32,14 @@ public enum MissionRole {
     @Override
     public String toString() {
         return value;
+    }
+
+    /**
+     * Get stream of all this enum's values.
+     *
+     * @return A stream of this enum's values.
+     */
+    public static Stream<MissionRole> stream() {
+        return Stream.of(MissionRole.values());
     }
 }

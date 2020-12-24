@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 public class LandStrike implements AirMission {
@@ -168,8 +167,8 @@ public class LandStrike implements AirMission {
      */
     @Override
     public List<Squadron> getSquadronsAllRoles() {
-        return Stream
-                .of(MissionRole.values())
+        return MissionRole
+                .stream()
                 .flatMap(role -> squadronMap.get(role).stream())
                 .collect(Collectors.toList());
     }
@@ -181,8 +180,8 @@ public class LandStrike implements AirMission {
      */
     @Override
     public int getSteps() {
-        return Stream
-                .of(MissionRole.values())
+        return MissionRole
+                .stream()
                 .flatMap(role -> squadronMap.get(role).stream())
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
@@ -225,8 +224,8 @@ public class LandStrike implements AirMission {
      */
     @Override
     public int getNumber() {
-        return Stream
-                .of(MissionRole.values())
+        return MissionRole
+                .stream()
                 .map(role -> squadronMap.get(role).size())
                 .reduce(0, Integer::sum);
     }

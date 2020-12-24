@@ -133,7 +133,7 @@ public class MissionAddDialog {
      * Register buttons.
      */
     private void registerButtons() {
-        Stream.of(MissionRole.values()).forEach(role -> {
+        MissionRole.stream().forEach(role -> {
             view.getSquadrons().get(role).getAdd().setOnAction(event -> assignSquadron(role));
             view.getSquadrons().get(role).getRemove().setOnAction(event -> removeSquadron(role));
         });
