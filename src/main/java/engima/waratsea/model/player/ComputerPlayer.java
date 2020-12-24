@@ -51,7 +51,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * This is the computer player in the game.
@@ -251,7 +250,7 @@ public class ComputerPlayer implements Player {
     @Override
     public void saveAssets(final Scenario scenario) {
         taskForceDAO.save(scenario, side, taskForces);
-        Stream.of(FlotillaType.values()).forEach(flotillaType -> flotillaDAO.save(scenario, side, flotillas.get(flotillaType)));
+        FlotillaType.stream().forEach(flotillaType -> flotillaDAO.save(scenario, side, flotillas.get(flotillaType)));
         portDAO.save(scenario, side, ports);
         airfieldDAO.save(scenario, side, airfields);
         minefieldDAO.save(scenario, side, minefields);

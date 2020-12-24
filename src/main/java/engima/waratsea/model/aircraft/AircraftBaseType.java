@@ -2,6 +2,7 @@ package engima.waratsea.model.aircraft;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Represents the base aircraft type. This represents the aircraft's main purpose; the role in which it is best suited.
@@ -53,5 +54,14 @@ public enum AircraftBaseType {
     @Override
     public String toString() {
         return value;
+    }
+
+    /**
+     * Get a stream of this enum's values.
+     *
+     * @return A stream of this enum's values.
+     */
+    public static Stream<AircraftBaseType> stream() {
+        return Stream.of(AircraftBaseType.values());
     }
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * The game nations.
@@ -145,5 +146,14 @@ public enum Nation implements Comparator<Nation> {
     @Override
     public int compare(final Nation o1, final Nation o2) {
         return o1.value.compareTo(o2.value);
+    }
+
+    /**
+     * Get a stream of this enum's values.
+     *
+     * @return A stream of this enum's values.
+     */
+    public static Stream<Nation> stream() {
+        return Stream.of(Nation.values());
     }
 }

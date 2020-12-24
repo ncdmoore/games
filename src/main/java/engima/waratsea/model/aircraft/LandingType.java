@@ -3,6 +3,8 @@ package engima.waratsea.model.aircraft;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 
+import java.util.stream.Stream;
+
 /**
  * Represents the type of landing an aircraft is capable of performing.
  *
@@ -40,5 +42,14 @@ public enum LandingType {
     @Override
     public String toString() {
         return value;
+    }
+
+    /**
+     * Get a stream of this enum's values.
+     *
+     * @return A Stream of this enum's values.
+     */
+    public static Stream<LandingType> stream() {
+        return Stream.of(LandingType.values());
     }
 }

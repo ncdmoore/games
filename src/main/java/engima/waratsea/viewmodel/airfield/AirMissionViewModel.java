@@ -38,7 +38,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * A nation's view of an air mission.
@@ -303,7 +302,7 @@ public class AirMissionViewModel {
     public void clearMission() {
         log.debug("Clear assigned squadrons for id: '{}'", id);
 
-        Stream.of(MissionRole.values()).forEach(role -> {
+        MissionRole.stream().forEach(role -> {
             assigned.get(role).get().clear();
             assignedExists.get(role).set(false);
 

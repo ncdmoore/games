@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 /**
  * The target data access object. Provides access to all target objects.
@@ -38,7 +37,9 @@ public class TargetDAO {
         factoryMap.put(TargetType.SEA_GRID, factory::createSeaGrid);
         factoryMap.put(TargetType.LAND_GRID, factory::createLandGrid);
 
-        Stream.of(TargetType.values()).forEach(type -> cache.put(type, new HashMap<>()));
+        TargetType
+                .stream()
+                .forEach(type -> cache.put(type, new HashMap<>()));
     }
 
     /**

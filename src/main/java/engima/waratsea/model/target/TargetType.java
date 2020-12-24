@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public enum TargetType {
     @SerializedName(value = "ENEMY_AIRFIELD", alternate = {"Enemy_Airfield", "enemy_airfield"})
@@ -51,5 +52,14 @@ public enum TargetType {
      */
     public static String getTitle(final Target target) {
         return TITLE_MAP.get(target.getClass());
+    }
+
+    /**
+     * Get a stream of this enum's values.
+     *
+     * @return A stream of this enum's values.
+     */
+    public static Stream<TargetType> stream() {
+        return Stream.of(TargetType.values());
     }
 }

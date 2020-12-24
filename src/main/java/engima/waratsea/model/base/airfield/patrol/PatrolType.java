@@ -17,17 +17,17 @@ public enum PatrolType {
     CAP("CAP"),
     SEARCH("Search");
 
-    private static Map<Class<?>, String> titleMap = new HashMap<>();
-    private static Map<Class<?>, PatrolType> typeMap = new HashMap<>();
+    private static final Map<Class<?>, String> TITLE_MAP = new HashMap<>();
+    private static final Map<Class<?>, PatrolType> TYPE_MAP = new HashMap<>();
 
     static {
-        titleMap.put(AswPatrol.class, "ASW");
-        titleMap.put(CapPatrol.class, "CAP");
-        titleMap.put(SearchPatrol.class, "Search");
+        TITLE_MAP.put(AswPatrol.class, "ASW");
+        TITLE_MAP.put(CapPatrol.class, "CAP");
+        TITLE_MAP.put(SearchPatrol.class, "Search");
 
-        typeMap.put(AswPatrol.class, ASW);
-        typeMap.put(CapPatrol.class, CAP);
-        typeMap.put(SearchPatrol.class, SEARCH);
+        TYPE_MAP.put(AswPatrol.class, ASW);
+        TYPE_MAP.put(CapPatrol.class, CAP);
+        TYPE_MAP.put(SearchPatrol.class, SEARCH);
     }
 
     /**
@@ -37,7 +37,7 @@ public enum PatrolType {
      * @return The corresponding title.
      */
     public static String getTitle(final Patrol patrol) {
-        return titleMap.get(patrol.getClass());
+        return TITLE_MAP.get(patrol.getClass());
     }
 
     /**
@@ -47,7 +47,7 @@ public enum PatrolType {
      * @return The corresponding enum.
      */
     public static PatrolType getType(final Patrol patrol) {
-        return typeMap.get(patrol.getClass());
+        return TYPE_MAP.get(patrol.getClass());
     }
 
     /**
@@ -60,7 +60,7 @@ public enum PatrolType {
     }
 
     @Getter
-    private String value;
+    private final String value;
 
     /**
      * The constructor.

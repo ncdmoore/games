@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Represents an airfield's or aircraft carrier's patrols.
@@ -116,7 +115,7 @@ public class Patrols {
      * of patrols.
      */
     public Map<Integer, List<Patrol>> getPatrolRadiiMap() {
-        return Stream.of(PatrolType.values())
+        return PatrolType.stream()
                 .map(this::getPatrolRadii)
                 .collect(Collectors.toMap(Pair::getKey,
                         this::createList,

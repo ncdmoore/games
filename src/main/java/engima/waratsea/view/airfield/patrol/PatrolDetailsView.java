@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Represents the patrol details view. Displayed when a patrol radius circle is clicked on the game map.
@@ -45,7 +44,8 @@ public class PatrolDetailsView {
     public PatrolDetailsView(final ViewProps props) {
         this.props = props;
 
-        Stream.of(PatrolType.values())
+        PatrolType
+                .stream()
                 .forEach(patrolType -> labelMap.put(patrolType, new ArrayList<>()));
     }
 
@@ -106,7 +106,7 @@ public class PatrolDetailsView {
                 .stream()
                 .collect(Collectors.groupingBy(Squadron::getBaseType));
 
-        Stream.of(AircraftBaseType.values()).forEach(type -> {
+        AircraftBaseType.stream().forEach(type -> {
             int col = column.getAndIncrement();
 
             Label header = new Label(type.toString());

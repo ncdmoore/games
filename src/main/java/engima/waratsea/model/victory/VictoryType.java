@@ -2,6 +2,8 @@ package engima.waratsea.model.victory;
 
 import lombok.Getter;
 
+import java.util.stream.Stream;
+
 public enum VictoryType {
     SHIP("Ship", "Ship events that produce victory points."),
     SQUADRON("Squadron", "Squadron events that produce victory points."),
@@ -24,5 +26,14 @@ public enum VictoryType {
     @Override
     public String toString() {
         return value;
+    }
+
+    /**
+     * Get a stream of this enum's values.
+     *
+     * @return A stream of this enum's values.
+     */
+    public static Stream<VictoryType> stream() {
+        return Stream.of(VictoryType.values());
     }
 }

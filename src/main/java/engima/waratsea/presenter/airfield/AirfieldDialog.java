@@ -201,7 +201,9 @@ public class AirfieldDialog {
      * @param nation The nation: BRITISH, ITALIAN, etc...
      */
     private void registerPatrolHandlers(final Nation nation) {
-       Stream.of(PatrolType.values()).forEach(type -> registerPatrolHandler(nation, type));
+       PatrolType
+               .stream()
+               .forEach(type -> registerPatrolHandler(nation, type));
     }
 
     /**

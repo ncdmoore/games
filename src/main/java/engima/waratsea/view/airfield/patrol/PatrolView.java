@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class PatrolView {
     private final ViewProps props;
@@ -48,7 +47,7 @@ public class PatrolView {
                       final Provider<SquadronSummaryView> squadronSummaryViewProvider) {
         this.props = props;
 
-        Stream.of(PatrolType.values()).forEach(patrolType -> {
+        PatrolType.stream().forEach(patrolType -> {
             patrolListMap.put(patrolType, new ListViewPair<>("patrol", props, imageResourceProvider));
             patrolSummaryMap.put(patrolType, squadronSummaryViewProvider.get());
             patrolStatsMap.put(patrolType, airfieldPatrolStatsViewProvider.get());
@@ -68,7 +67,8 @@ public class PatrolView {
         TabPane patrolPane = new TabPane();
         patrolPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        List<Tab> tabs = Stream.of(PatrolType.values())
+        List<Tab> tabs = PatrolType
+                .stream()
                 .map(patrolType -> buildPatrolTab(nation, patrolType))
                 .collect(Collectors.toList());
 

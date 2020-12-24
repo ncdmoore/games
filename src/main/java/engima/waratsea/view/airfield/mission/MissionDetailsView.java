@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Represents the mission details view. Displayed when a mission arrow is clicked on the game map.
@@ -49,7 +48,7 @@ public class MissionDetailsView {
         this.statsView = statsView;
         this.props = props;
 
-        Stream.of(PatrolType.values())
+        PatrolType.stream()
                 .forEach(patrolType -> labelMap.put(patrolType, new ArrayList<>()));
     }
 
@@ -136,7 +135,7 @@ public class MissionDetailsView {
 
         AtomicInteger column = new AtomicInteger();
 
-        Stream.of(AircraftBaseType.values()).forEach(type -> {
+        AircraftBaseType.stream().forEach(type -> {
             int col = column.getAndIncrement();
 
             Label header = new Label(type.toString());

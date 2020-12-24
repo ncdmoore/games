@@ -85,7 +85,7 @@ public class FlotillaPresenter implements Presenter {
 
         this.view = viewProvider.get();
 
-        Stream.of(FlotillaType.values()).forEach(type -> {
+        FlotillaType.stream().forEach(type -> {
             FlotillaViewModel flotillaViewModel = viewModelProvider.get();
             viewModelMap.put(type, flotillaViewModel);
             view.bind(type, flotillaViewModel);

@@ -17,9 +17,9 @@ import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.PreviewMapView;
-import engima.waratsea.viewmodel.airfield.AirfieldViewModel;
 import engima.waratsea.viewmodel.DeploymentViewModel;
 import engima.waratsea.viewmodel.RegionViewModel;
+import engima.waratsea.viewmodel.airfield.AirfieldViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -53,7 +53,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Represents the squadron deployment view.
@@ -162,7 +161,7 @@ public class SquadronView {
                     squadronAirfieldLabel.put(nation, new Label());
 
                     Map<AircraftBaseType, Label> airfieldStepMap = new HashMap<>();
-                    Stream.of(AircraftBaseType.values()).forEach(type -> airfieldStepMap.put(type, new Label()));
+                    AircraftBaseType.stream().forEach(type -> airfieldStepMap.put(type, new Label()));
                     airfieldSteps.put(nation, airfieldStepMap);
 
                     buildMinimumRegion(nation);

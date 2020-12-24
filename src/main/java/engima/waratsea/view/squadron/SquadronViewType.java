@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * This class maps the model's aircraft types into a squadron view type.
@@ -73,5 +74,14 @@ public enum SquadronViewType {
     @Override
     public String toString() {
         return value;
+    }
+
+    /**
+     * Get a stream of this enum's values.
+     *
+     * @return A stream of this enum's values.
+     */
+    public static Stream<SquadronViewType> stream() {
+        return Stream.of(SquadronViewType.values());
     }
 }

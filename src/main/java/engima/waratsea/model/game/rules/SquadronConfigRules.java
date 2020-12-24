@@ -17,7 +17,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Stream;
 
 @Singleton
 public class SquadronConfigRules {
@@ -52,7 +51,9 @@ public class SquadronConfigRules {
 
         Set<SquadronConfig> defaultNation = Set.of(SquadronConfig.NONE, SquadronConfig.DROP_TANKS, SquadronConfig.SEARCH);
 
-        Stream.of(Nation.values()).forEach(nation -> nationRules.put(nation, defaultNation));
+        Nation
+                .stream()
+                .forEach(nation -> nationRules.put(nation, defaultNation));
 
         nationRules.put(Nation.BRITISH, Set.of(
                 SquadronConfig.NONE,

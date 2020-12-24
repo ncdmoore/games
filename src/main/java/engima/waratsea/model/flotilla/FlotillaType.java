@@ -2,15 +2,17 @@ package engima.waratsea.model.flotilla;
 
 import lombok.Getter;
 
+import java.util.stream.Stream;
+
 public enum FlotillaType {
     SUBMARINE("Submarine", SubmarineFlotilla.class),
     MTB("MTB", MotorTorpedoBoatFlotilla.class);
 
     @Getter
-    private String value;
+    private final String value;
 
     @Getter
-    private Class<?> clazz;         // This is the corresponding flotilla class.
+    private final Class<?> clazz;         // This is the corresponding flotilla class.
 
     /**
      * Constructor.
@@ -31,5 +33,14 @@ public enum FlotillaType {
     @Override
     public String toString() {
         return value;
+    }
+
+    /**
+     * Get a stream of this enum's values.
+     *
+     * @return A stream of this enum's values.
+     */
+    public static Stream<FlotillaType> stream() {
+        return Stream.of(FlotillaType.values());
     }
 }

@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * The squadron deployment map for a nation.
@@ -120,7 +119,8 @@ public class SquadronDeploymentMap {
         // This will be a map of aircraft base type to all airfields for this nation.
         // Any airfield not mentioned in the deployment is simply added to the end
         // of the ranking.
-        return Stream.of(AircraftBaseType.values())
+        return AircraftBaseType
+                .stream()
                 .collect(Collectors.toMap(type -> type, type -> getRanking(type, deployments, airfields)));
     }
 

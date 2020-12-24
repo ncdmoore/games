@@ -22,8 +22,6 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.javatuples.Triplet;
 
-import java.util.stream.Stream;
-
 /**
  * Used from the Forces menu to show a player's squadrons.
  */
@@ -127,7 +125,8 @@ public class SquadronsDialog {
      */
     private void registerCallbacks(final Nation nation) {
         // Call backs for when a squadron list view is selected.
-        Stream.of(SquadronViewType.values())
+        SquadronViewType
+                .stream()
                 .map(type -> makePair(nation, type))
                 .map(this::getListView)
                 .map(this::getListViewProperty)
@@ -188,7 +187,8 @@ public class SquadronsDialog {
      * @param nation The nation.
      */
     private void selectFirstSquadrons(final Nation nation) {
-        Stream.of(SquadronViewType.values())
+        SquadronViewType
+                .stream()
                 .map(type -> makePair(nation, type))
                 .map(this::getSquadronView)
                 .forEach(viewList -> viewList.getSelectionModel().selectFirst());
