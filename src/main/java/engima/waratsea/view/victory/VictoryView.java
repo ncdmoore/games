@@ -19,7 +19,6 @@ import lombok.Getter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
 /**
  * This class represents the victory conditions view shown in the victory dialog box
@@ -41,7 +40,8 @@ public class VictoryView {
 
         viewModel.init();
 
-        Stream.of(VictoryType.values())
+        VictoryType
+                .stream()
                 .forEach(victoryType -> {
                     ListView<VictoryConditionDetails> listView = new ListView<>();
                     listView.setMinWidth(props.getInt("victory.dialog.list.width"));
@@ -58,7 +58,8 @@ public class VictoryView {
     public Node build() {
         victoryTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        Stream.of(VictoryType.values())
+        VictoryType
+                .stream()
                 .forEach(this::buildTab);
 
         return victoryTabPane;

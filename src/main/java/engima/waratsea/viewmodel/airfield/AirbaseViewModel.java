@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Represents the view model for a given airbase.
@@ -70,7 +69,7 @@ public class AirbaseViewModel {
                 .stream()
                 .collect(Collectors.toMap(nation -> nation, this::buildMissionViewModel));
 
-        Stream.of(PatrolType.values()).forEach(this::buildPatrolViewModel);
+        PatrolType.stream().forEach(this::buildPatrolViewModel);
         airbase.getNations().forEach(this::buildNationViewModel);
 
         missionViewModels.forEach(this::addNationViewToMissionView);

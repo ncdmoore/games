@@ -9,8 +9,8 @@ import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.viewmodel.FlotillaViewModel;
 import engima.waratsea.view.map.FlotillaPreviewMapView;
+import engima.waratsea.viewmodel.FlotillaViewModel;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 /**
  * Represents the flotilla summary view.
@@ -84,7 +83,7 @@ public class FlotillaView {
 
         this.flotillaMap = flotillaMap;
 
-        Stream.of(FlotillaType.values()).forEach(type -> {
+        FlotillaType.stream().forEach(type -> {
             stateValue.put(type, new Label());
             locationValue.put(type, new Label());
         });
@@ -228,7 +227,8 @@ public class FlotillaView {
         flotillaTabPane.setMinWidth(props.getInt("flotilla.tabPane.width"));
         flotillaTabPane.setMaxWidth(props.getInt("flotilla.tabPane.width"));
 
-        Stream.of(FlotillaType.values())
+        FlotillaType
+                .stream()
                 .filter(this::hasTab)
                 .map(this::buildTab)
                 .forEach(tab -> flotillaTabPane.getTabs().add(tab));

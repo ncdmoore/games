@@ -36,7 +36,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 public class AirfieldAssetSummaryView implements AssetView {
@@ -294,7 +293,8 @@ public class AirfieldAssetSummaryView implements AssetView {
      * Show landing types.
      */
     private void bindLandingTypes() {
-        List<CheckBox> checkBoxes = Stream.of(LandingType.values())
+        List<CheckBox> checkBoxes = LandingType
+                .stream()
                 .map(this::buildCheckBox)
                 .collect(Collectors.toList());
 

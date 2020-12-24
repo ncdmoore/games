@@ -11,7 +11,6 @@ import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 /**
  * This class contains the squadron information for a given nation.
@@ -44,7 +43,8 @@ public class SquadronsNationView {
         TabPane squadronViewTabs = new TabPane();
         squadronViewTabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        Stream.of(SquadronViewType.values())
+        SquadronViewType
+                .stream()
                 .sorted()
                 .map(this::createTab)
                 .forEach(tab -> squadronViewTabs.getTabs().add(tab));
