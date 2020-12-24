@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Represents the view of a mission being edited.
@@ -76,7 +75,8 @@ public class MissionEditView {
         missionType.setMinWidth(props.getInt("mission.type.list.width"));
         target.setMinWidth(props.getInt("mission.type.list.width"));
 
-        Stream.of(MissionRole.values())
+        MissionRole
+                .stream()
                 .forEach(this::createSquadronList);
 
     }
@@ -132,7 +132,7 @@ public class MissionEditView {
 
         setRoles();
 
-        Stream.of(MissionRole.values()).forEach(role -> {
+        MissionRole.stream().forEach(role -> {
             squadrons.get(role).getAvailable().itemsProperty().bind(viewModel.getAvailable().get(role));
             squadrons.get(role).getAssigned().itemsProperty().bind(viewModel.getAssigned().get(role));
             squadrons.get(role).getAdd().disableProperty().bind(viewModel.getAvailableExists().get(role));

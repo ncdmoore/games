@@ -19,8 +19,6 @@ import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.stream.Stream;
-
 @Slf4j
 public class MissionEditDialog {
     private static final String CSS_FILE = "missionDetails.css";
@@ -122,7 +120,9 @@ public class MissionEditDialog {
      * Register callbacks.
      */
     private void registerHandlers() {
-        Stream.of(MissionRole.values()).forEach(this::registerListHandlers);
+        MissionRole
+                .stream()
+                .forEach(this::registerListHandlers);
 
         viewModel.getWarning().addListener((o, ov, nv) -> warningHandler(nv));
 

@@ -113,7 +113,7 @@ public class AirMissionViewModel {
 
         missionTypes.setValue(FXCollections.observableArrayList(AirMissionType.values()));
 
-        Stream.of(MissionRole.values()).forEach(role -> {
+        MissionRole.stream().forEach(role -> {
             available.put(role, new SimpleListProperty<>());
             availableExists.put(role, new SimpleBooleanProperty());
 
@@ -179,7 +179,7 @@ public class AirMissionViewModel {
 
         checkCapacity = false; // This is an existing mission, so no need to check target capacity.
 
-        Stream.of(MissionRole.values())
+        MissionRole.stream()
                 .forEach(role -> {
                     String assignedNames = mission.getSquadrons(role)
                             .stream()
@@ -375,7 +375,7 @@ public class AirMissionViewModel {
         // Copy the ready squadrons. This must be done to handle the case where a added mission is canceled.
         ready.set(FXCollections.observableList(new ArrayList<>(viewModel.getTotalReadySquadrons().getValue())));
 
-        Stream.of(MissionRole.values()).forEach(role -> {
+        MissionRole.stream().forEach(role -> {
             available.get(role).bind(Bindings.createObjectBinding(() -> FXCollections.observableArrayList(filter(missionType, target, role, ready)), missionType, target, ready));
             availableExists.get(role).bind(available.get(role).emptyProperty());
         });

@@ -126,7 +126,7 @@ public class MissionAddView {
     public Node bind(final AirMissionViewModel viewModel) {
         missionType.itemsProperty().bind(viewModel.getMissionTypes());
 
-        Stream.of(MissionRole.values()).forEach(role -> {
+        MissionRole.stream().forEach(role -> {
             squadrons.get(role).getAvailable().itemsProperty().bind(viewModel.getAvailable().get(role));
             squadrons.get(role).getAssigned().itemsProperty().bind(viewModel.getAssigned().get(role));
             squadrons.get(role).getAdd().disableProperty().bind(viewModel.getAvailableExists().get(role));
@@ -220,7 +220,8 @@ public class MissionAddView {
     private Node buildSquadronLists() {
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        List<Tab> tabs = Stream.of(MissionRole.values())
+        List<Tab> tabs = MissionRole
+                .stream()
                 .map(this::buildTab)
                 .collect(Collectors.toList());
 
