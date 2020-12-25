@@ -510,8 +510,6 @@ public class AirfieldDialog {
                     .getSelectedSquadron()
                     .set(allSquadron, state);
 
-            log.info("Squadron: {} state: {}", allSquadron.getTitle(), state);
-
             view
                     .getAirfieldAllView()
                     .get(nation)
