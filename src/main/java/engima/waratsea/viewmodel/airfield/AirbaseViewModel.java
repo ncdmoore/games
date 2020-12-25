@@ -26,7 +26,8 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class AirbaseViewModel {
-    // All missions for all nations originating from this airbase.
+    // All missions for all nations originating from this airbase. This is bound to the aggregate sum of
+    // all the mission view models of each nation.
     @Getter private final ListProperty<AirMissionViewModel> totalMissions = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
     private Map<Nation, ListProperty<AirMissionViewModel>> missionViewModels = new HashMap<>();                         // The missions for each nation.
@@ -80,7 +81,7 @@ public class AirbaseViewModel {
         nationViewModels.values().forEach(nationVM -> nationVM.setPatrolViewModels(patrolViewModels));
         nationViewModels.forEach((nation, nationVM) -> nationVM.setMissionViewModels(missionViewModels.get(nation)));
 
-        bindTotalMissions();
+        bindTotalMissions();  // We have to wait to bind until the nations are known.
 
         return this;
     }
@@ -119,14 +120,8 @@ public class AirbaseViewModel {
      * Save the missions to the model.
      */
     public void saveMissions() {
-        totalMissions.forEach(AirMissionViewModel::saveMission);
-    }
-
-    /**
-     * Clear the missions from the model.
-     */
-    public void clearMissions() {
         airbase.clearMissions();
+        totalMissions.forEach(AirMissionViewModel::saveMission);
     }
 
     /**

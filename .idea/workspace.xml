@@ -8,7 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/AirbaseViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/AirbaseViewModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -287,13 +287,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00253" summary="Update coral sea data to show map regions on the game map.">
-      <created>1599514559414</created>
-      <option name="number" value="00253" />
-      <option name="presentableId" value="LOCAL-00253" />
-      <option name="project" value="LOCAL" />
-      <updated>1599514559414</updated>
     </task>
     <task id="LOCAL-00254" summary="Fix airfield dialog cancel bug and create asset presenter classes.">
       <created>1599608486693</created>
@@ -631,7 +624,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608913188219</updated>
     </task>
-    <option name="localTasksCounter" value="302" />
+    <task id="LOCAL-00302" summary="cleanup NationAirbaseViewModel">
+      <created>1608923039381</created>
+      <option name="number" value="00302" />
+      <option name="presentableId" value="LOCAL-00302" />
+      <option name="project" value="LOCAL" />
+      <updated>1608923039381</updated>
+    </task>
+    <option name="localTasksCounter" value="303" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -698,26 +698,26 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1337" y="547" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1600645261731" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1608913182831">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1608923033985">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1608913182831" />
-    <state width="1937" height="376" key="GridCell.Tab.0.bottom" timestamp="1608922101664">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1608923033985" />
+    <state width="1937" height="278" key="GridCell.Tab.0.bottom" timestamp="1608922967814">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="376" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1608922101664" />
-    <state width="1937" height="376" key="GridCell.Tab.0.center" timestamp="1608922101663">
+    <state width="1937" height="278" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1608922967814" />
+    <state width="1937" height="278" key="GridCell.Tab.0.center" timestamp="1608922967813">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="376" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1608922101663" />
-    <state width="1937" height="376" key="GridCell.Tab.0.left" timestamp="1608922101662">
+    <state width="1937" height="278" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1608922967813" />
+    <state width="1937" height="278" key="GridCell.Tab.0.left" timestamp="1608922967813">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="376" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1608922101662" />
-    <state width="1937" height="376" key="GridCell.Tab.0.right" timestamp="1608922101663">
+    <state width="1937" height="278" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1608922967813" />
+    <state width="1937" height="278" key="GridCell.Tab.0.right" timestamp="1608922967814">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="376" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1608922101663" />
+    <state width="1937" height="278" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1608922967814" />
     <state width="1937" height="376" key="GridCell.Tab.1.bottom" timestamp="1608922101665">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -742,10 +742,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1026" y="324" width="1295" height="837" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1608843396315" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1608913195638">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1608923044398">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1608913195638" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1608923044398" />
     <state x="17" y="33" width="2102" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1608913176752">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
