@@ -60,9 +60,9 @@ public class NationAirbaseViewModel {
     @Getter private final StringProperty regionMinimum = new SimpleStringProperty();
     @Getter private final StringProperty regionCurrent = new SimpleStringProperty();
 
-    // A list of air mission view models for this nation. This is 'somewhat' bound to the air mission view models
+    // A list of air mission view models for this nation. This is bound to the air mission view models
     // stored in the airbase view model. The airbase view model is the source of truth regarding air missions.
-    // The view binds to this property to show the missions in the UI.
+    // The view binds to this property to show the missions in the UI for the given nation.
     @Getter private final ListProperty<AirMissionViewModel> missionViewModels = new SimpleListProperty<>(FXCollections.emptyObservableList());
     @Getter private Map<PatrolType, PatrolViewModel> patrolViewModels;
     @Getter private final Map<SquadronState, SquadronStateViewModel> squadronStateViewModel = new HashMap<>();
@@ -135,8 +135,8 @@ public class NationAirbaseViewModel {
      *
      * @param airbaseMissions The airbase mission view models.
      */
-    public void setMissionViewModels(final List<AirMissionViewModel> airbaseMissions) {
-        missionViewModels.set(FXCollections.observableArrayList(airbaseMissions));
+    public void setMissionViewModels(final ListProperty<AirMissionViewModel> airbaseMissions) {
+        missionViewModels.bind(airbaseMissions);
 
         String ids = missionViewModels
                 .stream()
@@ -245,7 +245,6 @@ public class NationAirbaseViewModel {
      */
     public void addMission(final AirMissionViewModel viewModel) {
         airbaseViewModel.addMission(nation, viewModel);
-        missionViewModels.set(FXCollections.observableArrayList(airbaseViewModel.getMissions(nation)));
 
         String ids = missionViewModels
                 .stream()
@@ -283,8 +282,6 @@ public class NationAirbaseViewModel {
         log.debug("Add newly updated mission with id: '{}'", viewModel.getId());
         airbaseViewModel.addMission(nation, viewModel);
 
-        missionViewModels.set(FXCollections.observableArrayList(airbaseViewModel.getMissions(nation)));
-
         String ids = missionViewModels
                 .stream().map(AirMissionViewModel::getId)
                 .map(i -> Integer.toString(i))
@@ -304,7 +301,6 @@ public class NationAirbaseViewModel {
      */
     public void removeMission(final AirMissionViewModel viewModel) {
         airbaseViewModel.removeMission(nation, viewModel);
-        missionViewModels.set(FXCollections.observableArrayList(airbaseViewModel.getMissions(nation)));
 
         String ids = missionViewModels
                 .stream()

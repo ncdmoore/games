@@ -26,7 +26,7 @@ public class AirbaseViewModel {
     // All missions for all nations originating from this airbase.
     @Getter private final ListProperty<AirMissionViewModel> totalMissions = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
-    private Map<Nation, List<AirMissionViewModel>> missionViewModels = new HashMap<>();                                 // The missions for each nation.
+    private Map<Nation, ListProperty<AirMissionViewModel>> missionViewModels = new HashMap<>();                         // The missions for each nation.
     @Getter private final Map<PatrolType, PatrolViewModel> patrolViewModels = new HashMap<>();                          // The patrols for all nations.
     @Getter private final Map<Nation, NationAirbaseViewModel> nationViewModels = new HashMap<>();                       // A given nation's view of this airbase.
 
@@ -146,12 +146,14 @@ public class AirbaseViewModel {
      * @param nation The nation: BRITISH, ITALIAN, etc...
      * @return The list of build air mission view models.
      */
-    private List<AirMissionViewModel> buildMissionViewModel(final Nation nation) {
-        return airbase
+    private ListProperty<AirMissionViewModel> buildMissionViewModel(final Nation nation) {
+        List<AirMissionViewModel> missionsVMs = airbase
                 .getMissions(nation)
                 .stream()
                 .map(mission -> missionViewModelProvider.get().setModel(mission))
                 .collect(Collectors.toList());
+
+        return new SimpleListProperty<>(FXCollections.observableList(missionsVMs));
     }
 
     /**

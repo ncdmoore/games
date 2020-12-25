@@ -46,8 +46,8 @@ import java.util.stream.Collectors;
 public class AirMissionViewModel {
     @Getter private final ListProperty<AirMissionType> missionTypes = new SimpleListProperty<>();                       // List of all mission types.
 
-    @Getter private final Map<MissionRole, SimpleListProperty<Squadron>> available = new HashMap<>();                   // List of available squadrons for a particular role.
-    @Getter private final Map<MissionRole, SimpleListProperty<Squadron>> assigned = new HashMap<>();                    // List of squadrons assigned to this mission for a particular role.
+    @Getter private final Map<MissionRole, ListProperty<Squadron>> available = new HashMap<>();                         // List of available squadrons for a particular role.
+    @Getter private final Map<MissionRole, ListProperty<Squadron>> assigned = new HashMap<>();                          // List of squadrons assigned to this mission for a particular role.
 
     @Getter private final Map<MissionRole, BooleanProperty> availableExists = new HashMap<>();                          // Indicates if any available squadrons exist for a particular role.
     @Getter private final Map<MissionRole, BooleanProperty> assignedExists = new HashMap<>();                           // Indicates if any assigned squadrons exist for a particular role.
