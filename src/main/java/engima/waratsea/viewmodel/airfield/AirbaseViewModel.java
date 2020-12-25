@@ -5,16 +5,19 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 /**
@@ -50,6 +53,7 @@ public class AirbaseViewModel {
         this.nationAirbaseViewModelProvider = nationAirbaseViewModelProvider;
         this.missionViewModelProvider = missionViewModelProvider;
         this.patrolViewModelProvider = patrolViewModelProvider;
+
     }
 
     /**
@@ -76,7 +80,7 @@ public class AirbaseViewModel {
         nationViewModels.values().forEach(nationVM -> nationVM.setPatrolViewModels(patrolViewModels));
         nationViewModels.forEach((nation, nationVM) -> nationVM.setMissionViewModels(missionViewModels.get(nation)));
 
-        updateTotalMissions();
+        bindTotalMissions();
 
         return this;
     }
@@ -99,7 +103,6 @@ public class AirbaseViewModel {
      */
     public void addMission(final Nation nation, final AirMissionViewModel missionViewModel) {
         missionViewModels.get(nation).add(missionViewModel);
-        updateTotalMissions();
     }
 
     /**
@@ -110,7 +113,6 @@ public class AirbaseViewModel {
      */
     public void removeMission(final Nation nation, final AirMissionViewModel missionViewModel) {
         missionViewModels.get(nation).remove(missionViewModel);
-        updateTotalMissions();
     }
 
     /**
@@ -128,16 +130,23 @@ public class AirbaseViewModel {
     }
 
     /**
-     * Update the total missions list.
+     * Bind the total missions list. It depends on all of the nation's missions.
      */
-    private void updateTotalMissions() {
-        List<AirMissionViewModel> total = missionViewModels
-                .values()
-                .stream()
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private void bindTotalMissions() {
+        final ListProperty[] listProperties = missionViewModels.values().toArray(ListProperty[]::new);
 
-        totalMissions.setValue(FXCollections.observableArrayList(total));
+        Callable<ObservableList<AirMissionViewModel>> bindingFunction = () -> {
+            List<AirMissionViewModel> allMissionsVMs = new ArrayList<>();
+
+            for (List<AirMissionViewModel> missionVMs : listProperties) {
+                allMissionsVMs.addAll(missionVMs);
+            }
+
+            return FXCollections.observableArrayList(allMissionsVMs);
+        };
+
+        totalMissions.bind(Bindings.createObjectBinding(bindingFunction, listProperties));
     }
 
     /**
