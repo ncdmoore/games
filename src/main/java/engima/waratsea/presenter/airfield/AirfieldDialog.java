@@ -267,6 +267,9 @@ public class AirfieldDialog {
      * Call back for the ok button.
      */
     private void ok() {
+        airbase.clearPatrols();
+
+
         updatePatrols();
         viewModel.saveMissions();
 
