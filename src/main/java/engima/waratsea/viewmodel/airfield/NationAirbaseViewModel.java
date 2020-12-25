@@ -39,7 +39,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Each nation has its on unique airfield view model. Thus, all of the property values of this view model are for
@@ -61,8 +60,7 @@ public class NationAirbaseViewModel {
     @Getter private final StringProperty regionMinimum = new SimpleStringProperty();
     @Getter private final StringProperty regionCurrent = new SimpleStringProperty();
 
-    @Getter private final ListProperty<AirMissionViewModel> missions = new SimpleListProperty<>(FXCollections.emptyObservableList());
-
+    @Getter private final ListProperty<AirMissionViewModel> missionViewModels = new SimpleListProperty<>(FXCollections.emptyObservableList());
     @Getter private Map<PatrolType, PatrolViewModel> patrolViewModels;
     @Getter private final Map<SquadronState, SquadronStateViewModel> squadronStateViewModel = new HashMap<>();
 
@@ -78,7 +76,7 @@ public class NationAirbaseViewModel {
     @Getter private final ListProperty<SquadronConfig> squadronConfigs = new SimpleListProperty<>(FXCollections.emptyObservableList());
     @Getter private final ObjectProperty<SquadronConfig> selectedConfig = new SimpleObjectProperty<>();   // The selected squadron configuration for the selected aircraft model.
 
-    @Getter private AirbaseViewModel airbaseViewModel;
+    @Getter private AirbaseViewModel airbaseViewModel;                                                    // Parent airbase view model.
 
     @Getter private final ObjectProperty<Airbase> airbase = new SimpleObjectProperty<>();
 
@@ -95,19 +93,13 @@ public class NationAirbaseViewModel {
     public NationAirbaseViewModel(final ImageResourceProvider imageResourceProvider,
                                   final ViewProps props,
                                   final Provider<SquadronStateViewModel> provider) {
-        Stream
-                .of(AirMissionType.values())
-                .forEach(this::initializeMission);
-
-        Stream
-                .of(PatrolType.values())
-                .forEach(this::initializePatrol);
 
         bindTitles();
         bindDetails();
         bindRegion();
         bindAircraftModels();
         bindImages(imageResourceProvider, props);
+        bindMissionCounts();
 
         squadronStateViewModel.put(SquadronState.READY, provider.get());
         squadronStateViewModel.put(SquadronState.ALL, provider.get());
@@ -141,13 +133,12 @@ public class NationAirbaseViewModel {
      * @param airbaseMissions The airbase mission view models.
      */
     public void setMissionViewModels(final List<AirMissionViewModel> airbaseMissions) {
-        missions.set(FXCollections.observableArrayList(airbaseMissions));
+        missionViewModels.set(FXCollections.observableArrayList(airbaseMissions));
 
-        String ids = missions.stream().map(AirMissionViewModel::getId).map(i -> Integer.toString(i)).collect(Collectors.joining(","));
+        String ids = missionViewModels.stream().map(AirMissionViewModel::getId).map(i -> Integer.toString(i)).collect(Collectors.joining(","));
 
         log.debug("Initialize mission view models with ids: '{}'", ids);
 
-        setMissionCounts();
     }
 
     /**
@@ -158,7 +149,7 @@ public class NationAirbaseViewModel {
     public void setPatrolViewModels(final Map<PatrolType, PatrolViewModel> airbasePatrols) {
         patrolViewModels = airbasePatrols;
 
-        setPatrolCounts();
+        bindPatrolCounts();
     }
 
     /**
@@ -246,9 +237,9 @@ public class NationAirbaseViewModel {
      * @param viewModel The mission view model.
      */
     public void addMission(final AirMissionViewModel viewModel) {
-        missions.add(viewModel);
+        missionViewModels.add(viewModel);
 
-        String ids = missions
+        String ids = missionViewModels
                 .stream()
                 .map(AirMissionViewModel::getId)
                 .map(i -> Integer.toString(i))
@@ -270,7 +261,7 @@ public class NationAirbaseViewModel {
      */
     public void editMission(final AirMissionViewModel viewModel) {
         // The unique mission id is used to find the mission view model.
-        Optional<AirMissionViewModel> oldViewModel = missions
+        Optional<AirMissionViewModel> oldViewModel = missionViewModels
                 .stream()
                 .filter(vm -> vm.getId() == viewModel.getId())
                 .findFirst();
@@ -278,15 +269,15 @@ public class NationAirbaseViewModel {
         // The 'old' non updated mission view model is removed.
         oldViewModel.ifPresent(oldMissionVM -> {
             log.debug("Remove out of date mission with id: '{}'", oldMissionVM.getId());
-            missions.remove(oldMissionVM);
+            missionViewModels.remove(oldMissionVM);
         });
 
         // The 'updated' mission view model is then added back in.
 
         log.debug("Add newly updated mission with id: '{}'", viewModel.getId());
-        missions.set(FXCollections.observableArrayList(viewModel));
+        missionViewModels.set(FXCollections.observableArrayList(viewModel));
 
-        String ids = missions
+        String ids = missionViewModels
                 .stream().map(AirMissionViewModel::getId)
                 .map(i -> Integer.toString(i))
                 .collect(Collectors.joining(","));
@@ -305,9 +296,9 @@ public class NationAirbaseViewModel {
      * @param viewModel The mission view model.
      */
     public void removeMission(final AirMissionViewModel viewModel) {
-        missions.remove(viewModel);
+        missionViewModels.remove(viewModel);
 
-        String ids = missions.stream().map(AirMissionViewModel::getId).map(i -> Integer.toString(i)).collect(Collectors.joining(","));
+        String ids = missionViewModels.stream().map(AirMissionViewModel::getId).map(i -> Integer.toString(i)).collect(Collectors.joining(","));
 
         log.debug("remove mission with id: '{}'", viewModel.getId());
         log.debug("All missions view models: '{}'", ids);
@@ -347,7 +338,7 @@ public class NationAirbaseViewModel {
      * @return The state of the squadron.
      */
     public SquadronState determineSquadronState(final Squadron squadron) {
-        return missions.stream().anyMatch(mission -> mission.isSquadronOnMission(squadron)) ? SquadronState.ON_MISSION
+        return missionViewModels.stream().anyMatch(mission -> mission.isSquadronOnMission(squadron)) ? SquadronState.ON_MISSION
                 : patrolViewModels.values().stream().anyMatch(patrol -> patrol.isSquadronOnPatrol(squadron)) ? SquadronState.ON_PATROL
                 : squadronStateViewModel.get(SquadronState.READY).isPresent(squadron) ? SquadronState.READY
                 : SquadronState.HANGER;
@@ -392,24 +383,6 @@ public class NationAirbaseViewModel {
         if (!aircraftModels.getValue().isEmpty()) {
             selectedAircraft.setValue(aircraftModels.getValue().get(0));
         }
-    }
-
-    /**
-     * Initialize the mission squadron count for the given mission type.
-     *
-     * @param type The mission type.
-     */
-    private void initializeMission(final AirMissionType type) {
-        missionCounts.put(type.toString(), new SimpleIntegerProperty(0));
-    }
-
-    /**
-     * Initialize the patrol squadron count for the given patrol type.
-     *
-     * @param type The patrol type.
-     */
-    private void initializePatrol(final PatrolType type) {
-        patrolCounts.put(type.getValue(), new SimpleIntegerProperty(0));
     }
 
     /**
@@ -475,9 +448,9 @@ public class NationAirbaseViewModel {
     /**
      * Set the mission counts.
      */
-    private void setMissionCounts() {
-        Stream
-                .of(AirMissionType.values())
+    private void bindMissionCounts() {
+        AirMissionType
+                .stream()
                 .forEach(this::bindMissionCount);
 
         bindNoMissionsExist();
@@ -489,25 +462,27 @@ public class NationAirbaseViewModel {
      * @param type The mission type.
      */
     private void bindMissionCount(final AirMissionType type) {
-        Callable<Integer> bindingFunction = () -> missions
-                .getValue()
+        missionCounts.put(type.toString(), new SimpleIntegerProperty(0));
+
+        Callable<Integer> bindingFunction = () -> Optional.ofNullable(missionViewModels.getValue())
+                .orElse(FXCollections.emptyObservableList())
                 .stream()
                 .filter(mission -> mission.getMissionType().getValue() == type)
                 .map(mission -> mission.getTotalAssignedCount().getValue())
                 .reduce(0, Integer::sum);
 
-        missionCounts.get(type.toString()).bind(Bindings.createIntegerBinding(bindingFunction, missions));
+        missionCounts.get(type.toString()).bind(Bindings.createIntegerBinding(bindingFunction, missionViewModels));
     }
 
     /**
      * Bind whether this nation has any missions at this airbase.
      */
     private void bindNoMissionsExist() {
-        Callable<Boolean> bindingFunction = () -> missions
+        Callable<Boolean> bindingFunction = () -> missionViewModels
                 .getValue()
                 .isEmpty();
 
-        noMissionsExist.bind(Bindings.createBooleanBinding(bindingFunction, missions));
+        noMissionsExist.bind(Bindings.createBooleanBinding(bindingFunction, missionViewModels));
     }
 
     private void bindTitles() {
@@ -571,9 +546,9 @@ public class NationAirbaseViewModel {
     /**
      * Set the patrol counts.
      */
-    private void setPatrolCounts() {
-        Stream
-                .of(PatrolType.values())
+    private void bindPatrolCounts() {
+        PatrolType
+                .stream()
                 .forEach(this::bindPatrolCount);
     }
 
@@ -583,6 +558,8 @@ public class NationAirbaseViewModel {
      * @param type The patrol type.
      */
     private void bindPatrolCount(final PatrolType type) {
+        patrolCounts.put(type.getValue(), new SimpleIntegerProperty(0));
+
         patrolCounts
                 .get(type.getValue())
                 .bind(patrolViewModels

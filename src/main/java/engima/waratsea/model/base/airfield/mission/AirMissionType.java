@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * This class represents an air mission type. These are the types of mission a squadron may perform. Though
@@ -58,5 +59,14 @@ public enum AirMissionType {
      */
     public String toLower() {
         return toString().toLowerCase();
+    }
+
+    /**
+     * Get a stream of this enum's values.
+     *
+     * @return A stream of this enum's values.
+     */
+    public static Stream<AirMissionType> stream() {
+        return Stream.of(AirMissionType.values());
     }
 }

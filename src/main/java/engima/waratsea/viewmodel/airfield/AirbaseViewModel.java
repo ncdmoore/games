@@ -69,8 +69,8 @@ public class AirbaseViewModel {
                 .stream()
                 .collect(Collectors.toMap(nation -> nation, this::buildMissionViewModel));
 
-        PatrolType.stream().forEach(this::buildPatrolViewModel);
-        airbase.getNations().forEach(this::buildNationViewModel);
+        PatrolType.stream().forEach(this::buildPatrolViewModel);   // Build a patrol view model for each patrol-type.
+        airbase.getNations().forEach(this::buildNationViewModel);  // Build a nation view model for each nation.
 
         missionViewModels.forEach(this::addNationViewToMissionView);
         patrolViewModels.values().forEach(patrolVM -> patrolVM.setNationViewModels(nationViewModels));

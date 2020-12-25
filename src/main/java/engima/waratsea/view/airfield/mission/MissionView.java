@@ -51,7 +51,7 @@ public class MissionView {
      * @return This airfield ready view.
      */
     public TitledPane bind(final NationAirbaseViewModel viewModel) {
-        table.itemsProperty().bind(viewModel.getMissions());
+        table.itemsProperty().bind(viewModel.getMissionViewModels());
         add.disableProperty().bind(viewModel.getNoSquadronsReady());
         edit.disableProperty().bind(viewModel.getNoMissionsExist());
         delete.disableProperty().bind(viewModel.getNoMissionsExist());

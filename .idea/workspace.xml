@@ -9,6 +9,9 @@
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/AirMissionType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/AirMissionType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/AirbaseViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/AirbaseViewModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/NationAirbaseViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/NationAirbaseViewModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -287,13 +290,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00248" summary="Use enum object property in task force view model.">
-      <created>1599317010836</created>
-      <option name="number" value="00248" />
-      <option name="presentableId" value="LOCAL-00248" />
-      <option name="project" value="LOCAL" />
-      <updated>1599317010836</updated>
     </task>
     <task id="LOCAL-00249" summary="Add airfield management buttons to the airfield asset summary.">
       <created>1599331752987</created>
@@ -631,7 +627,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608844974300</updated>
     </task>
-    <option name="localTasksCounter" value="297" />
+    <task id="LOCAL-00297" summary="cleanup NationAirbaseViewModel">
+      <created>1608856441755</created>
+      <option name="number" value="00297" />
+      <option name="presentableId" value="LOCAL-00297" />
+      <option name="project" value="LOCAL" />
+      <updated>1608856441755</updated>
+    </task>
+    <option name="localTasksCounter" value="298" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -646,7 +649,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Use enum object property in task force view model." />
     <MESSAGE value="Add airfield management buttons to the airfield asset summary." />
     <MESSAGE value="Add region markers." />
     <MESSAGE value="Add all squadrons pane to airfield dialog box." />
@@ -671,7 +673,8 @@
     <MESSAGE value="Add task force summary view to the task force view." />
     <MESSAGE value="Add patrol factor tooltips to patrol stats view." />
     <MESSAGE value="add stream method to MissionRole enum." />
-    <option name="LAST_COMMIT_MESSAGE" value="add stream method to MissionRole enum." />
+    <MESSAGE value="cleanup NationAirbaseViewModel" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleanup NationAirbaseViewModel" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1226" y="483" key="#Notifications" timestamp="1608845038148">
@@ -686,10 +689,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1463" y="408" key="#com.intellij.ide.util.MemberChooser/0.23.2560.1349@0.23.2560.1349" timestamp="1607827669286" />
-    <state x="939" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1607907509270">
+    <state x="939" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1608861305611">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="939" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1607907509270" />
+    <state x="939" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1608861305611" />
     <state x="1583" y="572" width="950" height="800" key="#xdebugger.evaluate" timestamp="1607881444951">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -698,26 +701,26 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1337" y="547" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1600645261731" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1608844969256">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1608856438188">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1608844969256" />
-    <state width="1921" height="278" key="GridCell.Tab.0.bottom" timestamp="1608855809160">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1608856438188" />
+    <state width="1921" height="278" key="GridCell.Tab.0.bottom" timestamp="1608860619610">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1921" height="278" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1608855809160" />
-    <state width="1921" height="278" key="GridCell.Tab.0.center" timestamp="1608855809159">
+    <state width="1921" height="278" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1608860619610" />
+    <state width="1921" height="278" key="GridCell.Tab.0.center" timestamp="1608860619610">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1921" height="278" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1608855809159" />
-    <state width="1921" height="278" key="GridCell.Tab.0.left" timestamp="1608855809158">
+    <state width="1921" height="278" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1608860619610" />
+    <state width="1921" height="278" key="GridCell.Tab.0.left" timestamp="1608860619609">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1921" height="278" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1608855809158" />
-    <state width="1921" height="278" key="GridCell.Tab.0.right" timestamp="1608855809159">
+    <state width="1921" height="278" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1608860619609" />
+    <state width="1921" height="278" key="GridCell.Tab.0.right" timestamp="1608860619610">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1921" height="278" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1608855809159" />
+    <state width="1921" height="278" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1608860619610" />
     <state width="1921" height="376" key="GridCell.Tab.1.bottom" timestamp="1608842478827">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -742,14 +745,14 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1026" y="324" width="1295" height="837" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1608843396315" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1608844994833">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1608856475088">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1608844994833" />
-    <state x="871" y="218" width="1689" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1607810174502">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1608856475088" />
+    <state x="458" y="183" width="1689" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1608857051742">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="871" y="218" width="1689" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1607810174502" />
+    <state x="458" y="183" width="1689" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1608857051742" />
     <state x="1050" y="421" width="1010" height="617" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1607881494822">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
