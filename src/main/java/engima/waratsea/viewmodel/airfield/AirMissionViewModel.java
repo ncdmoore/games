@@ -366,6 +366,15 @@ public class AirMissionViewModel {
     }
 
     /**
+     * Save the mission to the given airbase.
+     */
+    public void saveMission() {
+        MissionData data = mission.getData();
+        data.setAirbase(airbase);
+        airbase.addMission(missionDAO.load(data));
+    }
+
+    /**
      * Bind the available squadrons.
      *
      * @param viewModel The nation's airbase view model.

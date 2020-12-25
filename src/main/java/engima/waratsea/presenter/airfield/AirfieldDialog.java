@@ -5,7 +5,6 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
-import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.rules.Rules;
@@ -268,11 +267,11 @@ public class AirfieldDialog {
      * Call back for the ok button.
      */
     private void ok() {
-        airbase.clearMissions();
+        viewModel.clearMissions();
         airbase.clearPatrols();
 
         updatePatrols();
-        updateMissions();
+        viewModel.saveMissions();
 
         mapView.toggleBaseMarkers(airbase);
 
@@ -283,25 +282,6 @@ public class AirfieldDialog {
         stage.close();
     }
 
-    /**
-     * Update the missions.
-     */
-    private void updateMissions() {
-        viewModel
-                .getTotalMissions()
-                .getValue()
-                .stream()
-                .map(AirMissionViewModel::getMission)
-                .forEach(mission -> {
-                    logMissionUpdate(mission);
-
-                    //Must update a copy of the mission so that the model and view have different copies of the mission.
-                    //This is necessary since the view creates missions.
-                    MissionData data = mission.getData();
-                    data.setAirbase(airbase);
-                    airbase.addMission(missionDAO.load(data));
-                });
-    }
 
     /**
      * Update the patrols.

@@ -26,7 +26,7 @@ public class AirbaseViewModel {
     // All missions for all nations originating from this airbase.
     @Getter private final ListProperty<AirMissionViewModel> totalMissions = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
-    @Getter private Map<Nation, List<AirMissionViewModel>> missionViewModels = new HashMap<>();                         // The missions for each nation.
+    private Map<Nation, List<AirMissionViewModel>> missionViewModels = new HashMap<>();                                 // The missions for each nation.
     @Getter private final Map<PatrolType, PatrolViewModel> patrolViewModels = new HashMap<>();                          // The patrols for all nations.
     @Getter private final Map<Nation, NationAirbaseViewModel> nationViewModels = new HashMap<>();                       // A given nation's view of this airbase.
 
@@ -82,18 +82,60 @@ public class AirbaseViewModel {
     }
 
     /**
+     * Get the current missions for the given nation.
+     *
+     * @param nation The nation whose missions are returned.
+     * @return The missions of the given nation.
+     */
+    public List<AirMissionViewModel> getMissions(final Nation nation) {
+        return missionViewModels.get(nation);
+    }
+
+    /**
+     * Add a mission to this airbase for the given nation.
+     *
+     * @param nation The nation that conducts the mission.
+     * @param missionViewModel The mission that is added.
+     */
+    public void addMission(final Nation nation, final AirMissionViewModel missionViewModel) {
+        missionViewModels.get(nation).add(missionViewModel);
+        updateTotalMissions();
+    }
+
+    /**
+     * Remove a mission from this airbase from the given nation.
+     *
+     * @param nation The nation that conducts the removed mission.
+     * @param missionViewModel The mission that is removed.
+     */
+    public void removeMission(final Nation nation, final AirMissionViewModel missionViewModel) {
+        missionViewModels.get(nation).remove(missionViewModel);
+        updateTotalMissions();
+    }
+
+    /**
+     * Save the missions to the model.
+     */
+    public void saveMissions() {
+        totalMissions.forEach(AirMissionViewModel::saveMission);
+    }
+
+    /**
+     * Clear the missions from the model.
+     */
+    public void clearMissions() {
+        airbase.clearMissions();
+    }
+
+    /**
      * Update the total missions list.
      */
-    public void updateTotalMissions() {
-        log.debug("Update total missions for airbase: '{}'", airbase.getTitle());
-
+    private void updateTotalMissions() {
         List<AirMissionViewModel> total = missionViewModels
                 .values()
                 .stream()
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
-
-        log.debug("Total missions: '{}'", total.size());
 
         totalMissions.setValue(FXCollections.observableArrayList(total));
     }
