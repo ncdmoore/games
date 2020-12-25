@@ -3,8 +3,6 @@ package engima.waratsea.presenter.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.mission.AirMission;
-import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.rules.Rules;
@@ -39,7 +37,6 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Represents the airfield details dialog. This is were the airfield missions and patrols are assigned.
@@ -60,7 +57,6 @@ public class AirfieldDialog {
     private final Provider<MissionEditDialog> missionEditDetailsDialogProvider;
     private final AssetPresenter assetPresenter;
 
-    private final MissionDAO missionDAO;
     private final ViewProps props;
     private final Rules rules;
     private Stage stage;
@@ -84,7 +80,6 @@ public class AirfieldDialog {
      * @param missionAddDetailsDialogProvider Provides the mission details add dialog.
      * @param missionEditDetailsDialogProvider Provides the mission details edit dialog.
      * @param assetPresenter Provides the asset presenters.
-     * @param missionDAO The mission data access object.
      * @param props The view properties.
      * @param rules The game rules.
      */
@@ -98,7 +93,6 @@ public class AirfieldDialog {
                           final Provider<MissionAddDialog> missionAddDetailsDialogProvider,
                           final Provider<MissionEditDialog> missionEditDetailsDialogProvider,
                           final AssetPresenter assetPresenter,
-                          final MissionDAO missionDAO,
                           final ViewProps props,
                           final Rules rules) {
         //CHECKSTYLE:ON
@@ -109,7 +103,6 @@ public class AirfieldDialog {
         this.missionAddDetailsDialogProvider = missionAddDetailsDialogProvider;
         this.missionEditDetailsDialogProvider = missionEditDetailsDialogProvider;
         this.assetPresenter = assetPresenter;
-        this.missionDAO = missionDAO;
         this.props = props;
         this.rules = rules;
     }
@@ -559,19 +552,5 @@ public class AirfieldDialog {
                 .getSelectionModel()
                 .selectedItemProperty()
                 .addListener(listener);
-    }
-
-    /**
-     * Log the mission update.
-     *
-     * @param mission The updated mission.
-     */
-    private void logMissionUpdate(final AirMission mission) {
-        log.debug("Add mission with id: '{}' to airbase: '{}', target: '{}'", new Object[]{mission.getId(), airbase.getTitle(), mission.getTarget().getTitle()});
-
-        mission.getSquadronMap().forEach((role, squadrons) -> {
-            String squadronNames = squadrons.stream().map(Squadron::getTitle).collect(Collectors.joining(","));
-            log.debug("  with squadrons: '{}' for role: '{}'", squadronNames, role);
-        });
     }
 }
