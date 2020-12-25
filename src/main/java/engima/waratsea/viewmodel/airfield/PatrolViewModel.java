@@ -148,6 +148,13 @@ public class PatrolViewModel {
     }
 
     /**
+     * Save the patrol to the model.
+     */
+    public void savePatrol() {
+        airbase.updatePatrol(patrolType, assignedAllNations.getValue());
+    }
+
+    /**
      * Determine if the given squadron is on this patrol.
      *
      * @param squadron A squadron that is checked to see if it is on this patrol.

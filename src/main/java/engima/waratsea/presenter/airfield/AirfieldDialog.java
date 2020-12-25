@@ -40,7 +40,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Represents the airfield details dialog. This is were the airfield missions and patrols are assigned.
@@ -267,10 +266,7 @@ public class AirfieldDialog {
      * Call back for the ok button.
      */
     private void ok() {
-        airbase.clearPatrols();
-
-
-        updatePatrols();
+        viewModel.savePatrols();
         viewModel.saveMissions();
 
         mapView.toggleBaseMarkers(airbase);
@@ -280,29 +276,6 @@ public class AirfieldDialog {
                 .hide(airbase, false);
 
         stage.close();
-    }
-
-
-    /**
-     * Update the patrols.
-     */
-    private void updatePatrols() {
-        Stream
-                .of(PatrolType.values())
-                .forEach(this::updatePatrol);
-    }
-
-    /**
-     * Update the given patrol type.
-     *
-     * @param type The patrol type.
-     */
-    private void updatePatrol(final PatrolType type) {
-        airbase.updatePatrol(type, viewModel
-                .getPatrolViewModels()
-                .get(type)
-                .getAssignedAllNations()
-                .getValue());
     }
 
     /**

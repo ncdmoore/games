@@ -125,6 +125,14 @@ public class AirbaseViewModel {
     }
 
     /**
+     * Save the patrols to the model.
+     */
+    public void savePatrols() {
+        airbase.clearPatrols();
+        patrolViewModels.values().forEach(PatrolViewModel::savePatrol);
+    }
+
+    /**
      * Bind the total missions list. It depends on all of the nation's missions.
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
