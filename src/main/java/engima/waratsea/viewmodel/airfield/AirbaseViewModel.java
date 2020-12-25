@@ -5,7 +5,6 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.Squadron;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -95,16 +94,6 @@ public class AirbaseViewModel {
                 .collect(Collectors.toList());
 
         log.debug("Total missions: '{}'", total.size());
-
-        total.forEach(mission -> mission.getAssigned().forEach((role, squadron) -> {
-            String squadronNames = squadron
-                    .get()
-                    .stream()
-                    .map(Squadron::getTitle)
-                    .collect(Collectors.joining(","));
-
-            log.debug("Mission id: '{}' role: '{}' squadrons: '{}'", new Object[]{mission.getId(), role, squadronNames});
-        }));
 
         totalMissions.setValue(FXCollections.observableArrayList(total));
     }

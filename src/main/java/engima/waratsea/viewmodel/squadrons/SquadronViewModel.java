@@ -263,6 +263,19 @@ public class SquadronViewModel {
         return summary;
     }
 
+    /**
+     * The String representation of a squadron view model.
+     *
+     * @return The String representation of a squadron view model.
+     */
+    @Override
+    public String toString() {
+        return Optional
+                .ofNullable(squadron.getValue())
+                .map(Squadron::toString)
+                .orElse("");
+    }
+
     private void bindDetails() {
         present.bind(Bindings.createBooleanBinding(() -> Optional
                 .ofNullable(squadron.getValue())
