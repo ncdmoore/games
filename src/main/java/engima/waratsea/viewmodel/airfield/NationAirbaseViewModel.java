@@ -64,7 +64,6 @@ public class NationAirbaseViewModel {
     @Getter private final ListProperty<AirMissionViewModel> missions = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
     @Getter private Map<PatrolType, PatrolViewModel> patrolViewModels;
-    private List<AirMissionViewModel> missionViewModels;
     @Getter private final Map<SquadronState, SquadronStateViewModel> squadronStateViewModel = new HashMap<>();
 
     @Getter private final Map<String, IntegerProperty> missionCounts = new HashMap<>();                   // Per nation.
@@ -142,10 +141,9 @@ public class NationAirbaseViewModel {
      * @param airbaseMissions The airbase mission view models.
      */
     public void setMissionViewModels(final List<AirMissionViewModel> airbaseMissions) {
-        missionViewModels = airbaseMissions;
-        missions.set(FXCollections.observableArrayList(missionViewModels));
+        missions.set(FXCollections.observableArrayList(airbaseMissions));
 
-        String ids = missionViewModels.stream().map(AirMissionViewModel::getId).map(i -> Integer.toString(i)).collect(Collectors.joining(","));
+        String ids = missions.stream().map(AirMissionViewModel::getId).map(i -> Integer.toString(i)).collect(Collectors.joining(","));
 
         log.debug("Initialize mission view models with ids: '{}'", ids);
 
@@ -248,10 +246,9 @@ public class NationAirbaseViewModel {
      * @param viewModel The mission view model.
      */
     public void addMission(final AirMissionViewModel viewModel) {
-        missionViewModels.add(viewModel);
-        missions.set(FXCollections.observableArrayList(missionViewModels));
+        missions.add(viewModel);
 
-        String ids = missionViewModels
+        String ids = missions
                 .stream()
                 .map(AirMissionViewModel::getId)
                 .map(i -> Integer.toString(i))
@@ -273,7 +270,7 @@ public class NationAirbaseViewModel {
      */
     public void editMission(final AirMissionViewModel viewModel) {
         // The unique mission id is used to find the mission view model.
-        Optional<AirMissionViewModel> oldViewModel = missionViewModels
+        Optional<AirMissionViewModel> oldViewModel = missions
                 .stream()
                 .filter(vm -> vm.getId() == viewModel.getId())
                 .findFirst();
@@ -281,16 +278,15 @@ public class NationAirbaseViewModel {
         // The 'old' non updated mission view model is removed.
         oldViewModel.ifPresent(oldMissionVM -> {
             log.debug("Remove out of date mission with id: '{}'", oldMissionVM.getId());
-            missionViewModels.remove(oldMissionVM);
+            missions.remove(oldMissionVM);
         });
 
         // The 'updated' mission view model is then added back in.
 
         log.debug("Add newly updated mission with id: '{}'", viewModel.getId());
-        missionViewModels.add(viewModel);
-        missions.set(FXCollections.observableArrayList(missionViewModels));
+        missions.set(FXCollections.observableArrayList(viewModel));
 
-        String ids = missionViewModels
+        String ids = missions
                 .stream().map(AirMissionViewModel::getId)
                 .map(i -> Integer.toString(i))
                 .collect(Collectors.joining(","));
@@ -309,10 +305,9 @@ public class NationAirbaseViewModel {
      * @param viewModel The mission view model.
      */
     public void removeMission(final AirMissionViewModel viewModel) {
-        missionViewModels.remove(viewModel);
-        missions.set(FXCollections.observableArrayList(missionViewModels));
+        missions.remove(viewModel);
 
-        String ids = missionViewModels.stream().map(AirMissionViewModel::getId).map(i -> Integer.toString(i)).collect(Collectors.joining(","));
+        String ids = missions.stream().map(AirMissionViewModel::getId).map(i -> Integer.toString(i)).collect(Collectors.joining(","));
 
         log.debug("remove mission with id: '{}'", viewModel.getId());
         log.debug("All missions view models: '{}'", ids);
@@ -352,7 +347,7 @@ public class NationAirbaseViewModel {
      * @return The state of the squadron.
      */
     public SquadronState determineSquadronState(final Squadron squadron) {
-        return missionViewModels.stream().anyMatch(mission -> mission.isSquadronOnMission(squadron)) ? SquadronState.ON_MISSION
+        return missions.stream().anyMatch(mission -> mission.isSquadronOnMission(squadron)) ? SquadronState.ON_MISSION
                 : patrolViewModels.values().stream().anyMatch(patrol -> patrol.isSquadronOnPatrol(squadron)) ? SquadronState.ON_PATROL
                 : squadronStateViewModel.get(SquadronState.READY).isPresent(squadron) ? SquadronState.READY
                 : SquadronState.HANGER;
