@@ -137,14 +137,6 @@ public class NationAirbaseViewModel {
      */
     public void setMissionViewModels(final ListProperty<AirMissionViewModel> airbaseMissions) {
         missionViewModels.bind(airbaseMissions);
-
-        String ids = missionViewModels
-                .stream()
-                .map(AirMissionViewModel::getId)
-                .map(i -> Integer.toString(i))
-                .collect(Collectors.joining(","));
-
-        log.debug("Initialize mission view models with ids: '{}'", ids);
     }
 
     /**
@@ -245,16 +237,6 @@ public class NationAirbaseViewModel {
      */
     public void addMission(final AirMissionViewModel viewModel) {
         airbaseViewModel.addMission(nation, viewModel);
-
-        String ids = missionViewModels
-                .stream()
-                .map(AirMissionViewModel::getId)
-                .map(i -> Integer.toString(i))
-                .collect(Collectors.joining(","));
-
-        log.debug("Add mission with id: '{}'", viewModel.getId());
-        log.debug("All missions view models: '{}'", ids);
-
         removeFromReady(viewModel);            // Remove the mission squadrons from the ready list.
     }
 
@@ -273,24 +255,12 @@ public class NationAirbaseViewModel {
                 .findFirst();
 
         // The 'old' non updated mission view model is removed.
-        oldViewModel.ifPresent(oldMissionVM -> {
-            log.debug("Remove out of date mission with id: '{}'", oldMissionVM.getId());
-            airbaseViewModel.removeMission(nation, oldMissionVM);
-        });
+        oldViewModel.ifPresent(oldMissionVM -> airbaseViewModel.removeMission(nation, oldMissionVM));
 
         // The 'updated' mission view model is then added back in.
-        log.debug("Add newly updated mission with id: '{}'", viewModel.getId());
         airbaseViewModel.addMission(nation, viewModel);
 
-        String ids = missionViewModels
-                .stream().map(AirMissionViewModel::getId)
-                .map(i -> Integer.toString(i))
-                .collect(Collectors.joining(","));
-
-        log.debug("All missions view models: '{}'", ids);
-
         removeFromReady(viewModel);       // Remove the mission squadrons from the ready list.
-
         editReady(viewModel);             // Add any squadrons removed from the mission to the ready list.
     }
 
@@ -301,16 +271,6 @@ public class NationAirbaseViewModel {
      */
     public void removeMission(final AirMissionViewModel viewModel) {
         airbaseViewModel.removeMission(nation, viewModel);
-
-        String ids = missionViewModels
-                .stream()
-                .map(AirMissionViewModel::getId)
-                .map(i -> Integer.toString(i))
-                .collect(Collectors.joining(","));
-
-        log.debug("remove mission with id: '{}'", viewModel.getId());
-        log.debug("All missions view models: '{}'", ids);
-
         addToReady(viewModel);
     }
 
