@@ -5,7 +5,9 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.squadron.Squadron;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -14,6 +16,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,6 +125,79 @@ public class AirbaseViewModel {
     public void saveMissions() {
         airbase.clearMissions();
         totalMissions.forEach(AirMissionViewModel::saveMission);
+    }
+
+    /**
+     * Get the patrol view models for this airbase.
+     *
+     * @return The patrol view modles for this airbase.
+     */
+    public Collection<PatrolViewModel> getPatrols() {
+        return patrolViewModels.values();
+    }
+
+    /**
+     * Get the squadrons assigned to the given patrol type.
+     *
+     * @param type The patrol type.
+     * @param nation The nation.
+     * @return The squadrons assigned to the given patrol type.
+     */
+    public SimpleListProperty<Squadron> getAssignedPatrolSquadrons(final PatrolType type, final Nation nation) {
+        return patrolViewModels.get(type).getAssigned().get(nation);
+    }
+
+    /**
+     * Get the squadrons available for the given patrol type.
+     *
+     * @param type The patrol type.
+     * @param nation The nation.
+     * @return The squadrons available for the given patrol type.
+     */
+    public SimpleListProperty<Squadron> getAvailablePatrolSquadrons(final PatrolType type, final Nation nation) {
+        return patrolViewModels.get(type).getAvailable().get(nation);
+    }
+
+    /**
+     * Indicates if any squadron are assigned to the given patrol type.
+     *
+     * @param type The patrol type.
+     * @param nation The nation.
+     * @return True if squadrons are assigned to the given patrol type. False otherwise.
+     */
+    public BooleanProperty getAssignedPatrolExists(final PatrolType type, final Nation nation) {
+        return patrolViewModels.get(type).getAssignedExists().get(nation);
+    }
+
+    /**
+     * Indicates if any squadrons are available for the given patrol type.
+     *
+     * @param type The patrol type.
+     * @param nation The nation.
+     * @return True if squadrons are available for the given patrol type. False otherwise.
+     */
+    public BooleanProperty getAvailablePatrolExists(final PatrolType type, final Nation nation) {
+        return patrolViewModels.get(type).getAvailableExists().get(nation);
+    }
+
+    /**
+     * Add a squadron to the given patrol type.
+     *
+     * @param type The patrol type.
+     * @param squadron The squadron added to the patrol of the given type.
+     */
+    public void addToPatrol(final PatrolType type, final Squadron squadron) {
+        patrolViewModels.get(type).addToPatrol(squadron);
+    }
+
+    /**
+     * Remove a squadron from the given patrol type.
+     *
+     * @param type The patrol type.
+     * @param squadron The squadron removed from the patrol of the given type.
+     */
+    public void removeFromPatrol(final PatrolType type, final Squadron squadron) {
+        patrolViewModels.get(type).removeFromPatrol(squadron);
     }
 
     /**

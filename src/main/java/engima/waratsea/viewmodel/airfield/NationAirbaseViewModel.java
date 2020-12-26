@@ -42,7 +42,8 @@ import java.util.stream.Collectors;
 
 /**
  * Each nation has its on unique airfield view model. Thus, all of the property values of this view model are for
- * a given nation.
+ * a given nation. This class also serves as a wrapper around the airfield view model in that this class provides
+ * a single nations view of the airfield view model.
  */
 @Slf4j
 public class NationAirbaseViewModel {
@@ -64,7 +65,7 @@ public class NationAirbaseViewModel {
     // stored in the airbase view model. The airbase view model is the source of truth regarding air missions.
     // The view binds to this property to show the missions in the UI for the given nation.
     @Getter private final ListProperty<AirMissionViewModel> missionViewModels = new SimpleListProperty<>(FXCollections.emptyObservableList());
-    @Getter private Map<PatrolType, PatrolViewModel> patrolViewModels;
+
     @Getter private final Map<SquadronState, SquadronStateViewModel> squadronStateViewModel = new HashMap<>();
 
     @Getter private final Map<String, IntegerProperty> missionCounts = new HashMap<>();                   // Per nation.
@@ -145,10 +146,8 @@ public class NationAirbaseViewModel {
      * @param airbasePatrols The airbase patrol view models.
      */
     public void setPatrolViewModels(final Map<PatrolType, PatrolViewModel> airbasePatrols) {
-        patrolViewModels = airbasePatrols;
-
         // We have to wait until here to bind the patrol counts, since the patrol view models are only now known.
-        bindPatrolCounts();
+        bindPatrolCounts(airbasePatrols);
     }
 
     /**
@@ -164,13 +163,22 @@ public class NationAirbaseViewModel {
     }
 
     /**
+     * Get the patrols.
+     *
+     * @return The patrols.
+     */
+    public Map<PatrolType, PatrolViewModel> getPatrols() {
+        return airbaseViewModel.getPatrolViewModels();
+    }
+
+    /**
      * Get the squadrons assigned to the given patrol type.
      *
      * @param type The patrol type.
      * @return The squadrons assigned to the given patrol type.
      */
     public SimpleListProperty<Squadron> getAssignedPatrolSquadrons(final PatrolType type) {
-        return patrolViewModels.get(type).getAssigned().get(nation);
+        return airbaseViewModel.getAssignedPatrolSquadrons(type, nation);
     }
 
     /**
@@ -180,7 +188,7 @@ public class NationAirbaseViewModel {
      * @return The squadrons available for the given patrol type.
      */
     public SimpleListProperty<Squadron> getAvailablePatrolSquadrons(final PatrolType type) {
-        return patrolViewModels.get(type).getAvailable().get(nation);
+        return airbaseViewModel.getAvailablePatrolSquadrons(type, nation);
     }
 
     /**
@@ -190,7 +198,7 @@ public class NationAirbaseViewModel {
      * @return True if squadrons are assigned to the given patrol type. False otherwise.
      */
     public BooleanProperty getAssignedPatrolExists(final PatrolType type) {
-        return patrolViewModels.get(type).getAssignedExists().get(nation);
+        return airbaseViewModel.getAssignedPatrolExists(type, nation);
     }
 
     /**
@@ -200,7 +208,7 @@ public class NationAirbaseViewModel {
      * @return True if squadrons are available for the given patrol type. False otherwise.
      */
     public BooleanProperty getAvailablePatrolExists(final PatrolType type) {
-        return patrolViewModels.get(type).getAvailableExists().get(nation);
+        return airbaseViewModel.getAvailablePatrolExists(type, nation);
     }
 
     /**
@@ -281,7 +289,7 @@ public class NationAirbaseViewModel {
      * @param squadron The squadron added to the patrol.
      */
     public void addToPatrol(final PatrolType type, final Squadron squadron) {
-        patrolViewModels.get(type).addToPatrol(squadron);
+        airbaseViewModel.addToPatrol(type, squadron);
         removeFromReady(squadron);
     }
 
@@ -292,7 +300,7 @@ public class NationAirbaseViewModel {
      * @param squadron The squadron removed from the patrol.
      */
     public void removeFromPatrol(final PatrolType type, final Squadron squadron) {
-        patrolViewModels.get(type).removeFromPatrol(squadron);
+        airbaseViewModel.removeFromPatrol(type, squadron);
         addToReady(squadron);
     }
 
@@ -306,7 +314,7 @@ public class NationAirbaseViewModel {
      */
     public SquadronState determineSquadronState(final Squadron squadron) {
         return missionViewModels.stream().anyMatch(mission -> mission.isSquadronOnMission(squadron)) ? SquadronState.ON_MISSION
-                : patrolViewModels.values().stream().anyMatch(patrol -> patrol.isSquadronOnPatrol(squadron)) ? SquadronState.ON_PATROL
+                : airbaseViewModel.getPatrols().stream().anyMatch(patrol -> patrol.isSquadronOnPatrol(squadron)) ? SquadronState.ON_PATROL
                 : squadronStateViewModel.get(SquadronState.READY).isPresent(squadron) ? SquadronState.READY
                 : SquadronState.HANGER;
     }
@@ -512,25 +520,27 @@ public class NationAirbaseViewModel {
 
     /**
      * Set the patrol counts.
+     *
+     * @param airbasePatrols The airbase patrol view models.
      */
-    private void bindPatrolCounts() {
+    private void bindPatrolCounts(final Map<PatrolType, PatrolViewModel> airbasePatrols) {
         PatrolType
                 .stream()
-                .forEach(this::bindPatrolCount);
+                .forEach(type -> bindPatrolCount(type, airbasePatrols.get(type)));
     }
 
     /**
      * Bind the patrol count for the given patrol type.
      *
      * @param type The patrol type.
+     * @param patrolViewModel The corresponding patrol view model for the given type.
      */
-    private void bindPatrolCount(final PatrolType type) {
+    private void bindPatrolCount(final PatrolType type, final PatrolViewModel patrolViewModel) {
         patrolCounts.put(type.getValue(), new SimpleIntegerProperty(0));
 
         patrolCounts
                 .get(type.getValue())
-                .bind(patrolViewModels
-                        .get(type)
+                .bind(patrolViewModel
                         .getAssignedCount()
                         .get(nation));
     }

@@ -356,7 +356,7 @@ public class AirfieldDialog {
 
             viewModelMap
                     .get(nation)
-                    .getPatrolViewModels()
+                    .getPatrols()
                     .get(patrolType)
                     .getSelectedSquadron()
                     .get(nation)
@@ -388,7 +388,7 @@ public class AirfieldDialog {
 
             viewModelMap
                     .get(nation)
-                    .getPatrolViewModels()
+                    .getPatrols()
                     .get(patrolType)
                     .getSelectedSquadron()
                     .get(nation)
