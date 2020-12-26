@@ -16,6 +16,7 @@ import engima.waratsea.view.asset.AssetId;
 import engima.waratsea.view.asset.AssetSummaryView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.RangeViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -299,7 +300,7 @@ public class AirfieldAssetPresenter {
 
             if (tabNation == nation) {
                 Airbase airbase = viewModel.getAirbaseModel();
-                Aircraft aircraft = viewModel.getNationViewModels().get(nation).getSelectedAircraft().getValue();
+                Aircraft aircraft = viewModel.getNationViewModels().get(nation).getRangeViewModel().getSelectedAircraft().getValue();
                 int range = aircraft.getRadius().get(config);
 
                 mainMapViewProvider.get().drawRangeMarker(airbase, range);
@@ -318,8 +319,19 @@ public class AirfieldAssetPresenter {
         Airbase airbase = viewModel.getAirbaseModel();
 
         if (show) {
-            Aircraft aircraft = viewModel.getNationViewModels().get(nation).getSelectedAircraft().getValue();
-            SquadronConfig config = viewModel.getNationViewModels().get(nation).getSelectedConfig().getValue();
+            RangeViewModel rangeViewModel = viewModel
+                    .getNationViewModels()
+                    .get(nation)
+                    .getRangeViewModel();
+
+            Aircraft aircraft = rangeViewModel
+                    .getSelectedAircraft()
+                    .getValue();
+
+            SquadronConfig config = rangeViewModel
+                    .getSelectedConfig()
+                    .getValue();
+
             if (aircraft != null) {
                 int range = aircraft.getRadius().get(config);
                 mainMapViewProvider.get().drawRangeMarker(airbase, range);
@@ -343,8 +355,19 @@ public class AirfieldAssetPresenter {
         mainMapViewProvider.get().hideRangeMarker(airbase);
 
         if (assetView.getRangeInfo().get(nation).getShowRangeOnMap().isSelected()) {
-            Aircraft aircraft = viewModel.getNationViewModels().get(nation).getSelectedAircraft().getValue();
-            SquadronConfig config = viewModel.getNationViewModels().get(nation).getSelectedConfig().getValue();
+            RangeViewModel rangeViewModel = viewModel
+                    .getNationViewModels()
+                    .get(nation)
+                    .getRangeViewModel();
+
+            Aircraft aircraft = rangeViewModel
+                    .getSelectedAircraft()
+                    .getValue();
+
+            SquadronConfig config = rangeViewModel
+                    .getSelectedConfig()
+                    .getValue();
+
             int range = aircraft.getRadius().get(config);
 
             mainMapViewProvider.get().drawRangeMarker(airbase, range);

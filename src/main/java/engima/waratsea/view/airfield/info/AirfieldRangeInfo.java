@@ -5,6 +5,7 @@ import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.RangeViewModel;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -73,10 +74,16 @@ public class AirfieldRangeInfo {
      * @param viewModel The nation's airbase view model.
      */
     public void bind(final NationAirbaseViewModel viewModel) {
-        aircraftModels.itemsProperty().bind(viewModel.getAircraftModels());
-        viewModel.getSelectedAircraft().bind(aircraftModels.getSelectionModel().selectedItemProperty());
+        RangeViewModel rangeViewModel = viewModel.getRangeViewModel();
 
-        config.itemsProperty().bind(viewModel.getSquadronConfigs());
-        viewModel.getSelectedConfig().bind(config.getSelectionModel().selectedItemProperty());
+        aircraftModels.itemsProperty().bind(rangeViewModel.getAircraftModels());
+        rangeViewModel
+                .getSelectedAircraft()
+                .bind(aircraftModels.getSelectionModel().selectedItemProperty());
+
+        config.itemsProperty().bind(rangeViewModel.getSquadronConfigs());
+        rangeViewModel
+                .getSelectedConfig()
+                .bind(config.getSelectionModel().selectedItemProperty());
     }
 }

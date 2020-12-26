@@ -2,7 +2,6 @@ package engima.waratsea.viewmodel.airfield;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.Base;
 import engima.waratsea.model.base.airfield.AirfieldType;
@@ -10,7 +9,6 @@ import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
@@ -27,14 +25,11 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
@@ -62,18 +57,12 @@ public class NationAirbaseViewModel {
     @Getter private final StringProperty regionCurrent = new SimpleStringProperty();
 
     @Getter private final Map<SquadronState, SquadronStateViewModel> squadronStateViewModel = new HashMap<>();
+    @Getter private final RangeViewModel rangeViewModel;
 
     @Getter private final Map<String, IntegerProperty> missionCounts = new HashMap<>();                   // Per nation.
     @Getter private final Map<String, IntegerProperty> patrolCounts = new HashMap<>();                    // Per nation.
 
     @Getter private final BooleanProperty noMissionsExist = new SimpleBooleanProperty(true);   // Per nation.
-
-    @Getter private final ListProperty<Aircraft> aircraftModels = new SimpleListProperty<>();             // List of all aircraft models present at this airbase.
-    @Getter private final ObjectProperty<Aircraft> selectedAircraft = new SimpleObjectProperty<>();       // The selected aircraft model.
-
-    // List of squadron configs allowed for the selected aircraft model.
-    @Getter private final ListProperty<SquadronConfig> squadronConfigs = new SimpleListProperty<>(FXCollections.emptyObservableList());
-    @Getter private final ObjectProperty<SquadronConfig> selectedConfig = new SimpleObjectProperty<>();   // The selected squadron configuration for the selected aircraft model.
 
     @Getter private final ObjectProperty<Airbase> airbase = new SimpleObjectProperty<>();                 // Need this to support binding in constructor.
 
@@ -87,20 +76,21 @@ public class NationAirbaseViewModel {
      * @param imageResourceProvider  Provides images.
      * @param props The view properties.
      * @param provider A squadron state view model provider.
+     * @param rangeViewModel The range view model for this nation.
      **/
     @Inject
     public NationAirbaseViewModel(final ImageResourceProvider imageResourceProvider,
                                   final ViewProps props,
-                                  final Provider<SquadronStateViewModel> provider) {
-
+                                  final Provider<SquadronStateViewModel> provider,
+                                  final RangeViewModel rangeViewModel) {
         bindTitles();
         bindDetails();
         bindRegion();
-        bindAircraftModels();
         bindImages(imageResourceProvider, props);
 
         squadronStateViewModel.put(SquadronState.READY, provider.get());
         squadronStateViewModel.put(SquadronState.ALL, provider.get());
+        this.rangeViewModel = rangeViewModel;
     }
 
     /**
@@ -116,10 +106,9 @@ public class NationAirbaseViewModel {
         airbaseViewModel = newAirbaseViewModel;
         nation = selectedNation;
 
-        selectAircraftModel();
-
         squadronStateViewModel.get(SquadronState.READY).setModel(newAirbaseViewModel, nation, SquadronState.READY);
         squadronStateViewModel.get(SquadronState.ALL).setModel(newAirbaseViewModel, nation, SquadronState.ALL);
+        rangeViewModel.setModel(nation, this);
 
         return this;
     }
@@ -333,37 +322,7 @@ public class NationAirbaseViewModel {
         return squadronStateViewModel.get(SquadronState.READY).getNoSquadronsPresent();
     }
 
-    /**
-     * Set the aircraft models present at this airbase.
-     * This is a unique list of aircraft of all nations stationed at this airbase.
-     */
-    private void bindAircraftModels() {
-        Callable<ObservableList<Aircraft>> modelBindingFunction = () -> Optional
-                .ofNullable(airbase.getValue())
-                .map(a -> FXCollections.observableArrayList(a.getAircraftModelsPresent(nation)))
-                .orElse(FXCollections.emptyObservableList());
 
-        aircraftModels.bind(Bindings.createObjectBinding(modelBindingFunction, airbase));
-
-        Callable<ObservableList<SquadronConfig>> configBindingFunction = () -> {
-            List<SquadronConfig> configs = Optional
-                    .ofNullable(selectedAircraft.getValue())
-                    .map(aircraft -> aircraft.getConfiguration()
-                            .stream()
-                            .sorted()
-                            .collect(Collectors.toList()))
-                    .orElse(Collections.emptyList());
-            return FXCollections.observableArrayList(configs);
-        };
-
-        squadronConfigs.bind(Bindings.createObjectBinding(configBindingFunction, selectedAircraft));
-    }
-
-    private void selectAircraftModel() {
-        if (!aircraftModels.getValue().isEmpty()) {
-            selectedAircraft.setValue(aircraftModels.getValue().get(0));
-        }
-    }
 
     /**
      * Add all of the air mission squadrons to the ready list.
