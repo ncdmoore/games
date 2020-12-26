@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 
 /**
  * Each nation has its on unique airfield view model. Thus, all of the property values of this view model are for
- * a given nation. This class also serves as a wrapper around the airfield view model in that this class provides
+ * a given nation. This class serves as a wrapper around the airfield view model in that this class provides
  * a single nations view of the airfield view model.
  */
 @Slf4j
