@@ -115,12 +115,11 @@ public class NationAirbaseViewModel {
 
         airbaseViewModel = selectedAirbase;
         nation = selectedNation;
-        Airbase base = selectedAirbase.getAirbase();
 
         selectAircraftModel();
 
-        squadronStateViewModel.get(SquadronState.READY).init(base, nation, SquadronState.READY);
-        squadronStateViewModel.get(SquadronState.ALL).init(base, nation, SquadronState.ALL);
+        squadronStateViewModel.get(SquadronState.READY).init(selectedAirbase, nation, SquadronState.READY);
+        squadronStateViewModel.get(SquadronState.ALL).init(selectedAirbase, nation, SquadronState.ALL);
 
         return this;
     }
