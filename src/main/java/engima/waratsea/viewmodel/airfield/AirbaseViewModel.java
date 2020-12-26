@@ -33,7 +33,7 @@ public class AirbaseViewModel {
     // all the mission view models of each nation.
     @Getter private final ListProperty<AirMissionViewModel> totalMissions = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
-    private Map<Nation, ListProperty<AirMissionViewModel>> missionViewModels = new HashMap<>();                         // The missions for each nation.
+    @Getter private Map<Nation, ListProperty<AirMissionViewModel>> missionViewModels = new HashMap<>();                 // The missions for each nation.
     @Getter private final Map<PatrolType, PatrolViewModel> patrolViewModels = new HashMap<>();                          // The patrols for all nations.
     @Getter private final Map<Nation, NationAirbaseViewModel> nationViewModels = new HashMap<>();                       // A given nation's view of this airbase.
 
@@ -82,7 +82,7 @@ public class AirbaseViewModel {
         missionViewModels.forEach(this::addNationViewToMissionView);
         patrolViewModels.values().forEach(patrolVM -> patrolVM.setNationViewModels(nationViewModels));
         nationViewModels.values().forEach(nationVM -> nationVM.setPatrolViewModels(patrolViewModels));
-        nationViewModels.forEach((nation, nationVM) -> nationVM.setMissionViewModels(missionViewModels.get(nation)));
+        nationViewModels.forEach((nation, nationVM) -> nationVM.setMissionViewModels(missionViewModels));
 
         bindTotalMissions();  // We have to wait to bind until the nations are known.
 

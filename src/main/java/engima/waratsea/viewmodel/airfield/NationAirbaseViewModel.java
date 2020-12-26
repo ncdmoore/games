@@ -61,11 +61,6 @@ public class NationAirbaseViewModel {
     @Getter private final StringProperty regionMinimum = new SimpleStringProperty();
     @Getter private final StringProperty regionCurrent = new SimpleStringProperty();
 
-    // A list of air mission view models for this nation. This is bound to the air mission view models
-    // stored in the airbase view model. The airbase view model is the source of truth regarding air missions.
-    // The view binds to this property to show the missions in the UI for the given nation.
-    @Getter private final ListProperty<AirMissionViewModel> missionViewModels = new SimpleListProperty<>(FXCollections.emptyObservableList());
-
     @Getter private final Map<SquadronState, SquadronStateViewModel> squadronStateViewModel = new HashMap<>();
 
     @Getter private final Map<String, IntegerProperty> missionCounts = new HashMap<>();                   // Per nation.
@@ -103,7 +98,6 @@ public class NationAirbaseViewModel {
         bindRegion();
         bindAircraftModels();
         bindImages(imageResourceProvider, props);
-        bindMissionCounts();
 
         squadronStateViewModel.put(SquadronState.READY, provider.get());
         squadronStateViewModel.put(SquadronState.ALL, provider.get());
@@ -136,8 +130,9 @@ public class NationAirbaseViewModel {
      *
      * @param airbaseMissions The airbase mission view models.
      */
-    public void setMissionViewModels(final ListProperty<AirMissionViewModel> airbaseMissions) {
-        missionViewModels.bind(airbaseMissions);
+    public void setMissionViewModels(final Map<Nation, ListProperty<AirMissionViewModel>> airbaseMissions) {
+        // We have to wait until here to bind the mission counts, since the mission view models are only now known.
+        bindMissionCounts(airbaseMissions.get(nation));
     }
 
     /**
@@ -160,6 +155,15 @@ public class NationAirbaseViewModel {
         return  squadronStateViewModel
                 .get(state)
                 .getSquadronMap();
+    }
+
+    /**
+     * Get the patrols.
+     *
+     * @return The patrols.
+     */
+    public ListProperty<AirMissionViewModel> getMissionViewModels() {
+        return airbaseViewModel.getMissionViewModels().get(nation);
     }
 
     /**
@@ -257,7 +261,9 @@ public class NationAirbaseViewModel {
      */
     public void editMission(final AirMissionViewModel viewModel) {
         // The unique mission id is used to find the mission view model.
-        Optional<AirMissionViewModel> oldViewModel = missionViewModels
+        Optional<AirMissionViewModel> oldViewModel = airbaseViewModel
+                .getMissionViewModels()
+                .get(nation)
                 .stream()
                 .filter(vm -> vm.getId() == viewModel.getId())
                 .findFirst();
@@ -313,7 +319,7 @@ public class NationAirbaseViewModel {
      * @return The state of the squadron.
      */
     public SquadronState determineSquadronState(final Squadron squadron) {
-        return missionViewModels.stream().anyMatch(mission -> mission.isSquadronOnMission(squadron)) ? SquadronState.ON_MISSION
+        return airbaseViewModel.getMissionViewModels().get(nation).stream().anyMatch(mission -> mission.isSquadronOnMission(squadron)) ? SquadronState.ON_MISSION
                 : airbaseViewModel.getPatrols().stream().anyMatch(patrol -> patrol.isSquadronOnPatrol(squadron)) ? SquadronState.ON_PATROL
                 : squadronStateViewModel.get(SquadronState.READY).isPresent(squadron) ? SquadronState.READY
                 : SquadronState.HANGER;
@@ -422,11 +428,13 @@ public class NationAirbaseViewModel {
 
     /**
      * Set the mission counts.
+     *
+     * @param missionViewModels The mission view models for this nation.
      */
-    private void bindMissionCounts() {
+    private void bindMissionCounts(final ListProperty<AirMissionViewModel> missionViewModels) {
         AirMissionType
                 .stream()
-                .forEach(this::bindMissionCount);
+                .forEach(type -> bindMissionCount(type, missionViewModels));
 
         bindNoMissionsExist();
     }
@@ -435,8 +443,9 @@ public class NationAirbaseViewModel {
      * Bind the mission count for the given type of mission.
      *
      * @param type The mission type.
+     * @param missionViewModels The mission view models for this nation.
      */
-    private void bindMissionCount(final AirMissionType type) {
+    private void bindMissionCount(final AirMissionType type, final ListProperty<AirMissionViewModel> missionViewModels) {
         missionCounts.put(type.toString(), new SimpleIntegerProperty(0));
 
         Callable<Integer> bindingFunction = () -> Optional.ofNullable(missionViewModels.getValue())
@@ -453,6 +462,10 @@ public class NationAirbaseViewModel {
      * Bind whether this nation has any missions at this airbase.
      */
     private void bindNoMissionsExist() {
+        ListProperty<AirMissionViewModel> missionViewModels = airbaseViewModel
+                .getMissionViewModels()
+                .get(nation);
+
         Callable<Boolean> bindingFunction = () -> missionViewModels
                 .getValue()
                 .isEmpty();
