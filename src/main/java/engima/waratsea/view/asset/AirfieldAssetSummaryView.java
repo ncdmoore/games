@@ -117,7 +117,7 @@ public class AirfieldAssetSummaryView implements AssetView {
      */
     public AirfieldAssetSummaryView build(final AirbaseViewModel airbaseViewModel) {
         viewModel = airbaseViewModel;
-        airbase = viewModel.getAirbase();
+        airbase = viewModel.getAirbaseModel();
 
         buildSummary();
         buildLandingTypes();
@@ -143,7 +143,7 @@ public class AirfieldAssetSummaryView implements AssetView {
      */
     public void reset(final AirbaseViewModel airbaseViewModel) {
         viewModel = airbaseViewModel;
-        airbase = viewModel.getAirbase();
+        airbase = viewModel.getAirbaseModel();
 
         airbase
                 .getNations()

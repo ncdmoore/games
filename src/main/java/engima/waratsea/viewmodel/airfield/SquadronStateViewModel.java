@@ -67,12 +67,12 @@ public class SquadronStateViewModel {
     /**
      * Initialize the squadrons of the given airbase and nation for the given state.
      *
-     * @param newAirbase The airbase where the squadrons are stationed.
+     * @param newAirbaseViewModel The airbase where the squadrons are stationed.
      * @param newNation The nation of all of the squadrons.
      * @param newState The state of all of the squadrons.
      */
-    public void init(final AirbaseViewModel newAirbase, final Nation newNation, final SquadronState newState) {
-        airbase = newAirbase.getAirbase();
+    public void setModel(final AirbaseViewModel newAirbaseViewModel, final Nation newNation, final SquadronState newState) {
+        airbase = newAirbaseViewModel.getAirbaseModel();
         nation = newNation;
         state = newState;
 

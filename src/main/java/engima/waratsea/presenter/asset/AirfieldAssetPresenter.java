@@ -298,7 +298,7 @@ public class AirfieldAssetPresenter {
             Nation tabNation = (Nation) assetView.getNationsTabPane().getSelectionModel().getSelectedItem().getUserData();
 
             if (tabNation == nation) {
-                Airbase airbase = viewModel.getAirbase();
+                Airbase airbase = viewModel.getAirbaseModel();
                 Aircraft aircraft = viewModel.getNationViewModels().get(nation).getSelectedAircraft().getValue();
                 int range = aircraft.getRadius().get(config);
 
@@ -315,7 +315,7 @@ public class AirfieldAssetPresenter {
      * @param show If true the range marker is drawn. If false the range marker is hidden.
      */
     private void showRangeToggled(final Nation nation, final AirbaseViewModel viewModel, final boolean show) {
-        Airbase airbase = viewModel.getAirbase();
+        Airbase airbase = viewModel.getAirbaseModel();
 
         if (show) {
             Aircraft aircraft = viewModel.getNationViewModels().get(nation).getSelectedAircraft().getValue();
@@ -339,7 +339,7 @@ public class AirfieldAssetPresenter {
     private void nationSelected(final AirbaseViewModel viewModel, final AirfieldAssetSummaryView assetView, final Tab tab) {
         Nation nation = (Nation) tab.getUserData();
 
-        Airbase airbase = viewModel.getAirbase();
+        Airbase airbase = viewModel.getAirbaseModel();
         mainMapViewProvider.get().hideRangeMarker(airbase);
 
         if (assetView.getRangeInfo().get(nation).getShowRangeOnMap().isSelected()) {

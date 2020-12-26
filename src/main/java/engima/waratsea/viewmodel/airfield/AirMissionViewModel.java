@@ -198,7 +198,7 @@ public class AirMissionViewModel {
      */
     public AirMissionViewModel setNationViewModel(final NationAirbaseViewModel viewModel) {
         nationAirbaseViewModel = viewModel;
-        airbase = viewModel.getAirbase().getValue();
+        airbase = viewModel.getAirbaseViewModel().getAirbase().getValue();
 
         bindAvailable(viewModel);
         bindTotalStepsInRouteToTargetThisMission();

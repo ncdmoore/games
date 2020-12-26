@@ -9,7 +9,9 @@ import engima.waratsea.model.squadron.Squadron;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
@@ -29,6 +31,8 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class AirbaseViewModel {
+    @Getter private final ObjectProperty<Airbase> airbase = new SimpleObjectProperty<>();                               // The underlying airbase model.
+
     // All missions for all nations originating from this airbase. This is bound to the aggregate sum of
     // all the mission view models of each nation.
     @Getter private final ListProperty<AirMissionViewModel> totalMissions = new SimpleListProperty<>(FXCollections.emptyObservableList());
@@ -40,8 +44,6 @@ public class AirbaseViewModel {
     private final Provider<NationAirbaseViewModel> nationAirbaseViewModelProvider;
     private final Provider<AirMissionViewModel> missionViewModelProvider;
     private final Provider<PatrolViewModel> patrolViewModelProvider;
-
-    @Getter private Airbase airbase;
 
     /**
      * Constructor called by guice.
@@ -57,7 +59,6 @@ public class AirbaseViewModel {
         this.nationAirbaseViewModelProvider = nationAirbaseViewModelProvider;
         this.missionViewModelProvider = missionViewModelProvider;
         this.patrolViewModelProvider = patrolViewModelProvider;
-
     }
 
     /**
@@ -69,15 +70,15 @@ public class AirbaseViewModel {
     public AirbaseViewModel setModel(final Airbase base) {
         log.debug("Set model for airbase: '{}'", base.getTitle());
 
-        airbase = base;
+        airbase.setValue(base);
 
-        missionViewModels = airbase
+        missionViewModels = base
                 .getNations()
                 .stream()
                 .collect(Collectors.toMap(nation -> nation, this::buildMissionViewModel));
 
         PatrolType.stream().forEach(this::buildPatrolViewModel);   // Build a patrol view model for each patrol-type.
-        airbase.getNations().forEach(this::buildNationViewModel);  // Build a nation view model for each nation.
+        base.getNations().forEach(this::buildNationViewModel);  // Build a nation view model for each nation.
 
         missionViewModels.forEach(this::addNationViewToMissionView);
         patrolViewModels.values().forEach(patrolVM -> patrolVM.setNationViewModels(nationViewModels));
@@ -87,6 +88,15 @@ public class AirbaseViewModel {
         bindTotalMissions();  // We have to wait to bind until the nations are known.
 
         return this;
+    }
+
+    /**
+     * Get the underlying airbase model.
+     *
+     * @return THe airbase model.
+     */
+    public Airbase getAirbaseModel() {
+        return airbase.getValue();
     }
 
     /**
@@ -123,7 +133,7 @@ public class AirbaseViewModel {
      * Save the missions to the model.
      */
     public void saveMissions() {
-        airbase.clearMissions();
+        airbase.getValue().clearMissions();
         totalMissions.forEach(AirMissionViewModel::saveMission);
     }
 
@@ -204,7 +214,7 @@ public class AirbaseViewModel {
      * Save the patrols to the model.
      */
     public void savePatrols() {
-        airbase.clearPatrols();
+        airbase.getValue().clearPatrols();
         patrolViewModels.values().forEach(PatrolViewModel::savePatrol);
     }
 
@@ -236,6 +246,7 @@ public class AirbaseViewModel {
      */
     private ListProperty<AirMissionViewModel> buildMissionViewModel(final Nation nation) {
         List<AirMissionViewModel> missionsVMs = airbase
+                .getValue()
                 .getMissions(nation)
                 .stream()
                 .map(mission -> missionViewModelProvider.get().setModel(mission))
@@ -252,7 +263,7 @@ public class AirbaseViewModel {
     private void buildPatrolViewModel(final PatrolType type) {
         PatrolViewModel patrolViewModel =  patrolViewModelProvider
                 .get()
-                .setModel(airbase.getPatrol(type));
+                .setModel(airbase.getValue().getPatrol(type));
 
         patrolViewModels.put(type, patrolViewModel);
     }

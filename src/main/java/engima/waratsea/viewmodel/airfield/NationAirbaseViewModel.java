@@ -75,9 +75,9 @@ public class NationAirbaseViewModel {
     @Getter private final ListProperty<SquadronConfig> squadronConfigs = new SimpleListProperty<>(FXCollections.emptyObservableList());
     @Getter private final ObjectProperty<SquadronConfig> selectedConfig = new SimpleObjectProperty<>();   // The selected squadron configuration for the selected aircraft model.
 
-    @Getter private AirbaseViewModel airbaseViewModel;                                                    // Parent airbase view model.
+    @Getter private final ObjectProperty<Airbase> airbase = new SimpleObjectProperty<>();                 // Need this to support binding in constructor.
 
-    @Getter private final ObjectProperty<Airbase> airbase = new SimpleObjectProperty<>();
+    @Getter private AirbaseViewModel airbaseViewModel;                                                    // Parent airbase view model.
 
     @Getter private Nation nation;
 
@@ -107,19 +107,19 @@ public class NationAirbaseViewModel {
      * Set the model.
      *
      * @param selectedNation The nation: BRITISH, ITALIAN, etc...
-     * @param selectedAirbase The airbase.
+     * @param newAirbaseViewModel The airbase.
      * @return This airbase view model.
      */
-    public NationAirbaseViewModel setModel(final Nation selectedNation, final AirbaseViewModel selectedAirbase) {
-        airbase.setValue(selectedAirbase.getAirbase());
+    public NationAirbaseViewModel setModel(final Nation selectedNation, final AirbaseViewModel newAirbaseViewModel) {
+        airbase.bind(newAirbaseViewModel.getAirbase());  // bind to the airbase property in the parent airbase view model.
 
-        airbaseViewModel = selectedAirbase;
+        airbaseViewModel = newAirbaseViewModel;
         nation = selectedNation;
 
         selectAircraftModel();
 
-        squadronStateViewModel.get(SquadronState.READY).init(selectedAirbase, nation, SquadronState.READY);
-        squadronStateViewModel.get(SquadronState.ALL).init(selectedAirbase, nation, SquadronState.ALL);
+        squadronStateViewModel.get(SquadronState.READY).setModel(newAirbaseViewModel, nation, SquadronState.READY);
+        squadronStateViewModel.get(SquadronState.ALL).setModel(newAirbaseViewModel, nation, SquadronState.ALL);
 
         return this;
     }
