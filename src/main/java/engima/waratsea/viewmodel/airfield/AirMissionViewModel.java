@@ -178,16 +178,9 @@ public class AirMissionViewModel {
 
         checkCapacity = false; // This is an existing mission, so no need to check target capacity.
 
-        MissionRole.stream()
-                .forEach(role -> {
-                    String assignedNames = mission.getSquadrons(role)
-                            .stream()
-                            .map(Squadron::getTitle)
-                            .collect(Collectors.joining(","));
-
-                    log.debug("Assigned squadrons: '{}' for role: '{}'", assignedNames, role);
-                    assigned.get(role).set(FXCollections.observableArrayList(mission.getSquadrons(role)));
-                });
+        MissionRole
+                .stream()
+                .forEach(role -> assigned.get(role).set(FXCollections.observableArrayList(mission.getSquadrons(role))));
 
 
         totalAssigned.setValue(FXCollections.observableArrayList(mission.getSquadronsAllRoles()));
