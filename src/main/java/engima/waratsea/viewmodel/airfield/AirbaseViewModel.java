@@ -68,22 +68,10 @@ public class AirbaseViewModel {
      * @return This airbase view model.
      */
     public AirbaseViewModel setModel(final Airbase base) {
-        log.debug("Set model for airbase: '{}'", base.getTitle());
-
         airbase.setValue(base);
 
-        missionViewModels = base
-                .getNations()
-                .stream()
-                .collect(Collectors.toMap(nation -> nation, this::buildMissionViewModel));
-
-        PatrolType.stream().forEach(this::buildPatrolViewModel);   // Build a patrol view model for each patrol-type.
-        base.getNations().forEach(this::buildNationViewModel);  // Build a nation view model for each nation.
-
-        missionViewModels.forEach(this::addNationViewToMissionView);
-        patrolViewModels.values().forEach(patrolVM -> patrolVM.setNationViewModels(nationViewModels));
-        nationViewModels.values().forEach(nationVM -> nationVM.setPatrolViewModels(patrolViewModels));
-        nationViewModels.forEach((nation, nationVM) -> nationVM.setMissionViewModels(missionViewModels));
+        buildChildViewModels(base);
+        relateChildViewModels();
 
         bindTotalMissions();  // We have to wait to bind until the nations are known.
 
@@ -216,6 +204,37 @@ public class AirbaseViewModel {
     public void savePatrols() {
         airbase.getValue().clearPatrols();
         patrolViewModels.values().forEach(PatrolViewModel::savePatrol);
+    }
+
+    /**
+     * Build the child view models.
+     *  - mission view models (one for each mission).
+     *  - patrol view models (one for each patrol type).
+     *  - nation view models (one for each nation).
+     *
+     * @param base The airbase model.
+     */
+    private void buildChildViewModels(final Airbase base) {
+        missionViewModels = base
+                .getNations()
+                .stream()
+                .collect(Collectors.toMap(nation -> nation, this::buildMissionViewModel));
+
+        PatrolType.stream().forEach(this::buildPatrolViewModel);   // Build a patrol view model for each patrol-type.
+        base.getNations().forEach(this::buildNationViewModel);  // Build a nation view model for each nation.
+    }
+
+    /**
+     * Connect the child view models to each other.
+     *  - The mission view models receive a nation view model.
+     *  - The patrol view models receive a nation view model.
+     *  - The nation view models receive both patrol view models and mission view models.
+     */
+    private void relateChildViewModels() {
+        missionViewModels.forEach(this::addNationViewToMissionView);
+        patrolViewModels.values().forEach(patrolVM -> patrolVM.setNationViewModels(nationViewModels));
+        nationViewModels.values().forEach(nationVM -> nationVM.setPatrolViewModels(patrolViewModels));
+        nationViewModels.forEach((nation, nationVM) -> nationVM.setMissionViewModels(missionViewModels));
     }
 
     /**
