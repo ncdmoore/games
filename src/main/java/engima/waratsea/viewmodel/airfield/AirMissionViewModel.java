@@ -198,6 +198,8 @@ public class AirMissionViewModel {
      */
     public AirMissionViewModel setNationViewModel(final NationAirbaseViewModel viewModel) {
         nationAirbaseViewModel = viewModel;
+
+        // This cannot be done in the set Model as for new mission adds there is no backing model.
         airbase = viewModel.getAirbaseViewModel().getAirbase().getValue();
 
         bindAvailable(viewModel);
