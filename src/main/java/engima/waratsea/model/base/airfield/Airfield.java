@@ -16,6 +16,7 @@ import engima.waratsea.model.base.airfield.mission.Missions;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.base.airfield.patrol.Patrols;
+import engima.waratsea.model.base.airfield.squadron.Squadrons;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
@@ -24,7 +25,6 @@ import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
-import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -93,7 +93,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         antiAirRating = data.getAntiAir();
         reference = data.getLocation();
 
-        squadrons.build(this, data.getSquadrons());
+        squadrons.build(this, data.getSquadronsData());
         missions.build(this, data.getMissionsData());
         patrols.build(this, data.getPatrolsData());
     }
@@ -114,9 +114,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         data.setCapacity(capacity);
         data.setAntiAir(antiAirRating);
         data.setLocation(reference);
-
-        data.setSquadrons(PersistentUtility.getData(squadrons.getSquadrons()));
-
+        data.setSquadronsData(squadrons.getData());
         data.setMissionsData(missions.getData());
         data.setPatrolsData(patrols.getData());
 

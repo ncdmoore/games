@@ -1,10 +1,11 @@
-package engima.waratsea.model.base.airfield;
+package engima.waratsea.model.base.airfield.squadron;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.aircraft.AircraftBaseType;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.squadron.data.SquadronsData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.squadron.Squadron;
@@ -48,16 +49,35 @@ public class Squadrons {
     }
 
     /**
+     * Get the squadrons persistent data.
+     *
+     * @return The squadrons persistent data.
+     */
+    public SquadronsData getData() {
+        SquadronsData data = new SquadronsData();
+
+        List<SquadronData> squadronData = squadrons
+                .stream()
+                .map(Squadron::getData)
+                .collect(Collectors.toList());
+
+        data.setSquadrons(squadronData);
+
+        return data;
+    }
+
+    /**
      * Build the airfield's squadrons. This is only valid for saved games where the airfield
      * squadrons are already known.
      *
      * @param base The parent airbase..
      * @param data A List of the squadron data.
      */
-    public void build(final Airbase base, final List<SquadronData> data) {
+    public void build(final Airbase base, final SquadronsData data) {
         airbase = base;
         Side side = base.getSide();
         Optional.ofNullable(data)
+                .map(SquadronsData::getSquadrons)
                 .orElseGet(Collections::emptyList)
                 .stream()
                 .map(squadronData -> factory.create(side, squadronData.getNation(), squadronData))
