@@ -21,7 +21,7 @@ public enum SquadronState {
         }
     },
 
-    QUEUED_FOR_PATROL("On Patrol") {
+    QUEUED_FOR_PATROL("On Patrol (Launching)") {
         /**
          * Transition to a new state.
          *
@@ -33,7 +33,7 @@ public enum SquadronState {
         }
     },
 
-    QUEUED_FOR_MISSION("On Mission") {
+    QUEUED_FOR_MISSION("On Mission (Launching)") {
         /**
          * Transition to a new state.
          *
