@@ -8,11 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/RangeViewModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Squadrons.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/asset/AirfieldAssetPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/asset/AirfieldAssetPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldRangeInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldRangeInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/NationAirbaseViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/NationAirbaseViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/Airfield.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,25 +144,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WorldWarTwoAtSea [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="build" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
-      <method v="2" />
-    </configuration>
     <configuration name="WorldWarTwoAtSea [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -183,6 +162,15 @@
       </ExternalSystemSettings>
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
+    </configuration>
+    <configuration name="All in enigma.worldWarTwoAtSea.test (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="All in enigma.worldWarTwoAtSea.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
@@ -262,20 +250,20 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="Gradle.WorldWarTwoAtSea [build]" />
       <item itemvalue="Gradle.WorldWarTwoAtSea [clean]" />
       <item itemvalue="JUnit.All in worldWarTwoAtSea.test" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
       <item itemvalue="JUnit.ShipyardTest" />
       <item itemvalue="JUnit.TargetTest.testTargetEquals" />
+      <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
         <item itemvalue="JUnit.TargetTest.testTargetEquals" />
         <item itemvalue="JUnit.ShipyardTest" />
         <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
         <item itemvalue="Gradle.WorldWarTwoAtSea [clean]" />
-        <item itemvalue="Gradle.WorldWarTwoAtSea [build]" />
       </list>
     </recent_temporary>
   </component>
@@ -290,13 +278,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00268" summary="Add victory conditions dialog.">
-      <created>1600645192893</created>
-      <option name="number" value="00268" />
-      <option name="presentableId" value="LOCAL-00268" />
-      <option name="project" value="LOCAL" />
-      <updated>1600645192893</updated>
     </task>
     <task id="LOCAL-00269" summary="Add victory conditions dialog.">
       <created>1600645287601</created>
@@ -634,7 +615,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609016948551</updated>
     </task>
-    <option name="localTasksCounter" value="317" />
+    <task id="LOCAL-00317" summary="cleanup NationAirbaseViewModel">
+      <created>1609020657462</created>
+      <option name="number" value="00317" />
+      <option name="presentableId" value="LOCAL-00317" />
+      <option name="project" value="LOCAL" />
+      <updated>1609020657462</updated>
+    </task>
+    <option name="localTasksCounter" value="318" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -701,42 +689,42 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1337" y="547" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1600645261731" />
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1609016944228">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1609020652026">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1609016944228" />
-    <state width="1937" height="278" key="GridCell.Tab.0.bottom" timestamp="1609020200406">
+    <state x="1265" y="300" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1609020652026" />
+    <state width="1937" height="256" key="GridCell.Tab.0.bottom" timestamp="1609029460165">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="278" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1609020200406" />
-    <state width="1937" height="278" key="GridCell.Tab.0.center" timestamp="1609020200406">
+    <state width="1937" height="256" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1609029460165" />
+    <state width="1937" height="256" key="GridCell.Tab.0.center" timestamp="1609029460165">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="278" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1609020200406" />
-    <state width="1937" height="278" key="GridCell.Tab.0.left" timestamp="1609020200405">
+    <state width="1937" height="256" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1609029460165" />
+    <state width="1937" height="256" key="GridCell.Tab.0.left" timestamp="1609029460165">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="278" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1609020200405" />
-    <state width="1937" height="278" key="GridCell.Tab.0.right" timestamp="1609020200406">
+    <state width="1937" height="256" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1609029460165" />
+    <state width="1937" height="256" key="GridCell.Tab.0.right" timestamp="1609029460165">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="278" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1609020200406" />
-    <state width="1937" height="376" key="GridCell.Tab.1.bottom" timestamp="1609014676187">
+    <state width="1937" height="256" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1609029460165" />
+    <state width="1937" height="376" key="GridCell.Tab.1.bottom" timestamp="1609023983164">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="376" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1609014676187" />
-    <state width="1937" height="376" key="GridCell.Tab.1.center" timestamp="1609014676186">
+    <state width="1937" height="376" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1609023983164" />
+    <state width="1937" height="376" key="GridCell.Tab.1.center" timestamp="1609023983162">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="376" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1609014676186" />
-    <state width="1937" height="376" key="GridCell.Tab.1.left" timestamp="1609014676185">
+    <state width="1937" height="376" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1609023983162" />
+    <state width="1937" height="376" key="GridCell.Tab.1.left" timestamp="1609023983162">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="376" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1609014676185" />
-    <state width="1937" height="376" key="GridCell.Tab.1.right" timestamp="1609014676186">
+    <state width="1937" height="376" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1609023983162" />
+    <state width="1937" height="376" key="GridCell.Tab.1.right" timestamp="1609023983163">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="376" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1609014676186" />
+    <state width="1937" height="376" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1609023983163" />
     <state x="1406" y="420" key="RollbackChangesDialog" timestamp="1609014298373">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -745,10 +733,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1026" y="324" width="1295" height="837" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1608843396315" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1609016952283">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1609020663677">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1609016952283" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1609020663677" />
     <state x="17" y="33" width="2102" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1609013282975">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>

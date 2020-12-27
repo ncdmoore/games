@@ -22,29 +22,21 @@ import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.SquadronFactory;
-import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
-import engima.waratsea.utility.ListUtil;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.ListUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Represents airfield's in the game.
@@ -62,11 +54,9 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                                                     // Airfields are used to map airfield names to map references. Thus, we just need a map reference
     @Getter @Setter private int capacity;           // Capacity in steps.
 
-    @Getter private final List<Squadron> squadrons = new ArrayList<>();
-
     private final Map<Nation, Region> regions = new HashMap<>();  // A given airfield may be in multiple regions.
-    private final Map<String, Squadron> squadronNameMap = new HashMap<>();
-    private final Map<AircraftType, List<Squadron>> squadronMap = new LinkedHashMap<>();
+
+    private final Squadrons squadrons;
 
     private final Missions missions;
     private final Patrols patrols;
@@ -76,18 +66,19 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * Constructor called by guice.
      *
      * @param data The airfield data read in from a JSON file.
-     * @param squadronFactory Squadron factory.
+     * @param squadrons The airbase's squadrons.
      * @param missions  This airbase's missions.
      * @param patrols This airbase's patrols.
      * @param gameMap The game map.
      */
     @Inject
     public Airfield(@Assisted final AirfieldData data,
-                    final SquadronFactory squadronFactory,
+                    final Squadrons squadrons,
                     final Missions missions,
                     final Patrols patrols,
                     final GameMap gameMap) {
 
+        this.squadrons = squadrons;
         this.missions = missions;
         this.patrols = patrols;
         this.gameMap = gameMap;
@@ -102,14 +93,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         antiAirRating = data.getAntiAir();
         reference = data.getLocation();
 
-        // Initialize the squadron list for each type of aircraft.
-        Stream
-                .of(AircraftType.values())
-                .sorted()
-                .forEach(type -> squadronMap.put(type, new ArrayList<>()));
-
-        buildSquadrons(data.getSquadrons(), squadronFactory);
-
+        squadrons.build(this, data.getSquadrons());
         missions.build(this, data.getMissionsData());
         patrols.build(this, data.getPatrolsData());
     }
@@ -131,7 +115,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         data.setAntiAir(antiAirRating);
         data.setLocation(reference);
 
-        data.setSquadrons(PersistentUtility.getData(squadrons));
+        data.setSquadrons(PersistentUtility.getData(squadrons.getSquadrons()));
 
         data.setMissionsData(missions.getData());
         data.setPatrolsData(patrols.getData());
@@ -220,7 +204,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public boolean areSquadronsPresent() {
-        return !squadrons.isEmpty();
+        return squadrons.areSquadronsPresent();
     }
 
     /**
@@ -233,7 +217,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         AirfieldOperation result = canStation(squadron);
 
         if (result == AirfieldOperation.SUCCESS) {
-            stationSquadron(squadron);
+            squadrons.add(squadron);
         }
 
         return result;
@@ -247,14 +231,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     @Override
     public void removeSquadron(final Squadron squadron) {
         squadrons.remove(squadron);
-
-        squadronMap
-                .get(squadron.getType())
-                .remove(squadron);
-
-        squadronNameMap.remove(squadron.getName());
-
-        squadron.setHome(null);
     }
 
     /**
@@ -310,16 +286,19 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     public Airfield removeAllSquadrons(final Nation nation) {
         missions.clear(nation);
         patrols.clear(nation);
-        List<Squadron> toBeRemoved = getSquadrons(nation);
-        squadrons.removeAll(toBeRemoved);
-
-        toBeRemoved
-                .stream()
-                .peek(squadron -> squadronMap.get(squadron.getType()).remove(squadron))
-                .map(Squadron::getName)
-                .forEach(squadronNameMap::remove);
+        squadrons.clear(nation);
 
         return this;
+    }
+
+    /**
+     * Get the airfield's squadrons.
+     *
+     * @return The airfields's squadrons.
+     */
+    @Override
+    public List<Squadron> getSquadrons() {
+        return squadrons.getSquadrons();
     }
 
     /**
@@ -329,10 +308,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public BigDecimal getCurrentSteps() {
-        return squadrons
-                .stream()
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return squadrons.getCurrentSteps();
     }
 
     /**
@@ -343,7 +319,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public Squadron getSquadron(final String squadronName) {
-        return squadronNameMap.get(squadronName);
+        return squadrons.getSquadron(squadronName);
     }
 
     /**
@@ -354,7 +330,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public List<Squadron> getSquadrons(final Nation nation) {
-        return filterNation(nation, squadrons);
+        return squadrons.getSquadrons(nation);
     }
 
     /**
@@ -366,7 +342,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public List<Squadron> getSquadrons(final Nation nation, final SquadronState state) {
-        return filterNationAndState(nation, state, squadrons);
+        return squadrons.getSquadrons(nation, state);
     }
 
     /**
@@ -377,13 +353,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation nation) {
-        return squadronMap
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey,
-                        entry -> filterNation(nation, entry.getValue()),
-                        (oldList, newList) -> oldList,
-                        LinkedHashMap::new));
+        return squadrons.getSquadronMap(nation);
     }
 
     /**
@@ -395,13 +365,19 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation nation, final SquadronState state) {
-        return squadronMap
-                .entrySet()
+        return squadrons.getSquadronMap(nation, state);
+    }
+
+    /**
+     * Get a map of nation to list of squadrons.
+     *
+     * @return A map of nation to list of squadrons.
+     */
+    @Override
+    public Map<Nation, List<Squadron>> getSquadronMap() {
+        return getNations()
                 .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey,
-                        entry -> filterNationAndState(nation, state, entry.getValue()),
-                        (oldList, newList) -> oldList,
-                        LinkedHashMap::new));
+                .collect(Collectors.toMap(nation -> nation, this::getSquadrons));
     }
 
     /**
@@ -416,16 +392,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public List<Aircraft> getAircraftModelsPresent(final Nation nation) {
-        return squadrons
-                .stream()
-                .filter(squadron -> squadron.ofNation(nation))
-                .map(Squadron::getAircraft)
-                .collect(Collectors.toMap(Aircraft::getModel, ListUtil::createList, ListUtils::union))
-                .values()
-                .stream()
-                .map(aircraft -> aircraft.get(0))
-                .sorted()
-                .collect(Collectors.toList());
+        return squadrons.getAircraftModelsPresent(nation);
     }
 
     /**
@@ -436,11 +403,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @return The number of steps of aircraft of the given type based at this airfield.
      */
     public BigDecimal getStepsForType(final AircraftBaseType type) {
-        return squadrons
-                .stream()
-                .filter(squadron -> squadron.getBaseType() == type)
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return squadrons.getStepsForType(type);
     }
 
     /**
@@ -461,18 +424,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     public boolean canSquadronLand(final Squadron squadron) {
         return landingType.contains(squadron.getLandingType());
-    }
-
-    /**
-     * Get a map of nation to list of squadrons.
-     *
-     * @return A map of nation to list of squadrons.
-     */
-    @Override
-    public Map<Nation, List<Squadron>> getSquadronMap() {
-        return getNations()
-                .stream()
-                .collect(Collectors.toMap(nation -> nation, this::getSquadrons));
     }
 
     /**
@@ -536,21 +487,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
-     * Build the airfield's squadrons. This is only valid for saved games where the airfield
-     * squadrons are already known.
-     *
-     * @param data A List of the squadron data.
-     * @param factory The squadron factory.
-     */
-    private void buildSquadrons(final List<SquadronData> data, final SquadronFactory factory) {
-        Optional.ofNullable(data)
-                .orElseGet(Collections::emptyList)
-                .stream()
-                .map(squadronData -> factory.create(side, squadronData.getNation(), squadronData))
-                .forEach(this::stationSquadron);
-    }
-
-    /**
      * Determine if this airfield can station another squadron.
      *
      * @param squadron A potential new squadron.
@@ -598,32 +534,12 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
-     * Station a squadron at this airfield.
-     *
-     * @param squadron The squadron that is stationed.
-     */
-    private void stationSquadron(final Squadron squadron) {
-        squadrons.add(squadron);
-        squadron.setHome(this);
-
-        squadronMap
-                .get(squadron.getType())
-                .add(squadron);
-
-        squadronNameMap.put(squadron.getName(), squadron);
-    }
-
-    /**
      * Determine the current number of steps deployed at this airfield.
      *
      * @return The current number of steps deployed at this airfield.
      */
     private int deployedSteps() {
-        return squadrons
-                .stream()
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .intValue();
+        return squadrons.deployedSteps();
     }
 
     /**
@@ -637,36 +553,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
         }
 
         return landingType.contains(LandingType.LAND) ? AirfieldType.LAND : AirfieldType.SEAPLANE;
-    }
-
-    /**
-     * Filter the given squadrons by nation.
-     *
-     * @param nation A nation.
-     * @param squadronList A list of squadrons.
-     * @return A list of squadrons that are owned by the given nation.
-     */
-    private List<Squadron> filterNation(final Nation nation, final List<Squadron> squadronList) {
-        return squadronList
-                .stream()
-                .filter(squadron -> squadron.ofNation(nation))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Filter the given squadrons by nation and state.
-     *
-     * @param nation The nation.
-     * @param state A squadron state.
-     * @param squadronsOfType A list of squadrons of a particular type.
-     * @return A list of squadrons that are at the given state for the given nation.
-     */
-    private List<Squadron> filterNationAndState(final Nation nation, final SquadronState state, final List<Squadron> squadronsOfType) {
-        return squadronsOfType
-                .stream()
-                .filter(squadron -> squadron.ofNation(nation))
-                .filter(squadron -> squadron.isAtState(state))
-                .collect(Collectors.toList());
     }
 
     /**
