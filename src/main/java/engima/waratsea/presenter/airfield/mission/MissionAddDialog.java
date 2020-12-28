@@ -71,22 +71,22 @@ public class MissionAddDialog {
     /**
      * Show the airfield details dialog.
      *
-     * @param currentAirbase The air base.
+     * @param nationAirbaseViewModel The air base.
      */
-    public void show(final NationAirbaseViewModel currentAirbase) {
-        Nation nation = currentAirbase.getNation();
+    public void show(final NationAirbaseViewModel nationAirbaseViewModel) {
+        Nation nation = nationAirbaseViewModel.getNation();
 
         dialog = dialogProvider.get();     // The dialog view that contains the airfield details view.
         view = viewProvider.get();
         viewModel = missionViewModelProvider
                 .get()
                 .setNation(nation)
-                .setSquadrons(currentAirbase.getSquadrons())
-                .setNationViewModel(currentAirbase);
+                .setSquadrons(nationAirbaseViewModel.getSquadrons())
+                .setNationViewModel(nationAirbaseViewModel);
 
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle(currentAirbase.getTitle().getValue() + " Mission Details");
+        stage.setTitle(nationAirbaseViewModel.getTitle().getValue() + " Mission Details");
 
         dialog.setWidth(props.getInt("mission.dialog.width"));
         dialog.setHeight(props.getInt("mission.dialog.height"));
