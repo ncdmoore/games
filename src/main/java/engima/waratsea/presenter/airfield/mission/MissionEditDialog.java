@@ -242,6 +242,15 @@ public class MissionEditDialog {
 
         if (squadron != null) {
             viewModel.removeFromMission(squadron, role);
+
+            // Go ahead and pre-select the next assigned squadron.
+            // This allows a user to quickly remove squadrons from the mission.
+            view
+                    .getSquadrons()
+                    .get(role)
+                    .getAssigned()
+                    .getSelectionModel()
+                    .selectFirst();
         }
     }
 

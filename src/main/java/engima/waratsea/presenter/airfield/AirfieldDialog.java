@@ -434,6 +434,16 @@ public class AirfieldDialog {
         viewModelMap
                 .get(nation)
                 .removeFromPatrol(type, squadron);
+
+        // Go ahead and pre select the next assigned squadron.
+        // This allows the user to quickly remove several squadrons from
+        // a patrol.
+        view
+                .getAirfieldPatrolView()
+                .get(nation)
+                .getAssigned(type)
+                .getSelectionModel()
+                .selectFirst();
     }
 
     /**
