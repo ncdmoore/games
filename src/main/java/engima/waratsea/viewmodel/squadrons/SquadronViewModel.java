@@ -116,7 +116,9 @@ public class SquadronViewModel {
     }
 
     /**
-     * Place the squadron on a patrol.
+     * Place the squadron on a patrol. Note, the configuration of the squadron is set
+     * in the dialog handler when it is selected to be placed on patrol. Thus, the
+     * configuration is not set here.
      */
     public void setOnPatrol() {
         state.setValue(state.getValue().transition(SquadronAction.ASSIGN_TO_PATROL));
@@ -132,7 +134,9 @@ public class SquadronViewModel {
     }
 
     /**
-     * Place the squadron on a mission.
+     * Place the squadron on a mission. Note, the configuration is set when the
+     * by the dialog handler when the squadron is selected to be added to the
+     * mission. Thus, the configuration is not set here.
      */
     public void setOnMission() {
         state.setValue(state.getValue().transition(SquadronAction.ASSIGN_TO_MISSION));
