@@ -21,7 +21,7 @@ import java.util.Set;
  *  This is a facade class for the various game rules.
  */
 @Singleton
-public class Rules {
+public class GameRules {
     private final TurnRules turnRules;
     private final WeatherRules weatherRules;
     private final AirMissionRules airMissionRules;
@@ -38,11 +38,11 @@ public class Rules {
      * @param squadronConfigRules The game squadron configuration rules.
      */
     @Inject
-    public Rules(final TurnRules turnRules,
-                 final WeatherRules weatherRules,
-                 final AirMissionRules airMissionRules,
-                 final PatrolRules patrolRules,
-                 final SquadronConfigRules squadronConfigRules) {
+    public GameRules(final TurnRules turnRules,
+                     final WeatherRules weatherRules,
+                     final AirMissionRules airMissionRules,
+                     final PatrolRules patrolRules,
+                     final SquadronConfigRules squadronConfigRules) {
         this.turnRules = turnRules;
         this.weatherRules = weatherRules;
         this.airMissionRules = airMissionRules;

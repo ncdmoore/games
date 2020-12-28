@@ -4,13 +4,13 @@ import com.google.inject.Inject;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronSummaryView;
 import engima.waratsea.view.util.ListViewPair;
 import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
+import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.scene.Node;
@@ -43,7 +43,7 @@ public class MissionAddView {
     @Getter private final TargetView targetView;
     @Getter private final TabPane tabPane = new TabPane();
     @Getter private final Map<MissionRole, Tab> roleTabs = new HashMap<>();
-    @Getter private final Map<MissionRole, ListViewPair<Squadron>> squadrons = new HashMap<>();
+    @Getter private final Map<MissionRole, ListViewPair<SquadronViewModel>> squadrons = new HashMap<>();
 
     @Getter private final SquadronSummaryView squadronSummaryView;
     @Getter private final ImageView imageView = new ImageView();
@@ -139,8 +139,6 @@ public class MissionAddView {
 
         imageView.imageProperty().bind(Bindings.createObjectBinding(() -> getImage(viewModel.getNation(), selectedMissionType), selectedMissionType));
 
-        squadronSummaryView.bind(viewModel.getSelectedSquadron());
-
         return mainVBox;
     }
 
@@ -167,7 +165,7 @@ public class MissionAddView {
      * @param role The squadron mission role.
      * @return The available and assigned mission list view pair.
      */
-    public ListViewPair<Squadron> getSquadronList(final MissionRole role) {
+    public ListViewPair<SquadronViewModel> getSquadronList(final MissionRole role) {
         return squadrons.get(role);
     }
 
@@ -242,7 +240,7 @@ public class MissionAddView {
 
         tab.setUserData(role);
 
-        ListViewPair<Squadron> squadronLists = squadrons.get(role);
+        ListViewPair<SquadronViewModel> squadronLists = squadrons.get(role);
 
         squadronLists.setWidth(props.getInt("airfield.dialog.mission.list.width"));
         squadronLists.setHeight(props.getInt("airfield.dialog.mission.list.height"));

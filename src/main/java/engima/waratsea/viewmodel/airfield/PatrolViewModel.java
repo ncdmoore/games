@@ -1,7 +1,6 @@
 package engima.waratsea.viewmodel.airfield;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolDAO;
@@ -9,6 +8,7 @@ import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -34,19 +34,17 @@ import java.util.stream.Collectors;
  * This is because all nations squadrons count towards the effectiveness of the patrol.
  */
 public class PatrolViewModel {
-    private final Provider<SquadronViewModel> squadronViewModelProvider;
+    @Getter private final SimpleListProperty<SquadronViewModel> assignedAllNations = new SimpleListProperty<>();   // All nation's squadrons on patrol. Needed for stats.
 
-    @Getter private final SimpleListProperty<Squadron> assignedAllNations = new SimpleListProperty<>();   // All nation's squadrons on patrol. Needed for stats.
-
-    @Getter private final Map<Nation, SimpleListProperty<Squadron>> available = new HashMap<>();
-    @Getter private final Map<Nation, SimpleListProperty<Squadron>> assigned = new HashMap<>();
+    @Getter private final Map<Nation, SimpleListProperty<SquadronViewModel>> available = new HashMap<>();
+    @Getter private final Map<Nation, SimpleListProperty<SquadronViewModel>> assigned = new HashMap<>();
 
     @Getter private final Map<Nation, IntegerProperty> assignedCount = new HashMap<>();
 
     @Getter private final Map<Nation, BooleanProperty> availableExists = new HashMap<>();
     @Getter private final Map<Nation, BooleanProperty> assignedExists = new HashMap<>();
 
-    @Getter private final Map<Nation, SquadronViewModel> selectedSquadron = new HashMap<>();             // The currently selected squadron for this patrol per nation.
+    @Getter private SquadronsViewModel squadrons;
 
     @Getter private Patrol patrol;
 
@@ -59,31 +57,42 @@ public class PatrolViewModel {
      * Constructor called by guice.
      *
      * @param patrolDAO The patrol data access object. Needed for patrol statistics.
-     * @param squadronViewModelProvider Provides squadron view models.
      */
     @Inject
-    public PatrolViewModel(final PatrolDAO patrolDAO, final Provider<SquadronViewModel> squadronViewModelProvider) {
+    public PatrolViewModel(final PatrolDAO patrolDAO) {
         this.patrolDAO = patrolDAO;
-        this.squadronViewModelProvider = squadronViewModelProvider;
+    }
+
+    /**
+     * Set the squadrons view model. The squadrons view model is used to get individual squadron view models.
+     *
+     * @param squadronsViewModel The squadrons view model.
+     * @return This patrol view model.
+     */
+    public PatrolViewModel setSquadrons(final SquadronsViewModel squadronsViewModel) {
+        squadrons = squadronsViewModel;
+        return this;
     }
 
     /**
      * Set the model. This initializes the patrol view model.
      *
-     * @param patrolModel The patrol.
+     * @param patrolModel The patrol model.
      * @return This patrol view model.
      */
     public PatrolViewModel setModel(final Patrol patrolModel) {
-        patrol = buildPatrol(patrolModel);
-
         patrolType = patrolModel.getType();
+
+        List<SquadronViewModel> squadronsOnPatrol = squadrons                     // Get the squadron view models
+                .get(patrolModel.getAssignedSquadrons());                        // For the squadrons on patrol.
+
+        patrol = buildPatrol(patrolModel);
         airbase = patrolModel.getAirbase();
 
         Set<Nation> nations = patrolModel.getAirbase().getNations();
 
         nations.forEach(this::setAssignedSquadrons);
-        nations.forEach(nation -> selectedSquadron.put(nation, squadronViewModelProvider.get()));
-        assignedAllNations.set(FXCollections.observableArrayList(patrolModel.getAssignedSquadrons()));
+        assignedAllNations.set(FXCollections.observableArrayList(squadronsOnPatrol));
 
         return this;
     }
@@ -102,7 +111,7 @@ public class PatrolViewModel {
 
         nations.forEach(nation -> {
             available.put(nation, new SimpleListProperty<>());
-            ListProperty<Squadron> allReady = viewModels.get(nation).getTotalReadySquadrons();
+            ListProperty<SquadronViewModel> allReady = viewModels.get(nation).getTotalReadySquadrons();
             available.get(nation).bind(Bindings.createObjectBinding(() -> FXCollections.observableArrayList(filter(allReady)), allReady));
 
             availableExists.put(nation, new SimpleBooleanProperty());
@@ -114,12 +123,13 @@ public class PatrolViewModel {
      *
      * @param squadron The squadron that is added.
      */
-    public void addToPatrol(final Squadron squadron) {
+    public void addToPatrol(final SquadronViewModel squadron) {
         Nation nation = squadron.getNation();
         assigned.get(nation).get().add(squadron);
+        squadron.setOnPatrol();
 
         // Must create a new list to the change listeners fire.
-        List<Squadron> all = new ArrayList<>(assignedAllNations.get());
+        List<SquadronViewModel> all = new ArrayList<>(assignedAllNations.get());
         all.add(squadron);
 
         // Must updates the status before assigned all nations is updated so listeners get the correct patrol info.
@@ -133,12 +143,13 @@ public class PatrolViewModel {
      *
      * @param squadron The squadron that is removed.
      */
-    public void removeFromPatrol(final Squadron squadron) {
+    public void removeFromPatrol(final SquadronViewModel squadron) {
         Nation nation = squadron.getNation();
         assigned.get(nation).get().remove(squadron);
+        squadron.setOffPatrol();
 
         // Must create a new list to the change listeners fire.
-        List<Squadron> all = new ArrayList<>(assignedAllNations.get());
+        List<SquadronViewModel> all = new ArrayList<>(assignedAllNations.get());
         all.remove(squadron);
 
         // Must updates the status before assigned all nations is updated so listeners get the correct patrol info.
@@ -151,7 +162,13 @@ public class PatrolViewModel {
      * Save the patrol to the model.
      */
     public void savePatrol() {
-        airbase.updatePatrol(patrolType, assignedAllNations.getValue());
+        List<Squadron> squadronsOnPatrol = assignedAllNations
+                .getValue()
+                .stream()
+                .map(s -> s.getSquadron().getValue())
+                .collect(Collectors.toList());
+
+        airbase.updatePatrol(patrolType, squadronsOnPatrol);
     }
 
     /**
@@ -160,10 +177,19 @@ public class PatrolViewModel {
      * @param squadron A squadron that is checked to see if it is on this patrol.
      * @return True if the given squadron is on this patrol. False otherwise.
      */
-    public boolean isSquadronOnPatrol(final Squadron squadron) {
+    public boolean isSquadronOnPatrol(final SquadronViewModel squadron) {
         Nation nation = squadron.getNation();
 
         return assigned.get(nation).getValue().contains(squadron);
+    }
+
+    /**
+     * Determine the best squadron configuration for the patrol.
+     *
+     * @return The best squadron configuration for the patrol.
+     */
+    public SquadronConfig determineSquadronConfig() {
+        return patrol.getBestSquadronConfig();
     }
 
     /**
@@ -171,7 +197,7 @@ public class PatrolViewModel {
      *
      * @param squadronsOnPatrol The squadrons on patrol.
      */
-    private void updatePatrolStats(final List<Squadron> squadronsOnPatrol) {
+    private void updatePatrolStats(final List<SquadronViewModel> squadronsOnPatrol) {
         patrol = buildPatrol(squadronsOnPatrol);
     }
 
@@ -203,14 +229,14 @@ public class PatrolViewModel {
      * @param squadronsOnPatrol The squadrons that make up the patrol.
      * @return A patrol.
      */
-    private Patrol buildPatrol(final List<Squadron> squadronsOnPatrol) {
+    private Patrol buildPatrol(final List<SquadronViewModel> squadronsOnPatrol) {
         PatrolData data = new PatrolData();
         data.setType(patrolType);
         data.setAirbase(airbase);
 
         List<String> squadronNames = squadronsOnPatrol
                 .stream()
-                .map(Squadron::getName)
+                .map(SquadronViewModel::getNameAsString)
                 .collect(Collectors.toList());
 
         data.setSquadrons(squadronNames);
@@ -224,7 +250,8 @@ public class PatrolViewModel {
      * @param nation The nation: BRITISH, ITALIAN, etc...
      */
     private void setAssignedSquadrons(final Nation nation) {
-        List<Squadron> assignedToPatrol = patrol.getAssignedSquadrons(nation);
+        List<SquadronViewModel> assignedToPatrol = squadrons
+                .get(patrol.getAssignedSquadrons(nation));
 
         assigned.put(nation, new SimpleListProperty<>(FXCollections.observableArrayList(assignedToPatrol)));
         assignedExists.put(nation, new SimpleBooleanProperty(assignedToPatrol.isEmpty()));
@@ -240,7 +267,7 @@ public class PatrolViewModel {
      * @param allReady All ready squadrons at this airbase.
      * @return A list of ready squadrons that are allowed to do this patrol.
      */
-    private List<Squadron> filter(final ListProperty<Squadron> allReady) {
+    private List<SquadronViewModel> filter(final ListProperty<SquadronViewModel> allReady) {
         return allReady
                 .getValue()
                 .stream()

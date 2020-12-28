@@ -3,7 +3,7 @@ package engima.waratsea.model.game;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.data.TurnData;
-import engima.waratsea.model.game.rules.Rules;
+import engima.waratsea.model.game.rules.GameRules;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.weather.Weather;
 import lombok.Getter;
@@ -29,7 +29,7 @@ import static engima.waratsea.model.game.TurnType.NIGHT;
 @Slf4j
 public class Turn {
 
-    private final Rules rules;   //Game specific rules.
+    private final GameRules rules;   //Game specific rules.
 
     @Getter
     private int turn;            //One day equals 6 turns.
@@ -45,7 +45,7 @@ public class Turn {
     // A day consists of 3 day turns, 1 twilight turn and 2 night turns.
     private static final List<TurnType> DAY_TURNS = new ArrayList<>(Arrays.asList(DAY, DAY, DAY, TWILIGHT, NIGHT, NIGHT));
 
-    private Weather weather;
+    private final Weather weather;
 
     /**
      * Constructor called by guice.
@@ -54,7 +54,7 @@ public class Turn {
      * @param weather The game weather.
      */
     @Inject
-    public Turn(final Rules rules,
+    public Turn(final GameRules rules,
                 final Weather weather) {
         this.rules = rules;
 

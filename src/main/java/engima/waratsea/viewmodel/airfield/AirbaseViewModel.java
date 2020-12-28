@@ -5,7 +5,7 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
@@ -39,6 +39,7 @@ public class AirbaseViewModel {
 
     @Getter private Map<Nation, ListProperty<AirMissionViewModel>> missionViewModels = new HashMap<>();                 // The missions for each nation.
     @Getter private final Map<PatrolType, PatrolViewModel> patrolViewModels = new HashMap<>();                          // The patrols for all nations.
+    @Getter private final SquadronsViewModel squadronsViewModel;
     @Getter private final Map<Nation, NationAirbaseViewModel> nationViewModels = new HashMap<>();                       // A given nation's view of this airbase.
 
     private final Provider<NationAirbaseViewModel> nationAirbaseViewModelProvider;
@@ -51,14 +52,17 @@ public class AirbaseViewModel {
      * @param nationAirbaseViewModelProvider Provides nation airbase view models.
      * @param missionViewModelProvider Provides mission view models.
      * @param patrolViewModelProvider Provides patrol view models.
+     * @param squadronsViewModel The squadrons view model. It houses all the airbase squadron view models.
      */
     @Inject
     public AirbaseViewModel(final Provider<NationAirbaseViewModel> nationAirbaseViewModelProvider,
                             final Provider<AirMissionViewModel> missionViewModelProvider,
-                            final Provider<PatrolViewModel> patrolViewModelProvider) {
+                            final Provider<PatrolViewModel> patrolViewModelProvider,
+                            final SquadronsViewModel squadronsViewModel) {
         this.nationAirbaseViewModelProvider = nationAirbaseViewModelProvider;
         this.missionViewModelProvider = missionViewModelProvider;
         this.patrolViewModelProvider = patrolViewModelProvider;
+        this.squadronsViewModel = squadronsViewModel;
     }
 
     /**
@@ -118,17 +122,23 @@ public class AirbaseViewModel {
     }
 
     /**
-     * Save the missions to the model.
+     * Save the missions to the model. The squadrons are updated first. This allows the missions and patrols
+     * to ensure that the squadron state and configuration are set correctly. When a squadron is added to
+     * a patrol its configuration is set. When a squadron is added to a mission its configuration is also set.
+     * The squadron view model save updates the state and configuration of all squadrons not on a mission
+     * or patrol. Thus it is very necessary.
      */
-    public void saveMissions() {
-        airbase.getValue().clearMissions();
-        totalMissions.forEach(AirMissionViewModel::saveMission);
+    public void save() {
+        airbase.getValue().clear();                                            // Clear the airbase's missions and patrols.
+        squadronsViewModel.save();                                             // Save the squadrons: configuration and state.
+        totalMissions.forEach(AirMissionViewModel::saveMission);               // Save the new and edited missions.
+        patrolViewModels.values().forEach(PatrolViewModel::savePatrol);        // Save the edited patrols.
     }
 
     /**
      * Get the patrol view models for this airbase.
      *
-     * @return The patrol view modles for this airbase.
+     * @return The patrol view models for this airbase.
      */
     public Collection<PatrolViewModel> getPatrols() {
         return patrolViewModels.values();
@@ -141,7 +151,7 @@ public class AirbaseViewModel {
      * @param nation The nation.
      * @return The squadrons assigned to the given patrol type.
      */
-    public SimpleListProperty<Squadron> getAssignedPatrolSquadrons(final PatrolType type, final Nation nation) {
+    public SimpleListProperty<SquadronViewModel> getAssignedPatrolSquadrons(final PatrolType type, final Nation nation) {
         return patrolViewModels.get(type).getAssigned().get(nation);
     }
 
@@ -152,7 +162,7 @@ public class AirbaseViewModel {
      * @param nation The nation.
      * @return The squadrons available for the given patrol type.
      */
-    public SimpleListProperty<Squadron> getAvailablePatrolSquadrons(final PatrolType type, final Nation nation) {
+    public SimpleListProperty<SquadronViewModel> getAvailablePatrolSquadrons(final PatrolType type, final Nation nation) {
         return patrolViewModels.get(type).getAvailable().get(nation);
     }
 
@@ -184,7 +194,7 @@ public class AirbaseViewModel {
      * @param type The patrol type.
      * @param squadron The squadron added to the patrol of the given type.
      */
-    public void addToPatrol(final PatrolType type, final Squadron squadron) {
+    public void addToPatrol(final PatrolType type, final SquadronViewModel squadron) {
         patrolViewModels.get(type).addToPatrol(squadron);
     }
 
@@ -194,34 +204,28 @@ public class AirbaseViewModel {
      * @param type The patrol type.
      * @param squadron The squadron removed from the patrol of the given type.
      */
-    public void removeFromPatrol(final PatrolType type, final Squadron squadron) {
+    public void removeFromPatrol(final PatrolType type, final SquadronViewModel squadron) {
         patrolViewModels.get(type).removeFromPatrol(squadron);
     }
 
     /**
-     * Save the patrols to the model.
-     */
-    public void savePatrols() {
-        airbase.getValue().clearPatrols();
-        patrolViewModels.values().forEach(PatrolViewModel::savePatrol);
-    }
-
-    /**
      * Build the child view models.
-     *  - mission view models (one for each mission).
-     *  - patrol view models (one for each patrol type).
-     *  - nation view models (one for each nation).
+     *  - mission view models (one for each mission). The mission view models represent the airbase's current missions.
+     *  - patrol view models (one for each patrol type). The patrol view models represent the airbase's current patrols.
+     *  - nation view models (one for each nation). The nation view models represent a per nation view of the airbase.
      *
      * @param base The airbase model.
      */
     private void buildChildViewModels(final Airbase base) {
+        squadronsViewModel.setModel(base);                         // Build the squadron view models for this airbase. This must be done first.
+
         missionViewModels = base
                 .getNations()
                 .stream()
                 .collect(Collectors.toMap(nation -> nation, this::buildMissionViewModel));
 
         PatrolType.stream().forEach(this::buildPatrolViewModel);   // Build a patrol view model for each patrol-type.
-        base.getNations().forEach(this::buildNationViewModel);  // Build a nation view model for each nation.
+        base.getNations().forEach(this::buildNationViewModel);     // Build a nation view model for each nation.
     }
 
     /**
@@ -268,7 +272,10 @@ public class AirbaseViewModel {
                 .getValue()
                 .getMissions(nation)
                 .stream()
-                .map(mission -> missionViewModelProvider.get().setModel(mission))
+                .map(mission -> missionViewModelProvider
+                        .get()
+                        .setSquadrons(squadronsViewModel)
+                        .setModel(mission))
                 .collect(Collectors.toList());
 
         return new SimpleListProperty<>(FXCollections.observableList(missionsVMs));
@@ -282,6 +289,7 @@ public class AirbaseViewModel {
     private void buildPatrolViewModel(final PatrolType type) {
         PatrolViewModel patrolViewModel =  patrolViewModelProvider
                 .get()
+                .setSquadrons(squadronsViewModel)
                 .setModel(airbase.getValue().getPatrol(type));
 
         patrolViewModels.put(type, patrolViewModel);

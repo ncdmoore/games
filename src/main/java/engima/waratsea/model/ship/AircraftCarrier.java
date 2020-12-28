@@ -74,7 +74,7 @@ public class AircraftCarrier implements Ship, Airbase {
     @Getter private final FlightDeck flightDeck;
     private final AircraftCapacity aircraftCapacity;
     @Getter private final List<LandingType> landingType;
-    @Getter private List<Squadron> squadrons = new ArrayList<>();
+    @Getter private final List<Squadron> squadrons = new ArrayList<>();
     @Getter private List<AirMission> missions;
 
     private final Map<String, Squadron> squadronNameMap = new HashMap<>();
@@ -347,14 +347,14 @@ public class AircraftCarrier implements Ship, Airbase {
      * This gives us a unique list of aircraft per model. Each model of aircraft appears in the list once.
      * Note, each sublist is guaranteed to contain at least one element.
      *
-     * @param nation The nation.
+     * @param desiredNation The nation.
      * @return A unique list of aircraft that represent the aircraft models present at this airbase.
      */
     @Override
-    public List<Aircraft> getAircraftModelsPresent(final Nation nation) {
+    public List<Aircraft> getAircraftModelsPresent(final Nation desiredNation) {
         return squadrons
                 .stream()
-                .filter(squadron -> squadron.ofNation(nation))
+                .filter(squadron -> squadron.ofNation(desiredNation))
                 .map(Squadron::getAircraft)
                 .collect(Collectors.toMap(Aircraft::getModel, ListUtil::createList, ListUtils::union))
                 .values()
@@ -604,18 +604,10 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
-     * Clear all missions for this airbase. This removes all the squadrons from all missions.
+     * Clear all missions, patrols and squadrons for this airbase.
      */
     @Override
-    public void clearMissions() {
-
-    }
-
-    /**
-     * Clear all of the patrols for this airbase. This removes all the squadrons from the patrols.
-     */
-    @Override
-    public void clearPatrols() {
+    public void clear() {
 
     }
 

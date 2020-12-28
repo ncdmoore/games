@@ -6,6 +6,11 @@ import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.util.BoundTitledGridPane;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
@@ -17,11 +22,35 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 public class SquadronSummaryView {
     private final ImageResourceProvider imageResourceProvider;
     private final ViewProps props;
 
+    private final ObjectProperty<SquadronViewModel> squadron = new SimpleObjectProperty<>();
+
     private final Label title = new Label();
+
+    private final StringProperty abbreviatedType = new SimpleStringProperty();
+    private final StringProperty strength = new SimpleStringProperty();
+    private final StringProperty airSummary = new SimpleStringProperty();
+    private final StringProperty airProb = new SimpleStringProperty();
+    private final StringProperty landSummary = new SimpleStringProperty();
+    private final StringProperty landProb = new SimpleStringProperty();
+    private final StringProperty navalSummary = new SimpleStringProperty();
+    private final StringProperty navalProb = new SimpleStringProperty();
+
+    private final StringProperty landing = new SimpleStringProperty();
+    private final StringProperty altitude = new SimpleStringProperty();
+    private final StringProperty equipped = new SimpleStringProperty();
+    private final StringProperty radius = new SimpleStringProperty();
+    private final StringProperty endurance = new SimpleStringProperty();
+
     private final VBox mainPane =  new VBox();
     private final ImageView aircraftProfile = new ImageView();
 
@@ -33,6 +62,8 @@ public class SquadronSummaryView {
                                final ViewProps props) {
         this.imageResourceProvider = imageResourceProvider;
         this.props = props;
+
+        bind();
     }
 
     /**
@@ -56,24 +87,100 @@ public class SquadronSummaryView {
         vBox.setId("summary-vbox");
 
         mainPane.getChildren().add(vBox);
-        mainPane.setVisible(false);
         mainPane.setId("summary-pane");
 
         return mainPane;
     }
 
     /**
-     * Bind this view to a squadron view model.
+     * Set this view's to a squadron view model.
      *
      * @param viewModel The squadron view model.
      */
-    public void bind(final SquadronViewModel viewModel) {
-        title.textProperty().bind(viewModel.getTitle());
-        aircraftProfile.imageProperty().bind(viewModel.getAircraftProfileSummary());
-        mainPane.visibleProperty().bind(viewModel.getPresent());
+    public void setSquadron(final SquadronViewModel viewModel) {
+        squadron.setValue(viewModel);
+    }
 
-        attackPane.bindListStrings(viewModel.getAttackSummary());
-        performancePane.bindStrings(viewModel.getPerformanceSummary());
+    private void bind() {
+        title.textProperty().bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getTitle().getValue())
+                .orElse(""), squadron));
+
+        aircraftProfile.imageProperty().bind(Bindings.createObjectBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getAircraftProfileSummary().getValue())
+                .orElse(null), squadron));
+
+        mainPane.visibleProperty().bind(Bindings.createBooleanBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getPresent().getValue())
+                .orElse(false), squadron));
+
+        abbreviatedType.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getAbbreviatedType().getValue())
+                .orElse(""), squadron));
+
+        strength.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getStrength().getValue())
+                .orElse(""), squadron));
+
+        airSummary.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getAirSummary().getValue())
+                .orElse(""), squadron));
+
+        airProb.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getAirProb().getValue())
+                .orElse(""), squadron));
+
+        landSummary.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getLandSummary().getValue())
+                .orElse(""), squadron));
+
+        landProb.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getLandProb().getValue())
+                .orElse(""), squadron));
+
+        navalSummary.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getNavalSummary().getValue())
+                .orElse(""), squadron));
+
+        navalProb.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getNavalProb().getValue())
+                .orElse(""), squadron));
+
+        landing.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getLanding().getValue())
+                .orElse(""), squadron));
+
+        altitude.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getAltitude().getValue())
+                .orElse(""), squadron));
+
+        equipped.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getEquipped().getValue())
+                .orElse(""), squadron));
+
+        radius.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getRadius().getValue())
+                .orElse(""), squadron));
+
+        endurance.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getEndurance().getValue())
+                .orElse(""), squadron));
     }
 
     private Node buildTitle(final Nation nation) {
@@ -122,6 +229,7 @@ public class SquadronSummaryView {
         attackPane.setTitle("Squadron Attack Data");
         attackPane.setContentDisplay(ContentDisplay.RIGHT);
         attackPane.setGraphic(hbox);
+        attackPane.bindListStrings(getAttackSummary());
     }
 
 
@@ -143,6 +251,7 @@ public class SquadronSummaryView {
         performancePane.setTitle("Squadron Performance Data");
         performancePane.setContentDisplay(ContentDisplay.RIGHT);
         performancePane.setGraphic(hbox);
+        performancePane.bindStrings(getPerformanceSummary());
     }
 
     /**
@@ -154,5 +263,38 @@ public class SquadronSummaryView {
          pane.setWidth(props.getInt("airfield.dialog.profile.width"))
                 .setGridStyleId("component-grid")
                 .build();
+    }
+
+    /**
+     * Get the squadron's attack summary.
+     *
+     * @return The squadron's attack summary.
+     */
+    private Map<String, List<StringProperty>> getAttackSummary() {
+        Map<String, List<StringProperty>> summary = new LinkedHashMap<>();
+        summary.put("Type:", List.of(abbreviatedType));
+        summary.put("Strength:", List.of(strength));
+        summary.put(" ", Collections.emptyList());
+        summary.put("Air-to-Air Attack:", List.of(airSummary, airProb));
+        summary.put("Land Attack:", List.of(landSummary, landProb));
+        summary.put("Naval Attack:", List.of(navalSummary, navalProb));
+        return summary;
+    }
+
+    /**
+     * Get the squadron's performance summary.
+     *
+     * @return The squadron's performance summary.
+     */
+    private Map<String, StringProperty> getPerformanceSummary() {
+        Map<String, StringProperty> summary = new LinkedHashMap<>();
+        summary.put("Landing Type:", landing);
+        summary.put("Altitude Rating:", altitude);
+        summary.put(" ", new SimpleStringProperty(""));
+        summary.put("Equipped:", equipped);
+        summary.put("Radius:", radius);
+        summary.put("Endurance:", endurance);
+
+        return summary;
     }
 }

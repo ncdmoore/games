@@ -2,6 +2,7 @@ package engima.waratsea.viewmodel.airfield;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.Base;
 import engima.waratsea.model.base.airfield.AirfieldType;
@@ -13,6 +14,7 @@ import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronViewType;
+import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -30,6 +32,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
@@ -106,8 +109,8 @@ public class NationAirbaseViewModel {
         airbaseViewModel = newAirbaseViewModel;
         nation = selectedNation;
 
-        squadronStateViewModel.get(SquadronState.READY).setModel(newAirbaseViewModel, nation, SquadronState.READY);
-        squadronStateViewModel.get(SquadronState.ALL).setModel(newAirbaseViewModel, nation, SquadronState.ALL);
+        squadronStateViewModel.get(SquadronState.READY).setModel(this, nation, SquadronState.READY);
+        squadronStateViewModel.get(SquadronState.ALL).setModel(this, nation, SquadronState.ALL);
         rangeViewModel.setModel(nation, this);
 
         return this;
@@ -139,10 +142,19 @@ public class NationAirbaseViewModel {
      * @param state The squadron state.
      * @return A map of squadron view type to list of squadrons at the given state.
      */
-    public Map<SquadronViewType, ListProperty<Squadron>> getSquadronMap(final SquadronState state) {
+    public Map<SquadronViewType, ListProperty<SquadronViewModel>> getSquadronMap(final SquadronState state) {
         return  squadronStateViewModel
                 .get(state)
                 .getSquadronMap();
+    }
+
+    /**
+     * Ge the squadron view models.
+     *
+     * @return The squadron view models.
+     */
+    public SquadronsViewModel getSquadrons() {
+        return airbaseViewModel.getSquadronsViewModel();
     }
 
     /**
@@ -159,8 +171,18 @@ public class NationAirbaseViewModel {
      *
      * @return The patrols.
      */
-    public Map<PatrolType, PatrolViewModel> getPatrols() {
+    public Map<PatrolType, PatrolViewModel> getPatrolsViewModels() {
         return airbaseViewModel.getPatrolViewModels();
+    }
+
+    /**
+     * Get the squadron view models given a squadrons.
+     *
+     * @param squadrons The squadrons.
+     * @return The corresponding squadron view models of the given squadrons.
+     */
+    public Map<AircraftType, List<SquadronViewModel>> getSquadronViewModels(final Map<AircraftType, List<Squadron>> squadrons) {
+        return airbaseViewModel.getSquadronsViewModel().get(squadrons);
     }
 
     /**
@@ -169,7 +191,7 @@ public class NationAirbaseViewModel {
      * @param type The patrol type.
      * @return The squadrons assigned to the given patrol type.
      */
-    public SimpleListProperty<Squadron> getAssignedPatrolSquadrons(final PatrolType type) {
+    public SimpleListProperty<SquadronViewModel> getAssignedPatrolSquadrons(final PatrolType type) {
         return airbaseViewModel.getAssignedPatrolSquadrons(type, nation);
     }
 
@@ -179,7 +201,7 @@ public class NationAirbaseViewModel {
      * @param type The patrol type.
      * @return The squadrons available for the given patrol type.
      */
-    public SimpleListProperty<Squadron> getAvailablePatrolSquadrons(final PatrolType type) {
+    public SimpleListProperty<SquadronViewModel> getAvailablePatrolSquadrons(final PatrolType type) {
         return airbaseViewModel.getAvailablePatrolSquadrons(type, nation);
     }
 
@@ -208,7 +230,7 @@ public class NationAirbaseViewModel {
      *
      * @return The total ready squadrons.
      */
-    public ListProperty<Squadron> getTotalReadySquadrons() {
+    public ListProperty<SquadronViewModel> getTotalReadySquadrons() {
         return squadronStateViewModel.get(SquadronState.READY).getSquadrons();
     }
 
@@ -282,7 +304,7 @@ public class NationAirbaseViewModel {
      * @param type The type of patrol.
      * @param squadron The squadron added to the patrol.
      */
-    public void addToPatrol(final PatrolType type, final Squadron squadron) {
+    public void addToPatrol(final PatrolType type, final SquadronViewModel squadron) {
         airbaseViewModel.addToPatrol(type, squadron);
         removeFromReady(squadron);
     }
@@ -293,7 +315,7 @@ public class NationAirbaseViewModel {
      * @param type The of patrol.
      * @param squadron The squadron removed from the patrol.
      */
-    public void removeFromPatrol(final PatrolType type, final Squadron squadron) {
+    public void removeFromPatrol(final PatrolType type, final SquadronViewModel squadron) {
         airbaseViewModel.removeFromPatrol(type, squadron);
         addToReady(squadron);
     }
@@ -306,7 +328,7 @@ public class NationAirbaseViewModel {
      * @param squadron The squadron whose state is determined.
      * @return The state of the squadron.
      */
-    public SquadronState determineSquadronState(final Squadron squadron) {
+    public SquadronState determineSquadronState(final SquadronViewModel squadron) {
         return airbaseViewModel.getMissionViewModels().get(nation).stream().anyMatch(mission -> mission.isSquadronOnMission(squadron)) ? SquadronState.ON_MISSION
                 : airbaseViewModel.getPatrols().stream().anyMatch(patrol -> patrol.isSquadronOnPatrol(squadron)) ? SquadronState.ON_PATROL
                 : squadronStateViewModel.get(SquadronState.READY).isPresent(squadron) ? SquadronState.READY
@@ -356,7 +378,7 @@ public class NationAirbaseViewModel {
      *
      * @param squadron The squadron added.
      */
-    private void addToReady(final Squadron squadron) {
+    private void addToReady(final SquadronViewModel squadron) {
         squadronStateViewModel.get(SquadronState.READY).add(squadron);
     }
 
@@ -380,7 +402,7 @@ public class NationAirbaseViewModel {
      *
      * @param squadron The squadron removed.
      */
-    private void removeFromReady(final Squadron squadron) {
+    private void removeFromReady(final SquadronViewModel squadron) {
         squadronStateViewModel.get(SquadronState.READY).remove(squadron);
     }
 

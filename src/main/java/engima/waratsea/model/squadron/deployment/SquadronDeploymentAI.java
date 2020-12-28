@@ -95,7 +95,7 @@ public class SquadronDeploymentAI {
 
             airfields
                     .stream()
-                    .map(airfield -> airfield.removeAllSquadrons(nation))
+                    .map(airfield -> airfield.clearSquadrons(nation))
                     .map(airfield -> airfield.getRegion(nation))
                     .distinct()
                     .map(region -> region.setRequirements(squadrons))

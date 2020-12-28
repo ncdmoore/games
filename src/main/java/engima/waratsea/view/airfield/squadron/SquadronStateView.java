@@ -2,7 +2,6 @@ package engima.waratsea.view.airfield.squadron;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronSummaryView;
@@ -30,7 +29,7 @@ import java.util.stream.Stream;
 public class SquadronStateView {
     private final ViewProps props;
 
-    @Getter private final Map<SquadronViewType, ListView<Squadron>> squadrons = new HashMap<>();
+    @Getter private final Map<SquadronViewType, ListView<SquadronViewModel>> squadrons = new HashMap<>();
     @Getter private final SquadronSummaryView squadronSummaryView;
 
     private final TitledPane titledPane = new TitledPane();
@@ -105,13 +104,6 @@ public class SquadronStateView {
                 .itemsProperty()
                 .bind(viewModel.getSquadronMap(squadronState).get(type)));
 
-        SquadronViewModel selectedSquadronVM = viewModel
-                .getSquadronStateViewModel()
-                .get(squadronState)
-                .getSelectedSquadron();
-
-        squadronSummaryView.bind(selectedSquadronVM);
-
         return titledPane;
     }
 
@@ -136,7 +128,7 @@ public class SquadronStateView {
     private Node buildSquadronList(final SquadronViewType type) {
         Label title = new Label(type + ":");
 
-        ListView<Squadron> listView = new ListView<>();
+        ListView<SquadronViewModel> listView = new ListView<>();
         listView.setMaxHeight(props.getInt("airfield.dialog.ready.list.height"));
         listView.setMinHeight(props.getInt("airfield.dialog.ready.list.height"));
         listView.setMaxWidth(props.getInt("airfield.dialog.ready.list.width"));

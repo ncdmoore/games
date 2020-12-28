@@ -4,12 +4,12 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronSummaryView;
 import engima.waratsea.view.util.ListViewPair;
 import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
+import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -17,6 +17,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,8 +27,8 @@ import java.util.stream.Collectors;
 public class PatrolView {
     private final ViewProps props;
 
-    private final Map<PatrolType, ListViewPair<Squadron>> patrolListMap = new HashMap<>();
-    private final Map<PatrolType, SquadronSummaryView> patrolSummaryMap = new HashMap<>();
+    private final Map<PatrolType, ListViewPair<SquadronViewModel>> patrolListMap = new HashMap<>();
+    @Getter private final Map<PatrolType, SquadronSummaryView> patrolSummaryMap = new HashMap<>();
     private final Map<PatrolType, PatrolStatsView> patrolStatsMap = new HashMap<>();
 
     private final TitledPane titledPane = new TitledPane();
@@ -88,9 +89,7 @@ public class PatrolView {
     public TitledPane bind(final NationAirbaseViewModel viewModel) {
         patrolListMap.forEach((type, list) -> bindList(type, list, viewModel));
 
-        patrolStatsMap.forEach((type, stats) -> stats.bind(viewModel.getPatrols().get(type)));
-
-        patrolSummaryMap.forEach((type, summary) -> summary.bind(viewModel.getPatrols().get(type).getSelectedSquadron().get(viewModel.getNation())));
+        patrolStatsMap.forEach((type, stats) -> stats.bind(viewModel.getPatrolsViewModels().get(type)));
 
         return titledPane;
     }
@@ -101,7 +100,7 @@ public class PatrolView {
      * @param patrolType The patrol type.
      * @return The given patrol type's available list.
      */
-    public ListView<Squadron> getAvailable(final PatrolType patrolType) {
+    public ListView<SquadronViewModel> getAvailable(final PatrolType patrolType) {
         return patrolListMap.get(patrolType).getAvailable();
     }
 
@@ -111,7 +110,7 @@ public class PatrolView {
      * @param patrolType The patrol type.
      * @return The given patrol type's assigned list.
      */
-    public ListView<Squadron> getAssigned(final PatrolType patrolType) {
+    public ListView<SquadronViewModel> getAssigned(final PatrolType patrolType) {
         return patrolListMap.get(patrolType).getAssigned();
     }
 
@@ -145,7 +144,7 @@ public class PatrolView {
     private Tab buildPatrolTab(final Nation nation, final PatrolType patrolType) {
         Tab tab = new Tab(patrolType.getValue());
 
-        ListViewPair<Squadron> lists = patrolListMap.get(patrolType);
+        ListViewPair<SquadronViewModel> lists = patrolListMap.get(patrolType);
 
         lists.setWidth(props.getInt("airfield.dialog.patrol.list.width"));
         lists.setHeight(props.getInt("airfield.dialog.patrol.list.height"));
@@ -196,7 +195,7 @@ public class PatrolView {
      * @param listViewPair The patrol's list view pair.
      * @param viewModel The airbase view model.
      */
-    private void bindList(final PatrolType type, final ListViewPair<Squadron> listViewPair, final NationAirbaseViewModel viewModel) {
+    private void bindList(final PatrolType type, final ListViewPair<SquadronViewModel> listViewPair, final NationAirbaseViewModel viewModel) {
         listViewPair
                 .getAvailable()
                 .itemsProperty()

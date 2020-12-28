@@ -17,7 +17,7 @@ import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.game.rules.Rules;
+import engima.waratsea.model.game.rules.GameRules;
 import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.squadron.data.SquadronData;
@@ -44,7 +44,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
     private static final Map<Side, Map<String, Integer>> DESIGNATION_MAP = new HashMap<>();
 
     private final GameMap gameMap;
-    private final Rules rules;
+    private final GameRules rules;
     @Getter private final Side side;
     @Getter private final Nation nation;
     @Getter private final String model;
@@ -86,7 +86,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
                     @Assisted final SquadronData data,
                     final AviationPlant aviationPlant,
                     final GameMap gameMap,
-                    final Rules rules) {
+                    final GameRules rules) {
         this.gameMap = gameMap;
         this.rules = rules;
         this.side = side;

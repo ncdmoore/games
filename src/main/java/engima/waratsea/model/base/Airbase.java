@@ -221,17 +221,12 @@ public interface Airbase extends Base, SquadronHome {
     Patrol getPatrol(PatrolType patrolType);
 
     /**
-     * Clear all missions for this airbase. This removes all the squadrons from all missions.
+     * Clear all missions, patrols and squadrons for this airbase.
      */
-    void clearMissions();
+    void clear();
 
     /**
-     * Clear all of the patrols for this airbase. This removes all the squadrons from the patrols.
-     */
-    void clearPatrols();
-
-    /**
-     * Upddate the patrol.
+     * Update the patrol.
      *
      * @param patrolType The type of patrol.
      * @param squadrons The squadrons on patrol.

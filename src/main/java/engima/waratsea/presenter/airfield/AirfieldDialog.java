@@ -5,9 +5,6 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.game.rules.Rules;
-import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
-import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.presenter.airfield.mission.MissionAddDialog;
@@ -24,6 +21,8 @@ import engima.waratsea.view.squadron.SquadronViewType;
 import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
 import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.PatrolViewModel;
+import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableRow;
@@ -32,11 +31,7 @@ import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Represents the airfield details dialog. This is were the airfield missions and patrols are assigned.
@@ -44,10 +39,6 @@ import java.util.Set;
 @Slf4j
 public class AirfieldDialog {
     private static final String CSS_FILE = "airfieldDetails.css";
-    private static final Map<PatrolType, LinkedHashSet<SquadronConfig>> CONFIG_MAP = Map.of(
-            PatrolType.ASW, new LinkedHashSet<>(Collections.singletonList(SquadronConfig.NONE)),
-            PatrolType.CAP,  new LinkedHashSet<>(Collections.singletonList(SquadronConfig.NONE)),
-            PatrolType.SEARCH,  new LinkedHashSet<>(Arrays.asList(SquadronConfig.SEARCH, SquadronConfig.NONE)));
 
     private final CssResourceProvider cssResourceProvider;
     private final Provider<DialogView> dialogProvider;
@@ -58,7 +49,6 @@ public class AirfieldDialog {
     private final AssetPresenter assetPresenter;
 
     private final ViewProps props;
-    private final Rules rules;
     private Stage stage;
 
     @Getter
@@ -81,7 +71,6 @@ public class AirfieldDialog {
      * @param missionEditDetailsDialogProvider Provides the mission details edit dialog.
      * @param assetPresenter Provides the asset presenters.
      * @param props The view properties.
-     * @param rules The game rules.
      */
 
     //CHECKSTYLE:OFF
@@ -93,8 +82,7 @@ public class AirfieldDialog {
                           final Provider<MissionAddDialog> missionAddDetailsDialogProvider,
                           final Provider<MissionEditDialog> missionEditDetailsDialogProvider,
                           final AssetPresenter assetPresenter,
-                          final ViewProps props,
-                          final Rules rules) {
+                          final ViewProps props) {
         //CHECKSTYLE:ON
         this.cssResourceProvider = cssResourceProvider;
         this.dialogProvider = dialogProvider;
@@ -104,7 +92,6 @@ public class AirfieldDialog {
         this.missionEditDetailsDialogProvider = missionEditDetailsDialogProvider;
         this.assetPresenter = assetPresenter;
         this.props = props;
-        this.rules = rules;
     }
 
     /**
@@ -259,8 +246,7 @@ public class AirfieldDialog {
      * Call back for the ok button.
      */
     private void ok() {
-        viewModel.savePatrols();
-        viewModel.saveMissions();
+        viewModel.save();
 
         mapView.toggleBaseMarkers(airbase);
 
@@ -341,12 +327,8 @@ public class AirfieldDialog {
      * @param squadron The selected available squadron.
      * @param patrolType The given patrol type.
      */
-    private void patrolAvailableSquadronSelected(final Nation nation, final PatrolType patrolType, final Squadron squadron) {
+    private void patrolAvailableSquadronSelected(final Nation nation, final PatrolType patrolType, final SquadronViewModel squadron) {
         if (squadron != null) {
-            SquadronConfig config = determineConfiguration(patrolType);
-
-            squadron.setConfig(config);
-
             view
                     .getAirfieldPatrolView()
                     .get(nation)
@@ -354,13 +336,20 @@ public class AirfieldDialog {
                     .getSelectionModel()
                     .clearSelection();
 
-            viewModelMap
+            PatrolViewModel patrolViewModel = viewModelMap
                     .get(nation)
-                    .getPatrols()
+                    .getPatrolsViewModels()
+                    .get(patrolType);
+
+            SquadronConfig config = patrolViewModel.determineSquadronConfig();
+            squadron.setConfig(config);
+
+            view
+                    .getAirfieldPatrolView()
+                    .get(nation)
+                    .getPatrolSummaryMap()
                     .get(patrolType)
-                    .getSelectedSquadron()
-                    .get(nation)
-                    .set(squadron, config);
+                    .setSquadron(squadron);
         }
     }
 
@@ -371,12 +360,8 @@ public class AirfieldDialog {
      * @param squadron The selected available squadron.
      * @param patrolType The given patrol type.
      */
-    private void patrolAssignedSquadronSelected(final Nation nation, final PatrolType patrolType, final Squadron squadron) {
+    private void patrolAssignedSquadronSelected(final Nation nation, final PatrolType patrolType, final SquadronViewModel squadron) {
         if (squadron != null) {
-            SquadronConfig config = determineConfiguration(patrolType);
-
-            squadron.setConfig(config);
-
             // Make sure the available squadron list has no selection.
             view
                     .getAirfieldPatrolView()
@@ -385,14 +370,20 @@ public class AirfieldDialog {
                     .getSelectionModel()
                     .clearSelection();
 
+            PatrolViewModel patrolViewModel = viewModelMap
+                    .get(nation)
+                    .getPatrolsViewModels()
+                    .get(patrolType);
 
-            viewModelMap
+            SquadronConfig config = patrolViewModel.determineSquadronConfig();
+            squadron.setConfig(config);
+
+            view
+                    .getAirfieldPatrolView()
                     .get(nation)
-                    .getPatrols()
+                    .getPatrolSummaryMap()
                     .get(patrolType)
-                    .getSelectedSquadron()
-                    .get(nation)
-                    .set(squadron, config);
+                    .setSquadron(squadron);
         }
     }
 
@@ -403,7 +394,7 @@ public class AirfieldDialog {
      * @param type The patrol type.
      */
     private void patrolAddSquadron(final Nation nation, final PatrolType type) {
-        Squadron squadron = view
+        SquadronViewModel squadron = view
                 .getAirfieldPatrolView()
                 .get(nation)
                 .getAvailable(type)
@@ -433,7 +424,7 @@ public class AirfieldDialog {
      * @param type The patrol type.
      */
     private void patrolRemoveSquadron(final Nation nation, final PatrolType type) {
-        Squadron squadron = view
+        SquadronViewModel squadron = view
                 .getAirfieldPatrolView()
                 .get(nation)
                 .getAssigned(type)
@@ -451,8 +442,10 @@ public class AirfieldDialog {
      * @param nation The nation: BRITISH, ITALIAN, etc...
      * @param readySquadron The selected ready squadron.
      */
-    private void readySquadronSelected(final Nation nation, final Squadron readySquadron) {
+    private void readySquadronSelected(final Nation nation, final SquadronViewModel readySquadron) {
         if (readySquadron != null) {
+            readySquadron.setConfig(SquadronConfig.NONE);
+
             SquadronViewType type = SquadronViewType.get(readySquadron.getType());
 
             //Clear all the other ready listView selections. If on clicking a listView
@@ -469,12 +462,11 @@ public class AirfieldDialog {
                     .filter(entry -> entry.getKey() != type)
                     .forEach(entry -> entry.getValue().getSelectionModel().clearSelection());
 
-            viewModelMap
+            view
+                    .getAirfieldReadyView()
                     .get(nation)
-                    .getSquadronStateViewModel()
-                    .get(SquadronState.READY)
-                    .getSelectedSquadron()
-                    .set(readySquadron);
+                    .getSquadronSummaryView()
+                    .setSquadron(readySquadron);
         }
     }
 
@@ -484,10 +476,14 @@ public class AirfieldDialog {
      * @param nation The nation: BRITISH, ITALIAN, etc...
      * @param allSquadron The selected ready squadron.
      */
-    private void allSquadronSelected(final Nation nation, final Squadron allSquadron) {
+    private void allSquadronSelected(final Nation nation, final SquadronViewModel allSquadron) {
         if (allSquadron != null) {
             SquadronViewType type = SquadronViewType.get(allSquadron.getType());
             SquadronState state = viewModelMap.get(nation).determineSquadronState(allSquadron);
+
+            if (state == SquadronState.READY) {
+                allSquadron.setConfig(SquadronConfig.NONE);
+            }
 
             //Clear all the other all listView selections. If on clicking a listView
             //that already has a squadron selected and the same squadron is selected,
@@ -503,39 +499,17 @@ public class AirfieldDialog {
                     .filter(entry -> entry.getKey() != type)
                     .forEach(entry -> entry.getValue().getSelectionModel().clearSelection());
 
-            viewModelMap
+            view
+                    .getAirfieldAllView()
                     .get(nation)
-                    .getSquadronStateViewModel()
-                    .get(SquadronState.ALL)
-                    .getSelectedSquadron()
-                    .set(allSquadron, state);
+                    .getSquadronSummaryView()
+                    .setSquadron(allSquadron);
 
             view
                     .getAirfieldAllView()
                     .get(nation)
                     .setState(state);
         }
-    }
-
-    /**
-     * Determine the best squadron configuration for the given type of patrol.
-     *
-     * @param patrolType The type of patrol.
-     * @return The best squadron configuration for the given type of patrol.
-     */
-    private SquadronConfig determineConfiguration(final PatrolType patrolType) {
-        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO().setPatrolType(PatrolType.SEARCH);
-
-        Set<SquadronConfig> allowed = rules.getAllowedSquadronConfig(dto);
-
-        // Get the first config for the given patrol type that is allowed.
-        // This should return the most desired patrol squadron configuration.
-        return CONFIG_MAP
-                .get(patrolType)
-                .stream()
-                .filter(allowed::contains)
-                .findFirst()
-                .orElse(SquadronConfig.NONE);
     }
 
     /**

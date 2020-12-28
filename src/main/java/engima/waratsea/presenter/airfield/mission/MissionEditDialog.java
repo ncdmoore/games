@@ -5,8 +5,6 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
@@ -14,6 +12,7 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.WarnDialog;
 import engima.waratsea.view.airfield.mission.MissionEditView;
 import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
+import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Getter;
@@ -81,6 +80,7 @@ public class MissionEditDialog {
 
         viewModel = missionViewModelProvider
                 .get()
+                .setSquadrons(currentMission.getSquadrons())
                 .setModel(currentMission.getMission())
                 .setNationViewModel(currentMission.getNationAirbaseViewModel());
 
@@ -160,12 +160,14 @@ public class MissionEditDialog {
      * @param role The mission role.
      * @param squadron The available squadron.
      */
-    private void availableSquadronSelected(final MissionRole role, final Squadron squadron) {
+    private void availableSquadronSelected(final MissionRole role, final SquadronViewModel squadron) {
         if (squadron != null) {
+            // Go ahead and set the configuration so that it is consistently shown on the mission.
+            squadron.setConfig(selectedTarget, selectedMissionType, role);
 
-            viewModel
-                    .getSelectedSquadron()
-                    .set(squadron);
+            view
+                    .getSquadronSummaryView()
+                    .setSquadron(squadron);
 
             view
                     .getSquadronList(role)
@@ -181,13 +183,14 @@ public class MissionEditDialog {
      * @param role The mission role.
      * @param squadron The available squadron.
      */
-    private void assignedSquadronSelected(final MissionRole role, final Squadron squadron) {
+    private void assignedSquadronSelected(final MissionRole role, final SquadronViewModel squadron) {
         if (squadron != null) {
-            SquadronConfig config = getConfig(role, squadron);
+            // Go ahead and set the configuration so that it is consistently shown on the mission.
+            squadron.setConfig(selectedTarget, selectedMissionType, role);
 
-            viewModel
-                    .getSelectedSquadron()
-                    .set(squadron, config);
+            view
+                    .getSquadronSummaryView()
+                    .setSquadron(squadron);
 
             view
                     .getSquadronList(role)
@@ -203,7 +206,7 @@ public class MissionEditDialog {
      * @param role The mission role.
      */
     private void assignSquadron(final MissionRole role) {
-        Squadron squadron = view
+        SquadronViewModel squadron = view
                 .getSquadrons()
                 .get(role)
                 .getAvailable()
@@ -230,7 +233,7 @@ public class MissionEditDialog {
      * @param role The mission role.
      */
     private void removeSquadron(final MissionRole role) {
-        Squadron squadron = view
+        SquadronViewModel squadron = view
                 .getSquadrons()
                 .get(role)
                 .getAssigned()
@@ -274,14 +277,4 @@ public class MissionEditDialog {
         stage.close();
     }
 
-    /**
-     * Get the squadron's config.
-     *
-     * @param role The mission role.
-     * @param squadron The selected squadron.
-     * @return The squadron configuration.
-     */
-    private SquadronConfig getConfig(final MissionRole role, final Squadron squadron) {
-        return squadron.determineConfig(selectedTarget, selectedMissionType, role);
-    }
 }

@@ -270,6 +270,7 @@ public class Squadrons {
                 .forEach(squadronNameMap::remove);
     }
 
+
     /**
      * Filter the given squadrons by nation.
      *

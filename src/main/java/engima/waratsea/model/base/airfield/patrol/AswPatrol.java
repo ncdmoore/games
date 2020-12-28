@@ -9,6 +9,8 @@ import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
 import engima.waratsea.model.base.airfield.patrol.stats.PatrolStat;
 import engima.waratsea.model.base.airfield.patrol.stats.PatrolStats;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.rules.GameRules;
+import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.state.SquadronAction;
@@ -20,9 +22,11 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -35,23 +39,29 @@ import java.util.stream.IntStream;
 
 @Slf4j
 public class AswPatrol implements Patrol {
+    private static final LinkedHashSet<SquadronConfig> VALID_SQUADRON_CONFIGS = new LinkedHashSet<>(Collections.singletonList(SquadronConfig.NONE));
+
     private final List<Squadron> squadrons;   //The squadrons that are on this patrol.
     @Getter private final Airbase airbase;    //The airbase from which the patrol is flown.
     @Getter private int maxRadius;            //The maximum patrol radius of this patrol.
     private final PatrolAirRules rules;       //The set of rules that govern this patrol.
+    private final GameRules gameRules;
 
     /**
      * The constructor.
      *
      * @param data The ASW patrol data read in from a JSON file.
-     * @param rules The ASW rules.
+     * @param aswRules The ASW rules.
+     * @param gameRules The game rules.
      */
     @Inject
     public AswPatrol(@Assisted final PatrolData data,
-                               final @Named("asw") PatrolAirRules rules) {
+                               final @Named("asw") PatrolAirRules aswRules,
+                               final GameRules gameRules) {
         airbase = data.getAirbase();
 
-        this.rules = rules;
+        this.rules = aswRules;
+        this.gameRules = gameRules;
 
         squadrons = Optional.ofNullable(data.getSquadrons())
                 .orElseGet(Collections::emptyList)
@@ -226,6 +236,26 @@ public class AswPatrol implements Patrol {
                 .sorted(Collections.reverseOrder())
                 .filter(radius -> getSuccessRate(radius) > 0)
                 .findFirst().orElse(0);
+    }
+
+    /**
+     * Get the best allowed squadron configuration for this patrol.
+     *
+     * @return The best allowed squadron configuration for this patrols.
+     */
+    @Override
+    public SquadronConfig getBestSquadronConfig() {
+        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO().setPatrolType(PatrolType.ASW);
+
+        Set<SquadronConfig> allowed = gameRules.getAllowedSquadronConfig(dto);
+
+        // Get the first config for the given patrol type that is allowed.
+        // This should return the most desired patrol squadron configuration.
+        return VALID_SQUADRON_CONFIGS
+                .stream()
+                .filter(allowed::contains)
+                .findFirst()
+                .orElse(SquadronConfig.NONE);
     }
 
     /**

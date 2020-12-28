@@ -5,6 +5,7 @@ import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.base.airfield.patrol.stats.PatrolStats;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronConfig;
 
 import java.util.List;
 
@@ -107,6 +108,13 @@ public interface Patrol {
      * @return The patrol's true or effective maximum radius.
      */
     int getTrueMaxRadius();
+
+    /**
+     * Get the best allowed squadron configuration for this patrol.
+     *
+     * @return The best allowed squadron configuration for this patrols.
+     */
+    SquadronConfig getBestSquadronConfig();
 
     /**
      * Determine if the patrol is adversely affected by the current weather conditions.

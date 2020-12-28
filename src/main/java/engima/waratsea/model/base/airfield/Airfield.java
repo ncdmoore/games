@@ -281,7 +281,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param nation The nation BRITISH, ITALIAN, etc...
      * @return The airfield.
      */
-    public Airfield removeAllSquadrons(final Nation nation) {
+    public Airfield clearSquadrons(final Nation nation) {
         missions.clear(nation);
         patrols.clear(nation);
         squadrons.clear(nation);
@@ -436,18 +436,11 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
-     * Clear all missions for this airbase. This removes all the squadrons from all missions.
+     * Clear all missions, patrols and squadrons for this airbase.
      */
     @Override
-    public void clearMissions() {
+    public void clear() {
         missions.clear();
-    }
-
-    /**
-     * Clear all of the patrols for this airbase. This removes all the squadrons from the patrols.
-     */
-    @Override
-    public void clearPatrols() {
         patrols.clear();
     }
 

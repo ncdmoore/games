@@ -1,11 +1,18 @@
 package engima.waratsea.viewmodel.squadrons;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.AttackType;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.MissionRole;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.SquadronFactor;
+import engima.waratsea.model.squadron.state.SquadronAction;
 import engima.waratsea.model.squadron.state.SquadronState;
+import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.utility.Probability;
 import javafx.beans.binding.Bindings;
@@ -18,7 +25,6 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 import lombok.Getter;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,41 +39,43 @@ public class SquadronViewModel {
 
     @Getter private final ObjectProperty<SquadronState> state = new SimpleObjectProperty<>();
 
+    private SquadronAction squadronAction;
+
     @Getter private final BooleanProperty present = new SimpleBooleanProperty();
 
     @Getter private final StringProperty title = new SimpleStringProperty();
     @Getter private final StringProperty titleId = new SimpleStringProperty();
-    private final StringProperty name = new SimpleStringProperty();
-    private final StringProperty strength = new SimpleStringProperty();
+    @Getter private final StringProperty name = new SimpleStringProperty();
+    @Getter private final StringProperty strength = new SimpleStringProperty();
     private final StringProperty model = new SimpleStringProperty();
     private final StringProperty type = new SimpleStringProperty();
-    private final StringProperty abbreviatedType = new SimpleStringProperty();
+    @Getter private final StringProperty abbreviatedType = new SimpleStringProperty();
     private final StringProperty nation = new SimpleStringProperty();
     private final StringProperty service = new SimpleStringProperty();
-    private final StringProperty equipped = new SimpleStringProperty();
+    @Getter private final StringProperty equipped = new SimpleStringProperty();
 
     private final StringProperty landFactor = new SimpleStringProperty();
     private final StringProperty landModifier = new SimpleStringProperty();
-    private final StringProperty landProb = new SimpleStringProperty();
+    @Getter private final StringProperty landProb = new SimpleStringProperty();
 
     private final StringProperty navalFactor = new SimpleStringProperty();
     private final StringProperty navalModifier = new SimpleStringProperty();
-    private final StringProperty navalProb = new SimpleStringProperty();
+    @Getter private final StringProperty navalProb = new SimpleStringProperty();
 
     private final StringProperty airFactor = new SimpleStringProperty();
     private final StringProperty airModifier = new SimpleStringProperty();
-    private final StringProperty airProb = new SimpleStringProperty();
+    @Getter private final StringProperty airProb = new SimpleStringProperty();
 
-    private final StringProperty airSummary = new SimpleStringProperty();
-    private final StringProperty landSummary = new SimpleStringProperty();
-    private final StringProperty navalSummary = new SimpleStringProperty();
+    @Getter private final StringProperty airSummary = new SimpleStringProperty();
+    @Getter private final StringProperty landSummary = new SimpleStringProperty();
+    @Getter private final StringProperty navalSummary = new SimpleStringProperty();
 
     private final StringProperty range = new SimpleStringProperty();
-    private final StringProperty radius = new SimpleStringProperty();
-    private final StringProperty endurance = new SimpleStringProperty();
+    @Getter private final StringProperty radius = new SimpleStringProperty();
+    @Getter private final StringProperty endurance = new SimpleStringProperty();
     private final StringProperty ferry = new SimpleStringProperty();
-    private final StringProperty altitude = new SimpleStringProperty();
-    private final StringProperty landing = new SimpleStringProperty();
+    @Getter private final StringProperty altitude = new SimpleStringProperty();
+    @Getter private final StringProperty landing = new SimpleStringProperty();
 
     private final StringProperty frame = new SimpleStringProperty();
     private final StringProperty fragile = new SimpleStringProperty();
@@ -92,6 +100,93 @@ public class SquadronViewModel {
         bindFrame();
         bindImages(imageResourceProvider);
         bindAirfieldProperties();
+    }
+
+    /**
+     * Set the backing model for this view model.
+     *
+     * @param newSquadron The backing squadron model.
+     * @return This squadron view model.
+     */
+    public SquadronViewModel setModel(final Squadron newSquadron) {
+        squadron.setValue(newSquadron);
+        state.setValue(newSquadron.getState());
+        configuration.setValue(newSquadron.getConfig());
+        return this;
+    }
+
+    /**
+     * Place the squadron on a patrol.
+     */
+    public void setOnPatrol() {
+        state.setValue(state.getValue().transition(SquadronAction.ASSIGN_TO_PATROL));
+        squadronAction = SquadronAction.ASSIGN_TO_PATROL;
+    }
+
+    /**
+     * Place the squadron off a patrol.
+     */
+    public void setOffPatrol() {
+        state.setValue(state.getValue().transition(SquadronAction.REMOVE_FROM_PATROL));
+        squadronAction = SquadronAction.REMOVE_FROM_PATROL;
+    }
+
+    /**
+     * Place the squadron on a mission.
+     */
+    public void setOnMission() {
+        state.setValue(state.getValue().transition(SquadronAction.ASSIGN_TO_MISSION));
+        squadronAction = SquadronAction.ASSIGN_TO_MISSION;
+    }
+
+    /**
+     * Place the squadron off a mission.
+     */
+    public void setOffMission() {
+        state.setValue(state.getValue().transition(SquadronAction.REMOVE_FROM_MISSION));
+        squadronAction = SquadronAction.REMOVE_FROM_MISSION;
+    }
+
+    /**
+     * Set the squadron configuration based on its mission data.
+     *
+     * @param selectedTarget The mission's target.
+     * @param selectedMissionType The type of mission.
+     * @param role The squadron's role on the mission.
+     */
+    public void setConfig(final Target selectedTarget, final AirMissionType selectedMissionType, final MissionRole role) {
+        SquadronConfig config = squadron.getValue().determineConfig(selectedTarget, selectedMissionType, role);
+        configuration.setValue(config);
+    }
+
+    /**
+     * Set the squadron's configuration.
+     *
+     * @param newConfig The squadron's new configuration.
+     */
+    public void setConfig(final SquadronConfig newConfig) {
+        configuration.setValue(newConfig);
+    }
+
+    /**
+     * Save the squadron to the model. Currently the only two things that vary for squadrons are:
+     *  - configuration
+     *  - state
+     */
+    public void save() {
+        Squadron squadronModel = squadron.getValue();
+
+        // Make sure that a ready squadron has a configuration of none. This is needed if a ready
+        // squadron is viewed on the patrol or mission views. On those views the configuration is
+        // set to reflect what the configuration will be, if the squadron is placed on the mission
+        // or patrol. Thus, we reset it to none here to ensure the configuration of a ready squadron
+        // has the correct value.
+        if (state.getValue() == SquadronState.READY) {
+            configuration.setValue(SquadronConfig.NONE);
+        }
+
+        squadronModel.setConfig(configuration.getValue());
+        squadronModel.setState(squadronAction);
     }
 
     /**
@@ -127,6 +222,102 @@ public class SquadronViewModel {
         squadron.setValue(newSquadron);
         state.setValue(SquadronState.READY);
         configuration.setValue(newConfig);
+    }
+
+    /**
+     * Get the backing squadron model.
+     *
+     * @return The squadron model.
+     */
+    public Squadron get() {
+        return squadron.getValue();
+    }
+
+    /**
+     *  Get the squadron name as a String.
+     *
+     * @return The squadron's name.
+     */
+    public String getNameAsString() {
+        return get().getName();
+    }
+
+    /**
+     * Get the squadron's title as a String.
+     *
+     * @return The squadron's title.
+     */
+    public String getTitleAsString() {
+        return get().getTitle();
+    }
+
+    /**
+     * Get the squadron's nation.
+     *
+     * @return The squadron's nation.
+     */
+    public Nation getNation() {
+        return get().getNation();
+    }
+
+    /**
+     * Get the squadron's aircraft type.
+     *
+     * @return The squadron's aircraft type.
+     */
+    public AircraftType getType() {
+        return get().getType();
+    }
+
+    /**
+     * The number of steps in the squadron.
+     *
+     * @return The number of steps in the squadron.
+     */
+    public int getSteps() {
+        return get().getSteps().intValue();
+    }
+
+    /**
+     * Determines if the squadron can perform the given mission type.
+     *
+     * @param missionType The mission type.
+     * @return True if the squadron can perform the given mission type. False otherwise.
+     */
+    public boolean canDoMission(final AirMissionType missionType) {
+        return get().canDoMission(missionType);
+    }
+
+    /**
+     * Determines if the squadron can perform the given role.
+     *
+     * @param role The mission role.
+     * @return True if the squadron can perform the given mission role. False otherwise.
+     */
+    public boolean canDoRole(final MissionRole role) {
+        return get().canDoRole(role);
+    }
+
+    /**
+     * Determines if the squadron can perform the given patrol type.
+     *
+     * @param patrolType The type of patrol.
+     * @return True if the squadron can perform the given patrol type. False otherwise.
+     */
+    public boolean canDoPatrol(final PatrolType patrolType) {
+        return get().canDoPatrol(patrolType);
+    }
+
+    /**
+     * Determines if the squadron is in range of the given target for the given mission type and mission role.
+     *
+     * @param target The mission target.
+     * @param missionType The mission type.
+     * @param role The mission role of the squadron.
+     * @return True if the squadron is in rage of the given target for the given mission type and mission role.
+     */
+    public boolean inRange(final Target target, final AirMissionType missionType, final MissionRole role) {
+        return get().inRange(target, missionType, role);
     }
 
     /**
@@ -206,7 +397,6 @@ public class SquadronViewModel {
     /**
      * Get the squadron's ferryDistance data.
      *
-
      * @return The squadron's ferryDistance data.
      */
     public Map<String, List<StringProperty>> getPerformance() {
@@ -230,38 +420,6 @@ public class SquadronViewModel {
         return details;
     }
 
-    /**
-     * Get the squadron's attack summary.
-     *
-     * @return The squadron's attack summary.
-     */
-    public Map<String, List<StringProperty>> getAttackSummary() {
-        Map<String, List<StringProperty>> summary = new LinkedHashMap<>();
-        summary.put("Type:", List.of(abbreviatedType));
-        summary.put("Strength:", List.of(strength));
-        summary.put(" ", Collections.emptyList());
-        summary.put("Air-to-Air Attack:", List.of(airSummary, airProb));
-        summary.put("Land Attack:", List.of(landSummary, landProb));
-        summary.put("Naval Attack:", List.of(navalSummary, navalProb));
-        return summary;
-    }
-
-    /**
-     * Get the squadron's performance summary.
-     *
-     * @return The squadron's performance summary.
-     */
-    public Map<String, StringProperty> getPerformanceSummary() {
-        Map<String, StringProperty> summary = new LinkedHashMap<>();
-        summary.put("Landing Type:", landing);
-        summary.put("Altitude Rating:", altitude);
-        summary.put(" ", new SimpleStringProperty(""));
-        summary.put("Equipped:", equipped);
-        summary.put("Radius:", radius);
-        summary.put("Endurance:", endurance);
-
-        return summary;
-    }
 
     /**
      * The String representation of a squadron view model.
@@ -415,12 +573,12 @@ public class SquadronViewModel {
 
         radius.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
-                .map(s -> getRadius())
+                .map(s -> getRadiusAsString())
                 .orElse(""), squadron, configuration));
 
         endurance.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
-                .map(s -> getEndurance())
+                .map(s -> getEnduranceAsString())
                 .orElse(""), squadron, configuration));
 
         ferry.bind(Bindings.createStringBinding(() -> Optional
@@ -490,12 +648,12 @@ public class SquadronViewModel {
         return probability.percentage(squadron.getValue().getHitProbability(attackType, config)) + "%";
     }
 
-    private String getEndurance() {
+    private String getEnduranceAsString() {
         SquadronConfig config = Optional.ofNullable(configuration.getValue()).orElse(SquadronConfig.NONE);
         return squadron.getValue().getAircraft().getEndurance().get(config) + "";
     }
 
-    private String getRadius() {
+    private String getRadiusAsString() {
         SquadronConfig config = Optional.ofNullable(configuration.getValue()).orElse(SquadronConfig.NONE);
         return squadron.getValue().getAircraft().getRadius().get(config) + "";
     }
@@ -504,8 +662,6 @@ public class SquadronViewModel {
         SquadronConfig config = Optional.ofNullable(configuration.getValue()).orElse(SquadronConfig.NONE);
         return squadron.getValue().getAircraft().getFerryDistance().get(config) + "";
     }
-
-
 
     private String getAttackSummary(final SquadronFactor factor) {
         return factor.getModifier() != 0

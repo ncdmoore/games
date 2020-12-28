@@ -1,6 +1,6 @@
 package engima.waratsea.model.game;
 
-import engima.waratsea.model.game.rules.Rules;
+import engima.waratsea.model.game.rules.GameRules;
 import lombok.Getter;
 
 
@@ -17,7 +17,7 @@ public enum TurnType {
          * @return DAY.
          */
         @Override
-        public TurnType getTrue(final Rules rules, final int month) {
+        public TurnType getTrue(final GameRules rules, final int month) {
             return DAY;
         }
     },
@@ -32,7 +32,7 @@ public enum TurnType {
          * @return The true type of turn either DAY or NIGHT.
          */
         @Override
-        public TurnType getTrue(final Rules rules, final int month) {
+        public TurnType getTrue(final GameRules rules, final int month) {
             return rules.getTwilightTurnType(month);
         }
     },
@@ -45,7 +45,7 @@ public enum TurnType {
          * @return The true type of turn either DAY or NIGHT.
          */
         @Override
-        public TurnType getTrue(final Rules rules, final int month) {
+        public TurnType getTrue(final GameRules rules, final int month) {
             return NIGHT;
         }
 
@@ -70,7 +70,7 @@ public enum TurnType {
      * @param month The game month.
      * @return The true type of turn either DAY or NIGHT.
      */
-    public abstract TurnType getTrue(Rules rules, int month);
+    public abstract TurnType getTrue(GameRules rules, int month);
 
     /**
      * Get the String representation of this enum.

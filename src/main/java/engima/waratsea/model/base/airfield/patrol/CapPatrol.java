@@ -9,7 +9,10 @@ import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
 import engima.waratsea.model.base.airfield.patrol.stats.PatrolStat;
 import engima.waratsea.model.base.airfield.patrol.stats.PatrolStats;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.rules.GameRules;
+import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.state.SquadronAction;
 import engima.waratsea.model.squadron.state.SquadronState;
 import lombok.Getter;
@@ -19,17 +22,22 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Slf4j
 public class CapPatrol implements Patrol {
+    private static final LinkedHashSet<SquadronConfig> VALID_SQUADRON_CONFIGS = new LinkedHashSet<>(Collections.singletonList(SquadronConfig.NONE));
+
     private static final int RADIUS = 2;
 
-    private final PatrolAirRules rules;
+    private final PatrolAirRules capRules;
+    private final GameRules gameRules;
     private final List<Squadron> squadrons;
     @Getter private final Airbase airbase;
     @Getter private int maxRadius;
@@ -38,12 +46,15 @@ public class CapPatrol implements Patrol {
      * The constructor.
      *
      * @param data The CAP patrol data read in from a JSON file.
-     * @param rules The CAP air rules.
+     * @param capRules The CAP air rules.
+     * @param gameRules The game rules.
      */
     @Inject
     public CapPatrol(@Assisted final PatrolData data,
-                               final @Named("cap") PatrolAirRules rules) {
-        this.rules = rules;
+                               final @Named("cap") PatrolAirRules capRules,
+                               final GameRules gameRules) {
+        this.capRules = capRules;
+        this.gameRules = gameRules;
 
         airbase = data.getAirbase();
 
@@ -181,7 +192,7 @@ public class CapPatrol implements Patrol {
     @Override
     public int getSuccessRate(final int distance) {
         List<Squadron> inRange = getAssignedSquadrons(distance);
-        return rules.getBaseSearchSuccess(distance, inRange);
+        return capRules.getBaseSearchSuccess(distance, inRange);
     }
 
     /**
@@ -251,7 +262,7 @@ public class CapPatrol implements Patrol {
         data.put("Squadrons", new PatrolStat(inRange.size(), getPatrolSquadrons(radius)));
         data.put("Steps", new PatrolStat(inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add)));
         data.put("Intercept", new PatrolStat(getSuccessRate(radius) + " %"));
-        data.put("No Weather", new PatrolStat(rules.getBaseSearchSuccessNoWeather(radius, inRange) + "%"));
+        data.put("No Weather", new PatrolStat(capRules.getBaseSearchSuccessNoWeather(radius, inRange) + "%"));
 
         return data;
     }
@@ -284,13 +295,33 @@ public class CapPatrol implements Patrol {
                 .findFirst().orElse(0);    }
 
     /**
+     * Get the best allowed squadron configuration for this patrol.
+     *
+     * @return The best allowed squadron configuration for this patrols.
+     */
+    @Override
+    public SquadronConfig getBestSquadronConfig() {
+        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO().setPatrolType(PatrolType.CAP);
+
+        Set<SquadronConfig> allowed = gameRules.getAllowedSquadronConfig(dto);
+
+        // Get the first config for the given patrol type that is allowed.
+        // This should return the most desired patrol squadron configuration.
+        return VALID_SQUADRON_CONFIGS
+                .stream()
+                .filter(allowed::contains)
+                .findFirst()
+                .orElse(SquadronConfig.NONE);
+    }
+
+    /**
      * Determine if the patrol is adversely affected by the current weather conditions.
      *
      * @return True if the patrol is affected by the current weather conditions. False otherwise.
      */
     @Override
     public boolean isAffectedByWeather() {
-        return rules.isAffectedByWeather();
+        return capRules.isAffectedByWeather();
     }
 
     /**

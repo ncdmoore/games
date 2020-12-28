@@ -29,7 +29,6 @@ import javafx.collections.ObservableList;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -46,15 +45,13 @@ import java.util.stream.Collectors;
 public class AirMissionViewModel {
     @Getter private final ListProperty<AirMissionType> missionTypes = new SimpleListProperty<>();                       // List of all mission types.
 
-    @Getter private final Map<MissionRole, ListProperty<Squadron>> available = new HashMap<>();                         // List of available squadrons for a particular role.
-    @Getter private final Map<MissionRole, ListProperty<Squadron>> assigned = new HashMap<>();                          // List of squadrons assigned to this mission for a particular role.
+    @Getter private final Map<MissionRole, ListProperty<SquadronViewModel>> available = new HashMap<>();                // List of available squadrons for a particular role.
+    @Getter private final Map<MissionRole, ListProperty<SquadronViewModel>> assigned = new HashMap<>();                 // List of squadrons assigned to this mission for a particular role.
 
     @Getter private final Map<MissionRole, BooleanProperty> availableExists = new HashMap<>();                          // Indicates if any available squadrons exist for a particular role.
     @Getter private final Map<MissionRole, BooleanProperty> assignedExists = new HashMap<>();                           // Indicates if any assigned squadrons exist for a particular role.
 
-    @Getter private final SquadronViewModel selectedSquadron;                                                           // The currently selected squadron for this given state.
-
-    @Getter private final ListProperty<Squadron> totalAssigned = new SimpleListProperty<>(FXCollections.emptyObservableList());
+    @Getter private final ListProperty<SquadronViewModel> totalAssigned = new SimpleListProperty<>(FXCollections.emptyObservableList());
     @Getter private final IntegerProperty totalAssignedCount = new SimpleIntegerProperty(0);                  // Total number of squadrons on the mission. Includes all roles.
 
     @Getter private final IntegerProperty totalStepsInRouteToTarget = new SimpleIntegerProperty(0);
@@ -77,6 +74,7 @@ public class AirMissionViewModel {
     @Getter private final BooleanProperty warning = new SimpleBooleanProperty();
     @Getter private String warningText;
 
+    @Getter private SquadronsViewModel squadrons;
     @Getter private NationAirbaseViewModel nationAirbaseViewModel;
     @Getter private Nation nation;    // The nation that performs this mission.
     @Getter private Airbase airbase;  // The airbase from which the mission originates.
@@ -91,7 +89,7 @@ public class AirMissionViewModel {
     @Getter private final IntegerProperty missionId = new SimpleIntegerProperty(0);
     @Getter private int id;
 
-    @Getter private final SimpleListProperty<Squadron> ready = new SimpleListProperty<>(FXCollections.observableList(new ArrayList<>()));
+    @Getter private final SimpleListProperty<SquadronViewModel> ready = new SimpleListProperty<>(FXCollections.observableList(new ArrayList<>()));
 
     private boolean checkCapacity = true;  //For new missions the capacity of the target is checked. For existing mission it is not.
 
@@ -100,15 +98,12 @@ public class AirMissionViewModel {
      *
      * @param game The game.
      * @param missionDAO The mission data access object.
-     * @param squadronViewModel The selected squadron view model.
      */
     @Inject
     public AirMissionViewModel(final Game game,
-                               final MissionDAO missionDAO,
-                               final SquadronViewModel squadronViewModel) {
+                               final MissionDAO missionDAO) {
         this.game = game;
         this.missionDAO = missionDAO;
-        this.selectedSquadron = squadronViewModel;
 
         missionTypes.setValue(FXCollections.observableArrayList(AirMissionType.values()));
 
@@ -159,6 +154,18 @@ public class AirMissionViewModel {
     }
 
     /**
+     * Set the squadrons view model. The squadron view model converts squadron model objects
+     * into squadron view model objects.
+     *
+     * @param squadronsViewModel The squadron view model.
+     * @return This air mission view model.
+     */
+    public AirMissionViewModel setSquadrons(final SquadronsViewModel squadronsViewModel) {
+        squadrons = squadronsViewModel;
+        return this;
+    }
+
+    /**
      * Set the model.
      *
      * @param missionModel The mission model.
@@ -180,10 +187,12 @@ public class AirMissionViewModel {
 
         MissionRole
                 .stream()
-                .forEach(role -> assigned.get(role).set(FXCollections.observableArrayList(mission.getSquadrons(role))));
+                .forEach(role -> assigned
+                        .get(role)
+                        .set(FXCollections.observableArrayList(getSquadronViewModels(mission.getSquadrons(role)))));
 
 
-        totalAssigned.setValue(FXCollections.observableArrayList(mission.getSquadronsAllRoles()));
+        totalAssigned.setValue(FXCollections.observableArrayList(getSquadronViewModels(mission.getSquadronsAllRoles())));
         totalAssignedCount.setValue(mission.getSquadronsAllRoles().size());
 
         return this;
@@ -200,6 +209,7 @@ public class AirMissionViewModel {
         nationAirbaseViewModel = viewModel;
 
         // This cannot be done in the set Model as for new mission adds there is no backing model.
+        // For new mission adds the set Model method is never called.
         airbase = viewModel.getAirbaseViewModel().getAirbase().getValue();
 
         bindAvailable(viewModel);
@@ -236,19 +246,20 @@ public class AirMissionViewModel {
      * @param squadron The squadron added to the mission.
      * @param role The mission role of the added squadron.
      */
-    public void addToMission(final Squadron squadron, final MissionRole role) {
+    public void addToMission(final SquadronViewModel squadron, final MissionRole role) {
         if (canAddSquadron(squadron)) {
 
             log.debug("Add squadron: '{}' with role: '{}' to mission id: '{}'", new Object[]{squadron.getTitle(), role.toString(), id});
 
             assigned.get(role).get().add(squadron);
             assignedExists.get(role).set(assigned.get(role).getValue().isEmpty());
+            squadron.setOnMission();
 
             String assignedNames = assigned
                     .get(role)
                     .get()
                     .stream()
-                    .map(Squadron::getTitle)
+                    .map(SquadronViewModel::getTitleAsString)
                     .collect(Collectors.joining(","));
 
             log.debug("Assigned squadrons: '{}'", assignedNames);
@@ -268,17 +279,18 @@ public class AirMissionViewModel {
      * @param squadron The squadron removed from the mission.
      * @param role The mission role of the removed squadron.
      */
-    public void removeFromMission(final Squadron squadron, final MissionRole role) {
+    public void removeFromMission(final SquadronViewModel squadron, final MissionRole role) {
         log.debug("remove squadron: '{}' with role: '{}' to mission id: '{}'", new Object[]{squadron.getTitle(), role.toString(), id});
 
         assigned.get(role).get().remove(squadron);
         assignedExists.get(role).set(assigned.get(role).getValue().isEmpty());
+        squadron.setOffMission();
 
         String assignedNames = assigned
                 .get(role)
                 .get()
                 .stream()
-                .map(Squadron::getTitle)
+                .map(SquadronViewModel::getTitleAsString)
                 .collect(Collectors.joining(","));
 
         log.debug("Assigned squadrons: '{}'", assignedNames);
@@ -305,7 +317,7 @@ public class AirMissionViewModel {
                     .get(role)
                     .get()
                     .stream()
-                    .map(Squadron::getTitle)
+                    .map(SquadronViewModel::getTitleAsString)
                     .collect(Collectors.joining(","));
 
             log.debug("Assigned squadrons: '{}' for role: '{}'", assignedNames, role);
@@ -323,15 +335,9 @@ public class AirMissionViewModel {
      */
     public void createMission() {
         int newId = game.getAirMissionId();
-
-        log.debug("Create mission. Build mission id: '{}'", newId);
-
         mission = buildMission(newId);
         id = newId;
         missionId.setValue(id);
-
-        log.debug("Mission object: '{}'", mission);
-
         checkCapacity = false;
         nationAirbaseViewModel.addMission(this);
     }
@@ -340,12 +346,7 @@ public class AirMissionViewModel {
      * Update or edit this mission.
      */
     public void editMission() {
-       log.debug("Edit mission. Build mission id: '{}'", id);
-
         mission = buildMission(id);
-
-        log.debug("Mission object: '{}'", mission);
-
         checkCapacity = false;
         nationAirbaseViewModel.editMission(this);
     }
@@ -356,7 +357,7 @@ public class AirMissionViewModel {
      * @param squadron A squadron to check and see if it is on this mission.
      * @return True if the given squadron is on this mission. False otherwise.
      */
-    public boolean isSquadronOnMission(final Squadron squadron) {
+    public boolean isSquadronOnMission(final SquadronViewModel squadron) {
         return totalAssigned.getValue().contains(squadron);
     }
 
@@ -390,9 +391,8 @@ public class AirMissionViewModel {
     private void bindTotalStepsInRouteToTargetThisMission() {
         Callable<Integer> bindingFunction = () -> totalAssigned.getValue()
                 .stream()
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .intValue();
+                .map(SquadronViewModel::getSteps)
+                .reduce(0, Integer::sum);
 
         totalStepsInRouteToTargetThisMission.bind(Bindings.createIntegerBinding(bindingFunction, totalAssigned));
     }
@@ -412,9 +412,8 @@ public class AirMissionViewModel {
                     .filter(airMission -> airMission.getMissionType().getValue() == missionType.getValue())
                     .filter(airMission -> airMission.getTarget().getValue() == target.getValue())
                     .flatMap(airMission -> airMission.getTotalAssigned().getValue().stream())
-                    .map(Squadron::getSteps)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add)
-                    .intValue();
+                    .map(SquadronViewModel::getSteps)
+                    .reduce(0, Integer::sum);
 
         totalStepsInRouteToTargetOtherMissions.bind(Bindings.createIntegerBinding(bindingFunction, totalMissions, target, missionType));
     }
@@ -457,9 +456,8 @@ public class AirMissionViewModel {
                 .filter(airMission -> airMission.getMissionType().getValue() == missionType.getValue())
                 .filter(this::filterTargetRegion)
                 .flatMap(airMission -> airMission.getTotalAssigned().getValue().stream())
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .intValue();
+                .map(SquadronViewModel::getSteps)
+                .reduce(0, Integer::sum);
 
         totalStepsInRouteToTargetRegionOtherMissions.bind(Bindings.createIntegerBinding(bindingFunction, totalMissions, target, missionType));
     }
@@ -504,9 +502,8 @@ public class AirMissionViewModel {
                     .filter(airMission -> airMission.getMissionType().getValue() == missionType.getValue())
                     .filter(this::filterAirbaseRegion)
                     .flatMap(airMission -> airMission.getTotalAssigned().getValue().stream())
-                    .map(Squadron::getSteps)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add)
-                    .intValue();
+                    .map(SquadronViewModel::getSteps)
+                    .reduce(0, Integer::sum);
 
         totalStepsFromOtherMissionsLeavingRegion.bind(Bindings.createIntegerBinding(bindingFunction, totalMissions, missionType));
     }
@@ -534,10 +531,10 @@ public class AirMissionViewModel {
      * @param allReady The airbase's ready squadrons.
      * @return A list of the airbase's ready squadrons that can do this mission.
      */
-    private List<Squadron> filter(final ObjectProperty<AirMissionType> selectedMissionType,
-                                  final ObjectProperty<Target> selectedTarget,
-                                  final MissionRole role,
-                                  final ListProperty<Squadron> allReady) {
+    private List<SquadronViewModel> filter(final ObjectProperty<AirMissionType> selectedMissionType,
+                                           final ObjectProperty<Target> selectedTarget,
+                                           final MissionRole role,
+                                           final ListProperty<SquadronViewModel> allReady) {
 
         clearError(role);
 
@@ -556,7 +553,7 @@ public class AirMissionViewModel {
             return Collections.emptyList();
         }
 
-        List<Squadron> capable = allReady
+        List<SquadronViewModel> capable = allReady
                 .getValue()
                 .stream()
                 .filter(squadron -> mayAttack(squadron, selectedTarget.getValue()))
@@ -567,7 +564,7 @@ public class AirMissionViewModel {
             return Collections.emptyList();
         }
 
-        List<Squadron> canDoMission = capable
+        List<SquadronViewModel> canDoMission = capable
                 .stream()
                 .filter(squadron -> canDoMission(squadron, selectedMissionType.getValue()))
                 .collect(Collectors.toList());
@@ -577,7 +574,7 @@ public class AirMissionViewModel {
             return Collections.emptyList();
         }
 
-        List<Squadron> canDoRole = canDoMission
+        List<SquadronViewModel> canDoRole = canDoMission
                 .stream()
                 .filter(squadron -> squadron.canDoRole(role))
                 .collect(Collectors.toList());
@@ -587,7 +584,7 @@ public class AirMissionViewModel {
             return Collections.emptyList();
         }
 
-        List<Squadron> inRange = canDoRole
+        List<SquadronViewModel> inRange = canDoRole
                 .stream()
                 .filter(squadron -> inRange(squadron, selectedTarget.getValue(), selectedMissionType.getValue(), role))
                 .collect(Collectors.toList());
@@ -605,7 +602,7 @@ public class AirMissionViewModel {
      * @param squadron A squadron.
      * @return True if the squadron can be added to the target. False otherwise.
      */
-    private boolean canAddSquadron(final Squadron squadron) {
+    private boolean canAddSquadron(final SquadronViewModel squadron) {
         clearWarning();
 
         if (squadron == null) {
@@ -647,12 +644,12 @@ public class AirMissionViewModel {
      * @param squadron A squadron added to a mission with the selected target as its target.
      * @return True if the current target has no capacity. False otherwise.
      */
-    private boolean targetHasNoCapacity(final Squadron squadron) {
+    private boolean targetHasNoCapacity(final SquadronViewModel squadron) {
         if (squadron == null) {
             return false;
         }
 
-        int squadronSteps = squadron.getSteps().intValue();
+        int squadronSteps = squadron.getSteps();
         return Optional.ofNullable(target.getValue())
                 .map(t -> !t.hasAirbaseCapacity(airbase, totalStepsInRouteToTarget.getValue() + squadronSteps))
                 .orElse(false);
@@ -676,12 +673,12 @@ public class AirMissionViewModel {
      * @param squadron A squadron added to a mission with the selected target as its target.
      * @return True if the current target's region has no capacity. False otherwise.
      */
-    private boolean targetRegionHasNoCapacity(final Squadron squadron) {
+    private boolean targetRegionHasNoCapacity(final SquadronViewModel squadron) {
         if (squadron == null) {
             return false;
         }
 
-        int squadronSteps = squadron.getSteps().intValue();
+        int squadronSteps = squadron.getSteps();
         return Optional.ofNullable(target.getValue())
                 .map(t -> !t.hasRegionCapacity(nation, airbase, totalStepsInRouteToTargetRegion.getValue() + squadronSteps))
                 .orElse(false);
@@ -693,7 +690,7 @@ public class AirMissionViewModel {
      * @param squadron A squadron that might be removed from the airbase's region.
      * @return True if the origin's airbase minimum region is not satisfied. False otherwise.
      */
-    private boolean regionMinimumNotSatisfied(final Squadron squadron) {
+    private boolean regionMinimumNotSatisfied(final SquadronViewModel squadron) {
         if (squadron == null) {
             return false;
         }
@@ -706,7 +703,7 @@ public class AirMissionViewModel {
                 .map(r -> r.getRegion(nation))
                 .orElse(null);
 
-        int totalMissionSquadronSteps = totalStepsLeavingRegion.getValue() + squadron.getSteps().intValue();
+        int totalMissionSquadronSteps = totalStepsLeavingRegion.getValue() + squadron.getSteps();
 
         int totalOtherAirbases = Optional.ofNullable(target.getValue())
                 .map(t -> t.getMissionStepsLeavingRegion(missionType.getValue(), nation, airbase))
@@ -741,7 +738,7 @@ public class AirMissionViewModel {
         data.setType(missionType.getValue());
         data.setTarget(targetName);
 
-        Map<MissionRole, List<String>> squadrons = assigned
+        Map<MissionRole, List<String>> squadronNames = assigned
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
@@ -749,10 +746,10 @@ public class AirMissionViewModel {
                                 .getValue()
                                 .getValue()
                                 .stream()
-                                .map(Squadron::getName)
+                                .map(SquadronViewModel::getNameAsString)
                                 .collect(Collectors.toList())));
 
-        data.setSquadronMap(squadrons);
+        data.setSquadronMap(squadronNames);
 
         return missionDAO.load(data);
     }
@@ -771,7 +768,7 @@ public class AirMissionViewModel {
         data.setType(missionModel.getType());
         data.setTarget(missionModel.getTarget().getName());
 
-        Map<MissionRole, List<String>> squadrons = missionModel
+        Map<MissionRole, List<String>> squadronNames = missionModel
                 .getSquadronMap()
                 .entrySet()
                 .stream()
@@ -783,7 +780,7 @@ public class AirMissionViewModel {
                                 .map(Squadron::getName)
                                 .collect(Collectors.toList())));
 
-        data.setSquadronMap(squadrons);
+        data.setSquadronMap(squadronNames);
 
         return missionDAO.load(data);
     }
@@ -809,7 +806,7 @@ public class AirMissionViewModel {
      * @param type The mission type.
      * @return True if the given squadron can perform the mission. False otherwise.
      */
-    private boolean canDoMission(final Squadron squadron, final AirMissionType type) {
+    private boolean canDoMission(final SquadronViewModel squadron, final AirMissionType type) {
         return Optional.ofNullable(type).map(squadron::canDoMission).orElse(false);
     }
 
@@ -820,8 +817,8 @@ public class AirMissionViewModel {
      * @param selectedTarget The target.
      * @return True if the squadron is allowed to attack the given target.
      */
-    private boolean mayAttack(final Squadron squadron, final Target selectedTarget) {
-        return Optional.ofNullable(selectedTarget).map(t -> t.mayAttack(squadron)).orElse(false);
+    private boolean mayAttack(final SquadronViewModel squadron, final Target selectedTarget) {
+        return Optional.ofNullable(selectedTarget).map(t -> t.mayAttack(squadron.get())).orElse(false);
     }
 
     /**
@@ -833,7 +830,7 @@ public class AirMissionViewModel {
      * @param role The mission role.
      * @return True if the given squadron can perform the mission. False otherwise.
      */
-    private boolean inRange(final Squadron squadron, final Target selectedTarget, final AirMissionType type, final MissionRole role) {
+    private boolean inRange(final SquadronViewModel squadron, final Target selectedTarget, final AirMissionType type, final MissionRole role) {
         return Optional.ofNullable(selectedTarget).map(t -> squadron.inRange(t, type, role)).orElse(false);
     }
 
@@ -955,5 +952,9 @@ public class AirMissionViewModel {
                 .ofNullable(target.getValue())
                 .map(t -> t.getRegion(nation))
                 .orElse(null);
+    }
+
+    private List<SquadronViewModel> getSquadronViewModels(final List<Squadron> squadronModels) {
+        return squadrons.get(squadronModels);
     }
 }

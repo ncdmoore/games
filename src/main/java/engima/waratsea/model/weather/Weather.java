@@ -2,7 +2,7 @@ package engima.waratsea.model.weather;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.game.rules.Rules;
+import engima.waratsea.model.game.rules.GameRules;
 import engima.waratsea.utility.Dice;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Singleton
 @Slf4j
 public class Weather {
-    private final Rules rules;
+    private final GameRules rules;
     private final Dice dice;
 
     @Getter
@@ -25,7 +25,7 @@ public class Weather {
      * @param dice Dice utility.
      */
     @Inject
-    public Weather(final Rules rules,
+    public Weather(final GameRules rules,
                    final Dice dice) {
         this.rules = rules;
         this.dice = dice;

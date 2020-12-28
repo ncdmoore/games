@@ -9,6 +9,8 @@ import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
 import engima.waratsea.model.base.airfield.patrol.stats.PatrolStat;
 import engima.waratsea.model.base.airfield.patrol.stats.PatrolStats;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.rules.GameRules;
+import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.state.SquadronAction;
@@ -17,35 +19,44 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Slf4j
 public class SearchPatrol implements Patrol {
+    private static final LinkedHashSet<SquadronConfig> VALID_SQUADRON_CONFIGS = new LinkedHashSet<>(Arrays.asList(SquadronConfig.SEARCH, SquadronConfig.NONE));
+
     private final List<Squadron> squadrons;
 
     @Getter private final Airbase airbase;
     @Getter private int maxRadius;
 
-    private final PatrolAirRules rules;
+    private final PatrolAirRules searchRules;
+    private final GameRules gameRules;
 
     /**
      * The constructor.
      *
      * @param data The search patrol data read in from a JSON file.
-     * @param rules The air search rules.
+     * @param searchRules The air search rules.
+     * @param gameRules The game rules.
      */
     @Inject
     public SearchPatrol(@Assisted final PatrolData data,
-                                 final @Named("search") PatrolAirRules rules) {
+                                  final @Named("search") PatrolAirRules searchRules,
+                                  final GameRules gameRules) {
 
-        this.rules = rules;
+        this.searchRules = searchRules;
+        this.gameRules = gameRules;
 
         airbase = data.getAirbase();
 
@@ -187,13 +198,32 @@ public class SearchPatrol implements Patrol {
     }
 
     /**
+     * Get the best allowed squadron configuration for this patrol.
+     *
+     * @return The best allowed squadron configuration for this patrols.
+     */
+    @Override
+    public SquadronConfig getBestSquadronConfig() {
+        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO().setPatrolType(PatrolType.SEARCH);
+
+        Set<SquadronConfig> allowed = gameRules.getAllowedSquadronConfig(dto);
+
+        // Get the first config for the given patrol type that is allowed.
+        // This should return the most desired patrol squadron configuration.
+        return VALID_SQUADRON_CONFIGS
+                .stream()
+                .filter(allowed::contains)
+                .findFirst()
+                .orElse(SquadronConfig.NONE);    }
+
+    /**
      * Determine if the patrol is adversely affected by the current weather conditions.
      *
      * @return True if the patrol is affected by the current weather conditions. False otherwise.
      */
     @Override
     public boolean isAffectedByWeather() {
-        return rules.isAffectedByWeather();
+        return searchRules.isAffectedByWeather();
     }
 
     /**
@@ -205,7 +235,7 @@ public class SearchPatrol implements Patrol {
     @Override
     public int getSuccessRate(final int radius) {
         List<Squadron> inRange = getAssignedSquadrons(radius);
-        return rules.getBaseSearchSuccess(radius, inRange);
+        return searchRules.getBaseSearchSuccess(radius, inRange);
     }
 
     /**
@@ -275,7 +305,7 @@ public class SearchPatrol implements Patrol {
         data.put("Squadrons", new PatrolStat(inRange.size(), getPatrolSquadrons(radius)));
         data.put("Steps", new PatrolStat(inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add)));
         data.put("Search", new PatrolStat(getSuccessRate(radius) + " %", getPatrolSearchFactors(radius)));
-        data.put("No Weather", new PatrolStat(rules.getBaseSearchSuccessNoWeather(radius, inRange) + "%"));
+        data.put("No Weather", new PatrolStat(searchRules.getBaseSearchSuccessNoWeather(radius, inRange) + "%"));
 
         return data;
     }
@@ -315,7 +345,7 @@ public class SearchPatrol implements Patrol {
      */
     private Map<String, String> getSearchFactors(final int radius) {
         List<Squadron> inRange = getAssignedSquadrons(radius);
-        return rules.getBaseSearchFactors(radius, inRange);
+        return searchRules.getBaseSearchFactors(radius, inRange);
     }
 
     /**

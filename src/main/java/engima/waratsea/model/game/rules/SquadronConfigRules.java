@@ -13,7 +13,7 @@ import engima.waratsea.model.squadron.SquadronConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -116,9 +116,9 @@ public class SquadronConfigRules {
                 areDropTanksAllowed(role),
                 isStrippedDownAllowed(dto),
                 isSearchAllowed(dto),
-                isReducedPayloadAllowed(dto)));
+                isReducedPayloadAllowed()));
 
-        return new HashSet<>(allowed);
+        return new LinkedHashSet<>(allowed);
     }
 
     /**
@@ -175,10 +175,9 @@ public class SquadronConfigRules {
     /**
      * Determine if reduced payload is allowed.
      *
-     * @param dto The squadron config data transfer object.
      * @return The allowed squadron configuration.
      */
-    private SquadronConfig isReducedPayloadAllowed(final SquadronConfigRulesDTO dto) {
+    private SquadronConfig isReducedPayloadAllowed() {
         return gameTitle.getName() == GameName.CORAL_SEA
                 ? SquadronConfig.REDUCED_PAYLOAD
                 : SquadronConfig.NONE;

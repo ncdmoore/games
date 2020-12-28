@@ -7,7 +7,7 @@ import engima.waratsea.model.aircraft.data.AttackFactorData;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.game.rules.Rules;
+import engima.waratsea.model.game.rules.GameRules;
 import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.target.Target;
@@ -62,7 +62,7 @@ public class Fighter implements Aircraft {
     private final Performance performance;
 
     private final Probability probability;
-    private final Rules rules;
+    private final GameRules rules;
 
     /**
      * The constructor called by guice.
@@ -74,7 +74,7 @@ public class Fighter implements Aircraft {
     @Inject
     public Fighter(@Assisted final AircraftData data,
                              final Probability probability,
-                             final Rules rules) {
+                             final GameRules rules) {
         this.aircraftId = data.getAircraftId();
         this.type = data.getType();
         this.designation = data.getDesignation();
