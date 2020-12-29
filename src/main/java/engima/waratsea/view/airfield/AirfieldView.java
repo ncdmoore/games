@@ -38,7 +38,7 @@ public class AirfieldView {
 
     private Map<Nation, NationAirbaseViewModel> viewModelMap;
 
-    private final TabPane nationsTabPane = new TabPane();
+    @Getter private final TabPane nationsTabPane = new TabPane();
 
     @Getter private final Map<Nation, AirfieldSummaryView> airfieldSummaryView = new HashMap<>();
     @Getter private final Map<Nation, MissionView> airfieldMissionView = new HashMap<>();
@@ -126,6 +126,7 @@ public class AirfieldView {
 
         tab.setGraphic(roundel);
         tab.setContent(hBox);
+        tab.setUserData(nation);
 
         return tab;
     }

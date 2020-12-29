@@ -54,6 +54,8 @@ public class AirfieldAssetSummaryView implements AssetView {
 
     @Getter private final TabPane nationsTabPane = new TabPane();
 
+    private final Map<Nation, Tab> tabMap = new HashMap<>();
+
     private final Provider<AirfieldRegionInfo> airfieldRegionInfoProvider;
     private final Provider<AirfieldSquadronInfo> airfieldSquadronInfoProvider;
     private final Provider<AirfieldMissionInfo> airfieldMissionInfoProvider;
@@ -134,6 +136,16 @@ public class AirfieldAssetSummaryView implements AssetView {
         bind();
 
         return this;
+    }
+
+    /**
+     * Select the given nation's tab.
+     *
+     * @param nation The nation.
+     */
+    public void setNation(final Nation nation) {
+        Tab tab = tabMap.get(nation);
+        nationsTabPane.getSelectionModel().select(tab);
     }
 
     /**
@@ -270,6 +282,7 @@ public class AirfieldAssetSummaryView implements AssetView {
         airbase.
                 getNations()
                 .stream()
+                .sorted()
                 .map(this::buildNationTab)
                 .forEach(tab -> nationsTabPane.getTabs().add(tab));
     }
@@ -394,6 +407,8 @@ public class AirfieldAssetSummaryView implements AssetView {
         hBox.setFillHeight(false);
 
         tab.setContent(hBox);
+
+        tabMap.put(nation, tab);
 
         return tab;
     }

@@ -25,6 +25,7 @@ import engima.waratsea.viewmodel.airfield.PatrolViewModel;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableRow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -139,6 +140,7 @@ public class AirfieldDialog {
      * @param dialog This dialog's view.
      */
     private void registerHandlers(final DialogView dialog) {
+        registerNationTabHandler();
         airbase.getNations().forEach(this::registerMissionHandlers);
         airbase.getNations().forEach(this::registerPatrolHandlers);
         airbase.getNations().forEach(this::registerReadyHandlers);
@@ -148,6 +150,16 @@ public class AirfieldDialog {
         dialog.getOkButton().setOnAction(event -> ok());
     }
 
+    /**
+     * Register the nation tab changed callback handler.
+     */
+    private void registerNationTabHandler() {
+        view
+                .getNationsTabPane()
+                .getSelectionModel()
+                .selectedItemProperty()
+                .addListener((ov, oldTab, newTab) -> nationTabChanged(newTab));
+    }
 
     /**
      * Register the mission handlers for the given nation.
@@ -240,6 +252,19 @@ public class AirfieldDialog {
                 .getSquadrons()
                 .values()
                 .forEach(lv -> registerHandler(lv, (o, ov, nv) -> allSquadronSelected(nation, nv)));
+    }
+
+    /**
+     * The airfield dialog's nation tab has changed. Update the nation tab in the asset summary.
+     *
+     * @param newTab The newly selected tab.
+     */
+    private void nationTabChanged(final Tab newTab) {
+        Nation nation = (Nation) (newTab.getUserData());
+
+        assetPresenter
+                .getAirfieldAssetPresenter()
+                .setNation(nation, airbase);
     }
 
     /**

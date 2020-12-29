@@ -14,6 +14,7 @@ import engima.waratsea.view.airfield.info.AirfieldRangeInfo;
 import engima.waratsea.view.asset.AirfieldAssetSummaryView;
 import engima.waratsea.view.asset.AssetId;
 import engima.waratsea.view.asset.AssetSummaryView;
+import engima.waratsea.view.asset.AssetView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import engima.waratsea.viewmodel.airfield.RangeViewModel;
@@ -23,6 +24,7 @@ import javafx.scene.control.Tab;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -122,6 +124,20 @@ public class AirfieldAssetPresenter {
         } else if (reset) {
             reset(airbase);
         }
+    }
+
+    /**
+     * Select the given nation tab on the given airbase.
+     *
+     * @param nation The nation whose tab is selected.
+     * @param airbase The airbase whose nation tab is selected.
+     */
+    public void setNation(final Nation nation, final Airbase airbase) {
+        AssetSummaryView assetManager = assetSummaryViewProvider.get();
+        AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
+
+        Optional<AssetView> airfieldAssetView = assetManager.getAsset(assetId);
+        airfieldAssetView.ifPresent(asset -> ((AirfieldAssetSummaryView) asset).setNation(nation));
     }
 
     /**
