@@ -12,9 +12,9 @@ import java.util.Map;
  */
 public class MissionAirStrikeRules implements MissionAirRules {
 
-    private Map<WeatherType, Integer> weatherModifier = new HashMap<>();
+    private final Map<WeatherType, Integer> weatherModifier = new HashMap<>();
 
-    private Weather weather;
+    private final Weather weather;
 
     /**
      * Constructor called by guice.
