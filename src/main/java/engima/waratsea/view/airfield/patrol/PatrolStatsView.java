@@ -4,20 +4,16 @@ import com.google.inject.Inject;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.stats.PatrolStat;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.weather.Weather;
-import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.weather.SmallWeatherView;
 import engima.waratsea.viewmodel.airfield.PatrolViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -25,9 +21,8 @@ import java.util.Set;
 
 public class PatrolStatsView {
     private final ViewProps props;
-    private final ImageResourceProvider imageProvider;
 
-    private final Weather weather;
+    private final SmallWeatherView weatherView;
 
     private final VBox vBox = new VBox();
     private final HBox hBox = new HBox();
@@ -39,16 +34,13 @@ public class PatrolStatsView {
      * Constructor called by guice.
      *
      * @param props The view properties.
-     * @param imageProvider Provides images.
-     * @param weather The current weather.
+     * @param weatherView The weather view.
      */
     @Inject
     public PatrolStatsView(final ViewProps props,
-                           final ImageResourceProvider imageProvider,
-                           final Weather weather) {
+                           final SmallWeatherView weatherView) {
         this.props = props;
-        this.imageProvider = imageProvider;
-        this.weather = weather;
+        this.weatherView = weatherView;
 
         vBox.setId("patrol-stats-pane");
         hBox.setId("patrol-stats-hbox");
@@ -185,17 +177,7 @@ public class PatrolStatsView {
      */
     private Node buildWeather(final Patrol patrol) {
         boolean affectedByWeather = patrol.isAffectedByWeather();
-        String text = affectedByWeather ? "Affected by Weather" : "No Weather Affect";
-        Label label = new Label(text);
-        Paint paint = affectedByWeather ? Color.RED : Color.BLACK;
-        label.setTextFill(paint);
-
-        ImageView image = imageProvider.getImageView(props.getString(weather.getCurrent().toLower() + ".small.image"));
-        VBox imageBox = new VBox(label, image);
-
-        imageBox.setId("patrol-weather-box");
-
-        return imageBox;
+        return weatherView.build(affectedByWeather);
     }
 
     private Map<String, Integer> getRanges(final int min, final int med, final int max) {
