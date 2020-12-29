@@ -256,6 +256,8 @@ public class AirfieldDialog {
 
     /**
      * The airfield dialog's nation tab has changed. Update the nation tab in the asset summary.
+     * This way the airfield's dialog nation tab and the airfield's asset summary nation tab are
+     * always in sync.
      *
      * @param newTab The newly selected tab.
      */
