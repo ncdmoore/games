@@ -76,9 +76,9 @@ public class MissionAddDialog {
     public void show(final NationAirbaseViewModel nationAirbaseViewModel) {
         Nation nation = nationAirbaseViewModel.getNation();
 
-        dialog = dialogProvider.get();     // The dialog view that contains the airfield details view.
-        view = viewProvider.get();
-        viewModel = missionViewModelProvider
+        dialog = dialogProvider.get();             // The dialog view that contains the airfield details view.
+        view = viewProvider.get();                 // The mission add view.
+        viewModel = missionViewModelProvider       // The air mission view model.
                 .get()
                 .setNation(nation)
                 .setSquadrons(nationAirbaseViewModel.getSquadrons())
@@ -207,6 +207,8 @@ public class MissionAddDialog {
     private void availableSquadronSelected(final MissionRole role, final SquadronViewModel squadron) {
         if (squadron != null) {
             // Go ahead and set the configuration so that it is consistently shown on the mission.
+            // This way the configuration is the same if the squadron is in the available list
+            // as it is in the assigned list.
             squadron.setConfig(selectedTarget, selectedMissionType, role);
 
             view
@@ -230,6 +232,8 @@ public class MissionAddDialog {
     private void assignedSquadronSelected(final MissionRole role, final SquadronViewModel squadron) {
         if (squadron != null) {
             // Go ahead and set the configuration so that it is consistently shown on the mission.
+            // This way the configuration is the same if the squadron is in the available list
+            // as it is in the assigned list.
             squadron.setConfig(selectedTarget, selectedMissionType, role);
 
             view
@@ -319,9 +323,7 @@ public class MissionAddDialog {
      */
     private void warningHandler(final Boolean warning) {
         if (warning) {
-            warnDialogProvider
-                    .get()
-                    .show(viewModel.getWarningText());
+            warnDialogProvider.get().show(viewModel.getWarningText());
         }
     }
 

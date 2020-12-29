@@ -66,19 +66,20 @@ public class MissionEditDialog {
     //CHECKSTYLE:ON
 
     /**
-     * Show the airfield details dialog.
+     * Show the airfield details dialog. The mission type and target cannot be edited. Only the
+     * squadrons on the mission may be changed.
      *
      * @param currentMission The air base.
      */
     public void show(final AirMissionViewModel currentMission) {
         Nation nation = currentMission.getNation();
 
-        dialog = dialogProvider.get();     // The dialog view that contains the airfield details view.
-        view = viewProvider.get();
+        dialog = dialogProvider.get();         // The dialog view that contains the airfield details view.
+        view = viewProvider.get();             // The edit mission view.
 
         originalViewModel = currentMission;
 
-        viewModel = missionViewModelProvider
+        viewModel = missionViewModelProvider   // The air mission view model.
                 .get()
                 .setSquadrons(currentMission.getSquadrons())
                 .setModel(currentMission.getMission())
@@ -95,8 +96,8 @@ public class MissionEditDialog {
 
         registerHandlers();
 
-        view.getMissionType().getSelectionModel().selectFirst();
-        view.getTarget().getSelectionModel().selectFirst();
+        view.getMissionType().getSelectionModel().selectFirst(); // There is only one mission type for edit mission views.
+        view.getTarget().getSelectionModel().selectFirst();      // There is only none target for edit mission views.
 
         selectedMissionType = view
                 .getMissionType()
@@ -108,8 +109,8 @@ public class MissionEditDialog {
                 .getSelectionModel()
                 .getSelectedItem();
 
-        viewModel.setMissionType(selectedMissionType);
-        viewModel.setTarget(selectedTarget);
+        viewModel.setMissionType(selectedMissionType);           // The mission type cannot be changed.
+        viewModel.setTarget(selectedTarget);                     // The target cannot be changed.
 
         dialog.show(stage);
 
@@ -120,9 +121,7 @@ public class MissionEditDialog {
      * Register callbacks.
      */
     private void registerHandlers() {
-        MissionRole
-                .stream()
-                .forEach(this::registerListHandlers);
+        MissionRole.stream().forEach(this::registerListHandlers);
 
         viewModel.getWarning().addListener((o, ov, nv) -> warningHandler(nv));
 
@@ -163,6 +162,8 @@ public class MissionEditDialog {
     private void availableSquadronSelected(final MissionRole role, final SquadronViewModel squadron) {
         if (squadron != null) {
             // Go ahead and set the configuration so that it is consistently shown on the mission.
+            // This way the configuration is the same if the squadron is in the available list
+            // as it is in the assigned list.
             squadron.setConfig(selectedTarget, selectedMissionType, role);
 
             view
@@ -186,6 +187,8 @@ public class MissionEditDialog {
     private void assignedSquadronSelected(final MissionRole role, final SquadronViewModel squadron) {
         if (squadron != null) {
             // Go ahead and set the configuration so that it is consistently shown on the mission.
+            // This way the configuration is the same if the squadron is in the available list
+            // as it is in the assigned list.
             squadron.setConfig(selectedTarget, selectedMissionType, role);
 
             view
@@ -261,9 +264,7 @@ public class MissionEditDialog {
      */
     private void warningHandler(final Boolean warning) {
         if (warning) {
-            warnDialogProvider
-                    .get()
-                    .show(viewModel.getWarningText());
+            warnDialogProvider.get().show(viewModel.getWarningText());
         }
     }
 

@@ -491,6 +491,9 @@ public class AirfieldDialog {
             SquadronViewType type = SquadronViewType.get(allSquadron.getType());
             SquadronState state = viewModelMap.get(nation).determineSquadronState(allSquadron);
 
+            // Since the configuration is set when an available (ready) squadron is selected in
+            // either the patrol or mission screens, the configuration for any ready squadron
+            // is reset to NONE when viewed on the 'all' squadrons screen.
             if (state == SquadronState.READY) {
                 allSquadron.setConfig(SquadronConfig.NONE);
             }
