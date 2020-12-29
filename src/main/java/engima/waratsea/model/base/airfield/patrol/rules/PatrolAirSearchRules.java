@@ -1,7 +1,6 @@
 package engima.waratsea.model.base.airfield.patrol.rules;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.weather.Weather;
 import engima.waratsea.utility.Dice;
@@ -15,7 +14,7 @@ import java.util.Map;
  *
  */
 public class PatrolAirSearchRules implements PatrolAirRules {
-    private final PatrolSearchRules searchRules;
+    private final SearchPatrolSearchRules searchRules;
 
     /**
      * Constructor called by guice.
@@ -25,7 +24,7 @@ public class PatrolAirSearchRules implements PatrolAirRules {
      */
     @Inject
     public PatrolAirSearchRules(final Weather weather, final Dice dice) {
-        searchRules = new PatrolSearchRules(AssetType.SHIP, weather, dice);
+        searchRules = new SearchPatrolSearchRules(weather, dice);
     }
 
     /**

@@ -2,7 +2,6 @@ package engima.waratsea.model.base.airfield.patrol.rules;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.AircraftType;
-import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.weather.Weather;
 import engima.waratsea.model.weather.WeatherType;
@@ -17,18 +16,10 @@ import java.util.Map;
 /**
  * A utility class for air search.
  */
-public class PatrolSearchRules {
+public class SearchPatrolSearchRules {
     private static final int SHIP_SEARCH_FACTOR = 3;
-    private static final int SUB_SEARCH_FACTOR = 1;
     private static final int DEFAULT_STEP_FACTOR = 3;
     private static final int DEFAULT_DISTANCE_FACTOR = -4;
-
-    private static final Map<AssetType, Integer> ASSET_MAP = new HashMap<>();
-
-    static {
-        ASSET_MAP.put(AssetType.SHIP, SHIP_SEARCH_FACTOR);
-        ASSET_MAP.put(AssetType.SUB, SUB_SEARCH_FACTOR);
-    }
 
     private final Map<Integer, Integer> stepFactor = new HashMap<>();
     private final Map<WeatherType, Integer> weatherFactor = new HashMap<>();
@@ -41,16 +32,14 @@ public class PatrolSearchRules {
     private final int searchFactor;
 
     /**
-     * Constructor.
+     * Constructor called by guice.
      *
-     * @param assetType The type of asset searched for.
-     * @param weather The game's weather.
+     *  @param weather The game's weather.
      * @param dice A dice utility.
      */
     @Inject
-    public PatrolSearchRules(final AssetType assetType,
-                             final Weather weather,
-                             final Dice dice) {
+    public SearchPatrolSearchRules(final Weather weather,
+                                   final Dice dice) {
         this.weather = weather;
         this.dice = dice;
 
@@ -83,7 +72,7 @@ public class PatrolSearchRules {
         fighterFactor.put(true, -1);
         //CHECKSTYLE:ON: MagicNumber
 
-        searchFactor = ASSET_MAP.get(assetType);
+        searchFactor = SHIP_SEARCH_FACTOR;
     }
 
     /**
@@ -122,11 +111,11 @@ public class PatrolSearchRules {
         boolean fighterPresent = areFightersPresent(squadrons);
 
         Map<String, String> factorMap = new LinkedHashMap<>();
-        factorMap.put("Base", searchFactor + "");
-        factorMap.put("Distance", getDistanceFactor(distance) + "");
-        factorMap.put("Steps", getStepFactor(steps) + "");
-        factorMap.put("Fighters", getFighterFactor(fighterPresent) + "");
-        factorMap.put("Weather", getWeatherFactor() + "");
+        factorMap.put("Base Factor", searchFactor + "");
+        factorMap.put("Distance Factor", getDistanceFactor(distance) + "");
+        factorMap.put("Step Factor", getStepFactor(steps) + "");
+        factorMap.put("Fighters Factor", getFighterFactor(fighterPresent) + "");
+        factorMap.put("Weather Factor", getWeatherFactor() + "");
 
         return factorMap;
     }

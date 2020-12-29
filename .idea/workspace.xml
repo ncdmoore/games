@@ -8,9 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/weather/SmallWeatherView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/rules/MissionAirSweepRules.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/rules/AswPatrolSearchRules.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolStatsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolStatsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/rules/PatrolAirAswRules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/rules/PatrolAirAswRules.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/rules/PatrolAirSearchRules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/rules/PatrolAirSearchRules.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/rules/PatrolSearchRules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/rules/SearchPatrolSearchRules.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,26 +97,26 @@
     <property name="settings.editor.selected.configurable" value="Lombok plugin" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
-      <recent name="$PROJECT_DIR$/src/main/resources/coralSea/images" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/flotilla" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="engima.waratsea.viewmodel" />
-      <recent name="engima.waratsea.view.airfield.mission" />
-      <recent name="engima.waratsea.presenter.airfield.mission" />
-      <recent name="engima.waratsea.view.airfield.info" />
-      <recent name="engima.waratsea.view.squadron" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/maps/allies" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/maps/axis" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/maps/neutral" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/capeTeulada/victory" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/maps/axis" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="engima.waratsea.model.base.airfield.patrol.rules" />
+      <recent name="engima.waratsea.viewmodel" />
+      <recent name="engima.waratsea.view.airfield.mission" />
+      <recent name="engima.waratsea.presenter.airfield.mission" />
+      <recent name="engima.waratsea.view.airfield.info" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
+      <recent name="$PROJECT_DIR$/src/main/resources/coralSea/images" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/flotilla" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Main">
@@ -278,27 +281,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00280" summary="Re-write squadron views to use bindings.">
-      <created>1601243861845</created>
-      <option name="number" value="00280" />
-      <option name="presentableId" value="LOCAL-00280" />
-      <option name="project" value="LOCAL" />
-      <updated>1601243861846</updated>
-    </task>
-    <task id="LOCAL-00281" summary="Re-write ship views to use bindings.">
-      <created>1603926687693</created>
-      <option name="number" value="00281" />
-      <option name="presentableId" value="LOCAL-00281" />
-      <option name="project" value="LOCAL" />
-      <updated>1603926687693</updated>
-    </task>
-    <task id="LOCAL-00282" summary="Re-write ship views to use bindings.">
-      <created>1605455182029</created>
-      <option name="number" value="00282" />
-      <option name="presentableId" value="LOCAL-00282" />
-      <option name="project" value="LOCAL" />
-      <updated>1605455182029</updated>
     </task>
     <task id="LOCAL-00283" summary="Re-write ship views to use bindings.">
       <created>1605465945679</created>
@@ -622,7 +604,28 @@
       <option name="project" value="LOCAL" />
       <updated>1609219530269</updated>
     </task>
-    <option name="localTasksCounter" value="329" />
+    <task id="LOCAL-00329" summary="Add the small weather view as a separate view component.">
+      <created>1609273614376</created>
+      <option name="number" value="00329" />
+      <option name="presentableId" value="LOCAL-00329" />
+      <option name="project" value="LOCAL" />
+      <updated>1609273614376</updated>
+    </task>
+    <task id="LOCAL-00330" summary="Cleanup warnings.">
+      <created>1609274120496</created>
+      <option name="number" value="00330" />
+      <option name="presentableId" value="LOCAL-00330" />
+      <option name="project" value="LOCAL" />
+      <updated>1609274120496</updated>
+    </task>
+    <task id="LOCAL-00331" summary="Replace german ferry png.">
+      <created>1609274711533</created>
+      <option name="number" value="00331" />
+      <option name="presentableId" value="LOCAL-00331" />
+      <option name="project" value="LOCAL" />
+      <updated>1609274711533</updated>
+    </task>
+    <option name="localTasksCounter" value="332" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -637,9 +640,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Make airbase's aircraft model types available per nation." />
-    <MESSAGE value="Add range helper to airfield asset summary view." />
-    <MESSAGE value="Add range marker to airfield asset summary views." />
     <MESSAGE value="Properly bind scenario selection view model." />
     <MESSAGE value="Add victory conditions dialog." />
     <MESSAGE value="Add a neutral player with neutral ports and airfields." />
@@ -662,7 +662,10 @@
     <MESSAGE value="Add some additional comments." />
     <MESSAGE value="Fix French airfield images." />
     <MESSAGE value="Ensure that the airfield dialog's nation tab and the airfield asset summary nation tab are synchronized." />
-    <option name="LAST_COMMIT_MESSAGE" value="Ensure that the airfield dialog's nation tab and the airfield asset summary nation tab are synchronized." />
+    <MESSAGE value="Add the small weather view as a separate view component." />
+    <MESSAGE value="Cleanup warnings." />
+    <MESSAGE value="Replace german ferry png." />
+    <option name="LAST_COMMIT_MESSAGE" value="Replace german ferry png." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1226" y="483" key="#Notifications" timestamp="1608845038148">
@@ -689,26 +692,26 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1337" y="547" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1600645261731" />
-    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1609219530054">
+    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1609274706101">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1609219530054" />
-    <state width="1937" height="362" key="GridCell.Tab.0.bottom" timestamp="1609273479484">
+    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1609274706101" />
+    <state width="1937" height="362" key="GridCell.Tab.0.bottom" timestamp="1609279951940">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="362" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1609273479484" />
-    <state width="1937" height="362" key="GridCell.Tab.0.center" timestamp="1609273479484">
+    <state width="1937" height="362" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1609279951940" />
+    <state width="1937" height="362" key="GridCell.Tab.0.center" timestamp="1609279951939">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="362" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1609273479484" />
-    <state width="1937" height="362" key="GridCell.Tab.0.left" timestamp="1609273479484">
+    <state width="1937" height="362" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1609279951939" />
+    <state width="1937" height="362" key="GridCell.Tab.0.left" timestamp="1609279951939">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="362" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1609273479484" />
-    <state width="1937" height="362" key="GridCell.Tab.0.right" timestamp="1609273479484">
+    <state width="1937" height="362" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1609279951939" />
+    <state width="1937" height="362" key="GridCell.Tab.0.right" timestamp="1609279951940">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="362" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1609273479484" />
+    <state width="1937" height="362" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1609279951940" />
     <state width="1937" height="133" key="GridCell.Tab.1.bottom" timestamp="1609095597497">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -733,10 +736,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1026" y="324" width="1295" height="837" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1608843396315" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1609219535956">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1609274714662">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1609219535956" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1609274714662" />
     <state x="17" y="33" width="2102" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1609013282975">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -749,18 +752,18 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1146" y="369" width="1255" height="834" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1609133505393" />
-    <state x="1696" y="493" key="refactoring.ChangeSignatureDialog" timestamp="1607279967581">
+    <state x="1696" y="493" key="refactoring.ChangeSignatureDialog" timestamp="1609279167909">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1696" y="493" key="refactoring.ChangeSignatureDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1607279967581" />
+    <state x="1696" y="493" key="refactoring.ChangeSignatureDialog/0.23.2560.1349@0.23.2560.1349" timestamp="1609279167909" />
     <state x="1173" y="306" key="run.anything.popup" timestamp="1608862964084">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1173" y="306" key="run.anything.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1608862964084" />
-    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup" timestamp="1609219238675">
+    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup" timestamp="1609279316447">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1609219238675" />
+    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1609279316447" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
