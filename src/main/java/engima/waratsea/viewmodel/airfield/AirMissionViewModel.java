@@ -68,6 +68,8 @@ public class AirMissionViewModel {
 
     @Getter private final ListProperty<ProbabilityStats> missionStats = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
+    @Getter private final BooleanProperty isAffectedByWeather = new SimpleBooleanProperty(false);
+
     @Getter private final Map<MissionRole, BooleanProperty> error = new HashMap<>();
     @Getter private final Map<MissionRole, String> errorText = new HashMap<>();
 
@@ -89,7 +91,7 @@ public class AirMissionViewModel {
     @Getter private final IntegerProperty missionId = new SimpleIntegerProperty(0);
     @Getter private int id;
 
-    @Getter private final SimpleListProperty<SquadronViewModel> ready = new SimpleListProperty<>(FXCollections.observableList(new ArrayList<>()));
+    @Getter private final ListProperty<SquadronViewModel> ready = new SimpleListProperty<>(FXCollections.observableList(new ArrayList<>()));
 
     private boolean checkCapacity = true;  //For new missions the capacity of the target is checked. For existing mission it is not.
 
@@ -194,6 +196,8 @@ public class AirMissionViewModel {
 
         totalAssigned.setValue(FXCollections.observableArrayList(getSquadronViewModels(mission.getSquadronsAllRoles())));
         totalAssignedCount.setValue(mission.getSquadronsAllRoles().size());
+
+        isAffectedByWeather.setValue(mission.isAffectedByWeather());
 
         return this;
     }
@@ -792,6 +796,7 @@ public class AirMissionViewModel {
         log.debug("Build temp mission with id 0");
 
         AirMission tempMission = buildMission(0);
+        isAffectedByWeather.setValue(tempMission.isAffectedByWeather());
 
         log.debug("Mission object: '{}'", tempMission);
 

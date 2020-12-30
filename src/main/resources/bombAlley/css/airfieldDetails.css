@@ -92,7 +92,7 @@
     -fx-alignment: top-center;
 }
 
-#patrol-weather-box {
+#affected-weather-box {
     -fx-border-color: black;
     -fx-background-color: whitesmoke;
     -fx-alignment: top-center;

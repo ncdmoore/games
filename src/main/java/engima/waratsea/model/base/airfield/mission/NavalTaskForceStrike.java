@@ -203,6 +203,16 @@ public class NavalTaskForceStrike implements AirMission {
     }
 
     /**
+     * Determine if the mission is adversely affected by the current weather conditions.
+     *
+     * @return True if the mission is affected by the current weather conditions. False otherwise.
+     */
+    @Override
+    public boolean isAffectedByWeather() {
+        return false;
+    }
+
+    /**
      * Get the target task force.
      *
      * @return The target task force.

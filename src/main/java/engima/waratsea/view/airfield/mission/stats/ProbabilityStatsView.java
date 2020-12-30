@@ -103,10 +103,6 @@ public class ProbabilityStatsView {
             row++;
         }
 
-        VBox vBox = new VBox(title, gridPane);
-        vBox.setMaxWidth(props.getInt("airfield.dialog.mission.list.width"));
-        vBox.setMinWidth(props.getInt("airfield.dialog.mission.list.width"));
-
-        return vBox;
+        return new VBox(title, gridPane);
     }
 }

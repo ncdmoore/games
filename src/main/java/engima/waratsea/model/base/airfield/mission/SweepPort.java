@@ -234,6 +234,16 @@ public class SweepPort implements AirMission {
         return List.of(interceptionProbability, stepHitProbability);    }
 
     /**
+     * Determine if the mission is adversely affected by the current weather conditions.
+     *
+     * @return True if the mission is affected by the current weather conditions. False otherwise.
+     */
+    @Override
+    public boolean isAffectedByWeather() {
+        return rules.isAffectedByWeather();
+    }
+
+    /**
      * Get the target port.
      *
      * @return The target port.

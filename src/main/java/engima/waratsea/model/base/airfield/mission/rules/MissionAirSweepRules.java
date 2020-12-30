@@ -46,4 +46,14 @@ public class MissionAirSweepRules implements MissionAirRules {
     public int getModifier() {
         return weatherModifier.get(weather.getCurrent());
     }
+
+    /**
+     * Determine if the mission is affected by the current weather.
+     *
+     * @return True if the mission is adversely affected by the current weather. False otherwise.
+     */
+    @Override
+    public boolean isAffectedByWeather() {
+        return getModifier() < 0;
+    }
 }

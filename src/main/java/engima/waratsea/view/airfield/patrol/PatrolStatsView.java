@@ -66,6 +66,7 @@ public class PatrolStatsView {
     public void bind(final PatrolViewModel viewModel) {
         viewModel.getAssignedAllNations().addListener((o, ov, nv) -> setAssigned(viewModel.getPatrol()));
         setAssigned(viewModel.getPatrol());
+        weatherView.bind(viewModel.getIsAffectedByWeather());
     }
 
     /**
@@ -102,7 +103,7 @@ public class PatrolStatsView {
                 hBox.getChildren().add(label);
             }
 
-            Node imageBox = buildWeather(patrol);
+            Node imageBox = weatherView.build();
             hBox.getChildren().add(imageBox);
             vBox.getChildren().addAll(titlePane, hBox);
         }
@@ -167,17 +168,6 @@ public class PatrolStatsView {
             gridPane.add(label, col, rowIndex);
             col++;
         }
-    }
-
-    /**
-     * Build the weather image.
-     *
-     * @param patrol The patrol.
-     * @return The node containing the weather image.
-     */
-    private Node buildWeather(final Patrol patrol) {
-        boolean affectedByWeather = patrol.isAffectedByWeather();
-        return weatherView.build(affectedByWeather);
     }
 
     private Map<String, Integer> getRanges(final int min, final int med, final int max) {

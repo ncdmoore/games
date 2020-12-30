@@ -126,7 +126,7 @@ public class AswPatrolSearchRules {
     }
 
     /**
-     * Determine if the search patrol is affected by the current weather.
+     * Determine if the asw patrol is affected by the current weather.
      *
      * @return True if the patrol is adversely affected by the current weather. False otherwise.
      */

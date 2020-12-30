@@ -44,6 +44,8 @@ public class PatrolViewModel {
     @Getter private final Map<Nation, BooleanProperty> availableExists = new HashMap<>();
     @Getter private final Map<Nation, BooleanProperty> assignedExists = new HashMap<>();
 
+    @Getter private final BooleanProperty isAffectedByWeather = new SimpleBooleanProperty(false);
+
     @Getter private SquadronsViewModel squadrons;
 
     @Getter private Patrol patrol;
@@ -93,6 +95,8 @@ public class PatrolViewModel {
 
         nations.forEach(this::setAssignedSquadrons);
         assignedAllNations.set(FXCollections.observableArrayList(squadronsOnPatrol));
+
+        isAffectedByWeather.setValue(patrolModel.isAffectedByWeather());
 
         return this;
     }
@@ -199,6 +203,7 @@ public class PatrolViewModel {
      */
     private void updatePatrolStats(final List<SquadronViewModel> squadronsOnPatrol) {
         patrol = buildPatrol(squadronsOnPatrol);
+        isAffectedByWeather.setValue(patrol.isAffectedByWeather());
     }
 
     /**

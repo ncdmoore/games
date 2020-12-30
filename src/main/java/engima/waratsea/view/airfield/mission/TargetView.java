@@ -6,10 +6,10 @@ import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.view.airfield.mission.stats.FerryView;
 import engima.waratsea.view.airfield.mission.stats.StatsView;
 import engima.waratsea.view.airfield.mission.stats.StrikeView;
+import engima.waratsea.view.weather.SmallWeatherView;
 import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,24 +19,31 @@ import java.util.Map;
  * Represents the mission's target view details.
  */
 public class TargetView {
-    private final VBox vBox = new VBox();
-    @Getter private final Map<AirMissionType, StatsView> viewMap = new HashMap<>();
+    private final VBox statsVBox = new VBox();
+    private final VBox mainVBox = new VBox();
+    private final SmallWeatherView weatherView;
+
+    private final Map<AirMissionType, StatsView> viewMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
      *
      * @param ferryViewProvider The ferry view provider.
      * @param strikeViewProvider The strike view provider.
+     * @param weatherView The weather view.
      */
     @Inject
     public TargetView(final Provider<FerryView> ferryViewProvider,
-                      final Provider<StrikeView> strikeViewProvider) {
+                      final Provider<StrikeView> strikeViewProvider,
+                      final SmallWeatherView weatherView) {
         viewMap.put(AirMissionType.FERRY, ferryViewProvider.get().build());
         viewMap.put(AirMissionType.LAND_STRIKE, strikeViewProvider.get().build());
         viewMap.put(AirMissionType.NAVAL_PORT_STRIKE, strikeViewProvider.get().build());
         viewMap.put(AirMissionType.NAVAL_TASK_FORCE_STRIKE, strikeViewProvider.get().build());
         viewMap.put(AirMissionType.SWEEP_AIRFIELD, strikeViewProvider.get().build());
         viewMap.put(AirMissionType.SWEEP_PORT, strikeViewProvider.get().build());
+
+        this.weatherView = weatherView;
     }
 
     /**
@@ -45,7 +52,12 @@ public class TargetView {
      * @return The target view.
      */
     public Node build() {
-        return vBox;
+        Node weatherNode = weatherView.build();
+        mainVBox.getChildren().addAll(statsVBox, weatherNode);
+
+        mainVBox.setId("mission-main-vbox");
+
+        return mainVBox;
     }
 
     /**
@@ -61,7 +73,9 @@ public class TargetView {
                 .values()
                 .forEach(targetView -> targetView.bind(viewModel));
 
-        return vBox;
+        weatherView.bind(viewModel.getIsAffectedByWeather());
+
+        return mainVBox;
     }
 
 
@@ -71,11 +85,11 @@ public class TargetView {
      * @param missionType The mission type to show.
      */
     public void missionTypeSelected(final AirMissionType missionType) {
-        vBox
+        statsVBox
                 .getChildren()
                 .clear();
 
-        vBox
+        statsVBox
                 .getChildren()
                 .add(viewMap.get(missionType).getContents());
     }

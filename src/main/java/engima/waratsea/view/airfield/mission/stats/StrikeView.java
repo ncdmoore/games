@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.target.Target;
-import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
@@ -26,18 +25,14 @@ public class StrikeView implements StatsView {
     private Node statsNode;
     private final ProbabilityStatsView statsView;
 
-    private final ViewProps props;
     /**
      * Constructor.
      *
      * @param statsView The probability of success view.
-     * @param props The view properties.
      */
     @Inject
-    public StrikeView(final ProbabilityStatsView statsView,
-                      final ViewProps props) {
+    public StrikeView(final ProbabilityStatsView statsView) {
         this.statsView = statsView;
-        this.props = props;
     }
 
     /**
@@ -131,10 +126,6 @@ public class StrikeView implements StatsView {
         gridPane.add(inRouteValue, 1, 1);
         gridPane.setId("target-step-summary-grid");
 
-        VBox vBox = new VBox(airbaseTitle, gridPane);
-        vBox.setMaxWidth(props.getInt("airfield.dialog.mission.list.width"));
-        vBox.setMinWidth(props.getInt("airfield.dialog.mission.list.width"));
-
-        return vBox;
+        return new VBox(airbaseTitle, gridPane);
     }
 }

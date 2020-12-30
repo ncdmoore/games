@@ -255,6 +255,16 @@ public class LandStrike implements AirMission {
     }
 
     /**
+     * Determine if the mission is adversely affected by the current weather conditions.
+     *
+     * @return True if the mission is affected by the current weather conditions. False otherwise.
+     */
+    @Override
+    public boolean isAffectedByWeather() {
+        return rules.isAffectedByWeather();
+    }
+
+    /**
      * Get the target air base.
      *
      * @return The target air base.

@@ -106,4 +106,11 @@ public interface AirMission extends PersistentData<MissionData> {
      * @return The probability that this mission will be successful.
      */
     List<ProbabilityStats> getMissionProbability();
+
+    /**
+     * Determine if the mission is adversely affected by the current weather conditions.
+     *
+     * @return True if the mission is affected by the current weather conditions. False otherwise.
+     */
+    boolean isAffectedByWeather();
 }
