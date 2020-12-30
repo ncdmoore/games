@@ -287,10 +287,10 @@ public class NavalPortStrike implements AirMission {
      * @param factors The squadrons on this mission land attack modifiers and factors.
      * @return The probability map as illustrated above.
      */
-    private Map<Integer, Integer> buildProbabilityShipHit(final Map<Double, Integer> factors) {
+    private Map<String, Integer> buildProbabilityShipHit(final Map<Double, Integer> factors) {
         return SHIP_HIT_SET
                 .stream()
-                .collect(Collectors.toMap(numHits -> numHits,
+                .collect(Collectors.toMap(numHits -> numHits + "",
                         numHits -> getProbability(numHits, factors)));
     }
 

@@ -2,9 +2,11 @@ package engima.waratsea.model.base.airfield.mission;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 import engima.waratsea.model.aircraft.AttackType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
+import engima.waratsea.model.base.airfield.mission.rules.MissionAirRules;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
@@ -18,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +28,16 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a ferry mission where squadrons relocate to a new air base.
+ */
 @Slf4j
 public class SweepAirfield implements AirMission {
     private final Game game;
+    private final MissionAirRules rules;
     private final Dice dice;
 
+    private static final int INTERCEPT_FACTOR = 3; // CAP interception occurs on values 3-6 of a single six-sided die roll.
     private static final BigDecimal PERCENTAGE = new BigDecimal(100);
     private static final Set<Integer> STEP_HIT_SET = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
 
@@ -47,14 +55,17 @@ public class SweepAirfield implements AirMission {
      *
      * @param data The mission data read in from a JSON file.
      * @param game The game.
+     * @param rules The air sweep rules.
      * @param dice The dice utility.
      */
     @Inject
     public SweepAirfield(@Assisted final MissionData data,
-                                   final Game game,
-                                   final Dice dice) {
+                         final Game game,
+                         final @Named("airSweep") MissionAirRules rules,
+                         final Dice dice) {
         id = data.getId();
         this.game = game;
+        this.rules = rules;
         this.dice = dice;
 
         nation = data.getNation();
@@ -213,12 +224,17 @@ public class SweepAirfield implements AirMission {
     public List<ProbabilityStats> getMissionProbability() {
         Map<Double, Integer> factors = getAttackMap();
 
+        ProbabilityStats interceptionProbability = new ProbabilityStats();
+        interceptionProbability.setTitle("Interception");
+        interceptionProbability.setEventColumnTitle("Intercept");
+        interceptionProbability.setProbability(buildProbabilityIntercept());
+
         ProbabilityStats stepHitProbability = new ProbabilityStats();
         stepHitProbability.setTitle("Steps Hit");
         stepHitProbability.setEventColumnTitle("Steps Hit");
         stepHitProbability.setProbability(buildProbabilityAirHit(factors));
 
-        return Collections.singletonList(stepHitProbability);
+        return List.of(interceptionProbability, stepHitProbability);
     }
 
     /**
@@ -236,6 +252,17 @@ public class SweepAirfield implements AirMission {
                 .orElse(null);
 
         return targetAirbase;
+    }
+
+    /**
+     * Build the probability that the sweep successfully intercepts the CAP over the target.
+     *
+     * @return A fixed map that indicates the chance of successfully intercepting the CAP.
+     */
+    private Map<String, Integer> buildProbabilityIntercept() {
+        Map<String, Integer> prob = new HashMap<>();
+        prob.put("CAP", dice.probabilityPercentage(INTERCEPT_FACTOR + rules.getModifier(), 1));
+        return prob;
     }
 
     /**
@@ -279,10 +306,10 @@ public class SweepAirfield implements AirMission {
      * @param factors The squadrons on this mission individual air attack probability and factors.
      * @return The probability map as illustrated above.
      */
-    private Map<Integer, Integer> buildProbabilityAirHit(final Map<Double, Integer> factors) {
+    private Map<String, Integer> buildProbabilityAirHit(final Map<Double, Integer> factors) {
         return STEP_HIT_SET
                 .stream()
-                .collect(Collectors.toMap(numHits -> numHits,
+                .collect(Collectors.toMap(numHits -> numHits + "",
                         numHits -> getProbability(numHits, factors)));
     }
 

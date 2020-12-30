@@ -91,7 +91,7 @@ public class Dice {
 
         int result = (int) ((1.0 - (num / den)) * PERCENTAGE);
 
-        return (result > 0) ? result : 0;   // any negative results are set to 0.
+        return Math.max(result, 0);   // any negative results are set to 0.
     }
 
     /**

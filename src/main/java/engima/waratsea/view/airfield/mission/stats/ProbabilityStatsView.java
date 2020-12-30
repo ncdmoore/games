@@ -82,12 +82,12 @@ public class ProbabilityStatsView {
         gridPane.add(probHeader, 1, 0);
         gridPane.setId("mission-stats-grid");
 
-        Map<Integer, Integer> probability = probabilityStats.getProbability();
+        Map<String, Integer> probability = probabilityStats.getProbability();
 
         int row = 1;
-        for (Map.Entry<Integer, Integer> entry : probability.entrySet()) {
+        for (Map.Entry<String, Integer> entry : probability.entrySet()) {
 
-            Label event = new Label(entry.getKey() + "");
+            Label event = new Label(entry.getKey());
             event.setMaxWidth(props.getInt("mission.grid.label.width"));
             event.setMinWidth(props.getInt("mission.grid.label.width"));
             event.setId("mission-stats-cell");

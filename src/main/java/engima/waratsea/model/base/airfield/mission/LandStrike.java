@@ -285,11 +285,11 @@ public class LandStrike implements AirMission {
      * @param factors The squadrons on this mission land attack modifiers and factors.
      * @return The probability map as illustrated above.
      */
-    private Map<Integer, Integer> buildProbabilityAirfieldDamaged(final Map<Double, Integer> factors) {
+    private Map<String, Integer> buildProbabilityAirfieldDamaged(final Map<Double, Integer> factors) {
         return CAPACITY_HIT_SET
                 .stream()
-                .collect(Collectors.toMap(CAPACITY_REDUCED_MAP::get,
-                                           numHits -> getProbability(numHits, factors)));
+                .collect(Collectors.toMap(numHits -> CAPACITY_REDUCED_MAP.get(numHits) + "",
+                        numHits -> getProbability(numHits, factors)));
     }
 
     /**
@@ -306,10 +306,10 @@ public class LandStrike implements AirMission {
      * @param factors The squadrons on this mission land attack modifiers and factors.
      * @return The probability map as illustrated above.
      */
-    private Map<Integer, Integer> buildProbabilityStepDestroyed(final Map<Double, Integer> factors) {
+    private Map<String, Integer> buildProbabilityStepDestroyed(final Map<Double, Integer> factors) {
         return STEP_HIT_SET
                 .stream()
-                .collect(Collectors.toMap(STEP_ELIMINATED_MAP::get,
+                .collect(Collectors.toMap(numHits -> STEP_ELIMINATED_MAP.get(numHits) + "",
                                           numHits -> getProbability(numHits, factors)));
     }
 

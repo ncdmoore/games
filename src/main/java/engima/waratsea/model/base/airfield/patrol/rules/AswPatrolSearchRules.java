@@ -17,9 +17,9 @@ import java.util.Map;
  * A utility class for air search.
  */
 public class AswPatrolSearchRules {
-    private static final int SUB_SEARCH_FACTOR = 1;
-    private static final int DEFAULT_STEP_FACTOR = 3;
-    private static final int DEFAULT_DISTANCE_FACTOR = -4;
+    private static final int SUB_SEARCH_FACTOR = 1;              // A 6 on a single six-sided die roll spots a sub.
+    private static final int DEFAULT_STEP_FACTOR = 3;            // Patrols with more than 5 total steps.
+    private static final int DEFAULT_DISTANCE_FACTOR = -4;       // Distance greater than 8 grids.
 
     private static final Map<LandingType, Integer> LANDING_TYPE_STEP_FACTOR = Map.of(
             LandingType.CARRIER, 1,

@@ -20,5 +20,5 @@ public class ProbabilityStats {
 
     @Getter
     @Setter
-    private Map<Integer, Integer> probability;
+    private Map<String, Integer> probability;
 }

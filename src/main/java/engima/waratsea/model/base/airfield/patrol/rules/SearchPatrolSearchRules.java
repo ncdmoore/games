@@ -17,9 +17,9 @@ import java.util.Map;
  * A utility class for air search.
  */
 public class SearchPatrolSearchRules {
-    private static final int SHIP_SEARCH_FACTOR = 3;
-    private static final int DEFAULT_STEP_FACTOR = 3;
-    private static final int DEFAULT_DISTANCE_FACTOR = -4;
+    private static final int SHIP_SEARCH_FACTOR = 3;              // 3-6 on a single six-sided die roll spots a task force.
+    private static final int DEFAULT_STEP_FACTOR = 3;             // Patrols with more than 5 total steps.
+    private static final int DEFAULT_DISTANCE_FACTOR = -4;        // Distances greater than 8 grids.
 
     private final Map<Integer, Integer> stepFactor = new HashMap<>();
     private final Map<WeatherType, Integer> weatherFactor = new HashMap<>();

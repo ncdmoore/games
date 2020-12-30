@@ -20,6 +20,7 @@ import engima.waratsea.model.base.airfield.mission.SweepAirfield;
 import engima.waratsea.model.base.airfield.mission.SweepPort;
 import engima.waratsea.model.base.airfield.mission.rules.MissionAirRules;
 import engima.waratsea.model.base.airfield.mission.rules.MissionAirStrikeRules;
+import engima.waratsea.model.base.airfield.mission.rules.MissionAirSweepRules;
 import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirAswRules;
 import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirCapRules;
 import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
@@ -196,6 +197,7 @@ public class BasicModule extends AbstractModule {
                 .build(engima.waratsea.model.base.airfield.mission.MissionFactory.class));
 
         bind(MissionAirRules.class).annotatedWith(Names.named("airStrike")).to(MissionAirStrikeRules.class);
+        bind(MissionAirRules.class).annotatedWith(Names.named("airSweep")).to(MissionAirSweepRules.class);
 
 
         install(new FactoryModuleBuilder()
