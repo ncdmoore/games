@@ -73,7 +73,10 @@ public class Dice {
 
         double result =  1.0 - (num / den);
 
-        return (result > 0) ? result : 0;   // any negative results are set to 0.
+        result = Math.max(result, 0.0);
+        result = Math.min(result, 1.0);
+
+        return result;   // any negative results are set to 0.
     }
 
     /**
@@ -89,7 +92,10 @@ public class Dice {
 
         int result = (int) ((1.0 - (num / den)) * PERCENTAGE);
 
-        return Math.max(result, 0);   // any negative results are set to 0.
+        result = Math.max(result, 0);
+        result = Math.min(result, PERCENTAGE);
+
+        return result;   // any negative results are set to 0.
     }
 
     /**

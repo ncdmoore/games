@@ -32,13 +32,13 @@ public class Turn {
     private final GameRules rules;   //Game specific rules.
 
     @Getter
-    private int turn;            //One day equals 6 turns.
+    private int turn;                //One day equals 6 turns.
 
     @Getter
     private TurnType type;
 
     @Getter
-    private TurnIndex index;     //Used to determine the type of turn.
+    private TurnIndex index;         //Used to determine the type of turn.
 
     private Date date;
 
@@ -148,6 +148,17 @@ public class Turn {
      */
     public TurnType getTrue(final int month) {
         return type.getTrue(rules, month);
+    }
+
+    /**
+     * Get the game's current true turn type.
+     *
+     * @return The game turn's true type. This is needed for twilight turns which
+     * are treated as either day or night turns. Depending on the game type and the
+     * time of year (month).
+     */
+    public TurnType getTrue() {
+        return type.getTrue(rules, getMonth());
     }
 
     /**

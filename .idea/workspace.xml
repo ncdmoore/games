@@ -8,11 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/AirOperationRules.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/rules/AirOperationRulesTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/state/SquadronAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/state/SquadronAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/state/SquadronState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/state/SquadronState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Turn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Turn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/scenario/ScenarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/scenario/ScenarioDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/Dice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/Dice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/squadron/state/SquadronStateTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/squadron/state/SquadronStateTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +119,7 @@
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.SquadronStateTest.onMissionTransitionTest">
+  <component name="RunManager" selected="JUnit.AirOperationRulesTest.testDayStormLand">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -146,19 +147,85 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in enigma.worldWarTwoAtSea.test (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AirOperationRulesTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.game.rules.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.rules" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.rules.AirOperationRulesTest" />
+      <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in enigma.worldWarTwoAtSea.test (3)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AirOperationRulesTest.testDayGale" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.game.rules.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.rules" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.rules.AirOperationRulesTest" />
+      <option name="METHOD_NAME" value="testDayGale" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AirOperationRulesTest.testDaySquall" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.game.rules.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.rules" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.rules.AirOperationRulesTest" />
+      <option name="METHOD_NAME" value="testDaySquall" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AirOperationRulesTest.testDayStorm" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.game.rules.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.rules" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.rules.AirOperationRulesTest" />
+      <option name="METHOD_NAME" value="testDayStorm" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AirOperationRulesTest.testDayStormLand" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.game.rules.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.rules" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.rules.AirOperationRulesTest" />
+      <option name="METHOD_NAME" value="testDayStormLand" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -168,57 +235,6 @@
       <module name="worldWarTwoAtSea.test" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SquadronStateTest.onMissionTransitionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.squadron.state.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.squadron.state" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.squadron.state.SquadronStateTest" />
-      <option name="METHOD_NAME" value="onMissionTransitionTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SquadronStateTest.queuedForMissionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.squadron.state.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.squadron.state" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.squadron.state.SquadronStateTest" />
-      <option name="METHOD_NAME" value="queuedForMissionTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SquadronStateTest.queuedForPatrolTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.squadron.state.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.squadron.state" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.squadron.state.SquadronStateTest" />
-      <option name="METHOD_NAME" value="queuedForPatrolTest" />
-      <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -252,19 +268,19 @@
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.All in worldWarTwoAtSea.test" />
-      <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (2)" />
-      <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (3)" />
-      <item itemvalue="JUnit.SquadronStateTest.queuedForPatrolTest" />
-      <item itemvalue="JUnit.SquadronStateTest.queuedForMissionTest" />
-      <item itemvalue="JUnit.SquadronStateTest.onMissionTransitionTest" />
+      <item itemvalue="JUnit.AirOperationRulesTest.testDayGale" />
+      <item itemvalue="JUnit.AirOperationRulesTest" />
+      <item itemvalue="JUnit.AirOperationRulesTest.testDaySquall" />
+      <item itemvalue="JUnit.AirOperationRulesTest.testDayStorm" />
+      <item itemvalue="JUnit.AirOperationRulesTest.testDayStormLand" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.SquadronStateTest.onMissionTransitionTest" />
-        <item itemvalue="JUnit.SquadronStateTest.queuedForMissionTest" />
-        <item itemvalue="JUnit.SquadronStateTest.queuedForPatrolTest" />
-        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (3)" />
-        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (2)" />
+        <item itemvalue="JUnit.AirOperationRulesTest.testDayStormLand" />
+        <item itemvalue="JUnit.AirOperationRulesTest.testDayStorm" />
+        <item itemvalue="JUnit.AirOperationRulesTest.testDaySquall" />
+        <item itemvalue="JUnit.AirOperationRulesTest" />
+        <item itemvalue="JUnit.AirOperationRulesTest.testDayGale" />
       </list>
     </recent_temporary>
   </component>
@@ -279,13 +295,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00286" summary="Add squadron state view model.">
-      <created>1606690796139</created>
-      <option name="number" value="00286" />
-      <option name="presentableId" value="LOCAL-00286" />
-      <option name="project" value="LOCAL" />
-      <updated>1606690796139</updated>
     </task>
     <task id="LOCAL-00287" summary="Add squadron state view model.">
       <created>1606706580436</created>
@@ -623,7 +632,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609354769540</updated>
     </task>
-    <option name="localTasksCounter" value="335" />
+    <task id="LOCAL-00335" summary="Update SquadronAction to include TAKE_OFF and LAND.">
+      <created>1610167257997</created>
+      <option name="number" value="00335" />
+      <option name="presentableId" value="LOCAL-00335" />
+      <option name="project" value="LOCAL" />
+      <updated>1610167257997</updated>
+    </task>
+    <option name="localTasksCounter" value="336" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -638,7 +654,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Don't show victory types if there are no conditions for that type." />
     <MESSAGE value="Add required ship victory conditions to victory dialog." />
     <MESSAGE value="Add flags to airfield asset summary" />
     <MESSAGE value="Code cleanup" />
@@ -663,7 +678,8 @@
     <MESSAGE value="Seaplane steps count as double when search for submarines on ASW patrol. Add this functionality." />
     <MESSAGE value="Add probability that a airfield or port sweep will successfully intercept the target's CAP." />
     <MESSAGE value="Add affected by weather icon to air mission details dialogs." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add affected by weather icon to air mission details dialogs." />
+    <MESSAGE value="Update SquadronAction to include TAKE_OFF and LAND." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update SquadronAction to include TAKE_OFF and LAND." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1226" y="483" key="#Notifications" timestamp="1608845038148">
@@ -690,42 +706,42 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1337" y="547" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.2560.1349@0.23.2560.1349" timestamp="1600645261731" />
-    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1609354763836">
+    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1610167253774">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1609354763836" />
-    <state width="1937" height="362" key="GridCell.Tab.0.bottom" timestamp="1610166891433">
+    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1610167253774" />
+    <state width="1937" height="362" key="GridCell.Tab.0.bottom" timestamp="1610172900080">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="362" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1610166891433" />
-    <state width="1937" height="362" key="GridCell.Tab.0.center" timestamp="1610166891432">
+    <state width="1937" height="362" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1610172900080" />
+    <state width="1937" height="362" key="GridCell.Tab.0.center" timestamp="1610172900080">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="362" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1610166891432" />
-    <state width="1937" height="362" key="GridCell.Tab.0.left" timestamp="1610166891432">
+    <state width="1937" height="362" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1610172900080" />
+    <state width="1937" height="362" key="GridCell.Tab.0.left" timestamp="1610172900079">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="362" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1610166891432" />
-    <state width="1937" height="362" key="GridCell.Tab.0.right" timestamp="1610166891433">
+    <state width="1937" height="362" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1610172900079" />
+    <state width="1937" height="362" key="GridCell.Tab.0.right" timestamp="1610172900080">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="362" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1610166891433" />
-    <state width="1937" height="133" key="GridCell.Tab.1.bottom" timestamp="1609095597497">
+    <state width="1937" height="362" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1610172900080" />
+    <state width="1937" height="226" key="GridCell.Tab.1.bottom" timestamp="1610172618792">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="133" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1609095597497" />
-    <state width="1937" height="133" key="GridCell.Tab.1.center" timestamp="1609095597496">
+    <state width="1937" height="226" key="GridCell.Tab.1.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1610172618792" />
+    <state width="1937" height="226" key="GridCell.Tab.1.center" timestamp="1610172618791">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="133" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1609095597496" />
-    <state width="1937" height="133" key="GridCell.Tab.1.left" timestamp="1609095597496">
+    <state width="1937" height="226" key="GridCell.Tab.1.center/0.23.2560.1349@0.23.2560.1349" timestamp="1610172618791" />
+    <state width="1937" height="226" key="GridCell.Tab.1.left" timestamp="1610172618791">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="133" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1609095597496" />
-    <state width="1937" height="133" key="GridCell.Tab.1.right" timestamp="1609095597496">
+    <state width="1937" height="226" key="GridCell.Tab.1.left/0.23.2560.1349@0.23.2560.1349" timestamp="1610172618791" />
+    <state width="1937" height="226" key="GridCell.Tab.1.right" timestamp="1610172618791">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1937" height="133" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1609095597496" />
+    <state width="1937" height="226" key="GridCell.Tab.1.right/0.23.2560.1349@0.23.2560.1349" timestamp="1610172618791" />
     <state x="1406" y="420" key="RollbackChangesDialog" timestamp="1609014298373">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -734,10 +750,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1026" y="324" width="1295" height="837" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1608843396315" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1609354799221">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1610167262900">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1609354799221" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1610167262900" />
     <state x="17" y="33" width="2102" height="1124" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1609013282975">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -746,10 +762,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1050" y="421" width="1010" height="617" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.23.2560.1349@0.23.2560.1349" timestamp="1607881494822" />
-    <state x="1146" y="369" width="1255" height="834" key="find.popup" timestamp="1609353211682">
+    <state x="1146" y="369" width="1255" height="834" key="find.popup" timestamp="1610169513588">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1146" y="369" width="1255" height="834" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1609353211682" />
+    <state x="1146" y="369" width="1255" height="834" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1610169513588" />
     <state x="1696" y="493" key="refactoring.ChangeSignatureDialog" timestamp="1609279167909">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -758,10 +774,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1173" y="306" key="run.anything.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1608862964084" />
-    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup" timestamp="1609357341022">
+    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup" timestamp="1610171608645">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1609357341022" />
+    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1610171608645" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -855,6 +871,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java</url>
           <line>193</line>
           <option name="timeStamp" value="62" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/rules/AirOperationRules.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="79" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.UnsupportedOperationException" package="java.lang" />

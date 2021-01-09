@@ -29,8 +29,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @Singleton
 public class ScenarioDAO {
-    private Resource config;
-    private AppProps props;
+    private final Resource config;
+    private final AppProps props;
 
     /**
      * The constructor. Called by guice.
@@ -107,7 +107,7 @@ public class ScenarioDAO {
             return Optional.of(scenario);
         } catch (Exception ex) {                                                                                        // Catch any Gson errors.
             log.error("Unable to load scenario: {}", directory.getName(), ex);
-            return Optional.empty();                                                                                                // Null's should be removed from the scenario list.
+            return Optional.empty();                                                                                    // Null's should be removed from the scenario list.
         }
     }
 }
