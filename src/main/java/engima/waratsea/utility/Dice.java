@@ -68,7 +68,6 @@ public class Dice {
      * @return The probability that the given number of "numbers" will hit.
      */
     public double probability(final int numHit, final int numberDiceToRoll) {
-
         double num = Math.pow((DICE_SIX_SIDED - numHit), numberDiceToRoll);
         double den = Math.pow(DICE_SIX_SIDED, numberDiceToRoll);
 
@@ -85,7 +84,6 @@ public class Dice {
      * @return The probability that the given number of "numbers" will hit.
      */
     public int probabilityPercentage(final int numHit, final int numberDiceToRoll) {
-
         double num = Math.pow((DICE_SIX_SIDED - numHit), numberDiceToRoll);
         double den = Math.pow(DICE_SIX_SIDED, numberDiceToRoll);
 

@@ -10,7 +10,7 @@ import static engima.waratsea.model.squadron.state.SquadronState.*;
 public class SquadronStateTest {
 
     @Test
-    public void readyTransistionTest() {
+    public void readyTransitionTest() {
         SquadronState squadronState = READY;
 
         squadronState = squadronState.transition(SquadronAction.ASSIGN_TO_PATROL);
@@ -22,7 +22,7 @@ public class SquadronStateTest {
     public void readyInvalidTransitionTest() {
         SquadronState squadronState = READY;
 
-        squadronState = squadronState.transition(SquadronAction.RETURN);
+        squadronState = squadronState.transition(SquadronAction.LAND);
 
         Assert.assertSame(squadronState, READY);
     }
@@ -34,6 +34,12 @@ public class SquadronStateTest {
         squadronState = squadronState.transition(SquadronAction.REMOVE_FROM_PATROL);
 
         Assert.assertSame(squadronState, READY);
+
+        squadronState = QUEUED_FOR_PATROL;
+
+        squadronState = squadronState.transition(SquadronAction.TAKE_OFF);
+
+        Assert.assertSame(squadronState, ON_PATROL);
     }
 
     @Test
@@ -43,13 +49,28 @@ public class SquadronStateTest {
         squadronState = squadronState.transition(SquadronAction.REMOVE_FROM_MISSION);
 
         Assert.assertSame(squadronState, READY);
+
+        squadronState = QUEUED_FOR_MISSION;
+
+        squadronState = squadronState.transition(SquadronAction.TAKE_OFF);
+
+        Assert.assertSame(squadronState, ON_MISSION);
     }
 
     @Test
     public void onPatrolTransitionTest() {
         SquadronState squadronState = ON_PATROL;
 
-        squadronState = squadronState.transition(SquadronAction.REMOVE_FROM_PATROL);
+        squadronState = squadronState.transition(SquadronAction.LAND);
+
+        Assert.assertSame(squadronState, HANGER);
+    }
+
+    @Test
+    public void onMissionTransitionTest() {
+        SquadronState squadronState = ON_MISSION;
+
+        squadronState = squadronState.transition(SquadronAction.LAND);
 
         Assert.assertSame(squadronState, HANGER);
     }

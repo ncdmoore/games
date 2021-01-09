@@ -8,8 +8,7 @@ public enum SquadronAction {
     ASSIGN_TO_MISSION,
     REMOVE_FROM_PATROL,
     REMOVE_FROM_MISSION,
-    DO_PATROL,
-    DO_MISSION,
-    RETURN,
+    TAKE_OFF,
+    LAND,
     REFIT
 }

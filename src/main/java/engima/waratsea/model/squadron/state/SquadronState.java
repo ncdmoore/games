@@ -101,15 +101,15 @@ public enum SquadronState {
         READY_MAP.put(SquadronAction.ASSIGN_TO_MISSION, QUEUED_FOR_MISSION);
         READY_MAP.put(SquadronAction.ASSIGN_TO_PATROL, QUEUED_FOR_PATROL);
 
-        QUEUED_FOR_PATROL_MAP.put(SquadronAction.DO_PATROL, ON_PATROL);
+        QUEUED_FOR_PATROL_MAP.put(SquadronAction.TAKE_OFF, ON_PATROL);
         QUEUED_FOR_PATROL_MAP.put(SquadronAction.REMOVE_FROM_PATROL, READY);
 
-        QUEUED_FOR_MISSION_MAP.put(SquadronAction.DO_MISSION, ON_MISSION);
+        QUEUED_FOR_MISSION_MAP.put(SquadronAction.TAKE_OFF, ON_MISSION);
         QUEUED_FOR_MISSION_MAP.put(SquadronAction.REMOVE_FROM_MISSION, READY);
 
-        ON_PATROL_MAP.put(SquadronAction.REMOVE_FROM_PATROL, HANGER);
+        ON_PATROL_MAP.put(SquadronAction.LAND, HANGER);
 
-        ON_MISSON_MAP.put(SquadronAction.RETURN, HANGER);
+        ON_MISSON_MAP.put(SquadronAction.LAND, HANGER);
 
         IN_HANGER_MAP.put(SquadronAction.REFIT, READY);
     }
