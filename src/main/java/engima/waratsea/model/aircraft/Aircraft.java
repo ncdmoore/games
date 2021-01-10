@@ -99,7 +99,7 @@ public interface Aircraft extends Comparable<Aircraft> {
      * @param attackType The type of attack: AIR, LAND or NAVAL.
      * @return Get the aircraft's given attack factor.
      */
-    Map<SquadronConfig, AttackFactor> getAttack(AttackType attackType);
+    Map<SquadronConfig, Attack> getAttack(AttackType attackType);
 
     /**
      * Get the aircraft's combat radius. This is a map of how the aircraft

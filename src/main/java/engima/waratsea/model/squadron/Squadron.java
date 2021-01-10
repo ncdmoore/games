@@ -190,8 +190,8 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      * @param attackType The type of attack factor.
      * @return The attack factor.
      */
-    public SquadronFactor getFactor(final AttackType attackType) {
-        return new SquadronFactor(
+    public SquadronAttack getAttack(final AttackType attackType) {
+        return new SquadronAttack(
                 aircraft
                 .getAttack(attackType)
                 .get(config))
@@ -205,8 +205,8 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      * @param squadronConfig A squadron configuration.
      * @return The attack factor.
      */
-    public SquadronFactor getFactor(final AttackType attackType, final SquadronConfig squadronConfig) {
-        return new SquadronFactor(
+    public SquadronAttack getAttack(final AttackType attackType, final SquadronConfig squadronConfig) {
+        return new SquadronAttack(
                 aircraft
                 .getAttack(attackType)
                 .get(squadronConfig))

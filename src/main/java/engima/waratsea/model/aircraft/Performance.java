@@ -68,7 +68,7 @@ public class Performance {
      * @param naval The squadron's naval attack factor.
      * @return The search range modifier for this aircraft.
      */
-    public int getSearchModifier(final AttackFactor land, final AttackFactor naval) {
+    public int getSearchModifier(final Attack land, final Attack naval) {
         return SEARCH_MODIFIER + (hasExtraFuelCapacity(land, naval) ? SEARCH_MODIFIER : 0);
     }
 
@@ -80,7 +80,7 @@ public class Performance {
      * @param naval The squadron's naval attack factor.
      * @return The reduced payload range modifier for this aircraft.
      */
-    public int getReducedPayloadModifier(final AttackFactor land, final AttackFactor naval) {
+    public int getReducedPayloadModifier(final Attack land, final Attack naval) {
         return hasExtraFuelCapacity(land, naval) ? SEARCH_MODIFIER : 0;
     }
 
@@ -95,7 +95,7 @@ public class Performance {
      * @param naval The squadron's naval attack factor.
      * @return True if this aircraft has extra fuel capacity. False otherwise.
      */
-    private boolean hasExtraFuelCapacity(final AttackFactor land, final AttackFactor naval) {
+    private boolean hasExtraFuelCapacity(final Attack land, final Attack naval) {
         return land.getFull() >= ORDINANCE_PAYLOAD_THRESHOLD
                 || naval.getFull() >= ORDINANCE_PAYLOAD_THRESHOLD;
     }

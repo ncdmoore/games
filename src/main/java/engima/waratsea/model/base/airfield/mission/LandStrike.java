@@ -404,6 +404,6 @@ public class LandStrike implements AirMission {
      * @return The squadron's current land attack factor.
      */
     private int getFactor(final Squadron squadron) {
-        return squadron.getFactor(AttackType.LAND).getFactor();
+        return squadron.getAttack(AttackType.LAND).getFactor();
     }
 }

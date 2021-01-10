@@ -8,12 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Represents an aircraft's attack factor for air, land or naval.
+ * Represents an aircraft's attack for air, land or naval.
  */
-public class AttackFactor {
-    @Getter
-    private final int modifier;              // Determines which values of a six sided die are hits. For example a modifier of
-                                             // 1 indicates that both a 5 and a 6 are hits.
+public class Attack {
+    @Getter private final int modifier;      // Determines which values of a six sided die are hits. For example a modifier of
+                                             // 1 indicates that both a 5 and a 6 are hits. Note, a 6 is always a hit;
+                                             // i.e. a modifier of 0 indicates that only a 6 is a hit.
     @Getter private final int full;          // Total number of dice rolled for a full strength squadron.
     @Getter private final int half;          // Total number of dice rolled for a half strength squadron.
     @Getter private final int sixth;         // Total number of dice rolled for one-sixth strength squadron.
@@ -21,12 +21,14 @@ public class AttackFactor {
 
     private final Map<SquadronStrength, Integer> factor = new HashMap<>();
 
+
+
     /**
      * Constructor.
      *
      * @param data The attack factor data read in from a JSON file.
      */
-    public AttackFactor(final AttackFactorData data) {
+    public Attack(final AttackFactorData data) {
         this.modifier = data.getModifier();
         this.full = data.getFull();
         this.half = data.getHalf();
@@ -54,13 +56,13 @@ public class AttackFactor {
      * @param reduction The reduction factor.
      * @return A reduced attack factor.
      */
-    public AttackFactor getReducedRoundDown(final int reduction) {
+    public Attack getReducedRoundDown(final int reduction) {
         AttackFactorData data = new AttackFactorData();
         data.setModifier(modifier);
         data.setFull(full / reduction);
         data.setHalf(half / reduction);
         data.setSixth(sixth / reduction);
-        return new AttackFactor(data);
+        return new Attack(data);
     }
 
     /**
@@ -69,13 +71,13 @@ public class AttackFactor {
      * @param reduction The reduction factor.
      * @return A reduced attack factor.
      */
-    public AttackFactor getReducedRoundUp(final int reduction) {
+    public Attack getReducedRoundUp(final int reduction) {
         AttackFactorData data = new AttackFactorData();
         data.setModifier(modifier);
         data.setFull((full / reduction) + (full % reduction));
         data.setHalf((half / reduction) + (half % reduction));
         data.setSixth((sixth / reduction) + (sixth % reduction));
-        return new AttackFactor(data);
+        return new Attack(data);
     }
 }
 

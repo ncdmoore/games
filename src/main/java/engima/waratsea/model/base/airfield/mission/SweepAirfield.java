@@ -377,6 +377,6 @@ public class SweepAirfield implements AirMission {
      * @return The squadron's current air attack factor.
      */
     private int getFactor(final Squadron squadron) {
-        return squadron.getFactor(AttackType.AIR).getFactor();
+        return squadron.getAttack(AttackType.AIR).getFactor();
     }
 }

@@ -1,22 +1,22 @@
 package engima.waratsea.model.squadron;
 
-import engima.waratsea.model.aircraft.AttackFactor;
+import engima.waratsea.model.aircraft.Attack;
 
 /**
  * This is a facade class for the aircraft's attack factor based on the
  * squadron's strength.
  */
-public class SquadronFactor {
-    private final AttackFactor attackFactor;
+public class SquadronAttack {
+    private final Attack attack;
     private SquadronStrength strength;
 
     /**
      * Constructor.
      *
-     * @param factor An aircraft attack factor.
+     * @param attack An aircraft attack factor.
      */
-    public SquadronFactor(final AttackFactor factor) {
-        this.attackFactor = factor;
+    public SquadronAttack(final Attack attack) {
+        this.attack = attack;
     }
 
     /**
@@ -25,7 +25,7 @@ public class SquadronFactor {
      * @param squadronStrength The squadron's strength
      * @return This object.
      */
-    public SquadronFactor setStrength(final SquadronStrength squadronStrength) {
+    public SquadronAttack setStrength(final SquadronStrength squadronStrength) {
         strength = squadronStrength;
         return this;
     }
@@ -36,7 +36,7 @@ public class SquadronFactor {
      * @return The squadron's attack factor at its current strength.
      */
     public int getFactor() {
-        return attackFactor.getFactor(strength);
+        return attack.getFactor(strength);
     }
 
     /**
@@ -45,7 +45,7 @@ public class SquadronFactor {
      * @return The squadron's attack modifier.
      */
     public int getModifier() {
-        return attackFactor.getModifier();
+        return attack.getModifier();
     }
 
     /**
@@ -54,6 +54,6 @@ public class SquadronFactor {
      * @return True if the attack factor is defensive only. False otherwise.
      */
     public boolean isDefensive() {
-        return attackFactor.isDefensive();
+        return attack.isDefensive();
     }
 }

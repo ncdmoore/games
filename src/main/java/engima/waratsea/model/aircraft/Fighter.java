@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  *  SquadronConfig.STRIPPED_DOWN
  */
 public class Fighter implements Aircraft {
-    private final Map<AttackType, FunctionalMap<SquadronConfig, AttackFactor>> attackMap = new HashMap<>();
+    private final Map<AttackType, FunctionalMap<SquadronConfig, Attack>> attackMap = new HashMap<>();
 
     private final Set<SquadronConfig> configuration = Set.of(
             SquadronConfig.NONE,
@@ -56,9 +56,9 @@ public class Fighter implements Aircraft {
     @Getter private final LandingType landing;
     @Getter private final LandingType takeoff;
     @Getter private final Frame frame;
-    private final AttackFactor naval;
-    private final AttackFactor land;
-    private final AttackFactor air;
+    private final Attack naval;
+    private final Attack land;
+    private final Attack air;
     private final Performance performance;
 
     private final Probability probability;
@@ -83,9 +83,9 @@ public class Fighter implements Aircraft {
         this.altitude = data.getAltitude();
         this.landing = data.getLanding();
         this.takeoff = data.getTakeoff();
-        this.naval = new AttackFactor(data.getNaval());
-        this.land = new AttackFactor(data.getLand());
-        this.air = new AttackFactor(data.getAir());
+        this.naval = new Attack(data.getNaval());
+        this.land = new Attack(data.getLand());
+        this.air = new Attack(data.getAir());
         this.performance = new Performance(data.getPerformance());
         this.frame = new Frame(data.getFrame());
 
@@ -176,7 +176,7 @@ public class Fighter implements Aircraft {
      * @return Get the aircraft's given attack factor.
      */
     @Override
-    public Map<SquadronConfig, AttackFactor> getAttack(final AttackType attackType) {
+    public Map<SquadronConfig, Attack> getAttack(final AttackType attackType) {
         return attackMap.get(attackType).execute();
     }
 
@@ -276,12 +276,12 @@ public class Fighter implements Aircraft {
      *
      * @return The aircraft's air to air attack factor.
      */
-    private Map<SquadronConfig, AttackFactor> getAir() {
+    private Map<SquadronConfig, Attack> getAir() {
         AttackFactorData data = new AttackFactorData();
         data.setFull(air.getFull());
         data.setHalf(air.getHalf());
         data.setSixth(air.getSixth());
-        AttackFactor stripped = new AttackFactor(data);
+        Attack stripped = new Attack(data);
 
         return Map.of(SquadronConfig.NONE, air,
                 SquadronConfig.DROP_TANKS, air,
@@ -294,9 +294,9 @@ public class Fighter implements Aircraft {
      *
      * @return The aircraft's land attack factor.
      */
-    private Map<SquadronConfig, AttackFactor> getLand() {
+    private Map<SquadronConfig, Attack> getLand() {
         AttackFactorData data = new AttackFactorData();   // a zero attack factor.
-        AttackFactor stripped = new AttackFactor(data);
+        Attack stripped = new Attack(data);
 
         return Map.of(SquadronConfig.NONE, land,
                 SquadronConfig.DROP_TANKS, land,
@@ -309,9 +309,9 @@ public class Fighter implements Aircraft {
      *
      * @return The aircraft's naval attack factor.
      */
-    private Map<SquadronConfig, AttackFactor> getNaval() {
+    private Map<SquadronConfig, Attack> getNaval() {
         AttackFactorData data = new AttackFactorData();   // a zero attack factor.
-        AttackFactor stripped = new AttackFactor(data);
+        Attack stripped = new Attack(data);
 
         return Map.of(SquadronConfig.NONE, naval,
                 SquadronConfig.DROP_TANKS, naval,

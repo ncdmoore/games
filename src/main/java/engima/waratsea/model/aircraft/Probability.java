@@ -35,7 +35,7 @@ public class Probability {
      * @param strength The squadron strength.
      * @return A map of squadron configurations to squadron success probability.
      */
-    public Map<SquadronConfig, Double> getHitProbability(final Map<SquadronConfig, AttackFactor> attackFactor,
+    public Map<SquadronConfig, Double> getHitProbability(final Map<SquadronConfig, Attack> attackFactor,
                                                           final SquadronStrength strength) {
         return configurations
                 .stream()
@@ -50,8 +50,8 @@ public class Probability {
      * @param modifier The attack factor modifier. Weather, etc...
      * @return A map of squadron configurations to squadron success probability.
      */
-    public Map<SquadronConfig, Double> getIndividualHitProbability(final Map<SquadronConfig, AttackFactor> attackFactor,
-                                                                    final int modifier) {
+    public Map<SquadronConfig, Double> getIndividualHitProbability(final Map<SquadronConfig, Attack> attackFactor,
+                                                                   final int modifier) {
         return configurations
                 .stream()
                 .map(config -> getIndividualProbability(attackFactor, config, modifier))
@@ -65,7 +65,7 @@ public class Probability {
      * @param strength The squadron strength.
      * @return The probability.
      */
-    private Pair<SquadronConfig, Double> getProbability(final Map<SquadronConfig, AttackFactor> attackFactor,
+    private Pair<SquadronConfig, Double> getProbability(final Map<SquadronConfig, Attack> attackFactor,
                                                         final SquadronConfig config,
                                                         final SquadronStrength strength) {
         int numHit = attackFactor.get(config).getModifier() + BASE_MODIFIER;
@@ -82,7 +82,7 @@ public class Probability {
      * @param modifier The attack modifier.
      * @return The individual probability.
      */
-    private Pair<SquadronConfig, Double> getIndividualProbability(final Map<SquadronConfig, AttackFactor> attackFactor,
+    private Pair<SquadronConfig, Double> getIndividualProbability(final Map<SquadronConfig, Attack> attackFactor,
                                                                   final SquadronConfig config,
                                                                   final int modifier) {
         int numHit = attackFactor.get(config).getModifier() + BASE_MODIFIER + modifier;

@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  *  SquadronConfig.SEARCH
  */
 public class PoorNavalBomber implements Aircraft {
-    private final Map<AttackType, FunctionalMap<SquadronConfig, AttackFactor>> attackMap = new HashMap<>();
+    private final Map<AttackType, FunctionalMap<SquadronConfig, Attack>> attackMap = new HashMap<>();
 
     private final Set<SquadronConfig> configuration = Set.of(
             SquadronConfig.NONE,
@@ -59,9 +59,9 @@ public class PoorNavalBomber implements Aircraft {
     @Getter private final LandingType landing;
     @Getter private final LandingType takeoff;
     @Getter private final Frame frame;
-    private final AttackFactor naval;
-    private final AttackFactor air;
-    private final AttackFactor land;
+    private final Attack naval;
+    private final Attack air;
+    private final Attack land;
     private final Performance performance;
 
     private final Probability probability;
@@ -87,9 +87,9 @@ public class PoorNavalBomber implements Aircraft {
         this.altitude = data.getAltitude();
         this.landing = data.getLanding();
         this.takeoff = data.getTakeoff();
-        this.naval = new AttackFactor(data.getNaval());
-        this.land = new AttackFactor(data.getLand());
-        this.air = new AttackFactor(data.getAir());
+        this.naval = new Attack(data.getNaval());
+        this.land = new Attack(data.getLand());
+        this.air = new Attack(data.getAir());
         this.performance = new Performance(data.getPerformance());
         this.frame = new Frame(data.getFrame());
 
@@ -251,7 +251,7 @@ public class PoorNavalBomber implements Aircraft {
      * @return Get the aircraft's given attack factor.
      */
     @Override
-    public Map<SquadronConfig, AttackFactor> getAttack(final AttackType attackType) {
+    public Map<SquadronConfig, Attack> getAttack(final AttackType attackType) {
         return attackMap.get(attackType).execute();
     }
 
@@ -285,7 +285,7 @@ public class PoorNavalBomber implements Aircraft {
      *
      * @return The aircraft's land attack factor.
      */
-    private Map<SquadronConfig, AttackFactor> getAir() {
+    private Map<SquadronConfig, Attack> getAir() {
         return Map.of(SquadronConfig.NONE, air,
                 SquadronConfig.LEAN_ENGINE, air,
                 SquadronConfig.SEARCH, air);
@@ -296,9 +296,9 @@ public class PoorNavalBomber implements Aircraft {
      *
      * @return The aircraft's land attack factor.
      */
-    private Map<SquadronConfig, AttackFactor> getLand() {
-        AttackFactor leanMixtureAttack = land.getReducedRoundUp(LEAN_ENGINE_FACTOR);
-        AttackFactor searchAttack = land.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
+    private Map<SquadronConfig, Attack> getLand() {
+        Attack leanMixtureAttack = land.getReducedRoundUp(LEAN_ENGINE_FACTOR);
+        Attack searchAttack = land.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
 
         return Map.of(SquadronConfig.NONE, land,
                 SquadronConfig.LEAN_ENGINE, leanMixtureAttack,
@@ -310,9 +310,9 @@ public class PoorNavalBomber implements Aircraft {
      *
      * @return The aircraft's naval attack factor.
      */
-    private Map<SquadronConfig, AttackFactor> getNaval() {
-        AttackFactor leanMixtureAttack = naval.getReducedRoundUp(LEAN_ENGINE_FACTOR);
-        AttackFactor searchAttack = naval.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
+    private Map<SquadronConfig, Attack> getNaval() {
+        Attack leanMixtureAttack = naval.getReducedRoundUp(LEAN_ENGINE_FACTOR);
+        Attack searchAttack = naval.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
 
         return Map.of(SquadronConfig.NONE, naval,
                 SquadronConfig.LEAN_ENGINE, leanMixtureAttack,

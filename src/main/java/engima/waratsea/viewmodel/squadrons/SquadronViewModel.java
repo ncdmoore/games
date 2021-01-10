@@ -9,7 +9,7 @@ import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
-import engima.waratsea.model.squadron.SquadronFactor;
+import engima.waratsea.model.squadron.SquadronAttack;
 import engima.waratsea.model.squadron.state.SquadronAction;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
@@ -642,9 +642,9 @@ public class SquadronViewModel {
                 .orElse(""), squadron));
     }
 
-    private SquadronFactor getFactor(final AttackType attackType) {
+    private SquadronAttack getFactor(final AttackType attackType) {
         SquadronConfig config = Optional.ofNullable(configuration.getValue()).orElse(SquadronConfig.NONE);
-        return squadron.getValue().getFactor(attackType, config);
+        return squadron.getValue().getAttack(attackType, config);
     }
 
     private String getProbability(final AttackType attackType) {
@@ -667,7 +667,7 @@ public class SquadronViewModel {
         return squadron.getValue().getAircraft().getFerryDistance().get(config) + "";
     }
 
-    private String getAttackSummary(final SquadronFactor factor) {
+    private String getAttackSummary(final SquadronAttack factor) {
         return factor.getModifier() != 0
                 ? factor.getFactor() + " (" + factor.getModifier() + ")"
                 : factor.isDefensive() ? factor.getFactor() + " (D)"

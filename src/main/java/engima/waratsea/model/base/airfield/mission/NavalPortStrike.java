@@ -358,6 +358,6 @@ public class NavalPortStrike implements AirMission {
      * @return The squadron's current naval attack factor.
      */
     private int getFactor(final Squadron squadron) {
-        return squadron.getFactor(AttackType.NAVAL).getFactor();
+        return squadron.getAttack(AttackType.NAVAL).getFactor();
     }
 }
