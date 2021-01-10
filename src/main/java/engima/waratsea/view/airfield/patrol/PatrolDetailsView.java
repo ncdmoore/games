@@ -16,6 +16,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -129,7 +130,9 @@ public class PatrolDetailsView {
                     .map(Squadron::getTitle)
                     .collect(Collectors.joining("\n"));
 
-            count.setTooltip(new Tooltip(names));
+            if (StringUtils.isNotBlank(names)) {
+                count.setTooltip(new Tooltip(names));
+            }
 
             gridPane.add(count, col, 1);
         });
@@ -192,7 +195,7 @@ public class PatrolDetailsView {
                     .getMetaData()
                     .get(title);
 
-            if (toolTip != null) {
+            if (StringUtils.isNotBlank(toolTip)) {
                 label.setTooltip(new Tooltip(toolTip));
             }
 
@@ -224,7 +227,7 @@ public class PatrolDetailsView {
         data.forEach((key, stat) -> {
             Label label = new Label(stat.getValue());
             styleLabel(label);
-            if (stat.getFactors() != null) {
+            if (StringUtils.isNotBlank(stat.getFactors())) {
                 label.setTooltip(new Tooltip(stat.getFactors()));
             }
             gridPane.add(label, col.getAndIncrement(), row);
