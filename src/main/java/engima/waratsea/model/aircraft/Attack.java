@@ -1,6 +1,6 @@
 package engima.waratsea.model.aircraft;
 
-import engima.waratsea.model.aircraft.data.AttackFactorData;
+import engima.waratsea.model.aircraft.data.AttackData;
 import engima.waratsea.model.squadron.SquadronStrength;
 import lombok.Getter;
 
@@ -21,14 +21,14 @@ public class Attack {
 
     private final Map<SquadronStrength, Integer> factor = new HashMap<>();
 
-
+    @Getter private final double finalModifier;
 
     /**
      * Constructor.
      *
      * @param data The attack factor data read in from a JSON file.
      */
-    public Attack(final AttackFactorData data) {
+    public Attack(final AttackData data) {
         this.modifier = data.getModifier();
         this.full = data.getFull();
         this.half = data.getHalf();
@@ -38,6 +38,8 @@ public class Attack {
         factor.put(SquadronStrength.FULL, full);
         factor.put(SquadronStrength.HALF, half);
         factor.put(SquadronStrength.SIXTH, sixth);
+
+        this.finalModifier = data.getFinalModifier();
     }
 
     /**
@@ -57,11 +59,12 @@ public class Attack {
      * @return A reduced attack factor.
      */
     public Attack getReducedRoundDown(final int reduction) {
-        AttackFactorData data = new AttackFactorData();
+        AttackData data = new AttackData();
         data.setModifier(modifier);
         data.setFull(full / reduction);
         data.setHalf(half / reduction);
         data.setSixth(sixth / reduction);
+        data.setFinalModifier(finalModifier);
         return new Attack(data);
     }
 
@@ -72,11 +75,12 @@ public class Attack {
      * @return A reduced attack factor.
      */
     public Attack getReducedRoundUp(final int reduction) {
-        AttackFactorData data = new AttackFactorData();
+        AttackData data = new AttackData();
         data.setModifier(modifier);
         data.setFull((full / reduction) + (full % reduction));
         data.setHalf((half / reduction) + (half % reduction));
         data.setSixth((sixth / reduction) + (sixth % reduction));
+        data.setFinalModifier(finalModifier);
         return new Attack(data);
     }
 }

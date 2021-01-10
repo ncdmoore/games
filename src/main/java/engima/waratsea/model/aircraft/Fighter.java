@@ -3,7 +3,7 @@ package engima.waratsea.model.aircraft;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.data.AircraftData;
-import engima.waratsea.model.aircraft.data.AttackFactorData;
+import engima.waratsea.model.aircraft.data.AttackData;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -277,7 +277,7 @@ public class Fighter implements Aircraft {
      * @return The aircraft's air to air attack factor.
      */
     private Map<SquadronConfig, Attack> getAir() {
-        AttackFactorData data = new AttackFactorData();
+        AttackData data = new AttackData();
         data.setFull(air.getFull());
         data.setHalf(air.getHalf());
         data.setSixth(air.getSixth());
@@ -295,7 +295,7 @@ public class Fighter implements Aircraft {
      * @return The aircraft's land attack factor.
      */
     private Map<SquadronConfig, Attack> getLand() {
-        AttackFactorData data = new AttackFactorData();   // a zero attack factor.
+        AttackData data = new AttackData();   // a zero attack factor.
         Attack stripped = new Attack(data);
 
         return Map.of(SquadronConfig.NONE, land,
@@ -310,7 +310,7 @@ public class Fighter implements Aircraft {
      * @return The aircraft's naval attack factor.
      */
     private Map<SquadronConfig, Attack> getNaval() {
-        AttackFactorData data = new AttackFactorData();   // a zero attack factor.
+        AttackData data = new AttackData();   // a zero attack factor.
         Attack stripped = new Attack(data);
 
         return Map.of(SquadronConfig.NONE, naval,

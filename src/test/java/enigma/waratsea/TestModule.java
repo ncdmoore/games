@@ -8,7 +8,7 @@ import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.aircraft.AircraftFactory;
 import engima.waratsea.model.aircraft.Bomber;
 import engima.waratsea.model.aircraft.Fighter;
-import engima.waratsea.model.aircraft.PoorNavalBomber;
+import engima.waratsea.model.aircraft.ItalianBomber;
 import engima.waratsea.model.aircraft.Recon;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
@@ -155,7 +155,7 @@ public class TestModule extends AbstractModule {
                 .implement(Aircraft.class, Names.named("bomber"), Bomber.class)
                 .implement(Aircraft.class, Names.named("fighter"), Fighter.class)
                 .implement(Aircraft.class, Names.named("recon"), Recon.class)
-                .implement(Aircraft.class, Names.named("poorNaval"), PoorNavalBomber.class)
+                .implement(Aircraft.class, Names.named("italian"), ItalianBomber.class)
                 .build(AircraftFactory.class));
 
         install(new FactoryModuleBuilder().implement(Region.class, Region.class).build(RegionFactory.class));

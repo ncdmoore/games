@@ -22,9 +22,9 @@ public class AircraftData {
     @Getter @Setter private AltitudeType altitude;
     @Getter @Setter private LandingType landing;
     @Getter @Setter private LandingType takeoff;
-    @Getter @Setter private AttackFactorData naval;
-    @Getter @Setter private AttackFactorData land;
-    @Getter @Setter private AttackFactorData air;
+    @Getter @Setter private AttackData naval;
+    @Getter @Setter private AttackData land;
+    @Getter @Setter private AttackData air;
     @Getter @Setter private PerformanceData performance;
     @Getter @Setter private FrameData frame;
 }

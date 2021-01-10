@@ -40,6 +40,6 @@ public interface AircraftFactory {
      * @param data The aircraft's data.
      * @return The poor naval bomber aircraft.
      */
-    @Named("poorNaval")
-    Aircraft createPoorNavalBomber(AircraftData data);
+    @Named("italian")
+    Aircraft createItalianBomber(AircraftData data);
 }

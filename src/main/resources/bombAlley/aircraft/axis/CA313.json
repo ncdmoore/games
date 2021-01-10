@@ -1,6 +1,6 @@
 {
   "name": "Ca313",
-  "type": "Poor_Naval_Bomber",
+  "type": "Italian_Bomber",
   "nationality": "Italian",
   "service": "AIRFORCE",
   "designation": "RA-",
@@ -10,7 +10,8 @@
   "naval": {
     "modifier": 0,
     "full": 0,
-    "half": 0
+    "half": 0,
+    "finalModifier": 0.33
   },
   "land": {
     "modifier": 1,

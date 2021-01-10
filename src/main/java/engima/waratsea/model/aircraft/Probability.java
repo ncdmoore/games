@@ -70,7 +70,7 @@ public class Probability {
                                                         final SquadronStrength strength) {
         int numHit = attackFactor.get(config).getModifier() + BASE_MODIFIER;
         int numToRoll = attackFactor.get(config).getFactor(strength);
-        double prob = dice.probability(numHit, numToRoll);
+        double prob = dice.probability(numHit, numToRoll) * attackFactor.get(config).getFinalModifier();
         return new Pair<>(config, prob);
     }
 
@@ -86,7 +86,7 @@ public class Probability {
                                                                   final SquadronConfig config,
                                                                   final int modifier) {
         int numHit = attackFactor.get(config).getModifier() + BASE_MODIFIER + modifier;
-        double prob = dice.individualProbability(numHit);
+        double prob = dice.individualProbability(numHit) * attackFactor.get(config).getFinalModifier();
         return new Pair<>(config, prob);
     }
 }
