@@ -55,7 +55,7 @@ public class AirfieldMarker {
     public void draw(final AssetMarkerDTO dto) {
         airfield = dto.getAsset();
 
-        double size = (double) gridView.getSize();
+        double size = gridView.getSize();
         triangle = new Polygon(gridView.getX(), gridView.getY() + size,
                 gridView.getX() + size, gridView.getY() + size,
                 gridView.getX() + size / 2, gridView.getY());
@@ -66,7 +66,7 @@ public class AirfieldMarker {
 
         triangle.setViewOrder(ViewOrder.MARKER.getValue());
 
-        String style = convertNationName(nation) + "-airfield-" + ((Airfield) airfield).getAirfieldType() + "-marker";
+        String style = convertNationName(nation) + "-airfield-" + ((Airfield) airfield).getAirbaseType() + "-marker";
 
         triangle.getStyleClass().add(style);
 

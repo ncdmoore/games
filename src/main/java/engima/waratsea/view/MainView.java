@@ -78,7 +78,10 @@ public class MainView {
         stage.setWidth(primaryScreenBounds.getWidth());
         stage.setHeight(primaryScreenBounds.getHeight());
 
-        stage.setTitle(stage.getTitle() + " : " + game.getScenario().getTitle());
+        // For game re-loads be sure to remove the old scenario name.
+        String title = stage.getTitle().replaceAll(" :\\s*.*", "");
+
+        stage.setTitle(title + " : " + game.getScenario().getTitle());
 
         BorderPane mainPane = new BorderPane();
 

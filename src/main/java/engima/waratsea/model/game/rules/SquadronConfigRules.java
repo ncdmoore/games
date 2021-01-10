@@ -2,7 +2,7 @@ package engima.waratsea.model.game.rules;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.base.airfield.AirfieldType;
+import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
@@ -153,7 +153,7 @@ public class SquadronConfigRules {
         if (gameName == GameName.BOMB_ALLEY
                 && dto.getNation() == Nation.BRITISH
                 && dto.getMissionType() == AirMissionType.FERRY
-                && dto.getAirfieldType() == AirfieldType.TASKFORCE) {
+                && dto.getAirfieldType() == AirbaseType.CARRIER) {
             return SquadronConfig.STRIPPED_DOWN;
         }
 

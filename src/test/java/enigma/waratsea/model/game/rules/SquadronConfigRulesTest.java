@@ -2,7 +2,7 @@ package enigma.waratsea.model.game.rules;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import engima.waratsea.model.base.airfield.AirfieldType;
+import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
@@ -61,7 +61,7 @@ public class SquadronConfigRulesTest {
 
         // Test Bomb Alley British aircraft flying from a task force on a ferry mission. Stripped down is allowed.
         SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
-                .setAirfieldType(AirfieldType.TASKFORCE)
+                .setAirfieldType(AirbaseType.CARRIER)
                 .setNation(Nation.BRITISH)
                 .setMissionType(AirMissionType.FERRY);
 

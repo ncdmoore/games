@@ -107,7 +107,7 @@ public class AirfieldDialog {
 
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle(airbase.getTitle() + " " +  airbase.getAirfieldType().getTitle() + " Details");
+        stage.setTitle(airbase.getTitle() + " " +  airbase.getAirbaseType().getTitle() + " Details");
 
         DialogView dialog = dialogProvider.get();     // The dialog view that contains the airfield details view.
 

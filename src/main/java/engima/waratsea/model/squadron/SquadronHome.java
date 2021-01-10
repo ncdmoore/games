@@ -1,6 +1,6 @@
 package engima.waratsea.model.squadron;
 
-import engima.waratsea.model.base.airfield.AirfieldType;
+import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.region.Region;
@@ -59,7 +59,7 @@ public interface SquadronHome {
      *
      * @return The squadron's home base's airfield type.
      */
-    AirfieldType getAirfieldType();
+    AirbaseType getAirbaseType();
 
 
 }

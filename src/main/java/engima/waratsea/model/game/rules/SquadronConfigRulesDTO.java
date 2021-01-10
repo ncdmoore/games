@@ -1,6 +1,6 @@
 package engima.waratsea.model.game.rules;
 
-import engima.waratsea.model.base.airfield.AirfieldType;
+import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
@@ -8,7 +8,7 @@ import engima.waratsea.model.game.Nation;
 import lombok.Getter;
 
 public class SquadronConfigRulesDTO {
-    @Getter private AirfieldType airfieldType;
+    @Getter private AirbaseType airfieldType;
     @Getter private AirMissionType missionType;
     @Getter private MissionRole missionRole;
     @Getter private Nation nation;
@@ -20,7 +20,7 @@ public class SquadronConfigRulesDTO {
      * @param type The new type.
      * @return This object.
      */
-    public SquadronConfigRulesDTO setAirfieldType(final AirfieldType type) {
+    public SquadronConfigRulesDTO setAirfieldType(final AirbaseType type) {
         airfieldType = type;
         return this;
     }

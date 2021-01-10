@@ -6,15 +6,19 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
+import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.game.Turn;
+import engima.waratsea.model.game.TurnIndex;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.map.region.RegionFactory;
 import engima.waratsea.model.map.region.data.RegionData;
-import engima.waratsea.model.base.airfield.patrol.PatrolType;
+import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.SquadronFactory;
@@ -30,6 +34,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,8 +55,17 @@ public class airfieldTest {
         squadronFactory = injector.getInstance(SquadronFactory.class);
         regionFactory = injector.getInstance(RegionFactory.class);
 
+        Scenario scenario = new Scenario();
+        scenario.setDate(new Date());
+        scenario.setTurnIndex(TurnIndex.DAY_1);
+        scenario.setWeather(WeatherType.CLEAR);
+
         Weather weather = injector.getInstance(Weather.class);
         weather.setCurrent(WeatherType.CLEAR);
+
+        Turn turn = injector.getInstance(Turn.class);
+
+        turn.start(scenario);
     }
 
     @Test
@@ -387,7 +401,32 @@ public class airfieldTest {
         Assert.assertTrue(result);  // Fighter is on CAP so its radius should be in the map.
     }
 
-    private Region buildRegion() {
+    @Test
+    public void airOptsStatsTest() {
+        gameTitle.setName(GameName.BOMB_ALLEY);
+
+        Region region = buildRegion();
+
+        List<LandingType> landingTypes = new ArrayList<>(Arrays.asList(LandingType.LAND, LandingType.SEAPLANE));
+
+        AirfieldData data = new AirfieldData();
+        data.setName("Gibraltar");
+        data.setSide(Side.ALLIES);
+        data.setLandingType(landingTypes);
+        data.setMaxCapacity(40);
+        data.setAntiAir(6);
+        data.setLocation("G20");
+
+        Airfield airfield = airfieldFactory.create(data);
+
+        airfield.addRegion(region);
+
+        List<ProbabilityStats> stats = airfield.getAirOperationStats();
+
+        Assert.assertEquals(landingTypes.size(), stats.size());
+    }
+
+        private Region buildRegion() {
         RegionData regionData = new RegionData();
         regionData.setAirfields(new ArrayList<>(Collections.singletonList("Gibraltar")));
         regionData.setMin("20");

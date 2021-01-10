@@ -2,7 +2,7 @@ package engima.waratsea.model.game.rules;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.aircraft.LandingType;
+import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.game.Turn;
 import engima.waratsea.model.game.TurnType;
 import engima.waratsea.model.squadron.state.SquadronAction;
@@ -20,11 +20,18 @@ import java.util.Map;
  *
  *  - Take off
  *  - Landing
+ *
+ *  This class determines if a given squadron looses a step on take off or landing.
+ *
+ *  Take of and landing crashes are influenced by the
+ *   - weather
+ *   - time of day (turn)
+ *   - airbase: land, sea or carrier
  */
 @Singleton
 public class AirOperationRules {
 
-    private final Map<LandingType, Integer> landingTypeMap = new HashMap<>();
+    private final Map<AirbaseType, Integer> landingTypeMap = new HashMap<>();
     private final Map<SquadronAction, Map<WeatherType, Integer>> weatherMap = new HashMap<>();
     private final Map<SquadronAction, Map<TurnType, Integer>> turnTypeMap = new HashMap<>();
 
@@ -38,16 +45,19 @@ public class AirOperationRules {
                              final Dice dice) {
         //CHECKSTYLE:OFF: checkstyle:magicnumber
 
-        landingTypeMap.put(LandingType.LAND, -2);
-        landingTypeMap.put(LandingType.SEAPLANE, -1);
-        landingTypeMap.put(LandingType.CARRIER, -1);
+        landingTypeMap.put(AirbaseType.LAND, -2);
+        landingTypeMap.put(AirbaseType.SEAPLANE, -1);
+        landingTypeMap.put(AirbaseType.CARRIER, -1);
+        landingTypeMap.put(AirbaseType.SURFACE_SHIP, -1);
 
+        // The board games values are all negative for these maps. But, making them positive values
+        // allows the math to work out more easily.
         Map<WeatherType, Integer> takeOffWeatherMap = new HashMap<>();
         takeOffWeatherMap.put(WeatherType.CLEAR, 0);    // No effect.
         takeOffWeatherMap.put(WeatherType.CLOUDY, 1);   // Slight effect.
         takeOffWeatherMap.put(WeatherType.RAIN, 2);     // Worse effect.
         takeOffWeatherMap.put(WeatherType.SQUALL, 3);   // Worse still.
-        takeOffWeatherMap.put(WeatherType.STORM, 100);  // Squqdrons are guaranteed to crash on take off.
+        takeOffWeatherMap.put(WeatherType.STORM, 100);  // Squadrons are guaranteed to crash on take off.
         takeOffWeatherMap.put(WeatherType.GALE, 100);   // Squadrons are guaranteed to crash on take off.
 
         Map<WeatherType, Integer> landingWeatherMap = new HashMap<>();
@@ -82,17 +92,17 @@ public class AirOperationRules {
     /**
      * Get the probability that the air operation will fail with a crash.
      *
-     * @param landingType The landing type of the squadron attempting the air operation.
+     * @param airfieldType The airfield type attempting the air operation.
      * @param action The action of the squadron: TAKE_OFF or LAND.
      * @return A percentage as a whole number indicating how likely a crash occurs.
      */
-    public int getProbabilityCrash(final LandingType landingType, final SquadronAction action) {
-        int factor = getFactor(landingType, action);
+    public int getProbabilityCrash(final AirbaseType airfieldType, final SquadronAction action) {
+        int factor = getFactor(airfieldType, action); // The number of hits.
         return dice.probabilityPercentage(factor, 1);
     }
 
-    private int getFactor(final LandingType landingType, final SquadronAction action) {
-        return landingTypeMap.get(landingType)
+    private int getFactor(final AirbaseType airfieldType, final SquadronAction action) {
+        return landingTypeMap.get(airfieldType)
                 + weatherMap.get(action).get(weather.getCurrent())
                 + turnTypeMap.get(action).get(turn.getTrue());
     }

@@ -7,10 +7,12 @@ import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.Base;
+import engima.waratsea.model.base.airfield.AirOperations;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
-import engima.waratsea.model.base.airfield.AirfieldType;
+import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
+import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
@@ -51,12 +53,13 @@ import java.util.stream.Stream;
  */
 public class AircraftCarrier implements Ship, Airbase {
     private final MissionDAO missionDAO;
+    private final AirOperations airOperations;
     private final GameMap gameMap;
 
     @Getter private final ShipId shipId;
     @Getter private final ShipType type;
     @Getter private final String shipClass;
-    @Getter private final AirfieldType airfieldType = AirfieldType.TASKFORCE;
+    @Getter private final AirbaseType airbaseType = AirbaseType.CARRIER;
     @Getter private final Nation nation;
     @Getter private final int victoryPoints;
     @Getter @Setter private TaskForce taskForce;
@@ -86,15 +89,18 @@ public class AircraftCarrier implements Ship, Airbase {
      * @param data Ship's data.
      * @param factory Squadron factory that makes the squadrons carrier's squadrons.
      * @param missionDAO Mission data access object.
+     * @param airOperations This carrier's air operations.
      * @param gameMap The game map.
      */
     @Inject
     public AircraftCarrier(@Assisted final ShipData data,
                                      final SquadronFactory factory,
                                      final MissionDAO missionDAO,
+                                     final AirOperations airOperations,
                                      final GameMap gameMap) {
 
         this.missionDAO = missionDAO;
+        this.airOperations = airOperations;
         this.gameMap = gameMap;
 
         shipId = data.getShipId();
@@ -620,6 +626,16 @@ public class AircraftCarrier implements Ship, Airbase {
     @Override
     public void updatePatrol(final PatrolType patrolType, final List<Squadron> patrolSquadrons) {
 
+    }
+
+    /**
+     * Get this airbase's air operation stats.
+     *
+     * @return This airbase's air operation stats.
+     */
+    @Override
+    public List<ProbabilityStats> getAirOperationStats() {
+        return airOperations.getStats(this);
     }
 
     /**

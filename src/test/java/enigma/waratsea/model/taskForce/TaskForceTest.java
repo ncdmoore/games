@@ -14,7 +14,6 @@ import engima.waratsea.model.game.event.turn.data.TurnMatchData;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.ship.Ship;
-import engima.waratsea.model.ship.Shipyard;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.taskForce.TaskForceState;
@@ -34,7 +33,6 @@ import java.util.List;
 public class TaskForceTest {
 
     private static TaskForceFactory factory;
-    private static Shipyard shipyard;
     private static GameMap gameMap;
 
     @BeforeClass
@@ -45,8 +43,6 @@ public class TaskForceTest {
         gameTitle.setName(GameName.BOMB_ALLEY);
 
         gameMap = injector.getInstance(GameMap.class);
-
-        shipyard = injector.getInstance(Shipyard.class);
 
         factory = injector.getInstance(TaskForceFactory.class);
 

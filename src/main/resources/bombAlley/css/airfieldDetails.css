@@ -164,6 +164,40 @@
     -fx-padding: /* top: */ 0 /* right: */ 0 /* bottom: */ 0 /* left */ 38;
 }
 
+#airfield-operations-vbox {
+    -fx-spacing: 10;
+}
+
+#mission-stats-vbox {
+    -fx-spacing: 10;
+}
+
+#mission-stats-hbox {
+    -fx-spacing: 75;
+}
+
+#mission-stats-header {
+    -fx-background-color: lightsteelblue;
+    -fx-font: bold normal 10pt "Lucida Grande";
+    -fx-alignment: top-center;
+    -fx-padding: /* top */ 2 /* right */ 2 /* bottom */ 2 /* left */ 2;
+}
+
+#mission-stats-grid {
+    -fx-border-color: black;
+    -fx-background-color: whitesmoke;
+    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
+    -fx-vgap: 1;
+    -fx-hgap: 1;
+    -fx-alignment: top-center;
+}
+
+#mission-stats-cell {
+    -fx-background-color: lightgray;
+    -fx-text-fill: black;
+    -fx-alignment: top-center;
+}
+
 #controls-pane {
     -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 10 /* left */ 0;
     -fx-spacing: 20;

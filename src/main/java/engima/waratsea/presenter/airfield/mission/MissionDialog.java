@@ -60,7 +60,7 @@ public class MissionDialog {
 
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle(airbase.getTitle() + " " +  airbase.getAirfieldType().getTitle() + " Patrol Details");
+        stage.setTitle(airbase.getTitle() + " " +  airbase.getAirbaseType().getTitle() + " Patrol Details");
 
         dialog.setWidth(props.getInt("mission.details.dialog.width"));
         dialog.setHeight(props.getInt("mission.details.dialog.height"));

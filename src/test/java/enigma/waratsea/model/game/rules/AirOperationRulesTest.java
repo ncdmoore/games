@@ -2,7 +2,7 @@ package enigma.waratsea.model.game.rules;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import engima.waratsea.model.aircraft.LandingType;
+import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.game.Turn;
 import engima.waratsea.model.game.TurnIndex;
 import engima.waratsea.model.game.rules.AirOperationRules;
@@ -41,7 +41,7 @@ public class AirOperationRulesTest {
 
         weather.setCurrent(WeatherType.CLEAR);   // Make sure weather is clear as turn.start may have changed it.
 
-        int prob = rules.getProbabilityCrash(LandingType.LAND, SquadronAction.TAKE_OFF);
+        int prob = rules.getProbabilityCrash(AirbaseType.LAND, SquadronAction.TAKE_OFF);
 
         Assert.assertEquals(0, prob);
     }
@@ -57,11 +57,11 @@ public class AirOperationRulesTest {
 
         weather.setCurrent(WeatherType.SQUALL); // Make sure weather is squall as turn.start may have changed it.
 
-        int prob = rules.getProbabilityCrash(LandingType.LAND, SquadronAction.TAKE_OFF);
+        int prob = rules.getProbabilityCrash(AirbaseType.LAND, SquadronAction.TAKE_OFF);
 
         Assert.assertEquals(16, prob);
 
-        prob = rules.getProbabilityCrash(LandingType.SEAPLANE, SquadronAction.TAKE_OFF);
+        prob = rules.getProbabilityCrash(AirbaseType.SEAPLANE, SquadronAction.TAKE_OFF);
 
         Assert.assertEquals(33, prob);
 
@@ -78,11 +78,11 @@ public class AirOperationRulesTest {
 
         weather.setCurrent(WeatherType.STORM); // Make sure weather is gale as turn.start may have changed it.
 
-        int prob = rules.getProbabilityCrash(LandingType.LAND, SquadronAction.TAKE_OFF);
+        int prob = rules.getProbabilityCrash(AirbaseType.LAND, SquadronAction.TAKE_OFF);
 
         Assert.assertEquals(100, prob);
 
-        prob = rules.getProbabilityCrash(LandingType.SEAPLANE, SquadronAction.TAKE_OFF);
+        prob = rules.getProbabilityCrash(AirbaseType.SEAPLANE, SquadronAction.TAKE_OFF);
 
         Assert.assertEquals(100, prob);
     }
@@ -98,11 +98,11 @@ public class AirOperationRulesTest {
 
         weather.setCurrent(WeatherType.STORM); // Make sure weather is gale as turn.start may have changed it.
 
-        int prob = rules.getProbabilityCrash(LandingType.LAND, SquadronAction.LAND);
+        int prob = rules.getProbabilityCrash(AirbaseType.LAND, SquadronAction.LAND);
 
         Assert.assertEquals(33, prob);
 
-        prob = rules.getProbabilityCrash(LandingType.SEAPLANE, SquadronAction.LAND);
+        prob = rules.getProbabilityCrash(AirbaseType.SEAPLANE, SquadronAction.LAND);
 
         Assert.assertEquals(50, prob);
     }
@@ -118,7 +118,7 @@ public class AirOperationRulesTest {
 
         weather.setCurrent(WeatherType.GALE); // Make sure weather is gale as turn.start may have changed it.
 
-        int prob = rules.getProbabilityCrash(LandingType.LAND, SquadronAction.TAKE_OFF);
+        int prob = rules.getProbabilityCrash(AirbaseType.LAND, SquadronAction.TAKE_OFF);
 
         Assert.assertEquals(100, prob);
     }

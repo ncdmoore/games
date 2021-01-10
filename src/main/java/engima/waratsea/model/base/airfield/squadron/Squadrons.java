@@ -29,6 +29,9 @@ import java.util.stream.Stream;
 
 /**
  * This is just a convenience  class that aggregates all of the squadron data structures for an airfield.
+ *
+ * It does store the squadrons at an airbase. It is the source of truth regarding squadrons stationed
+ * at an airbase.
  */
 public class Squadrons {
     @Getter private final List<Squadron> squadrons = new ArrayList<>();

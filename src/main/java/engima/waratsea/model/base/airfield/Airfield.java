@@ -13,6 +13,7 @@ import engima.waratsea.model.base.Base;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.Missions;
+import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.base.airfield.patrol.Patrols;
@@ -44,10 +45,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     @Getter private final Side side;
-    @Getter private final String name;
+    @Getter private final String name;              // unique id.
     @Getter private final String title;
     @Getter private final List<LandingType> landingType;
-    @Getter private final AirfieldType airfieldType;
+    @Getter private final AirbaseType airbaseType;
     @Getter private final int maxCapacity;          // Capacity in steps.
     @Getter private final int antiAirRating;
     @Getter private final String reference;         // A simple string is used to prevent circular logic on mapping names and references.
@@ -60,6 +61,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
 
     private final Missions missions;
     private final Patrols patrols;
+    private final AirOperations airOperations;
     private final GameMap gameMap;
 
     /**
@@ -69,6 +71,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * @param squadrons The airbase's squadrons.
      * @param missions  This airbase's missions.
      * @param patrols This airbase's patrols.
+     * @param airOperations air operations utility.
      * @param gameMap The game map.
      */
     @Inject
@@ -76,18 +79,20 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
                     final Squadrons squadrons,
                     final Missions missions,
                     final Patrols patrols,
+                    final AirOperations airOperations,
                     final GameMap gameMap) {
 
         this.squadrons = squadrons;
         this.missions = missions;
         this.patrols = patrols;
+        this.airOperations = airOperations;
         this.gameMap = gameMap;
 
         this.side = data.getSide();
         name = data.getName();
         title = Optional.ofNullable(data.getTitle()).orElse(name);   // If no title is specified just use the name.
         landingType = data.getLandingType();
-        airfieldType = determineType();
+        airbaseType = determineType();
         maxCapacity = data.getMaxCapacity();
         capacity = maxCapacity;
         antiAirRating = data.getAntiAir();
@@ -456,6 +461,16 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
+     * Get this airbase's air operation stats.
+     *
+     * @return This airbase's air operation stats.
+     */
+    @Override
+    public List<ProbabilityStats> getAirOperationStats() {
+        return airOperations.getStats(this);
+    }
+
+    /**
      * Get a map of patrol maximum radius to list of patrols.
      *
      * @return A map containing the patrol maximum radius as key and the patrol as the value.
@@ -538,12 +553,12 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      *
      * @return The type of airfield.
      */
-    private AirfieldType determineType() {
+    private AirbaseType determineType() {
         if (landingType.contains(LandingType.LAND) && landingType.contains(LandingType.SEAPLANE)) {
-            return AirfieldType.BOTH;
+            return AirbaseType.BOTH;
         }
 
-        return landingType.contains(LandingType.LAND) ? AirfieldType.LAND : AirfieldType.SEAPLANE;
+        return landingType.contains(LandingType.LAND) ? AirbaseType.LAND : AirbaseType.SEAPLANE;
     }
 
     /**

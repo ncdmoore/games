@@ -82,7 +82,7 @@ public class MotorTorpedoBoatFlotilla implements Flotilla {
      */
     @Override
     public void saveChildrenData() {
-        boats.forEach(submarine -> boatDAO.save(submarine));
+        boats.forEach(mtb -> boatDAO.save(mtb));
     }
 
     /**

@@ -3,7 +3,7 @@ package engima.waratsea.model.map;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.Airfield;
-import engima.waratsea.model.base.airfield.AirfieldType;
+import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.port.Port;
@@ -178,7 +178,7 @@ public class BaseGrid implements MarkerGrid {
      * @return The base grid type.
      */
     private BaseGridType determineInitialBaseType(final Airfield field) {
-        return field.getAirfieldType() == AirfieldType.SEAPLANE ? BaseGridType.SEAPLANE : BaseGridType.AIRFIELD;
+        return field.getAirbaseType() == AirbaseType.SEAPLANE ? BaseGridType.SEAPLANE : BaseGridType.AIRFIELD;
     }
 
     /**
@@ -188,6 +188,6 @@ public class BaseGrid implements MarkerGrid {
      * @return The base grid type.
      */
     private BaseGridType determineBaseType(final Airfield field) {
-        return field.getAirfieldType() == AirfieldType.SEAPLANE ? BaseGridType.PORT : BaseGridType.BOTH;
+        return field.getAirbaseType() == AirbaseType.SEAPLANE ? BaseGridType.PORT : BaseGridType.BOTH;
     }
 }

@@ -3,7 +3,7 @@ package engima.waratsea.model.ship;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.AircraftType;
-import engima.waratsea.model.base.airfield.AirfieldType;
+import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
@@ -37,7 +37,7 @@ public class SurfaceShip implements Ship, SquadronHome {
 
     @Getter private final ShipId shipId;
     @Getter private final ShipType type;
-    @Getter private final AirfieldType airfieldType = AirfieldType.TASKFORCE;
+    @Getter private final AirbaseType airbaseType = AirbaseType.SURFACE_SHIP;
     @Getter private final String shipClass;
     @Getter private final Nation nation;
     @Getter private final int victoryPoints;

@@ -425,7 +425,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
         String airbaseReference = home.getReference();
 
         SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
-                .setAirfieldType(home.getAirfieldType())
+                .setAirfieldType(home.getAirbaseType())
                 .setMissionRole(missionRole)
                 .setMissionType(missionType);
 
@@ -504,7 +504,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
         String airbaseReference = home.getReference();
 
         SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
-                .setAirfieldType(home.getAirfieldType())
+                .setAirfieldType(home.getAirbaseType())
                 .setMissionRole(missionRole)
                 .setMissionType(missionType);
 

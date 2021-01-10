@@ -5,8 +5,9 @@ import com.google.inject.Provider;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.Base;
-import engima.waratsea.model.base.airfield.AirfieldType;
+import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
@@ -67,6 +68,9 @@ public class NationAirbaseViewModel {
 
     @Getter private final BooleanProperty noMissionsExist = new SimpleBooleanProperty(true);   // Per nation.
 
+    @Getter private final ListProperty<ProbabilityStats> airOperationStats = new SimpleListProperty<>(FXCollections.emptyObservableList());
+    @Getter private final BooleanProperty airOperationsAffectedByWeather = new SimpleBooleanProperty(false);
+
     @Getter private final ObjectProperty<Airbase> airbase = new SimpleObjectProperty<>();                 // Need this to support binding in constructor.
 
     @Getter private AirbaseViewModel airbaseViewModel;                                                    // Parent airbase view model.
@@ -90,6 +94,7 @@ public class NationAirbaseViewModel {
         bindDetails();
         bindRegion();
         bindImages(imageResourceProvider, props);
+        bindAirOperationStats();
 
         squadronStateViewModel.put(SquadronState.READY, provider.get());
         squadronStateViewModel.put(SquadronState.ALL, provider.get());
@@ -461,7 +466,7 @@ public class NationAirbaseViewModel {
 
         typeTitle.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(airbase.getValue())
-                .map(a -> a.getAirfieldType().getTitle())
+                .map(a -> a.getAirbaseType().getTitle())
                 .orElse(""), airbase));
 
         regionTitle.bind(Bindings.createStringBinding(() -> Optional
@@ -511,6 +516,23 @@ public class NationAirbaseViewModel {
                 .orElse(null), airbase));
     }
 
+    private void bindAirOperationStats() {
+        airOperationStats.bind(Bindings.createObjectBinding(() -> Optional
+                .ofNullable(airbase.getValue())
+                .map(Airbase::getAirOperationStats)
+                .map(FXCollections::observableArrayList)
+                .orElse(FXCollections.emptyObservableList()), airbase));
+
+        airOperationsAffectedByWeather.bind(Bindings.createBooleanBinding(() -> Optional
+                .ofNullable(airbase.getValue())
+                .map(Airbase::getAirOperationStats)
+                .map(stats -> stats
+                        .stream()
+                        .flatMap(stat -> stat.getProbability().values().stream())
+                        .anyMatch(prob -> prob > 0))
+                .orElse(false), airbase));
+    }
+
     /**
      * Set the patrol counts.
      *
@@ -548,7 +570,7 @@ public class NationAirbaseViewModel {
     }
 
     private String getImageName(final Airbase base, final ViewProps props) {
-        AirfieldType airfieldType = base.getAirfieldType();
+        AirbaseType airfieldType = base.getAirbaseType();
         return props.getString(nation + ".airfield." + airfieldType + ".image");
     }
 }

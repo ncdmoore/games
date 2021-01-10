@@ -34,6 +34,8 @@ public class AirfieldView {
     private final Provider<MissionView> airfieldMissionViewProvider;
     private final Provider<PatrolView> airfieldPatrolViewProvider;
     private final Provider<SquadronStateView> squadronStateViewProvider;
+    private final Provider<AirOperationsView> airOperationsViewProvider;
+
     private final ViewProps props;
 
     private Map<Nation, NationAirbaseViewModel> viewModelMap;
@@ -45,6 +47,8 @@ public class AirfieldView {
     @Getter private final Map<Nation, PatrolView> airfieldPatrolView = new HashMap<>();
     @Getter private final Map<Nation, SquadronStateView> airfieldReadyView = new HashMap<>();
     @Getter private final Map<Nation, SquadronStateView> airfieldAllView = new HashMap<>();
+    @Getter private final Map<Nation, AirOperationsView> airOperationsView = new HashMap<>();
+
 
     @Setter private boolean showPatrolPane = false;
 
@@ -52,10 +56,11 @@ public class AirfieldView {
      * Constructor called by guice.
      *
      * @param imageResourceProvider Provides images.
-     * @param airfieldSummaryViewProvider Provides the airfield summary view.
-     * @param airfieldMissionViewProvider Provides the airfield mission view.
-     * @param airfieldPatrolViewProvider  Provides the airfield patrol view.
-     * @param squadronStateViewProvider   Provides the airfield ready view.
+     * @param airfieldSummaryViewProvider Provides the airfield summary views.
+     * @param airfieldMissionViewProvider Provides the airfield mission views.
+     * @param airfieldPatrolViewProvider  Provides the airfield patrol views.
+     * @param squadronStateViewProvider   Provides the airfield ready views.
+     * @param airOperationsViewProvider   Provides the airfield operations views.
      * @param props The view properties.
      */
     @Inject
@@ -64,12 +69,14 @@ public class AirfieldView {
                         final Provider<MissionView> airfieldMissionViewProvider,
                         final Provider<PatrolView> airfieldPatrolViewProvider,
                         final Provider<SquadronStateView> squadronStateViewProvider,
+                        final Provider<AirOperationsView> airOperationsViewProvider,
                         final ViewProps props) {
         this.imageResourceProvider = imageResourceProvider;
         this.airfieldSummaryViewProvider = airfieldSummaryViewProvider;
         this.airfieldMissionViewProvider = airfieldMissionViewProvider;
         this.airfieldPatrolViewProvider = airfieldPatrolViewProvider;
         this.squadronStateViewProvider = squadronStateViewProvider;
+        this.airOperationsViewProvider = airOperationsViewProvider;
         this.props = props;
     }
 
@@ -108,6 +115,7 @@ public class AirfieldView {
         TitledPane patrols = buildPatrolPane(nation, viewModel);
         TitledPane ready = buildReadyPane(nation, viewModel);
         TitledPane all = buildAllPane(nation, viewModel);
+        Node airOpts = buildAirOperationsPane(nation, viewModel);
 
         Accordion accordion = new Accordion();
         accordion.getPanes().addAll(missions, patrols, ready, all);
@@ -118,7 +126,7 @@ public class AirfieldView {
             accordion.setExpandedPane(missions);
         }
 
-        HBox hBox = new HBox(summary, accordion);
+        HBox hBox = new HBox(summary, accordion, airOpts);
         hBox.setId("main-pane");
 
         Tab tab = new Tab(nation.toString());
@@ -208,6 +216,22 @@ public class AirfieldView {
         return airfieldAllView
                 .get(nation)
                 .build(nation, SquadronState.ALL)
+                .bind(viewModel);
+    }
+
+    /**
+     * Build the air operations view.
+     *
+     * @param nation The nation.
+     * @param viewModel The airbase view model.
+     * @return A pane containing the air operations details of the airfield.
+     */
+    private Node buildAirOperationsPane(final Nation nation, final NationAirbaseViewModel viewModel) {
+        airOperationsView.put(nation, airOperationsViewProvider.get());
+
+        return airOperationsView
+                .get(nation)
+                .build()
                 .bind(viewModel);
     }
 

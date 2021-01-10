@@ -134,7 +134,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
      */
     @Override
     public void saveChildrenData() {
-        ships.forEach(ship -> shipyard.save(ship));
+        ships.forEach(shipyard::save);
     }
 
     /**

@@ -5,6 +5,7 @@ import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
@@ -232,4 +233,11 @@ public interface Airbase extends Base, SquadronHome {
      * @param squadrons The squadrons on patrol.
      */
     void updatePatrol(PatrolType patrolType, List<Squadron> squadrons);
+
+    /**
+     * Get this airbase's air operation stats.
+     *
+     * @return This airbase's air operation stats.
+     */
+    List<ProbabilityStats> getAirOperationStats();
 }
