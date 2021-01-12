@@ -42,8 +42,10 @@ public class SquadronSummaryView {
     private final StringProperty airProb = new SimpleStringProperty();
     private final StringProperty landSummary = new SimpleStringProperty();
     private final StringProperty landProb = new SimpleStringProperty();
-    private final StringProperty navalSummary = new SimpleStringProperty();
-    private final StringProperty navalProb = new SimpleStringProperty();
+    private final StringProperty navalWarshipSummary = new SimpleStringProperty();
+    private final StringProperty navalWarshipProb = new SimpleStringProperty();
+    private final StringProperty navalTransportSummary = new SimpleStringProperty();
+    private final StringProperty navalTransportProb = new SimpleStringProperty();
 
     private final StringProperty landing = new SimpleStringProperty();
     private final StringProperty altitude = new SimpleStringProperty();
@@ -147,14 +149,24 @@ public class SquadronSummaryView {
                 .map(svm -> svm.getLandProb().getValue())
                 .orElse(""), squadron));
 
-        navalSummary.bind(Bindings.createStringBinding(() -> Optional
+        navalWarshipSummary.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
-                .map(svm -> svm.getNavalSummary().getValue())
+                .map(svm -> svm.getNavalWarshipSummary().getValue())
                 .orElse(""), squadron));
 
-        navalProb.bind(Bindings.createStringBinding(() -> Optional
+        navalWarshipProb.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
-                .map(svm -> svm.getNavalProb().getValue())
+                .map(svm -> svm.getNavalWarshipProb().getValue())
+                .orElse(""), squadron));
+
+        navalTransportSummary.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getNavalTransportSummary().getValue())
+                .orElse(""), squadron));
+
+        navalTransportProb.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getNavalTransportProb().getValue())
                 .orElse(""), squadron));
 
         landing.bind(Bindings.createStringBinding(() -> Optional
@@ -277,7 +289,8 @@ public class SquadronSummaryView {
         summary.put(" ", Collections.emptyList());
         summary.put("Air-to-Air Attack:", List.of(airSummary, airProb));
         summary.put("Land Attack:", List.of(landSummary, landProb));
-        summary.put("Naval Attack:", List.of(navalSummary, navalProb));
+        summary.put("Warship Attack:", List.of(navalWarshipSummary, navalWarshipProb));
+        summary.put("Transport Attack:", List.of(navalTransportSummary, navalTransportProb));
         return summary;
     }
 
@@ -294,6 +307,7 @@ public class SquadronSummaryView {
         summary.put("Equipped:", equipped);
         summary.put("Radius:", radius);
         summary.put("Endurance:", endurance);
+        summary.put("  ", new SimpleStringProperty(""));
 
         return summary;
     }

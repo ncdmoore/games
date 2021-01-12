@@ -7,7 +7,13 @@
   "altitude": "LOW",
   "takeoff": "SEAPLANE",
   "landing": "SEAPLANE",
-  "naval": {
+  "navalWarship": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0,
+    "sixth": 0
+  },
+  "navalTransport": {
     "modifier": 0,
     "full": 1,
     "half": 0,

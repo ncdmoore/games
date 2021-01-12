@@ -58,9 +58,13 @@ public class SquadronViewModel {
     private final StringProperty landModifier = new SimpleStringProperty();
     @Getter private final StringProperty landProb = new SimpleStringProperty();
 
-    private final StringProperty navalFactor = new SimpleStringProperty();
-    private final StringProperty navalModifier = new SimpleStringProperty();
-    @Getter private final StringProperty navalProb = new SimpleStringProperty();
+    private final StringProperty navalWarshipFactor = new SimpleStringProperty();
+    private final StringProperty navalWarshipModifier = new SimpleStringProperty();
+    @Getter private final StringProperty navalWarshipProb = new SimpleStringProperty();
+
+    private final StringProperty navalTransportFactor = new SimpleStringProperty();
+    private final StringProperty navalTransportModifier = new SimpleStringProperty();
+    @Getter private final StringProperty navalTransportProb = new SimpleStringProperty();
 
     private final StringProperty airFactor = new SimpleStringProperty();
     private final StringProperty airModifier = new SimpleStringProperty();
@@ -68,7 +72,8 @@ public class SquadronViewModel {
 
     @Getter private final StringProperty airSummary = new SimpleStringProperty();
     @Getter private final StringProperty landSummary = new SimpleStringProperty();
-    @Getter private final StringProperty navalSummary = new SimpleStringProperty();
+    @Getter private final StringProperty navalWarshipSummary = new SimpleStringProperty();
+    @Getter private final StringProperty navalTransportSummary = new SimpleStringProperty();
 
     private final StringProperty range = new SimpleStringProperty();
     @Getter private final StringProperty radius = new SimpleStringProperty();
@@ -375,14 +380,26 @@ public class SquadronViewModel {
     }
 
     /**
-     * Get the squadron's naval attack data.
+     * Get the squadron's naval warship attack data.
      *
-     * @return The squadron's naval attack data.
+     * @return The squadron's naval warship attack data.
      */
-    public Map<String, List<StringProperty>> getNavalAttack() {
+    public Map<String, List<StringProperty>> getNavalWarshipAttack() {
         Map<String, List<StringProperty>> map = new LinkedHashMap<>();
-        map.put("Factor:", List.of(navalFactor, navalProb));
-        map.put("Modifier:", List.of(navalModifier));
+        map.put("Factor:", List.of(navalWarshipFactor, navalWarshipProb));
+        map.put("Modifier:", List.of(navalWarshipModifier));
+        return map;
+    }
+
+    /**
+     * Get the squadron's naval transport attack data.
+     *
+     * @return The squadron's naval transport attack data.
+     */
+    public Map<String, List<StringProperty>> getNavalTransportAttack() {
+        Map<String, List<StringProperty>> map = new LinkedHashMap<>();
+        map.put("Factor:", List.of(navalTransportFactor, navalTransportProb));
+        map.put("Modifier:", List.of(navalTransportModifier));
         return map;
     }
 
@@ -520,27 +537,50 @@ public class SquadronViewModel {
     }
 
     private void bindNavalAttack() {
-        navalFactor.bind(Bindings.createStringBinding(() -> Optional
+        navalWarshipFactor.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
-                .map(s -> getFactor(AttackType.NAVAL))
+                .map(s -> getFactor(AttackType.NAVAL_WARSHIP))
                 .map(f -> f.getFactor() + (f.isDefensive() ? " (D)" : ""))
                 .orElse(""), squadron, configuration));
 
-        navalModifier.bind(Bindings.createStringBinding(() -> Optional
+        navalWarshipModifier.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
-                .map(s -> getFactor(AttackType.NAVAL))
+                .map(s -> getFactor(AttackType.NAVAL_WARSHIP))
                 .map(f -> f.getModifier() + "")
                 .orElse(""), squadron, configuration));
 
-        navalSummary.bind(Bindings.createStringBinding(() -> Optional
+        navalWarshipSummary.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
-                .map(s -> getFactor(AttackType.NAVAL))
+                .map(s -> getFactor(AttackType.NAVAL_WARSHIP))
                 .map(this::getAttackSummary)
                 .orElse(""), squadron, configuration));
 
-        navalProb.bind(Bindings.createStringBinding(() -> Optional
+        navalWarshipProb.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
-                .map(s -> getProbability(AttackType.NAVAL))
+                .map(s -> getProbability(AttackType.NAVAL_WARSHIP))
+                .orElse(""), squadron, configuration));
+
+        navalTransportFactor.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(s -> getFactor(AttackType.NAVAL_TRANSPORT))
+                .map(f -> f.getFactor() + (f.isDefensive() ? " (D)" : ""))
+                .orElse(""), squadron, configuration));
+
+        navalTransportModifier.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(s -> getFactor(AttackType.NAVAL_TRANSPORT))
+                .map(f -> f.getModifier() + "")
+                .orElse(""), squadron, configuration));
+
+        navalTransportSummary.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(s -> getFactor(AttackType.NAVAL_TRANSPORT))
+                .map(this::getAttackSummary)
+                .orElse(""), squadron, configuration));
+
+        navalTransportProb.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(s -> getProbability(AttackType.NAVAL_TRANSPORT))
                 .orElse(""), squadron, configuration));
     }
 

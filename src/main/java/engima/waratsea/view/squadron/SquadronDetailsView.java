@@ -25,7 +25,8 @@ public class SquadronDetailsView {
     private final BoundTitledGridPane squadronDetailsPane = new BoundTitledGridPane();
     private final BoundTitledGridPane aircraftDetailsPane = new BoundTitledGridPane();
     private final BoundTitledGridPane aircraftLandPane = new BoundTitledGridPane();
-    private final BoundTitledGridPane aircraftNavalPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane aircraftNavalWarshipPane = new BoundTitledGridPane();
+    private final BoundTitledGridPane aircraftNavalTransportPane = new BoundTitledGridPane();
     private final BoundTitledGridPane aircraftAirPane = new BoundTitledGridPane();
     private final BoundTitledGridPane aircraftPerformancePane = new BoundTitledGridPane();
     private final BoundTitledGridPane aircraftFramePane = new BoundTitledGridPane();
@@ -75,7 +76,8 @@ public class SquadronDetailsView {
         squadronDetailsPane.bindStrings(viewModel.getSquadronDetails());
         aircraftDetailsPane.bindStrings(viewModel.getAircraftDetails());
         aircraftLandPane.bindListStrings(viewModel.getLandAttack());
-        aircraftNavalPane.bindListStrings(viewModel.getNavalAttack());
+        aircraftNavalWarshipPane.bindListStrings(viewModel.getNavalWarshipAttack());
+        aircraftNavalTransportPane.bindListStrings(viewModel.getNavalTransportAttack());
         aircraftAirPane.bindListStrings(viewModel.getAirAttack());
         aircraftPerformancePane.bindListStrings(viewModel.getPerformance());
         aircraftFramePane.bindStrings(viewModel.getFrame());
@@ -143,9 +145,9 @@ public class SquadronDetailsView {
         buildPane(squadronDetailsPane).setTitle("Squadron Details");
         buildPane(aircraftDetailsPane).setTitle("Aircraft Details");
         buildPane(aircraftLandPane).setTitle("Land Attack");
-        buildPane(aircraftNavalPane).setTitle("Naval Attack");
+        buildPane(aircraftNavalWarshipPane).setTitle("Naval Warship Attack");
 
-        VBox vBox = new VBox(squadronDetailsPane, aircraftDetailsPane, aircraftLandPane, aircraftNavalPane);
+        VBox vBox = new VBox(squadronDetailsPane, aircraftDetailsPane, aircraftLandPane, aircraftNavalWarshipPane);
         vBox.getStyleClass().add("components-pane");
 
         return vBox;
@@ -157,11 +159,13 @@ public class SquadronDetailsView {
      * @return The node containing the aircraft's performance boxes.
      */
     private Node buildPerformance() {
-        buildPane(aircraftAirPane).setTitle("Air Attack");
-        buildPane(aircraftPerformancePane).setTitle("Range");
         buildPane(aircraftFramePane).setTitle("Frame");
+        buildPane(aircraftPerformancePane).setTitle("Range");
+        buildPane(aircraftAirPane).setTitle("Air Attack");
+        buildPane(aircraftNavalTransportPane).setTitle("Naval Transport Attack");
 
-        VBox vBox = new VBox(aircraftAirPane, aircraftPerformancePane, aircraftFramePane);
+
+        VBox vBox = new VBox(aircraftFramePane, aircraftPerformancePane, aircraftAirPane, aircraftNavalTransportPane);
         vBox.getStyleClass().add("components-pane");
 
         return vBox;

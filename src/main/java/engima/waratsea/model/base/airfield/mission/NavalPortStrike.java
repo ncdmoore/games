@@ -222,8 +222,8 @@ public class NavalPortStrike implements AirMission {
         Map<Double, Integer> factors = getAttackMap();
 
         ProbabilityStats shipsHitProbability = new ProbabilityStats();
-        shipsHitProbability.setTitle("Ships Hit");
-        shipsHitProbability.setEventColumnTitle("Ships Hit");
+        shipsHitProbability.setTitle("Ship Hits");
+        shipsHitProbability.setEventColumnTitle("Ship Hits");
         shipsHitProbability.setProbability(buildProbabilityShipHit(factors));
 
         return Collections.singletonList(shipsHitProbability);
@@ -348,7 +348,7 @@ public class NavalPortStrike implements AirMission {
      * @return The squadron's naval attack modifier, including any global game naval attack modifiers.
      */
     private double getNavalProbability(final Squadron squadron) {
-        return squadron.getHitIndividualProbability(AttackType.NAVAL, getTarget(), rules.getModifier() + PORT_MODIFIER);
+        return squadron.getHitIndividualProbability(AttackType.NAVAL_WARSHIP, getTarget(), rules.getModifier() + PORT_MODIFIER);
     }
 
     /**
@@ -358,6 +358,6 @@ public class NavalPortStrike implements AirMission {
      * @return The squadron's current naval attack factor.
      */
     private int getFactor(final Squadron squadron) {
-        return squadron.getAttack(AttackType.NAVAL).getFactor();
+        return squadron.getAttack(AttackType.NAVAL_WARSHIP).getFactor();
     }
 }

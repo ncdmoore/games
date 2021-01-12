@@ -49,7 +49,8 @@ public class ItalianBomber implements Aircraft {
     @Getter private final LandingType landing;
     @Getter private final LandingType takeoff;
     @Getter private final Frame frame;
-    private final Attack naval;
+    private final Attack navalWarship;
+    private final Attack navalTransport;
     private final Attack air;
     private final Attack land;
     private final Performance performance;
@@ -77,7 +78,8 @@ public class ItalianBomber implements Aircraft {
         this.altitude = data.getAltitude();
         this.landing = data.getLanding();
         this.takeoff = data.getTakeoff();
-        this.naval = new Attack(data.getNaval());
+        this.navalWarship = new Attack(data.getNavalWarship());
+        this.navalTransport = new Attack(data.getNavalTransport());
         this.land = new Attack(data.getLand());
         this.air = new Attack(data.getAir());
         this.performance = new Performance(data.getPerformance());
@@ -90,7 +92,9 @@ public class ItalianBomber implements Aircraft {
 
         attackMap.put(AttackType.AIR, this::getAir);
         attackMap.put(AttackType.LAND, this::getLand);
-        attackMap.put(AttackType.NAVAL, this::getNaval);
+        attackMap.put(AttackType.NAVAL_WARSHIP, this::getNavalWarship);
+        attackMap.put(AttackType.NAVAL_TRANSPORT, this::getNavalTransport);
+
     }
 
     /**
@@ -149,7 +153,7 @@ public class ItalianBomber implements Aircraft {
 
         int radius = performance.getRadius();
         int leanMixtureRadius = radius * LEAN_ENGINE_FACTOR;
-        int searchModifier = performance.getSearchModifier(land, naval);
+        int searchModifier = performance.getSearchModifier(land, navalWarship);
         int searchRadius = radius + searchModifier;
 
         return Map.of(SquadronConfig.NONE, radius,
@@ -170,7 +174,7 @@ public class ItalianBomber implements Aircraft {
 
         int distance = performance.getFerryDistance();
         int leanMixtureDistance = distance * LEAN_ENGINE_FACTOR;
-        int searchModifier = performance.getSearchModifier(land, naval);
+        int searchModifier = performance.getSearchModifier(land, navalWarship);
         int searchDistance = distance + (searchModifier * 2);
 
         return Map.of(SquadronConfig.NONE, distance,
@@ -294,15 +298,29 @@ public class ItalianBomber implements Aircraft {
     }
 
     /**
-     * Get the aircraft's naval attack factor.
+     * Get the aircraft's naval attack factor against warships.
      *
-     * @return The aircraft's naval attack factor.
+     * @return The aircraft's naval attack factor against warships.
      */
-    private Map<SquadronConfig, Attack> getNaval() {
-        Attack leanMixtureAttack = naval.getReducedRoundUp(LEAN_ENGINE_FACTOR);
-        Attack searchAttack = naval.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
+    private Map<SquadronConfig, Attack> getNavalWarship() {
+        Attack leanMixtureAttack = navalWarship.getReducedRoundUp(LEAN_ENGINE_FACTOR);
+        Attack searchAttack = navalWarship.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
 
-        return Map.of(SquadronConfig.NONE, naval,
+        return Map.of(SquadronConfig.NONE, navalWarship,
+                SquadronConfig.LEAN_ENGINE, leanMixtureAttack,
+                SquadronConfig.SEARCH, searchAttack);
+    }
+
+    /**
+     * Get the aircraft's naval attack factor against transports.
+     *
+     * @return The aircraft's naval attack factor against transports.
+     */
+    private Map<SquadronConfig, Attack> getNavalTransport() {
+        Attack leanMixtureAttack = navalTransport.getReducedRoundUp(LEAN_ENGINE_FACTOR);
+        Attack searchAttack = navalTransport.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
+
+        return Map.of(SquadronConfig.NONE, navalTransport,
                 SquadronConfig.LEAN_ENGINE, leanMixtureAttack,
                 SquadronConfig.SEARCH, searchAttack);
     }

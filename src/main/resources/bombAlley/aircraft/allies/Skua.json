@@ -7,7 +7,12 @@
   "altitude": "LOW",
   "takeoff": "CARRIER",
   "landing": "CARRIER",
-  "naval": {
+  "navalWarship": {
+    "modifier": 2,
+    "full": 2,
+    "half": 1
+  },
+  "navalTransport": {
     "modifier": 2,
     "full": 2,
     "half": 1

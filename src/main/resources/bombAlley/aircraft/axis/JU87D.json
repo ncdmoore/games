@@ -7,7 +7,12 @@
   "altitude": "LOW",
   "takeoff": "LAND",
   "landing": "LAND",
-  "naval": {
+  "navalWarship": {
+    "modifier": 2,
+    "full": 8,
+    "half": 4
+  },
+  "navalTransport": {
     "modifier": 2,
     "full": 8,
     "half": 4

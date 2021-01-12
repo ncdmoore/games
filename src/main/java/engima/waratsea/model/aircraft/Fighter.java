@@ -56,7 +56,8 @@ public class Fighter implements Aircraft {
     @Getter private final LandingType landing;
     @Getter private final LandingType takeoff;
     @Getter private final Frame frame;
-    private final Attack naval;
+    private final Attack navalWarship;
+    private final Attack navalTransport;
     private final Attack land;
     private final Attack air;
     private final Performance performance;
@@ -83,7 +84,8 @@ public class Fighter implements Aircraft {
         this.altitude = data.getAltitude();
         this.landing = data.getLanding();
         this.takeoff = data.getTakeoff();
-        this.naval = new Attack(data.getNaval());
+        this.navalWarship = new Attack(data.getNavalWarship());
+        this.navalTransport = new Attack(data.getNavalTransport());
         this.land = new Attack(data.getLand());
         this.air = new Attack(data.getAir());
         this.performance = new Performance(data.getPerformance());
@@ -96,7 +98,8 @@ public class Fighter implements Aircraft {
 
         attackMap.put(AttackType.AIR, this::getAir);
         attackMap.put(AttackType.LAND, this::getLand);
-        attackMap.put(AttackType.NAVAL, this::getNaval);
+        attackMap.put(AttackType.NAVAL_WARSHIP, this::getNavalWarship);
+        attackMap.put(AttackType.NAVAL_TRANSPORT, this::getNavalTransport);
     }
 
     /**
@@ -305,17 +308,32 @@ public class Fighter implements Aircraft {
     }
 
     /**
-     * Get the aircraft's naval attack factor.
+     * Get the aircraft's naval attack factor against warships.
      *
-     * @return The aircraft's naval attack factor.
+     * @return The aircraft's naval attack factor against worships.
      */
-    private Map<SquadronConfig, Attack> getNaval() {
+    private Map<SquadronConfig, Attack> getNavalWarship() {
         AttackData data = new AttackData();   // a zero attack factor.
         Attack stripped = new Attack(data);
 
-        return Map.of(SquadronConfig.NONE, naval,
-                SquadronConfig.DROP_TANKS, naval,
-                SquadronConfig.SEARCH, naval,
+        return Map.of(SquadronConfig.NONE, navalWarship,
+                SquadronConfig.DROP_TANKS, navalWarship,
+                SquadronConfig.SEARCH, navalWarship,
+                SquadronConfig.STRIPPED_DOWN, stripped);
+    }
+
+    /**
+     * Get the aircraft's naval attack factor against transports.
+     *
+     * @return The aircraft's naval attack factor against transports.
+     */
+    private Map<SquadronConfig, Attack> getNavalTransport() {
+        AttackData data = new AttackData();   // a zero attack factor.
+        Attack stripped = new Attack(data);
+
+        return Map.of(SquadronConfig.NONE, navalTransport,
+                SquadronConfig.DROP_TANKS, navalTransport,
+                SquadronConfig.SEARCH, navalTransport,
                 SquadronConfig.STRIPPED_DOWN, stripped);
     }
 }

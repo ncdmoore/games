@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
  *  SquadronConfig.REDUCED_PAYLOAD
  */
 public class Bomber implements Aircraft {
-
     private final Map<AttackType, FunctionalMap<SquadronConfig, Attack>> attackMap = new HashMap<>();
 
     private final Set<SquadronConfig> configuration = Set.of(
@@ -49,7 +48,8 @@ public class Bomber implements Aircraft {
     @Getter private final LandingType landing;
     @Getter private final LandingType takeoff;
     @Getter private final Frame frame;
-    private final Attack naval;
+    private final Attack navalWarship;
+    private final Attack navalTransport;
     private final Attack air;
     private final Attack land;
     private final Performance performance;
@@ -76,7 +76,8 @@ public class Bomber implements Aircraft {
         this.altitude = data.getAltitude();
         this.landing = data.getLanding();
         this.takeoff = data.getTakeoff();
-        this.naval = new Attack(data.getNaval());
+        this.navalWarship = new Attack(data.getNavalWarship());
+        this.navalTransport = new Attack(data.getNavalTransport());
         this.land = new Attack(data.getLand());
         this.air = new Attack(data.getAir());
         this.performance = new Performance(data.getPerformance());
@@ -89,7 +90,9 @@ public class Bomber implements Aircraft {
 
         attackMap.put(AttackType.AIR, this::getAir);
         attackMap.put(AttackType.LAND, this::getLand);
-        attackMap.put(AttackType.NAVAL, this::getNaval);
+        attackMap.put(AttackType.NAVAL_WARSHIP, this::getNavalWarship);
+        attackMap.put(AttackType.NAVAL_TRANSPORT, this::getNavalTransport);
+
     }
 
     /**
@@ -145,8 +148,8 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getRadius() {
-        int searchModifier = performance.getSearchModifier(land, naval);
-        int reducedModifier = performance.getReducedPayloadModifier(land, naval);
+        int searchModifier = performance.getSearchModifier(land, navalWarship);
+        int reducedModifier = performance.getReducedPayloadModifier(land, navalWarship);
 
         return Map.of(
                 SquadronConfig.NONE, performance.getRadius(),
@@ -164,8 +167,8 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getFerryDistance() {
-        int searchModifier = performance.getSearchModifier(land, naval) * 2;
-        int reducedModifier = performance.getReducedPayloadModifier(land, naval) * 2;
+        int searchModifier = performance.getSearchModifier(land, navalWarship) * 2;
+        int reducedModifier = performance.getReducedPayloadModifier(land, navalWarship) * 2;
 
         return Map.of(
                 SquadronConfig.NONE, performance.getFerryDistance(),
@@ -288,15 +291,29 @@ public class Bomber implements Aircraft {
     }
 
     /**
-     * Get the aircraft's naval attack factor.
+     * Get the aircraft's naval attack factor against warships.
      *
-     * @return The aircraft's naval attack factor.
+     * @return The aircraft's naval attack factor against warships.
      */
-    private Map<SquadronConfig, Attack> getNaval() {
-        Attack reduced = naval.getReducedRoundDown(ATTACK_REDUCTION);
+    private Map<SquadronConfig, Attack> getNavalWarship() {
+        Attack reduced = navalWarship.getReducedRoundDown(ATTACK_REDUCTION);
 
         return Map.of(
-                SquadronConfig.NONE, naval,
+                SquadronConfig.NONE, navalWarship,
+                SquadronConfig.SEARCH, reduced,
+                SquadronConfig.REDUCED_PAYLOAD, reduced);
+    }
+
+    /**
+     * Get the aircraft's naval attack factor against transports.
+     *
+     * @return The aircraft's naval attack factor against transports.
+     */
+    private Map<SquadronConfig, Attack> getNavalTransport() {
+        Attack reduced = navalTransport.getReducedRoundDown(ATTACK_REDUCTION);
+
+        return Map.of(
+                SquadronConfig.NONE, navalTransport,
                 SquadronConfig.SEARCH, reduced,
                 SquadronConfig.REDUCED_PAYLOAD, reduced);
     }

@@ -6,5 +6,6 @@ package engima.waratsea.model.aircraft;
 public enum AttackType {
     AIR,
     LAND,
-    NAVAL
+    NAVAL_WARSHIP,
+    NAVAL_TRANSPORT
 }
