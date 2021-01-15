@@ -26,9 +26,9 @@ import java.nio.file.Paths;
 @Slf4j
 @Singleton
 public class AllotmentDAO {
-    private Resource config;
-    private SquadronProps props;
-    private AllotmentFactory allotmentFactory;
+    private final Resource config;
+    private final SquadronProps props;
+    private final AllotmentFactory allotmentFactory;
 
     /**
      * The constructor. Called by guice.

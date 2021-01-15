@@ -33,6 +33,11 @@ import java.util.stream.Stream;
  * This is specified by an overall number of optional dice. This
  * number of of optional (extra) dice is spread over the three
  * types of aircraft.
+ *
+ * An allotment is a collection of SquadronData for the three
+ * types of aircraft. Squadrons are then built from this data.
+ * Thus, essentially an allotment is just the collection of
+ * squadron data for a given nation.
  */
 @Slf4j
 public class Allotment {

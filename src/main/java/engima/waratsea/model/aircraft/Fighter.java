@@ -3,15 +3,15 @@ package engima.waratsea.model.aircraft;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.aircraft.data.AircraftData;
-import engima.waratsea.model.aircraft.data.AttackData;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.rules.GameRules;
-import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.squadron.SquadronConfig;
+import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.FunctionalMap;
+import javafx.util.Pair;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -43,9 +43,6 @@ public class Fighter implements Aircraft {
             SquadronConfig.DROP_TANKS,
             SquadronConfig.SEARCH,
             SquadronConfig.STRIPPED_DOWN);
-
-    private static final double DROP_TANK_FACTOR = 1.5;    // Drop tanks increase range by 1.5 times.
-    private static final int STRIPPED_DOWN_FACTOR = 3;     // Stripping down the fighter of ordinance and adding extra full increases the range by 3.
 
     @Getter private final AircraftId aircraftId;
     @Getter private final AircraftType type;
@@ -193,14 +190,10 @@ public class Fighter implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getRadius() {
-        int radius = performance.getRadius();
-        int radiusWithDropTank = (int) Math.ceil(performance.getRadius() * DROP_TANK_FACTOR);
-        int radiusStrippedDown = performance.getRadius() * STRIPPED_DOWN_FACTOR;
-
-        return Map.of(SquadronConfig.NONE, radius,
-                      SquadronConfig.DROP_TANKS, radiusWithDropTank,
-                      SquadronConfig.SEARCH, radiusWithDropTank,
-                      SquadronConfig.STRIPPED_DOWN, radiusStrippedDown);
+        return configuration
+                .stream()
+                .map(this::buildRadius)
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -213,14 +206,10 @@ public class Fighter implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getFerryDistance() {
-        int distance = performance.getFerryDistance();
-        int distanceWithDropTank = (int) Math.ceil(performance.getFerryDistance() * DROP_TANK_FACTOR);
-        int distanceStrippedDown = performance.getFerryDistance() * STRIPPED_DOWN_FACTOR;
-
-        return Map.of(SquadronConfig.NONE, distance,
-                      SquadronConfig.DROP_TANKS, distanceWithDropTank,
-                      SquadronConfig.SEARCH, distanceWithDropTank,
-                      SquadronConfig.STRIPPED_DOWN, distanceStrippedDown);
+        return configuration
+                .stream()
+                .map(this::buildFerryDistance)
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -243,10 +232,10 @@ public class Fighter implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getEndurance() {
-        return Map.of(SquadronConfig.NONE, performance.getEndurance(),
-                      SquadronConfig.DROP_TANKS, performance.getEndurance(),
-                      SquadronConfig.SEARCH, performance.getEndurance(),
-                      SquadronConfig.STRIPPED_DOWN, performance.getEndurance());
+        return configuration
+                .stream()
+                .map(config -> new Pair<>(config, config.getEndurance(performance)))
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -280,16 +269,10 @@ public class Fighter implements Aircraft {
      * @return The aircraft's air to air attack factor.
      */
     private Map<SquadronConfig, Attack> getAir() {
-        AttackData data = new AttackData();
-        data.setFull(air.getFull());
-        data.setHalf(air.getHalf());
-        data.setSixth(air.getSixth());
-        Attack stripped = new Attack(data);
-
-        return Map.of(SquadronConfig.NONE, air,
-                SquadronConfig.DROP_TANKS, air,
-                SquadronConfig.SEARCH, air,
-                SquadronConfig.STRIPPED_DOWN, stripped);
+        return configuration
+                .stream()
+                .map(this::buildAir)
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -298,13 +281,10 @@ public class Fighter implements Aircraft {
      * @return The aircraft's land attack factor.
      */
     private Map<SquadronConfig, Attack> getLand() {
-        AttackData data = new AttackData();   // a zero attack factor.
-        Attack stripped = new Attack(data);
-
-        return Map.of(SquadronConfig.NONE, land,
-                SquadronConfig.DROP_TANKS, land,
-                SquadronConfig.SEARCH, land,
-                SquadronConfig.STRIPPED_DOWN, stripped);
+        return configuration
+                .stream()
+                .map(this::buildLand)
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -313,13 +293,10 @@ public class Fighter implements Aircraft {
      * @return The aircraft's naval attack factor against worships.
      */
     private Map<SquadronConfig, Attack> getNavalWarship() {
-        AttackData data = new AttackData();   // a zero attack factor.
-        Attack stripped = new Attack(data);
-
-        return Map.of(SquadronConfig.NONE, navalWarship,
-                SquadronConfig.DROP_TANKS, navalWarship,
-                SquadronConfig.SEARCH, navalWarship,
-                SquadronConfig.STRIPPED_DOWN, stripped);
+        return configuration
+                .stream()
+                .map(this::buildNavalWarship)
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -328,12 +305,33 @@ public class Fighter implements Aircraft {
      * @return The aircraft's naval attack factor against transports.
      */
     private Map<SquadronConfig, Attack> getNavalTransport() {
-        AttackData data = new AttackData();   // a zero attack factor.
-        Attack stripped = new Attack(data);
+        return configuration
+                .stream()
+                .map(this::buildNavalTransport)
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
+    }
 
-        return Map.of(SquadronConfig.NONE, navalTransport,
-                SquadronConfig.DROP_TANKS, navalTransport,
-                SquadronConfig.SEARCH, navalTransport,
-                SquadronConfig.STRIPPED_DOWN, stripped);
+    private Pair<SquadronConfig, Integer> buildRadius(final SquadronConfig config) {
+        return new Pair<>(config, config.getRadius(land, navalWarship, performance));
+    }
+
+    private Pair<SquadronConfig, Integer> buildFerryDistance(final SquadronConfig config) {
+        return new Pair<>(config, config.getFerryDistance(land, navalWarship, performance));
+    }
+
+    private Pair<SquadronConfig, Attack> buildAir(final SquadronConfig config) {
+        return new Pair<>(config, config.getAttack(AttackType.AIR, air));
+    }
+
+    private Pair<SquadronConfig, Attack> buildLand(final SquadronConfig config) {
+        return new Pair<>(config, config.getAttack(AttackType.LAND, land));
+    }
+
+    private Pair<SquadronConfig, Attack> buildNavalWarship(final SquadronConfig config) {
+        return new Pair<>(config, config.getAttack(AttackType.NAVAL_WARSHIP, navalWarship));
+    }
+
+    private Pair<SquadronConfig, Attack> buildNavalTransport(final SquadronConfig config) {
+        return new Pair<>(config, config.getAttack(AttackType.NAVAL_TRANSPORT, navalTransport));
     }
 }

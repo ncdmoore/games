@@ -20,9 +20,6 @@ import lombok.Getter;
  *
  */
 public class Performance {
-    private static final int SEARCH_MODIFIER = 2;              // Squadron configured for search has less ordinance and more fuel. This is the increase in range.
-    private static final int ORDINANCE_PAYLOAD_THRESHOLD = 2;  // Additional range threshold for SEARCH and REDUCED_ORDINANCE configurations.
-
     @Getter private final int gameRange;
     @Getter private final int endurance;       // Endurance is equal to turns. Thus, if the endurance is 2, then this equates to 2 turns.
     @Getter private final int ferryDistance;   // This is the distance the aircraft may move without returning to base. One way distance.
@@ -58,45 +55,5 @@ public class Performance {
      */
     private int calculateRadius(final int currentEndurance) {
         return  (gameRange * currentEndurance) / 2 + ((gameRange % 2) * currentEndurance) / 2;  // Two way distance. Return.
-    }
-
-    /**
-     * Get the search range modifier for this aircraft. If the aircraft has extra fuel
-     * capacity, then the range modifier is increased by a set amount.
-     *
-     * @param land The squadron's land attack factor.
-     * @param naval The squadron's naval attack factor.
-     * @return The search range modifier for this aircraft.
-     */
-    public int getSearchModifier(final Attack land, final Attack naval) {
-        return SEARCH_MODIFIER + (hasExtraFuelCapacity(land, naval) ? SEARCH_MODIFIER : 0);
-    }
-
-    /**
-     * Get the reduced payload range modifier for this aircraft. If the aircraft has extra fuel
-     * capacity, then the range modifier is increased by a set amount.
-     *
-     * @param land The squadron's land attack factor.
-     * @param naval The squadron's naval attack factor.
-     * @return The reduced payload range modifier for this aircraft.
-     */
-    public int getReducedPayloadModifier(final Attack land, final Attack naval) {
-        return hasExtraFuelCapacity(land, naval) ? SEARCH_MODIFIER : 0;
-    }
-
-    /**
-     * Determine if this aircraft has extra capacity for fuel if its naval/land payload is reduced.
-     * The aircraft must have an ordinance capacity great enough to carry extra fuel. This is
-     * determined by the naval/land attack factor of the aircraft. If one of these factors is
-     * greater than the defined threshold, then this aircraft can carry extra fuel in place of
-     * ordinance to extend its range.
-     *
-     * @param land The squadron's land attack factor.
-     * @param naval The squadron's naval attack factor.
-     * @return True if this aircraft has extra fuel capacity. False otherwise.
-     */
-    private boolean hasExtraFuelCapacity(final Attack land, final Attack naval) {
-        return land.getFull() >= ORDINANCE_PAYLOAD_THRESHOLD
-                || naval.getFull() >= ORDINANCE_PAYLOAD_THRESHOLD;
     }
 }

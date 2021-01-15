@@ -11,6 +11,7 @@ import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.FunctionalMap;
+import javafx.util.Pair;
 import lombok.Getter;
 
 import java.util.Collections;
@@ -36,9 +37,6 @@ public class ItalianBomber implements Aircraft {
             SquadronConfig.NONE,
             SquadronConfig.SEARCH,
             SquadronConfig.LEAN_ENGINE);
-
-    private static final int SEARCH_ATTACK_REDUCTION = 2; // Squadron configured for search attack factor reduction.
-    private static final int LEAN_ENGINE_FACTOR = 2;
 
     @Getter private final AircraftId aircraftId;
     @Getter private final AircraftType type;
@@ -94,7 +92,6 @@ public class ItalianBomber implements Aircraft {
         attackMap.put(AttackType.LAND, this::getLand);
         attackMap.put(AttackType.NAVAL_WARSHIP, this::getNavalWarship);
         attackMap.put(AttackType.NAVAL_TRANSPORT, this::getNavalTransport);
-
     }
 
     /**
@@ -150,15 +147,10 @@ public class ItalianBomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getRadius() {
-
-        int radius = performance.getRadius();
-        int leanMixtureRadius = radius * LEAN_ENGINE_FACTOR;
-        int searchModifier = performance.getSearchModifier(land, navalWarship);
-        int searchRadius = radius + searchModifier;
-
-        return Map.of(SquadronConfig.NONE, radius,
-                SquadronConfig.LEAN_ENGINE, leanMixtureRadius,
-                SquadronConfig.SEARCH, searchRadius);
+        return configuration
+                .stream()
+                .map(config -> new Pair<>(config, config.getRadius(land, navalWarship, performance)))
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -171,15 +163,10 @@ public class ItalianBomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getFerryDistance() {
-
-        int distance = performance.getFerryDistance();
-        int leanMixtureDistance = distance * LEAN_ENGINE_FACTOR;
-        int searchModifier = performance.getSearchModifier(land, navalWarship);
-        int searchDistance = distance + (searchModifier * 2);
-
-        return Map.of(SquadronConfig.NONE, distance,
-                SquadronConfig.LEAN_ENGINE, leanMixtureDistance,
-                SquadronConfig.SEARCH, searchDistance);
+        return configuration
+                .stream()
+                .map(config -> new Pair<>(config, config.getFerryDistance(land, navalWarship, performance)))
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -202,12 +189,10 @@ public class ItalianBomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getEndurance() {
-        int endurance = performance.getEndurance();
-        int leanMixtureEndurance = endurance * LEAN_ENGINE_FACTOR;
-
-        return Map.of(SquadronConfig.NONE, endurance,
-                SquadronConfig.LEAN_ENGINE, leanMixtureEndurance,
-                SquadronConfig.SEARCH, endurance);
+        return configuration
+                .stream()
+                .map(config -> new Pair<>(config, config.getEndurance(performance)))
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
     /**
      * Get the probability the aircraft will hit during an attack.
@@ -278,9 +263,10 @@ public class ItalianBomber implements Aircraft {
      * @return The aircraft's land attack factor.
      */
     private Map<SquadronConfig, Attack> getAir() {
-        return Map.of(SquadronConfig.NONE, air,
-                SquadronConfig.LEAN_ENGINE, air,
-                SquadronConfig.SEARCH, air);
+        return configuration
+                .stream()
+                .map(config -> new Pair<>(config, config.getAttack(AttackType.AIR, air)))
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -289,12 +275,10 @@ public class ItalianBomber implements Aircraft {
      * @return The aircraft's land attack factor.
      */
     private Map<SquadronConfig, Attack> getLand() {
-        Attack leanMixtureAttack = land.getReducedRoundUp(LEAN_ENGINE_FACTOR);
-        Attack searchAttack = land.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
-
-        return Map.of(SquadronConfig.NONE, land,
-                SquadronConfig.LEAN_ENGINE, leanMixtureAttack,
-                SquadronConfig.SEARCH, searchAttack);
+        return configuration
+                .stream()
+                .map(config -> new Pair<>(config, config.getAttack(AttackType.LAND, land)))
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -303,12 +287,10 @@ public class ItalianBomber implements Aircraft {
      * @return The aircraft's naval attack factor against warships.
      */
     private Map<SquadronConfig, Attack> getNavalWarship() {
-        Attack leanMixtureAttack = navalWarship.getReducedRoundUp(LEAN_ENGINE_FACTOR);
-        Attack searchAttack = navalWarship.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
-
-        return Map.of(SquadronConfig.NONE, navalWarship,
-                SquadronConfig.LEAN_ENGINE, leanMixtureAttack,
-                SquadronConfig.SEARCH, searchAttack);
+        return configuration
+                .stream()
+                .map(config -> new Pair<>(config, config.getAttack(AttackType.NAVAL_WARSHIP, navalWarship)))
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -317,11 +299,9 @@ public class ItalianBomber implements Aircraft {
      * @return The aircraft's naval attack factor against transports.
      */
     private Map<SquadronConfig, Attack> getNavalTransport() {
-        Attack leanMixtureAttack = navalTransport.getReducedRoundUp(LEAN_ENGINE_FACTOR);
-        Attack searchAttack = navalTransport.getReducedRoundDown(SEARCH_ATTACK_REDUCTION);
-
-        return Map.of(SquadronConfig.NONE, navalTransport,
-                SquadronConfig.LEAN_ENGINE, leanMixtureAttack,
-                SquadronConfig.SEARCH, searchAttack);
+        return configuration
+                .stream()
+                .map(config -> new Pair<>(config, config.getAttack(AttackType.NAVAL_TRANSPORT, navalTransport)))
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 }

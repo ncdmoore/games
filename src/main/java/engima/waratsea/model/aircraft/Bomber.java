@@ -11,6 +11,7 @@ import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.FunctionalMap;
+import javafx.util.Pair;
 import lombok.Getter;
 
 import java.util.Collections;
@@ -36,8 +37,6 @@ public class Bomber implements Aircraft {
             SquadronConfig.NONE,
             SquadronConfig.SEARCH,
             SquadronConfig.REDUCED_PAYLOAD);
-
-    private static final int ATTACK_REDUCTION = 2;      // Squadron configured for search attack factor reduction.
 
     @Getter private final AircraftId aircraftId;
     @Getter private final AircraftType type;
@@ -92,7 +91,6 @@ public class Bomber implements Aircraft {
         attackMap.put(AttackType.LAND, this::getLand);
         attackMap.put(AttackType.NAVAL_WARSHIP, this::getNavalWarship);
         attackMap.put(AttackType.NAVAL_TRANSPORT, this::getNavalTransport);
-
     }
 
     /**
@@ -122,8 +120,8 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Set<SquadronConfig> getConfiguration() {
-        return configuration.
-                stream()
+        return configuration
+                .stream()
                 .filter(squadronConfig -> rules.isSquadronConfigAllowed(nationality, squadronConfig))
                 .collect(Collectors.toSet());
     }
@@ -148,13 +146,10 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getRadius() {
-        int searchModifier = performance.getSearchModifier(land, navalWarship);
-        int reducedModifier = performance.getReducedPayloadModifier(land, navalWarship);
-
-        return Map.of(
-                SquadronConfig.NONE, performance.getRadius(),
-                SquadronConfig.SEARCH, performance.getRadius() + searchModifier,
-                SquadronConfig.REDUCED_PAYLOAD, performance.getRadius() + reducedModifier);
+        return configuration
+                .stream()
+                .map(this::buildRadius)
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -167,13 +162,10 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getFerryDistance() {
-        int searchModifier = performance.getSearchModifier(land, navalWarship) * 2;
-        int reducedModifier = performance.getReducedPayloadModifier(land, navalWarship) * 2;
-
-        return Map.of(
-                SquadronConfig.NONE, performance.getFerryDistance(),
-                SquadronConfig.SEARCH, performance.getFerryDistance() + searchModifier,
-                SquadronConfig.REDUCED_PAYLOAD, performance.getFerryDistance() + reducedModifier);
+        return configuration
+                .stream()
+                .map(this::buildFerryDistance)
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -196,10 +188,10 @@ public class Bomber implements Aircraft {
      */
     @Override
     public Map<SquadronConfig, Integer> getEndurance() {
-        return  Map.of(
-                SquadronConfig.NONE, performance.getEndurance(),
-                SquadronConfig.SEARCH, performance.getEndurance(),
-                SquadronConfig.REDUCED_PAYLOAD, performance.getEndurance());
+        return configuration
+                .stream()
+                .map(config -> new Pair<>(config, config.getEndurance(performance)))
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -270,10 +262,10 @@ public class Bomber implements Aircraft {
      * @return The aircraft's air to air attack factor.
      */
     private Map<SquadronConfig, Attack> getAir() {
-        return Map.of(
-                SquadronConfig.NONE, air,
-                SquadronConfig.SEARCH, air,
-                SquadronConfig.REDUCED_PAYLOAD, air);
+        return configuration
+                .stream()
+                .map(this::buildAir)
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -282,12 +274,10 @@ public class Bomber implements Aircraft {
      * @return The aircraft's land attack factor.
      */
     private Map<SquadronConfig, Attack> getLand() {
-        Attack reduced = land.getReducedRoundDown(ATTACK_REDUCTION);
-
-        return Map.of(
-                SquadronConfig.NONE, land,
-                SquadronConfig.SEARCH, reduced,
-                SquadronConfig.REDUCED_PAYLOAD, reduced);
+        return configuration
+                .stream()
+                .map(this::buildLand)
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -296,12 +286,10 @@ public class Bomber implements Aircraft {
      * @return The aircraft's naval attack factor against warships.
      */
     private Map<SquadronConfig, Attack> getNavalWarship() {
-        Attack reduced = navalWarship.getReducedRoundDown(ATTACK_REDUCTION);
-
-        return Map.of(
-                SquadronConfig.NONE, navalWarship,
-                SquadronConfig.SEARCH, reduced,
-                SquadronConfig.REDUCED_PAYLOAD, reduced);
+        return configuration
+                .stream()
+                .map(this::buildNavalWarship)
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     /**
@@ -310,11 +298,33 @@ public class Bomber implements Aircraft {
      * @return The aircraft's naval attack factor against transports.
      */
     private Map<SquadronConfig, Attack> getNavalTransport() {
-        Attack reduced = navalTransport.getReducedRoundDown(ATTACK_REDUCTION);
+        return configuration
+                .stream()
+                .map(this::buildNavalTransport)
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
+    }
 
-        return Map.of(
-                SquadronConfig.NONE, navalTransport,
-                SquadronConfig.SEARCH, reduced,
-                SquadronConfig.REDUCED_PAYLOAD, reduced);
+    private Pair<SquadronConfig, Integer> buildRadius(final SquadronConfig config) {
+        return new Pair<>(config, config.getRadius(land, navalWarship, performance));
+    }
+
+    private Pair<SquadronConfig, Integer> buildFerryDistance(final SquadronConfig config) {
+        return new Pair<>(config, config.getFerryDistance(land, navalWarship, performance));
+    }
+
+    private Pair<SquadronConfig, Attack> buildAir(final SquadronConfig config) {
+        return new Pair<>(config, config.getAttack(AttackType.AIR, air));
+    }
+
+    private Pair<SquadronConfig, Attack> buildLand(final SquadronConfig config) {
+        return new Pair<>(config, config.getAttack(AttackType.LAND, land));
+    }
+
+    private Pair<SquadronConfig, Attack> buildNavalWarship(final SquadronConfig config) {
+        return new Pair<>(config, config.getAttack(AttackType.NAVAL_WARSHIP, navalWarship));
+    }
+
+    private Pair<SquadronConfig, Attack> buildNavalTransport(final SquadronConfig config) {
+        return new Pair<>(config, config.getAttack(AttackType.NAVAL_TRANSPORT, navalTransport));
     }
 }

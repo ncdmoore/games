@@ -12,7 +12,7 @@ import engima.waratsea.model.squadron.SquadronLocationType;
 import java.util.List;
 
 public class SquadronDeploymentManual {
-    private GameMap gameMap;
+    private final GameMap gameMap;
 
     private Player player;
     private Side side;
