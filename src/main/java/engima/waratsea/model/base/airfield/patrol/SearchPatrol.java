@@ -133,6 +133,7 @@ public class SearchPatrol implements Patrol {
         if (canAdd(squadron)) {   //Make sure the squadron is actual deployed at the airbase.
             squadrons.add(squadron);
             squadron.setState(SquadronAction.ASSIGN_TO_PATROL);
+            squadron.equip(this);
             updateMaxRadius();
         } else {
             log.error("Unable to add squadron: '{}' to patrol. Squadron not deployed to airbase: '{}'", squadron, airbase);
@@ -148,6 +149,7 @@ public class SearchPatrol implements Patrol {
     public void removeSquadron(final Squadron squadron) {
         squadrons.remove(squadron);
         squadron.setState(SquadronAction.REMOVE_FROM_PATROL);
+        squadron.unEquip();
         updateMaxRadius();
     }
 

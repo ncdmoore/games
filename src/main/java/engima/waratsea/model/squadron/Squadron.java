@@ -14,6 +14,7 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
+import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -452,6 +453,15 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      */
     public void equip(final Target target, final AirMissionType missionType, final MissionRole missionRole) {
         config = determineConfig(target, missionType, missionRole);
+    }
+
+    /**
+     * Equip this squadron for the given patrol.
+     *
+     * @param patrol The patrol that contains the squadron.
+     */
+    public void equip(final Patrol patrol) {
+        config = patrol.getBestSquadronConfig();
     }
 
     /**

@@ -169,6 +169,7 @@ public class AswPatrol implements Patrol {
         if (canAdd(squadron)) {   //Make sure the squadron is actually deployed at the airbase.
             squadrons.add(squadron);
             squadron.setState(SquadronAction.ASSIGN_TO_PATROL);
+            squadron.equip(this);
             updateMaxRadius();
         } else {
             log.error("Unable to add squadron: '{}' to patrol. Squadron not deployed to airbase: '{}' or unable to perform ASW", squadron, airbase);
@@ -184,6 +185,7 @@ public class AswPatrol implements Patrol {
     public void removeSquadron(final Squadron squadron) {
         squadrons.remove(squadron);
         squadron.setState(SquadronAction.REMOVE_FROM_PATROL);
+        squadron.unEquip();
         updateMaxRadius();
     }
 

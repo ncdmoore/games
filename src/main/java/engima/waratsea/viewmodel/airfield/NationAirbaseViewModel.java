@@ -325,20 +325,6 @@ public class NationAirbaseViewModel {
         addToReady(squadron);
     }
 
-    /**
-     * Determine the state of the given squadron. The state is determined by where the squadron is located
-     * in the view model. It is not determined by the model. Also, note that QUEUED_FOR_MISSION is the same
-     * as ON_MISSION for our purposes here. The same is true of the patrol states.
-     *
-     * @param squadron The squadron whose state is determined.
-     * @return The state of the squadron.
-     */
-    public SquadronState determineSquadronState(final SquadronViewModel squadron) {
-        return airbaseViewModel.getMissionViewModels().get(nation).stream().anyMatch(mission -> mission.isSquadronOnMission(squadron)) ? SquadronState.ON_MISSION
-                : airbaseViewModel.getPatrols().stream().anyMatch(patrol -> patrol.isSquadronOnPatrol(squadron)) ? SquadronState.ON_PATROL
-                : squadronStateViewModel.get(SquadronState.READY).isPresent(squadron) ? SquadronState.READY
-                : SquadronState.HANGER;
-    }
 
     /**
      * Get whether there are any ready squadrons.
@@ -348,8 +334,6 @@ public class NationAirbaseViewModel {
     public BooleanProperty getNoSquadronsReady() {
         return squadronStateViewModel.get(SquadronState.READY).getNoSquadronsPresent();
     }
-
-
 
     /**
      * Add all of the air mission squadrons to the ready list.
