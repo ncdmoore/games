@@ -8,13 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AswPatrol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AswPatrol.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/CapPatrol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/CapPatrol.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/SearchPatrol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/SearchPatrol.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/state/SquadronState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/state/SquadronState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/AirfieldDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/squadron/SquadronStateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/squadron/SquadronStateView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -289,13 +283,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00295" summary="add stream method to MissionRole enum.">
-      <created>1608842324924</created>
-      <option name="number" value="00295" />
-      <option name="presentableId" value="LOCAL-00295" />
-      <option name="project" value="LOCAL" />
-      <updated>1608842324924</updated>
     </task>
     <task id="LOCAL-00296" summary="add stream method to MissionRole enum.">
       <created>1608844974299</created>
@@ -633,7 +620,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610813353141</updated>
     </task>
-    <option name="localTasksCounter" value="344" />
+    <task id="LOCAL-00344" summary="Make sure the model sets the config when the a squadron is placed on Patrol.">
+      <created>1610819929324</created>
+      <option name="number" value="00344" />
+      <option name="presentableId" value="LOCAL-00344" />
+      <option name="project" value="LOCAL" />
+      <updated>1610819929325</updated>
+    </task>
+    <option name="localTasksCounter" value="345" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -648,7 +642,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add patrol factor tooltips to patrol stats view." />
     <MESSAGE value="add stream method to MissionRole enum." />
     <MESSAGE value="cleanup NationAirbaseViewModel" />
     <MESSAGE value="Create a Squadrons class to isolate all of the squadron data structures from the airbases." />
@@ -673,7 +666,8 @@
     <MESSAGE value="Separate naval attack into naval warship attack and naval transport attack." />
     <MESSAGE value="Move squadron configuration calculations to be inside the SquadronConfig class and not inside the Aircraft classes." />
     <MESSAGE value="Move allowed squadron configurations to aircraft data json files." />
-    <option name="LAST_COMMIT_MESSAGE" value="Move allowed squadron configurations to aircraft data json files." />
+    <MESSAGE value="Make sure the model sets the config when the a squadron is placed on Patrol." />
+    <option name="LAST_COMMIT_MESSAGE" value="Make sure the model sets the config when the a squadron is placed on Patrol." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1226" y="483" key="#Notifications" timestamp="1608845038148">
@@ -696,26 +690,26 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1333" y="354" width="950" height="800" key="#xdebugger.evaluate/0.23.2560.1349@0.23.2560.1349" timestamp="1610321682075" />
-    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1610813344705">
+    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1610819923340">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1610813344705" />
-    <state width="2466" height="362" key="GridCell.Tab.0.bottom" timestamp="1610819543989">
+    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1610819923340" />
+    <state width="2466" height="362" key="GridCell.Tab.0.bottom" timestamp="1610820069981">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2466" height="362" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1610819543989" />
-    <state width="2466" height="362" key="GridCell.Tab.0.center" timestamp="1610819543988">
+    <state width="2466" height="362" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1610820069981" />
+    <state width="2466" height="362" key="GridCell.Tab.0.center" timestamp="1610820069980">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2466" height="362" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1610819543988" />
-    <state width="2466" height="362" key="GridCell.Tab.0.left" timestamp="1610819543988">
+    <state width="2466" height="362" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1610820069980" />
+    <state width="2466" height="362" key="GridCell.Tab.0.left" timestamp="1610820069980">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2466" height="362" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1610819543988" />
-    <state width="2466" height="362" key="GridCell.Tab.0.right" timestamp="1610819543989">
+    <state width="2466" height="362" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1610820069980" />
+    <state width="2466" height="362" key="GridCell.Tab.0.right" timestamp="1610820069981">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2466" height="362" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1610819543989" />
+    <state width="2466" height="362" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1610820069981" />
     <state width="2466" height="302" key="GridCell.Tab.1.bottom" timestamp="1610818078501">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -740,10 +734,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1026" y="324" width="1295" height="837" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1608843396315" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1610813359384">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1610819935080">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1610813359384" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1610819935080" />
     <state x="709" y="426" key="caller.chooser.dialog" timestamp="1610510915251">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -756,10 +750,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1050" y="421" width="1010" height="617" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.23.2560.1349@0.23.2560.1349" timestamp="1607881494822" />
-    <state x="1146" y="237" width="1255" height="966" key="find.popup" timestamp="1610809950353">
+    <state x="1146" y="237" width="1255" height="966" key="find.popup" timestamp="1610819717826">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1146" y="237" width="1255" height="966" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1610809950353" />
+    <state x="1146" y="237" width="1255" height="966" key="find.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1610819717826" />
     <state x="1696" y="493" key="refactoring.ChangeSignatureDialog" timestamp="1609279167909">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -845,11 +839,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java</url>
           <line>520</line>
           <option name="timeStamp" value="87" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java</url>
-          <line>74</line>
-          <option name="timeStamp" value="88" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.UnsupportedOperationException" package="java.lang" />
