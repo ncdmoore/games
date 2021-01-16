@@ -35,5 +35,9 @@
   "frame": {
     "frame": 3,
     "fragile": false
-  }
+  },
+  "config": [
+    "NONE",
+    "SEARCH"
+  ]
 }

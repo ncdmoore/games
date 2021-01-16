@@ -1,6 +1,6 @@
 {
   "name": "SM81",
-  "type": "Italian_Bomber",
+  "type": "Bomber",
   "nationality": "Italian",
   "service": "AIRFORCE",
   "designation": "RA-",
@@ -37,5 +37,10 @@
   "frame": {
     "frame": 2,
     "fragile": true
-  }
+  },
+  "config": [
+    "NONE",
+    "SEARCH",
+    "LEAN_ENGINE"
+  ]
 }

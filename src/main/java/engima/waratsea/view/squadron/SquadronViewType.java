@@ -27,7 +27,6 @@ public enum SquadronViewType {
     static {
         VIEW_TYPE_MAP.put(AircraftType.FIGHTER, FIGHTER);
         VIEW_TYPE_MAP.put(AircraftType.BOMBER, BOMBER);
-        VIEW_TYPE_MAP.put(AircraftType.ITALIAN_BOMBER, BOMBER);
         VIEW_TYPE_MAP.put(AircraftType.DIVE_BOMBER, DIVE_BOMBER);
         VIEW_TYPE_MAP.put(AircraftType.TORPEDO_BOMBER, TORPEDO_BOMBER);
         VIEW_TYPE_MAP.put(AircraftType.RECONNAISSANCE, RECONNAISSANCE);

@@ -4,14 +4,12 @@ import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
-import engima.waratsea.model.game.Nation;
 import lombok.Getter;
 
 public class SquadronConfigRulesDTO {
     @Getter private AirbaseType airfieldType;
     @Getter private AirMissionType missionType;
     @Getter private MissionRole missionRole;
-    @Getter private Nation nation;
     @Getter private PatrolType patrolType;
 
     /**
@@ -55,17 +53,6 @@ public class SquadronConfigRulesDTO {
      */
     public SquadronConfigRulesDTO setMissionRole(final MissionRole role) {
         missionRole = role;
-        return this;
-    }
-
-    /**
-     * Set the nation.
-     *
-     * @param newNation The new nation.
-     * @return This object.
-     */
-    public SquadronConfigRulesDTO setNation(final Nation newNation) {
-        nation = newNation;
         return this;
     }
 }

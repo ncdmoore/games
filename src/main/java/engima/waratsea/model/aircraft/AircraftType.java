@@ -15,9 +15,6 @@ public enum AircraftType implements Comparator<AircraftType> {
     @SerializedName(value = "BOMBER", alternate = {"Bomber", "bomber"})
     BOMBER("Bomber", "Bomber", AircraftBaseType.BOMBER, "B", 2),
 
-    @SerializedName(value = "ITALIAN_BOMBER", alternate = {"Italian_Bomber", "italian_bomber"})
-    ITALIAN_BOMBER("Bomber", "Bomber", AircraftBaseType.BOMBER, "B", 2),
-
     @SerializedName(value = "DIVE_BOMBER", alternate = {"Dive_Bomber", "dive_bomber", "Dive Bomber", "dive bomber"})
     DIVE_BOMBER("Dive Bomber", "Dive Bomber", AircraftBaseType.DIVE_BOMBER, "DB", 3),
 

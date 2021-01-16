@@ -6,9 +6,6 @@ import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
-import engima.waratsea.model.game.GameName;
-import engima.waratsea.model.game.GameTitle;
-import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.rules.SquadronConfigRules;
 import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
 import engima.waratsea.model.squadron.SquadronConfig;
@@ -21,12 +18,11 @@ import java.util.Set;
 
 public class SquadronConfigRulesTest {
 
-    private Injector injector;
     private SquadronConfigRules rules;
 
     @Before
     public void setup() {
-        injector = Guice.createInjector(new TestModule());
+        Injector injector = Guice.createInjector(new TestModule());
         rules = injector.getInstance(SquadronConfigRules.class);
     }
 
@@ -55,26 +51,13 @@ public class SquadronConfigRulesTest {
 
     @Test
     public void testSquadronConfigStrippedDown() {
-        GameTitle gameTitle = injector.getInstance(GameTitle.class);
-
-        gameTitle.setName(GameName.BOMB_ALLEY);
-
-        // Test Bomb Alley British aircraft flying from a task force on a ferry mission. Stripped down is allowed.
         SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
                 .setAirfieldType(AirbaseType.CARRIER)
-                .setNation(Nation.BRITISH)
                 .setMissionType(AirMissionType.FERRY);
 
         Set<SquadronConfig> allowed = rules.getAllowed(dto);
 
         Assert.assertTrue(allowed.contains(SquadronConfig.STRIPPED_DOWN));
-
-        gameTitle.setName(GameName.CORAL_SEA);
-
-        // Test Coral Sea. Stripped down is not allowed.
-        allowed = rules.getAllowed(dto);
-
-        Assert.assertFalse(allowed.contains(SquadronConfig.STRIPPED_DOWN));
     }
 
     @Test
@@ -106,43 +89,19 @@ public class SquadronConfigRulesTest {
 
     @Test
     public void testSquadronConfigSearch() {
-        GameTitle gameTitle = injector.getInstance(GameTitle.class);
-
-        gameTitle.setName(GameName.BOMB_ALLEY);
-
-        // Squadrons on search patrol may not be configured for search in bomb alley.
         SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
                 .setPatrolType(PatrolType.SEARCH);
 
         Set<SquadronConfig> allowed = rules.getAllowed(dto);
 
         Assert.assertTrue(allowed.contains(SquadronConfig.SEARCH));
-
-        // Squadrons on search patrol may be configured for search in coral sea.
-        gameTitle.setName(GameName.CORAL_SEA);
-
-        allowed = rules.getAllowed(dto);
-
-        Assert.assertTrue(allowed.contains(SquadronConfig.SEARCH));
     }
 
     @Test
     public void testSquadronConfigReducedPayload() {
-        GameTitle gameTitle = injector.getInstance(GameTitle.class);
-
-        gameTitle.setName(GameName.BOMB_ALLEY);
-
-        // Squadrons may not be configured for reduced payload in bomb alley.
         SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO();
         Set<SquadronConfig> allowed = rules.getAllowed(dto);
 
         Assert.assertFalse(allowed.contains(SquadronConfig.REDUCED_PAYLOAD));
-
-        // Squadrons may be configured for reduced payload in coral sea.
-        gameTitle.setName(GameName.CORAL_SEA);
-
-        allowed = rules.getAllowed(dto);
-
-        Assert.assertTrue(allowed.contains(SquadronConfig.REDUCED_PAYLOAD));
     }
 }

@@ -8,7 +8,6 @@ import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.aircraft.AircraftFactory;
 import engima.waratsea.model.aircraft.Bomber;
 import engima.waratsea.model.aircraft.Fighter;
-import engima.waratsea.model.aircraft.ItalianBomber;
 import engima.waratsea.model.aircraft.Recon;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
@@ -21,15 +20,15 @@ import engima.waratsea.model.base.airfield.mission.SweepPort;
 import engima.waratsea.model.base.airfield.mission.rules.MissionAirRules;
 import engima.waratsea.model.base.airfield.mission.rules.MissionAirStrikeRules;
 import engima.waratsea.model.base.airfield.mission.rules.MissionAirSweepRules;
-import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirAswRules;
-import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirCapRules;
-import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
-import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirSearchRules;
 import engima.waratsea.model.base.airfield.patrol.AswPatrol;
 import engima.waratsea.model.base.airfield.patrol.CapPatrol;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolFactory;
 import engima.waratsea.model.base.airfield.patrol.SearchPatrol;
+import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirAswRules;
+import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirCapRules;
+import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
+import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirSearchRules;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.base.port.PortFactory;
 import engima.waratsea.model.enemy.views.airfield.AirfieldView;
@@ -83,9 +82,9 @@ import engima.waratsea.model.submarine.Submarine;
 import engima.waratsea.model.submarine.SubmarineFactory;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.target.TargetEnemyAirfield;
+import engima.waratsea.model.target.TargetEnemyPort;
 import engima.waratsea.model.target.TargetEnemyTaskForce;
 import engima.waratsea.model.target.TargetFactory;
-import engima.waratsea.model.target.TargetEnemyPort;
 import engima.waratsea.model.target.TargetFriendlyAirfield;
 import engima.waratsea.model.target.TargetFriendlyPort;
 import engima.waratsea.model.target.TargetFriendlyTaskForce;
@@ -96,13 +95,13 @@ import engima.waratsea.model.taskForce.TaskForceFactory;
 import engima.waratsea.model.taskForce.mission.AirRaid;
 import engima.waratsea.model.taskForce.mission.Bombardment;
 import engima.waratsea.model.taskForce.mission.Escort;
-import engima.waratsea.model.taskForce.mission.FerryShips;
 import engima.waratsea.model.taskForce.mission.FerryAircraft;
+import engima.waratsea.model.taskForce.mission.FerryShips;
 import engima.waratsea.model.taskForce.mission.Intercept;
 import engima.waratsea.model.taskForce.mission.Invasion;
 import engima.waratsea.model.taskForce.mission.Minelaying;
-import engima.waratsea.model.taskForce.mission.SeaMission;
 import engima.waratsea.model.taskForce.mission.MissionFactory;
+import engima.waratsea.model.taskForce.mission.SeaMission;
 import engima.waratsea.model.taskForce.mission.Transport;
 import engima.waratsea.model.victory.AirfieldVictory;
 import engima.waratsea.model.victory.AirfieldVictoryFactory;
@@ -164,7 +163,6 @@ public class BasicModule extends AbstractModule {
                 .implement(Aircraft.class, Names.named("bomber"), Bomber.class)
                 .implement(Aircraft.class, Names.named("fighter"), Fighter.class)
                 .implement(Aircraft.class, Names.named("recon"), Recon.class)
-                .implement(Aircraft.class, Names.named("italian"), ItalianBomber.class)
                 .build(AircraftFactory.class));
 
 

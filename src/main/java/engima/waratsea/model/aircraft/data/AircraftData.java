@@ -6,8 +6,11 @@ import engima.waratsea.model.aircraft.AltitudeType;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.aircraft.ServiceType;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.squadron.SquadronConfig;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 /**
  * Represents aircraft data.
@@ -28,4 +31,5 @@ public class AircraftData {
     @Getter @Setter private AttackData air;
     @Getter @Setter private PerformanceData performance;
     @Getter @Setter private FrameData frame;
+    @Getter @Setter private Set<SquadronConfig> config;
 }

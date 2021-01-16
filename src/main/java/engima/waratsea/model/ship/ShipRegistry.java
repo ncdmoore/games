@@ -19,7 +19,7 @@ public class ShipRegistry {
     private static final String ALLIED_SHIP_PROPERTIES = "ships/allies/alliedShip.properties";
     private static final String AXIS_SHIP_PROPERTIES = "ships/axis/axisShip.properties";
 
-    private static  Map<Side, PropertyWrapper> shipMap = new HashMap<>();
+    private static final Map<Side, PropertyWrapper> SHIP_MAP = new HashMap<>();
 
     /**
      * The constructor of the Ship registry.
@@ -32,13 +32,13 @@ public class ShipRegistry {
     public ShipRegistry(final GameTitle gameTitle,
                         final PropertyWrapper alliedShips,
                         final PropertyWrapper axisShips) {
-        shipMap.put(Side.ALLIES, alliedShips);
-        shipMap.put(Side.AXIS, axisShips);
+        SHIP_MAP.put(Side.ALLIES, alliedShips);
+        SHIP_MAP.put(Side.AXIS, axisShips);
 
         String gameName = gameTitle.getValue();
 
-        shipMap.get(Side.ALLIES).init(gameName + "/" + ALLIED_SHIP_PROPERTIES);                                      // Load game specific allied ship properties.
-        shipMap.get(Side.AXIS).init(gameName + "/" + AXIS_SHIP_PROPERTIES);                                          // Load game specific axis ship properties.
+        SHIP_MAP.get(Side.ALLIES).init(gameName + "/" + ALLIED_SHIP_PROPERTIES);                                      // Load game specific allied ship properties.
+        SHIP_MAP.get(Side.AXIS).init(gameName + "/" + AXIS_SHIP_PROPERTIES);                                          // Load game specific axis ship properties.
     }
 
     /**
@@ -50,7 +50,7 @@ public class ShipRegistry {
     public String getClass(final ShipId shipId) {
         String shipName = shipId.getName();
         Side side = shipId.getSide();
-        String shipClassName = shipMap.get(side).getString(shipName.trim());
+        String shipClassName = SHIP_MAP.get(side).getString(shipName.trim());
         log.debug("For ship '{}' and side {} get class '{}'", new Object[]{shipName, side, shipClassName});
         return shipClassName;
     }

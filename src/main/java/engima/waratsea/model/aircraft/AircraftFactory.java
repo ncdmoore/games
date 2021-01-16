@@ -33,13 +33,4 @@ public interface AircraftFactory {
      */
     @Named("recon")
     Aircraft createRecon(AircraftData data);
-
-    /**
-     * Creates an Italian bomber.
-     *
-     * @param data The aircraft's data.
-     * @return The poor naval bomber aircraft.
-     */
-    @Named("italian")
-    Aircraft createItalianBomber(AircraftData data);
 }

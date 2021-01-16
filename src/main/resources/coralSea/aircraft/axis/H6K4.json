@@ -39,5 +39,10 @@
   "frame": {
     "frame": 2,
     "fragile": false
-  }
+  },
+  "config": [
+    "NONE",
+    "SEARCH",
+    "REDUCED_PAYLOAD"
+  ]
 }

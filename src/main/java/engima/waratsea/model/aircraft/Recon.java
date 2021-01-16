@@ -6,7 +6,6 @@ import engima.waratsea.model.aircraft.data.AircraftData;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.game.rules.GameRules;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.target.Target;
@@ -18,6 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,11 +31,6 @@ import java.util.stream.Collectors;
  */
 public class Recon implements Aircraft {
     private final Map<AttackType, FunctionalMap<SquadronConfig, Attack>> attackMap = new HashMap<>();
-
-    private final Set<SquadronConfig> configuration = Set.of(
-            SquadronConfig.NONE,
-            SquadronConfig.REDUCED_PAYLOAD,
-            SquadronConfig.SEARCH);
 
     @Getter private final AircraftId aircraftId;
     @Getter private final AircraftType type;
@@ -51,21 +46,19 @@ public class Recon implements Aircraft {
     private final Attack land;
     private final Attack air;
     private final Performance performance;
+    @Getter private final Set<SquadronConfig> configuration;
 
     private final Probability probability;
-    private final GameRules rules;
 
     /**
      * The constructor called by guice.
      *
      * @param data The aircraft data read in from a JSON file.
      * @param probability Probability utility.
-     * @param rules The game rules.
      */
     @Inject
     public Recon(@Assisted final AircraftData data,
-                           final Probability probability,
-                           final GameRules rules) {
+                           final Probability probability) {
         this.aircraftId = data.getAircraftId();
         this.type = data.getType();
         this.designation = data.getDesignation();
@@ -80,9 +73,11 @@ public class Recon implements Aircraft {
         this.air = new Attack(data.getAir());
         this.performance = new Performance(data.getPerformance());
         this.frame = new Frame(data.getFrame());
+        this.configuration = Optional
+                .ofNullable(data.getConfig())
+                .orElse(Set.of(SquadronConfig.NONE));
 
         this.probability = probability;
-        this.rules = rules;
 
         probability.setConfigurations(configuration);
 
@@ -120,19 +115,6 @@ public class Recon implements Aircraft {
     @Override
     public List<MissionRole> getRoles() {
         return Collections.singletonList(MissionRole.MAIN);
-    }
-
-    /**
-     * Get the aircraft's squadron configurations.
-     *
-     * @return The aircraft's allowed squadron configurations.
-     */
-    @Override
-    public Set<SquadronConfig> getConfiguration() {
-        return configuration.
-                stream()
-                .filter(squadronConfig -> rules.isSquadronConfigAllowed(nationality, squadronConfig))
-                .collect(Collectors.toSet());
     }
 
     /**

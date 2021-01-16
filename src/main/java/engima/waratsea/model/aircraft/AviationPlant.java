@@ -49,7 +49,6 @@ public class AviationPlant {
         aircraftDataMap.put(Side.ALLIES, new HashMap<>());
         aircraftDataMap.put(Side.AXIS, new HashMap<>());
 
-        factoryMap.put(AircraftType.ITALIAN_BOMBER, factory::createItalianBomber);
         factoryMap.put(AircraftType.FIGHTER, factory::createFighter);
         factoryMap.put(AircraftType.RECONNAISSANCE, factory::createRecon);
         factoryMap.put(AircraftType.BOMBER, factory::createBomber);
