@@ -18,7 +18,6 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -251,7 +250,7 @@ public class LandStrike implements AirMission {
         capacityReducedProbability.setEventColumnTitle("Capacity Reduced");
         capacityReducedProbability.setProbability(buildProbabilityAirfieldDamaged(factors));
 
-        return new ArrayList<>(Arrays.asList(stepsDestroyedProbability, capacityReducedProbability));
+        return List.of(stepsDestroyedProbability, capacityReducedProbability);
     }
 
     /**

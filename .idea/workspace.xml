@@ -8,7 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/squadron/SquadronStateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/squadron/SquadronStateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalPortStrike.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalPortStrike.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,13 +285,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00296" summary="add stream method to MissionRole enum.">
-      <created>1608844974299</created>
-      <option name="number" value="00296" />
-      <option name="presentableId" value="LOCAL-00296" />
-      <option name="project" value="LOCAL" />
-      <updated>1608844974300</updated>
     </task>
     <task id="LOCAL-00297" summary="cleanup NationAirbaseViewModel">
       <created>1608856441755</created>
@@ -627,7 +622,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610819929325</updated>
     </task>
-    <option name="localTasksCounter" value="345" />
+    <task id="LOCAL-00345" summary="Make sure the model sets the config when the a squadron is placed on Patrol.">
+      <created>1610820193341</created>
+      <option name="number" value="00345" />
+      <option name="presentableId" value="LOCAL-00345" />
+      <option name="project" value="LOCAL" />
+      <updated>1610820193341</updated>
+    </task>
+    <option name="localTasksCounter" value="346" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -690,26 +692,26 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1333" y="354" width="950" height="800" key="#xdebugger.evaluate/0.23.2560.1349@0.23.2560.1349" timestamp="1610321682075" />
-    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1610819923340">
+    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1610820193051">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1610819923340" />
-    <state width="2466" height="362" key="GridCell.Tab.0.bottom" timestamp="1610820069981">
+    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1610820193051" />
+    <state width="2466" height="362" key="GridCell.Tab.0.bottom" timestamp="1610821193544">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2466" height="362" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1610820069981" />
-    <state width="2466" height="362" key="GridCell.Tab.0.center" timestamp="1610820069980">
+    <state width="2466" height="362" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1610821193544" />
+    <state width="2466" height="362" key="GridCell.Tab.0.center" timestamp="1610821193544">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2466" height="362" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1610820069980" />
-    <state width="2466" height="362" key="GridCell.Tab.0.left" timestamp="1610820069980">
+    <state width="2466" height="362" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1610821193544" />
+    <state width="2466" height="362" key="GridCell.Tab.0.left" timestamp="1610821193543">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2466" height="362" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1610820069980" />
-    <state width="2466" height="362" key="GridCell.Tab.0.right" timestamp="1610820069981">
+    <state width="2466" height="362" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1610821193543" />
+    <state width="2466" height="362" key="GridCell.Tab.0.right" timestamp="1610821193544">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="2466" height="362" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1610820069981" />
+    <state width="2466" height="362" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1610821193544" />
     <state width="2466" height="302" key="GridCell.Tab.1.bottom" timestamp="1610818078501">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -734,10 +736,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1026" y="324" width="1295" height="837" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1608843396315" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1610819935080">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1610820197008">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1610819935080" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1610820197008" />
     <state x="709" y="426" key="caller.chooser.dialog" timestamp="1610510915251">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -817,22 +819,22 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalPortStrike.java</url>
-          <line>300</line>
+          <line>308</line>
           <option name="timeStamp" value="55" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalPortStrike.java</url>
-          <line>278</line>
+          <line>286</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalPortStrike.java</url>
-          <line>350</line>
+          <line>359</line>
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalPortStrike.java</url>
-          <line>360</line>
+          <line>370</line>
           <option name="timeStamp" value="58" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

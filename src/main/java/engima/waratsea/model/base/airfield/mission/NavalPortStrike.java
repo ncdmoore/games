@@ -32,7 +32,7 @@ public class NavalPortStrike implements AirMission {
     private static final int PORT_MODIFIER = 1; // Ships in port are easier to hit. Add a 1 to the modifier.
     private static final BigDecimal PERCENTAGE = new BigDecimal(100);
 
-    private static final Set<Integer> SHIP_HIT_SET = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
+    private static final Set<Integer> SHIP_HIT_SET = new HashSet<>(Arrays.asList(1, 2, 3, 4));
 
     @Getter private final int id;
     private final Game game;
@@ -219,14 +219,21 @@ public class NavalPortStrike implements AirMission {
      */
     @Override
     public List<ProbabilityStats> getMissionProbability() {
-        Map<Double, Integer> factors = getAttackMap();
+        Map<Double, Integer> warshipFactors = getAttackMap(AttackType.NAVAL_WARSHIP);
 
-        ProbabilityStats shipsHitProbability = new ProbabilityStats();
-        shipsHitProbability.setTitle("Ship Hits");
-        shipsHitProbability.setEventColumnTitle("Ship Hits");
-        shipsHitProbability.setProbability(buildProbabilityShipHit(factors));
+        ProbabilityStats warshipsHitProbability = new ProbabilityStats();
+        warshipsHitProbability.setTitle("Warship Hits");
+        warshipsHitProbability.setEventColumnTitle("Ship Hits");
+        warshipsHitProbability.setProbability(buildProbabilityShipHit(warshipFactors));
 
-        return Collections.singletonList(shipsHitProbability);
+        Map<Double, Integer> transportFactors = getAttackMap(AttackType.NAVAL_TRANSPORT);
+
+        ProbabilityStats transportHitProbability = new ProbabilityStats();
+        transportHitProbability.setTitle("Transport Hits");
+        transportHitProbability.setEventColumnTitle("Ship Hits");
+        transportHitProbability.setProbability(buildProbabilityShipHit(transportFactors));
+
+        return List.of(warshipsHitProbability, transportHitProbability);
     }
 
     /**
@@ -273,13 +280,14 @@ public class NavalPortStrike implements AirMission {
      *       0.2     ->      5
      *       0.1     ->      5
      *
+     * @param attackType The attack type: Warship or Transport.
      * @return The attack map as described above.
      */
-    private Map<Double, Integer> getAttackMap() {
+    private Map<Double, Integer> getAttackMap(final AttackType attackType) {
         return squadronMap.get(MissionRole.MAIN)
                 .stream()
-                .collect(Collectors.toMap(this::getNavalProbability,
-                        this::getFactor,
+                .collect(Collectors.toMap(squadron -> getNavalProbability(attackType, squadron),
+                        squadron -> getFactor(attackType, squadron),
                         Integer::sum));
     }
 
@@ -344,20 +352,22 @@ public class NavalPortStrike implements AirMission {
      * Get the naval strike modifier for the given squadron. This modifier includes the global game
      * naval attack modifiers. An example of a global game modifier is the current weather conditions.
      *
+     * @param attackType The attack type: Warship or Transport.
      * @param squadron The squadron for which the naval attack modifier is obtained.
      * @return The squadron's naval attack modifier, including any global game naval attack modifiers.
      */
-    private double getNavalProbability(final Squadron squadron) {
-        return squadron.getHitIndividualProbability(AttackType.NAVAL_WARSHIP, getTarget(), rules.getModifier() + PORT_MODIFIER);
+    private double getNavalProbability(final AttackType attackType, final Squadron squadron) {
+        return squadron.getHitIndividualProbability(attackType, getTarget(), rules.getModifier() + PORT_MODIFIER);
     }
 
     /**
      * Get the squadron's current naval attack factor.
      *
+     * @param attackType The attack type: Warship or Transport.
      * @param squadron The squadron.
      * @return The squadron's current naval attack factor.
      */
-    private int getFactor(final Squadron squadron) {
-        return squadron.getAttack(AttackType.NAVAL_WARSHIP).getFactor();
+    private int getFactor(final AttackType attackType, final Squadron squadron) {
+        return squadron.getAttack(attackType).getFactor();
     }
 }
