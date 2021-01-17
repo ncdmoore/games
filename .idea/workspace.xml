@@ -8,19 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/axisTaskForceDetails.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Resource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Resource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/navigation/Navigate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/navigation/Navigate.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/ImageResourceProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/ImageResourceProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/PropertyWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/PropertyWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/BaseMarker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/BaseMarker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/TaskForceMarker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/TaskForceMarker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/FlotillaView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/FlotillaView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/MinefieldView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/MinefieldView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/SquadronView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/SquadronView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -295,13 +283,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00299" summary="cleanup NationAirbaseViewModel">
-      <created>1608862385684</created>
-      <option name="number" value="00299" />
-      <option name="presentableId" value="LOCAL-00299" />
-      <option name="project" value="LOCAL" />
-      <updated>1608862385684</updated>
     </task>
     <task id="LOCAL-00300" summary="cleanup NationAirbaseViewModel">
       <created>1608869748286</created>
@@ -639,7 +620,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610904025590</updated>
     </task>
-    <option name="localTasksCounter" value="348" />
+    <task id="LOCAL-00348" summary="Have ImageResourceProvider depend upon Resource so that it can pickup the scenario name and always look for a scenario specific image.">
+      <created>1610915322322</created>
+      <option name="number" value="00348" />
+      <option name="presentableId" value="LOCAL-00348" />
+      <option name="project" value="LOCAL" />
+      <updated>1610915322323</updated>
+    </task>
+    <option name="localTasksCounter" value="349" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -654,7 +642,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Create a Squadrons class to isolate all of the squadron data structures from the airbases." />
     <MESSAGE value="Distinguish between being on a mission/patrol and queued for a mission/patrol." />
     <MESSAGE value="Use squadron view models in the airfield view components instead of squadrons." />
     <MESSAGE value="Auto select the top squadron on mission and patrol dialogs after adding or removing a squadron to a corresponding mission or patrol." />
@@ -679,7 +666,8 @@
     <MESSAGE value="Make sure the model sets the config when the a squadron is placed on Patrol." />
     <MESSAGE value="Show both naval warship and naval transport stats for port strikes." />
     <MESSAGE value="Add mission modifiers as tool tips to mission stats view." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add mission modifiers as tool tips to mission stats view." />
+    <MESSAGE value="Have ImageResourceProvider depend upon Resource so that it can pickup the scenario name and always look for a scenario specific image." />
+    <option name="LAST_COMMIT_MESSAGE" value="Have ImageResourceProvider depend upon Resource so that it can pickup the scenario name and always look for a scenario specific image." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1226" y="483" key="#Notifications" timestamp="1608845038148">
@@ -710,26 +698,26 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1333" y="354" width="950" height="800" key="#xdebugger.evaluate/0.23.2560.1349@0.23.2560.1349" timestamp="1610321682075" />
-    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1610904020564">
+    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2" timestamp="1610915316728">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1610904020564" />
-    <state width="1933" height="362" key="GridCell.Tab.0.bottom" timestamp="1610914902327">
+    <state x="919" y="239" width="1133" height="799" key="CommitChangelistDialog2/0.23.2560.1349@0.23.2560.1349" timestamp="1610915316728" />
+    <state width="1933" height="362" key="GridCell.Tab.0.bottom" timestamp="1610915187170">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1933" height="362" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1610914902327" />
-    <state width="1933" height="362" key="GridCell.Tab.0.center" timestamp="1610914902326">
+    <state width="1933" height="362" key="GridCell.Tab.0.bottom/0.23.2560.1349@0.23.2560.1349" timestamp="1610915187170" />
+    <state width="1933" height="362" key="GridCell.Tab.0.center" timestamp="1610915187169">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1933" height="362" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1610914902326" />
-    <state width="1933" height="362" key="GridCell.Tab.0.left" timestamp="1610914902326">
+    <state width="1933" height="362" key="GridCell.Tab.0.center/0.23.2560.1349@0.23.2560.1349" timestamp="1610915187169" />
+    <state width="1933" height="362" key="GridCell.Tab.0.left" timestamp="1610915187168">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1933" height="362" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1610914902326" />
-    <state width="1933" height="362" key="GridCell.Tab.0.right" timestamp="1610914902327">
+    <state width="1933" height="362" key="GridCell.Tab.0.left/0.23.2560.1349@0.23.2560.1349" timestamp="1610915187168" />
+    <state width="1933" height="362" key="GridCell.Tab.0.right" timestamp="1610915187169">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state width="1933" height="362" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1610914902327" />
+    <state width="1933" height="362" key="GridCell.Tab.0.right/0.23.2560.1349@0.23.2560.1349" timestamp="1610915187169" />
     <state width="1933" height="302" key="GridCell.Tab.1.bottom" timestamp="1610914578845">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -754,10 +742,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1026" y="324" width="1295" height="837" key="SettingsEditor/0.23.2560.1349@0.23.2560.1349" timestamp="1608843396315" />
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1610904030498">
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2" timestamp="1610915327984">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1610904030498" />
+    <state x="1250" y="437" key="Vcs.Push.Dialog.v2/0.23.2560.1349@0.23.2560.1349" timestamp="1610915327984" />
     <state x="709" y="426" key="caller.chooser.dialog" timestamp="1610510915251">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
@@ -782,10 +770,10 @@
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
     <state x="1173" y="306" key="run.anything.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1608862964084" />
-    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup" timestamp="1610913119839">
+    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup" timestamp="1610915360590">
       <screen x="0" y="23" width="2560" height="1349" />
     </state>
-    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1610913119839" />
+    <state x="1269" y="329" width="670" height="676" key="search.everywhere.popup/0.23.2560.1349@0.23.2560.1349" timestamp="1610915360590" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -862,7 +850,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/utility/ImageResourceProvider.java</url>
-          <line>328</line>
+          <line>329</line>
           <option name="timeStamp" value="88" />
         </line-breakpoint>
         <breakpoint type="java-exception">

@@ -56,6 +56,41 @@ public class ImageResourceProvider {
     }
 
     /**
+     * Get an image. First, attempt to get a scenario specific image. If no scenario image is found attempt to get a
+     * game specific image. If no game specific image is found then the application default image is used. This allows
+     * any game to override the application default images and any scenario to override any game image.
+     *
+     * @param resourceName The resource file name.
+     * @return The image if it exists.
+     */
+    public Image getImage(final String resourceName) {
+        String scenario = resource.getScenario();
+        String path = gameTitle.getValue() + SCENARIO_DIR + scenario + "/" + resourceName;
+        log.debug("get image: {}", path);
+        Optional<Image> image = loadImage(path);
+        return image.orElseGet(() -> getGameImage(resourceName));
+    }
+
+    /**
+     * Get an image. First, attempt to get a scenario specific image. If no scenario image is found attempt to get a
+     * game specific image. If no game specific image is found then the application default image is used. This allows
+     * any game to override the application default images and any scenario to override any game image.
+     * 
+     * This method exists for scenario images where the scenario has not be selected; i.e., the scenario selection
+     * GUI and the saved game GUI views.
+     *
+     * @param scenario The scenario name.
+     * @param resourceName The image resource file name.
+     * @return The image if it exists.
+     */
+    public Image getImage(final String scenario, final String resourceName) {
+        String path = gameTitle.getValue() + SCENARIO_DIR + scenario + "/" + resourceName;
+        log.debug("get image: {}", path);
+        Optional<Image> image = loadImage(path);
+        return image.orElseGet(() -> getGameImage(resourceName));
+    }
+
+    /**
      * Get a ship image. Attempt to get an image for the ship name. If that fails get the image for the ship's
      * class.
      *
@@ -238,37 +273,6 @@ public class ImageResourceProvider {
         String path = gameTitle.getValue() + AIRCRAFT_DIR + side + "/images/" + aircraft + "-profile.png";
         return loadImage(path);
     }
-
-    /**
-     * Get an image. First, attempt to getShipData a specific game image for a the current game. If no specific image is found
-     * then the application default image is used. This allows any game to override the application default images.
-     *
-     * @param resourceName The resource file name.
-     * @return The image if it exists.
-     */
-    public Image getImage(final String resourceName) {
-        String scenario = resource.getScenario();
-        String path = gameTitle.getValue() + SCENARIO_DIR + scenario + "/" + resourceName;
-        log.debug("get image: {}", path);
-        Optional<Image> image = loadImage(path);
-        return image.orElseGet(() -> getGameImage(resourceName));
-    }
-
-    /**
-     * Get an image from a scenario resource file. If the image is not under the scenario then a game specific image
-     * is returned. If no game specific image exists then a default application image is returned if it exists.
-     *
-     * @param scenario The scenario name.
-     * @param resourceName The image resource file name.
-     * @return The image if it exists.
-     */
-    public Image getImage(final String scenario, final String resourceName) {
-        String path = gameTitle.getValue() + SCENARIO_DIR + scenario + "/" + resourceName;
-        log.debug("get image: {}", path);
-        Optional<Image> image = loadImage(path);
-        return image.orElseGet(() -> getGameImage(resourceName));
-    }
-
 
     private Image getGameImage(final String resourceName) {
         return getGameSpecificImage(resourceName)
