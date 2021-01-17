@@ -224,6 +224,7 @@ public class NavalPortStrike implements AirMission {
         ProbabilityStats warshipsHitProbability = new ProbabilityStats();
         warshipsHitProbability.setTitle("Warship Hits");
         warshipsHitProbability.setEventColumnTitle("Ship Hits");
+        warshipsHitProbability.setMetaData(getModifierMap());
         warshipsHitProbability.setProbability(buildProbabilityShipHit(warshipFactors));
 
         Map<Double, Integer> transportFactors = getAttackMap(AttackType.NAVAL_TRANSPORT);
@@ -231,6 +232,7 @@ public class NavalPortStrike implements AirMission {
         ProbabilityStats transportHitProbability = new ProbabilityStats();
         transportHitProbability.setTitle("Transport Hits");
         transportHitProbability.setEventColumnTitle("Ship Hits");
+        transportHitProbability.setMetaData(getModifierMap());
         transportHitProbability.setProbability(buildProbabilityShipHit(transportFactors));
 
         return List.of(warshipsHitProbability, transportHitProbability);
@@ -369,5 +371,11 @@ public class NavalPortStrike implements AirMission {
      */
     private int getFactor(final AttackType attackType, final Squadron squadron) {
         return squadron.getAttack(attackType).getFactor();
+    }
+
+    private Map<String, Integer> getModifierMap() {
+        Map<String, Integer> modifiers = rules.getModifierMap();
+        modifiers.put("In Port", PORT_MODIFIER);
+        return modifiers;
     }
 }

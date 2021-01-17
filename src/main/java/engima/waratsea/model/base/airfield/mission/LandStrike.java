@@ -243,11 +243,13 @@ public class LandStrike implements AirMission {
         ProbabilityStats stepsDestroyedProbability = new ProbabilityStats();
         stepsDestroyedProbability.setTitle("Squadron Steps Destroyed");
         stepsDestroyedProbability.setEventColumnTitle("Steps Destroyed");
+        stepsDestroyedProbability.setMetaData(rules.getModifierMap());
         stepsDestroyedProbability.setProbability(buildProbabilityStepDestroyed(factors));
 
         ProbabilityStats capacityReducedProbability = new ProbabilityStats();
         capacityReducedProbability.setTitle("Airfield Capacity Reduced");
         capacityReducedProbability.setEventColumnTitle("Capacity Reduced");
+        capacityReducedProbability.setMetaData(rules.getModifierMap());
         capacityReducedProbability.setProbability(buildProbabilityAirfieldDamaged(factors));
 
         return List.of(stepsDestroyedProbability, capacityReducedProbability);

@@ -5,6 +5,7 @@ import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -73,6 +74,18 @@ public class ProbabilityStatsView {
         eventHeader.setId("mission-stats-header");
 
         Label probHeader = new Label(probabilityStats.getProbabilityColumnTitle());
+
+        if (!probabilityStats.getMetaData().isEmpty()) {
+            String tooltipText = probabilityStats
+                    .getMetaData()
+                    .entrySet()
+                    .stream()
+                    .map(e -> e.getKey() + ": " + e.getValue())
+                    .collect(Collectors.joining("\n"));
+            Tooltip tooltip = new Tooltip(tooltipText);
+            probHeader.setTooltip(tooltip);
+        }
+
         probHeader.setMaxWidth(props.getInt("mission.grid.label.width"));
         probHeader.setMinWidth(props.getInt("mission.grid.label.width"));
         probHeader.setId("mission-stats-header");

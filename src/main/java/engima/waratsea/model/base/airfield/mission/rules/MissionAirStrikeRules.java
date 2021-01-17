@@ -5,6 +5,7 @@ import engima.waratsea.model.weather.Weather;
 import engima.waratsea.model.weather.WeatherType;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -55,5 +56,20 @@ public class MissionAirStrikeRules implements MissionAirRules {
     @Override
     public boolean isAffectedByWeather() {
         return getModifier() < 0;
+    }
+
+    /**
+     * Get the mission air rules modifiers. This returns a map of the game
+     * event to how this event affects the mission. For example,
+     * <p>
+     * Weather => -1
+     *
+     * @return A map of game events to how the event affects the mission.
+     */
+    @Override
+    public Map<String, Integer> getModifierMap() {
+        Map<String, Integer> modifierMap = new LinkedHashMap<>();
+        modifierMap.put("Weather", getModifier());
+        return modifierMap;
     }
 }

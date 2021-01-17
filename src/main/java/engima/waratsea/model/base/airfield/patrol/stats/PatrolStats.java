@@ -13,12 +13,12 @@ public class PatrolStats {
 
     @Getter
     @Setter
-    private Map<String, String> metaData; // Map of patrol radius to squadron names that can reach the radius.
+    private Map<String, String> metaData; // Data describing the patrol stats. The key is the stat's column title.
 
     /**
      * Constructor.
      */
     public PatrolStats() {
-        metaData = new HashMap<>();     // ensure that the metaData map always exists.
+        metaData = new HashMap<>();     // Ensure that the metaData map always exists.
      }
 }

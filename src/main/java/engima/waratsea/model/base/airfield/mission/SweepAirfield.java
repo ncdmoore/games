@@ -227,6 +227,7 @@ public class SweepAirfield implements AirMission {
         ProbabilityStats interceptionProbability = new ProbabilityStats();
         interceptionProbability.setTitle("Interception");
         interceptionProbability.setEventColumnTitle("Intercept");
+        interceptionProbability.setMetaData(rules.getModifierMap());
         interceptionProbability.setProbability(buildProbabilityIntercept());
 
         ProbabilityStats stepHitProbability = new ProbabilityStats();
