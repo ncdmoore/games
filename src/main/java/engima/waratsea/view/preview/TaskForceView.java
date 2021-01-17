@@ -202,7 +202,7 @@ public class TaskForceView {
     private Node buildObjectives(final Scenario scenario) {
         Label objectiveLabel = new Label("Objectives:");
         Label objectiveValue = new Label(scenario.getObjectives());
-        ImageView flag = imageResourceProvider.getImageView(scenario.getName(), props.getString(game.getHumanSide().toLower() + ".flag.medium.image"));
+        ImageView flag = imageResourceProvider.getImageView(props.getString(game.getHumanSide().toLower() + ".flag.medium.image"));
 
         HBox hBox = new HBox(flag, objectiveLabel, objectiveValue);
         hBox.setId("objective-pane");

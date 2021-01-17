@@ -13,7 +13,7 @@ import java.util.Properties;
 @Slf4j
 public class PropertyWrapper {
 
-    private Properties properties = new Properties();
+    private final Properties properties = new Properties();
 
     /**
      * Initialize the property wrapper by reading the  property resource file.

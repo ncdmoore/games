@@ -55,7 +55,7 @@ public class TaskForceMarker {
         String scenarioName = game.getScenario().getName();
         Side side = taskForceGrid.getSide();
 
-        this.image = new VBox(imageResourceProvider.getImageView(scenarioName, props.getString("taskforce." + side.toString().toLowerCase() + ".marker")));
+        this.image = new VBox(imageResourceProvider.getImageView(props.getString("taskforce." + side.toString().toLowerCase() + ".marker")));
 
         int gridSize = props.getInt("taskforce.mainMap.gridSize");
         GridView gridView = new GridView(gridSize, taskForceGrid.getGameGrid());

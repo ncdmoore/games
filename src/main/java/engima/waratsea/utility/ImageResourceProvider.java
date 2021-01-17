@@ -3,6 +3,7 @@ package engima.waratsea.utility;
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.game.GameTitle;
+import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.vessel.Vessel;
 import javafx.scene.image.Image;
@@ -28,15 +29,19 @@ public class ImageResourceProvider {
     private static final String SHIPS_DIR = "/ships/";
     private static final String IMAGES_DIR = "images/";
     private final GameTitle gameTitle;
+    private final Resource resource;
 
     /**
      * Construct a image resource provider.
      *
      * @param gameTitle The game title.
+     * @param resource The game resources.
      */
     @Inject
-    public ImageResourceProvider(final GameTitle gameTitle) {
+    public ImageResourceProvider(final GameTitle gameTitle,
+                                 final Resource resource) {
         this.gameTitle = gameTitle;
+        this.resource = resource;
     }
 
     /**
@@ -46,21 +51,9 @@ public class ImageResourceProvider {
      * @return The image wrapped in an image view.
      */
     public ImageView getImageView(final String resourceName)  {
-        return new ImageView(getImage(resourceName));
-    }
-
-    /**
-     * Get an image from a resource file that is wrapped in an image view so that is may be placed on the GUI.
-     * We will look for a scenario specific image first, then a default image.
-     *
-     * @param scenario The selected scenario name.
-     * @param resourceName The resource file name.
-     * @return The image wrapped in an image view.
-     */
-    public ImageView getImageView(final String scenario, final String resourceName) {
+        String scenario = resource.getScenario();
         return new ImageView(getImage(scenario, resourceName));
     }
-
 
     /**
      * Get a ship image. Attempt to get an image for the ship name. If that fails get the image for the ship's
@@ -175,8 +168,6 @@ public class ImageResourceProvider {
         return image;
     }
 
-
-
     /**
      * Load the image that corresponds to the ship name.
      *
@@ -256,8 +247,11 @@ public class ImageResourceProvider {
      * @return The image if it exists.
      */
     public Image getImage(final String resourceName) {
-        return getGameSpecificImage(resourceName)
-                .orElseGet(() -> getDefaultImage(resourceName));
+        String scenario = resource.getScenario();
+        String path = gameTitle.getValue() + SCENARIO_DIR + scenario + "/" + resourceName;
+        log.debug("get image: {}", path);
+        Optional<Image> image = loadImage(path);
+        return image.orElseGet(() -> getGameImage(resourceName));
     }
 
     /**
@@ -272,7 +266,13 @@ public class ImageResourceProvider {
         String path = gameTitle.getValue() + SCENARIO_DIR + scenario + "/" + resourceName;
         log.debug("get image: {}", path);
         Optional<Image> image = loadImage(path);
-        return image.orElseGet(() -> getImage(resourceName));
+        return image.orElseGet(() -> getGameImage(resourceName));
+    }
+
+
+    private Image getGameImage(final String resourceName) {
+        return getGameSpecificImage(resourceName)
+                .orElseGet(() -> getDefaultImage(resourceName));
     }
 
     /**

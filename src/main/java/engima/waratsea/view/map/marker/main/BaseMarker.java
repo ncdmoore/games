@@ -98,9 +98,9 @@ public class BaseMarker {
         final String imagePrefix = baseGrid.getSide().getValue().toLowerCase();
         final String humanPrefix = game.getHumanSide().getValue().toLowerCase();
 
-        this.imageView = new VBox(imageResourceProvider.getImageView(scenarioName, props.getString(imagePrefix + "." + type.toLower() + ".base.icon")));
-        this.roundel = new VBox(imageResourceProvider.getImageView(scenarioName, props.getString(humanPrefix + ".roundel.small.image")));
-        this.flag = new VBox(imageResourceProvider.getImageView(scenarioName, props.getString(humanPrefix + ".flag.tiny.image")));
+        this.imageView = new VBox(imageResourceProvider.getImageView(props.getString(imagePrefix + "." + type.toLower() + ".base.icon")));
+        this.roundel = new VBox(imageResourceProvider.getImageView(props.getString(humanPrefix + ".roundel.small.image")));
+        this.flag = new VBox(imageResourceProvider.getImageView(props.getString(humanPrefix + ".flag.tiny.image")));
 
         int gridSize = props.getInt("taskforce.mainMap.gridSize");
         GridView gridView = new GridView(gridSize, baseGrid.getGameGrid());

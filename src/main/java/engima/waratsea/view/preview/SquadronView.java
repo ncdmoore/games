@@ -395,7 +395,7 @@ public class SquadronView {
                 .stream()
                 .map(nation -> nation.toString() + ".flag.image")
                 .map(props::getString)
-                .map(flagImage -> imageResourceProvider.getImageView(scenario.getName(), flagImage))
+                .map(imageResourceProvider::getImageView)
                 .collect(Collectors.toList());
 
         HBox hBox = new HBox();

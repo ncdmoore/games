@@ -107,6 +107,7 @@ public final class Resource {
     @Setter
     private GameType type;
 
+    @Getter
     @Setter
     private String scenario;
 

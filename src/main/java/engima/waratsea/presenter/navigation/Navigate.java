@@ -37,11 +37,11 @@ public class Navigate {
     private Map<Class<?>, Class<?>> nextPage;
     private Map<Class<?>, Class<?>> prevPage;
 
-    private Map<Class<?>, Class<?>> nextNewGamePage = new HashMap<>();
-    private Map<Class<?>, Class<?>> prevNewGamePage = new HashMap<>();
+    private final Map<Class<?>, Class<?>> nextNewGamePage = new HashMap<>();
+    private final Map<Class<?>, Class<?>> prevNewGamePage = new HashMap<>();
 
-    private Map<Class<?>, Class<?>> nextSavedGamePage = new HashMap<>();
-    private Map<Class<?>, Class<?>> prevSavedGamePage = new HashMap<>();
+    private final Map<Class<?>, Class<?>> nextSavedGamePage = new HashMap<>();
+    private final Map<Class<?>, Class<?>> prevSavedGamePage = new HashMap<>();
 
     private final Map<Class<?>, Pair<Provider<? extends Presenter>, Boolean>> presenterMap = new HashMap<>();
 

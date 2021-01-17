@@ -208,7 +208,7 @@ public class FlotillaView {
      */
     private Node buildObjectives(final Scenario scenario) {
         Label objectiveLabel = new Label("Objectives: Current Submarine Deployment.");
-        ImageView flag = imageResourceProvider.getImageView(scenario.getName(), props.getString(game.getHumanSide().toLower() + ".flag.medium.image"));
+        ImageView flag = imageResourceProvider.getImageView(props.getString(game.getHumanSide().toLower() + ".flag.medium.image"));
 
         HBox hBox = new HBox(flag, objectiveLabel);
         hBox.setId("objectives-pane");
