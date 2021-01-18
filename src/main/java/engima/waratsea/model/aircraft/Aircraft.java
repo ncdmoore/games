@@ -73,7 +73,7 @@ public interface Aircraft extends Comparable<Aircraft> {
     List<MissionRole> getRoles();
 
     /**
-     * Get the probability the aircraft will hit in an  attack.
+     * Get the probability the aircraft will hit in an attack.
      *
      * @param attackType The attack type: AIR, LAND or NAVAL.
      * @param strength The strength of the squadron.
@@ -82,14 +82,13 @@ public interface Aircraft extends Comparable<Aircraft> {
     Map<SquadronConfig, Double> getHitProbability(AttackType attackType, SquadronStrength strength);
 
     /**
-     * Get the probability the aircraft will hit during air-to-air attack including any game factors
+     * Get the probability the aircraft will hit during an attack including any game factors
      * such as weather and type of target.
-     *
      *
      * @param attackType The attack type.
      * @param target The target.
-     * @param modifier The circumstance air-to-air attack modifier: weather, type of target, etc...
-     * @return The probability this aircraft will hit in an air-to-air attack.
+     * @param modifier The circumstances attack modifier: weather, type of target, etc...
+     * @return The probability this aircraft will hit in an attack.
      */
     Map<SquadronConfig, Double> getHitIndividualProbability(AttackType attackType, Target target, int modifier);
 

@@ -23,7 +23,7 @@ public enum LandingType {
     SEAPLANE("Seaplane");
 
     @Getter
-    private String value;
+    private final String value;
 
     /**
      * The constructor.

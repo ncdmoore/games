@@ -17,7 +17,7 @@ public enum AltitudeType {
     MEDIUM("Medium");
 
     @Getter
-    private String value;
+    private final String value;
 
     /**
      * Constructor.

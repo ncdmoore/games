@@ -20,7 +20,7 @@ import lombok.Getter;
  *
  */
 public class Performance {
-    @Getter private final int gameRange;
+    @Getter private final int gameRange;       // This is the range marked on the board game aircraft piece.
     @Getter private final int endurance;       // Endurance is equal to turns. Thus, if the endurance is 2, then this equates to 2 turns.
     @Getter private final int ferryDistance;   // This is the distance the aircraft may move without returning to base. One way distance.
     @Getter private final int radius;          // The combat radius. This is the distance the aircraft may move in and still return to base.

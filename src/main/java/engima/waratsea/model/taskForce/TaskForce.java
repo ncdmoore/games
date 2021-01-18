@@ -60,7 +60,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
     @Getter private Map<ShipType, List<Ship>> shipTypeMap;
 
     private final Shipyard shipyard;
-    private ShipEventMatcherFactory shipEventMatcherFactory;
+    private final ShipEventMatcherFactory shipEventMatcherFactory;
     private final GameMap gameMap;
 
     /**
@@ -393,7 +393,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
         releaseShipEvents = Optional.ofNullable(shipMatchData)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(data -> shipEventMatcherFactory.create(data))
+                .map(shipEventMatcherFactory::create)
                 .collect(Collectors.toList());
     }
 

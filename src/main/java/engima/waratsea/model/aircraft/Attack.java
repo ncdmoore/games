@@ -21,7 +21,7 @@ public class Attack {
 
     private final Map<SquadronStrength, Integer> factor = new HashMap<>();
 
-    @Getter private final double finalModifier;
+    @Getter private final double finalModifier;  // The final factor in determining a successful attack.
 
     /**
      * Constructor.
