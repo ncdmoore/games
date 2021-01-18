@@ -73,10 +73,10 @@ public class AirfieldSummaryView {
         titledPane.textProperty().bind(viewModel.getTitle());
         imageView.imageProperty().bind(viewModel.getImage());
 
-        airfieldSquadronInfo.bind(viewModel.getSquadronCounts());
-        airfieldMissionInfo.bind(viewModel.getMissionCounts());
-        airfieldPatrolInfo.bind(viewModel.getPatrolCounts());
-        airfieldReadyInfo.bind(viewModel.getReadyCounts());
+        airfieldSquadronInfo.bindIntegers(viewModel.getSquadronCounts());
+        airfieldMissionInfo.bindIntegers(viewModel.getMissionCounts());
+        airfieldPatrolInfo.bindIntegers(viewModel.getPatrolCounts());
+        airfieldReadyInfo.bindIntegers(viewModel.getReadyCounts());
 
         return leftVBox;
     }

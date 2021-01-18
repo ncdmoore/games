@@ -9,7 +9,6 @@ import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.info.AirfieldInfo;
 import engima.waratsea.view.airfield.info.AirfieldRangeInfo;
-import engima.waratsea.view.airfield.info.AirfieldRegionInfo;
 import engima.waratsea.view.util.GridPaneMap;
 import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
@@ -53,14 +52,13 @@ public class AirfieldAssetSummaryView implements AssetView {
 
     private final Map<Nation, Tab> tabMap = new HashMap<>();
 
-    private final Provider<AirfieldRegionInfo> airfieldRegionInfoProvider;
     private final Provider<AirfieldInfo> infoProvider;
     private final Provider<AirfieldRangeInfo> airfieldRangeInfoProvider;
 
     @Getter private AirbaseViewModel viewModel;
     private Airbase airbase;
     @Getter private final Map<Nation, AirfieldRangeInfo> rangeInfo = new HashMap<>();
-    private final Map<Nation, AirfieldRegionInfo> regionInfo = new HashMap<>();
+    private final Map<Nation, AirfieldInfo> regionInfo = new HashMap<>();
     private final Map<Nation, AirfieldInfo> squadronInfo = new HashMap<>();
     private final Map<Nation, AirfieldInfo> missionInfo = new HashMap<>();
     private final Map<Nation, AirfieldInfo> patrolInfo = new HashMap<>();
@@ -78,7 +76,6 @@ public class AirfieldAssetSummaryView implements AssetView {
      * @param props The view properties.
      * @param imageResourceProvider Provides images.
      * @param airfieldRangeInfoProvider Provides airfield range information.
-     * @param airfieldRegionInfoProvider Provides airfield region information.
      * @param infoProvider Provides airfield mission information.
      */
     //CHECKSTYLE:OFF
@@ -86,13 +83,11 @@ public class AirfieldAssetSummaryView implements AssetView {
     public AirfieldAssetSummaryView(final ViewProps props,
                                     final ImageResourceProvider imageResourceProvider,
                                     final Provider<AirfieldRangeInfo> airfieldRangeInfoProvider,
-                                    final Provider<AirfieldRegionInfo> airfieldRegionInfoProvider,
                                     final Provider<AirfieldInfo> infoProvider) {
         //CHECKSTYLE:ON
         this.props = props;
         this.imageResourceProvider = imageResourceProvider;
         this.airfieldRangeInfoProvider = airfieldRangeInfoProvider;
-        this.airfieldRegionInfoProvider = airfieldRegionInfoProvider;
         this.infoProvider = infoProvider;
     }
 
@@ -173,23 +168,23 @@ public class AirfieldAssetSummaryView implements AssetView {
 
         regionInfo
                 .get(nation)
-                .bind(nationAirbaseViewModel);
+                .bindStrings(nationAirbaseViewModel.getRegionCounts());
 
         squadronInfo
                 .get(nation)
-                .bind(nationAirbaseViewModel.getSquadronCounts());
+                .bindIntegers(nationAirbaseViewModel.getSquadronCounts());
 
         missionInfo
                 .get(nation)
-                .bind(nationAirbaseViewModel.getMissionCounts());
+                .bindIntegers(nationAirbaseViewModel.getMissionCounts());
 
         patrolInfo
                 .get(nation)
-                .bind(nationAirbaseViewModel.getPatrolCounts());
+                .bindIntegers(nationAirbaseViewModel.getPatrolCounts());
 
         readyInfo
                 .get(nation)
-                .bind(nationAirbaseViewModel.getReadyCounts());
+                .bindIntegers(nationAirbaseViewModel.getReadyCounts());
     }
 
     /**
@@ -361,8 +356,8 @@ public class AirfieldAssetSummaryView implements AssetView {
         rangeInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
         rangeInfoNode.getStyleClass().add("asset-component-pane");
 
-        regionInfo.put(nation, airfieldRegionInfoProvider.get());
-        TitledPane regionInfoNode = regionInfo.get(nation).build();
+        regionInfo.put(nation, infoProvider.get());
+        TitledPane regionInfoNode = regionInfo.get(nation).build("Region Step Summary");
         regionInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
         regionInfoNode.getStyleClass().add("asset-component-pane");
 

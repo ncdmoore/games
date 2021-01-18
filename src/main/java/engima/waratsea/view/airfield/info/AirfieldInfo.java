@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.util.BoundTitledGridPane;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
 
 import java.util.Map;
 
@@ -37,11 +38,20 @@ public class AirfieldInfo {
     }
 
     /**
-     * Set the airbase.
+     * Bind the property map to the info pane.
      *
      * @param propertyMap The properties stored in the info pane.
      */
-    public void bind(final Map<String, IntegerProperty> propertyMap) {
+    public void bindIntegers(final Map<String, IntegerProperty> propertyMap) {
         infoPane.bindIntegers(propertyMap);
+    }
+
+    /**
+     * Bind the property map to the info pane.
+     *
+     * @param propertyMap The property map stored in the info pane.
+     */
+    public void bindStrings(final Map<String, StringProperty> propertyMap) {
+        infoPane.bindStrings(propertyMap);
     }
 }

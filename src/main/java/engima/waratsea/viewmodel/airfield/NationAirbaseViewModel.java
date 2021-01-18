@@ -33,6 +33,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -59,6 +60,7 @@ public class NationAirbaseViewModel {
     @Getter private final StringProperty regionMaximum = new SimpleStringProperty();
     @Getter private final StringProperty regionMinimum = new SimpleStringProperty();
     @Getter private final StringProperty regionCurrent = new SimpleStringProperty();
+    @Getter private final Map<String, StringProperty> regionCounts = new LinkedHashMap<>();
 
     @Getter private final Map<SquadronState, SquadronStateViewModel> squadronStateViewModel = new HashMap<>();
     @Getter private final RangeViewModel rangeViewModel;
@@ -491,6 +493,10 @@ public class NationAirbaseViewModel {
                 .ofNullable(airbase.getValue())
                 .map(a -> a.getRegion(nation).getCurrentSteps() + "")
                 .orElse(""), airbase));
+
+        regionCounts.put("Minimum (Steps):", regionMinimum);
+        regionCounts.put("Maximum (Steps):", regionMaximum);
+        regionCounts.put("Current (Steps):", regionCurrent);
     }
 
     private void bindImages(final ImageResourceProvider imageResourceProvider, final ViewProps props) {
