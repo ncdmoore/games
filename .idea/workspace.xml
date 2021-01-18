@@ -9,10 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldRegionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldRegionInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/NationAirbaseViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/NationAirbaseViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/squadrons/SideSquadronsViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/squadrons/SideSquadronsViewModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -295,13 +292,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00303" summary="cleanup NationAirbaseViewModel">
-      <created>1608924007350</created>
-      <option name="number" value="00303" />
-      <option name="presentableId" value="LOCAL-00303" />
-      <option name="project" value="LOCAL" />
-      <updated>1608924007350</updated>
     </task>
     <task id="LOCAL-00304" summary="cleanup NationAirbaseViewModel">
       <created>1608924275440</created>
@@ -639,7 +629,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611008267179</updated>
     </task>
-    <option name="localTasksCounter" value="352" />
+    <task id="LOCAL-00352" summary="Collaspe region airfield info views into a generic airfield info view.">
+      <created>1611009220679</created>
+      <option name="number" value="00352" />
+      <option name="presentableId" value="LOCAL-00352" />
+      <option name="project" value="LOCAL" />
+      <updated>1611009220679</updated>
+    </task>
+    <option name="localTasksCounter" value="353" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -654,7 +651,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Auto select the top squadron on mission and patrol dialogs after adding or removing a squadron to a corresponding mission or patrol." />
     <MESSAGE value="Add some additional comments." />
     <MESSAGE value="Fix French airfield images." />
     <MESSAGE value="Ensure that the airfield dialog's nation tab and the airfield asset summary nation tab are synchronized." />
@@ -679,7 +675,8 @@
     <MESSAGE value="Have ImageResourceProvider depend upon Resource so that it can pickup the scenario name and always look for a scenario specific image." />
     <MESSAGE value="Aircraft classes cleanup" />
     <MESSAGE value="Collaspe some of the airfield info views into a generic airfield info view. Add a task force info view." />
-    <option name="LAST_COMMIT_MESSAGE" value="Collaspe some of the airfield info views into a generic airfield info view. Add a task force info view." />
+    <MESSAGE value="Collaspe region airfield info views into a generic airfield info view." />
+    <option name="LAST_COMMIT_MESSAGE" value="Collaspe region airfield info views into a generic airfield info view." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

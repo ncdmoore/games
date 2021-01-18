@@ -42,6 +42,7 @@ public class SideSquadronsViewModel {
         //Build the nation's squadron view model. This cannot be done until we
         //know the side since the side specifies the nations.
         nationsSquadronsViewModel.clear();
+
         game
                 .getPlayer(side)
                 .getNations()
