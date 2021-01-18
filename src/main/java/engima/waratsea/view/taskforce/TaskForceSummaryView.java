@@ -1,6 +1,8 @@
 package engima.waratsea.view.taskforce;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import engima.waratsea.view.taskforce.info.TaskForceInfo;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
@@ -13,9 +15,14 @@ public class TaskForceSummaryView {
     private final TitledPane titledPane = new TitledPane();
     private final VBox leftVBox = new VBox();
 
-    @Inject
-    public TaskForceSummaryView() {
+    private final TaskForceInfo shipSummary;
+    private final TaskForceInfo squadronSummary;
 
+
+    @Inject
+    public TaskForceSummaryView(final Provider<TaskForceInfo> infoProvider) {
+        shipSummary = infoProvider.get();
+        squadronSummary = infoProvider.get();
     }
 
     /**
@@ -26,7 +33,10 @@ public class TaskForceSummaryView {
     public TaskForceSummaryView build() {
         titledPane.setId("taskforce-title-pane");
 
-        leftVBox.getChildren().addAll(titledPane, imageView);
+        Node shipSummaryNode = shipSummary.build("Ship Summary");
+        Node squadronSummaryNode = squadronSummary.build("Squadron Summary");
+
+        leftVBox.getChildren().addAll(titledPane, imageView, shipSummaryNode, squadronSummaryNode);
         leftVBox.setId("taskforce-summary-vbox");
 
         return this;
@@ -41,6 +51,8 @@ public class TaskForceSummaryView {
     public Node bind(final TaskForceViewModel viewModel) {
         titledPane.textProperty().bind(viewModel.getNameAndTitle());
         imageView.imageProperty().bind(viewModel.getImage());
+        shipSummary.bind(viewModel.getShipCounts());
+        squadronSummary.bind(viewModel.getSquadronCounts());
 
         return leftVBox;
     }

@@ -1,10 +1,8 @@
 package engima.waratsea.view.airfield;
 
 import com.google.inject.Inject;
-import engima.waratsea.view.airfield.info.AirfieldMissionInfo;
-import engima.waratsea.view.airfield.info.AirfieldPatrolInfo;
-import engima.waratsea.view.airfield.info.AirfieldReadyInfo;
-import engima.waratsea.view.airfield.info.AirfieldSquadronInfo;
+import com.google.inject.Provider;
+import engima.waratsea.view.airfield.info.AirfieldInfo;
 import engima.waratsea.view.util.BoundTitledGridPane;
 import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
 import javafx.scene.Node;
@@ -18,10 +16,10 @@ import javafx.scene.layout.VBox;
  * details dialog box.
  */
 public class AirfieldSummaryView {
-    private final AirfieldSquadronInfo airfieldSquadronInfo;
-    private final AirfieldMissionInfo airfieldMissionInfo;
-    private final AirfieldPatrolInfo airfieldPatrolInfo;
-    private final AirfieldReadyInfo airfieldReadyInfo;
+    private final AirfieldInfo airfieldSquadronInfo;
+    private final AirfieldInfo airfieldMissionInfo;
+    private final AirfieldInfo airfieldPatrolInfo;
+    private final AirfieldInfo airfieldReadyInfo;
 
     private final ImageView imageView = new ImageView();
 
@@ -31,21 +29,15 @@ public class AirfieldSummaryView {
     /**
      * Constructor called by guice.
      *
-     * @param airfieldSquadronInfo The airfield's squadron information.
-     * @param airfieldMissionInfo The airfield's mission information.
-     * @param airfieldPatrolInfo The airfield's patrol information.
-     * @param airfieldReadyInfo The airfield's ready information.
+     * @param infoProvider The provides airfield information.
      */
     @Inject
-    public AirfieldSummaryView(final AirfieldSquadronInfo airfieldSquadronInfo,
-                               final AirfieldMissionInfo airfieldMissionInfo,
-                               final AirfieldPatrolInfo airfieldPatrolInfo,
-                               final AirfieldReadyInfo airfieldReadyInfo) {
+    public AirfieldSummaryView(final Provider<AirfieldInfo> infoProvider) {
 
-        this.airfieldSquadronInfo = airfieldSquadronInfo;
-        this.airfieldMissionInfo = airfieldMissionInfo;
-        this.airfieldPatrolInfo = airfieldPatrolInfo;
-        this.airfieldReadyInfo = airfieldReadyInfo;
+        this.airfieldSquadronInfo = infoProvider.get();
+        this.airfieldMissionInfo = infoProvider.get();
+        this.airfieldPatrolInfo = infoProvider.get();
+        this.airfieldReadyInfo = infoProvider.get();
     }
 
     /**
@@ -56,10 +48,10 @@ public class AirfieldSummaryView {
     public AirfieldSummaryView build() {
         titledPane.setId("airfield-title-pane");
 
-        BoundTitledGridPane squadronSummary = airfieldSquadronInfo.build();
-        BoundTitledGridPane missionSummary = airfieldMissionInfo.build();
-        BoundTitledGridPane patrolSummary = airfieldPatrolInfo.build();
-        BoundTitledGridPane readySummary = airfieldReadyInfo.build();
+        BoundTitledGridPane squadronSummary = airfieldSquadronInfo.build("Squadron Summary");
+        BoundTitledGridPane missionSummary = airfieldMissionInfo.build("Mission Summary");
+        BoundTitledGridPane patrolSummary = airfieldPatrolInfo.build("Patrol Summary");
+        BoundTitledGridPane readySummary = airfieldReadyInfo.build("Ready Summary");
 
         Accordion accordion = new Accordion();
         accordion.getPanes().addAll(squadronSummary, missionSummary, patrolSummary, readySummary);
@@ -81,10 +73,10 @@ public class AirfieldSummaryView {
         titledPane.textProperty().bind(viewModel.getTitle());
         imageView.imageProperty().bind(viewModel.getImage());
 
-        airfieldSquadronInfo.bind(viewModel);
-        airfieldMissionInfo.bind(viewModel);
-        airfieldPatrolInfo.bind(viewModel);
-        airfieldReadyInfo.bind(viewModel);
+        airfieldSquadronInfo.bind(viewModel.getSquadronCounts());
+        airfieldMissionInfo.bind(viewModel.getMissionCounts());
+        airfieldPatrolInfo.bind(viewModel.getPatrolCounts());
+        airfieldReadyInfo.bind(viewModel.getReadyCounts());
 
         return leftVBox;
     }

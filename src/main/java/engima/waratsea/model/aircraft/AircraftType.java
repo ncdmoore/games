@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 
 import java.util.Comparator;
+import java.util.stream.Stream;
 
 /**
  * Defines all the aircraft types in the game.
@@ -99,5 +100,14 @@ public enum AircraftType implements Comparator<AircraftType> {
     @Override
     public int compare(final AircraftType o1, final AircraftType o2) {
         return o1.order.compareTo(o2.order);
+    }
+
+    /**
+     * Get a Stream of all the aircraft types.
+     *
+     * @return A Stream of the aircraft types.
+     */
+    public static Stream<AircraftType> stream() {
+        return Stream.of(AircraftType.values());
     }
 }

@@ -66,10 +66,12 @@ public class TaskForceViewModel {
     @Getter private final IntegerProperty numShipTypes = new SimpleIntegerProperty();
     @Getter private final MapProperty<ShipViewType, List<Ship>> shipTypeMap = new SimpleMapProperty<>(FXCollections.emptyObservableMap());
     @Getter private final ListProperty<Pair<String, String>> shipTypeSummary = new SimpleListProperty<>(FXCollections.observableArrayList());
+    @Getter private final Map<String, IntegerProperty> shipCounts = new LinkedHashMap<>();
 
     @Getter private final IntegerProperty numSquadronTypes = new SimpleIntegerProperty();
     @Getter private final MapProperty<AircraftType, BigDecimal> squadronTypeMap = new SimpleMapProperty<>(FXCollections.emptyObservableMap());
     @Getter private final ListProperty<Pair<String, String>> squadronTypeSummary = new SimpleListProperty<>(FXCollections.observableArrayList());
+    @Getter private final Map<String, IntegerProperty> squadronCounts = new LinkedHashMap<>();
 
     private final ObjectProperty<TaskForce> taskForce = new SimpleObjectProperty<>();
 
@@ -91,7 +93,9 @@ public class TaskForceViewModel {
         bindShipTypeMap();
         bindSquadronTypeMap();
         bindShipTypeSummary();
+        bindShipCounts();
         bindSquadronTypeSummary();
+        bindSquadronCounts();
         bindImages(imageResourceProvider, props);
     }
 
@@ -204,6 +208,23 @@ public class TaskForceViewModel {
     }
 
     /**
+     * Bind the ship counts. These are the counts of each type of ship in the task force.
+     */
+    private void bindShipCounts() {
+        ShipViewType.stream().sorted().forEach(type -> {
+            IntegerProperty shipCount = new SimpleIntegerProperty(0);
+            shipCounts.put(type.toString(), shipCount);
+
+            Callable<Integer> bindingFunction = () ->
+                    Optional.ofNullable(shipTypeMap.getValue())
+                            .map(m -> getShipCount(m.get(type)))
+                            .orElse(0);
+
+            shipCount.bind(Bindings.createIntegerBinding(bindingFunction, shipTypeMap));
+        });
+    }
+
+    /**
      * Bind the squadron type summary.
      */
     private void bindSquadronTypeSummary() {
@@ -217,6 +238,23 @@ public class TaskForceViewModel {
         };
         squadronTypeSummary.bind(Bindings.createObjectBinding(bindingFunction, taskForce));
         numSquadronTypes.bind(squadronTypeSummary.sizeProperty());
+    }
+
+    /**
+     * Bind the ship counts. These are the counts of each type of ship in the task force.
+     */
+    private void bindSquadronCounts() {
+        AircraftType.stream().sorted().forEach(type -> {
+            IntegerProperty squadronCount = new SimpleIntegerProperty(0);
+            squadronCounts.put(type.toString(), squadronCount);
+
+            Callable<Integer> bindingFunction = () ->
+                    Optional.ofNullable(squadronTypeMap.getValue())
+                            .map(m -> getSquadronCount(m.get(type)))
+                            .orElse(0);
+
+            squadronCount.bind(Bindings.createIntegerBinding(bindingFunction, shipTypeMap));
+        });
     }
 
     /**
@@ -317,5 +355,13 @@ public class TaskForceViewModel {
 
     private String getImageName(final TaskForce force, final ViewProps props) {
         return props.getString(force.getSide().toLower() + ".taskforce.details.image");
+    }
+
+    private int getShipCount(final List<Ship> ships) {
+        return Optional.ofNullable(ships).map(List::size).orElse(0);
+    }
+
+    private int getSquadronCount(final BigDecimal count) {
+        return Optional.ofNullable(count).map(BigDecimal::intValue).orElse(0);
     }
 }
