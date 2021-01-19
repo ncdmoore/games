@@ -51,6 +51,14 @@ public interface Player {
     Set<Nation> getNations();
 
     /**
+     * This gets the nations of the player based on the type of squadron location.
+     *
+     * @param type The type of squadrons: LAND or SEA.
+     * @return A set of the player's nations: BRITISH, ITALIAN, etc...
+     */
+    Set<Nation> getSquadronNations(SquadronLocationType type);
+
+    /**
      * Set the player's nations.
      */
     void setNations();

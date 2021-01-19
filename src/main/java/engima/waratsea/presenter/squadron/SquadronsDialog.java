@@ -88,8 +88,8 @@ public class SquadronsDialog {
         dialog.setCss(cssResourceProvider.get(CSS_FILE));
         dialog.setContents(viewNode);
 
-        registerCallbacks();
-        selectFirstSquadrons();
+        registerCallbacks(locationType);
+        selectFirstSquadrons(locationType);
 
         dialog.getOkButton().setOnAction(event -> ok());
 
@@ -100,21 +100,25 @@ public class SquadronsDialog {
 
     /**
      * Register the callbacks.
+     *
+     * @param locationType The type of squadron: LAND or SEA.
      */
-    private void registerCallbacks() {
+    private void registerCallbacks(final SquadronLocationType locationType) {
         game.
                 getHumanPlayer()
-                .getNations()
+                .getSquadronNations(locationType)
                 .forEach(this::registerCallbacks);
     }
 
     /**
      * Select every list view's first squadron.
+     *
+     * @param locationType The type of squadron: LAND or SEA.
      */
-    private void selectFirstSquadrons() {
+    private void selectFirstSquadrons(final SquadronLocationType locationType) {
         game
                 .getHumanPlayer()
-                .getNations()
+                .getSquadronNations(locationType)
                 .forEach(this::selectFirstSquadrons);
     }
 

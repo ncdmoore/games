@@ -45,7 +45,7 @@ public class SideSquadronsViewModel {
 
         game
                 .getPlayer(side)
-                .getNations()
+                .getSquadronNations(locationType)
                 .forEach(this::buildNationSquadronViewModel);
     }
 
@@ -55,7 +55,7 @@ public class SideSquadronsViewModel {
      * @return The side's nations.
      */
     public Set<Nation> getNations() {
-        return game.getPlayer(side).getNations();
+        return nationsSquadronsViewModel.keySet();
     }
 
     /**

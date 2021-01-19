@@ -9,6 +9,12 @@
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/ComputerPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/ComputerPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/HumanPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/HumanPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/NeutralPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/NeutralPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/squadron/SquadronsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/squadron/SquadronsDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronsView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/squadrons/SideSquadronsViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/squadrons/SideSquadronsViewModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -292,13 +298,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00304" summary="cleanup NationAirbaseViewModel">
-      <created>1608924275440</created>
-      <option name="number" value="00304" />
-      <option name="presentableId" value="LOCAL-00304" />
-      <option name="project" value="LOCAL" />
-      <updated>1608924275440</updated>
     </task>
     <task id="LOCAL-00305" summary="cleanup NationAirbaseViewModel">
       <created>1608925342396</created>
@@ -636,7 +635,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611009220679</updated>
     </task>
-    <option name="localTasksCounter" value="353" />
+    <task id="LOCAL-00353" summary="Add french airfield 30x30 icon image.">
+      <created>1611012906227</created>
+      <option name="number" value="00353" />
+      <option name="presentableId" value="LOCAL-00353" />
+      <option name="project" value="LOCAL" />
+      <updated>1611012906227</updated>
+    </task>
+    <option name="localTasksCounter" value="354" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -651,7 +657,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add some additional comments." />
     <MESSAGE value="Fix French airfield images." />
     <MESSAGE value="Ensure that the airfield dialog's nation tab and the airfield asset summary nation tab are synchronized." />
     <MESSAGE value="Add the small weather view as a separate view component." />
@@ -676,7 +681,8 @@
     <MESSAGE value="Aircraft classes cleanup" />
     <MESSAGE value="Collaspe some of the airfield info views into a generic airfield info view. Add a task force info view." />
     <MESSAGE value="Collaspe region airfield info views into a generic airfield info view." />
-    <option name="LAST_COMMIT_MESSAGE" value="Collaspe region airfield info views into a generic airfield info view." />
+    <MESSAGE value="Add french airfield 30x30 icon image." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add french airfield 30x30 icon image." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -750,11 +756,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java</url>
           <line>520</line>
           <option name="timeStamp" value="87" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/utility/ImageResourceProvider.java</url>
-          <line>332</line>
-          <option name="timeStamp" value="88" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.UnsupportedOperationException" package="java.lang" />

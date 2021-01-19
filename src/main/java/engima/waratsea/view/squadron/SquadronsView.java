@@ -61,6 +61,7 @@ public class SquadronsView {
         List<Tab> tabs = viewModel
                 .getNations()
                 .stream()
+                .sorted()
                 .map(this::createTab)
                 .collect(Collectors.toList());
 

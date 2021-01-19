@@ -70,6 +70,17 @@ public class NeutralPlayer implements Player {
     }
 
     /**
+     * This gets the nations of the player based on the type of squadron location.
+     *
+     * @param type The type of squadrons: LAND or SEA.
+     * @return A set of the player's nations: BRITSH, ITALIAN, etc...
+     */
+    @Override
+    public Set<Nation> getSquadronNations(final SquadronLocationType type) {
+        return nations;
+    }
+
+    /**
      * Set the player's nations.
      */
     @Override
