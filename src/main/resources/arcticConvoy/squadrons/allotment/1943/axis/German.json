@@ -1,0 +1,105 @@
+{
+  "nation": "GERMAN",
+  "bombers": {
+    "dice": 3,
+    "factor": 3,
+    "groups": [
+      {
+        "selectSize": 2,
+        "aircraft": [
+          {
+            "type": "JU88A",
+            "number": 4
+          },
+          {
+            "type": "JU87D",
+            "number": 4
+          },
+          {
+            "type": "JU88T",
+            "number": 4
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "HE111H",
+            "number": 3
+          },
+          {
+            "type": "HE111H6",
+            "number": 5
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "JU87R",
+            "number": 2
+          },
+          {
+            "type": "HE177",
+            "number": 4
+          }
+        ]
+      }
+    ]
+  },
+  "fighters": {
+    "dice": 1,
+    "factor": 4,
+    "groups": [
+      {
+        "selectSize": 2,
+        "aircraft": [
+          {
+            "type": "BF109G",
+            "number": 5
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "BF110D",
+            "number": 2
+          },
+          {
+            "type": "FW190A",
+            "number": 3
+          }
+        ]
+      }
+    ]
+  },
+  "recon": {
+    "dice": 1,
+    "factor": 4,
+    "groups": [
+      {
+        "selectSize": 2,
+        "aircraft": [
+          {
+            "type": "FW200",
+            "number": 5
+          }
+        ]
+      },
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "BV138",
+            "number": 5
+          }
+        ]
+      }
+    ]
+  }
+}
+

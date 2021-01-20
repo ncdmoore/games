@@ -1,0 +1,10 @@
+{
+  "name": "Akureyri",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 8,
+  "antiAir": 6,
+  "location": "P8"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Kirkenes",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 60,
+  "antiAir": 16,
+  "location": "Z33"
+}

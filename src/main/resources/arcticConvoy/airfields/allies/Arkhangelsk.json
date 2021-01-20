@@ -1,0 +1,10 @@
+{
+  "name": "Arkhangelsk",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 16,
+  "antiAir": 6,
+  "location": "AK30"
+}

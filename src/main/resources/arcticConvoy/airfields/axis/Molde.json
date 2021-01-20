@@ -1,0 +1,10 @@
+{
+  "name": "Molde",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 50,
+  "antiAir": 16,
+  "location": "AN28"
+}

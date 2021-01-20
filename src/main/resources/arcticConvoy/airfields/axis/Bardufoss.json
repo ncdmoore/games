@@ -1,0 +1,10 @@
+{
+  "name": "Bardufoss",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 50,
+  "antiAir": 20,
+  "location": "AB30"
+}

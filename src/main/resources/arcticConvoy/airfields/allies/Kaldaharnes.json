@@ -1,0 +1,10 @@
+{
+  "name": "Kaldaharnes",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 20,
+  "antiAir": 10,
+  "location": "Q3"
+}

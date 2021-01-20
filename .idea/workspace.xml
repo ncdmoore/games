@@ -8,14 +8,81 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/allies/Akureyri.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/allies/Arkhangelsk.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/allies/Kaldaharnes.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/allies/Lerwick.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/allies/Murmansk.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/allies/Scapa Flow.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/allies/Wick.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Banak.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Bardufoss.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Bodo.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Kirkenes.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Molde.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Orland.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/alliesFlag.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/alliesFlag50x34.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisFlag.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisFlag50x34.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/mainMap.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/start.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/maps/allies/august1941.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/maps/axis/august1941.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/maps/neutral/august1941.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/allies/Akureyri.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/allies/Arkhangelsk.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/allies/Dikson.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/allies/Hvalfjordur.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/allies/Murmansk.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/allies/Scapa Flow.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Altafjord.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Bodo.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Narvik.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Petsamo.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Tromso.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Trondheim.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/properties/map.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/properties/view.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/scenarios/firstConvoy/firstConvoy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/scenarios/firstConvoy/summary.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/scenarios/firstConvoy/taskforce/alliesTaskForces.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1941/allies/British.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1941/allies/USSR.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1941/allies/United States.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1941/axis/German.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1942/allies/British.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1942/allies/USSR.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1942/allies/United States.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1942/axis/German.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1943/allies/British.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1943/allies/USSR.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1943/allies/United States.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1943/axis/German.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/squadron.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/GameName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/GameName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Nation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Nation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGrid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/Region.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/Region.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/ComputerPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/ComputerPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/HumanPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/HumanPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/NeutralPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/NeutralPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/squadron/SquadronsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/squadron/SquadronsDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronsView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/squadrons/SideSquadronsViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/squadrons/SideSquadronsViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForceDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForceDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/capeTeulada/taskforce/alliesTaskForces.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/capeTeulada/taskforce/alliesTaskForces.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/taskforce/alliesTaskForces.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/taskforce/alliesTaskForces.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/taskforce/axisTaskForces.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/taskforce/axisTaskForces.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/taskforce/alliesTaskForces.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/easternConvoys/taskforce/alliesTaskForces.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/potatoesForMalta/taskforce/alliesTaskForces.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/potatoesForMalta/taskforce/alliesTaskForces.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/puntaStilo/taskforce/alliesTaskForces.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/puntaStilo/taskforce/alliesTaskForces.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/puntaStilo/taskforce/axisTaskForces.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/puntaStilo/taskforce/axisTaskForces.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/taskforce/alliesTaskForces.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/taskforce/alliesTaskForces.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/alliedShip.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/alliedShip.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/axisShip.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/axis/axisShip.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/1942/axis/German.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/allotment/1942/axis/German.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/scenarios/coralSea/taskforce/axisTaskForces.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/scenarios/coralSea/taskforce/axisTaskForces.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/ships/axis/axisShip.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/ships/axis/axisShip.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/ship/ShipyardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/ship/ShipyardTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +165,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/arcticConvoy/images" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.25979218" />
@@ -108,18 +175,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/images" />
+      <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/scenarios/firstConvoy/taskforce" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/maps/allies" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/maps/axis" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/maps/neutral" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/capeTeulada/victory" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
+      <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/images" />
+      <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/scenarios/firstConvoy" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery" />
       <recent name="$PROJECT_DIR$/src/main/resources/coralSea/images" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/wineDarkSea/flotilla" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="engima.waratsea.view.airfield.info" />
@@ -153,6 +220,15 @@
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in enigma.worldWarTwoAtSea.test (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -226,23 +302,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SquadronConfigRulesTest.testSquadronConfigStrippedDown" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.game.rules.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.rules" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.rules.SquadronConfigRulesTest" />
-      <option name="METHOD_NAME" value="testSquadronConfigStrippedDown" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
@@ -271,19 +330,19 @@
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.All in worldWarTwoAtSea.test" />
-      <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigStrippedDown" />
       <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigLeanEngine" />
       <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigSearch" />
       <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigReducedPayload" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
+      <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
         <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
         <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigReducedPayload" />
         <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigSearch" />
         <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigLeanEngine" />
-        <item itemvalue="JUnit.SquadronConfigRulesTest.testSquadronConfigStrippedDown" />
       </list>
     </recent_temporary>
   </component>
@@ -298,13 +357,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00305" summary="cleanup NationAirbaseViewModel">
-      <created>1608925342396</created>
-      <option name="number" value="00305" />
-      <option name="presentableId" value="LOCAL-00305" />
-      <option name="project" value="LOCAL" />
-      <updated>1608925342397</updated>
     </task>
     <task id="LOCAL-00306" summary="cleanup NationAirbaseViewModel">
       <created>1608929998447</created>
@@ -642,7 +694,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611012906227</updated>
     </task>
-    <option name="localTasksCounter" value="354" />
+    <task id="LOCAL-00354" summary="Fix issue where not all nation's squadrons displayed in forces menu for task force squadrons.">
+      <created>1611016529078</created>
+      <option name="number" value="00354" />
+      <option name="presentableId" value="LOCAL-00354" />
+      <option name="project" value="LOCAL" />
+      <updated>1611016529078</updated>
+    </task>
+    <option name="localTasksCounter" value="355" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -657,7 +716,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fix French airfield images." />
     <MESSAGE value="Ensure that the airfield dialog's nation tab and the airfield asset summary nation tab are synchronized." />
     <MESSAGE value="Add the small weather view as a separate view component." />
     <MESSAGE value="Cleanup warnings." />
@@ -682,7 +740,8 @@
     <MESSAGE value="Collaspe some of the airfield info views into a generic airfield info view. Add a task force info view." />
     <MESSAGE value="Collaspe region airfield info views into a generic airfield info view." />
     <MESSAGE value="Add french airfield 30x30 icon image." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add french airfield 30x30 icon image." />
+    <MESSAGE value="Fix issue where not all nation's squadrons displayed in forces menu for task force squadrons." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix issue where not all nation's squadrons displayed in forces menu for task force squadrons." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -760,6 +819,10 @@
         <breakpoint type="java-exception">
           <properties class="java.lang.UnsupportedOperationException" package="java.lang" />
           <option name="timeStamp" value="38" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="88" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>

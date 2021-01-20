@@ -1,0 +1,11 @@
+{
+  "name": "firstConvoy",
+  "title": "First Convoy",
+  "id": 1,
+  "image": "firstConvoy.png",
+  "date": "08/17/1941",
+  "weather": "RAIN",
+  "maxTurns": 120,
+  "description": "With the decision to send aid to the Soviet Union via Arctic waters, the Royal Navy gained responsibility for a new theater of war but no additional ships or aircraft. Adding to the headaches of Jack Tovey (Commander of the Home Fleet), his political and military superiors could not help demanding new special missions. And so Tovey's fleet sailed, with convering the first Allied convoy to Archangel as just one of its responsibilities.",
+  "map": "august1941"
+}

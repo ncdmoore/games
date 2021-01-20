@@ -44,8 +44,10 @@
       {
         "selectSize": 2,
         "aircraft": [
-          "BF109F"
-        ]
+          {
+            "type": "BF109E",
+            "number": 8
+          }        ]
       },
       {
         "selectSize": 1,

@@ -1,0 +1,41 @@
+{
+  "nation": "USSR",
+  "bombers": {
+    "dice": 0,
+    "factor": 0,
+    "groups": []
+  },
+  "fighters": {
+    "dice": 0,
+    "factor": 0,
+    "groups": []
+  },
+  "recon": {
+    "dice": 1,
+    "factor": 0,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "GST",
+            "number": 3
+          },
+          {
+            "type": "Mig-3",
+            "number": 3
+          },
+          {
+            "type": "Hurricane-1",
+            "number": 3
+          },
+          {
+            "type": "La-5",
+            "number": 2
+          }
+        ]
+      }
+    ]
+  }
+}
+

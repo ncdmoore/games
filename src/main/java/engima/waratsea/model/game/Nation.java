@@ -2,6 +2,7 @@ package engima.waratsea.model.game;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -17,6 +18,9 @@ public enum Nation implements Comparator<Nation> {
 
     @SerializedName(value = "BRITISH", alternate = {"British", "british"})
     BRITISH("British", "British", "HMS"),
+
+    @SerializedName(value = "FINNISH", alternate = {"Finnish", "finnish"})
+    FINNISH("Finnish", "Finnish", "FN"),
 
     @SerializedName(value = "FRENCH", alternate = {"French", "french"})
     FRENCH("French", "French", ""),
@@ -37,7 +41,10 @@ public enum Nation implements Comparator<Nation> {
     POLISH("Polish", "Polish", "ORP"),
 
     @SerializedName(value = "UNITED_STATES", alternate = {"UNITED STATES", "United_States", "united_states", "United States", "united states"})
-    UNITED_STATES("United States", "United-States", "USS");
+    UNITED_STATES("United States", "United-States", "USS"),
+
+    @SerializedName(value = "USSR", alternate = {"Ussr", "ussr"})
+    USSR("USSR", "ussr", "CCCP");
 
     private final String value;
 
@@ -47,6 +54,9 @@ public enum Nation implements Comparator<Nation> {
     @Getter
     private final String shipPrefix;
 
+    @Getter
+    @Setter
+    private boolean squadronsPresent;
 
     private static final Map<String, Nation> VALUE_MAP = new HashMap<>();
     static {

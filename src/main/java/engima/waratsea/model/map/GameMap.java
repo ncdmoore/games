@@ -105,15 +105,19 @@ public final class GameMap {
                    final MinefieldDAO minefieldDAO,
                    final Provider<BaseGrid> baseGridProvider,
                    final Provider<TaskForceGrid> taskForceGridProvider,
-                   final Provider<RegionGrid> regionGridProvider) {
+                   final Provider<RegionGrid> regionGridProvider) throws MapException {
         this.regionDAO = regionDAO;
         this.minefieldDAO = minefieldDAO;
         this.baseGridProvider = baseGridProvider;
         this.taskForceGridProvider = taskForceGridProvider;
         this.regionGridProvider = regionGridProvider;
 
-        rows = props.getInt("rows");
-        columns = props.getInt("columns");
+        try {
+            rows = props.getInt("rows");
+            columns = props.getInt("columns");
+        } catch (Exception ex) {
+            throw new MapException("Unable to get map rows or columns.");
+        }
 
         defaultGridType = props.getString("defaultGridType", "LAND");
 
@@ -345,12 +349,6 @@ public final class GameMap {
             }
         }
 
-       /* Stream
-                .of(Side.values())
-                .map(side -> portRefToName.get(side).containsKey(mapRef) || airfieldRefToName.get(side).containsKey(mapRef))
-                .reduce((b1, b2) -> b1 || b2 )
-                .orElse(false);*/
-
         return false;
     }
 
@@ -425,7 +423,7 @@ public final class GameMap {
      * @return The game grid corresponding to the given map reference.
      */
     public Optional<GameGrid> getGrid(@NonNull final String mapReference) {
-        return Optional.of(gridRefMap.get(mapReference));
+        return Optional.ofNullable(gridRefMap.get(mapReference));
     }
 
     /**

@@ -6,12 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum GameName {
+    ARCTIC_CONVOY("arcticConvoy"),
     BOMB_ALLEY("bombAlley"),
     CORAL_SEA("coralSea");
 
     private static final Map<String, GameName> CONVERSION_MAP = new HashMap<>();
 
     static {
+        CONVERSION_MAP.put("arcticConvoy", GameName.ARCTIC_CONVOY);
+        CONVERSION_MAP.put("ARCTIC_CONVOY", GameName.ARCTIC_CONVOY);
         CONVERSION_MAP.put("bombAlley", GameName.BOMB_ALLEY);
         CONVERSION_MAP.put("BOMB_ALLEY", GameName.BOMB_ALLEY);
         CONVERSION_MAP.put("coralSea", GameName.CORAL_SEA);

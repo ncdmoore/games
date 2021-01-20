@@ -110,16 +110,16 @@
       "DD37 Decoy",
       "DD69 Hasty",
       "DD70 Havock",
-      "TR01",
-      "TR02",
-      "TR03",
-      "TR04"
+      "TL01",
+      "TL02",
+      "TL03",
+      "TL04"
     ],
     "cargoShips": [
-      "TR01",
-      "TR02",
-      "TR03",
-      "TR04"
+      "TL01",
+      "TL02",
+      "TL03",
+      "TL04"
     ]
   },
   {
@@ -144,16 +144,16 @@
       "DE98 Flower-2",
       "DE99 Flower-3",
       "DE100 Flower-4",
-      "TR05",
-      "TR06",
-      "TR07"
+      "TL05",
+      "TL06",
+      "TL07"
     ],
     "cargoShips": [
       "CL37 Southampton",
       "CL40 Manchester",
-      "TR05",
-      "TR06",
-      "TR07"
+      "Tl05",
+      "Tl06",
+      "Tl07"
     ]
   },
   {

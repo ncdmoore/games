@@ -1,0 +1,10 @@
+{
+  "name": "Lerwick",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 12,
+  "antiAir": 12,
+  "location": "AN17"
+}

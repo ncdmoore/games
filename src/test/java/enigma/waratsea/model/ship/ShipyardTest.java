@@ -220,8 +220,8 @@ public class ShipyardTest {
 
     @Test
     public void testBuildTransport() throws Exception {
-        testBuildTransport("TR01", Nation.BRITISH);
-        testBuildTransport("TR13", Nation.BRITISH);
+        testBuildTransport("TL01", Nation.BRITISH);
+        testBuildTransport("TS01", Nation.BRITISH);
     }
 
     @Test

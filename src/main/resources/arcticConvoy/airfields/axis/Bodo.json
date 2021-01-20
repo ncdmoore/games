@@ -1,0 +1,10 @@
+{
+  "name": "Bodo",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 40,
+  "antiAir": 16,
+  "location": "AH31"
+}

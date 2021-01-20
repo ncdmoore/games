@@ -1,0 +1,10 @@
+{
+  "name": "Orland",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 60,
+  "antiAir": 16,
+  "location": "AL33"
+}

@@ -22,20 +22,32 @@
       "DE01 V&W-1",
       "DE02 V&W-2",
       "DE03 V&W-3",
-      "TR13",
-      "TR14",
-      "TR15",
-      "TR16",
-      "TR17",
-      "TR18"
+      "TS01",
+      "TS02",
+      "T203",
+      "TS04",
+      "TS05",
+      "TS06",
+      "TS07",
+      "TS08",
+      "TS09",
+      "TS10",
+      "TS11",
+      "TS12"
     ],
     "cargoShips": [
-      "TR13",
-      "TR14",
-      "TR15",
-      "TR16",
-      "TR17",
-      "TR18"
+      "TS01",
+      "TS02",
+      "T203",
+      "TS04",
+      "TS05",
+      "TS06",
+      "TS07",
+      "TS08",
+      "TS09",
+      "TS10",
+      "TS11",
+      "TS12"
     ]
   },
   {
@@ -75,15 +87,15 @@
       "CL27 Neptune",
       "CL39 Liverpool",
       "CL38 Gloucester",
-      "TR01",
-      "TR02",
-      "TR03",
+      "TL01",
+      "TL02",
+      "TL03",
       "CL03 Sydney"
     ],
     "cargoShips": [
-      "TR01",
-      "TR02",
-      "TR03"
+      "TL01",
+      "TL02",
+      "TL03"
     ]
   },
   {

@@ -442,7 +442,9 @@ public class HumanPlayer implements Player {
         squadrons.clear(); // Clear out any stale data if it exists.
 
         for (Nation nation: nations) {
-            loadNationSquadrons(scenario, nation);
+            if (nation.isSquadronsPresent()) {
+                loadNationSquadrons(scenario, nation);
+            }
         }
     }
 

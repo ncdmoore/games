@@ -1,0 +1,29 @@
+{
+  "nation": "UNITED_STATES",
+  "bombers": {
+    "dice": 0,
+    "factor": 0,
+    "groups": []
+  },
+  "fighters": {
+    "dice": 0,
+    "factor": 0,
+    "groups": []
+  },
+  "recon": {
+    "dice": 0,
+    "factor": 6,
+    "groups": [
+      {
+        "selectSize": 1,
+        "aircraft": [
+          {
+            "type": "Catalina",
+            "number": 3
+          }
+        ]
+      }
+    ]
+  }
+}
+

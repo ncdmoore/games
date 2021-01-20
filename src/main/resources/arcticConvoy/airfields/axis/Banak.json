@@ -1,0 +1,10 @@
+{
+  "name": "Banak",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 40,
+  "antiAir": 12,
+  "location": "Z38"
+}

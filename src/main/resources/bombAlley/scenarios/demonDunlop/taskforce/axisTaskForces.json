@@ -18,18 +18,18 @@
       "DD23 Grecale",
       "DD30 Aviere",
       "DD32 Geniere",
-      "TR01",
-      "TR02",
-      "TR03",
-      "TR04",
-      "TR05"
+      "TL01",
+      "TL02",
+      "TL03",
+      "TL04",
+      "TL05"
     ],
     "cargoShips": [
-      "TR01",
-      "TR02",
-      "TR03",
-      "TR04",
-      "TR05"
+      "TL01",
+      "TL02",
+      "TL03",
+      "TL04",
+      "TL05"
   ]
   },
   {
@@ -159,16 +159,16 @@
       "DE46 Spica-1",
       "DE47 Spica-2",
       "DE48 Spica-3",
-      "TR13",
-      "TR14",
-      "TR15",
-      "TR16"
+      "TS01",
+      "TS02",
+      "TS03",
+      "TS04"
     ],
     "cargoShips": [
-      "TR13",
-      "TR14",
-      "TR15",
-      "TR16"
+      "TS01",
+      "TS02",
+      "TS03",
+      "TS04"
     ]
   },
   {
@@ -201,18 +201,18 @@
       "DE61 Spica-16",
       "DE62 Spica-17",
       "DE63 Spica-18",
-      "TR17",
-      "TR18",
-      "TR19",
-      "TR20",
-      "TR21"
+      "TS05",
+      "TS06",
+      "TS07",
+      "TS08",
+      "TS09"
     ],
     "cargoShips": [
-      "TR17",
-      "TR18",
-      "TR19",
-      "TR20",
-      "TR21"
+      "TS05",
+      "TS06",
+      "TS07",
+      "TS08",
+      "TS09"
     ]
   },
   {

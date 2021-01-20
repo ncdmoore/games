@@ -30,8 +30,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TaskForceDAO {
 
-    private Resource config;
-    private TaskForceFactory taskForceFactory;
+    private final Resource config;
+    private final TaskForceFactory taskForceFactory;
 
     /**
      * The constructor. Called by guice.
@@ -57,7 +57,7 @@ public class TaskForceDAO {
         log.info("Load task forces, scenario: '{}', side: '{}'", scenario.getTitle(), side);
         return getURL(side)
                 .map(u -> readTaskForce(u, side))
-                .orElseThrow(() -> new ScenarioException("Unable to load task force for " + scenario.getTitle() + " for " + side));
+                .orElseThrow(() -> new ScenarioException("Unable to load task force for '" + scenario.getTitle() + "' for " + side));
     }
 
     /**

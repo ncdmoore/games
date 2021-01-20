@@ -36,16 +36,16 @@
       "DE55 Spica-10",
       "DE56 Spica-11",
       "DE57 Spica-12",
-      "TR01",
-      "TR02",
-      "TR03",
-      "TR04"
+      "TL01",
+      "TL02",
+      "TL03",
+      "TL04"
     ],
     "cargoShips": [
-      "TR01",
-      "TR02",
-      "TR03",
-      "TR04"
+      "TL01",
+      "TL02",
+      "TL03",
+      "TL04"
     ]
   },
   {
@@ -92,7 +92,7 @@
       "type": "PATROL"
     },
     "ships": [
-      "TR05",
+      "TL05",
       "DE01 Pilo-1",
       "DE02 Pilo-2",
       "DE03 Pilo-3",
@@ -101,7 +101,7 @@
       "DE06 Pilo-6"
     ],
     "cargoShips": [
-      "TR05"
+      "TL05"
     ]
   },
   {

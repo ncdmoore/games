@@ -57,7 +57,7 @@ public class BaseGrid implements MarkerGrid {
         this.gameGrid = gameMapProvider
                 .get()
                 .getGrid(seaPort.getReference())
-                .orElse(null);
+                .orElseThrow(() -> new RuntimeException("Unable to get port: " + seaPort.getName() + " map reference."));
 
         return this;
     }
@@ -75,7 +75,7 @@ public class BaseGrid implements MarkerGrid {
         this.gameGrid = gameMapProvider
                 .get()
                 .getGrid(field.getReference())
-                .orElse(null);
+                .orElseThrow(() -> new RuntimeException("Unable to get airfield: " + field.getName() + " map reference."));
 
         return this;
     }

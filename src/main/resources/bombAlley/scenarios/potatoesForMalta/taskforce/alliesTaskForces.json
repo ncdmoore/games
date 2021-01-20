@@ -18,16 +18,16 @@
       "DD69 Hasty",
       "DD71 Hereward",
       "DD113 Jaguar",
-      "TR01",
-      "TR02",
-      "TR03",
-      "TR04"
+      "TL01",
+      "TL02",
+      "TL03",
+      "TL04"
     ],
     "cargoShips": [
-      "TR01",
-      "TR02",
-      "TR03",
-      "TR04"
+      "TL01",
+      "TL02",
+      "TL03",
+      "TL04"
     ]
   },
   {
@@ -140,12 +140,12 @@
       "DE106 Flower-10",
       "DE107 Flower-11",
       "DE108 Flower-12",
-      "TR05",
-      "TR06"
+      "TL05",
+      "TL06"
     ],
     "cargoShips": [
-      "TR05",
-      "TR06"
+      "TL05",
+      "TL06"
     ]
   },
   {

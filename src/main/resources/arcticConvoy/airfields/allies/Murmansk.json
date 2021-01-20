@@ -1,0 +1,10 @@
+{
+  "name": "Murmansk",
+  "landingType": [
+    "LAND",
+    "CARRIER"
+  ],
+  "maxCapacity": 30,
+  "antiAir": 16,
+  "location": "AB37"
+}

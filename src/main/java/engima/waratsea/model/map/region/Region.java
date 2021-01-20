@@ -76,6 +76,7 @@ public class Region {
 
         airfields.forEach(airfield -> airfield.addRegion(this));
 
+        nation.setSquadronsPresent(!airfields.isEmpty());
 
         ports = Optional.ofNullable(data.getPorts())
                 .orElseGet(Collections::emptyList)

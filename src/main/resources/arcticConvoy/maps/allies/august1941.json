@@ -1,0 +1,63 @@
+[
+  {
+    "name": "Scotland",
+    "nation": "BRITISH",
+    "min": "0",
+    "max": "0",
+    "mapRef": "AO13",
+    "airfields": [
+      "Lerwick",
+      "Scapa Flow",
+      "Wick"
+    ],
+    "ports": [
+      "Scapa Flow"
+    ]
+  },
+  {
+    "name": "Iceland",
+    "nation": "BRITISH",
+    "min": "0",
+    "max": "0",
+    "mapRef": "AO13",
+    "airfields": [
+      "Akureyri",
+      "Kaldaharnes"
+    ],
+    "ports": [
+      "Akureyri",
+      "Hvalfjordur"
+    ]
+  },
+  {
+    "name": "Iceland",
+    "nation": "UNITED STATES",
+    "min": "0",
+    "max": "0",
+    "mapRef": "AO13",
+    "airfields": [
+      "Akureyri",
+      "Kaldaharnes"
+    ],
+    "ports": [
+      "Akureyri",
+      "Hvalfjordur"
+    ]
+  },
+  {
+    "name": "Soviet Union",
+    "nation": "USSR",
+    "min": "0",
+    "max": "0",
+    "mapRef": "AO13",
+    "airfields": [
+      "Arkhangelsk",
+      "Murmansk"
+    ],
+    "ports": [
+      "Arkhangelsk",
+      "Dikson",
+      "Murmansk"
+    ]
+  }
+]
