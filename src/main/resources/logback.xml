@@ -26,6 +26,21 @@
 
     </appender>
 
+    <!-- Missing Ship File logging -->
+    <appender name="MISSING_SHIP_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${user.home}/WW2atSea/missing_ships.log</file>
+        <append>false</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50}.%M - %msg%n</Pattern>
+        </encoder>
+
+
+
+    </appender>
+
+    <logger name="engima.waratsea.model.ship" level="warn" additivity="true">
+        <appender-ref ref="MISSING_SHIP_FILE" />
+    </logger>
 
     <logger name="engima.waratsea.utility" level="info" additivity="false">
         <appender-ref ref="STDOUT" />

@@ -28,14 +28,14 @@ import java.util.function.Function;
 @Slf4j
 public class Shipyard {
     // Ship type to ship factory map.
-    private Map<ShipType, Function<ShipData, Ship>> factoryMap = new HashMap<>();
+    private final Map<ShipType, Function<ShipData, Ship>> factoryMap = new HashMap<>();
 
     //Each side has a map of ship class names to ship's data. This acts as a cash for data read in from JSON files.
-    private Map<Side, Map<String, ShipData>> shipDataMap = new HashMap<>();
+    private final Map<Side, Map<String, ShipData>> shipDataMap = new HashMap<>();
 
-    private Resource config;
-    private ShipRegistry registry;
-    private ShipFactory shipFactory;
+    private final Resource config;
+    private final ShipRegistry registry;
+    private final ShipFactory shipFactory;
 
     /**
      * Constructor called by guice.
