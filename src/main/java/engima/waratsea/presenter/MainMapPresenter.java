@@ -20,6 +20,7 @@ import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
 import engima.waratsea.view.map.marker.main.RegionMarker;
 import javafx.event.ActionEvent;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -91,6 +92,7 @@ public class MainMapPresenter {
         mainMenu.getShowAirfields().setOnAction(event -> toggleBaseMarkers());
         mainMenu.getShowPorts().setOnAction(event -> toggleBaseMarkers());
         mainMenu.getShowRegions().setOnAction(event -> toggleRegionMarkers());
+        mainMenu.getShowGrid().setOnAction(this::toggleGrid);
 
         Side humanSide =  game.getHumanSide();
 
@@ -121,6 +123,11 @@ public class MainMapPresenter {
      */
     private void toggleRegionMarkers() {
         mainMapView.toggleRegionMarkers();
+    }
+
+    private void toggleGrid(final ActionEvent event) {
+        CheckMenuItem item = (CheckMenuItem) event.getSource();
+        mainMapView.toggleGrid(item.isSelected());
     }
 
     /**

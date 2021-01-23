@@ -36,6 +36,7 @@ public class MapView {
     private final Group map = new Group();
 
     private final MultiKeyMap<Integer, Rectangle> grid = new MultiKeyMap<>();    //Row, Column to Rectangle map.
+    private final MultiKeyMap<Integer, Node> gridLabels = new MultiKeyMap<>();   //Row, Column to grid label map.
 
     /**
      * Constructor called by guice.
@@ -85,6 +86,22 @@ public class MapView {
     }
 
     /**
+     * Draw the map reference labels.
+     */
+    public void drawMapReference() {
+        int currentNumberOfRows = numberOfRows;
+
+        for (int col = 0; col < numberOfColumns; col++) {
+            for (int row = 0; row < currentNumberOfRows; row++) {
+                Node node = addMapReference((GridView) grid.get(row, col).getUserData());
+                gridLabels.put(row, col, node);
+            }
+
+            currentNumberOfRows = (currentNumberOfRows == numberOfRows) ? numberOfRows - 1 : numberOfRows;
+        }
+    }
+
+    /**
      * Register a mouse click handler for each rectangle that makes up the map grid.
      *
      * @param handler The mouse click handler.
@@ -95,7 +112,6 @@ public class MapView {
         for (int col = 0; col < numberOfColumns; col++) {
             for (int row = 0; row < currentNumberOfRows; row++) {
                 registerMouseClick(grid.get(row, col), handler);
-                addMapReference((GridView) grid.get(row, col).getUserData());
             }
 
             currentNumberOfRows = (currentNumberOfRows == numberOfRows) ? numberOfRows - 1 : numberOfRows;
@@ -142,6 +158,25 @@ public class MapView {
      */
     public void remove(final Node node) {
         map.getChildren().remove(node);
+    }
+
+    /**
+     * Toggle the map's grid. Right now we can only toggle the labels. Javafx has a bug around the view order
+     * that causes the base markers to move when the grid id toggled.
+     *
+     * @param visible If true the grid and its labels are shown. If false the grid and its labels are hidden.
+     */
+    public void toggleGrid(final boolean visible) {
+        int currentNumberOfRows = numberOfRows;
+
+        for (int col = 0; col < numberOfColumns; col++) {
+            for (int row = 0; row < currentNumberOfRows; row++) {
+                //grid.get(row, col).setVisible(visible);
+                gridLabels.get(row, col).setVisible(visible);
+            }
+
+            currentNumberOfRows = (currentNumberOfRows == numberOfRows) ? numberOfRows - 1 : numberOfRows;
+        }
     }
 
     /**
@@ -256,8 +291,9 @@ public class MapView {
      * Add a map reference label to the grid.
      *
      * @param gridView The grid view of map grid.
+     * @return The node containing the map reference label.
      */
-    private void addMapReference(final GridView gridView) {
+    private Node addMapReference(final GridView gridView) {
         GameGrid gameGrid = gameMap.getGrid(gridView.getRow(), gridView.getColumn());
         String mapRef = gameGrid.getMapReference();
 
@@ -271,5 +307,7 @@ public class MapView {
         text.getStyleClass().add("map-ref-text");
 
         add(mapRefNode);
+
+        return mapRefNode;
     }
 }

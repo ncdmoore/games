@@ -9,8 +9,10 @@
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/properties/view.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MainMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MainMapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/MapView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -303,13 +305,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00310" summary="cleanup NationAirbaseViewModel">
-      <created>1609004092326</created>
-      <option name="number" value="00310" />
-      <option name="presentableId" value="LOCAL-00310" />
-      <option name="project" value="LOCAL" />
-      <updated>1609004092326</updated>
     </task>
     <task id="LOCAL-00311" summary="cleanup NationAirbaseViewModel">
       <created>1609005853597</created>
@@ -647,7 +642,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611382027266</updated>
     </task>
-    <option name="localTasksCounter" value="359" />
+    <task id="LOCAL-00359" summary="Fix the maximum length of the game's main map. Always allow room for the asset tab.">
+      <created>1611422563623</created>
+      <option name="number" value="00359" />
+      <option name="presentableId" value="LOCAL-00359" />
+      <option name="project" value="LOCAL" />
+      <updated>1611422563623</updated>
+    </task>
+    <option name="localTasksCounter" value="360" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -662,7 +664,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Seaplane steps count as double when search for submarines on ASW patrol. Add this functionality." />
     <MESSAGE value="Add probability that a airfield or port sweep will successfully intercept the target's CAP." />
     <MESSAGE value="Add affected by weather icon to air mission details dialogs." />
     <MESSAGE value="Update SquadronAction to include TAKE_OFF and LAND." />
@@ -687,7 +688,8 @@
     <MESSAGE value="Add missing ship log." />
     <MESSAGE value="Arctic Convoy maps done." />
     <MESSAGE value="Add preview map marker adjuster." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add preview map marker adjuster." />
+    <MESSAGE value="Fix the maximum length of the game's main map. Always allow room for the asset tab." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix the maximum length of the game's main map. Always allow room for the asset tab." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

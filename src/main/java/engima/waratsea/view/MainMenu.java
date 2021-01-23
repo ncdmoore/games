@@ -21,6 +21,7 @@ public class MainMenu {
     @Getter private final CheckMenuItem showAirfields;
     @Getter private final CheckMenuItem showPorts;
     @Getter private final CheckMenuItem showRegions;
+    @Getter private final CheckMenuItem showGrid;
 
     @Getter private final MenuItem airfieldSquadrons;
     @Getter private final MenuItem taskForceSquadrons;
@@ -47,7 +48,9 @@ public class MainMenu {
         showPorts.setSelected(true);
         showRegions = new CheckMenuItem("Show _Regions");
         showRegions.setSelected(false);
-        menuMap.getItems().addAll(showAirfields, showPorts, showRegions);
+        showGrid = new CheckMenuItem("Show _Map References");
+        showGrid.setSelected(true);
+        menuMap.getItems().addAll(showAirfields, showPorts, showRegions, showGrid);
 
         Menu menuOOB = new Menu("Forces");
         airfieldSquadrons = new MenuItem("_Airfield Squadrons");

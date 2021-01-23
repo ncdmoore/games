@@ -103,6 +103,7 @@ public class MainMapView {
         int gridSize = props.getInt("taskforce.mainMap.gridSize");
 
         Node mapGrid = mapView.draw(mapImageView, gridSize);
+        mapView.drawMapReference();
 
         drawBaseMarkers(Side.ALLIES);
         drawBaseMarkers(Side.AXIS);
@@ -287,6 +288,15 @@ public class MainMapView {
      */
     public void toggleBaseMarkers(final Airbase airbase) {
         airbases.get(airbase).toggleMarkers();
+    }
+
+    /**
+     * Toggle the visibility of the map's grid.
+     *
+     * @param visible If true the grid is shown. If false the grid is hidden.
+     */
+    public void toggleGrid(final boolean visible) {
+        mapView.toggleGrid(visible);
     }
 
     /**
