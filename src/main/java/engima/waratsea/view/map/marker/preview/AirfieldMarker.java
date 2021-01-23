@@ -1,5 +1,6 @@
 package engima.waratsea.view.map.marker.preview;
 
+import com.google.inject.Inject;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Nation;
@@ -7,6 +8,8 @@ import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;
+import engima.waratsea.view.map.marker.preview.adjuster.Adjuster;
+import engima.waratsea.view.map.marker.preview.adjuster.AdjusterProvider;
 import javafx.scene.Node;
 import javafx.scene.shape.Polygon;
 import lombok.Getter;
@@ -18,10 +21,12 @@ import lombok.Getter;
 public class AirfieldMarker {
     private static final double OPACITY = 0.7;
 
-    private final MapView mapView;
+    private final AdjusterProvider adjusterProvider;
+
+    private MapView mapView;
 
     @Getter
-    private final GridView gridView;
+    private GridView gridView;
 
     private Polygon triangle;
 
@@ -29,16 +34,21 @@ public class AirfieldMarker {
     private Asset airfield;
 
     @Getter
-    private final Nation nation;
+    private Nation nation;
 
-    private final PopUp popUp;
+    private PopUp popUp;
+
+    @Inject
+    public AirfieldMarker(final AdjusterProvider adjusterProvider) {
+        this.adjusterProvider = adjusterProvider;
+    }
 
     /**
      * Construct a marker.
      *
      * @param dto The data transfer object.
      */
-    public AirfieldMarker(final AssetMarkerDTO dto) {
+    public void build(final AssetMarkerDTO dto) {
         mapView = dto.getMapView();
         gridView = dto.getGridView();
         nation = dto.getNation();
@@ -55,10 +65,15 @@ public class AirfieldMarker {
     public void draw(final AssetMarkerDTO dto) {
         airfield = dto.getAsset();
 
+        Adjuster adjuster = adjusterProvider.get(airfield.getName());
+
+        double x = adjuster.adjustX(gridView.getX());
+        double y = adjuster.adjustY(gridView.getY());
+
         double size = gridView.getSize();
-        triangle = new Polygon(gridView.getX(), gridView.getY() + size,
-                gridView.getX() + size, gridView.getY() + size,
-                gridView.getX() + size / 2, gridView.getY());
+        triangle = new Polygon(x, y + size,
+                x + size, y + size,
+                x + size / 2, y);
         triangle.setOpacity(OPACITY);
 
         triangle.setOnMouseClicked(dto.getMarkerEventHandler());

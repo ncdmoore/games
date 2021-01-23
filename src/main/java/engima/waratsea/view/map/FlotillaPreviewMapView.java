@@ -1,6 +1,7 @@
 package engima.waratsea.view.map;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.utility.ImageResourceProvider;
@@ -27,6 +28,7 @@ import java.util.Map;
 public class FlotillaPreviewMapView {
     private final ViewProps props;
     private final ImageResourceProvider imageResourceProvider;
+    private final Provider<TaskForceMarker> taskForceMarkerProvider;
 
     private final GameMap gameMap;
     private final MapView mapView;
@@ -38,16 +40,19 @@ public class FlotillaPreviewMapView {
      *
      * @param props View properties.
      * @param imageResourceProvider The image resource provider.
+     * @param taskForceMarkerProvider Provides task force markers.
      * @param gameMap The game map.
      * @param mapView A utility to aid in drawing the map grid.
      */
     @Inject
     public FlotillaPreviewMapView(final ViewProps props,
                                   final ImageResourceProvider imageResourceProvider,
+                                  final Provider<TaskForceMarker> taskForceMarkerProvider,
                                   final GameMap gameMap,
                                   final MapView mapView) {
         this.props = props;
         this.imageResourceProvider = imageResourceProvider;
+        this.taskForceMarkerProvider = taskForceMarkerProvider;
         this.gameMap = gameMap;
         this.mapView = mapView;
     }
@@ -78,7 +83,8 @@ public class FlotillaPreviewMapView {
         dto.setGameMap(gameMap);
         dto.setMapView(mapView);
 
-        TaskForceMarker marker = new TaskForceMarker(dto);
+        TaskForceMarker marker = taskForceMarkerProvider.get();
+        marker.build(dto);
         marker.draw(dto);
 
         markerMap.put(dto.getName(), marker);           //Index this flotilla's name to the new marker.

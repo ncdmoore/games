@@ -66,6 +66,36 @@
     -fx-fill: linear-gradient( to right bottom, white, dodgerblue);
 }
 
+.united-states-airfield-both-marker {
+    -fx-stroke: navy;
+    -fx-fill: linear-gradient( to right bottom, silver, navy);
+}
+
+.united-states-airfield-seaplane-marker {
+    -fx-stroke: navy;
+    -fx-fill: linear-gradient( to right bottom, white, white);
+}
+
+.united-states-airfield-land-marker {
+    -fx-stroke: navy;
+    -fx-fill: linear-gradient( to right bottom, white, royalblue);
+}
+
+.ussr-airfield-both-marker {
+    -fx-stroke: red;
+    -fx-fill: linear-gradient( to right bottom, gray, crimson);
+}
+
+.ussr-airfield-seaplane-marker {
+    -fx-stroke: red;
+    -fx-fill: linear-gradient( to right bottom, white, white);
+}
+
+.ussr-airfield-land-marker {
+    -fx-stroke: red;
+    -fx-fill: linear-gradient( to right bottom, white, tomato);
+}
+
 .german-airfield-both-marker {
     -fx-stroke: black;
     -fx-fill: linear-gradient( to right bottom, silver, darkred);
@@ -81,20 +111,7 @@
     -fx-fill: linear-gradient( to right bottom, white, white);
 }
 
-.italian-airfield-both-marker {
-    -fx-stroke: black;
-    -fx-fill: linear-gradient( to right bottom, silver, darkgreen);
-}
 
-.italian-airfield-seaplane-marker {
-    -fx-stroke: green;
-    -fx-fill: linear-gradient( to right bottom, white, white);
-}
-
-.italian-airfield-land-marker {
-    -fx-stroke: green;
-    -fx-fill: linear-gradient( to right bottom, white, lightseagreen);
-}
 
 
 .popup-mapRef {

@@ -44,6 +44,15 @@
         </encoder>
     </appender>
 
+    <!-- Missing Image File logging -->
+    <appender name="MISSING_IMAGE_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${user.home}/WW2atSea/missing_image.log</file>
+        <append>false</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50}.%M - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
     <logger name="engima.waratsea.model.ship" level="warn" additivity="true">
         <appender-ref ref="MISSING_SHIP_FILE" />
     </logger>
@@ -52,8 +61,8 @@
         <appender-ref ref="MISSING_AIRCRAFT_FILE" />
     </logger>
 
-    <logger name="engima.waratsea.utility" level="info" additivity="false">
-        <appender-ref ref="STDOUT" />
+    <logger name="engima.waratsea.utility.ImageResourceProvider" level="debug" additivity="false">
+        <appender-ref ref="MISSING_IMAGE_FILE" />
     </logger>
 
     <!-- Send logs to both the console and file -->

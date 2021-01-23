@@ -1,10 +1,14 @@
 package engima.waratsea.view.map.marker.preview;
 
+import com.google.inject.Inject;
 import engima.waratsea.model.asset.Asset;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;
+import engima.waratsea.view.map.marker.preview.adjuster.Adjuster;
+import engima.waratsea.view.map.marker.preview.adjuster.AdjusterProvider;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -19,23 +23,32 @@ import java.util.List;
  */
 @Slf4j
 public class TaskForceMarker {
-
     private static final double OPACITY = 0.5;
 
-    private final GridView gridView;
-    private final EventHandler<? super MouseEvent> eventHandler;
-    private final PopUp popUp;
+    private final GameMap gameMap;
+    private final AdjusterProvider adjusterProvider;
+
+    private GridView gridView;
+    private EventHandler<? super MouseEvent> eventHandler;
+    private PopUp popUp;
 
     private Rectangle rectangle;
 
-    private final List<Asset> taskForces;
+    private List<Asset> taskForces;
+
+    @Inject
+    public TaskForceMarker(final GameMap gameMap,
+                           final AdjusterProvider adjusterProvider) {
+        this.gameMap = gameMap;
+        this.adjusterProvider = adjusterProvider;
+    }
 
     /**
      * Construct a marker.
      *
      * @param dto All the data needed to create a marker.
      */
-    public TaskForceMarker(final AssetMarkerDTO dto) {
+    public void build(final AssetMarkerDTO dto) {
         this.taskForces = new ArrayList<>();
         this.taskForces.add(dto.getAsset());
         this.gridView = dto.getGridView();
@@ -50,7 +63,13 @@ public class TaskForceMarker {
      * @param dto All the data needed to create a marker.
      */
     public void draw(final AssetMarkerDTO dto) {
-        rectangle = new Rectangle(gridView.getX(), gridView.getY(), gridView.getSize(), gridView.getSize());
+        String locationName = gameMap.convertPortReferenceToName(dto.getMapReference());   //Note, if the map reference is not a location then the map reference is returned.
+        Adjuster adjuster = adjusterProvider.get(locationName);                            //A map reference will not be adjusted.
+
+        double x = adjuster.adjustX(gridView.getX());
+        double y = adjuster.adjustY(gridView.getY());
+
+        rectangle = new Rectangle(x, y, gridView.getSize(), gridView.getSize());
         rectangle.setOpacity(OPACITY);
         rectangle.getStyleClass().add("taskforce-marker");
 

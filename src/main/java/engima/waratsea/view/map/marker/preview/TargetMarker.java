@@ -1,9 +1,13 @@
 package engima.waratsea.view.map.marker.preview;
 
+import com.google.inject.Inject;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;
+import engima.waratsea.view.map.marker.preview.adjuster.Adjuster;
+import engima.waratsea.view.map.marker.preview.adjuster.AdjusterProvider;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -16,21 +20,30 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class TargetMarker {
-
     private static final double OPACITY = 1.0;
 
-    private final GridView gridView;
-    private final EventHandler<? super MouseEvent> eventHandler;
+    private final GameMap gameMap;
+    private final AdjusterProvider adjusterProvider;
+
+    private GridView gridView;
+    private EventHandler<? super MouseEvent> eventHandler;
     private Circle circle;
 
     @Getter
-    private final PopUp popUp;
+    private PopUp popUp;
+
+    @Inject
+    public TargetMarker(final GameMap gameMap,
+                        final AdjusterProvider adjusterProvider) {
+        this.gameMap = gameMap;
+        this.adjusterProvider = adjusterProvider;
+    }
 
     /**
      * Construct a marker.
      * @param dto All the data needed to create a marker.
      */
-    public TargetMarker(final TargetMarkerDTO dto) {
+    public void build(final TargetMarkerDTO dto) {
         this.gridView = dto.getGridView();
         this.eventHandler = dto.getMarkerEventHandler();
         dto.setStyle("popup-target");
@@ -44,10 +57,15 @@ public class TargetMarker {
      * @param dto Data transfer object.2
      */
     public void draw(final TargetMarkerDTO dto) {
-
         if (dto.showPopup()) {
+            String locationName = gameMap.convertReferenceToName(dto.getMapReference()); //Note, if the map reference is not a location then the map reference is returned.
+            Adjuster adjuster = adjusterProvider.get(locationName);                      // A map reference will not be adjusted.
+
+            double x = adjuster.adjustX(gridView.getX());
+            double y = adjuster.adjustY(gridView.getY());
+
             double radius = (double) gridView.getSize() / 2;
-            circle = new Circle(gridView.getX() + radius, gridView.getY() + radius, radius);
+            circle = new Circle(x + radius, y + radius, radius);
             circle.getStyleClass().add("target-marker");
             circle.setViewOrder(ViewOrder.MARKER.getValue());
             circle.setUserData(this);
