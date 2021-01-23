@@ -1,12 +1,11 @@
 {
-  "name": "Luqa-1940",
-  "title": "Luqa",
+  "name": "Malta",
   "landingType": [
     "LAND",
     "SEAPLANE",
     "CARRIER"
   ],
-  "maxCapacity": 4,
-  "antiAir": 6,
+  "maxCapacity": 20,
+  "antiAir": 12,
   "location": "AK24"
 }

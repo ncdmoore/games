@@ -9,9 +9,13 @@
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGridType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGridType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/taskforce/TaskForceViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/taskforce/TaskForceViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Luqa-1940.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Malta-1940.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Luqa.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/airfields/allies/Malta.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/maps/allies/april1941.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/maps/allies/april1941.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/maps/allies/january1941.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/maps/allies/january1941.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/maps/allies/june1940.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/maps/allies/june1940.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/maps/allies/october1940.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/maps/allies/october1940.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,27 +163,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WorldWarTwoAtSea [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="build" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <configuration name="WorldWarTwoAtSea [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -223,6 +206,15 @@
       <method v="2" />
     </configuration>
     <configuration name="All in enigma.worldWarTwoAtSea.test (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in enigma.worldWarTwoAtSea.test (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
@@ -276,20 +268,20 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="Gradle.WorldWarTwoAtSea [build]" />
       <item itemvalue="Gradle.WorldWarTwoAtSea [test]" />
       <item itemvalue="Gradle.WorldWarTwoAtSea [clean]" />
       <item itemvalue="JUnit.All in worldWarTwoAtSea.test" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
+      <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (2)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (2)" />
         <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
         <item itemvalue="Gradle.WorldWarTwoAtSea [clean]" />
         <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
         <item itemvalue="Gradle.WorldWarTwoAtSea [test]" />
-        <item itemvalue="Gradle.WorldWarTwoAtSea [build]" />
       </list>
     </recent_temporary>
   </component>
@@ -304,13 +296,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00314" summary="cleanup NationAirbaseViewModel">
-      <created>1609013999944</created>
-      <option name="number" value="00314" />
-      <option name="presentableId" value="LOCAL-00314" />
-      <option name="project" value="LOCAL" />
-      <updated>1609013999944</updated>
     </task>
     <task id="LOCAL-00315" summary="cleanup NationAirbaseViewModel">
       <created>1609014512433</created>
@@ -648,7 +633,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611429022126</updated>
     </task>
-    <option name="localTasksCounter" value="363" />
+    <task id="LOCAL-00363" summary="Cleanup some gameMap code.">
+      <created>1611440799767</created>
+      <option name="number" value="00363" />
+      <option name="presentableId" value="LOCAL-00363" />
+      <option name="project" value="LOCAL" />
+      <updated>1611440799767</updated>
+    </task>
+    <option name="localTasksCounter" value="364" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -663,7 +655,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Update SquadronAction to include TAKE_OFF and LAND." />
     <MESSAGE value="Add AirOperationRules for take-off and landing rules." />
     <MESSAGE value="Add air operations view to airbase details dialog." />
     <MESSAGE value="Do not show blank tooltips for squadrons on patrol." />
@@ -688,7 +679,8 @@
     <MESSAGE value="Fix the maximum length of the game's main map. Always allow room for the asset tab." />
     <MESSAGE value="Add new map menu option for hiding grid references." />
     <MESSAGE value="Make sure the neutral side's bases toggle on and off correctly." />
-    <option name="LAST_COMMIT_MESSAGE" value="Make sure the neutral side's bases toggle on and off correctly." />
+    <MESSAGE value="Cleanup some gameMap code." />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleanup some gameMap code." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -765,7 +757,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java</url>
-          <line>689</line>
+          <line>684</line>
           <option name="timeStamp" value="103" />
         </line-breakpoint>
         <breakpoint type="java-exception">

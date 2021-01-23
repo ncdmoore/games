@@ -343,14 +343,9 @@ public final class GameMap {
     public boolean isLocationBase(final GameGrid gameGrid) {
         String mapRef = gameGrid.getMapReference();
 
-        for (Side side : Side.values()) {
-            if (portRefToName.get(side).containsKey(mapRef)
-                    || airfieldRefToName.get(side).containsKey(mapRef)) {
-                return true;
-            }
-        }
-
-        return false;
+        return Side
+                .stream()
+                .anyMatch(side -> isLocationBase(side, mapRef));
     }
 
     /**
