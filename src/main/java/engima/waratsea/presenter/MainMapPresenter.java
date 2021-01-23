@@ -158,6 +158,7 @@ public class MainMapPresenter {
     private void toggleBaseMarkers() {
         mainMapView.toggleBaseMarkers(Side.ALLIES);
         mainMapView.toggleBaseMarkers(Side.AXIS);
+        mainMapView.toggleBaseMarkers(Side.NEUTRAL);
     }
 
     /**
