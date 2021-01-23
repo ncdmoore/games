@@ -17,166 +17,68 @@
       "DD15 Active",
       "DD45 Electra",
       "DD81 Impulsive",
+      "MS01 Halcyon",
+      "MS02 Harrier",
+      "MS03 Hussar",
+      "MS04 Speedwell",
+      "MS05 Salamander",
+      "MS06 Franklin",
+      "MS07 Gleaner",
+      "MS08 Hazard",
+      "MS09 Seagull",
+      "AO01",
       "TL01",
       "TL02",
       "TL03",
       "TL04",
-      "TL05"
-    ]
-  },
-  {
-    "name": "TF2",
-    "title": "Covering Force",
-    "location": "Alexandria",
-    "state": "ACTIVE",
-    "mission": {
-      "type": "PATROL"
-    },
-    "ships": [
-      "CVL04 Eagle-1",
-      "BB04 Barham",
-      "BB05 Malaya"
-    ]
-  },
-  {
-    "name": "TF3",
-    "title": "Mediterranean Force",
-    "location": "Alexandria",
-    "state": "RESERVE",
-    "mission": {
-      "type": "INTERCEPT"
-    },
-    "releaseTurnEvents" : [
-      {
-        "turn": 8
-      }
-    ],
-    "ships": [
-      "BB02 Warspite",
-      "BB03 Valiant",
-      "CV05 Illustrious-1",
-      "CL25 Ajax",
-      "CL28 Orion",
-      "CL03 Sydney",
-      "DD46 Encounter",
-      "DD72 Hero",
-      "DD76 Hyperion",
-      "DD78 Ilex",
-      "DD105 Mohawk",
-      "DD106 Nubian",
-      "DD114 Janus",
-      "DD117 Jervis",
-      "DD118 Juno"
-    ]
-  },
-  {
-    "name": "TF4",
-    "title": "Malta Convoy Escort",
-    "location": "Alexandria",
-    "state": "ACTIVE",
-    "mission": {
-      "type": "ESCORT",
-      "targets": [
-        {
-          "type": "FRIENDLY_TASK_FORCE",
-          "name": "TF5"
-        }
-      ]
-    },
-    "ships": [
-      "CL34 Glasgow",
-      "CL38 Gloucester",
-      "CA12 York"
-    ]
-  },
-  {
-    "name": "TF5",
-    "title": "Westbound Convoy",
-    "location": "Alexandria",
-    "state": "ACTIVE",
-    "mission": {
-      "type": "TRANSPORT",
-      "targets": [
-        {
-          "type": "FRIENDLY_PORT",
-          "name": "Malta"
-        }
-      ]
-    },
-    "ships": [
-      "CL06 Coventry",
-      "CL10 Calcutta",
-      "DD35 Dainty",
-      "DD37 Decoy",
-      "DD69 Hasty",
-      "DD70 Havock",
-      "TL01",
-      "TL02",
-      "TL03",
-      "TL04"
+      "TL05",
+      "TL06",
+      "TL07",
+      "TL08",
+      "TL09",
+      "TL10",
+      "TL11",
+      "TL12",
+      "TL13",
+      "TL14",
+      "TL15",
+      "TS01",
+      "TS02",
+      "TS03",
+      "TS04",
+      "TS05",
+      "TS06",
+      "TS07",
+      "TS08",
+      "TS09",
+      "TS10"
     ],
     "cargoShips": [
       "TL01",
       "TL02",
       "TL03",
-      "TL04"
-    ]
-  },
-  {
-    "name": "TF6",
-    "title": "Eastbound Convoy",
-    "location": "Gibraltar",
-    "state": "ACTIVE",
-    "mission": {
-      "type": "TRANSPORT",
-      "targets": [
-        {
-          "type": "FRIENDLY_PORT",
-          "name": "Malta"
-        }
+      "TL04",
+      "TL05",
+      "TL06",
+      "TL07",
+      "TL08",
+      "TL09",
+      "TL10",
+      "TL11",
+      "TL12",
+      "TL13",
+      "TL14",
+      "TL15",
+      "TS01",
+      "TS02",
+      "TS03",
+      "TS04",
+      "TS05",
+      "TS06",
+      "TS07",
+      "TS08",
+      "TS09",
+      "TS10"
       ]
-    },
-    "ships": [
-      "CL37 Southampton",
-      "CL40 Manchester",
-      "DD74 Hotspur",
-      "DE97 Flower-1",
-      "DE98 Flower-2",
-      "DE99 Flower-3",
-      "DE100 Flower-4",
-      "TL05",
-      "TL06",
-      "TL07"
-    ],
-    "cargoShips": [
-      "CL37 Southampton",
-      "CL40 Manchester",
-      "TL05",
-      "TL06",
-      "TL07"
-    ]
-  },
-  {
-    "name": "TF7",
-    "title": "Covering Group",
-    "location": "Gibraltar",
-    "state": "ACTIVE",
-    "mission": {
-      "type": "PATROL"
-    },
-    "ships": [
-      "BC01 Renown",
-      "CV04 Ark Royal-1",
-      "CL17 Despatch",
-      "CL36 Sheffield",
-      "DD53 Faulknor",
-      "DD55 Firedrake",
-      "DD56 Forester",
-      "DD60 Fury",
-      "DD34 Duncan",
-      "DD113 Jaguar",
-      "DD123 Kelvin",
-      "DE01 V&W-1"
-    ]
   }
 ]

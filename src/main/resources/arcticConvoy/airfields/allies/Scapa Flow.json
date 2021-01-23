@@ -2,9 +2,10 @@
   "name": "Scapa Flow",
   "landingType": [
     "LAND",
-    "CARRIER"
+    "CARRIER",
+    "SEAPLANE"
   ],
   "maxCapacity": 12,
   "antiAir": 24,
-  "location": "AN13"
+  "location": "L43"
 }

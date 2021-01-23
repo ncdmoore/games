@@ -579,6 +579,11 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      */
     @Override
     public int compareTo(@NotNull final Squadron o) {
+
+        if (getTitle() == null || o.getTitle() == null) {
+            return 0;
+        }
+
         return getTitle().compareTo(o.getTitle());
     }
 }

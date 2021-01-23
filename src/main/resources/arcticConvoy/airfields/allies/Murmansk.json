@@ -2,9 +2,10 @@
   "name": "Murmansk",
   "landingType": [
     "LAND",
-    "CARRIER"
+    "CARRIER",
+    "SEAPLANE"
   ],
   "maxCapacity": 30,
   "antiAir": 16,
-  "location": "AB37"
+  "location": "AZ27"
 }

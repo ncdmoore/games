@@ -1,0 +1,20 @@
+[
+  {
+    "name": "TF1",
+    "title": "Narvik Force",
+    "location": "Narvik",
+    "state": "ACTIVE",
+    "mission": {
+      "type": "PATROL"
+    },
+    "ships": [
+      "DD04 Richard Beitzen",
+      "DD07 Hermann Schoemann",
+      "DD10 Hans Lody",
+      "DD16 Friedrich Eckholdt",
+      "DD20 Karl Galster",
+      "AA01 Thetis",
+      "AA02 Nymphe"
+    ]
+  }
+]

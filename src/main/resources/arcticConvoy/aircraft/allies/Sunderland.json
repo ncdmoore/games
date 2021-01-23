@@ -1,0 +1,43 @@
+{
+  "name": "Sunderland",
+  "type": "Reconnaissance",
+  "nationality": "British",
+  "service": "NAVY",
+  "designation": "NAS-",
+  "altitude": "LOW",
+  "takeoff": "SEAPLANE",
+  "landing": "SEAPLANE",
+  "navalWarship": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "navalTransport": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 2,
+    "half": 1
+  },
+  "air": {
+    "modifier": 0,
+    "defensive": true,
+    "full": 5,
+    "half": 3
+  },
+  "performance": {
+    "range": 8,
+    "endurance": 3
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  },
+  "config": [
+    "NONE",
+    "SEARCH"
+  ]
+}

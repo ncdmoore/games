@@ -16,9 +16,9 @@ public enum WeatherType {
     STORM("Storm"),
     GALE("Gale");
 
-    private static List<WeatherType> values = new ArrayList<>(Arrays.asList(WeatherType.values()));
+    private static final List<WeatherType> VALUES = new ArrayList<>(Arrays.asList(WeatherType.values()));
 
-    private String value;
+    private final String value;
 
     /**
      * The constructor.
@@ -35,13 +35,13 @@ public enum WeatherType {
      * @return The new weather.
      */
     public WeatherType worsen() {
-        int index = values.indexOf(this);
+        int index = VALUES.indexOf(this);
 
-        if (!(index == values.size() - 1)) {
+        if (!(index == VALUES.size() - 1)) {
             index++;
         }
 
-        return values.get(index);
+        return VALUES.get(index);
     }
 
     /**
@@ -50,13 +50,13 @@ public enum WeatherType {
      * @return The new weather.
      */
     public WeatherType improve() {
-        int index = values.indexOf(this);
+        int index = VALUES.indexOf(this);
 
         if (index != 0) {
             index--;
         }
 
-        return values.get(index);
+        return VALUES.get(index);
     }
 
     /**

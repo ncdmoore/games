@@ -2,9 +2,10 @@
   "name": "Akureyri",
   "landingType": [
     "LAND",
-    "CARRIER"
+    "CARRIER",
+    "SEAPLANE"
   ],
   "maxCapacity": 8,
   "antiAir": 6,
-  "location": "P8"
+  "location": "G21"
 }
