@@ -8,28 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/adjuster/Adjuster.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/adjuster/AdjusterProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/British20x20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/BritishFlag30x20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/BritishFlag50x34.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/USSR20x20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/United States20x20.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/FlotillaPreviewMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/FlotillaPreviewMapView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/PreviewMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/PreviewMapView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/AirfieldMarker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/AirfieldMarker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/TargetMarker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/TargetMarker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/TaskForceMarker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/TaskForceMarker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/squadronView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/squadronView.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/previewMap-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/properties/view.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/properties/view.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -322,13 +303,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00309" summary="cleanup NationAirbaseViewModel">
-      <created>1608957319108</created>
-      <option name="number" value="00309" />
-      <option name="presentableId" value="LOCAL-00309" />
-      <option name="project" value="LOCAL" />
-      <updated>1608957319108</updated>
     </task>
     <task id="LOCAL-00310" summary="cleanup NationAirbaseViewModel">
       <created>1609004092326</created>
@@ -666,7 +640,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611363334246</updated>
     </task>
-    <option name="localTasksCounter" value="358" />
+    <task id="LOCAL-00358" summary="Add preview map marker adjuster.">
+      <created>1611382027266</created>
+      <option name="number" value="00358" />
+      <option name="presentableId" value="LOCAL-00358" />
+      <option name="project" value="LOCAL" />
+      <updated>1611382027266</updated>
+    </task>
+    <option name="localTasksCounter" value="359" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -681,7 +662,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Replace german ferry png." />
     <MESSAGE value="Seaplane steps count as double when search for submarines on ASW patrol. Add this functionality." />
     <MESSAGE value="Add probability that a airfield or port sweep will successfully intercept the target's CAP." />
     <MESSAGE value="Add affected by weather icon to air mission details dialogs." />
@@ -706,7 +686,8 @@
     <MESSAGE value="Refactor transport names so that the designation indicates the type of transport large or small." />
     <MESSAGE value="Add missing ship log." />
     <MESSAGE value="Arctic Convoy maps done." />
-    <option name="LAST_COMMIT_MESSAGE" value="Arctic Convoy maps done." />
+    <MESSAGE value="Add preview map marker adjuster." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add preview map marker adjuster." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

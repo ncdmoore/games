@@ -31,6 +31,7 @@ public class MainView {
     private final Game game;
 
     private final CssResourceProvider cssResourceProvider;
+    private final ViewProps props;
     private final MainMapView mainMapView;
     private final MainMenu mainMenu;
     private final WeatherView weatherView;
@@ -40,6 +41,7 @@ public class MainView {
     /**
      * Constructor called by guice.
      * @param cssResourceProvider Utility to provide css files.
+     * @param props The view properties.
      * @param game The game.
      * @param mainMapView The main game map view.
      * @param mainMenu The main game menu.
@@ -47,15 +49,19 @@ public class MainView {
      * @param turnView The turn view.
      * @param assetSummaryView The asset summary view.
      */
+    //CHECKSTYLE:OFF
     @Inject
     public MainView(final CssResourceProvider cssResourceProvider,
+                    final ViewProps props,
                     final Game game,
                     final MainMapView mainMapView,
                     final MainMenu mainMenu,
                     final WeatherView weatherView,
                     final TurnView turnView,
                     final AssetSummaryView assetSummaryView) {
+        //CHECKSTYLE:ON
         this.cssResourceProvider = cssResourceProvider;
+        this.props = props;
         this.game = game;
         this.mainMapView = mainMapView;
         this.mainMenu = mainMenu;
@@ -97,6 +103,7 @@ public class MainView {
         ScrollPane sp = new ScrollPane();
         sp.setContent(mapVbox);
         sp.setFitToWidth(true);
+        sp.setMaxHeight(props.getInt("main.map.length"));
 
         VBox centerVbox = new VBox(sp, assetSummary);
 
