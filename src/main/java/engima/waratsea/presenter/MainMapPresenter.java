@@ -156,9 +156,7 @@ public class MainMapPresenter {
      * Callback for when the show airfields map menu item is clicked.
      */
     private void toggleBaseMarkers() {
-        mainMapView.toggleBaseMarkers(Side.ALLIES);
-        mainMapView.toggleBaseMarkers(Side.AXIS);
-        mainMapView.toggleBaseMarkers(Side.NEUTRAL);
+        Side.stream().forEach(mainMapView::toggleBaseMarkers);
     }
 
     /**

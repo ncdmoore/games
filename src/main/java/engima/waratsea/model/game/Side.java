@@ -3,6 +3,7 @@ package engima.waratsea.model.game;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * WW2 at sea contains two combatants or sides.
@@ -78,5 +79,14 @@ public enum Side {
      */
     public String toLower() {
         return value.toLowerCase();
+    }
+
+    /**
+     * Get a Stream of this enum's values.
+     *
+     * @return A stream of this enum's values.
+     */
+    public static Stream<Side> stream() {
+        return Stream.of(Side.values());
     }
 }
