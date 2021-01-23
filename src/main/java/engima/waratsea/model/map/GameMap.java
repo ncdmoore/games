@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -686,14 +687,11 @@ public final class GameMap {
      * @return The map reference of the base.
      */
     private Optional<String> getBaseReference(final String name) {
-        for (Side side: Side.values()) {
-            String ref = baseNameToRef.get(side).get(name);
-            if (ref != null) {
-                return  Optional.of(ref);
-            }
-        }
-
-        return Optional.empty();
+        return Side
+                .stream()
+                .map(side -> baseNameToRef.get(side).get(name))
+                .filter(Objects::nonNull)
+                .findAny();
     }
 
     /**
@@ -703,14 +701,11 @@ public final class GameMap {
      * @return The name of the base.
      */
     private Optional<String> getPortName(final String reference) {
-        for (Side side: Side.values()) {
-            String name = portRefToName.get(side).get(reference);
-            if (name != null) {
-                return  Optional.of(name);
-            }
-        }
-
-        return Optional.empty();
+        return Side
+                .stream()
+                .map(side -> portRefToName.get(side).get(reference))
+                .filter(Objects::nonNull)
+                .findAny();
     }
 
     /**
@@ -720,14 +715,11 @@ public final class GameMap {
      * @return The name of the base.
      */
     private Optional<String> getAirfieldName(final String reference) {
-        for (Side side: Side.values()) {
-            String name = airfieldRefToName.get(side).get(reference);
-            if (name != null) {
-                return  Optional.of(name);
-            }
-        }
-
-        return Optional.empty();
+        return Side
+                .stream()
+                .map(side -> airfieldRefToName.get(side).get(reference))
+                .filter(Objects::nonNull)
+                .findAny();
     }
 
     /**

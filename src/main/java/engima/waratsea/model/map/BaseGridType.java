@@ -16,7 +16,7 @@ public enum BaseGridType {
     BOTH("Airfield&Port");
 
     @Getter
-    private String value;
+    private final String value;
 
     /**
      * Constructor.

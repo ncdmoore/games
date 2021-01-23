@@ -8,7 +8,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGridType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/BaseGridType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/taskforce/TaskForceViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/taskforce/TaskForceViewModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -301,20 +304,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00312" summary="cleanup NationAirbaseViewModel">
-      <created>1609006191238</created>
-      <option name="number" value="00312" />
-      <option name="presentableId" value="LOCAL-00312" />
-      <option name="project" value="LOCAL" />
-      <updated>1609006191238</updated>
-    </task>
-    <task id="LOCAL-00313" summary="cleanup NationAirbaseViewModel">
-      <created>1609007846112</created>
-      <option name="number" value="00313" />
-      <option name="presentableId" value="LOCAL-00313" />
-      <option name="project" value="LOCAL" />
-      <updated>1609007846112</updated>
     </task>
     <task id="LOCAL-00314" summary="cleanup NationAirbaseViewModel">
       <created>1609013999944</created>
@@ -645,7 +634,21 @@
       <option name="project" value="LOCAL" />
       <updated>1611428264593</updated>
     </task>
-    <option name="localTasksCounter" value="361" />
+    <task id="LOCAL-00361" summary="Make sure the neutral side's bases toggle on and off correctly.">
+      <created>1611428839097</created>
+      <option name="number" value="00361" />
+      <option name="presentableId" value="LOCAL-00361" />
+      <option name="project" value="LOCAL" />
+      <updated>1611428839097</updated>
+    </task>
+    <task id="LOCAL-00362" summary="Make sure the neutral side's bases toggle on and off correctly.">
+      <created>1611429022126</created>
+      <option name="number" value="00362" />
+      <option name="presentableId" value="LOCAL-00362" />
+      <option name="project" value="LOCAL" />
+      <updated>1611429022126</updated>
+    </task>
+    <option name="localTasksCounter" value="363" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -660,7 +663,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add affected by weather icon to air mission details dialogs." />
     <MESSAGE value="Update SquadronAction to include TAKE_OFF and LAND." />
     <MESSAGE value="Add AirOperationRules for take-off and landing rules." />
     <MESSAGE value="Add air operations view to airbase details dialog." />
@@ -685,7 +687,8 @@
     <MESSAGE value="Add preview map marker adjuster." />
     <MESSAGE value="Fix the maximum length of the game's main map. Always allow room for the asset tab." />
     <MESSAGE value="Add new map menu option for hiding grid references." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add new map menu option for hiding grid references." />
+    <MESSAGE value="Make sure the neutral side's bases toggle on and off correctly." />
+    <option name="LAST_COMMIT_MESSAGE" value="Make sure the neutral side's bases toggle on and off correctly." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -759,6 +762,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java</url>
           <line>520</line>
           <option name="timeStamp" value="87" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java</url>
+          <line>689</line>
+          <option name="timeStamp" value="103" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.UnsupportedOperationException" package="java.lang" />

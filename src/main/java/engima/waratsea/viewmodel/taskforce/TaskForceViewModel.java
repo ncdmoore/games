@@ -140,7 +140,7 @@ public class TaskForceViewModel {
 
         location.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(taskForce.getValue())
-                .map(t -> t.atFriendlyBase() ? "At port " : "At sea zone " + t.getMappedLocation())
+                .map(t -> getLocationPrefix(t) + t.getMappedLocation())
                 .orElse(""), taskForce));
 
         reason.bind(Bindings.createStringBinding(() -> Optional
@@ -363,5 +363,9 @@ public class TaskForceViewModel {
 
     private int getSquadronCount(final BigDecimal count) {
         return Optional.ofNullable(count).map(BigDecimal::intValue).orElse(0);
+    }
+
+    private String getLocationPrefix(final TaskForce force) {
+        return force.atFriendlyBase() ? "At port " : "At sea zone ";
     }
 }
