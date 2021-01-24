@@ -8,24 +8,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/map/SelectedMapGrid.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/SelectedGridView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/airfield20x18.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/anchor20x18.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GridType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GridType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainMapPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/map/MainMapPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/ScenarioPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/ScenarioPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/SelectedGridView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/SelectedGridView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/ScenarioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/ScenarioView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/weather/WeatherView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/weather/WeatherView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/ScenarioViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/ScenarioViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/properties/map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/properties/map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/taskforce/alliesTaskForces.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/demonDunlop/taskforce/alliesTaskForces.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/taskforce/alliesTaskForces.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/operationHurry/taskforce/alliesTaskForces.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/maps/allies/june1940.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery/maps/allies/june1940.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/deployment/1940/allies/British.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/deployment/1940/allies/British.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/deployment/early1941/allies/British.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/squadrons/deployment/early1941/allies/British.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/properties/view.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,11 +123,11 @@
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/maps/axis" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/scenarios/firstConvoy" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/scenarios/treachery" />
-      <recent name="$PROJECT_DIR$/src/main/resources/coralSea/images" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="engima.waratsea.view.airfield.info" />
@@ -155,7 +147,7 @@
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="engima.waratsea.Main" />
       <module name="enigma.worldWarTwoAtSea.main" />
-      <option name="PROGRAM_PARAMETERS" value="game=bombAlley" />
+      <option name="PROGRAM_PARAMETERS" value="game=arcticConvoy" />
       <option name="VM_PARAMETERS" value="--module-path /Library/java/JavaVirtualMachines/javafx-sdk-12.0.2/lib --add-modules javafx.controls,javafx.fxml" />
       <extension name="coverage">
         <pattern>
@@ -306,13 +298,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00317" summary="cleanup NationAirbaseViewModel">
-      <created>1609020657462</created>
-      <option name="number" value="00317" />
-      <option name="presentableId" value="LOCAL-00317" />
-      <option name="project" value="LOCAL" />
-      <updated>1609020657462</updated>
     </task>
     <task id="LOCAL-00318" summary="Create a Squadrons class to isolate all of the squadron data structures from the airbases.">
       <created>1609030466208</created>
@@ -650,7 +635,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611447248563</updated>
     </task>
-    <option name="localTasksCounter" value="366" />
+    <task id="LOCAL-00366" summary="Add selected grid details view to main game window.">
+      <created>1611509000432</created>
+      <option name="number" value="00366" />
+      <option name="presentableId" value="LOCAL-00366" />
+      <option name="project" value="LOCAL" />
+      <updated>1611509000432</updated>
+    </task>
+    <option name="localTasksCounter" value="367" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -665,7 +657,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add air operations view to airbase details dialog." />
     <MESSAGE value="Do not show blank tooltips for squadrons on patrol." />
     <MESSAGE value="Rename Aircraft AttackFactor.java to Attack.java" />
     <MESSAGE value="Refactor poor naval bomber to ItalianBomber. Add final modifier to Attack." />
@@ -690,7 +681,8 @@
     <MESSAGE value="Make sure the neutral side's bases toggle on and off correctly." />
     <MESSAGE value="Cleanup some gameMap code." />
     <MESSAGE value="Refactor main map grid click handler." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor main map grid click handler." />
+    <MESSAGE value="Add selected grid details view to main game window." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add selected grid details view to main game window." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

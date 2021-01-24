@@ -112,7 +112,8 @@ public class ScenarioView {
     }
 
     /**
-     * Bind the view to the view model.
+     * Bind the view to the view model. The scenario view model is a singleton, thus the binding can be done
+     * without any outside input.
      */
     private void bind() {
         scenarios.itemsProperty().bind(scenarioViewModel.getScenarios());
@@ -135,6 +136,7 @@ public class ScenarioView {
         alliesFlag.imageProperty().bind(Bindings.createObjectBinding(() ->
                 imageResourceProvider.getImage(name.getValue(), props.getString("allies.flag.medium.image")), name));
 
+        // Bind the view model's currently selected scenario to the selected item of the view's scenario list.
         scenarioViewModel.getScenario().bind(scenarios.getSelectionModel().selectedItemProperty());
     }
 

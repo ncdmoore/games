@@ -3,11 +3,15 @@ package engima.waratsea.view.map;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.presenter.map.SelectedMapGrid;
+import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 /**
  * Defines the game's selected grid details view. Shown in the main game window.
@@ -21,10 +25,18 @@ public class SelectedGridView {
     private final Label typeValue = new Label();
     private final CheckBox isAirfield = new CheckBox();
     private final CheckBox isPort = new CheckBox();
+    private final ImageView airfieldImage;
+    private final ImageView portImage;
 
     @Inject
-    public SelectedGridView(final SelectedMapGrid selectedMapGrid) {
+    public SelectedGridView(final SelectedMapGrid selectedMapGrid,
+                            final ViewProps props,
+                            final ImageResourceProvider imageResourceProvider) {
         this.selectedMapGrid = selectedMapGrid;
+
+        airfieldImage = imageResourceProvider.getImageView(props.getString("airfield.tiny.image"));
+        portImage = imageResourceProvider.getImageView(props.getString("anchor.tiny.image"));
+
     }
 
     /**
@@ -48,11 +60,17 @@ public class SelectedGridView {
     }
 
     private Node buildGridPane() {
+        Node topPane = buildTopPane();
+        Node bottomPane = buildBottomPane();
+        VBox vBox = new VBox(topPane, bottomPane);
+        vBox.setId("selected-grid-vbox");
+        return vBox;
+    }
+
+    private Node buildTopPane() {
         Label mapReferenceTitle = new Label("Map:");
         Label nameTitle = new Label("Name:");
         Label typeTitle = new Label("Type:");
-        Label airfieldTitle = new Label("Airfield");
-        Label portTitle = new Label("Port");
 
         GridPane pane = new GridPane();
 
@@ -63,14 +81,29 @@ public class SelectedGridView {
         pane.add(nameValue, 1, 1);
         pane.add(typeTitle, 0, 2);
         pane.add(typeValue, 1, 2);
-        pane.add(airfieldTitle, 1, 3);
-        pane.add(isAirfield, 0, 3);
-        pane.add(portTitle, 1, 4);
-        pane.add(isPort, 0, 4);
         //CHECKSTYPE:ON
 
-        pane.getStyleClass().add("component-grid");
-        pane.setId("selected-grid-pane");
+        pane.setId("selected-grid-top-pane");
+
+        return pane;
+    }
+
+    private Node buildBottomPane() {
+        Label airfieldTitle = new Label("Airfield");
+        Label portTitle = new Label("Port");
+
+        GridPane pane = new GridPane();
+
+        //CHECKSTYLE:OFF
+        pane.add(airfieldTitle, 1, 3);
+        pane.add(isAirfield, 0, 3);
+        pane.add(airfieldImage, 2, 3);
+        pane.add(portTitle, 1, 4);
+        pane.add(isPort, 0, 4);
+        pane.add(portImage, 2, 4);
+        //CHECKSTYPE:ON
+
+        pane.setId("selected-grid-bottom-pane");
 
         return pane;
     }

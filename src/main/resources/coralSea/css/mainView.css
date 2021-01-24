@@ -149,3 +149,22 @@
     -fx-fill: black;
     -fx-stroke: black;
 }
+
+#selected-grid-vbox {
+    -fx-background-color: white;
+}
+
+#selected-grid-top-pane {
+    -fx-background-color: white;
+    -fx-hgap: 10;
+}
+
+#selected-grid-bottom-pane {
+    -fx-background-color: white;
+    -fx-vgap: 5;
+    -fx-hgap: 5;
+}
+
+#selected-grid-bottom-pane .check-box {
+    -fx-opacity: 1.0;
+}

@@ -151,10 +151,21 @@
     -fx-stroke-width: 2;
 }
 
-#selected-grid-pane {
-    -fx-vgap: 5;
+#selected-grid-vbox {
+    -fx-background-color: white;
 }
 
-#selected-grid-pane .check-box {
+#selected-grid-top-pane {
+    -fx-background-color: white;
+    -fx-hgap: 10;
+}
+
+#selected-grid-bottom-pane {
+    -fx-background-color: white;
+    -fx-vgap: 5;
+    -fx-hgap: 5;
+}
+
+#selected-grid-bottom-pane .check-box {
     -fx-opacity: 1.0;
 }
