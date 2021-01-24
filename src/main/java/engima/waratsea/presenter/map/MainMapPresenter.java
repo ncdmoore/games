@@ -208,10 +208,11 @@ public class MainMapPresenter {
 
             if (selected) {
                 assetPresenter.humanBaseSelected(baseMarker);
-                selectedGrid.set(baseMarker.getBaseGrid().getGameGrid());
             } else {
                 assetPresenter.humanBaseUnSelected(baseMarker);
             }
+
+            selectedGrid.set(baseMarker.getBaseGrid().getGameGrid());
         }
     }
 
