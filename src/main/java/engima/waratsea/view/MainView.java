@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.asset.AssetSummaryView;
+import engima.waratsea.view.map.SelectedGridView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.turn.TurnView;
 import engima.waratsea.view.weather.WeatherView;
@@ -36,6 +37,7 @@ public class MainView {
     private final MainMenu mainMenu;
     private final WeatherView weatherView;
     private final TurnView turnView;
+    private final SelectedGridView selectedGridView;
     private final AssetSummaryView assetSummaryView;
 
     /**
@@ -47,6 +49,7 @@ public class MainView {
      * @param mainMenu The main game menu.
      * @param weatherView The weather view.
      * @param turnView The turn view.
+     * @param selectedGridView The selected map grid's details.
      * @param assetSummaryView The asset summary view.
      */
     //CHECKSTYLE:OFF
@@ -58,6 +61,7 @@ public class MainView {
                     final MainMenu mainMenu,
                     final WeatherView weatherView,
                     final TurnView turnView,
+                    final SelectedGridView selectedGridView,
                     final AssetSummaryView assetSummaryView) {
         //CHECKSTYLE:ON
         this.cssResourceProvider = cssResourceProvider;
@@ -67,6 +71,7 @@ public class MainView {
         this.mainMenu = mainMenu;
         this.weatherView = weatherView;
         this.turnView = turnView;
+        this.selectedGridView = selectedGridView;
         this.assetSummaryView = assetSummaryView;
     }
 
@@ -95,9 +100,10 @@ public class MainView {
         Node map = mainMapView.build();
         Node weather = weatherView.build();
         Node turn = turnView.build();
+        Node selectedGrid = selectedGridView.build();
         Node assetSummary = assetSummaryView.build();
 
-        VBox leftVbox = new VBox(weather, turn);
+        VBox leftVbox = new VBox(weather, turn, selectedGrid);
         VBox mapVbox = new VBox(map);
 
         ScrollPane sp = new ScrollPane();

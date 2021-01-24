@@ -1,4 +1,4 @@
-package engima.waratsea.presenter;
+package engima.waratsea.presenter.map;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -6,7 +6,6 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
-import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
@@ -50,6 +49,7 @@ public class MainMapPresenter {
     private final Provider<PatrolDialog> patrolDetailsDialogProvider;
     private final Provider<MissionDialog> missionDetailsDialogProvider;
     private final AssetPresenter assetPresenter;
+    private final SelectedMapGrid selectedGrid;
 
     private final Provider<TaskForceDialog> taskForceDialogProvider;
 
@@ -64,6 +64,7 @@ public class MainMapPresenter {
      * @param patrolDetailsDialogProvider Provides patrol radius details dialog.
      * @param missionDetailsDialogProvider Provides mission arrow details dialog
      * @param assetPresenter The asset presenter.
+     * @param selectedGrid The selected game grid.
      */
     //CHECKSTYLE:OFF
     @Inject
@@ -75,7 +76,8 @@ public class MainMapPresenter {
                             final Provider<PatrolDialog> patrolDetailsDialogProvider,
                             final Provider<MissionDialog> missionDetailsDialogProvider,
                             final Provider<TaskForceDialog> taskForceDialogProvider,
-                            final AssetPresenter assetPresenter) {
+                            final AssetPresenter assetPresenter,
+                            final SelectedMapGrid selectedGrid) {
         //CHECKSTYLE:ON
         this.game = game;
         this.gameMap = gameMap;
@@ -90,6 +92,8 @@ public class MainMapPresenter {
         this.taskForceDialogProvider = taskForceDialogProvider;
 
         this.assetPresenter = assetPresenter;
+
+        this.selectedGrid = selectedGrid;
     }
 
     /**
@@ -115,6 +119,7 @@ public class MainMapPresenter {
 
         mainMapView.setBaseClickHandler(humanSide, this::humanBaseClickHandler);
         mainMapView.setBaseClickHandler(humanSide.opposite(), this::computerBaseClickHandler);
+        mainMapView.setBaseClickHandler(Side.NEUTRAL, this::neutralBaseClickHandler);
 
         mainMapView.setPatrolRadiusClickHandler(humanSide, this::patrolRadiusClickHandler);
         mainMapView.setMissionArrowClickHandler(humanSide, this::missionArrowClickHandler);
@@ -203,6 +208,7 @@ public class MainMapPresenter {
 
             if (selected) {
                 assetPresenter.humanBaseSelected(baseMarker);
+                selectedGrid.set(baseMarker.getBaseGrid().getGameGrid());
             } else {
                 assetPresenter.humanBaseUnSelected(baseMarker);
             }
@@ -219,10 +225,20 @@ public class MainMapPresenter {
 
         BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
 
-        String portName = baseMarker.getBaseGrid().getPort().map(Port::getName).orElse("");
-        String airfieldName = baseMarker.getBaseGrid().getAirfield().map(Airfield::getName).orElse("");
+        selectedGrid.set(baseMarker.getBaseGrid().getGameGrid());
+    }
 
-        log.info("Computer: Base port: '{}', airfield: '{}'", portName, airfieldName);
+    /**
+     * Callback for when the a neutral base grid is clicked.
+     *
+     * @param event The mouse event.
+     */
+    private void neutralBaseClickHandler(final MouseEvent event) {
+        VBox imageView = (VBox) event.getSource();
+
+        BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
+
+        selectedGrid.set(baseMarker.getBaseGrid().getGameGrid());
     }
 
     /**
@@ -302,10 +318,7 @@ public class MainMapPresenter {
 
     private void gridClickHandler(final MouseEvent event) {
         GridView gv = mainMapView.getGridView(event);
-        log.info("row={},column={}", gv.getRow(), gv.getColumn());
-
         GameGrid gameGrid = gameMap.getGrid(gv.getRow(), gv.getColumn());
-
-        log.info(gameGrid.getMapReference());
+        selectedGrid.set(gameGrid);
     }
 }

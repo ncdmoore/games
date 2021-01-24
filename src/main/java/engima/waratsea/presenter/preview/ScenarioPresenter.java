@@ -31,7 +31,7 @@ public class ScenarioPresenter implements Presenter {
     private final Navigate navigate;
     private final Provider<FatalErrorDialog> fatalErrorDialogProvider;
 
-    private final ScenarioViewModel scenarioViewModel;
+    private final ScenarioViewModel scenarioViewModel;  // Contains the list of scenarios and the currently selected scenario.
 
     private final Game game;
 
@@ -67,14 +67,12 @@ public class ScenarioPresenter implements Presenter {
     public void show(final Stage primaryStage) {
         this.stage = primaryStage;
 
-        view = viewProvider
-                .get()
-                .bind(scenarioViewModel);
+        view = viewProvider.get();
+        view.build(stage);
 
-        initScenarios();
-        selectFirstScenario();
+        initScenarios();        // Get the scenarios from the model.
+        selectFirstScenario();  // Automatically select the first scenario.
 
-        view.show(stage);
         view.getContinueButton().setOnAction(event -> continueButton());
         view.getBackButton().setOnAction(event -> backButton());
     }
@@ -119,7 +117,7 @@ public class ScenarioPresenter implements Presenter {
      */
     private void initScenarios() {
         try {
-            view.setScenarios(game.initScenarios());
+            scenarioViewModel.set(game.initScenarios());
         } catch (ScenarioException ex) {
             log.error("Unable to load scenario summaries", ex);
             fatalErrorDialogProvider.get().show("Unable to load any game scenarios.");

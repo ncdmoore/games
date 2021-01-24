@@ -5,6 +5,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.squadron.SquadronLocationType;
+import engima.waratsea.presenter.map.MainMapPresenter;
 import engima.waratsea.presenter.preview.StartPresenter;
 import engima.waratsea.presenter.squadron.SquadronsDialog;
 import engima.waratsea.presenter.victory.VictoryDialog;

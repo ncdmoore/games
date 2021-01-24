@@ -8,8 +8,24 @@ package engima.waratsea.model.map;
  *   or both Sea and Land
  */
 public enum GridType {
-    SEA_DEEP,
-    SEA_SHALLOW,
-    LAND,
-    BOTH
+    SEA_DEEP("Deep sea"),
+    SEA_SHALLOW("Shallow sea"),
+    LAND("Land"),
+    BOTH("Coast");
+
+    private final String title;
+
+    GridType(final String title) {
+        this.title = title;
+    }
+
+    /**
+     * Get the String representation of this enum.
+     *
+     * @return The String representation of this enum.
+     */
+    @Override
+    public String toString() {
+        return title;
+    }
 }

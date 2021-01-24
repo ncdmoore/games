@@ -26,11 +26,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Getter;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
- * Defines the scenario selection view.
+ * Defines the scenario selection view. This is a part ot the initial game preview UI.
  */
 public class ScenarioView {
     private static final String CSS_FILE = "scenarioView.css";
@@ -49,21 +48,26 @@ public class ScenarioView {
     private final ImageView alliesFlag = new ImageView();
     private final ImageView axisFlag = new ImageView();
 
+    private final ScenarioViewModel scenarioViewModel;
     private final ViewProps props;
     private final CssResourceProvider cssResourceProvider;
     private final ImageResourceProvider imageResourceProvider;
 
     /**
      * Constructor called by guice.
+     *
+     * @param scenarioViewModel The selected scenario.
      * @param props view properties.
      * @param cssResourceProvider CSS file provider.
      * @param imageResourceProvider Image file provider.
      */
     @Inject
-    public ScenarioView(final ViewProps props,
+    public ScenarioView(final ScenarioViewModel scenarioViewModel,
+                        final ViewProps props,
                         final CssResourceProvider cssResourceProvider,
                         final ImageResourceProvider imageResourceProvider) {
 
+        this.scenarioViewModel = scenarioViewModel;
         this.props = props;
         this.cssResourceProvider = cssResourceProvider;
         this.imageResourceProvider = imageResourceProvider;
@@ -73,7 +77,7 @@ public class ScenarioView {
      * Show the scenario selection view.
      * @param stage The stage on which the view is set.
      */
-    public void show(final Stage stage) {
+    public void build(final Stage stage) {
         Label title = new Label("Select a Scenario");
         title.setId("title");
 
@@ -101,26 +105,18 @@ public class ScenarioView {
 
         scene.getStylesheets().add(cssResourceProvider.get(CSS_FILE));
 
+        bind();
+
         stage.setScene(scene);
         stage.show();
     }
 
     /**
-     * .
-     * @param scenarioList the scenarios
-     */
-    public void setScenarios(final List<Scenario> scenarioList) {
-        scenarios.getItems().clear();
-        scenarios.getItems().addAll(scenarioList);
-    }
-
-    /**
      * Bind the view to the view model.
-     *
-     * @param scenarioViewModel The scenario view model.
-     * @return This object.
      */
-    public ScenarioView bind(final ScenarioViewModel scenarioViewModel) {
+    private void bind() {
+        scenarios.itemsProperty().bind(scenarioViewModel.getScenarios());
+
         turnValue.textProperty().bind(scenarioViewModel.getTurn());
         dateValue.textProperty().bind(scenarioViewModel.getDate());
         descriptionValue.textProperty().bind(scenarioViewModel.getDescription());
@@ -140,8 +136,6 @@ public class ScenarioView {
                 imageResourceProvider.getImage(name.getValue(), props.getString("allies.flag.medium.image")), name));
 
         scenarioViewModel.getScenario().bind(scenarios.getSelectionModel().selectedItemProperty());
-
-        return this;
     }
 
     /**
@@ -198,7 +192,6 @@ public class ScenarioView {
         HBox hBox = new HBox(alliesFlag, radioButtonAllies, radioButtonAxis, axisFlag);
         hBox.setId("side-radio-buttons");
         return hBox;
-
     }
 
     /**

@@ -150,3 +150,11 @@
     -fx-stroke: red;
     -fx-stroke-width: 2;
 }
+
+#selected-grid-pane {
+    -fx-vgap: 5;
+}
+
+#selected-grid-pane .check-box {
+    -fx-opacity: 1.0;
+}

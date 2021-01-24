@@ -1,6 +1,7 @@
 package engima.waratsea.view.weather;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import engima.waratsea.model.weather.Weather;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
@@ -10,6 +11,10 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
+/**
+ * Defines the main weather view of the game.
+ */
+@Singleton
 public class WeatherView {
 
     private final ImageResourceProvider imageResourceProvider;

@@ -334,7 +334,7 @@ public final class GameMap {
     }
 
     /**
-     * Determine fi the given reference is a base for either side.
+     * Determine if the given game grid is a base for any side.
      *
      * @param gameGrid A game map grid.
      * @return True if the grid corresponds to base. False otherwise.
@@ -347,20 +347,32 @@ public final class GameMap {
                 .anyMatch(side -> isLocationBase(side, mapRef));
     }
 
-    public boolean isLocationAirbase(final Side side, final String location) {
-        //If the reference is a name convert it to a reference.
-        //If the reference is a reference then the conversion is a no op.
-        String mapRef = convertNameToReference(location);
+    /**
+     * Determine if the given game grid contains an airfield for any side.
+     *
+     * @param gameGrid A game map grid.
+     * @return True if the grid corresponds to an airfield. False otherwise.
+     */
+    public boolean isLocationAirbase(final GameGrid gameGrid) {
+        String mapRef = gameGrid.getMapReference();
 
-        return airfieldRefToName.get(side).containsKey(mapRef);
+        return Side
+                .stream()
+                .anyMatch(side -> airfieldRefToName.get(side).containsKey(mapRef));
     }
 
-    public boolean isLocationPort(final Side side, final String location) {
-        //If the reference is a name convert it to a reference.
-        //If the reference is a reference then the conversion is a no op.
-        String mapRef = convertNameToReference(location);
+    /**
+     * Determine if the given game grid contains a port for any side.
+     *
+     * @param gameGrid A game map grid.
+     * @return True if the grid corresponds to a port. False otherwise.
+     */
+    public boolean isLocationPort(final GameGrid gameGrid) {
+        String mapRef = gameGrid.getMapReference();
 
-        return portRefToName.get(side).containsKey(mapRef);
+        return Side
+                .stream()
+                .anyMatch(side -> portRefToName.get(side).containsKey(mapRef));
     }
 
     /**
