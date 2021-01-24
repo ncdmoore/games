@@ -9,6 +9,8 @@ import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.map.GameGrid;
+import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.presenter.airfield.AirfieldDialog;
 import engima.waratsea.presenter.airfield.mission.MissionDialog;
@@ -16,6 +18,7 @@ import engima.waratsea.presenter.airfield.patrol.PatrolDialog;
 import engima.waratsea.presenter.asset.AssetPresenter;
 import engima.waratsea.presenter.taskforce.TaskForceDialog;
 import engima.waratsea.view.MainMenu;
+import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
 import engima.waratsea.view.map.marker.main.RegionMarker;
@@ -39,6 +42,7 @@ import java.util.Optional;
 @Singleton
 public class MainMapPresenter {
     private final Game game;
+    private final GameMap gameMap;
     private final MainMapView mainMapView;
     private final MainMenu mainMenu;
 
@@ -53,6 +57,7 @@ public class MainMapPresenter {
      * The constructor called by guice.
      *
      * @param game The game.
+     * @param gameMap The game map.
      * @param viewProvider Provides the main map view.
      * @param menuProvider Provides the main menu.
      * @param airfieldDetailsDialogProvider Provides airfield details dialog.
@@ -63,6 +68,7 @@ public class MainMapPresenter {
     //CHECKSTYLE:OFF
     @Inject
     public MainMapPresenter(final Game game,
+                            final GameMap gameMap,
                             final Provider<MainMapView> viewProvider,
                             final Provider<MainMenu> menuProvider,
                             final Provider<AirfieldDialog> airfieldDetailsDialogProvider,
@@ -72,6 +78,7 @@ public class MainMapPresenter {
                             final AssetPresenter assetPresenter) {
         //CHECKSTYLE:ON
         this.game = game;
+        this.gameMap = gameMap;
 
         mainMapView = viewProvider.get();
         mainMenu = menuProvider.get();
@@ -116,6 +123,8 @@ public class MainMapPresenter {
         mainMapView.setTaskForceOperationsMenuHandler(humanSide, this::taskForceOperationsHandler);
         mainMapView.setTaskForceDetachMenuHandler(humanSide, this::taskForceDetachHandler);
         mainMapView.setTaskForceJoinMenuHandler(humanSide, this::taskForceJoinHandler);
+
+        mainMapView.setGridClickHandler(this::gridClickHandler);
     }
 
     /**
@@ -289,5 +298,14 @@ public class MainMapPresenter {
         Path arrow = (Path) event.getSource();
         List<AirMission> missions = (List<AirMission>) arrow.getUserData();
         missionDetailsDialogProvider.get().show(missions);
+    }
+
+    private void gridClickHandler(final MouseEvent event) {
+        GridView gv = mainMapView.getGridView(event);
+        log.info("row={},column={}", gv.getRow(), gv.getColumn());
+
+        GameGrid gameGrid = gameMap.getGrid(gv.getRow(), gv.getColumn());
+
+        log.info(gameGrid.getMapReference());
     }
 }

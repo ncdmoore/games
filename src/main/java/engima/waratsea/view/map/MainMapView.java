@@ -8,7 +8,6 @@ import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.BaseGrid;
 import engima.waratsea.model.map.BaseGridType;
-import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.TaskForceGrid;
 import engima.waratsea.model.map.region.RegionGrid;
@@ -110,10 +109,7 @@ public class MainMapView {
         drawBaseMarkers(Side.NEUTRAL);
 
         drawRegionMarkers(game.getHumanSide());
-
         drawTaskForceMarkers(game.getHumanSide());
-
-        mapView.registerMouseClick(this::mouseClicked);
 
         map = new StackPane(mapImageView, mapGrid);
         map.setAlignment(Pos.TOP_LEFT);
@@ -232,6 +228,15 @@ public class MainMapView {
      */
     public void setMissionArrowClickHandler(final Side side, final EventHandler<? super MouseEvent> handler) {
         baseMarkers.get(side).forEach(baseMarker -> baseMarker.setMissionArrowClickHandler(handler));
+    }
+
+    /**
+     * Set the grid's click handler.
+     *
+     * @param handler The map's grid click handler.
+     */
+    public void setGridClickHandler(final EventHandler<? super MouseEvent> handler) {
+        mapView.registerMouseClick(handler);
     }
 
     /**
@@ -358,6 +363,16 @@ public class MainMapView {
     }
 
     /**
+     * Get the grid view from a grid click event.
+     *
+     * @param event The grid click event.
+     * @return The grid view that was clicked.
+     */
+    public GridView getGridView(final MouseEvent event) {
+        return mapView.getGridView(event);
+    }
+
+    /**
      * Build the given side's base markers.
      *
      * @param side The side ALLIES or AXIS.
@@ -458,20 +473,6 @@ public class MainMapView {
         if (displayRegionMarker()) {
             regionMarker.draw();
         }
-    }
-
-    /**
-     * Callback when main map grid is clicked.
-     *
-     * @param event The mouse click event.
-     */
-    private void mouseClicked(final MouseEvent event) {
-        GridView gv = mapView.getGridView(event);
-        log.info("row={},column={}", gv.getRow(), gv.getColumn());
-
-        GameGrid gameGrid = gameMap.getGrid(gv.getRow(), gv.getColumn());
-
-        log.info(gameGrid.getMapReference());
     }
 
     /**

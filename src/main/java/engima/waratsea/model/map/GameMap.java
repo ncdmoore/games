@@ -333,7 +333,6 @@ public final class GameMap {
                 || airfieldRefToName.get(side).containsKey(mapRef);
     }
 
-
     /**
      * Determine fi the given reference is a base for either side.
      *
@@ -346,6 +345,22 @@ public final class GameMap {
         return Side
                 .stream()
                 .anyMatch(side -> isLocationBase(side, mapRef));
+    }
+
+    public boolean isLocationAirbase(final Side side, final String location) {
+        //If the reference is a name convert it to a reference.
+        //If the reference is a reference then the conversion is a no op.
+        String mapRef = convertNameToReference(location);
+
+        return airfieldRefToName.get(side).containsKey(mapRef);
+    }
+
+    public boolean isLocationPort(final Side side, final String location) {
+        //If the reference is a name convert it to a reference.
+        //If the reference is a reference then the conversion is a no op.
+        String mapRef = convertNameToReference(location);
+
+        return portRefToName.get(side).containsKey(mapRef);
     }
 
     /**
