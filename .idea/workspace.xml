@@ -8,16 +8,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Hurricane-1f-240-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Hurricane-1f-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Hurricane-1f.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/Hurricane-1-USSR.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images/Hurricane-1-240-profile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images/Hurricane-1-USSR-240-profile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images/Hurricane-1-USSR-profile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images/Hurricane-1-USSR.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images/Hurricane-1-profile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images/Hurricane-1.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Aircraft.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Aircraft.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Fighter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Fighter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Recon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Recon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Argus-1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/ships/allies/Argus-1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronDetailsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1941/allies/USSR.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1941/allies/USSR.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1942/allies/USSR.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1942/allies/USSR.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1943/allies/USSR.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/squadrons/allotment/1943/allies/USSR.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/properties/view.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +109,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/arcticConvoy/images" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.25979218" />
@@ -116,18 +119,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies" />
       <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/scenarios/firstConvoy/taskforce" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/maps/allies" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/maps/axis" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
-      <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/scenarios/firstConvoy" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="engima.waratsea.view.airfield.info" />
@@ -298,13 +301,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00319" summary="Create a Squadrons class to isolate all of the squadron data structures from the airbases.">
-      <created>1609031845559</created>
-      <option name="number" value="00319" />
-      <option name="presentableId" value="LOCAL-00319" />
-      <option name="project" value="LOCAL" />
-      <updated>1609031845559</updated>
     </task>
     <task id="LOCAL-00320" summary="Distinguish between being on a mission/patrol and queued for a mission/patrol.">
       <created>1609078966615</created>
@@ -642,7 +638,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611513938616</updated>
     </task>
-    <option name="localTasksCounter" value="368" />
+    <task id="LOCAL-00368" summary="Use aircraft's name in squadron name and the aircraft's model.">
+      <created>1611516118864</created>
+      <option name="number" value="00368" />
+      <option name="presentableId" value="LOCAL-00368" />
+      <option name="project" value="LOCAL" />
+      <updated>1611516118865</updated>
+    </task>
+    <option name="localTasksCounter" value="369" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -657,7 +660,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Rename Aircraft AttackFactor.java to Attack.java" />
     <MESSAGE value="Refactor poor naval bomber to ItalianBomber. Add final modifier to Attack." />
     <MESSAGE value="Separate naval attack into naval warship attack and naval transport attack." />
     <MESSAGE value="Move squadron configuration calculations to be inside the SquadronConfig class and not inside the Aircraft classes." />
@@ -682,7 +684,8 @@
     <MESSAGE value="Refactor main map grid click handler." />
     <MESSAGE value="Add selected grid details view to main game window." />
     <MESSAGE value="Add airfield and port tiny icons to selected grid view." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add airfield and port tiny icons to selected grid view." />
+    <MESSAGE value="Use aircraft's name in squadron name and the aircraft's model." />
+    <option name="LAST_COMMIT_MESSAGE" value="Use aircraft's name in squadron name and the aircraft's model." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

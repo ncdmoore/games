@@ -1,0 +1,43 @@
+{
+  "name": "Hurricane I",
+  "type": "Fighter",
+  "nationality": "British",
+  "service": "AIRFORCE",
+  "designation": "RAF-",
+  "altitude": "MEDIUM",
+  "takeoff": "CARRIER",
+  "landing": "LAND",
+  "navalWarship": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "navalTransport": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "air": {
+    "modifier": 1,
+    "full": 3,
+    "half": 2
+  },
+  "performance": {
+    "range": 5,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  },
+  "config": [
+    "NONE",
+    "DROP_TANKS",
+    "SEARCH"
+  ]
+}
