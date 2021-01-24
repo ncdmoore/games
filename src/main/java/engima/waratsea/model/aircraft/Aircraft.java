@@ -24,6 +24,13 @@ public interface Aircraft extends Comparable<Aircraft> {
     String getModel();
 
     /**
+     * Get the aircraft's name.
+     *
+     * @return The aircraft's name.
+     */
+    String getName();
+
+    /**
      * Get the aircraft's side.
      *
      * @return The aircraft's side.

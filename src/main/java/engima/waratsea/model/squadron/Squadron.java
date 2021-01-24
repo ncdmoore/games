@@ -110,7 +110,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
             // Squadrons that have been saved will already have a name.
             // Only newly created squadrons at game start will not have a name.
             if (StringUtils.isBlank(name)) {
-                name = designation + index + "-" + model;
+                name = designation + index + "-" + aircraft.getName();
             }
 
             log.debug("Squadron: '{}' with strength: '{}' built for side: {}", new Object[]{name, strength, side});

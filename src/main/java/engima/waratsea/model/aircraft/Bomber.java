@@ -28,6 +28,7 @@ public class Bomber implements Aircraft {
     private final Map<AttackType, FunctionalMap<SquadronConfig, Attack>> attackMap = new HashMap<>();
 
     @Getter private final AircraftId aircraftId;
+    @Getter private final String name;
     @Getter private final AircraftType type;
     @Getter private final String designation;
     @Getter private final Nation nationality;
@@ -55,6 +56,7 @@ public class Bomber implements Aircraft {
     public Bomber(@Assisted final AircraftData data,
                             final Probability probability) {
         this.aircraftId = data.getAircraftId();
+        this.name = data.getName();
         this.type = data.getType();
         this.designation = data.getDesignation();
         this.nationality = data.getNationality();
