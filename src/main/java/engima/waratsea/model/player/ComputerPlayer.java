@@ -559,7 +559,7 @@ public class ComputerPlayer implements Player {
     }
 
     /**
-     * Load the flotillas.
+     * Load the flotillas. Submarines and MTB's.
      *
      * @param scenario The selected scenario.
      */
