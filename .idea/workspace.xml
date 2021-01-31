@@ -8,18 +8,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisAirfield&amp;Port-1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisAirfield&amp;Port.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisAirfield.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisFlag18x12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisPort.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisRoundel12x12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisTaskForceDetails.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/alliesTaskForceMarker.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/images/alliedTaskForceMarker.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/images/alliesTaskForceDetails.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/images/axisTaskForceDetails.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/images/axisTaskForceMarker.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Bodo.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Bodo.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/properties/view.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/images/alliesFlag25x17.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/view.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/properties/view.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/images/alliesFlag25x17.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/images/axisFlag25x17.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/properties/view.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,11 +124,11 @@
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
+      <recent name="$PROJECT_DIR$/src/main/resources/coralSea/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/ships/axis/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images" />
-      <recent name="$PROJECT_DIR$/src/main/resources/images" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="engima.waratsea.view.airfield.info" />
@@ -149,7 +148,7 @@
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="engima.waratsea.Main" />
       <module name="enigma.worldWarTwoAtSea.main" />
-      <option name="PROGRAM_PARAMETERS" value="game=arcticConvoy" />
+      <option name="PROGRAM_PARAMETERS" value="game=bombAlley" />
       <option name="VM_PARAMETERS" value="--module-path /Library/java/JavaVirtualMachines/javafx-sdk-12.0.2/lib --add-modules javafx.controls,javafx.fxml" />
       <extension name="coverage">
         <pattern>
@@ -300,20 +299,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00327" summary="Ensure that the airfield dialog's nation tab and the airfield asset summary nation tab are synchronized.">
-      <created>1609219462859</created>
-      <option name="number" value="00327" />
-      <option name="presentableId" value="LOCAL-00327" />
-      <option name="project" value="LOCAL" />
-      <updated>1609219462859</updated>
-    </task>
-    <task id="LOCAL-00328" summary="Ensure that the airfield dialog's nation tab and the airfield asset summary nation tab are synchronized.">
-      <created>1609219530269</created>
-      <option name="number" value="00328" />
-      <option name="presentableId" value="LOCAL-00328" />
-      <option name="project" value="LOCAL" />
-      <updated>1609219530269</updated>
     </task>
     <task id="LOCAL-00329" summary="Add the small weather view as a separate view component.">
       <created>1609273614376</created>
@@ -644,7 +629,21 @@
       <option name="project" value="LOCAL" />
       <updated>1612114457251</updated>
     </task>
-    <option name="localTasksCounter" value="376" />
+    <task id="LOCAL-00376" summary="Add German main map markers for Arctic Convoy.">
+      <created>1612120135795</created>
+      <option name="number" value="00376" />
+      <option name="presentableId" value="LOCAL-00376" />
+      <option name="project" value="LOCAL" />
+      <updated>1612120135795</updated>
+    </task>
+    <task id="LOCAL-00377" summary="Add Arctic Convoy patrol rules.">
+      <created>1612120395358</created>
+      <option name="number" value="00377" />
+      <option name="presentableId" value="LOCAL-00377" />
+      <option name="project" value="LOCAL" />
+      <updated>1612120395358</updated>
+    </task>
+    <option name="localTasksCounter" value="378" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -659,8 +658,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Have ImageResourceProvider depend upon Resource so that it can pickup the scenario name and always look for a scenario specific image." />
-    <MESSAGE value="Aircraft classes cleanup" />
     <MESSAGE value="Collaspe some of the airfield info views into a generic airfield info view. Add a task force info view." />
     <MESSAGE value="Collaspe region airfield info views into a generic airfield info view." />
     <MESSAGE value="Add french airfield 30x30 icon image." />
@@ -684,7 +681,9 @@
     <MESSAGE value="Add the ability to pick where a task force begin play on the preview map." />
     <MESSAGE value="Turn off some of the resource logging." />
     <MESSAGE value="Store selected task force in the TaskForcesViewModel only." />
-    <option name="LAST_COMMIT_MESSAGE" value="Store selected task force in the TaskForcesViewModel only." />
+    <MESSAGE value="Add German main map markers for Arctic Convoy." />
+    <MESSAGE value="Add Arctic Convoy patrol rules." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Arctic Convoy patrol rules." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
