@@ -38,5 +38,23 @@
     "ships": [
       "AA01 Thetis"
     ]
+  },
+  {
+    "name": "TF3",
+    "title": "AA Battery 2",
+    "possibleStartingLocations": [
+      "Altafjord",
+      "Bodo",
+      "Narvik",
+      "Tromso",
+      "Trondheim"
+    ],
+    "state": "ACTIVE",
+    "mission": {
+      "type": "STAY_IN_PORT"
+    },
+    "ships": [
+      "AA02 Nymphe"
+    ]
   }
 ]

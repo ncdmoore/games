@@ -149,7 +149,7 @@ public final class Resource {
     public Optional<URL> getGameURL(final Side side, final Class<?> clazz, final String name) {
         String entityName = clazz.getSimpleName();
         String fileName = gameTitle.getValue() + SIDE_FILE_MAP.get(side.toString(), entityName) + name;
-        log.info("'{}' URL: '{}'", entityName, fileName);
+        log.debug("'{}' URL: '{}'", entityName, fileName);
         return Optional.ofNullable(getClass().getClassLoader().getResource(fileName));
     }
 

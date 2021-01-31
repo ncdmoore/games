@@ -8,84 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/mission/StayInPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/taskforce/TaskForcesViewModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/axis/BF109E.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/axis/BF109F.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/axis/BF110D.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/axis/BV138.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/axis/FW200.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/axis/HE111H.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/axis/HE111H6.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/axis/HE115.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/axis/JU87B.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/axis/JU87D.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/axis/JU88A.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Altafjord.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Narvik.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Tromso.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Trondheim.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/shipDetails.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/German20x20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/GermanFlag30x20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/GermanFlag50x34.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ships/axis/Harald Haarfagre.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ships/axis/Type 1934.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ships/axis/Type 1934A.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ships/axis/Type 1936.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ships/axis/images/Harald Haarfagre-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ships/axis/images/Harald Haarfagre.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ships/axis/images/Type 1934-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ships/axis/images/Type 1934.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ships/axis/images/Type 1934A-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ships/axis/images/Type 1934A.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ships/axis/images/Type 1936-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ships/axis/images/Type 1936.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/BasicModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/BasicModule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/port/Port.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/port/Port.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/TaskForceGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/TaskForceGrid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/minefield/MinefieldDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/minefield/MinefieldDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/ShipType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/ShipType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/SquadronAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/SquadronAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/deployment/SquadronDeploymentManual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/deployment/SquadronDeploymentManual.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/data/TaskForceData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/data/TaskForceData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/mission/MissionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/mission/MissionDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/mission/MissionFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/mission/MissionFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/mission/SeaMissionType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/mission/SeaMissionType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/mission/rules/SeaMissionRules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/mission/rules/SeaMissionRules.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/AssetMarkerDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/AssetMarkerDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/PopUpDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/PopUpDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/TargetMarkerDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/TargetMarkerDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/SquadronPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/SquadronPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/TaskForcePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/TaskForcePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/PreviewMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/PreviewMapView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/PopUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/PopUp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/TargetMarker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/TargetMarker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/TaskForceMarker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/preview/TaskForceMarker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/SquadronView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/SquadronView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ship/ShipViewType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ship/ShipViewType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/DeploymentViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/DeploymentViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/taskforce/TaskForceViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/taskforce/TaskForceViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Banak.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Banak.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Bardufoss.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Bardufoss.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Bodo.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Bodo.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Kirkenes.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Kirkenes.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Molde.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Molde.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Orland.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Orland.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/maps/axis/august1941.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/maps/axis/august1941.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Altafjord.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Altafjord.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Bodo.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Bodo.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Narvik.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Narvik.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Petsamo.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Petsamo.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Tromso.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Tromso.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Trondheim.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/ports/axis/Trondheim.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/properties/view.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/scenarios/firstConvoy/taskforce/axisTaskForces.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/scenarios/firstConvoy/taskforce/axisTaskForces.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/TestModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/TestModule.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -215,7 +138,7 @@
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="engima.waratsea.Main" />
       <module name="enigma.worldWarTwoAtSea.main" />
-      <option name="PROGRAM_PARAMETERS" value="game=bombAlley" />
+      <option name="PROGRAM_PARAMETERS" value="game=arcticConvoy" />
       <option name="VM_PARAMETERS" value="--module-path /Library/java/JavaVirtualMachines/javafx-sdk-12.0.2/lib --add-modules javafx.controls,javafx.fxml" />
       <extension name="coverage">
         <pattern>
@@ -366,13 +289,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00324" summary="Auto select the top squadron on mission and patrol dialogs after adding or removing a squadron to a corresponding mission or patrol.">
-      <created>1609199905560</created>
-      <option name="number" value="00324" />
-      <option name="presentableId" value="LOCAL-00324" />
-      <option name="project" value="LOCAL" />
-      <updated>1609199905560</updated>
     </task>
     <task id="LOCAL-00325" summary="Add some additional comments.">
       <created>1609200781663</created>
@@ -710,7 +626,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611623094127</updated>
     </task>
-    <option name="localTasksCounter" value="373" />
+    <task id="LOCAL-00373" summary="Add the ability to pick where a task force begin play on the preview map.">
+      <created>1612111848904</created>
+      <option name="number" value="00373" />
+      <option name="presentableId" value="LOCAL-00373" />
+      <option name="project" value="LOCAL" />
+      <updated>1612111848904</updated>
+    </task>
+    <option name="localTasksCounter" value="374" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -725,7 +648,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Make sure the model sets the config when the a squadron is placed on Patrol." />
     <MESSAGE value="Show both naval warship and naval transport stats for port strikes." />
     <MESSAGE value="Add mission modifiers as tool tips to mission stats view." />
     <MESSAGE value="Have ImageResourceProvider depend upon Resource so that it can pickup the scenario name and always look for a scenario specific image." />
@@ -750,7 +672,8 @@
     <MESSAGE value="Add arctic convoy aircraft images." />
     <MESSAGE value="Show base grid details even if base grid is deselected on grid click." />
     <MESSAGE value="Update comment on loading flotillas." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update comment on loading flotillas." />
+    <MESSAGE value="Add the ability to pick where a task force begin play on the preview map." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add the ability to pick where a task force begin play on the preview map." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
