@@ -63,14 +63,17 @@ public class PatrolRules {
         Map<GameName, Function<Squadron, Boolean>> aswFilterMap = new HashMap<>();
         aswFilterMap.put(GameName.BOMB_ALLEY, bombAlleyAswFilter);
         aswFilterMap.put(GameName.CORAL_SEA,  coralSeaAswFilter);
+        aswFilterMap.put(GameName.ARCTIC_CONVOY,  coralSeaAswFilter);
 
         Map<GameName, Function<Squadron, Boolean>> capFilterMap = new HashMap<>();
         capFilterMap.put(GameName.BOMB_ALLEY, capFilter);
         capFilterMap.put(GameName.CORAL_SEA, capFilter);
+        capFilterMap.put(GameName.ARCTIC_CONVOY, capFilter);
 
         Map<GameName, Function<Squadron, Boolean>> searchFilterMap = new HashMap<>();
         searchFilterMap.put(GameName.BOMB_ALLEY, searchFilter);
         searchFilterMap.put(GameName.CORAL_SEA, searchFilter);
+        searchFilterMap.put(GameName.ARCTIC_CONVOY, searchFilter);
 
         patrolMap.put(PatrolType.ASW, aswFilterMap);
         patrolMap.put(PatrolType.CAP, capFilterMap);
