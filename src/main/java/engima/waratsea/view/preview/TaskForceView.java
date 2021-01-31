@@ -379,17 +379,17 @@ public class TaskForceView {
     /**
      * Select the task force marker.
      */
-    public void selectTaskForce() {
+    public void selectTaskForceMarker() {
         taskForceMap.selectTaskForceMarker(name.getValue());
     }
 
     /**
      * Clear the selected task force marker.
      *
-     * @param taskForce the task force whose marker is cleared.
+     * @param taskForceName the task force name whose marker is cleared.
      */
-    public void clearTaskForce(final TaskForce taskForce) {
-        taskForceMap.clearTaskForceMarker(taskForce.getName());
+    public void clearTaskForceMarker(final String taskForceName) {
+        taskForceMap.clearTaskForceMarker(taskForceName);
     }
 
     /**

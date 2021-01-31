@@ -77,7 +77,7 @@ public class TaskForceViewModel {
     @Getter private final ListProperty<Pair<String, String>> squadronTypeSummary = new SimpleListProperty<>(FXCollections.observableArrayList());
     @Getter private final Map<String, IntegerProperty> squadronCounts = new LinkedHashMap<>();
 
-    private final ObjectProperty<TaskForce> taskForce = new SimpleObjectProperty<>();
+    @Getter private final ObjectProperty<TaskForce> taskForce = new SimpleObjectProperty<>();
 
     /**
      * Constructor called by guice.

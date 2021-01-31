@@ -8,7 +8,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/scenarios/firstConvoy/taskforce/axisTaskForces.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/scenarios/firstConvoy/taskforce/axisTaskForces.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/TaskForcePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/TaskForcePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/taskforce/TaskForceViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/taskforce/TaskForceViewModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -289,13 +292,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00325" summary="Add some additional comments.">
-      <created>1609200781663</created>
-      <option name="number" value="00325" />
-      <option name="presentableId" value="LOCAL-00325" />
-      <option name="project" value="LOCAL" />
-      <updated>1609200781663</updated>
     </task>
     <task id="LOCAL-00326" summary="Fix French airfield images.">
       <created>1609201457373</created>
@@ -633,7 +629,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612111848904</updated>
     </task>
-    <option name="localTasksCounter" value="374" />
+    <task id="LOCAL-00374" summary="Turn off some of the resource logging.">
+      <created>1612112155944</created>
+      <option name="number" value="00374" />
+      <option name="presentableId" value="LOCAL-00374" />
+      <option name="project" value="LOCAL" />
+      <updated>1612112155945</updated>
+    </task>
+    <option name="localTasksCounter" value="375" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -648,7 +651,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Show both naval warship and naval transport stats for port strikes." />
     <MESSAGE value="Add mission modifiers as tool tips to mission stats view." />
     <MESSAGE value="Have ImageResourceProvider depend upon Resource so that it can pickup the scenario name and always look for a scenario specific image." />
     <MESSAGE value="Aircraft classes cleanup" />
@@ -673,7 +675,8 @@
     <MESSAGE value="Show base grid details even if base grid is deselected on grid click." />
     <MESSAGE value="Update comment on loading flotillas." />
     <MESSAGE value="Add the ability to pick where a task force begin play on the preview map." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add the ability to pick where a task force begin play on the preview map." />
+    <MESSAGE value="Turn off some of the resource logging." />
+    <option name="LAST_COMMIT_MESSAGE" value="Turn off some of the resource logging." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

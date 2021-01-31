@@ -42,7 +42,6 @@ public class TaskForcePresenter implements Presenter {
     private TaskForceView view;
     private Stage stage;
 
-    private TaskForce selectedTaskForce;
     private final TaskForcesViewModel taskForcesViewModel;
 
     private final Provider<TaskForceView> viewProvider;
@@ -127,8 +126,7 @@ public class TaskForcePresenter implements Presenter {
      * Mark the task forces on the preview map.
      */
     private void markTaskForces() {
-        game
-                .getHumanPlayer()
+        taskForcesViewModel
                 .getTaskForces()
                 .stream()
                 .filter(TaskForce::isLocationKnown)
@@ -161,8 +159,7 @@ public class TaskForcePresenter implements Presenter {
      * Mark the task force targets on the preview map.
      */
     private void markTargets() {
-        game
-                .getHumanPlayer()
+        taskForcesViewModel
                 .getTaskForces()
                 .stream()
                 .filter(TaskForce::isLocationKnown)
@@ -217,7 +214,6 @@ public class TaskForcePresenter implements Presenter {
     private void taskForceSelected(final TaskForce taskForce) {
         if (taskForce != null) {
             clearAllTaskForces();
-            this.selectedTaskForce = taskForce;
 
             taskForcesViewModel
                     .getSelectedTaskForce()
@@ -244,13 +240,18 @@ public class TaskForcePresenter implements Presenter {
      */
     private void locationSelected(final String oldLocation, final String newLocation) {
         if (newLocation != null) {
-            removeTaskForce(selectedTaskForce);
+            TaskForce selectedTaskForce = taskForcesViewModel
+                    .getSelectedTaskForce()
+                    .getTaskForce()
+                    .getValue();
 
-            taskForcesViewModel.setLocation(newLocation);
+            removeTaskForce(selectedTaskForce);                 // Remove the task force's old marker if it is the only task force represented by the marker.
+                                                                // Or remove the task force's name in the case of a multi task force marker.
+            taskForcesViewModel.setLocation(newLocation);       // Save the new location.
 
-            if (selectedTaskForce.isLocationKnown()) {
-                markTaskForce(selectedTaskForce);
-                view.selectTaskForce();
+            if (selectedTaskForce.isLocationKnown()) {          // It is possible that the new location is not on the map. Temporarily removed the task force from the map.
+                markTaskForce(selectedTaskForce);               // So only mark the task force if it is on the map.
+                view.selectTaskForceMarker();                   // Select the task force marker.
             }
         }
     }
@@ -259,10 +260,11 @@ public class TaskForcePresenter implements Presenter {
      * Clear all the task force selections.
      */
     private void clearAllTaskForces() {
-        game
-                .getHumanPlayer()
+        taskForcesViewModel
                 .getTaskForces()
-                .forEach(view::clearTaskForce);
+                .stream()
+                .map(TaskForce::getName)
+                .forEach(view::clearTaskForceMarker);
     }
 
     /**
@@ -321,6 +323,11 @@ public class TaskForcePresenter implements Presenter {
      * @return The index of the now selected task force.
      */
     private int determineTheNextTaskForce(final List<TaskForce> selected) {
+        TaskForce selectedTaskForce = taskForcesViewModel
+                .getSelectedTaskForce()
+                .getTaskForce()
+                .getValue();
+
         int index = 0;
         if (selected.size() > 1) {
             index = selected.indexOf(selectedTaskForce) + 1;
