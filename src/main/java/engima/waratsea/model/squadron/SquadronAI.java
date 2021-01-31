@@ -43,7 +43,7 @@ public class SquadronAI {
     }
 
     /**
-     * Do nothing as the human player deploys the squadrons manually.
+     * Do nothing except set the region requirements as the human player deploys the squadrons manually.
      *
      * @param scenario The selected scenario.
      * @param player   The player.

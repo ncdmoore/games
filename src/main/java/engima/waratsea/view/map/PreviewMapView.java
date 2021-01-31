@@ -45,7 +45,7 @@ public class PreviewMapView {
     private final GameMap gameMap;
     private final MapView mapView;
 
-    private final Map<String, TaskForceMarker> markerMap = new HashMap<>();                //marker name (task force name)-> grid.
+    private final Map<String, TaskForceMarker> taskForceMarkerMap = new HashMap<>();       //marker name (task force name)-> grid.
     private final Map<String, TaskForceMarker> mapRefMarkerMap = new HashMap<>();          //map reference -> grid.
 
     private final Map<String, List<TargetMarker>> targetMap = new HashMap<>();             //marker name (task force name) -> grid.
@@ -110,16 +110,39 @@ public class PreviewMapView {
         dto.setGameMap(gameMap);
         dto.setMapView(mapView);
 
-        if (mapRefMarkerMap.containsKey(dto.getMapReference())) {                                                       //Check if this grid already has a marker.
-            TaskForceMarker existingMarker = mapRefMarkerMap.get(dto.getMapReference());
-            existingMarker.addText(dto);                                                                                //Add this task force's name to the existing marker.
-            markerMap.put(dto.getName(), existingMarker);                                                               //Index this task force's name to the existing marker.
+        if (mapRefMarkerMap.containsKey(dto.getReference())) {                               //Check if this grid already has a marker.
+            TaskForceMarker existingMarker = mapRefMarkerMap.get(dto.getReference());
+            existingMarker.addText(dto);                                                     //Add this task force's name to the existing marker.
+            taskForceMarkerMap.put(dto.getName(), existingMarker);                           //Index this task force's name to the existing marker.
         } else {
-            TaskForceMarker marker = taskForceMarkerProvider.get();                                                     //Create a new marker.
+            TaskForceMarker marker = taskForceMarkerProvider.get();                          //Create a new marker.
             marker.build(dto);
-            marker.draw(dto);                                                                                           //Store this task force's name in the new marker.
-            mapRefMarkerMap.put(dto.getMapReference(), marker);
-            markerMap.put(dto.getName(), marker);                                                                       //Index this task force's name to the new marker.
+            marker.draw(dto);                                                                //Store this task force's name in the new marker.
+            mapRefMarkerMap.put(dto.getReference(), marker);
+            taskForceMarkerMap.put(dto.getName(), marker);                                   //Index this task force's name to the new marker.
+        }
+    }
+
+    /**
+     * Remove a marker from the map.
+     *
+     * @param dto The task force marker data transfer object.
+     */
+    public void removeTaskForceMarker(final AssetMarkerDTO dto) {
+        String name = dto.getName();
+
+        TaskForceMarker existingMarker = mapRefMarkerMap.get(dto.getReference());
+
+        if (existingMarker != null) {
+            if (existingMarker.containsMultipleTaskForces()) {                               // The task force marker represents multiple task forces.
+                existingMarker.removeText(dto);                                              // Remove the current task force's name from the marker.
+                clearTaskForceMarker(name);                                                  // Clear or unselect this task force marker.
+            } else {
+                existingMarker.remove(mapView);                                              // The task force marker represents only the current task force.
+                mapRefMarkerMap.remove(dto.getReference());                                  // Remove the task force marker from the map.
+            }
+
+            taskForceMarkerMap.remove(name);                                                 // The task force is no longer marked on the map. So remove it.
         }
     }
 
@@ -205,11 +228,12 @@ public class PreviewMapView {
      *
      * @param name specifies the marker to select.
      */
-    public void selectMarker(final String name) {
-        markerMap.get(name).select(mapView, name);                                                                      //Show the task force marker.
+    public void selectTaskForceMarker(final String name) {
+        Optional.ofNullable(taskForceMarkerMap.get(name))
+                .ifPresent(taskforceMarker -> taskforceMarker.select(mapView, name));                   //Show the task force marker.
 
         Optional.ofNullable(targetMap.get(name))
-                .ifPresent(markers -> markers.forEach(targetMarker -> targetMarker.select(mapView)));                   //Show this task force's target markers if any exist.
+                .ifPresent(markers -> markers.forEach(targetMarker -> targetMarker.select(mapView)));   //Show this task force's target markers if any exist.
     }
 
     /**
@@ -217,11 +241,12 @@ public class PreviewMapView {
      *
      * @param name specifies the marker to clear.
      */
-    public void clearMarker(final String name) {
-        markerMap.get(name).clear(mapView);                                                                             //Hide the task force marker.
+    public void clearTaskForceMarker(final String name) {
+        Optional.ofNullable(taskForceMarkerMap.get(name))
+                .ifPresent(taskForceMarker -> taskForceMarker.clear(mapView));                          //Hide the task force marker.
 
         Optional.ofNullable(targetMap.get(name))
-                .ifPresent(markers -> markers.forEach(targetMarker -> targetMarker.clear(mapView)));                    //Hide any target marker's if any exist.
+                .ifPresent(markers -> markers.forEach(targetMarker -> targetMarker.clear(mapView)));    //Hide any target marker's if any exist.
     }
 
     /**

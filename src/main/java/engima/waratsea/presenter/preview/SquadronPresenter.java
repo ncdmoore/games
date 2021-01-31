@@ -153,7 +153,7 @@ public class SquadronPresenter implements Presenter {
      * Get the view model and bind it to the view.
      */
     private void getAndBindViewModel() {
-        game.getHumanPlayer().getNations().forEach(nation -> {
+        game.getHumanPlayer().getNations().stream().filter(Nation::isSquadronsPresent).forEach(nation -> {
             RegionViewModel regionViewModel = regionViewModelProvider.get();
             regionViewModelMap.put(nation, regionViewModel);
 
@@ -546,6 +546,7 @@ public class SquadronPresenter implements Presenter {
                 .getHumanPlayer()
                 .getNations()
                 .stream()
+                .filter(Nation::isSquadronsPresent)
                 .flatMap(nation -> game.getHumanPlayer().getSquadrons(nation, SquadronLocationType.LAND).stream())
                 .filter(Squadron::isAvailable)
                 .findAny();

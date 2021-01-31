@@ -30,6 +30,9 @@ public enum ShipType {
     @SerializedName(value = "MINESWEEPER", alternate = {"Minesweeper", "minesweeper"})
     MINESWEEPER("Minesweeper"),
 
+    @SerializedName(value = "FLAK_SHIP", alternate = {"Flak_ship", "flak_ship"})
+    FLAK_SHIP("Flak ship"),
+
     @SerializedName(value = "OILER", alternate = {"Oiler", "oiler"})
     OILER("Oiler"),
 

@@ -1,0 +1,42 @@
+{
+  "name": "Ju88a",
+  "type": "Bomber",
+  "nationality": "German",
+  "service": "AIRFORCE",
+  "designation": "KG-",
+  "altitude": "MEDIUM",
+  "takeoff": "LAND",
+  "landing": "LAND",
+  "navalWarship": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "navalTransport": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "land": {
+    "modifier": 1,
+    "full": 4,
+    "half": 2
+  },
+  "air": {
+    "modifier": 0,
+    "full": 1,
+    "half": 1
+  },
+  "performance": {
+    "range": 10,
+    "endurance": 2
+  },
+  "frame": {
+    "frame": 2,
+    "fragile": false
+  },
+  "config": [
+    "NONE",
+    "SEARCH"
+  ]
+}

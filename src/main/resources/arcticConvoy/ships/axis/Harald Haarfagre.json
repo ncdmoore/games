@@ -1,0 +1,37 @@
+{
+  "type": "FLAK_SHIP",
+  "shipClass": "Harald Haarfagre",
+  "nationality": "GERMAN",
+  "tertiary":
+  {
+    "armour": "NONE",
+    "maxHealth": 1,
+    "health": 1
+  },
+  "antiAir":
+  {
+    "armour": "NONE",
+    "maxHealth": 3,
+    "health": 3
+  },
+  "hull": {
+    "armour": "LIGHT",
+    "maxHealth" : 3,
+    "health": 3,
+    "deck": false
+  },
+  "fuel": {
+    "capacity": 96,
+    "level": 96
+  },
+  "movement": {
+    "maxEven": 1,
+    "even": 1,
+    "maxOdd": 1,
+    "odd": 1
+  },
+  "cargo": {
+    "capacity": 1
+  },
+  "victoryPoints": 4
+}

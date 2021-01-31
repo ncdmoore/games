@@ -61,6 +61,8 @@ public class DeploymentViewModel {
         game
                 .getHumanPlayer()
                 .getNations()
+                .stream()
+                .filter(Nation::isSquadronsPresent)
                 .forEach(nation -> {
                     deployment.put(nation, new SimpleObjectProperty<>());
                     numLandingTypes.put(nation, new SimpleIntegerProperty(0));
@@ -138,7 +140,7 @@ public class DeploymentViewModel {
     }
 
     /**
-     * Set the given nation's region mininum requirements map.
+     * Set the given nation's region minimum requirements map.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc...
      */

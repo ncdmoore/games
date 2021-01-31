@@ -1,0 +1,43 @@
+{
+  "name": "Ju87d",
+  "type": "Dive_Bomber",
+  "nationality": "German",
+  "service": "AIRFORCE",
+  "designation": "StG-",
+  "altitude": "LOW",
+  "takeoff": "LAND",
+  "landing": "LAND",
+  "navalWarship": {
+    "modifier": 2,
+    "full": 8,
+    "half": 4
+  },
+  "navalTransport": {
+    "modifier": 2,
+    "full": 8,
+    "half": 4
+  },
+  "land": {
+    "modifier": 2,
+    "full": 6,
+    "half": 3
+  },
+  "air": {
+    "modifier": 0,
+    "defensive": true,
+    "full": 1,
+    "half": 0
+  },
+  "performance": {
+    "range": 7,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  },
+  "config": [
+    "NONE",
+    "SEARCH"
+  ]
+}

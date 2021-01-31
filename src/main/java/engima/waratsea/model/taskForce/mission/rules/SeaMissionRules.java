@@ -21,7 +21,7 @@ public class SeaMissionRules {
 
     private final Map<Side, Player> players = new HashMap<>();
 
-    private final List<SeaMissionType> unqualified = List.of(SeaMissionType.FERRY, SeaMissionType.PATROL, SeaMissionType.RETREAT);
+    private final List<SeaMissionType> unqualified = List.of(SeaMissionType.FERRY, SeaMissionType.PATROL, SeaMissionType.RETREAT, SeaMissionType.STAY_IN_PORT);
 
     /**
      * Constructor called by guice.

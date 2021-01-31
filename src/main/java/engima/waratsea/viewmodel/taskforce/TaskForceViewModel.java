@@ -47,6 +47,8 @@ import java.util.stream.Collectors;
  * to the values in this class.
  */
 public class TaskForceViewModel {
+    private static final String NOT_SET = "Not Set";
+
     private final SeaMissionRules seaMissionRules;
 
     @Getter private final ObjectProperty<ObservableList<SeaMissionType>> missionTypes = new SimpleObjectProperty<>();   // The task force's available missions.
@@ -62,6 +64,8 @@ public class TaskForceViewModel {
     @Getter private final ObjectProperty<SeaMissionType> mission = new SimpleObjectProperty<>();
     @Getter private final StringProperty location = new SimpleStringProperty();
     @Getter private final StringProperty reason = new SimpleStringProperty();  // The reasons the task force becomes active.
+
+    @Getter private final ListProperty<String> possibleStartingLocations = new SimpleListProperty<>();
 
     @Getter private final IntegerProperty numShipTypes = new SimpleIntegerProperty();
     @Getter private final MapProperty<ShipViewType, List<Ship>> shipTypeMap = new SimpleMapProperty<>(FXCollections.emptyObservableMap());
@@ -107,7 +111,29 @@ public class TaskForceViewModel {
      */
     public TaskForceViewModel setModel(final TaskForce force) {
         taskForce.setValue(force);
+
+        String taskForceLocation = Optional
+                .ofNullable(force.getLocation())
+                .orElse(NOT_SET);
+
+        location.setValue(taskForceLocation);
+
         return this;
+    }
+
+    /**
+     * Set the task force's location.
+     *
+     * @param newLocation The new location of the task force.
+     */
+    public void setLocation(final String newLocation) {
+        location.setValue(newLocation);
+
+        if (NOT_SET.equalsIgnoreCase(newLocation)) {
+            taskForce.getValue().setReference(null);
+        } else {
+            taskForce.getValue().setReference(newLocation);
+        }
     }
 
     /**
@@ -138,11 +164,6 @@ public class TaskForceViewModel {
                 .map(t -> FXCollections.observableArrayList(seaMissionRules.getMissions(t)))
                 .orElse(FXCollections.emptyObservableList())));
 
-        location.bind(Bindings.createStringBinding(() -> Optional
-                .ofNullable(taskForce.getValue())
-                .map(t -> getLocationPrefix(t) + t.getMappedLocation())
-                .orElse(""), taskForce));
-
         reason.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(taskForce.getValue())
                 .map(t -> String.join("\n", t.getActivatedByText()))
@@ -153,6 +174,13 @@ public class TaskForceViewModel {
                 .filter(t -> t.getState() == TaskForceState.RESERVE)
                 .map(t -> Color.RED)
                 .orElse(Color.BLACK), taskForce));
+
+        possibleStartingLocations.bind(Bindings.createObjectBinding(() -> Optional
+                .ofNullable(taskForce.getValue())
+                .map(TaskForce::getPossibleStartingLocations)
+                .map(this::addNotSet)
+                .map(FXCollections::observableArrayList)
+                .orElse(FXCollections.emptyObservableList()), taskForce));
     }
 
     /**
@@ -365,7 +393,10 @@ public class TaskForceViewModel {
         return Optional.ofNullable(count).map(BigDecimal::intValue).orElse(0);
     }
 
-    private String getLocationPrefix(final TaskForce force) {
-        return force.atFriendlyBase() ? "At port " : "At sea zone ";
+    private List<String> addNotSet(final List<String> startingLocations) {
+        if (startingLocations.size() > 1 && !startingLocations.contains(NOT_SET)) {
+            startingLocations.add(0, NOT_SET);
+        }
+        return startingLocations;
     }
 }

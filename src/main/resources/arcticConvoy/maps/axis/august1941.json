@@ -6,12 +6,16 @@
     "max": "0",
     "mapRef": "AO13",
     "airfields": [
+      "Altafjord",
       "Banak",
       "Bardufoss",
       "Bodo",
       "Kirkenes",
+      "Narvik",
       "Molde",
-      "Orland"
+      "Orland",
+      "Tromso",
+      "Trondheim"
     ],
     "ports": [
       "Altafjord",

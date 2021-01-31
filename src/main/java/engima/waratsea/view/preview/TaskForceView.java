@@ -15,6 +15,7 @@ import engima.waratsea.view.map.PreviewMapView;
 import engima.waratsea.view.map.marker.preview.TargetMarker;
 import engima.waratsea.view.ship.ShipViewType;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
+import engima.waratsea.viewmodel.taskforce.TaskForcesViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -76,6 +77,8 @@ public class TaskForceView {
     private final Text missionValue = new Text();
     private final Label reasonsValue = new Label();
     private final Label locationValue = new Label();
+
+    @Getter private final ChoiceBox<String> possibleStartingLocations = new ChoiceBox<>();
 
     private final Tab taskForceSummaryTab = new Tab("Summary");
     private final TabPane taskForceTabPane = new TabPane();
@@ -157,22 +160,31 @@ public class TaskForceView {
      * @param viewModel The task force view model.
      * @return This object.
      */
-    public TaskForceView bind(final TaskForceViewModel viewModel) {
-        stateValue.textProperty().bind(viewModel.getState());
-        stateValue.textFillProperty().bind(viewModel.getStateColor());
-        missionValue.textProperty().bind(viewModel.getMission().asString());
-        reasonsValue.textProperty().bind(viewModel.getReason());
-        locationValue.textProperty().bind(viewModel.getLocation());
+    public TaskForceView bind(final TaskForcesViewModel viewModel) {
 
-        shipTable.itemsProperty().bind(viewModel.getShipTypeSummary());
-        bindTableHeight(shipTable, viewModel.getNumShipTypes());
+        taskForces.itemsProperty().bind(viewModel.getTaskForces());
 
-        squadronTable.itemsProperty().bind(viewModel.getSquadronTypeSummary());
-        bindTableHeight(squadronTable, viewModel.getNumSquadronTypes());
+        TaskForceViewModel selectedTaskForce = viewModel.getSelectedTaskForce();
 
-        name.bind(viewModel.getName());
-        shipTypeMap.bind(viewModel.getShipTypeMap());
-        squadronTypeMap.bind(viewModel.getSquadronTypeMap());
+        stateValue.textProperty().bind(selectedTaskForce.getState());
+        stateValue.textFillProperty().bind(selectedTaskForce.getStateColor());
+        missionValue.textProperty().bind(selectedTaskForce.getMission().asString());
+        reasonsValue.textProperty().bind(selectedTaskForce.getReason());
+        locationValue.textProperty().bind(selectedTaskForce.getLocation());
+
+        possibleStartingLocations.itemsProperty().bind(selectedTaskForce.getPossibleStartingLocations());
+
+        shipTable.itemsProperty().bind(selectedTaskForce.getShipTypeSummary());
+        bindTableHeight(shipTable, selectedTaskForce.getNumShipTypes());
+
+        squadronTable.itemsProperty().bind(selectedTaskForce.getSquadronTypeSummary());
+        bindTableHeight(squadronTable, selectedTaskForce.getNumSquadronTypes());
+
+        name.bind(selectedTaskForce.getName());
+        shipTypeMap.bind(selectedTaskForce.getShipTypeMap());
+        squadronTypeMap.bind(selectedTaskForce.getSquadronTypeMap());
+
+        continueButton.disableProperty().bind(viewModel.getAnyTaskForceNotSet());
 
         return this;
     }
@@ -219,7 +231,9 @@ public class TaskForceView {
         taskForces.setMaxWidth(props.getInt("taskForce.list.width"));
         taskForces.setMinWidth(props.getInt("taskForce.list.width"));
 
-        VBox vBox = new VBox(taskForces, buildTaskForceStateDetails(), buildLegend());
+        Node locationNode = buildTaskForceLocation();
+
+        VBox vBox = new VBox(taskForces, buildTaskForceStateDetails(), locationNode, buildLegend());
         vBox.setId("taskforce-vbox");
 
         return vBox;
@@ -234,6 +248,20 @@ public class TaskForceView {
         HBox hBox = new HBox(buildShipDetails());
         hBox.setId("details-pane");
         return hBox;
+    }
+
+    /**
+     * Build the task force location node.
+     *
+     * @return A node that contains the task force location.
+     */
+    private Node buildTaskForceLocation() {
+        possibleStartingLocations.setMaxWidth(props.getInt("taskForce.list.width"));
+        possibleStartingLocations.setMinWidth(props.getInt("taskForce.list.width"));
+
+        Label label = new Label("Location:");
+
+        return new VBox(label, possibleStartingLocations);
     }
 
     /**
@@ -341,22 +369,18 @@ public class TaskForceView {
     }
 
     /**
-     * Set the task forces.
-     *
-     * @param forces The task forces.
+     * Set the selected task force. Show this task force's map marker.
      */
-    public void setTaskForces(final List<TaskForce> forces) {
-        taskForces.getItems().clear();
-        taskForces.getItems().addAll(forces);
+    public void showSelectedTaskForce() {
+        taskForceMap.selectTaskForceMarker(name.getValue());
+        setTabs();
     }
 
     /**
-     * Set the selected task force. Show this task force's map marker.
-     *
+     * Select the task force marker.
      */
-    public void showSelectedTaskForce() {
-        taskForceMap.selectMarker(name.getValue());
-        setTabs();
+    public void selectTaskForce() {
+        taskForceMap.selectTaskForceMarker(name.getValue());
     }
 
     /**
@@ -365,7 +389,16 @@ public class TaskForceView {
      * @param taskForce the task force whose marker is cleared.
      */
     public void clearTaskForce(final TaskForce taskForce) {
-        taskForceMap.clearMarker(taskForce.getName());
+        taskForceMap.clearTaskForceMarker(taskForce.getName());
+    }
+
+    /**
+     * Remove the task force marker.
+     *
+     * @param dto Task force data transfer object.
+     */
+    public void removeTaskForceFromMap(final AssetMarkerDTO dto) {
+        taskForceMap.removeTaskForceMarker(dto);
     }
 
     /**

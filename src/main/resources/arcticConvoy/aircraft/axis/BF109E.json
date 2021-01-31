@@ -1,0 +1,43 @@
+{
+  "name": "Bf109e",
+  "type": "Fighter",
+  "nationality": "German",
+  "service": "AIRFORCE",
+  "designation": "JG-",
+  "altitude": "MEDIUM",
+  "takeoff": "LAND",
+  "landing": "LAND",
+  "navalWarship": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "navalTransport": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "land": {
+    "modifier": 0,
+    "full": 0,
+    "half": 0
+  },
+  "air": {
+    "modifier": 1,
+    "full": 4,
+    "half": 2
+  },
+  "performance": {
+    "range": 4,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  },
+  "config": [
+    "NONE",
+    "DROP_TANKS",
+    "SEARCH"
+  ]
+}

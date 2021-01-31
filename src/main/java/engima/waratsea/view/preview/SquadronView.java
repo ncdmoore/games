@@ -419,6 +419,7 @@ public class SquadronView {
                 .getHumanPlayer()
                 .getNations()
                 .stream()
+                .filter(Nation::isSquadronsPresent)
                 .sorted()
                 .map(this::buildTab)
                 .forEach(tab -> nationsTabPane.getTabs().add(tab));

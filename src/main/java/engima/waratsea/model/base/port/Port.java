@@ -104,9 +104,18 @@ public class Port implements Asset, Base, PersistentData<PortData> {
     }
 
     /**
+     * Remove a task force from this port.
+     *
+     * @param taskForce The task force removed from this port.
+     */
+    public void removeTaskForce(final TaskForce taskForce) {
+        taskForces.remove(taskForce);
+    }
+
+    /**
      * Determine if this port has task forces present.
      *
-     * @return True if task forces are present at this port. False, otherwsie.
+     * @return True if task forces are present at this port. False, otherwise.
      */
     public boolean areTaskForcesPresent() {
         return !taskForces.isEmpty();

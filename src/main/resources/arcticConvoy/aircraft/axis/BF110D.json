@@ -1,0 +1,43 @@
+{
+  "name": "Bf110d",
+  "type": "Fighter",
+  "nationality": "German",
+  "service": "AIRFORCE",
+  "designation": "ZG-",
+  "altitude": "MEDIUM",
+  "takeoff": "LAND",
+  "landing": "LAND",
+  "navalWarship": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "navalTransport": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "land": {
+    "modifier": 1,
+    "full": 1,
+    "half": 1
+  },
+  "air": {
+    "modifier": 1,
+    "full": 2,
+    "half": 1
+  },
+  "performance": {
+    "range": 6,
+    "endurance": 1
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  },
+  "config": [
+    "NONE",
+    "DROP_TANKS",
+    "SEARCH"
+  ]
+}

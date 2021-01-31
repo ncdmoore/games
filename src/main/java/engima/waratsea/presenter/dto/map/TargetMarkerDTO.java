@@ -18,7 +18,7 @@ import lombok.Setter;
  */
 public class TargetMarkerDTO implements PopUpDTO {
     @Getter
-    private final String mapReference;
+    private final String reference;
 
     private final Target target;
     private final TaskForce taskForce;
@@ -62,7 +62,7 @@ public class TargetMarkerDTO implements PopUpDTO {
     public TargetMarkerDTO(final TaskForce taskForce, final Target target) {
         this.taskForce = taskForce;
         this.target = target;
-        this.mapReference = target.getLocation();
+        this.reference = target.getLocation();
     }
 
     /**
@@ -98,7 +98,7 @@ public class TargetMarkerDTO implements PopUpDTO {
      * @param gameMap The game map.
      */
     public void setGameMap(final GameMap gameMap) {
-        grid = gameMap.getGrid(mapReference).orElse(null);
+        grid = gameMap.getGrid(reference).orElse(null);
     }
 
     /**

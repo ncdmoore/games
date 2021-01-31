@@ -258,16 +258,6 @@ public final class GameMap {
     }
 
     /**
-     * Get the given side's regions.
-     *
-     * @param side The side ALLIES or AXIS.
-     * @return A list of the given side's regions. This is all nations of the given side regions.
-     */
-    public List<Region> getSideRegions(final Side side) {
-        return regions.get(side);
-    }
-
-    /**
      * Get the given side's and nation's regions.
      *
      * @param side THe side ALLIES or AXIS.
@@ -300,21 +290,17 @@ public final class GameMap {
     }
 
     /**
-     * Add a task force to this map. If a task force grid already exists for the given task force's map reference,
-     * then the task force is added to that task force grid.
+     * Add or remove a task force to/from this map. If a task force grid already exists for the given task force's map
+     * reference, then the task force is added to that task force grid.
      *
-     * @param side The side: ALLIES or AXIS.
      * @param taskForce The task force added to this map.
      */
-    public void addTaskForce(final Side side, final TaskForce taskForce) {
-
-        taskForceGrids
-                .get(side)
-                .stream()
-                .filter(taskForceGrid -> taskForceGrid.getReference().equalsIgnoreCase(taskForce.getReference()))
-                .findFirst()
-                .ifPresentOrElse(taskForceGrid -> taskForceGrid.add(taskForce),
-                                 () -> createTaskForceGrid(side, taskForce));
+    public void updateTaskForce(final TaskForce taskForce) {
+        if (taskForce.getReference() != null) {
+            addTaskForce(taskForce);
+        } else {
+            removeTaskForce(taskForce);
+        }
     }
 
     /**
@@ -406,7 +392,6 @@ public final class GameMap {
 
         return name;
     }
-
 
     /**
      * Convert a reference name to a map reference. For example, the name Gibraltar is converted to H22.
@@ -847,6 +832,70 @@ public final class GameMap {
     }
 
     /**
+     * Add a task force to the game map.
+     *
+     * @param taskForce The task force added to the game map.
+     */
+    private void addTaskForce(final TaskForce taskForce) {
+        removeTaskForce(taskForce);
+        addTaskforceToGrid(taskForce);
+
+        if (isAtFriendlyPort(taskForce)) {
+            addToPort(taskForce);
+        }
+    }
+
+    /**
+     * Remove a task force from the game map. This happens in some games such as Arctic Convoy where
+     * at the beginning of the scenario a task force can be removed from the map and then moved to
+     * a different location.
+     *
+     * @param taskForce The task force removed from the game map.
+     */
+    private void removeTaskForce(final TaskForce taskForce) {
+        removeIfAlreadyOnMap(taskForce);
+        removeFromPort(taskForce);
+    }
+
+    /**
+     * Remove the given task force if already marked on the game map.
+     *
+     * @param taskForce The task force that is removed from the game map.
+     */
+    private void removeIfAlreadyOnMap(final TaskForce taskForce) {
+        Side side = taskForce.getSide();
+
+        // Find the task force's grid. Note a grid may contain several task forces.
+        List<TaskForceGrid> newTaskForceGrids = taskForceGrids
+                .get(side)
+                .stream()
+                .peek(grid -> grid.remove(taskForce))
+                .filter(TaskForceGrid::notEmpty)
+                .collect(toList());
+
+        // If the removed task force was the only task force at the game grid,
+        // then remove the game grid. It is no longer a task force grid.
+        taskForceGrids.put(side, newTaskForceGrids);
+    }
+
+    /**
+     * Add the given task force to a game grid.
+     *
+     * @param taskForce The task force added to the game map.
+     */
+    private void addTaskforceToGrid(final TaskForce taskForce) {
+        Side side = taskForce.getSide();
+
+        taskForceGrids
+                .get(side)
+                .stream()
+                .filter(taskForceGrid -> taskForceGrid.matches(taskForce))
+                .findFirst()
+                .ifPresentOrElse(taskForceGrid -> taskForceGrid.add(taskForce),
+                        () -> createTaskForceGrid(side, taskForce));
+    }
+
+    /**
      * Create a task force grid.
      *
      * @param side The side: ALLIES or AXIS.
@@ -855,5 +904,25 @@ public final class GameMap {
     private void createTaskForceGrid(final Side side, final TaskForce taskForce) {
         TaskForceGrid grid = taskForceGridProvider.get().init(taskForce);
         taskForceGrids.get(side).add(grid);
+    }
+
+    private boolean isAtFriendlyPort(final TaskForce taskForce) {
+        return portRefToName
+                .get(taskForce.getSide())
+                .containsKey(taskForce.getReference());
+    }
+
+    private void removeFromPort(final TaskForce taskForce) {
+        ports
+                .get(taskForce.getSide())
+                .forEach(port -> port.removeTaskForce(taskForce));
+    }
+
+    private void addToPort(final TaskForce taskForce) {
+        Side side = taskForce.getSide();
+        String reference = taskForce.getReference();
+
+        getPort(side, reference)
+                .ifPresent(port -> port.addTaskForce(taskForce));
     }
 }

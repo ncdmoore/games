@@ -102,6 +102,7 @@ import engima.waratsea.model.taskForce.mission.Invasion;
 import engima.waratsea.model.taskForce.mission.Minelaying;
 import engima.waratsea.model.taskForce.mission.MissionFactory;
 import engima.waratsea.model.taskForce.mission.SeaMission;
+import engima.waratsea.model.taskForce.mission.StayInPort;
 import engima.waratsea.model.taskForce.mission.Transport;
 import engima.waratsea.model.victory.AirfieldVictory;
 import engima.waratsea.model.victory.AirfieldVictoryFactory;
@@ -225,6 +226,7 @@ public class BasicModule extends AbstractModule {
                 .implement(SeaMission.class, Names.named("invasion"), Invasion.class)
                 .implement(SeaMission.class, Names.named("minelaying"), Minelaying.class)
                 .implement(SeaMission.class, Names.named("patrol"), engima.waratsea.model.taskForce.mission.Patrol.class)
+                .implement(SeaMission.class, Names.named("stayInPort"), StayInPort.class)
                 .implement(SeaMission.class, Names.named("transport"), Transport.class)
                 .build(MissionFactory.class));
 

@@ -63,7 +63,7 @@ public class TaskForceMarker {
      * @param dto All the data needed to create a marker.
      */
     public void draw(final AssetMarkerDTO dto) {
-        String locationName = gameMap.convertPortReferenceToName(dto.getMapReference());   //Note, if the map reference is not a location then the map reference is returned.
+        String locationName = gameMap.convertPortReferenceToName(dto.getReference());   //Note, if the map reference is not a location then the map reference is returned.
         Adjuster adjuster = adjusterProvider.get(locationName);                            //A map reference will not be adjusted.
 
         double x = adjuster.adjustX(gridView.getX());
@@ -99,6 +99,18 @@ public class TaskForceMarker {
     }
 
     /**
+     * Remove text from the marker's corresponding popup.
+     *
+     * @param dto All the data needed to remove the text from the marker.
+     */
+    public void removeText(final AssetMarkerDTO dto) {
+        Asset taskForce = dto.getAsset();
+
+        taskForces.remove(taskForce);
+        popUp.removeText(dto);
+    }
+
+    /**
      * Select this marker. The marker is now the currently selected marker.
      *
      * @param map The game map.
@@ -127,6 +139,15 @@ public class TaskForceMarker {
     public void remove(final MapView map) {
         map.remove(rectangle);
         popUp.hide(map);
+    }
+
+    /**
+     * Determine if multiple task forces are included in this marker.
+     *
+     * @return True if this task force marker represents multiple task forces. False otherwise.
+     */
+    public boolean containsMultipleTaskForces() {
+        return taskForces.size() > 1;
     }
 
     /**

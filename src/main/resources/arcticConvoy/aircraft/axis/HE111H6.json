@@ -1,0 +1,42 @@
+{
+  "name": "He111h6",
+  "type": "Torpedo_Bomber",
+  "nationality": "German",
+  "service": "AIRFORCE",
+  "designation": "KG-",
+  "altitude": "MEDIUM",
+  "takeoff": "LAND",
+  "landing": "LAND",
+  "navalWarship": {
+    "modifier": 1,
+    "full": 5,
+    "half": 3
+  },
+  "navalTransport": {
+    "modifier": 1,
+    "full": 5,
+    "half": 3
+  },
+  "land": {
+    "modifier": 1,
+    "full": 1,
+    "half": 1
+  },
+  "air": {
+    "modifier": 0,
+    "full": 1,
+    "half": 1
+  },
+  "performance": {
+    "range": 9,
+    "endurance": 2
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  },
+  "config": [
+    "NONE",
+    "SEARCH"
+  ]
+}

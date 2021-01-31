@@ -36,7 +36,12 @@ public class SquadronDeploymentManual {
         this.player = gamePlayer;
         side = this.player.getSide();
 
-        this.player.getNations().forEach(this::deployNation);
+        this
+                .player
+                .getNations()
+                .stream()
+                .filter(Nation::isSquadronsPresent)
+                .forEach(this::deployNation);
     }
 
     /**

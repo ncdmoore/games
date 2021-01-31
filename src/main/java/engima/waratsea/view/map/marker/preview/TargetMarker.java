@@ -52,14 +52,17 @@ public class TargetMarker {
     }
 
     /**
-     * Draw the marker on the provided map.
+     * Draw the marker on the provided map. Note, since the preview map is not an exact scaled
+     * reproduction of the main game map, the grids may be slightly, ever so slightly off. To
+     * account for this the markers may be adjusted.
+     *
      * Register a mouse click callback for the marker.
      * @param dto Data transfer object.2
      */
     public void draw(final TargetMarkerDTO dto) {
         if (dto.showPopup()) {
-            String locationName = gameMap.convertReferenceToName(dto.getMapReference()); //Note, if the map reference is not a location then the map reference is returned.
-            Adjuster adjuster = adjusterProvider.get(locationName);                      // A map reference will not be adjusted.
+            String locationName = gameMap.convertReferenceToName(dto.getReference()); //Note, if the map reference is not a location then the map reference is returned.
+            Adjuster adjuster = adjusterProvider.get(locationName);                   // A map reference will not be adjusted.
 
             double x = adjuster.adjustX(gridView.getX());
             double y = adjuster.adjustY(gridView.getY());

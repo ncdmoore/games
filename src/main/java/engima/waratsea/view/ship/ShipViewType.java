@@ -37,6 +37,7 @@ public enum ShipViewType  implements Comparator<ShipViewType> {
         VIEW_TYPE_MAP.put(ShipType.DESTROYER_ESCORT, DESTROYER_ESCORT);
         VIEW_TYPE_MAP.put(ShipType.MINESWEEPER, PATROL);
         VIEW_TYPE_MAP.put(ShipType.MINELAYER, PATROL);
+        VIEW_TYPE_MAP.put(ShipType.FLAK_SHIP, PATROL);
         VIEW_TYPE_MAP.put(ShipType.SLOOP, PATROL);
         VIEW_TYPE_MAP.put(ShipType.OILER, TRANSPORT);
         VIEW_TYPE_MAP.put(ShipType.TRANSPORT, TRANSPORT);

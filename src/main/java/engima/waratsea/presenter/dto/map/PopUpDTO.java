@@ -25,7 +25,7 @@ public interface PopUpDTO {
      * The map reference that the popup annotates.
      * @return The corresponding popup map reference.
      */
-    String getMapReference();
+    String getReference();
 
     /**
      * The map grid view that the popup annotates.

@@ -1,0 +1,43 @@
+{
+  "name": "He115",
+  "type": "Torpedo_Bomber",
+  "nationality": "German",
+  "service": "AIRFORCE",
+  "designation": "KG-",
+  "altitude": "LOW",
+  "takeoff": "SEAPLANE",
+  "landing": "SEAPLANE",
+  "navalWarship": {
+    "modifier": 1,
+    "full": 3,
+    "half": 2
+  },
+  "navalTransport": {
+    "modifier": 1,
+    "full": 3,
+    "half": 2
+  },
+  "land": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "air": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0,
+    "defensive": true
+  },
+  "performance": {
+    "range": 11,
+    "endurance": 2
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  },
+  "config": [
+    "NONE",
+    "SEARCH"
+  ]
+}

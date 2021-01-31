@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Represents a marker popup on a map.
@@ -41,11 +42,12 @@ public class PopUp {
 
     /**
      * Construct a popup for a given marker.
+     *
      * @param dto The data for the task force marker and associated popup.
      */
     public PopUp(final PopUpDTO dto) {
         this.names.add(dto.getName());
-        this.mapRef = dto.getMapReference();
+        this.mapRef = dto.getReference();
         this.gridView = dto.getGridView();
         this.xOffset = dto.getXOffset();
         this.style = dto.getStyle();
@@ -82,7 +84,9 @@ public class PopUp {
         popUp.setViewOrder(ViewOrder.POPUP.getValue());
     }
 
-    /** Add text to the popup.
+    /**
+     * Add text to the popup.
+     *
      * @param dto The popup data transfer object.
      */
     public void addText(final PopUpDTO dto) {
@@ -94,12 +98,37 @@ public class PopUp {
 
         Label text = new Label(dto.getTitle());
 
-        namesMap.put(name, text);
+        namesMap.put(name, text);  // Keep a reference to the label.
 
         String textStyle = dto.isActive() ? "popup-text" : "popup-text-inactive";
         text.getStyleClass().add(textStyle);
-        List<Node> childern = popUp.getChildren();
-        ((VBox) childern.get(NAME_VBOX)).getChildren().add(text);
+        List<Node> children = popUp.getChildren();
+
+        VBox nameVBox = (VBox) children.get(NAME_VBOX);
+
+        List<Node> sortedLabels = getSortedLabels();
+
+        nameVBox.getChildren().clear();              // Remove all labels so they can be re-added sorted, including the current label.
+        nameVBox.getChildren().addAll(sortedLabels); // Note, the current label was already stored in the namesMap.
+    }
+
+    /**
+     * Remove text from the popup.
+     *
+     * @param dto The popup data transfer object.
+     */
+    public void removeText(final PopUpDTO dto) {
+        String name = dto.getName();
+
+        Label text = namesMap.get(name);
+
+        List<Node> children = popUp.getChildren();
+
+        VBox nameVBox = (VBox) children.get(NAME_VBOX);
+
+        names.remove(name);
+        namesMap.remove(name);
+        nameVBox.getChildren().remove(text);
     }
 
     /**
@@ -174,5 +203,23 @@ public class PopUp {
      */
     public double getY() {
         return popUp.getLayoutY();
+    }
+
+    /**
+     * Get a sorted list of label nodes contained in the popup.
+     *
+     * @return A sorted list of label nodes. Sorted by the text in the label.
+     */
+    private List<Node> getSortedLabels() {
+        List<String> sortedLabelNames = namesMap
+                .keySet()
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
+
+        return sortedLabelNames
+                .stream()
+                .map(namesMap::get)
+                .collect(Collectors.toList());
     }
 }

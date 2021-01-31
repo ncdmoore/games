@@ -8,14 +8,14 @@ import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.presenter.Presenter;
-import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
+import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.presenter.navigation.Navigate;
 import engima.waratsea.presenter.ship.ShipDetailsDialog;
-import engima.waratsea.view.preview.TaskForceView;
 import engima.waratsea.view.map.marker.preview.PopUp;
 import engima.waratsea.view.map.marker.preview.TargetMarker;
-import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
+import engima.waratsea.view.preview.TaskForceView;
+import engima.waratsea.viewmodel.taskforce.TaskForcesViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
@@ -28,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 /**
@@ -42,7 +43,7 @@ public class TaskForcePresenter implements Presenter {
     private Stage stage;
 
     private TaskForce selectedTaskForce;
-    private final TaskForceViewModel taskForceViewModel;
+    private final TaskForcesViewModel taskForcesViewModel;
 
     private final Provider<TaskForceView> viewProvider;
     private final Provider<ShipDetailsDialog> shipDetailsDialogProvider;
@@ -53,19 +54,19 @@ public class TaskForcePresenter implements Presenter {
      *
      * @param game The game object.
      * @param viewProvider The corresponding view.
-     * @param taskForceViewModel The task force view model.
+     * @param taskForcesViewModel The task forces view model.
      * @param shipDetailsDialogProvider The ship details dialog provider.
      * @param navigate Provides screen navigation.
      */
     @Inject
     public TaskForcePresenter(final Game game,
                               final Provider<TaskForceView> viewProvider,
-                              final TaskForceViewModel taskForceViewModel,
+                              final TaskForcesViewModel taskForcesViewModel,
                               final Provider<ShipDetailsDialog> shipDetailsDialogProvider,
                               final Navigate navigate) {
         this.game = game;
         this.viewProvider = viewProvider;
-        this.taskForceViewModel = taskForceViewModel;
+        this.taskForcesViewModel = taskForcesViewModel;
         this.shipDetailsDialogProvider = shipDetailsDialogProvider;
         this.navigate = navigate;
     }
@@ -98,12 +99,14 @@ public class TaskForcePresenter implements Presenter {
     private void setupView(final Stage primaryStage) {
         this.stage = primaryStage;
 
+        taskForcesViewModel.setModel(game.getHumanPlayer().getTaskForces());
+
         view = viewProvider
                 .get()
-                .bind(taskForceViewModel);
+                .bind(taskForcesViewModel);
 
-        view.setTaskForces(game.getHumanPlayer().getTaskForces());
         view.getTaskForces().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> taskForceSelected(newValue));
+        view.getPossibleStartingLocations().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> locationSelected(oldValue, newValue));
 
         navigate.update(game.getScenario());
 
@@ -127,6 +130,8 @@ public class TaskForcePresenter implements Presenter {
         game
                 .getHumanPlayer()
                 .getTaskForces()
+                .stream()
+                .filter(TaskForce::isLocationKnown)
                 .forEach(this::markTaskForce);
     }
 
@@ -143,12 +148,24 @@ public class TaskForcePresenter implements Presenter {
     }
 
     /**
+     * Remove the given task force from the preview map.
+     *
+     * @param taskForce The selected task force.
+     */
+    private void removeTaskForce(final TaskForce taskForce) {
+        AssetMarkerDTO dto = new AssetMarkerDTO(taskForce);
+        view.removeTaskForceFromMap(dto);
+    }
+
+    /**
      * Mark the task force targets on the preview map.
      */
     private void markTargets() {
         game
                 .getHumanPlayer()
                 .getTaskForces()
+                .stream()
+                .filter(TaskForce::isLocationKnown)
                 .forEach(this::markTaskForceTargets);
     }
 
@@ -198,16 +215,44 @@ public class TaskForcePresenter implements Presenter {
      * @param taskForce the selected task force.
      */
     private void taskForceSelected(final TaskForce taskForce) {
-        clearAllTaskForces();
-        this.selectedTaskForce = taskForce;
+        if (taskForce != null) {
+            clearAllTaskForces();
+            this.selectedTaskForce = taskForce;
 
-        taskForceViewModel.setModel(taskForce);
+            taskForcesViewModel
+                    .getSelectedTaskForce()
+                    .setModel(taskForce);
 
-        view.showSelectedTaskForce();
+            view.showSelectedTaskForce();
 
-        view
-                .getShipButtons()
-                .forEach(button -> button.setOnAction(this::displayShipDialog));
+            view
+                    .getShipButtons()
+                    .forEach(button -> button.setOnAction(this::displayShipDialog));
+
+            view
+                    .getPossibleStartingLocations()
+                    .getSelectionModel()
+                    .select(taskForcesViewModel.getSelectedTaskForce().getLocation().getValue());
+        }
+    }
+
+    /**
+     * Call back when a task force location is selected.
+     *
+     * @param oldLocation The task force's old location.
+     * @param newLocation The task force's new location.
+     */
+    private void locationSelected(final String oldLocation, final String newLocation) {
+        if (newLocation != null) {
+            removeTaskForce(selectedTaskForce);
+
+            taskForcesViewModel.setLocation(newLocation);
+
+            if (selectedTaskForce.isLocationKnown()) {
+                markTaskForce(selectedTaskForce);
+                view.selectTaskForce();
+            }
+        }
     }
 
     /**
@@ -244,7 +289,12 @@ public class TaskForcePresenter implements Presenter {
         Shape shape = (Shape) event.getSource();
         List<TaskForce> selected = (List<TaskForce>) shape.getUserData();
 
-        selectTheNextTaskForce(selected);
+        List<TaskForce> sorted = selected
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
+
+        selectTheNextTaskForce(sorted);
     }
 
     /**
@@ -263,7 +313,6 @@ public class TaskForcePresenter implements Presenter {
         // task force, but redisplay the popup.
         taskForceSelected(selected.get(index));
     }
-
 
     /**
      * A task force marker has been clicked. Select the next task force that resides in the marker's grid.

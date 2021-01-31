@@ -1,8 +1,14 @@
 [
   {
     "name": "TF1",
-    "title": "Narvik Force",
-    "location": "Narvik",
+    "title": "Raiding Force",
+    "possibleStartingLocations": [
+      "Altafjord",
+      "Bodo",
+      "Narvik",
+      "Tromso",
+      "Trondheim"
+    ],
     "state": "ACTIVE",
     "mission": {
       "type": "PATROL"
@@ -12,9 +18,25 @@
       "DD07 Hermann Schoemann",
       "DD10 Hans Lody",
       "DD16 Friedrich Eckholdt",
-      "DD20 Karl Galster",
-      "AA01 Thetis",
-      "AA02 Nymphe"
+      "DD20 Karl Galster"
+    ]
+  },
+  {
+    "name": "TF2",
+    "title": "AA Battery 1",
+    "possibleStartingLocations": [
+      "Altafjord",
+      "Bodo",
+      "Narvik",
+      "Tromso",
+      "Trondheim"
+    ],
+    "state": "ACTIVE",
+    "mission": {
+      "type": "STAY_IN_PORT"
+    },
+    "ships": [
+      "AA01 Thetis"
     ]
   }
 ]

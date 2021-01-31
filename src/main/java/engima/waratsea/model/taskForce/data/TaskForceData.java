@@ -32,6 +32,10 @@ public class TaskForceData {
 
     @Getter
     @Setter
+    private List<String> possibleStartingLocations;
+
+    @Getter
+    @Setter
     private List<TargetData> targets;
 
     @Getter

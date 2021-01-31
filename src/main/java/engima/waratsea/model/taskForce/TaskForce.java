@@ -31,6 +31,8 @@ import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -44,12 +46,14 @@ import java.util.stream.Stream;
  * This class represents a task force, which is a collection of ships.
  */
 @Slf4j
-public class TaskForce implements Asset, PersistentData<TaskForceData> {
+public class TaskForce implements Comparable<TaskForce>, Asset, PersistentData<TaskForceData> {
     @Getter private final Side side;
     @Getter @Setter private String name;
     @Getter @Setter private String title;
     @Getter @Setter private SeaMission mission;
-    @Getter private String reference;                                  //This is always a map reference and never a name.
+    @Getter private String reference;                                //This is always a map reference and never a name.
+    @Getter private final List<String> possibleStartingLocations;    //Some task forces may start at multiple locations.
+    @Getter private boolean locationKnown;
     @Getter @Setter private TaskForceState state;
     @Getter @Setter private List<ShipEventMatcher> releaseShipEvents;
     @Getter @Setter private List<TurnEventMatcher> releaseTurnEvents;
@@ -95,15 +99,20 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
 
         this.shipyard = shipyard;
 
-        setReference(data.getLocation());
+        Optional
+                .ofNullable(data.getLocation())
+                .ifPresent(this::setReference);
+
+        possibleStartingLocations = Optional                          // If the location is fixed
+                .ofNullable(data.getPossibleStartingLocations())      // set the possible starting locations to
+                .orElseGet(() -> List.of(data.getLocation()));        // the fixed starting location.
+
         buildShips(data.getShips());
         getCargoShips(data.getCargoShips());
         getCarriers();
 
         buildShipEvents(data.getReleaseShipEvents());
         buildTurnEvents(data.getReleaseTurnEvents());
-
-        gameMap.addTaskForce(side, this);   //Mark the task force on the game map.
 
         finish();
     }
@@ -180,7 +189,7 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
     }
 
     /**
-     * Determine if the task force is at an enemey port.
+     * Determine if the task force is at an enemy port.
      *
      * @return True if the task force is currently located at an enemy port. False otherwise.
      */
@@ -209,25 +218,31 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
     }
 
     /**
-     * Get the task force's new reference.
+     * Set the task force's new reference. Since during the initial task force setup
+     * a task force may be removed from the map, it is possible for the new location
+     * to be null. This just indicates that the task force is temporarily not assigned
+     * to the game. This occurs in the game Arctic Convoy.
      *
      * @param newLocation The task force's new reference.
      */
     public void setReference(final String newLocation) {
-        reference = gameMap.convertNameToReference(newLocation);
+        reference = Optional
+                .ofNullable(newLocation)
+                .map(gameMap::convertNameToReference)
+                .orElse(null);
 
-        if (atFriendlyBase()) {
-            gameMap.getPort(side, reference)
-                    .ifPresent(port -> port.addTaskForce(this));
-        }
+        gameMap.updateTaskForce(this);
+
+        locationKnown = StringUtils.isNotBlank(reference);
     }
 
     /**
      * Get the task force's reference. Return a port if the task force is in a port.
+     * Otherwise, a game map reference is returned.
      *
      * @return The task force's reference. Mapped to a port name if the task force is in a port.
      */
-    public String getMappedLocation() {
+    public String getLocation() {
         return gameMap.convertPortReferenceToName(reference);
     }
 
@@ -443,5 +458,49 @@ public class TaskForce implements Asset, PersistentData<TaskForceData> {
             log.info("{} state {}", name, state);
             TurnEvent.unregister(this);
         }
+    }
+
+    /**
+     * Compares this object with the specified object for order.  Returns a
+     * negative integer, zero, or a positive integer as this object is less
+     * than, equal to, or greater than the specified object.
+     *
+     * <p>The implementor must ensure
+     * {@code sgn(x.compareTo(y)) == -sgn(y.compareTo(x))}
+     * for all {@code x} and {@code y}.  (This
+     * implies that {@code x.compareTo(y)} must throw an exception iff
+     * {@code y.compareTo(x)} throws an exception.)
+     *
+     * <p>The implementor must also ensure that the relation is transitive:
+     * {@code (x.compareTo(y) > 0 && y.compareTo(z) > 0)} implies
+     * {@code x.compareTo(z) > 0}.
+     *
+     * <p>Finally, the implementor must ensure that {@code x.compareTo(y)==0}
+     * implies that {@code sgn(x.compareTo(z)) == sgn(y.compareTo(z))}, for
+     * all {@code z}.
+     *
+     * <p>It is strongly recommended, but <i>not</i> strictly required that
+     * {@code (x.compareTo(y)==0) == (x.equals(y))}.  Generally speaking, any
+     * class that implements the {@code Comparable} interface and violates
+     * this condition should clearly indicate this fact.  The recommended
+     * language is "Note: this class has a natural ordering that is
+     * inconsistent with equals."
+     *
+     * <p>In the foregoing description, the notation
+     * {@code sgn(}<i>expression</i>{@code )} designates the mathematical
+     * <i>signum</i> function, which is defined to return one of {@code -1},
+     * {@code 0}, or {@code 1} according to whether the value of
+     * <i>expression</i> is negative, zero, or positive, respectively.
+     *
+     * @param o the object to be compared.
+     * @return a negative integer, zero, or a positive integer as this object
+     * is less than, equal to, or greater than the specified object.
+     * @throws NullPointerException if the specified object is null
+     * @throws ClassCastException   if the specified object's type prevents it
+     *                              from being compared to this object.
+     */
+    @Override
+    public int compareTo(final @NotNull TaskForce o) {
+        return name.compareTo(o.getName());
     }
 }

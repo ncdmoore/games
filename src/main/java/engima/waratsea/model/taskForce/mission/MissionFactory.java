@@ -87,6 +87,15 @@ public interface MissionFactory {
     SeaMission createPatrol(MissionData data);
 
     /**
+     * Create a task force stay in port mission.
+     *
+     * @param data The stay in port mission data read in from a JSON file.
+     * @return A task force stay in port mission.
+     */
+    @Named("stayInPort")
+    SeaMission createStayInPort(MissionData data);
+
+    /**
      * Create a task force transport mission.
      *
      * @param data The transport mission data read in from a JSON file.

@@ -21,7 +21,7 @@ public class AssetMarkerDTO implements PopUpDTO {
     @Getter private final Asset asset;
     @Getter @Setter private Nation nation;         //Note, some assets are shared by nations, such as airfields. Thus, we have
                                                    //to explicitly set the nation to indicate which nation this marker is for.
-    @Getter private final String mapReference;
+    @Getter private final String reference;
     @Getter private final String name;
     @Getter private final String title;
     @Getter private final boolean active;
@@ -41,7 +41,7 @@ public class AssetMarkerDTO implements PopUpDTO {
      */
     public AssetMarkerDTO(final Asset asset) {
         this.asset = asset;
-        this.mapReference = asset.getReference();
+        this.reference = asset.getReference();
         this.name = asset.getName();
         this.title = asset.getTitle();
         this.active = asset.isActive();
@@ -53,7 +53,7 @@ public class AssetMarkerDTO implements PopUpDTO {
      * @param gameMap The game map.
      */
     public void setGameMap(final GameMap gameMap) {
-        grid = gameMap.getGrid(mapReference).orElse(null);
+        grid = gameMap.getGrid(reference).orElse(null);
     }
 
     /**

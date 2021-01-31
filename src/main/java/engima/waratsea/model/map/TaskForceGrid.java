@@ -8,6 +8,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +23,14 @@ import java.util.Optional;
  *
  * If a two task forces are combined then one of the task force grids is removed.
  */
+@Slf4j
 public class TaskForceGrid implements MarkerGrid {
 
     private final Provider<GameMap> gameMapProvider;
 
-    @Getter private Side side;
-    @Getter private List<TaskForce> taskForces = new ArrayList<>();
+    @Getter private Side side;                                            // The side of the task force.
+    @Getter private String reference;                                     // The map reference location of this task force grid.
+    @Getter private final List<TaskForce> taskForces = new ArrayList<>(); // The task forces present at this grid.
 
     /**
      * The constructor called by guice.
@@ -48,16 +51,47 @@ public class TaskForceGrid implements MarkerGrid {
     public TaskForceGrid init(final TaskForce taskForce) {
         taskForces.add(taskForce);
         side = taskForce.getSide();
+        reference = taskForce.getReference();
         return this;
     }
 
     /**
-     * Add a task force to this grid.
+     * Add a task force to this grid. Recall a grid may contain multiple task forces.
      *
      * @param taskForce The task force to add.
      */
     public void add(final TaskForce taskForce) {
         taskForces.add(taskForce);
+    }
+
+    /**
+     * Remove the given task force from this grid. Recall a grid may contain multiple task forces.
+     * If the task force is not really on this grid then nothing happens.
+     *
+     * @param taskForce The task force to remove.
+     */
+    public void remove(final TaskForce taskForce) {
+        taskForces.remove(taskForce);
+    }
+
+    /**
+     * Determine if this grid contains any task forces. If no task forces are present then it can be removed
+     * from the game map.
+     *
+     * @return True if this grid contains task forces. False otherwise.
+     */
+    public boolean notEmpty() {
+        return !taskForces.isEmpty();
+    }
+
+    /**
+     * Determine if the given task force is located at this grid.
+     *
+     * @param taskForce The task force examined to determine if it is located at this grid.
+     * @return True if the given task force is located at this grid.
+     */
+    public boolean matches(final TaskForce taskForce) {
+        return getReference().equalsIgnoreCase(taskForce.getReference());
     }
 
     /**
@@ -71,15 +105,6 @@ public class TaskForceGrid implements MarkerGrid {
                 .get()
                 .getGrid(taskForce.getReference())
                 .orElse(null);
-    }
-
-    /**
-     * Get the base grid's map reference.
-     *
-     * @return This base grid's map reference.
-     */
-    public String getReference() {
-        return getGameGrid().getMapReference();
     }
 
     /**

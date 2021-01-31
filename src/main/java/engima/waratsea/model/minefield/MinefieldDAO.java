@@ -38,9 +38,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Singleton
 public class MinefieldDAO {
-    private Resource config;
-    private MinefieldZoneFactory zoneFactory;
-    private MinefieldFactory minefieldFactory;
+    private final Resource config;
+    private final MinefieldZoneFactory zoneFactory;
+    private final MinefieldFactory minefieldFactory;
 
     /**
      * Constructor called by guice.

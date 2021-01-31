@@ -16,7 +16,7 @@ import java.util.function.Function;
 @Singleton
 @Slf4j
 public class MissionDAO {
-    private Map<SeaMissionType, Function<MissionData, SeaMission>> factoryMap = new HashMap<>();
+    private final Map<SeaMissionType, Function<MissionData, SeaMission>> factoryMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -34,6 +34,7 @@ public class MissionDAO {
         factoryMap.put(SeaMissionType.INVASION, factory::createInvasion);
         factoryMap.put(SeaMissionType.MINELAYING, factory::createMinelaying);
         factoryMap.put(SeaMissionType.PATROL, factory::createPatrol);
+        factoryMap.put(SeaMissionType.STAY_IN_PORT, factory::createStayInPort);
         factoryMap.put(SeaMissionType.TRANSPORT, factory::createTransport);
 
     }

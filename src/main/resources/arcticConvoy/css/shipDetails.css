@@ -1,0 +1,132 @@
+////////////////////////////////////////////////////////////////////
+// Define variables that may be used in this file.
+// Currently only colors variables can be defined.
+////////////////////////////////////////////////////////////////////
+* {
+    -fx-var-background-color: rgb(224, 228, 203);
+}
+
+.root {
+    -fx-background: -fx-var-background-color;
+}
+
+.components-pane {
+    -fx-spacing: 6;
+}
+
+#title-pane-axis {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, red, white, black);
+    -fx-alignment: top-center;
+}
+
+#title-pane-allied {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
+    -fx-alignment: top-center;
+}
+
+#title-pane-german {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, red, white, black);
+    -fx-alignment: top-center;
+}
+
+#title-pane-british {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
+    -fx-alignment: top-center;
+}
+
+#main-pane {
+    -fx-padding: /* top */ 10 /* right */ 10 /* bottom */ 0 /* left */ 10;
+    -fx-spacing: 5;
+}
+
+#left-hbox {
+    -fx-spacing: 5;
+}
+
+#left-vbox {
+    -fx-spacing: 5;
+}
+
+#main-hbox {
+    -fx-padding: /* top */ 5 /* right */ 0 /* bottom */ 0 /* left */ 0;
+    -fx-spacing: 5;
+}
+
+#details-pane {
+    -fx-spacing: 7;
+}
+
+.components-pane {
+    -fx-spacing: 7;
+}
+
+#ship-image {
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}
+
+#profile-vbox {
+    -fx-background-color: white;
+    -fx-alignment: center;
+}
+
+#ship-details-grid {
+    -fx-hgap: 10;
+}
+
+
+.component-grid {
+    -fx-background-color: whitesmoke;
+    -fx-hgap: 10;
+}
+
+.bold-label {
+    -fx-font: bold 9pt "Lucida Grande";
+    -fx-font-weight: bold;
+}
+
+.detail-pane {
+    -fx-hgap: 15;
+    -fx-vgap: 5;
+    -fx-background-color: lightblue
+}
+
+.detail-pane .label {
+ //   -fx-background-color: lightblue;
+
+}
+
+#status-pane {
+    -fx-padding: /* top */ 15 /* right */ 15 /* bottom */ 0 /* left */ 15;
+
+}
+
+#status-grid {
+    -fx-background-color: whitesmoke;
+    -fx-hgap: 15;
+    -fx-vgap: 20;
+}
+
+.green-bar {
+    -fx-accent: green;
+}
+
+#image-vbox {
+    -fx-spacing: 5;
+}
+
+#controls-pane {
+    -fx-padding: /* top */ 15 /* right */ 0 /* bottom */ 15 /* left */ 0;
+}
+
+#aircraft-list {
+    -fx-padding: /* top */ 10 /* right */ 0 /* bottom */ 10 /* left */ 0;
+}
