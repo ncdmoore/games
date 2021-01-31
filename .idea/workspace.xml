@@ -8,10 +8,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisAirfield&amp;Port-1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisAirfield&amp;Port.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisAirfield.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisFlag18x12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisPort.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisRoundel12x12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/images/axisTaskForceDetails.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/TaskForcePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/TaskForcePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/taskforce/TaskForceViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/taskforce/TaskForceViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Bodo.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/airfields/axis/Bodo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/properties/view.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/view.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/properties/view.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -292,13 +300,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00326" summary="Fix French airfield images.">
-      <created>1609201457373</created>
-      <option name="number" value="00326" />
-      <option name="presentableId" value="LOCAL-00326" />
-      <option name="project" value="LOCAL" />
-      <updated>1609201457374</updated>
     </task>
     <task id="LOCAL-00327" summary="Ensure that the airfield dialog's nation tab and the airfield asset summary nation tab are synchronized.">
       <created>1609219462859</created>
@@ -636,7 +637,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612112155945</updated>
     </task>
-    <option name="localTasksCounter" value="375" />
+    <task id="LOCAL-00375" summary="Store selected task force in the TaskForcesViewModel only.">
+      <created>1612114457251</created>
+      <option name="number" value="00375" />
+      <option name="presentableId" value="LOCAL-00375" />
+      <option name="project" value="LOCAL" />
+      <updated>1612114457251</updated>
+    </task>
+    <option name="localTasksCounter" value="376" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -651,7 +659,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add mission modifiers as tool tips to mission stats view." />
     <MESSAGE value="Have ImageResourceProvider depend upon Resource so that it can pickup the scenario name and always look for a scenario specific image." />
     <MESSAGE value="Aircraft classes cleanup" />
     <MESSAGE value="Collaspe some of the airfield info views into a generic airfield info view. Add a task force info view." />
@@ -676,7 +683,8 @@
     <MESSAGE value="Update comment on loading flotillas." />
     <MESSAGE value="Add the ability to pick where a task force begin play on the preview map." />
     <MESSAGE value="Turn off some of the resource logging." />
-    <option name="LAST_COMMIT_MESSAGE" value="Turn off some of the resource logging." />
+    <MESSAGE value="Store selected task force in the TaskForcesViewModel only." />
+    <option name="LAST_COMMIT_MESSAGE" value="Store selected task force in the TaskForcesViewModel only." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

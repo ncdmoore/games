@@ -2,7 +2,8 @@
   "name": "Bodo",
   "landingType": [
     "LAND",
-    "CARRIER"
+    "CARRIER",
+    "SEAPLANE"
   ],
   "maxCapacity": 40,
   "antiAir": 16,
