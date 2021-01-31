@@ -41,7 +41,7 @@ public class TaskForcesView {
 
         taskForces
                 .stream()
-    //            .sorted()
+                .sorted()
                 .map(this::createTaskForceTab)
                 .forEach(tab -> taskforcePane.getTabs().add(tab));
 
