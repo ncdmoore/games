@@ -5,9 +5,12 @@ import engima.waratsea.model.taskForce.mission.SeaMissionType;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.scene.Node;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
@@ -53,16 +56,20 @@ public class TaskForceNavalOperations {
 
         Node summary = buildSummary();
 
-        //Node missionNode = buildMissionNode();
 
-        HBox hBox = new HBox(summary);
+        //Node missionNode = buildMissionNode();
+        TitledPane shipsNode = buildShipsNode();
+
+        Accordion accordion = new Accordion();
+        accordion.getPanes().add(shipsNode);
+
+        HBox hBox = new HBox(summary, accordion);
         hBox.setId("main-pane");
 
         tab.setContent(hBox);
 
         return tab;
     }
-
 
     private Node buildSummary() {
         return summaryView
@@ -82,5 +89,15 @@ public class TaskForceNavalOperations {
         missionType.getSelectionModel().select(viewModel.getMission().getValue());
 
         return new VBox(missionLabel, missionType);
+    }
+
+    private TitledPane buildShipsNode() {
+        TitledPane titledPane = new TitledPane();
+        titledPane.setText("Ships");
+        TabPane tabPane = new TabPane();
+
+        titledPane.setContent(tabPane);
+
+        return titledPane;
     }
 }
