@@ -15,8 +15,10 @@ import java.util.stream.Collectors;
 public class SquadronsViewModel {
     private final Provider<SquadronViewModel> provider;
 
-    //Squadron names are unique throughout the game. Thus a given squadron name uniquely identifies a squadron view model.
-    private Map<String, SquadronViewModel> squadronNameMap = new HashMap<>();                                           // Contains all nation's squadron view models.
+    // Squadron names are unique throughout the game. Thus a given squadron name uniquely identifies a squadron view model.
+    // Contains all nation's squadron view models.
+    // key: Squadron Name, value: squadron view model.
+    private Map<String, SquadronViewModel> squadronNameMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -31,16 +33,15 @@ public class SquadronsViewModel {
     /**
      * Set the backing model of the airbase's squadrons.
      *
-     * @param newAirbase The airbase.
+     * @param airbase The airbase.
      */
-    public void setModel(final Airbase newAirbase) {
-
-        squadronNameMap = newAirbase
+    public void setModel(final Airbase airbase) {
+        squadronNameMap = airbase
                 .getSquadrons()
                 .stream()
                 .map(squadron -> provider.get().setModel(squadron))
                 .collect(Collectors.toMap(SquadronViewModel::getNameAsString,       // key:   squadron name.
-                                          svm -> svm));                     // value: squadron view model.
+                                          svm -> svm));                             // value: squadron view model.
     }
 
     /**

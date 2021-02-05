@@ -7,7 +7,6 @@ import engima.waratsea.model.ship.Component;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.ImageResourceProvider;
-import engima.waratsea.view.squadron.SquadronViewType;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -21,7 +20,6 @@ import javafx.collections.ObservableMap;
 import javafx.scene.image.Image;
 import lombok.Getter;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,14 +28,11 @@ import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
-import static engima.waratsea.model.squadron.StepSize.ONE_THIRD;
-import static engima.waratsea.model.squadron.StepSize.TWO_THIRDS;
-
 public class ShipViewModel {
     @Getter private final ObjectProperty<Ship> ship = new SimpleObjectProperty<>();
     @Getter private final StringProperty fullTitle = new SimpleStringProperty();
 
-    private final StringProperty title = new SimpleStringProperty();
+    @Getter private final StringProperty title = new SimpleStringProperty();
     private final StringProperty prefixAndTitle = new SimpleStringProperty();
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty type = new SimpleStringProperty();
@@ -95,9 +90,11 @@ public class ShipViewModel {
      * Set the ship for the ship view model.
      *
      * @param newShip The ship that this view model is bound to.
+     * @return This ship view model.
      */
-    public void set(final Ship newShip) {
+    public ShipViewModel setModel(final Ship newShip) {
         ship.setValue(newShip);
+        return this;
     }
 
     /**
@@ -248,6 +245,16 @@ public class ShipViewModel {
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
                         e -> new SimpleStringProperty(e.getValue())));
+    }
+
+    /**
+     * Get the String representation of this class.
+     *
+     * @return The String representation of this class.
+     */
+    @Override
+    public String toString() {
+        return Optional.ofNullable(ship.getValue().getTitle()).orElse("");
     }
 
     private void bindDetails() {
@@ -451,14 +458,13 @@ public class ShipViewModel {
         components.bind(Bindings.createObjectBinding(bindingFunction, ship));
     }
 
-    private Map<String, String> convertToView(final Map<AircraftType, BigDecimal> inputMap) {
-        Map<String, String> squadronMap = SquadronViewType
-                .convertBigDecimal(inputMap)
+    private Map<String, String> convertToView(final Map<AircraftType, Integer> inputMap) {
+        Map<String, String> squadronMap = inputMap
                 .entrySet()
                 .stream()
-                .filter(e -> e.getValue().compareTo(BigDecimal.ZERO) > 0)
+                .filter(e -> e.getValue() > 0)
                 .collect(Collectors.toMap(e -> e.getKey().toString() + ":",
-                        e -> formatSteps(e.getValue())));
+                        e -> formatSquadrons(e.getValue())));
 
         if (squadronMap.isEmpty()) {
             squadronMap.put("No aircraft", "");
@@ -472,26 +478,13 @@ public class ShipViewModel {
     }
 
     /**
-     * Format the aircraft type steps.
+     * Format the aircraft type squadrons.
      *
-     * @param steps The number of steps of a given aircraft type.
+     * @param numSquadrons The number of squadrons a given aircraft type.
      * @return A string value that represents the total number of steps of the aircraft type.
      */
-    private String formatSteps(final BigDecimal steps) {
-        String stepString = steps + "";
-
-        BigDecimal oneThird = new BigDecimal(ONE_THIRD);
-        BigDecimal twoThirds = new BigDecimal(TWO_THIRDS);
-
-        if (steps.compareTo(BigDecimal.ZERO) > 0 && steps.compareTo(oneThird) <= 0) {
-            return "1/3 of a step";
-        } else if (steps.compareTo(oneThird) > 0 && steps.compareTo(twoThirds) <= 0) {
-            return "2/3 of a step";
-        } else if (steps.compareTo(BigDecimal.ONE) == 0) {
-            return stepString + " step";
-        } else {
-            return stepString + " steps";
-        }
+    private String formatSquadrons(final int numSquadrons) {
+        return  numSquadrons > 1 ? numSquadrons + " squadrons" : numSquadrons + " squadron";
     }
 
     private List<ComponentViewModel> getComponentViewModels(final List<Component> componentList) {

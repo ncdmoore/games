@@ -504,13 +504,13 @@ public class AircraftCarrier implements Ship, Airbase {
      * @return A map of squadrons types to number of steps of that type.
      */
     @Override
-    public Map<AircraftType, BigDecimal> getSquadronSummary() {
+    public Map<AircraftType, Integer> getSquadronSummary() {
         return squadronMap
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
-                                          e -> sumSteps(e.getValue()),
-                                          BigDecimal::add));
+                                          e -> e.getValue().size(),
+                                          Integer::sum));
     }
 
     /**
@@ -649,19 +649,6 @@ public class AircraftCarrier implements Ship, Airbase {
     }
 
     /**
-     * Get the strength in steps of the given list of squadrons.
-     *
-     * @param squads A list of squadrons of a given squadrons type.
-     * @return The total strength of the list of squadrons.
-     */
-    private BigDecimal sumSteps(final List<Squadron> squads) {
-        return squads
-                .stream()
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    /**
      * Build the squadrons capacity.
      *
      * @param deck The squadrons carrier's flight deck.
@@ -743,6 +730,16 @@ public class AircraftCarrier implements Ship, Airbase {
     private boolean hasRoom(final Squadron squadron) {
         int steps = squadron.getSteps().intValue();
         return steps + deployedSteps() <= getMaxCapacity();
+    }
+
+    /**
+     * Get the String representation of this ship.
+     *
+     * @return The String representation of this ship.
+     */
+    @Override
+    public String toString() {
+        return getTitle();
     }
 
     /**

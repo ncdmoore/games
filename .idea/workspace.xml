@@ -7,11 +7,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="Add list of ships to task force naval operations.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/ship/ShipsViewModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/Ship.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/SurfaceShip.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/SurfaceShip.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/TaskForcePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/preview/TaskForcePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/ship/ShipDetailsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/ship/ShipDetailsDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceNavalOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceNavalOperations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/images/alliesTaskForceMarker.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/alliesTaskForceMarker.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/view.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/SquadronsViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/SquadronsViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/ship/ShipViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/ship/ShipViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/taskforce/TaskForceViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/taskforce/TaskForceViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/taskForceView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/taskForceView.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -180,27 +189,6 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="WorldWarTwoAtSea [test]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="test" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <configuration name="All in enigma.worldWarTwoAtSea.test (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <option name="PACKAGE_NAME" value="" />
@@ -211,6 +199,15 @@
       </method>
     </configuration>
     <configuration name="All in enigma.worldWarTwoAtSea.test (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in enigma.worldWarTwoAtSea.test (3)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
@@ -264,20 +261,20 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="Gradle.WorldWarTwoAtSea [test]" />
       <item itemvalue="Gradle.WorldWarTwoAtSea [clean]" />
       <item itemvalue="JUnit.All in worldWarTwoAtSea.test" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (2)" />
+      <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (3)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (3)" />
         <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (2)" />
         <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
         <item itemvalue="Gradle.WorldWarTwoAtSea [clean]" />
         <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
-        <item itemvalue="Gradle.WorldWarTwoAtSea [test]" />
       </list>
     </recent_temporary>
   </component>
@@ -292,13 +289,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00331" summary="Replace german ferry png.">
-      <created>1609274711533</created>
-      <option name="number" value="00331" />
-      <option name="presentableId" value="LOCAL-00331" />
-      <option name="project" value="LOCAL" />
-      <updated>1609274711533</updated>
     </task>
     <task id="LOCAL-00332" summary="Seaplane steps count as double when search for submarines on ASW patrol. Add this functionality.">
       <created>1609280209071</created>
@@ -636,7 +626,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612134266067</updated>
     </task>
-    <option name="localTasksCounter" value="380" />
+    <task id="LOCAL-00380" summary="Update task force markers.">
+      <created>1612309463712</created>
+      <option name="number" value="00380" />
+      <option name="presentableId" value="LOCAL-00380" />
+      <option name="project" value="LOCAL" />
+      <updated>1612309463712</updated>
+    </task>
+    <option name="localTasksCounter" value="381" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -651,7 +648,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add french airfield 30x30 icon image." />
     <MESSAGE value="Fix issue where not all nation's squadrons displayed in forces menu for task force squadrons." />
     <MESSAGE value="Refactor transport names so that the designation indicates the type of transport large or small." />
     <MESSAGE value="Add missing ship log." />
@@ -674,18 +670,14 @@
     <MESSAGE value="Store selected task force in the TaskForcesViewModel only." />
     <MESSAGE value="Add German main map markers for Arctic Convoy." />
     <MESSAGE value="Add Arctic Convoy patrol rules." />
-    <MESSAGE value="Update task force markers." />
     <MESSAGE value="Add the ability to sort TaskForceViewModel's." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add the ability to sort TaskForceViewModel's." />
+    <MESSAGE value="Update task force markers." />
+    <MESSAGE value="Add list of ships to task force naval operations." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add list of ships to task force naval operations." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceNavalOperations.java</url>
-          <line>87</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/asset/AssetPresenter.java</url>
           <line>40</line>

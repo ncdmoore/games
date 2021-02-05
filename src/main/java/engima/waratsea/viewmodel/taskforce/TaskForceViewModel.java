@@ -10,6 +10,8 @@ import engima.waratsea.model.taskForce.mission.rules.SeaMissionRules;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.ship.ShipViewType;
+import engima.waratsea.viewmodel.ship.ShipViewModel;
+import engima.waratsea.viewmodel.ship.ShipsViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
@@ -22,17 +24,12 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.util.Pair;
 import lombok.Getter;
-import org.apache.commons.collections4.ListUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -52,7 +49,7 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
 
     private final SeaMissionRules seaMissionRules;
 
-    @Getter private final ObjectProperty<ObservableList<SeaMissionType>> missionTypes = new SimpleObjectProperty<>();   // The task force's available missions.
+    @Getter private final ListProperty<SeaMissionType> missionTypes = new SimpleListProperty<>();   // The task force's available missions.
 
     @Getter private final StringProperty name = new SimpleStringProperty();
     @Getter private final StringProperty title = new SimpleStringProperty();
@@ -68,17 +65,12 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
 
     @Getter private final ListProperty<String> possibleStartingLocations = new SimpleListProperty<>();
 
-    @Getter private final IntegerProperty numShipTypes = new SimpleIntegerProperty();
-    @Getter private final MapProperty<ShipViewType, List<Ship>> shipTypeMap = new SimpleMapProperty<>(FXCollections.emptyObservableMap());
-    @Getter private final ListProperty<Pair<String, String>> shipTypeSummary = new SimpleListProperty<>(FXCollections.observableArrayList());
-    @Getter private final Map<String, IntegerProperty> shipCounts = new LinkedHashMap<>();
-
-    @Getter private final IntegerProperty numSquadronTypes = new SimpleIntegerProperty();
-    @Getter private final MapProperty<AircraftType, BigDecimal> squadronTypeMap = new SimpleMapProperty<>(FXCollections.emptyObservableMap());
-    @Getter private final ListProperty<Pair<String, String>> squadronTypeSummary = new SimpleListProperty<>(FXCollections.observableArrayList());
+    @Getter private final MapProperty<AircraftType, Integer> squadronTypeMap = new SimpleMapProperty<>(FXCollections.emptyObservableMap());
     @Getter private final Map<String, IntegerProperty> squadronCounts = new LinkedHashMap<>();
 
     @Getter private final ObjectProperty<TaskForce> taskForce = new SimpleObjectProperty<>();
+
+    private final ShipsViewModel shipsViewModel;
 
     /**
      * Constructor called by guice.
@@ -86,20 +78,19 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
      * @param imageResourceProvider Provides images.
      * @param props View properties.
      * @param seaMissionRules The sea mission rules.
+     * @param shipsViewModel The ship view models in this task force.
      */
     @Inject
     public TaskForceViewModel(final ImageResourceProvider imageResourceProvider,
                               final ViewProps props,
-                              final SeaMissionRules seaMissionRules) {
+                              final SeaMissionRules seaMissionRules,
+                              final ShipsViewModel shipsViewModel) {
         this.seaMissionRules = seaMissionRules;
+        this.shipsViewModel = shipsViewModel;
 
         bindTitles();
         bindDetails();
-        bindShipTypeMap();
         bindSquadronTypeMap();
-        bindShipTypeSummary();
-        bindShipCounts();
-        bindSquadronTypeSummary();
         bindSquadronCounts();
         bindImages(imageResourceProvider, props);
     }
@@ -112,6 +103,7 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
      */
     public TaskForceViewModel setModel(final TaskForce force) {
         taskForce.setValue(force);
+        shipsViewModel.setModel(force);
 
         String taskForceLocation = Optional
                 .ofNullable(force.getLocation())
@@ -135,6 +127,24 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
         } else {
             taskForce.getValue().setReference(newLocation);
         }
+    }
+
+    /**
+     * Get a map of ship type to list of ships of that type.
+     *
+     * @return A map of ship type to list of ships of that type.
+     */
+    public MapProperty<ShipViewType, ListProperty<ShipViewModel>> getShipTypeMap() {
+        return shipsViewModel.getShipTypeMap();
+    }
+
+    /**
+     * Get a map of ship type (String) to number of ships of that type.
+     *
+     * @return A map of ship type, the String representation, to number of ships of that type.
+     */
+    public Map<String, IntegerProperty> getShipCounts() {
+        return shipsViewModel.getShipCounts();
     }
 
     /**
@@ -163,7 +173,7 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
         missionTypes.bind(Bindings.createObjectBinding(() -> Optional
                 .ofNullable(taskForce.getValue())
                 .map(t -> FXCollections.observableArrayList(seaMissionRules.getMissions(t)))
-                .orElse(FXCollections.emptyObservableList())));
+                .orElse(FXCollections.emptyObservableList()), taskForce));
 
         reason.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(taskForce.getValue())
@@ -184,89 +194,20 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
                 .orElse(FXCollections.emptyObservableList()), taskForce));
     }
 
-    /**
-     * bind the ship type map.
-     */
-    private void bindShipTypeMap() {
-        Callable<MapProperty<ShipViewType, List<Ship>>> bindingFunction = () -> {
-            Map<ShipViewType, List<Ship>> map = Optional
-                    .ofNullable(taskForce.getValue())
-                    .map(this::getShipMap)
-                    .orElse(Collections.emptyMap());
-
-            // Convert to a Javafx map.
-            MapProperty<ShipViewType, List<Ship>> oMap = new SimpleMapProperty<>(FXCollections.observableHashMap());
-            map.forEach(oMap::put);
-            return oMap;
-        };
-
-        shipTypeMap.bind(Bindings.createObjectBinding(bindingFunction, taskForce));
-    }
-
     private void bindSquadronTypeMap() {
-        Callable<MapProperty<AircraftType, BigDecimal>> bindingFunction = () -> {
-            Map<AircraftType, BigDecimal> map = Optional
+        Callable<MapProperty<AircraftType, Integer>> bindingFunction = () -> {
+            Map<AircraftType, Integer> map = Optional
                     .ofNullable(taskForce.getValue())
                     .map(this::getAircraftMap)
                     .orElse(Collections.emptyMap());
 
             // Convert to a Javafx map.
-            MapProperty<AircraftType, BigDecimal> oMap = new SimpleMapProperty<>(FXCollections.observableHashMap());
+            MapProperty<AircraftType, Integer> oMap = new SimpleMapProperty<>(FXCollections.observableHashMap());
             map.forEach(oMap::put);
             return oMap;
         };
 
         squadronTypeMap.bind(Bindings.createObjectBinding(bindingFunction, taskForce));
-    }
-
-    /**
-     * Bind The ship type summary.
-     */
-    private void bindShipTypeSummary() {
-        Callable<ObservableList<Pair<String, String>>> bindingFunction = () -> {
-            List<Pair<String, String>> list = Optional
-                    .ofNullable(taskForce.getValue())
-                    .map(this::getShipViewTypeMap)
-                    .orElse(Collections.emptyList());
-
-            return FXCollections.observableArrayList(list);
-        };
-
-        shipTypeSummary.bind(Bindings.createObjectBinding(bindingFunction, taskForce));
-        numShipTypes.bind(shipTypeSummary.sizeProperty());
-    }
-
-    /**
-     * Bind the ship counts. These are the counts of each type of ship in the task force.
-     */
-    private void bindShipCounts() {
-        ShipViewType.stream().sorted().forEach(type -> {
-            IntegerProperty shipCount = new SimpleIntegerProperty(0);
-            shipCounts.put(type.toString(), shipCount);
-
-            Callable<Integer> bindingFunction = () ->
-                    Optional.ofNullable(shipTypeMap.getValue())
-                            .map(m -> getShipCount(m.get(type)))
-                            .orElse(0);
-
-            shipCount.bind(Bindings.createIntegerBinding(bindingFunction, shipTypeMap));
-        });
-    }
-
-    /**
-     * Bind the squadron type summary.
-     */
-    private void bindSquadronTypeSummary() {
-        Callable<ObservableList<Pair<String, String>>> bindingFunction = () -> {
-            List<Pair<String, String>> list = Optional
-                    .ofNullable(taskForce.getValue())
-                    .map(this::getAircraftTypeMap)
-                    .orElse(Collections.emptyList());
-
-            return FXCollections.observableArrayList(list);
-        };
-        squadronTypeSummary.bind(Bindings.createObjectBinding(bindingFunction, taskForce));
-        numSquadronTypes.bind(squadronTypeSummary.sizeProperty());
     }
 
     /**
@@ -279,10 +220,10 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
 
             Callable<Integer> bindingFunction = () ->
                     Optional.ofNullable(squadronTypeMap.getValue())
-                            .map(m -> getSquadronCount(m.get(type)))
+                            .map(m -> m.get(type))
                             .orElse(0);
 
-            squadronCount.bind(Bindings.createIntegerBinding(bindingFunction, shipTypeMap));
+            squadronCount.bind(Bindings.createIntegerBinding(bindingFunction, squadronTypeMap));
         });
     }
 
@@ -300,60 +241,12 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
     }
 
     /**
-     * Get the task force's aircraft for a given task force.
-     *
-     * @param force The task force.
-     * @return A map of aircraft type to number of aircraft of that type.
-     */
-    private List<Pair<String, String>> getAircraftTypeMap(final TaskForce force) {
-        return getAircraftMap(force)
-                .entrySet()
-                .stream()
-                .filter(entry -> !(entry.getValue().compareTo(BigDecimal.ZERO) == 0))
-                .map(entry -> new Pair<>(entry.getKey().toString(), stripFraction(entry.getValue().setScale(2, RoundingMode.HALF_UP) + "")))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Get the ship view type map for the given task force.
-     *
-     * @param force A task force.
-     * @return A map of ship view type to list of ship names.
-     */
-    private List<Pair<String, String>> getShipViewTypeMap(final TaskForce force) {
-        return getShipMap(force)
-                .entrySet()
-                .stream()
-                .filter(entry -> !entry.getValue().isEmpty())
-                .map(entry -> new Pair<>(entry.getKey().toString(), entry.getValue().size() + ""))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Get the ship map from the task force.
-     *
-     * @param force The task force.
-     * @return A map of ship view type to list of ships.
-     */
-    private Map<ShipViewType, List<Ship>> getShipMap(final TaskForce force) {
-        return force
-                .getShipTypeMap()
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(
-                        entry -> ShipViewType.get(entry.getKey()),
-                        Map.Entry::getValue,
-                        ListUtils::union,
-                        LinkedHashMap::new));
-    }
-
-    /**
      * Get a map of aircraft types within the given task force to the number of steps of the types.
      *
      * @param force The selected task force.
      * @return A map of aircraft type to number of steps of the type.
      */
-    private Map<AircraftType, BigDecimal> getAircraftMap(final TaskForce force) {
+    private Map<AircraftType, Integer> getAircraftMap(final TaskForce force) {
         return force.getShips()
                 .stream()
                 .map(Ship::getSquadronSummary)
@@ -363,37 +256,20 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
-                        BigDecimal::add,
+                        Integer::sum,
                         LinkedHashMap::new));
-    }
-
-    /**
-     * Strip off the trailing zero's.
-     *
-     * @param number A number string.
-     * @return If the given number has a zero fraction, then the number is returned with
-     * no trailing zeros.
-     */
-    private String stripFraction(final String number) {
-        String decimal = number.substring(number.indexOf('.') + 1);
-
-        return (Integer.parseInt(decimal) == 0)
-                ? number.substring(0, number.indexOf('.'))
-                : number;
     }
 
     private String getImageName(final TaskForce force, final ViewProps props) {
         return props.getString(force.getSide().toLower() + ".taskforce.details.image");
     }
 
-    private int getShipCount(final List<Ship> ships) {
-        return Optional.ofNullable(ships).map(List::size).orElse(0);
-    }
-
-    private int getSquadronCount(final BigDecimal count) {
-        return Optional.ofNullable(count).map(BigDecimal::intValue).orElse(0);
-    }
-
+    /**
+     * Add a "Not Set" to the starting locations. This is how a task force is temporarily removed from the game map.
+     *
+     * @param startingLocations All possible starting locations of a given task force.
+     * @return The list of starting locations augmented with a "Not Set" choice.
+     */
     private List<String> addNotSet(final List<String> startingLocations) {
         if (startingLocations.size() > 1 && !startingLocations.contains(NOT_SET)) {
             startingLocations.add(0, NOT_SET);

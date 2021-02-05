@@ -10,6 +10,10 @@
     -fx-background: -fx-var-background-color;
 }
 
+.component-grid {
+    -fx-background-color: white;
+    -fx-hgap: 10;
+}
 
 #title {
     -fx-font: bold 16pt "Lucida Grande";

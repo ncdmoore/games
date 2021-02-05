@@ -20,7 +20,6 @@ import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -279,26 +278,23 @@ public class SurfaceShip implements Ship, SquadronHome {
      * @return A map of squadrons types to number of steps of that type.
      */
     @Override
-    public Map<AircraftType, BigDecimal> getSquadronSummary() {
+    public Map<AircraftType, Integer> getSquadronSummary() {
         return aircraftTypeMap
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
-                                          e -> sumSteps(e.getValue()),
-                                          BigDecimal::add));
+                                          e -> e.getValue().size(),
+                                          Integer::sum));
     }
 
     /**
-     * Get the strength in steps of the given list of squadrons.
+     * Get the String representation of this ship.
      *
-     * @param squads A list of squadrons of a given squadrons type.
-     * @return The total strength of the list of squadrons.
+     * @return The String representation of this ship.
      */
-    private BigDecimal sumSteps(final List<Squadron> squads) {
-        return squads
-                .stream()
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    @Override
+    public String toString() {
+        return getTitle();
     }
 
     /**

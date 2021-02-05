@@ -2,14 +2,13 @@ package engima.waratsea.model.ship;
 
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.aircraft.AircraftType;
-import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.vessel.Vessel;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -103,7 +102,7 @@ public interface Ship extends Vessel, PersistentData<ShipData> {
      *
      * @return A map of aircraft types to number of steps of that type.
      */
-    Map<AircraftType, BigDecimal> getSquadronSummary();
+    Map<AircraftType, Integer> getSquadronSummary();
 
     /**
      * Get the ship's nationality.

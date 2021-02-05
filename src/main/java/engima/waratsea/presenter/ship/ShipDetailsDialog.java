@@ -2,7 +2,6 @@ package engima.waratsea.presenter.ship;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.model.ship.Ship;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogOkOnlyView;
 import engima.waratsea.view.ViewProps;
@@ -22,7 +21,6 @@ public class ShipDetailsDialog {
     private final CssResourceProvider cssResourceProvider;
     private final Provider<DialogOkOnlyView> dialogProvider;
     private final Provider<ShipDetailsView> viewProvider;
-    private final Provider<ShipViewModel> viewModelProvider;
     private final ViewProps props;
 
     private Stage stage;
@@ -33,33 +31,27 @@ public class ShipDetailsDialog {
      * @param cssResourceProvider Provides the css file.
      * @param dialogProvider Provides the view for this dialog.
      * @param viewProvider Provides the view contents of the dialog.
-     * @param viewModelProvider Provides the view model.
      * @param props The view properties.
      */
     @Inject
     public ShipDetailsDialog(final CssResourceProvider cssResourceProvider,
                              final Provider<DialogOkOnlyView> dialogProvider,
                              final Provider<ShipDetailsView> viewProvider,
-                             final Provider<ShipViewModel> viewModelProvider,
                              final ViewProps props) {
         this.cssResourceProvider = cssResourceProvider;
         this.dialogProvider = dialogProvider;
         this.viewProvider = viewProvider;
-        this.viewModelProvider = viewModelProvider;
         this.props = props;
     }
 
     /**
      * Show the dialog.
      *
-     * @param ship The id of the ship for which the details are shown.
+     * @param viewModel The view model of the ship for which the details are shown.
      */
-    public void show(final Ship ship) {
-        ShipViewModel viewModel = viewModelProvider.get();
+    public void show(final ShipViewModel viewModel) {
         ShipDetailsView view = viewProvider.get();          // The ship details view.
         DialogOkOnlyView dialog = dialogProvider.get();     // The dialog view that contains the ship details view.
-
-        viewModel.set(ship);
 
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);

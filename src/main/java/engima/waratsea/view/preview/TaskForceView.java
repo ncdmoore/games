@@ -1,10 +1,10 @@
 package engima.waratsea.view.preview;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
@@ -14,10 +14,11 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.PreviewMapView;
 import engima.waratsea.view.map.marker.preview.TargetMarker;
 import engima.waratsea.view.ship.ShipViewType;
+import engima.waratsea.view.taskforce.info.TaskForceInfo;
+import engima.waratsea.viewmodel.ship.ShipViewModel;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import engima.waratsea.viewmodel.taskforce.TaskForcesViewModel;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -30,10 +31,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -43,12 +41,9 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 import lombok.Getter;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -84,17 +79,18 @@ public class TaskForceView {
     private final TabPane taskForceTabPane = new TabPane();
     private Map<ShipViewType, Tab> taskForceTabs;
 
-    private final TableView<Pair<String, String>> shipTable = new TableView<>();
-    private final TableView<Pair<String, String>> squadronTable = new TableView<>();
+    private final TaskForceInfo shipSummary;
+    private final TaskForceInfo squadronSummary;
 
     private final StringProperty name = new SimpleStringProperty();
-    private final ObjectProperty<Map<ShipViewType, List<Ship>>> shipTypeMap = new SimpleObjectProperty<>(this, "shipTypeMap", Collections.emptyMap());
-    private final ObjectProperty<Map<AircraftType, BigDecimal>> squadronTypeMap = new SimpleObjectProperty<>(this, "squadronTypeMap", Collections.emptyMap());
+    private final ObjectProperty<Map<ShipViewType, ListProperty<ShipViewModel>>> shipTypeMap = new SimpleObjectProperty<>(Collections.emptyMap());
+    private final ObjectProperty<Map<AircraftType, Integer>> squadronTypeMap = new SimpleObjectProperty<>(Collections.emptyMap());
 
     /**
      * Constructor called by guice.
      *
      * @param props view properties.
+     * @param infoProvider Provides info panes.
      * @param cssResourceProvider CSS file provider.
      * @param imageResourceProvider Image file provider.
      * @param game The game.
@@ -102,6 +98,7 @@ public class TaskForceView {
      */
     @Inject
     public TaskForceView(final ViewProps props,
+                         final Provider<TaskForceInfo> infoProvider,
                          final CssResourceProvider cssResourceProvider,
                          final ImageResourceProvider imageResourceProvider,
                          final Game game,
@@ -112,6 +109,8 @@ public class TaskForceView {
         this.imageResourceProvider = imageResourceProvider;
         this.game = game;
         this.taskForceMap = taskForceMap;
+        this.shipSummary = infoProvider.get();
+        this.squadronSummary = infoProvider.get();
     }
 
     /**
@@ -120,7 +119,7 @@ public class TaskForceView {
      * @param stage The stage on which the task force scene is set.
      * @param scenario The selected scenario.
      */
-    public void show(final Stage stage, final Scenario scenario) {
+    public void build(final Stage stage, final Scenario scenario) {
         Label title = new Label("Task Forces: " + scenario.getTitle());
         title.setId("title");
         StackPane titlePane = new StackPane(title);
@@ -161,7 +160,6 @@ public class TaskForceView {
      * @return This object.
      */
     public TaskForceView bind(final TaskForcesViewModel viewModel) {
-
         taskForces.itemsProperty().bind(viewModel.getTaskForces());
 
         TaskForceViewModel selectedTaskForce = viewModel.getSelectedTaskForce();
@@ -174,35 +172,16 @@ public class TaskForceView {
 
         possibleStartingLocations.itemsProperty().bind(selectedTaskForce.getPossibleStartingLocations());
 
-        shipTable.itemsProperty().bind(selectedTaskForce.getShipTypeSummary());
-        bindTableHeight(shipTable, selectedTaskForce.getNumShipTypes());
-
-        squadronTable.itemsProperty().bind(selectedTaskForce.getSquadronTypeSummary());
-        bindTableHeight(squadronTable, selectedTaskForce.getNumSquadronTypes());
-
         name.bind(selectedTaskForce.getName());
         shipTypeMap.bind(selectedTaskForce.getShipTypeMap());
         squadronTypeMap.bind(selectedTaskForce.getSquadronTypeMap());
 
         continueButton.disableProperty().bind(viewModel.getAnyTaskForceNotSet());
 
+        shipSummary.bind(viewModel.getSelectedTaskForce().getShipCounts());
+        squadronSummary.bind(viewModel.getSelectedTaskForce().getSquadronCounts());
+
         return this;
-    }
-
-    /**
-     * Bind the table height so that is shows just the rows present and no blank rows.
-     *
-     * @param table The table.
-     * @param numRows The number of rows the table should have.
-     */
-    private void bindTableHeight(final TableView<Pair<String, String>> table, final IntegerProperty numRows) {
-        int headerSize = props.getInt("taskForce.summary.table.cell.header.size");
-
-        table.prefHeightProperty()
-                .bind(Bindings.createDoubleBinding(() -> numRows.getValue() * table.getFixedCellSize() + headerSize, numRows));
-
-        table.minHeightProperty().bind(table.prefHeightProperty());
-        table.maxHeightProperty().bind(table.prefHeightProperty());
     }
 
     /**
@@ -324,8 +303,13 @@ public class TaskForceView {
      * @return A node that contains the ship detailed information of the task force.
      */
     private Node buildShipDetails() {
-        buildTable(shipTable, "Ships", "Number");
-        buildTable(squadronTable, "Squadrons", "Steps");
+        Node shipSummaryNode = shipSummary.build("Ship Summary");
+        Node squadronSummaryNode = squadronSummary.build("Squadron Summary");
+
+        HBox hBox = new HBox(new VBox(shipSummaryNode), new VBox(squadronSummaryNode));
+
+        hBox.setId("taskforce-summary-hbox");
+        taskForceSummaryTab.setContent(hBox);
 
         taskForceTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         taskForceTabPane.setMinWidth(props.getInt("taskForce.tabPane.width"));
@@ -334,9 +318,7 @@ public class TaskForceView {
 
         taskForceTabPane.getTabs().add(taskForceSummaryTab);
 
-        List<ShipViewType> shipViewTypes = Arrays.asList(ShipViewType.values());
-
-        taskForceTabs = shipViewTypes.stream()
+        taskForceTabs = ShipViewType.stream()
                 .collect(Collectors.toMap(type -> type, this::buildTab));
 
         taskForceTabPane.getTabs().addAll(taskForceTabs.keySet()
@@ -453,8 +435,6 @@ public class TaskForceView {
     private void setTabs() {
         shipButtons = new ArrayList<>();
 
-        setSummaryTab();
-
         taskForceTabs.values().forEach(tab -> tab.setDisable(true));
 
         shipTypeMap.getValue().forEach(this::setTabContents);
@@ -472,46 +452,12 @@ public class TaskForceView {
     }
 
     /**
-     * Set the information in the task force summary tab.
-     **/
-    private void setSummaryTab() {
-        HBox hBox = new HBox(new VBox(shipTable));
-        hBox.setId("taskforce-summary-hbox");
-
-        if (!squadronTypeMap.getValue().isEmpty()) {             // Only show squadron summary if squadrons are present.
-            hBox.getChildren().add(new VBox(squadronTable));
-        }
-
-        taskForceSummaryTab.setContent(hBox);
-    }
-
-    /**
-     * Build a table of summary data.
-     *
-     * @param table The table.
-     * @param mainLabel The main column's text.
-     * @param numberLabel The number column's text.
-     */
-    private void buildTable(final TableView<Pair<String, String>> table, final String mainLabel, final String numberLabel) {
-        TableColumn<Pair<String, String>, String> typeColumn = new TableColumn<>(mainLabel);
-        typeColumn.setCellValueFactory(new PropertyValueFactory<>("key"));
-
-        TableColumn<Pair<String, String>, String> numberColumn = new TableColumn<>(numberLabel);
-        numberColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
-
-        table.getColumns().add(typeColumn);
-        table.getColumns().add(numberColumn);
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);   // Needed to keep extra space from being seen after the last column.
-        table.setFixedCellSize(props.getInt("taskForce.summary.table.cell.size"));
-    }
-
-    /**
      * Set a task force tab contents.
      *
      * @param viewType The type of ship that is contained within the tab.
      * @param ships A list of ships of the given type.
      */
-    private void setTabContents(final ShipViewType viewType, final List<Ship> ships) {
+    private void setTabContents(final ShipViewType viewType, final ListProperty<ShipViewModel> ships) {
 
         if (ships.isEmpty()) {
             return;
@@ -525,7 +471,8 @@ public class TaskForceView {
         tab.setContent(tilePane);
 
         ships.forEach(ship -> {
-            Button button = new Button(ship.getTitle());
+            Button button = new Button();
+            button.textProperty().bind(ship.getTitle());
             button.setUserData(ship);
             button.setMinWidth(props.getInt("taskForce.ship.label.width"));
             button.setMaxWidth(props.getInt("taskForce.ship.label.width"));

@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Game;
-import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.presenter.Presenter;
@@ -15,6 +14,7 @@ import engima.waratsea.presenter.ship.ShipDetailsDialog;
 import engima.waratsea.view.map.marker.preview.PopUp;
 import engima.waratsea.view.map.marker.preview.TargetMarker;
 import engima.waratsea.view.preview.TaskForceView;
+import engima.waratsea.viewmodel.ship.ShipViewModel;
 import engima.waratsea.viewmodel.taskforce.TaskForcesViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -101,15 +101,16 @@ public class TaskForcePresenter implements Presenter {
         taskForcesViewModel.setModel(game.getHumanPlayer().getTaskForces());
 
         view = viewProvider
-                .get()
-                .bind(taskForcesViewModel);
+                .get();
+
 
         view.getTaskForces().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> taskForceSelected(newValue));
         view.getPossibleStartingLocations().getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> locationSelected(oldValue, newValue));
 
         navigate.update(game.getScenario());
 
-        view.show(stage, game.getScenario());
+        view.build(stage, game.getScenario());
+        view.bind(taskForcesViewModel);
 
         markTaskForces();
         markTargets();
@@ -382,7 +383,7 @@ public class TaskForcePresenter implements Presenter {
      */
     private void displayShipDialog(final ActionEvent event) {
         Button button = (Button) event.getSource();
-        Ship ship = (Ship) button.getUserData();
-        shipDetailsDialogProvider.get().show(ship);
+        ShipViewModel viewModel = (ShipViewModel) button.getUserData();
+        shipDetailsDialogProvider.get().show(viewModel);
     }
 }
