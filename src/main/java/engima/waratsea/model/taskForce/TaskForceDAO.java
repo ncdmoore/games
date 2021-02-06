@@ -54,7 +54,7 @@ public class TaskForceDAO {
      * @throws ScenarioException if the scenario task force cannot be loaded.
      */
     public List<TaskForce> load(final Scenario scenario, final Side side) throws ScenarioException {
-        log.info("Load task forces, scenario: '{}', side: '{}'", scenario.getTitle(), side);
+        log.debug("Load task forces, scenario: '{}', side: '{}'", scenario.getTitle(), side);
         return getURL(side)
                 .map(u -> readTaskForce(u, side))
                 .orElseThrow(() -> new ScenarioException("Unable to load task force for '" + scenario.getTitle() + "' for " + side));
@@ -79,7 +79,7 @@ public class TaskForceDAO {
      * @param taskForces The task force data that is saved.
      */
     public void save(final Scenario scenario, final Side side, final List<TaskForce> taskForces) {
-        log.info("Saving task forces, scenario: '{}',side {}", scenario.getTitle(), side);
+        log.debug("Saving task forces, scenario: '{}',side {}", scenario.getTitle(), side);
         String fileName = config.getSavedFileName(side, TaskForce.class);
         PersistentUtility.save(fileName, taskForces);
     }

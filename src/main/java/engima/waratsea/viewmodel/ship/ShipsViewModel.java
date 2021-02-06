@@ -6,10 +6,13 @@ import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.view.ship.ShipViewType;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.ListExpression;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleMapProperty;
@@ -19,6 +22,7 @@ import lombok.Getter;
 import org.apache.commons.collections4.ListUtils;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +36,7 @@ public class ShipsViewModel {
     private final ObjectProperty<TaskForce> taskForce = new SimpleObjectProperty<>();
 
     @Getter private final MapProperty<ShipViewType, ListProperty<ShipViewModel>> shipTypeMap = new SimpleMapProperty<>(FXCollections.emptyObservableMap());
+    @Getter private final Map<ShipViewType, BooleanProperty> shipNotPresent = new HashMap<>();
     @Getter private final Map<String, IntegerProperty> shipCounts = new LinkedHashMap<>();
 
     /**
@@ -45,6 +50,7 @@ public class ShipsViewModel {
 
         bindShipTypeMap();
         bindShipCounts();
+        bindShipPresent();
     }
 
     /**
@@ -80,16 +86,32 @@ public class ShipsViewModel {
      */
     private void bindShipCounts() {
         ShipViewType.stream().sorted().forEach(type -> {
-            IntegerProperty shipCount = new SimpleIntegerProperty(0);
-            shipCounts.put(type.toString(), shipCount);
+            IntegerProperty count = new SimpleIntegerProperty(0);
+            shipCounts.put(type.toString(), count);
 
             Callable<Integer> bindingFunction = () ->
                     Optional.ofNullable(shipTypeMap.getValue())
                             .map(m -> m.get(type))
-                            .map(this::getShipCount)
+                            //.map(this::getShipCount)
+                            .map(List::size)
                             .orElse(0);
 
-            shipCount.bind(Bindings.createIntegerBinding(bindingFunction, shipTypeMap));
+            count.bind(Bindings.createIntegerBinding(bindingFunction, shipTypeMap));
+        });
+    }
+
+    private void bindShipPresent() {
+        ShipViewType.stream().sorted().forEach(type -> {
+            BooleanProperty notPresent = new SimpleBooleanProperty(true);
+            shipNotPresent.put(type, notPresent);
+
+            Callable<Boolean> bindingFunction = () ->
+                    Optional.ofNullable(shipTypeMap.getValue())
+                            .map(m -> m.get(type))
+                            .map(ListExpression::isEmpty)
+                            .orElse(true);
+
+            notPresent.bind(Bindings.createBooleanBinding(bindingFunction, shipTypeMap));
         });
     }
 

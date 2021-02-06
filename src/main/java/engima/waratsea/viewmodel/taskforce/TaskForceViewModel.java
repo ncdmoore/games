@@ -13,6 +13,7 @@ import engima.waratsea.view.ship.ShipViewType;
 import engima.waratsea.viewmodel.ship.ShipViewModel;
 import engima.waratsea.viewmodel.ship.ShipsViewModel;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
@@ -145,6 +146,15 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
      */
     public Map<String, IntegerProperty> getShipCounts() {
         return shipsViewModel.getShipCounts();
+    }
+
+    /**
+     * Get a map of ship type to an indication of whether that type is present in this task force.
+     *
+     * @return A map of ship type to an indication of whether that type is present in this task force.
+     */
+    public Map<ShipViewType, BooleanProperty> getShipPresent() {
+        return shipsViewModel.getShipNotPresent();
     }
 
     /**

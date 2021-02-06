@@ -3,10 +3,8 @@ package engima.waratsea.view.squadron;
 import engima.waratsea.model.aircraft.AircraftType;
 import lombok.Getter;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -49,20 +47,6 @@ public enum SquadronViewType {
      */
     public static SquadronViewType get(final AircraftType type) {
         return VIEW_TYPE_MAP.get(type);
-    }
-
-    /**
-     * Convert a model squadron type map to a view squadron type map.
-     * @param map The map to convert.
-     * @return A converted map.
-     */
-    public static Map<SquadronViewType, BigDecimal> convertBigDecimal(final Map<AircraftType, BigDecimal> map) {
-        return map.entrySet()
-                .stream()
-                .collect(Collectors.toMap(
-                        entry -> get(entry.getKey()),     // Convert to squadron view type key.
-                        Map.Entry::getValue,              // Copy over the squadron list.
-                        BigDecimal::add));                // Merge any aircraft type keys that map to the same squadron view type.
     }
 
     /**

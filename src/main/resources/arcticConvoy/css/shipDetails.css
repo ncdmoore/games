@@ -14,6 +14,36 @@
     -fx-spacing: 6;
 }
 
+
+.green-bar {
+    -fx-accent: green;
+}
+
+.components-pane {
+    -fx-spacing: 7;
+}
+
+.component-grid {
+    -fx-background-color: whitesmoke;
+    -fx-hgap: 10;
+}
+
+.bold-label {
+    -fx-font: bold 9pt "Lucida Grande";
+    -fx-font-weight: bold;
+}
+
+.detail-pane {
+    -fx-hgap: 15;
+    -fx-vgap: 5;
+    -fx-background-color: lightblue
+}
+
+.detail-pane .label {
+ //   -fx-background-color: lightblue;
+
+}
+
 #title-pane-axis {
     -fx-border-width: 1px;
     -fx-border-color: black;
@@ -42,29 +72,25 @@
     -fx-alignment: top-center;
 }
 
-#main-pane {
+#ship-main-pane {
     -fx-padding: /* top */ 10 /* right */ 10 /* bottom */ 0 /* left */ 10;
     -fx-spacing: 5;
 }
 
-#left-hbox {
+#ship-left-hbox {
     -fx-spacing: 5;
 }
 
-#left-vbox {
+#ship-left-vbox {
     -fx-spacing: 5;
 }
 
-#main-hbox {
+#ship-main-hbox {
     -fx-padding: /* top */ 5 /* right */ 0 /* bottom */ 0 /* left */ 0;
     -fx-spacing: 5;
 }
 
-#details-pane {
-    -fx-spacing: 7;
-}
-
-.components-pane {
+#ship-details-pane {
     -fx-spacing: 7;
 }
 
@@ -73,7 +99,7 @@
     -fx-border-width: 1px;
 }
 
-#profile-vbox {
+#ship-profile-vbox {
     -fx-background-color: white;
     -fx-alignment: center;
 }
@@ -82,41 +108,14 @@
     -fx-hgap: 10;
 }
 
-
-.component-grid {
-    -fx-background-color: whitesmoke;
-    -fx-hgap: 10;
-}
-
-.bold-label {
-    -fx-font: bold 9pt "Lucida Grande";
-    -fx-font-weight: bold;
-}
-
-.detail-pane {
-    -fx-hgap: 15;
-    -fx-vgap: 5;
-    -fx-background-color: lightblue
-}
-
-.detail-pane .label {
- //   -fx-background-color: lightblue;
-
-}
-
-#status-pane {
+#ship-status-pane {
     -fx-padding: /* top */ 15 /* right */ 15 /* bottom */ 0 /* left */ 15;
-
 }
 
-#status-grid {
+#ship-status-grid {
     -fx-background-color: whitesmoke;
     -fx-hgap: 15;
     -fx-vgap: 20;
-}
-
-.green-bar {
-    -fx-accent: green;
 }
 
 #image-vbox {
@@ -127,6 +126,6 @@
     -fx-padding: /* top */ 15 /* right */ 0 /* bottom */ 15 /* left */ 0;
 }
 
-#aircraft-list {
+#ship-aircraft-list {
     -fx-padding: /* top */ 10 /* right */ 0 /* bottom */ 10 /* left */ 0;
 }

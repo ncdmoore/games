@@ -8,8 +8,10 @@ import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.utility.ImageResourceProvider;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -62,6 +64,7 @@ public class ShipViewModel {
     private final StringProperty fuel = new SimpleStringProperty();
 
     private final ObjectProperty<ObservableMap<String, String>> squadronSummary = new SimpleObjectProperty<>(FXCollections.emptyObservableMap());
+    @Getter private final BooleanProperty noSquadrons = new SimpleBooleanProperty(false);
 
     @Getter private final ObjectProperty<Image> shipImage = new SimpleObjectProperty<>();
     @Getter private final ObjectProperty<Image> shipProfileImage = new SimpleObjectProperty<>();
@@ -442,6 +445,8 @@ public class ShipViewModel {
         };
 
         squadrons.bind(Bindings.createObjectBinding(bindingFunction, ship));
+
+        noSquadrons.bind(squadrons.emptyProperty());
     }
 
     private void bindComponents() {

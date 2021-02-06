@@ -27,7 +27,7 @@ import java.util.stream.Stream;
  */
 @Slf4j
 public class GameDAO {
-    private Resource config;
+    private final Resource config;
 
     /**
      * The constructor. Called by guice.
@@ -46,7 +46,7 @@ public class GameDAO {
      * @throws ScenarioException if the game cannot be loaded.
      */
     public List<GameData> load() throws ScenarioException {
-        log.info("Load games");
+        log.debug("Load games");
 
         File[] directories = getScenarioDirs();                                                                         //Get the sub-directories directly under the scenario directory.
 
@@ -69,7 +69,7 @@ public class GameDAO {
      * @param game The game that is saved.
      */
     public void save(final Game game) {
-        log.info("Saving game");
+        log.debug("Saving game");
         String fileName = config.getSavedFileName(Game.class);
         PersistentUtility.save(fileName, game);
     }
@@ -139,7 +139,7 @@ public class GameDAO {
         try {
             Path path = Paths.get(url.toURI().getPath());
 
-            log.info("load game data with path '{}'", path);
+            log.debug("load game data with path '{}'", path);
 
             try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 

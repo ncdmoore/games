@@ -59,7 +59,7 @@ public class ShipDetailsDialog {
 
         dialog.setWidth(props.getInt("ship.dialog.width"));
         dialog.setHeight(props.getInt("ship.dialog.height"));
-        dialog.setContents(view.build(viewModel));               // Add the ship details to the dialog.
+        dialog.setContents(view.build());               // Add the ship details to the dialog.
         dialog.setCss(cssResourceProvider.get(CSS_FILE));
 
         view.bind(viewModel);

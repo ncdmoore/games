@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PortViewDAO  {
 
-    private Resource resource;
-    private PortViewFactory factory;
+    private final Resource resource;
+    private final PortViewFactory factory;
 
     /**
      * Constructor called by guice.
@@ -66,7 +66,7 @@ public class PortViewDAO  {
         portViews.forEach(portView -> {
             String fileName = resource.getSavedFileName(side, PortView.class, portView.getName() + ".json");
             PersistentUtility.save(fileName, portView);
-            log.info("Saving Port View: '{}'", portView.getName());
+            log.debug("Saving Port View: '{}'", portView.getName());
         });
     }
 

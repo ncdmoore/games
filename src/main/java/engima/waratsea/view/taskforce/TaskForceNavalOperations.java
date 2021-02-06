@@ -1,8 +1,10 @@
 package engima.waratsea.view.taskforce;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import engima.waratsea.model.taskForce.mission.SeaMissionType;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.ship.ShipDetailsView;
 import engima.waratsea.view.ship.ShipViewType;
 import engima.waratsea.viewmodel.ship.ShipViewModel;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
@@ -23,6 +25,9 @@ import lombok.Getter;
  * Represents the naval operations tab of a given task force view.
  */
 public class TaskForceNavalOperations {
+    private final ViewProps props;
+    private final Provider<ShipDetailsView> shipsDetailProvider;
+
     private TaskForceViewModel viewModel;
 
     private final TaskForceSummaryView summaryView;
@@ -32,13 +37,16 @@ public class TaskForceNavalOperations {
     /**
      * Constructor called by guice.
      *
+     * @param shipsDetailProvider Provides ship details views.
      * @param props The view properties.
      * @param summaryView The task force summary view.
      */
     @Inject
-    public TaskForceNavalOperations(final ViewProps props,
+    public TaskForceNavalOperations(final Provider<ShipDetailsView> shipsDetailProvider,
+                                    final ViewProps props,
                                     final TaskForceSummaryView summaryView) {
-
+        this.props  = props;
+        this.shipsDetailProvider = shipsDetailProvider;
         this.summaryView = summaryView;
 
         missionType.setMinWidth(props.getInt("mission.type.list.width"));
@@ -123,14 +131,30 @@ public class TaskForceNavalOperations {
         ListProperty<ShipViewModel> ships = viewModel.getShipTypeMap().get(type);
 
         ListView<ShipViewModel> listView = new ListView<>();
-
-        if (ships != null) {
-            listView.itemsProperty().bind(ships);
-        }
+        listView.setMaxHeight(props.getInt("taskforce.details.list.height"));
+        listView.setMinWidth(props.getInt("taskforce.details.list.width"));
+        listView.setMaxWidth(props.getInt("taskforce.details.list.width"));
 
         Tab tab = new Tab(type.toString());
 
-        tab.setContent(listView);
+        tab.disableProperty().bind(viewModel.getShipPresent().get(type));
+
+        if (ships != null) {
+            listView.itemsProperty().bind(ships);
+            ShipDetailsView detailsView = shipsDetailProvider.get();
+            Node detailsNode = detailsView.build();
+
+            listView
+                    .getSelectionModel()
+                    .selectedItemProperty()
+                    .addListener((o, ov, nv) -> detailsView.bind(nv));
+
+            listView.getSelectionModel().selectFirst();
+
+            HBox hBox = new HBox(listView, detailsNode);
+            hBox.setId("ship-hbox");
+            tab.setContent(hBox);
+        }
 
         return tab;
     }

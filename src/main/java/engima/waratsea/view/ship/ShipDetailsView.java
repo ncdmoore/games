@@ -2,6 +2,7 @@ package engima.waratsea.view.ship;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import engima.waratsea.model.game.Game;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronDetailsView;
@@ -34,6 +35,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class ShipDetailsView {
+    private final Game game;
     private final ViewProps props;
 
     private final Label title = new Label();
@@ -48,6 +50,10 @@ public class ShipDetailsView {
     private final BoundTitledGridPane squadronPane = new BoundTitledGridPane();
     private final BoundTitledGridPane cargoPane = new BoundTitledGridPane();
 
+    private final TitledPane statusPane = new TitledPane();
+
+    private final Tab aircraftTab = new Tab("Aircraft");
+
     private final ImageView shipImage = new ImageView();
     private final ImageView shipProfileImage = new ImageView();
 
@@ -60,14 +66,17 @@ public class ShipDetailsView {
     /**
      * Constructor called by guice.
      *
+     * @param game The game.
      * @param props View properties.
      * @param squadronViewModelProvider Provides the squadron view model.
      * @param squadronDetailsViewProvider Provides the squadron details view.
      */
     @Inject
-    public ShipDetailsView(final ViewProps props,
+    public ShipDetailsView(final Game game,
+                           final ViewProps props,
                            final Provider<SquadronViewModel> squadronViewModelProvider,
                            final Provider<SquadronDetailsView> squadronDetailsViewProvider) {
+        this.game = game;
         this.props = props;
 
         this.squadronViewModel = squadronViewModelProvider.get();
@@ -77,21 +86,18 @@ public class ShipDetailsView {
     /**
      * Show the ship details view.
      *
-     * @param viewModel The the ship view model to show.
      * @return A node that contains the ship details.
      */
-    public Node build(final ShipViewModel viewModel) {
+    public Node build() {
         title.setId("title");
 
         StackPane titlePane = new StackPane(title);
-        titlePane.setId("title-pane-" + viewModel.getSide().getPossessive().toLowerCase());
+        titlePane.setId("title-pane-" + game.getHumanSide().getPossessive().toLowerCase());
 
         TabPane tabPane = new TabPane();
         tabPane.getTabs().add(buildShipTab());
-        tabPane.getTabs().add(buildStatusTab(viewModel));
-        if (viewModel.hasAircraft()) {
-            tabPane.getTabs().add(buildAircraftTab());
-        }
+        tabPane.getTabs().add(buildStatusTab());
+        tabPane.getTabs().add(buildAircraftTab());
 
         VBox mainPane = new VBox(titlePane, tabPane);
         mainPane.setId("main-pane");
@@ -121,6 +127,12 @@ public class ShipDetailsView {
         shipImage.imageProperty().bind(viewModel.getShipImage());
         shipProfileImage.imageProperty().bind(viewModel.getShipProfileImage());
 
+        bindStatusTab(viewModel);
+
+        aircraftTab.disableProperty().bind(viewModel.getNoSquadrons());
+        squadronDetailsView.bind(squadronViewModel);
+        squadronViewModel.getSquadron().bind(squadrons.getSelectionModel().selectedItemProperty());
+
         squadrons.itemsProperty().bind(viewModel.getSquadrons());
         squadrons.getSelectionModel().selectFirst();                                                                    // Force the first squadron to be shown.
     }
@@ -132,7 +144,7 @@ public class ShipDetailsView {
      */
     private Tab buildShipTab() {
         VBox shipVBox = new VBox(shipImage);
-        shipVBox.setId("ship-image");
+        shipVBox.setId("image");
 
         buildPane(shipDetailsPane, "Ship Details");
 
@@ -166,10 +178,21 @@ public class ShipDetailsView {
     /**
      * Build the ship's status.
      *
-     * @param viewModel THe ship whose status is shown in the tab.
      * @return The ship's status tab.
      */
-    private Tab buildStatusTab(final ShipViewModel viewModel) {
+    private Tab buildStatusTab() {
+        statusPane.setText("Ship Status");
+        statusPane.setExpanded(true);
+        statusPane.setCollapsible(false);
+        statusPane.setId("status-pane");
+
+        Tab statusTab = new Tab("Status");
+        statusTab.setClosable(false);
+        statusTab.setContent(statusPane);
+        return statusTab;
+    }
+
+    private void bindStatusTab(final ShipViewModel viewModel) {
         GridPane gridPane = new GridPane();
         gridPane.setId("status-grid");
 
@@ -186,17 +209,7 @@ public class ShipDetailsView {
             }
         }
 
-        TitledPane titledPane = new TitledPane();
-        titledPane.setText("Ship Status");
-        titledPane.setContent(gridPane);
-        titledPane.setExpanded(true);
-        titledPane.setCollapsible(false);
-        titledPane.setId("status-pane");
-
-        Tab statusTab = new Tab("Status");
-        statusTab.setClosable(false);
-        statusTab.setContent(titledPane);
-        return statusTab;
+        statusPane.setContent(gridPane);
     }
 
     /**
@@ -233,21 +246,10 @@ public class ShipDetailsView {
 
         VBox vBox = new VBox(aircraftListBox, aircraftBox);
 
-        Tab aircraftTab = new Tab("Aircraft");
         aircraftTab.setClosable(false);
         aircraftTab.setContent(vBox);
 
-        bindAircraftTab();
-
         return aircraftTab;
-    }
-
-    /**
-     * Bind the aircraft data to the view.
-     */
-    private void bindAircraftTab() {
-        squadronDetailsView.bind(squadronViewModel);
-        squadronViewModel.getSquadron().bind(squadrons.getSelectionModel().selectedItemProperty());
     }
 
     /**

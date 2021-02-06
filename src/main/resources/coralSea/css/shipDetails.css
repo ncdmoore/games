@@ -9,8 +9,33 @@
 .root {
     -fx-background: -fx-var-background-color;
 }
+
 .components-pane {
     -fx-spacing: 6;
+}
+
+.green-bar {
+    -fx-accent: green;
+}
+
+.component-grid {
+    -fx-background-color: whitesmoke;
+    -fx-hgap: 10;
+}
+
+.bold-label {
+    -fx-font: bold 9pt "Lucida Grande";
+    -fx-font-weight: bold;
+}
+
+.detail-pane {
+    -fx-hgap: 15;
+    -fx-vgap: 5;
+    -fx-background-color: lightblue
+}
+
+.detail-pane .label {
+ //   -fx-background-color: lightblue;
 }
 
 #title-pane-axis {
@@ -67,7 +92,7 @@
     -fx-spacing: 6;
 }
 
-#ship-image {
+#image {
     -fx-border-color: black;
     -fx-border-width: 1px;
 }
@@ -77,45 +102,18 @@
     -fx-alignment: center;
 }
 
-#ship-details-grid {
+#details-grid {
     -fx-hgap: 10;
-}
-
-
-.component-grid {
-    -fx-background-color: whitesmoke;
-    -fx-hgap: 10;
-}
-
-.bold-label {
-    -fx-font: bold 9pt "Lucida Grande";
-    -fx-font-weight: bold;
-}
-
-.detail-pane {
-    -fx-hgap: 15;
-    -fx-vgap: 5;
-    -fx-background-color: lightblue
-}
-
-.detail-pane .label {
- //   -fx-background-color: lightblue;
-
 }
 
 #status-pane {
     -fx-padding: /* top */ 15 /* right */ 15 /* bottom */ 0 /* left */ 15;
-
 }
 
 #status-grid {
     -fx-background-color: whitesmoke;
     -fx-hgap: 15;
     -fx-vgap: 20;
-}
-
-.green-bar {
-    -fx-accent: green;
 }
 
 #controls-pane {

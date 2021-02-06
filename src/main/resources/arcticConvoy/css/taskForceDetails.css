@@ -10,6 +10,11 @@
     -fx-background: -fx-var-background-color;
 }
 
+.component-grid {
+    -fx-background-color: white;
+    -fx-hgap: 10;
+}
+
 .components-pane {
     -fx-spacing: 7;
 }
@@ -18,30 +23,9 @@
     -fx-accent: green;
 }
 
-.component-grid {
-    -fx-background-color: whitesmoke;
-    -fx-hgap: 10;
-}
-
-.bold-label {
-    -fx-font: bold 9pt "Lucida Grande";
-    -fx-font-weight: bold;
-}
-
-.detail-pane {
-    -fx-hgap: 15;
-    -fx-vgap: 5;
-    -fx-background-color: lightblue
-}
-
-.detail-pane .label {
- //   -fx-background-color: lightblue;
-
-}
-
 #main-pane {
-    -fx-padding: /* top */ 10 /* right */ 10 /* bottom */ 0 /* left */ 10;
-    -fx-spacing: 5;
+    -fx-spacing: 15;
+    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
 }
 
 #taskforce-summary-vbox {
@@ -55,7 +39,7 @@
 #title-pane-axis {
     -fx-border-width: 1px;
     -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, white, white, red);
+    -fx-background-color: linear-gradient(to right, red, white, black);
     -fx-alignment: top-center;
 }
 
@@ -66,18 +50,23 @@
     -fx-alignment: top-center;
 }
 
-#title-pane-japanese {
+#title-pane-german {
     -fx-border-width: 1px;
     -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, white, white, red);
+    -fx-background-color: linear-gradient(to right, red, white, black);
     -fx-alignment: top-center;
 }
 
-#title-pane-united-states {
+#title-pane-british {
     -fx-border-width: 1px;
     -fx-border-color: black;
     -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
     -fx-alignment: top-center;
+}
+
+#main-pane {
+    -fx-padding: /* top */ 0 /* right */ 10 /* bottom */ 0 /* left */ 10;
+    -fx-spacing: 5;
 }
 
 #left-hbox {
@@ -139,6 +128,6 @@
 }
 
 #controls-pane {
-    -fx-padding: /* top */ 15 /* right */ 0 /* bottom */ 15 /* left */ 0;
+    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 10 /* left: */ 0;
     -fx-spacing: 20;
 }
