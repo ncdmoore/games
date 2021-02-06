@@ -2,41 +2,27 @@ package engima.waratsea.model.ship;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import engima.waratsea.model.aircraft.AircraftType;
-import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.map.GameGrid;
-import engima.waratsea.model.map.GameMap;
-import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.ship.data.GunData;
 import engima.waratsea.model.ship.data.ShipData;
-import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.SquadronFactory;
-import engima.waratsea.model.squadron.SquadronHome;
-import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Represents a surface ship: Battleship, cruisers, etc.
+ * Represents the default surface ship: destroyer, destoryer escorts, transports, etc.
+ *
+ * These ships have no aircraft at all!!
  */
-public class SurfaceShip implements Ship, SquadronHome {
-
-    private final GameMap gameMap;
-
+public class SurfaceShip implements Ship {
     @Getter private final ShipId shipId;
     @Getter private final ShipType type;
-    @Getter private final AirbaseType airbaseType = AirbaseType.SURFACE_SHIP;
     @Getter private final String shipClass;
     @Getter private final Nation nation;
     @Getter private final int victoryPoints;
@@ -53,21 +39,14 @@ public class SurfaceShip implements Ship, SquadronHome {
     @Getter private final Hull hull;
     @Getter private final Cargo cargo;
     @Getter private String originPort;
-    @Getter private List<Squadron> squadrons;
-    private Map<AircraftType, List<Squadron>> aircraftTypeMap;
 
     /**
      * Constructor called by guice.
      *
      * @param data Ship's data.
-     * @param factory The squadron factory.
-     * @param gameMap The game map.
      */
     @Inject
-    public SurfaceShip(@Assisted final ShipData data,
-                       final SquadronFactory factory,
-                       final GameMap gameMap) {
-
+    public SurfaceShip(@Assisted final ShipData data) {
         shipId = data.getShipId();
         taskForce = data.getTaskForce();
         type = data.getType();
@@ -89,10 +68,6 @@ public class SurfaceShip implements Ship, SquadronHome {
         cargo = new Cargo((data.getCargo()));
 
         originPort = data.getOriginPort();
-
-        buildSquadrons(data.getAircraft(), factory);
-
-        this.gameMap = gameMap;
     }
 
     /**
@@ -136,8 +111,6 @@ public class SurfaceShip implements Ship, SquadronHome {
 
         data.setOriginPort(originPort);
 
-        data.setAircraft(PersistentUtility.getData(squadrons));
-
         return data;
     }
 
@@ -146,8 +119,7 @@ public class SurfaceShip implements Ship, SquadronHome {
      * Not all objects will have children with persistent data.
      */
     @Override
-    public void saveChildrenData() {
-    }
+    public void saveChildrenData() { }
 
     /**
      * Get the ship's side: ALLIES or AXIS.
@@ -169,7 +141,6 @@ public class SurfaceShip implements Ship, SquadronHome {
         return shipId.getName();
     }
 
-
     /**
      * Get the ship's title. Some ships have revisions or configurations in their name.
      * The getName routine returns this extra information. The get title routine only
@@ -183,65 +154,13 @@ public class SurfaceShip implements Ship, SquadronHome {
     }
 
     /**
-     * Get the ship's region for the given nation.
+     * Determines if this ship is an aircraft carrier.
      *
-     * @param shipNation The nation: BRITISH or ITALIAN, etc...
-     * @return Ships do not have regions, so null is returned.
+     * @return True if this ship is an aircraft carrier. False otherwise.
      */
     @Override
-    public Region getRegion(final Nation shipNation) {
-        return null;
-    }
-
-    /**
-     * Get the region's title. The regions title should
-     * be independent of the nation.
-     *
-     * @return The region's title.
-     */
-    @Override
-    public String getRegionTitle() {
-        return "Unknown";
-    }
-
-    /**
-     * Get the ship's map reference.
-     *
-     * @return The ship's map reference.
-     */
-    @Override
-    public String getReference() {
-        return taskForce.getReference();
-    }
-
-    /**
-     * Get the squadron's home game grid.
-     *
-     * @return The squadron's home game grid.
-     */
-    @Override
-    public Optional<GameGrid> getGrid() {
-        return gameMap.getGrid(getReference());
-    }
-
-    /**
-     * Determines if this ship is an squadrons carrier.
-     *
-     * @return True if this ship is an squadrons carrier. False otherwise.
-     */
-    @Override
-    public boolean isCarrier() {
+    public boolean isAirbase() {
         return false;
-    }
-
-    /**
-     * Determines if this ship has any squadrons carrier based or float planes.
-     *
-     * @return True if this ship has squadrons. False otherwise.
-     */
-    @Override
-    public boolean hasAircraft() {
-        return !squadrons.isEmpty();
     }
 
     /**
@@ -253,8 +172,7 @@ public class SurfaceShip implements Ship, SquadronHome {
     public List<Component> getComponents() {
         return Stream.of(hull, primary, secondary, tertiary, antiAir, torpedo, movement, fuel, cargo)
                 .filter(Component::isPresent)
-                .collect(Collectors.toList());
-    }
+                .collect(Collectors.toList());    }
 
     /**
      * Call this method to inform the ship that it is sailing from port.
@@ -273,21 +191,6 @@ public class SurfaceShip implements Ship, SquadronHome {
     }
 
     /**
-     * Get a summary map of squadrons type to number of steps of that type.
-     *
-     * @return A map of squadrons types to number of steps of that type.
-     */
-    @Override
-    public Map<AircraftType, Integer> getSquadronSummary() {
-        return aircraftTypeMap
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey,
-                                          e -> e.getValue().size(),
-                                          Integer::sum));
-    }
-
-    /**
      * Get the String representation of this ship.
      *
      * @return The String representation of this ship.
@@ -295,28 +198,5 @@ public class SurfaceShip implements Ship, SquadronHome {
     @Override
     public String toString() {
         return getTitle();
-    }
-
-    /**
-     * Build the ship squadrons. Do not examine the landing type. Some
-     * scenario's require that surface ships be loaded with squadrons that
-     * can take off but not land at sea. Thus, we ignore the landing type
-     * on initial ship creation.
-     *
-     * @param data The squadrons data read in from a JSON file.
-     * @param factory The squadron factory that builds the actual squadron.
-     */
-    private void buildSquadrons(final List<SquadronData> data, final SquadronFactory factory) {
-        squadrons =  Optional.ofNullable(data)
-                .orElseGet(Collections::emptyList)
-                .stream()
-                .map(squadronData -> factory.create(shipId.getSide(), nation, squadronData))
-                .collect(Collectors.toList());
-
-        aircraftTypeMap = squadrons
-                .stream()
-                .collect(Collectors.groupingBy(Squadron::getType));
-
-        squadrons.forEach(squadron -> squadron.setHome(this));
     }
 }

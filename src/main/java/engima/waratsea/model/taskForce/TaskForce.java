@@ -58,7 +58,7 @@ public class TaskForce implements Comparable<TaskForce>, Asset, PersistentData<T
     @Getter @Setter private List<ShipEventMatcher> releaseShipEvents;
     @Getter @Setter private List<TurnEventMatcher> releaseTurnEvents;
     @Getter private List<Ship> ships;
-    @Getter private List<Airbase> aircraftCarriers;
+    @Getter private List<Airbase> airbases;
     @Getter private List<Ship> cargoShips;
     @Getter private Map<String, Ship> shipMap;
     @Getter private Map<ShipType, List<Ship>> shipTypeMap;
@@ -109,7 +109,7 @@ public class TaskForce implements Comparable<TaskForce>, Asset, PersistentData<T
 
         buildShips(data.getShips());
         getCargoShips(data.getCargoShips());
-        getCarriers();
+        setAirbases();
 
         buildShipEvents(data.getReleaseShipEvents());
         buildTurnEvents(data.getReleaseTurnEvents());
@@ -295,7 +295,7 @@ public class TaskForce implements Comparable<TaskForce>, Asset, PersistentData<T
      * @return A list of the landing type's supported by this task force.
      */
     public List<LandingType> getLandingType() {
-        return aircraftCarriers
+        return airbases
                 .stream()
                 .flatMap(carrier -> carrier.getLandingType().stream())
                 .distinct()
@@ -308,7 +308,7 @@ public class TaskForce implements Comparable<TaskForce>, Asset, PersistentData<T
      * @return A the squadrons stationed within this task force.
      */
     public List<Squadron> getSquadrons() {
-        return ships
+        return airbases
                 .stream()
                 .flatMap(ship -> ship.getSquadrons().stream())
                 .collect(Collectors.toList());
@@ -350,11 +350,11 @@ public class TaskForce implements Comparable<TaskForce>, Asset, PersistentData<T
     }
 
     /**
-     * Separate out the aircraft carriers in this task force.
+     * Separate out the ships that can conduct air operations, airbases, in this task force.
      */
-    private void getCarriers() {
-        aircraftCarriers = ships.stream()
-                .filter(Ship::isCarrier)
+    private void setAirbases() {
+        airbases = ships.stream()
+                .filter(Ship::isAirbase)
                 .map(ship -> (Airbase) ship)
                 .collect(Collectors.toList());
     }

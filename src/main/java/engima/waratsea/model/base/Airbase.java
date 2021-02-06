@@ -3,6 +3,7 @@ package engima.waratsea.model.base;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.LandingType;
+import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
@@ -10,8 +11,8 @@ import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.GameGrid;
+import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.SquadronHome;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
 
@@ -24,8 +25,51 @@ import java.util.Set;
 /**
  * Represents airbases. An airbase may be an airfield (land based airbase) or may be an aircraft carrier.
  */
-public interface Airbase extends Base, SquadronHome {
+public interface Airbase extends Base {
+    /**
+     * Get the name of the squadron's home base.
+     *
+     * @return The name of the squadron's home base.
+     */
+    String getName();
 
+    /**
+     * Get the title of the squadron's home base.
+     *
+     * @return The title of the squadron's home base.
+     */
+    String getTitle();
+
+    /**
+     * Get the region of the squadron's home base.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return The squadron's home base's region.
+     */
+    Region getRegion(Nation nation);
+
+    /**
+     * Get the region's title. The regions title should be independent of the nation. If nations share a region, the
+     * region is represented by a separate java region java object for each nation. This is because each nation's region
+     * has separate requirements. However, the actual map region is the same. Thus the title is the same.
+     *
+     * @return The region's title.
+     */
+    String getRegionTitle();
+
+    /**
+     * Get the map reference of the squadron's home base.
+     *
+     * @return The squadron's home base's map reference.
+     */
+    String getReference();
+
+    /**
+     * Get the airfield type of the squadron's home base.
+     *
+     * @return The squadron's home base's airfield type.
+     */
+    AirbaseType getAirbaseType();
     /**
      * Get the airbase's game grid.
      *

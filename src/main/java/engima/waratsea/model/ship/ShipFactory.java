@@ -17,7 +17,16 @@ public interface ShipFactory {
     Ship createAircraftCarrier(ShipData data);
 
     /**
-     * Creates a surface ship.
+     * Creates a capital ship. Battleship, Battlecruiser, cruiser.
+     *
+     * @param data The ship's data.
+     * @return The ship.
+     */
+    @Named("capital")
+    Ship createCapitalShip(ShipData data);
+
+    /**
+     * Creates a surface ship. Destroyer, Destroyer escort, transport, etc...
      *
      * @param data The ship's data.
      * @return The ship.

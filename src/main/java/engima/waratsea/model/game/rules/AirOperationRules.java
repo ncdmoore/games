@@ -48,7 +48,7 @@ public class AirOperationRules {
         landingTypeMap.put(AirbaseType.LAND, -2);
         landingTypeMap.put(AirbaseType.SEAPLANE, -1);
         landingTypeMap.put(AirbaseType.CARRIER, -1);
-        landingTypeMap.put(AirbaseType.SURFACE_SHIP, -1);
+        landingTypeMap.put(AirbaseType.FlOAT_PLANE, -1);
 
         // The board games values are all negative for these maps. But, making them positive values
         // allows the math to work out more easily.

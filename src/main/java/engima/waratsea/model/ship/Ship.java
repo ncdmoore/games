@@ -1,22 +1,18 @@
 package engima.waratsea.model.ship;
 
 import engima.waratsea.model.PersistentData;
-import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ship.data.ShipData;
-import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.vessel.Vessel;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents a ship.
  */
 public interface Ship extends Vessel, PersistentData<ShipData> {
-
     /**
      * Get the ship's id.
      *
@@ -77,32 +73,12 @@ public interface Ship extends Vessel, PersistentData<ShipData> {
     String getShipClass();
 
     /**
-     * Determines if this ship is an aircraft carrier.
+     * Determines if this ship is an capable of air operations. It is either an aircraft carrier or a ship with
+     * float planes.
      *
-     * @return True if this ship is an aircraft carrier. False otherwise.
+     * @return True if this ship is an aircraft carrier or float plane capable. False otherwise.
      */
-    boolean isCarrier();
-
-    /**
-     * Determines if this ship has any aircraft carrier based or float planes.
-     *
-     * @return True if this ship has aircraft. False otherwise.
-     */
-    boolean hasAircraft();
-
-    /**
-     * Get the ship's aircraft squadrons.
-     *
-     * @return A list of aircraft squadrons.
-     */
-    List<Squadron> getSquadrons();
-
-    /**
-     * Get a summary map of aircraft type to number of steps of that type.
-     *
-     * @return A map of aircraft types to number of steps of that type.
-     */
-    Map<AircraftType, Integer> getSquadronSummary();
+    boolean isAirbase();
 
     /**
      * Get the ship's nationality.

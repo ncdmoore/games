@@ -12,6 +12,7 @@ import engima.waratsea.model.aircraft.AviationPlant;
 import engima.waratsea.model.aircraft.AviationPlantException;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
@@ -53,7 +54,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
     @Getter private String name;
     @Getter @Setter private SquadronStrength strength;
     @Getter private String reference; //This is always a map reference and never a name.
-    @Getter private SquadronHome home;
+    @Getter private Airbase home;
     @Getter private SquadronState state;
     @Getter @Setter private SquadronConfig config;
 
@@ -293,11 +294,11 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      *
      * @param squadronHome The squadron's airbase.
      */
-    public void setHome(final SquadronHome squadronHome) {
+    public void setHome(final Airbase squadronHome) {
         this.home = squadronHome;
 
         String mapReference = Optional.ofNullable(squadronHome)
-                .map(SquadronHome::getReference)
+                .map(Airbase::getReference)
                 .orElse(null);
 
         setReference(mapReference);

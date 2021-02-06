@@ -20,7 +20,10 @@ public enum LandingType {
     LAND("Land"),
 
     @SerializedName(value = "SEAPLANE", alternate = {"Seaplane", "seaplane"})
-    SEAPLANE("Seaplane");
+    SEAPLANE("Seaplane"),
+
+    @SerializedName(value = "FLOATPLANE", alternate = {"Floatplane", "floatplane"})
+    FLOATPLANE("Float plane");
 
     @Getter
     private final String value;

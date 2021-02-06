@@ -1,7 +1,7 @@
 package engima.waratsea.viewmodel.ship;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.aircraft.AircraftType;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ship.Component;
 import engima.waratsea.model.ship.Ship;
@@ -109,17 +109,6 @@ public class ShipViewModel {
         return Optional.ofNullable(ship.getValue())
                 .map(Ship::getSide)
                 .orElseThrow();
-    }
-
-    /**
-     * Indicates if this ship has aircraft.
-     *
-     * @return true if the ship has aircraft; false otherwise.
-     */
-    public boolean hasAircraft() {
-        return Optional.ofNullable(ship.getValue())
-                .map(Ship::hasAircraft)
-                .orElse(false);
     }
 
     /**
@@ -412,7 +401,8 @@ public class ShipViewModel {
         Callable<ObservableMap<String, String>> bindingFunction = () -> {
             Map<String, String> summary = Optional
                     .ofNullable(ship.getValue())
-                    .map(s -> convertToView(s.getSquadronSummary()))
+                    .map(s -> (Airbase) s)
+                    .map(a -> convertToView(a.getSquadrons()))
                     .orElse(noSquadronMap());
 
             return FXCollections.observableMap(summary);
@@ -438,7 +428,8 @@ public class ShipViewModel {
         Callable<ObservableList<Squadron>> bindingFunction = () -> {
             List<Squadron> shipsSquadrons = Optional
                     .ofNullable(ship.getValue())
-                    .map(Ship::getSquadrons)
+                    .map(s -> (Airbase) s)
+                    .map(Airbase::getSquadrons)
                     .orElse(Collections.emptyList());
 
             return FXCollections.observableList(shipsSquadrons);
@@ -463,13 +454,20 @@ public class ShipViewModel {
         components.bind(Bindings.createObjectBinding(bindingFunction, ship));
     }
 
-    private Map<String, String> convertToView(final Map<AircraftType, Integer> inputMap) {
-        Map<String, String> squadronMap = inputMap
+    private Map<String, String> convertToView(final List<Squadron> shipsSquadrons) {
+        Map<String, Integer> tempMap = shipsSquadrons
+                .stream()
+                .collect(Collectors.toMap(
+                        s -> s.getType().toString() + ":",
+                        s -> 1,
+                        Integer::sum));
+
+        Map<String, String> squadronMap = tempMap
                 .entrySet()
                 .stream()
-                .filter(e -> e.getValue() > 0)
-                .collect(Collectors.toMap(e -> e.getKey().toString() + ":",
-                        e -> formatSquadrons(e.getValue())));
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> e.getValue() + ""));
 
         if (squadronMap.isEmpty()) {
             squadronMap.put("No aircraft", "");

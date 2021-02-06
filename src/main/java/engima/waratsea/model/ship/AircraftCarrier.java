@@ -49,7 +49,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Represents an squadrons carrier.
+ * Represents an aircraft carrier.
+ *
+ * This class can be viewed as a ship or an airbase. It implements both interfaces.
  */
 public class AircraftCarrier implements Ship, Airbase {
     private final MissionDAO missionDAO;
@@ -459,18 +461,8 @@ public class AircraftCarrier implements Ship, Airbase {
      * @return True if this ship is an squadrons carrier. False otherwise.
      */
     @Override
-    public boolean isCarrier() {
+    public boolean isAirbase() {
         return true;
-    }
-
-    /**
-     * Determines if this ship has any squadrons carrier based or float planes.
-     *
-     * @return True if this ship has squadrons. False otherwise.
-     */
-    @Override
-    public boolean hasAircraft() {
-        return !squadrons.isEmpty();
     }
 
     /**
@@ -496,21 +488,6 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public void setAmmunitionType(final AmmunitionType ammunitionType) {
-    }
-
-    /**
-     * Get a summary map of squadrons type to number of steps of that type.
-     *
-     * @return A map of squadrons types to number of steps of that type.
-     */
-    @Override
-    public Map<AircraftType, Integer> getSquadronSummary() {
-        return squadronMap
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey,
-                                          e -> e.getValue().size(),
-                                          Integer::sum));
     }
 
     /**

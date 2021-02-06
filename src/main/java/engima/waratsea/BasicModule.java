@@ -69,6 +69,7 @@ import engima.waratsea.model.player.Player;
 import engima.waratsea.model.ship.AircraftCarrier;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.ship.ShipFactory;
+import engima.waratsea.model.ship.CapitalShip;
 import engima.waratsea.model.ship.SurfaceShip;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
@@ -139,6 +140,7 @@ public class BasicModule extends AbstractModule {
         install(new FactoryModuleBuilder().implement(TaskForce.class, TaskForce.class).build(TaskForceFactory.class));
         install(new FactoryModuleBuilder()
                 .implement(Ship.class, Names.named("aircraft"), AircraftCarrier.class)
+                .implement(Ship.class, Names.named("capital"), CapitalShip.class)
                 .implement(Ship.class, Names.named("surface"), SurfaceShip.class)
                 .build(ShipFactory.class));
 

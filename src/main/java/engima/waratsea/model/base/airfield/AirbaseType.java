@@ -10,7 +10,7 @@ public enum AirbaseType {
     SEAPLANE("seaplane", "Seaplane Base", "Seaplane Squadrons"),                // Seaplane base. Only seaplanes can station here.
     BOTH("both", "Airfield", "Both Squadrons"),                                 // Both land and seaplane. Land, carrier and seaplanes can station here.
     CARRIER("carrier", "Carrier", "Carrier-based Squadrons"),                   // Task force with a carrier. Only carrier aircraft can station here.
-    SURFACE_SHIP("surfaceShip", "Surface Ship", "Float-plane Squadrons");       // Battleship or cruiser. Can carry sea planes.
+    FlOAT_PLANE("floatplane", "Float plane", "Float-plane Squadrons");          // Battleship or cruiser. Can carry float planes.
     private final String value;
 
     @Getter private final String title;

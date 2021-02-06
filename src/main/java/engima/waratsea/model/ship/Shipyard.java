@@ -55,6 +55,9 @@ public class Shipyard {
 
         factoryMap.put(ShipType.AIRCRAFT_CARRIER, shipFactory::createAircraftCarrier);
         factoryMap.put(ShipType.SEAPLANE_CARRIER, shipFactory::createAircraftCarrier);
+        factoryMap.put(ShipType.BATTLESHIP, shipFactory::createCapitalShip);
+        factoryMap.put(ShipType.BATTLECRUISER, shipFactory::createCapitalShip);
+        factoryMap.put(ShipType.CRUISER, shipFactory::createCapitalShip);
 
         shipDataMap.put(Side.ALLIES, new HashMap<>());
         shipDataMap.put(Side.AXIS, new HashMap<>());
@@ -209,7 +212,7 @@ public class Shipyard {
      * @return The corresponding factory to the ship's type.
      */
     private Function<ShipData, Ship> getFactory(final ShipType type) {
-        return factoryMap.getOrDefault(type, shipFactory::createSurfaceShip);
+        return factoryMap.getOrDefault(type, shipFactory::createCapitalShip);
     }
 
 }

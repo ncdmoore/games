@@ -291,7 +291,7 @@ public class ShipDetailsView {
         buildPane(performancePane, "Movement:");
         buildPane(aswPane, "ASW");
         buildPane(fuelPane, "Fuel");
-        buildPane(squadronPane, "Aircraft");
+        buildPane(squadronPane, "Aircraft Squadrons");
         buildPane(cargoPane, "Cargo");
         return new VBox(performancePane, aswPane, fuelPane, squadronPane, cargoPane);
     }

@@ -2,7 +2,8 @@ package engima.waratsea.viewmodel.taskforce;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.AircraftType;
-import engima.waratsea.model.ship.Ship;
+import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceState;
 import engima.waratsea.model.taskForce.mission.SeaMissionType;
@@ -33,6 +34,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -257,15 +259,14 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
      * @return A map of aircraft type to number of steps of the type.
      */
     private Map<AircraftType, Integer> getAircraftMap(final TaskForce force) {
-        return force.getShips()
+        return force.getAirbases()
                 .stream()
-                .map(Ship::getSquadronSummary)
-                .map(Map::entrySet)
+                .map(Airbase::getSquadrons)
                 .flatMap(Collection::stream)
-                .sorted(Map.Entry.comparingByKey())
+                .sorted(Comparator.comparing(Squadron::getType))
                 .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
+                        Squadron::getType,
+                        s -> 1,
                         Integer::sum,
                         LinkedHashMap::new));
     }
