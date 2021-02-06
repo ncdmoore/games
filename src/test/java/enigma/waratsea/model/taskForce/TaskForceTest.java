@@ -61,7 +61,7 @@ public class TaskForceTest {
 
         TaskForceData data = new TaskForceData();
 
-        List<String> shipNames = new ArrayList<>(Arrays.asList("BC01 Renown", "CV04 Ark Royal-1", "CL17 Despatch","CL36 Sheffield", "DD53 Faulknor"));
+        List<String> shipNames = List.of("BC01 Renown", "CV04 Ark Royal-1", "CL17 Despatch", "CL36 Sheffield", "DD53 Faulknor");
 
         data.setMission(missionData);
         data.setShips(shipNames);
@@ -70,7 +70,7 @@ public class TaskForceTest {
         TaskForce taskForce = factory.create(Side.ALLIES, data);
 
         Assert.assertEquals(5, taskForce.getShips().size());
-        Assert.assertEquals(1, taskForce.getAirbases().size());
+        Assert.assertEquals(4, taskForce.getAirbases().size());
     }
 
     @Test

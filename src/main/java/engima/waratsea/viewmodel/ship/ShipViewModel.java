@@ -401,7 +401,7 @@ public class ShipViewModel {
         Callable<ObservableMap<String, String>> bindingFunction = () -> {
             Map<String, String> summary = Optional
                     .ofNullable(ship.getValue())
-                    .map(s -> (Airbase) s)
+                    .map(this::convertToAirbase)
                     .map(a -> convertToView(a.getSquadrons()))
                     .orElse(noSquadronMap());
 
@@ -428,7 +428,7 @@ public class ShipViewModel {
         Callable<ObservableList<Squadron>> bindingFunction = () -> {
             List<Squadron> shipsSquadrons = Optional
                     .ofNullable(ship.getValue())
-                    .map(s -> (Airbase) s)
+                    .map(this::convertToAirbase)
                     .map(Airbase::getSquadrons)
                     .orElse(Collections.emptyList());
 
@@ -480,16 +480,6 @@ public class ShipViewModel {
         return Map.of("No aircraft", "");
     }
 
-    /**
-     * Format the aircraft type squadrons.
-     *
-     * @param numSquadrons The number of squadrons a given aircraft type.
-     * @return A string value that represents the total number of steps of the aircraft type.
-     */
-    private String formatSquadrons(final int numSquadrons) {
-        return  numSquadrons > 1 ? numSquadrons + " squadrons" : numSquadrons + " squadron";
-    }
-
     private List<ComponentViewModel> getComponentViewModels(final List<Component> componentList) {
         return componentList
                 .stream()
@@ -499,5 +489,9 @@ public class ShipViewModel {
 
     private String getPrefix(final Ship aShip) {
         return aShip.getNation().getShipPrefix() + " ";
+    }
+
+    private Airbase convertToAirbase(final Ship aShip) {
+        return aShip.isAirbase() ? (Airbase) aShip : null;
     }
 }

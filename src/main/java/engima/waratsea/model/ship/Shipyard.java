@@ -212,7 +212,7 @@ public class Shipyard {
      * @return The corresponding factory to the ship's type.
      */
     private Function<ShipData, Ship> getFactory(final ShipType type) {
-        return factoryMap.getOrDefault(type, shipFactory::createCapitalShip);
+        return factoryMap.getOrDefault(type, shipFactory::createSurfaceShip);
     }
 
 }
