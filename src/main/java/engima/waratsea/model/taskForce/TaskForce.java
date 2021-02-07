@@ -6,6 +6,7 @@ import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.ship.ShipEventMatcher;
@@ -39,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -159,6 +161,18 @@ public class TaskForce implements Comparable<TaskForce>, Asset, PersistentData<T
         }
 
         return this;
+    }
+
+    /**
+     * Get the task force airbases nations. All the nations that have squadrons based within this task force.
+     *
+     * @return The task force airbases nations.
+     */
+    public Set<Nation> getNations() {
+        return airbases
+                .stream()
+                .flatMap(airbase -> airbase.getNations().stream())
+                .collect(Collectors.toSet());
     }
 
     /**

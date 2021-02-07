@@ -19,10 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
@@ -86,10 +88,22 @@ public class AirbaseViewModel {
     /**
      * Get the underlying airbase model.
      *
-     * @return THe airbase model.
+     * @return The airbase model.
      */
     public Airbase getAirbaseModel() {
         return airbase.getValue();
+    }
+
+    /**
+     * Get the airbase's nations.
+     *
+     * @return The airbase's nations.
+     */
+    public Set<Nation> getNations() {
+        return Optional
+                .ofNullable(airbase.getValue())
+                .map(Airbase::getNations)
+                .orElse(Collections.emptySet());
     }
 
     /**

@@ -9,6 +9,7 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.mission.MissionView;
 import engima.waratsea.view.airfield.patrol.PatrolView;
 import engima.waratsea.view.airfield.squadron.SquadronStateView;
+import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
@@ -49,7 +50,6 @@ public class AirfieldView {
     @Getter private final Map<Nation, SquadronStateView> airfieldAllView = new HashMap<>();
     @Getter private final Map<Nation, AirOperationsView> airOperationsView = new HashMap<>();
 
-
     @Setter private boolean showPatrolPane = false;
 
     /**
@@ -83,11 +83,11 @@ public class AirfieldView {
     /**
      * Show the airbase details.
      *
-     * @param map The airbase view model map.
+     * @param viewModel The airbase view model.
      * @return A node containing the airbase details.
      */
-    public Node build(final Map<Nation, NationAirbaseViewModel> map) {
-        viewModelMap = map;
+    public Node build(final AirbaseViewModel viewModel) {
+        viewModelMap = viewModel.getNationViewModels();
 
         nationsTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
