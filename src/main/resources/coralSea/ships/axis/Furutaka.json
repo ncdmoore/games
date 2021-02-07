@@ -46,11 +46,13 @@
   "cargo": {
     "capacity": 3
   },
-  "aircraft": [
-    {
-      "model": "E7K",
-      "strength": "sixth"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "E7K",
+        "strength": "sixth"
+      }
+    ]
+  },
   "victoryPoints": 26
 }

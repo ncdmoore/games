@@ -58,6 +58,7 @@ public class Shipyard {
         factoryMap.put(ShipType.BATTLESHIP, shipFactory::createCapitalShip);
         factoryMap.put(ShipType.BATTLECRUISER, shipFactory::createCapitalShip);
         factoryMap.put(ShipType.CRUISER, shipFactory::createCapitalShip);
+        factoryMap.put(ShipType.MINELAYER, shipFactory::createCapitalShip);    // Some japanese mine layers have float planes.
 
         shipDataMap.put(Side.ALLIES, new HashMap<>());
         shipDataMap.put(Side.AXIS, new HashMap<>());

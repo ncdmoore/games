@@ -36,32 +36,34 @@
     "maxOdd": 3,
     "odd": 3
   },
-  "aircraft": [
-    {
-      "model": "A6M2",
-      "strength": "full"
-    },
-    {
-      "model": "A6M2",
-      "strength": "half"
-    },
-    {
-      "model": "B5N2",
-      "strength": "full"
-    },
-    {
-      "model": "B5N2",
-      "strength": "full"
-    },
-    {
-      "model": "D3A1",
-      "strength": "full"
-    },
-    {
-      "model": "D3A1",
-      "strength": "full"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "A6M2",
+        "strength": "full"
+      },
+      {
+        "model": "A6M2",
+        "strength": "half"
+      },
+      {
+        "model": "B5N2",
+        "strength": "full"
+      },
+      {
+        "model": "B5N2",
+        "strength": "full"
+      },
+      {
+        "model": "D3A1",
+        "strength": "full"
+      },
+      {
+        "model": "D3A1",
+        "strength": "full"
+      }
+    ]
+  },
   "landingType": [
     "CARRIER"
   ],

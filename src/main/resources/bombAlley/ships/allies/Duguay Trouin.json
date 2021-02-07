@@ -40,11 +40,13 @@
   "cargo": {
     "capacity": 3
   },
-  "aircraft": [
-    {
-      "model": "GL832",
-      "strength": "sixth"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "GL832",
+        "strength": "sixth"
+      }
+    ]
+  },
   "victoryPoints": 18
 }

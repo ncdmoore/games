@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
@@ -206,6 +207,16 @@ public class AirbaseViewModel {
      */
     public void removeFromPatrol(final PatrolType type, final SquadronViewModel squadron) {
         patrolViewModels.get(type).removeFromPatrol(squadron);
+    }
+
+    /**
+     * Get the String representation of this airbase view model.
+     *
+     * @return The String representation of this airbase view model.
+     */
+    @Override
+    public String toString() {
+        return Optional.ofNullable(airbase.getValue()).map(Airbase::getTitle).orElse("");
     }
 
     /**

@@ -38,11 +38,13 @@
   "cargo": {
     "capacity": 3
   },
-  "aircraft": [
-    {
-      "model": "Walrus",
-      "strength": "sixth"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "Walrus",
+        "strength": "sixth"
+      }
+    ]
+  },
   "victoryPoints": 22
 }

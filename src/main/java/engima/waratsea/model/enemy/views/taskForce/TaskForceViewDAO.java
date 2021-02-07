@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TaskForceViewDAO {
 
-    private Resource resource;
-    private TaskForceViewFactory factory;
+    private final Resource resource;
+    private final TaskForceViewFactory factory;
 
     /**
      * Constructor called by guice.
@@ -62,11 +62,11 @@ public class TaskForceViewDAO {
      * @param taskForceViews The task force view data that is saved.
      */
     public void save(final Scenario scenario, final Side side, final List<TaskForceView> taskForceViews) {
-        log.info("Saving task force views, scenario: '{}',side {}", scenario.getTitle(), side);
+        log.debug("Saving task force views, scenario: '{}',side {}", scenario.getTitle(), side);
         taskForceViews.forEach(taskForceView -> {
             String fileName = resource.getSavedFileName(side, TaskForceView.class, taskForceView.getName() + ".json");
             PersistentUtility.save(fileName, taskForceView);
-            log.info("Saving task force view: '{}'", taskForceView.getName());
+            log.debug("Saving task force view: '{}'", taskForceView.getName());
         });
     }
 

@@ -7,12 +7,17 @@ import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.Base;
+import engima.waratsea.model.base.airfield.AirOperations;
 import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.mission.Missions;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
+import engima.waratsea.model.base.airfield.patrol.Patrols;
+import engima.waratsea.model.base.airfield.squadron.Squadrons;
+import engima.waratsea.model.base.airfield.squadron.data.SquadronsData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
@@ -21,18 +26,14 @@ import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.ship.data.GunData;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.SquadronFactory;
-import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -48,11 +49,8 @@ import java.util.stream.Stream;
  * This class may be viewed as either a ship or an airbase since it implements both interfaces.
  */
 public class CapitalShip implements Ship, Airbase {
-    private final GameMap gameMap;
-
     @Getter private final ShipId shipId;
     @Getter private final ShipType type;
-    @Getter private final AirbaseType airbaseType = AirbaseType.FlOAT_PLANE;
     @Getter private final String shipClass;
     @Getter private final Nation nation;
     @Getter private final int victoryPoints;
@@ -61,7 +59,6 @@ public class CapitalShip implements Ship, Airbase {
     @Getter private final Gun secondary;
     @Getter private final Gun tertiary;
     @Getter private final Gun antiAir;
-    @Getter @Setter private AmmunitionType ammunitionType;
     @Getter private final Torpedo torpedo;
     @Getter private final Asw asw;
     @Getter private final Movement movement;
@@ -69,21 +66,44 @@ public class CapitalShip implements Ship, Airbase {
     @Getter private final Hull hull;
     @Getter private final Cargo cargo;
     @Getter private String originPort;
+
+    @Getter @Setter private AmmunitionType ammunitionType;
+
+    @Getter private final AirbaseType airbaseType = AirbaseType.FlOAT_PLANE;
+
     @Getter private final List<LandingType> landingType;
-    @Getter private List<Squadron> squadrons;
-    private Map<AircraftType, List<Squadron>> aircraftTypeMap;
+
+    private final Squadrons squadrons;
+
+    private final Missions missions;
+    private final Patrols patrols;
+    private final AirOperations airOperations;
+    private final GameMap gameMap;
 
     /**
      * Constructor called by guice.
      *
      * @param data Ship's data.
-     * @param factory The squadron factory.
+     * @param squadrons The aircraft carrier's squadrons.
+     * @param missions The aircraft carriers air missions.
+     * @param patrols The aircraft carriers air patrols.
+     * @param airOperations This carrier's air operations.
      * @param gameMap The game map.
      */
     @Inject
     public CapitalShip(@Assisted final ShipData data,
-                       final SquadronFactory factory,
+                       final Squadrons squadrons,
+                       final Missions missions,
+                       final Patrols patrols,
+                       final AirOperations airOperations,
                        final GameMap gameMap) {
+
+        this.squadrons = squadrons;
+        this.missions = missions;
+        this.patrols = patrols;
+        this.airOperations = airOperations;
+        this.gameMap = gameMap;
+
         shipId = data.getShipId();
         taskForce = data.getTaskForce();
         type = data.getType();
@@ -108,9 +128,13 @@ public class CapitalShip implements Ship, Airbase {
 
         landingType = List.of(LandingType.FLOATPLANE);
 
-        buildSquadrons(data.getAircraft(), factory);
+        Optional.ofNullable(data.getSquadronsData())
+                .map(SquadronsData::getSquadrons)
+                .ifPresent(squadronDataList -> squadronDataList.forEach(s -> s.setNation(nation)));
 
-        this.gameMap = gameMap;
+        squadrons.build(this, data.getSquadronsData());
+        missions.build(this, data.getMissionsData());
+        patrols.build(this, data.getPatrolsData());
     }
 
     /**
@@ -143,7 +167,6 @@ public class CapitalShip implements Ship, Airbase {
         data.setSecondary(secondary.getData());
         data.setTertiary(tertiary.getData());
         data.setAntiAir(antiAir.getData());
-        data.setAmmunitionType(ammunitionType);
         data.setTorpedo(torpedo.getData());
         data.setAsw(asw.getData());
 
@@ -154,7 +177,11 @@ public class CapitalShip implements Ship, Airbase {
 
         data.setOriginPort(originPort);
 
-        data.setAircraft(PersistentUtility.getData(squadrons));
+        data.setAmmunitionType(ammunitionType);
+
+        data.setSquadronsData(squadrons.getData());
+        data.setMissionsData(missions.getData());
+        data.setPatrolsData(patrols.getData());
 
         return data;
     }
@@ -201,6 +228,17 @@ public class CapitalShip implements Ship, Airbase {
     }
 
     /**
+     * Get the airbase's nations. These are the nations that are permitted to station squadrons at this airbase.
+     * Not all nations are allowed to station squadrons at all airbase's.
+     *
+     * @return The nations that allowed to station squadrons at this airbase.
+     */
+    @Override
+    public Set<Nation> getNations() {
+        return Set.of(nation);
+    }
+
+    /**
      * Get the ship's region for the given nation.
      *
      * @param shipNation The nation: BRITISH or ITALIAN, etc...
@@ -243,24 +281,13 @@ public class CapitalShip implements Ship, Airbase {
     }
 
     /**
-     * Get the airbase's anti aircraft rating.
+     * Determines if this ship is an squadrons carrier.
      *
-     * @return The airbase's anti aircraft rating.
+     * @return True if this ship is an squadrons carrier. False otherwise.
      */
     @Override
-    public int getAntiAirRating() {
-        return 0;
-    }
-
-    /**
-     * Get the airbase's nations. These are the nations that are permitted to station squadrons at this airbase.
-     * Not all nations are allowed to station squadrons at all airbase's.
-     *
-     * @return The nations that allowed to station squadrons at this airbase.
-     */
-    @Override
-    public Set<Nation> getNations() {
-        return null;
+    public boolean isAirbase() {
+        return true;
     }
 
     /**
@@ -270,7 +297,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public int getMaxCapacity() {
-        return 0;
+        return 2;
     }
 
     /**
@@ -283,7 +310,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public int getCapacity() {
-        return 0;
+        return 2;
     }
 
     /**
@@ -297,21 +324,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public BigDecimal getCurrentSteps() {
-        return null;
-    }
-
-    /**
-     * Determine if the given squadron can be stationed at this airbase.
-     * This does not take into account any squadron steps that are given
-     * a ferry mission to this airbase.
-     *
-     * @param squadron the squadron to station at this airbase.
-     * @return The results of the squadron station operation. Success if
-     * the squadron can be stationed. Otherwise an error code is returned.
-     */
-    @Override
-    public AirfieldOperation canStation(final Squadron squadron) {
-        return null;
+        return squadrons.getCurrentSteps();
     }
 
     /**
@@ -324,7 +337,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public boolean areSquadronsPresent() {
-        return false;
+        return squadrons.areSquadronsPresent();
     }
 
     /**
@@ -335,7 +348,17 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public Squadron getSquadron(final String squadronName) {
-        return null;
+        return squadrons.getSquadron(squadronName);
+    }
+
+    /**
+     * Get all the squadrons currently stationed at this airbase. This includes all nations.
+     *
+     * @return The all squadrons currently stationed at this airbase.
+     */
+    @Override
+    public List<Squadron> getSquadrons() {
+        return squadrons.getSquadrons();
     }
 
     /**
@@ -346,7 +369,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public List<Squadron> getSquadrons(final Nation squadronNation) {
-        return null;
+        return squadrons.getSquadrons(squadronNation);
     }
 
     /**
@@ -358,7 +381,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public List<Squadron> getSquadrons(final Nation squadronNation, final SquadronState state) {
-        return null;
+        return squadrons.getSquadrons(squadronNation, state);
     }
 
     /**
@@ -368,7 +391,9 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public Map<Nation, List<Squadron>> getSquadronMap() {
-        return null;
+        return getNations()
+                .stream()
+                .collect(Collectors.toMap(country -> country, this::getSquadrons));
     }
 
     /**
@@ -380,7 +405,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation squadronNation) {
-        return null;
+        return squadrons.getSquadronMap(squadronNation);
     }
 
     /**
@@ -393,8 +418,10 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public Map<AircraftType, List<Squadron>> getSquadronMap(final Nation squadronNation, final SquadronState state) {
-        return null;
+        return squadrons.getSquadronMap(squadronNation, state);
     }
+
+
 
     /**
      * Get a list of the aircraft models present at this airbase.
@@ -404,7 +431,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public List<Aircraft> getAircraftModelsPresent(final Nation squadronNation) {
-        return null;
+        return squadrons.getAircraftModelsPresent(squadronNation);
     }
 
     /**
@@ -418,8 +445,13 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public AirfieldOperation addSquadron(final Squadron squadron) {
-        return null;
-    }
+        AirfieldOperation result = canStation(squadron);
+
+        if (result == AirfieldOperation.SUCCESS) {
+            squadrons.add(squadron);
+        }
+
+        return result;    }
 
     /**
      * Remove a squadron from this airbase.
@@ -428,7 +460,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public void removeSquadron(final Squadron squadron) {
-
+        squadrons.remove(squadron);
     }
 
     /**
@@ -438,7 +470,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public List<AirMission> getMissions() {
-        return null;
+        return missions.getMissions();
     }
 
     /**
@@ -449,7 +481,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public List<AirMission> getMissions(final Nation squadronNation) {
-        return null;
+        return missions.getMissions(squadronNation);
     }
 
     /**
@@ -459,7 +491,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public void addMission(final AirMission mission) {
-
+        missions.addMission(mission);
     }
 
     /**
@@ -472,7 +504,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public int getTotalMissionSteps(final Target target) {
-        return 0;
+        return missions.getTotalMissionSteps(target);
     }
 
     /**
@@ -483,7 +515,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public Patrol getPatrol(final PatrolType patrolType) {
-        return null;
+        return patrols.getPatrol(patrolType);
     }
 
     /**
@@ -491,7 +523,8 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public void clear() {
-
+        missions.clear();
+        patrols.clear();
     }
 
     /**
@@ -502,7 +535,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public void updatePatrol(final PatrolType patrolType, final List<Squadron> squadronsOnPatrol) {
-
+        patrols.update(patrolType, squadronsOnPatrol);
     }
 
     /**
@@ -512,29 +545,35 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public List<ProbabilityStats> getAirOperationStats() {
-        return null;
+        return airOperations.getStats(this);
     }
 
     /**
-     * Determines if this ship is an squadrons carrier.
+     * Get the airbase's anti aircraft rating.
      *
-     * @return True if this ship is an squadrons carrier. False otherwise.
+     * @return The airbase's anti aircraft rating.
      */
     @Override
-    public boolean isAirbase() {
-        return true;
+    public int getAntiAirRating() {
+        return antiAir.getHealth();
     }
 
     /**
-     * Get a list of all the ship components.
+     * Determine if the given squadron can be stationed at this airbase.
+     * This does not take into account any squadron steps that are given
+     * a ferry mission to this airbase.
      *
-     * @return A list of ship components.
+     * @param squadron the squadron to station at this airbase.
+     * @return The results of the squadron station operation. Success if
+     * the squadron can be stationed. Otherwise an error code is returned.
      */
     @Override
-    public List<Component> getComponents() {
-        return Stream.of(hull, primary, secondary, tertiary, antiAir, torpedo, movement, fuel, cargo)
-                .filter(Component::isPresent)
-                .collect(Collectors.toList());
+    public AirfieldOperation canStation(final Squadron squadron) {
+        if (!landingType.contains(squadron.getLandingType())) {
+            return AirfieldOperation.LANDING_TYPE_NOT_SUPPORTED;
+        }
+
+        return hasRoom(squadron) ? AirfieldOperation.SUCCESS : AirfieldOperation.BASE_FULL;
     }
 
     /**
@@ -554,6 +593,38 @@ public class CapitalShip implements Ship, Airbase {
     }
 
     /**
+     * Get a list of all the ship components.
+     *
+     * @return A list of ship components.
+     */
+    @Override
+    public List<Component> getComponents() {
+        return Stream.of(hull, primary, secondary, tertiary, antiAir, torpedo, movement, fuel, cargo)
+                .filter(Component::isPresent)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Determine the current number of steps deployed at this airfield.
+     *
+     * @return The current number of steps deployed at this airfield.
+     */
+    private int deployedSteps() {
+        return squadrons.deployedSteps();
+    }
+
+    /**
+     * Determine if the squadrons carrier has room for the given squadron.
+     *
+     * @param squadron A squadron that may be based at this squadrons carrier.
+     * @return True if this squadrons carrier has room for the given squadron. False otherwise.
+     */
+    private boolean hasRoom(final Squadron squadron) {
+        int steps = squadron.getSteps().intValue();
+        return steps + deployedSteps() <= getMaxCapacity();
+    }
+
+    /**
      * Get the String representation of this ship.
      *
      * @return The String representation of this ship.
@@ -561,29 +632,6 @@ public class CapitalShip implements Ship, Airbase {
     @Override
     public String toString() {
         return getTitle();
-    }
-
-    /**
-     * Build the ship squadrons. Do not examine the landing type. Some
-     * scenario's require that surface ships be loaded with squadrons that
-     * can take off but not land at sea. Thus, we ignore the landing type
-     * on initial ship creation.
-     *
-     * @param data The squadrons data read in from a JSON file.
-     * @param factory The squadron factory that builds the actual squadron.
-     */
-    private void buildSquadrons(final List<SquadronData> data, final SquadronFactory factory) {
-        squadrons =  Optional.ofNullable(data)
-                .orElseGet(Collections::emptyList)
-                .stream()
-                .map(squadronData -> factory.create(shipId.getSide(), nation, squadronData))
-                .collect(Collectors.toList());
-
-        aircraftTypeMap = squadrons
-                .stream()
-                .collect(Collectors.groupingBy(Squadron::getType));
-
-        squadrons.forEach(squadron -> squadron.setHome(this));
     }
 
     /**

@@ -295,16 +295,6 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
-     * Get the airfield's squadrons.
-     *
-     * @return The airfields's squadrons.
-     */
-    @Override
-    public List<Squadron> getSquadrons() {
-        return squadrons.getSquadrons();
-    }
-
-    /**
      * Get the current number of steps.
      *
      * @return The current number of steps deployed at this airfield.
@@ -323,6 +313,16 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     @Override
     public Squadron getSquadron(final String squadronName) {
         return squadrons.getSquadron(squadronName);
+    }
+
+    /**
+     * Get the airfield's squadrons.
+     *
+     * @return The airfields's squadrons.
+     */
+    @Override
+    public List<Squadron> getSquadrons() {
+        return squadrons.getSquadrons();
     }
 
     /**

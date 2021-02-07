@@ -30,20 +30,22 @@
     "maxOdd": 2,
     "odd": 2
   },
-  "aircraft": [
-    {
-      "model": "A5M4",
-      "strength": "half"
-    },
-    {
-      "model": "A6M2",
-      "strength": "half"
-    },
-    {
-      "model": "B5N2",
-      "strength": "half"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "A5M4",
+        "strength": "half"
+      },
+      {
+        "model": "A6M2",
+        "strength": "half"
+      },
+      {
+        "model": "B5N2",
+        "strength": "half"
+      }
+    ]
+  },
   "landingType": [
     "CARRIER"
   ],

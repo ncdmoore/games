@@ -46,11 +46,13 @@
   "cargo": {
     "capacity": 3
   },
-  "aircraft": [
-    {
-      "model": "RO43",
-      "strength": "sixth"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "RO43",
+        "strength": "sixth"
+      }
+    ]
+  },
   "victoryPoints": 19
 }

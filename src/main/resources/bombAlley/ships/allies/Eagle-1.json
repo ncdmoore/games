@@ -43,20 +43,22 @@
     "maxOdd": 2,
     "odd": 2
   },
-  "aircraft": [
-    {
-      "model": "Swordfish",
-      "strength": "full"
-    },
-    {
-      "model": "Swordfish",
-      "strength": "half"
-    },
-    {
-      "model": "Sea Gladiator",
-      "strength": "half"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "Swordfish",
+        "strength": "full"
+      },
+      {
+        "model": "Swordfish",
+        "strength": "half"
+      },
+      {
+        "model": "Sea Gladiator",
+        "strength": "half"
+      }
+    ]
+  },
   "landingType": [
     "CARRIER"
   ],

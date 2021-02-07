@@ -39,11 +39,13 @@
   "cargo": {
     "capacity": 3
   },
-  "aircraft": [
-    {
-      "model": "OS2U",
-      "strength": "sixth"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "OS2U",
+        "strength": "sixth"
+      }
+    ]
+  },
   "victoryPoints": 28
 }

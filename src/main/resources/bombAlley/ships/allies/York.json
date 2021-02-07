@@ -45,11 +45,13 @@
   "cargo": {
     "capacity": 3
   },
-  "aircraft": [
-    {
-      "model": "Seafox",
-      "strength": "sixth"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "Seafox",
+        "strength": "sixth"
+      }
+    ]
+  },
   "victoryPoints": 22
 }

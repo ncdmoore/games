@@ -1,0 +1,42 @@
+{
+  "name": "L298",
+  "type": "Torpedo_Bomber",
+  "nationality": "French",
+  "service": "NAVY",
+  "designation": "AA-",
+  "altitude": "LOW",
+  "takeoff": "SEAPLANE",
+  "landing": "SEAPLANE",
+  "navalWarship": {
+    "modifier": 1,
+    "full": 4,
+    "half": 2
+  },
+  "navalTransport": {
+    "modifier": 1,
+    "full": 4,
+    "half": 2
+  },
+  "land": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "air": {
+    "modifier": 0,
+    "full": 1,
+    "half": 0
+  },
+  "performance": {
+    "range": 8,
+    "endurance": 2
+  },
+  "frame": {
+    "frame": 1,
+    "fragile": false
+  },
+  "config": [
+    "NONE",
+    "SEARCH"
+  ]
+}

@@ -1,10 +1,11 @@
-package engima.waratsea.viewmodel.ship;
+package engima.waratsea.viewmodel.taskforce;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.view.ship.ShipViewType;
+import engima.waratsea.viewmodel.ship.ShipViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ListExpression;
 import javafx.beans.property.BooleanProperty;
@@ -92,7 +93,6 @@ public class ShipsViewModel {
             Callable<Integer> bindingFunction = () ->
                     Optional.ofNullable(shipTypeMap.getValue())
                             .map(m -> m.get(type))
-                            //.map(this::getShipCount)
                             .map(List::size)
                             .orElse(0);
 
@@ -138,9 +138,5 @@ public class ShipsViewModel {
                 .stream()
                 .map(ship -> provider.get().setModel(ship))
                 .collect(Collectors.toList());
-    }
-
-    private int getShipCount(final List<ShipViewModel> ships) {
-        return Optional.ofNullable(ships).map(List::size).orElse(0);
     }
 }

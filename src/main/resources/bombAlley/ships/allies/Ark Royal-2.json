@@ -36,28 +36,30 @@
     "maxOdd": 3,
     "odd": 3
   },
-  "aircraft": [
-    {
-      "model": "Fulmar",
-      "strength": "full"
-    },
-    {
-      "model": "Fulmar",
-      "strength": "Half"
-    },
-    {
-      "model": "Hurricane-1f",
-      "strength": "full"
-    },
-    {
-      "model": "Hurricane-1f",
-      "strength": "full"
-    },
-    {
-      "model": "Hurricane-1f",
-      "strength": "full"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "Fulmar",
+        "strength": "full"
+      },
+      {
+        "model": "Fulmar",
+        "strength": "Half"
+      },
+      {
+        "model": "Hurricane-1f",
+        "strength": "full"
+      },
+      {
+        "model": "Hurricane-1f",
+        "strength": "full"
+      },
+      {
+        "model": "Hurricane-1f",
+        "strength": "full"
+      }
+    ]
+  },
   "landingType":[
     "CARRIER"
   ],

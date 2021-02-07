@@ -36,16 +36,18 @@
     "maxOdd": 1,
     "odd": 1
   },
-  "aircraft": [
-    {
-      "model": "E13A",
-      "strength": "half"
-    },
-    {
-      "model": "F1M",
-      "strength": "half"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "E13A",
+        "strength": "half"
+      },
+      {
+        "model": "F1M",
+        "strength": "half"
+      }
+    ]
+  },
   "landingType": [
     "SEAPLANE"
   ],

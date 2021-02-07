@@ -11,8 +11,8 @@ import engima.waratsea.model.taskForce.mission.rules.SeaMissionRules;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.ship.ShipViewType;
+import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import engima.waratsea.viewmodel.ship.ShipViewModel;
-import engima.waratsea.viewmodel.ship.ShipsViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -74,6 +74,7 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
     @Getter private final ObjectProperty<TaskForce> taskForce = new SimpleObjectProperty<>();
 
     private final ShipsViewModel shipsViewModel;
+    private final AirbasesViewModel airbasesViewModel;
 
     /**
      * Constructor called by guice.
@@ -82,14 +83,17 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
      * @param props View properties.
      * @param seaMissionRules The sea mission rules.
      * @param shipsViewModel The ship view models in this task force.
+     * @param airbasesViewModel The airbase view models in this task force. Aircraft carriers, etc...
      */
     @Inject
     public TaskForceViewModel(final ImageResourceProvider imageResourceProvider,
                               final ViewProps props,
                               final SeaMissionRules seaMissionRules,
-                              final ShipsViewModel shipsViewModel) {
+                              final ShipsViewModel shipsViewModel,
+                              final AirbasesViewModel airbasesViewModel) {
         this.seaMissionRules = seaMissionRules;
         this.shipsViewModel = shipsViewModel;
+        this.airbasesViewModel = airbasesViewModel;
 
         bindTitles();
         bindDetails();
@@ -107,6 +111,7 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
     public TaskForceViewModel setModel(final TaskForce force) {
         taskForce.setValue(force);
         shipsViewModel.setModel(force);
+        airbasesViewModel.setModel(force);
 
         String taskForceLocation = Optional
                 .ofNullable(force.getLocation())
@@ -157,6 +162,15 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
      */
     public Map<ShipViewType, BooleanProperty> getShipPresent() {
         return shipsViewModel.getShipNotPresent();
+    }
+
+    /**
+     * Get this task forces airbases.
+     *
+     * @return A list of this task forces airbases.
+     */
+    public ListProperty<AirbaseViewModel> getAirbases() {
+        return airbasesViewModel.getAirbases();
     }
 
     /**

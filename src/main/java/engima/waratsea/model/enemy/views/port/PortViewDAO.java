@@ -62,7 +62,7 @@ public class PortViewDAO  {
      * @param portViews The port view data that is saved.
      */
     public void save(final Scenario scenario, final Side side, final List<PortView> portViews) {
-        log.info("Saving port views, scenario: '{}',side {}", scenario.getTitle(), side);
+        log.debug("Saving port views, scenario: '{}',side {}", scenario.getTitle(), side);
         portViews.forEach(portView -> {
             String fileName = resource.getSavedFileName(side, PortView.class, portView.getName() + ".json");
             PersistentUtility.save(fileName, portView);

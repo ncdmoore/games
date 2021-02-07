@@ -46,11 +46,13 @@
   "cargo": {
     "capacity": 3
   },
-  "aircraft": [
-    {
-      "model": "E8N",
-      "strength": "sixth"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "E8N",
+        "strength": "sixth"
+      }
+    ]
+  },
   "victoryPoints": 26
 }

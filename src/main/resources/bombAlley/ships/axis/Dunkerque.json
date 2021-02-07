@@ -33,11 +33,13 @@
     "maxOdd": 3,
     "odd": 3
   },
-  "aircraft": [
-    {
-      "model": "Loire 130",
-      "strength": "sixth"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "Loire 130",
+        "strength": "sixth"
+      }
+    ]
+  },
   "victoryPoints": 56
 }

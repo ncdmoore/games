@@ -36,11 +36,13 @@
     "maxOdd": 3,
     "odd": 3
   },
-  "aircraft": [
-    {
-      "model": "RO43",
-      "strength": "sixth"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "RO43",
+        "strength": "sixth"
+      }
+    ]
+  },
   "victoryPoints": 114
 }

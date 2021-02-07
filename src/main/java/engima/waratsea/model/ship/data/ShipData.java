@@ -1,11 +1,13 @@
 package engima.waratsea.model.ship.data;
 
 import engima.waratsea.model.aircraft.LandingType;
+import engima.waratsea.model.base.airfield.mission.data.MissionsData;
+import engima.waratsea.model.base.airfield.patrol.data.PatrolsData;
+import engima.waratsea.model.base.airfield.squadron.data.SquadronsData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.ship.AmmunitionType;
 import engima.waratsea.model.ship.ShipId;
 import engima.waratsea.model.ship.ShipType;
-import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,11 +34,15 @@ public class ShipData {
     @Getter @Setter private HullData hull;
     @Getter @Setter private FuelData fuel;
     @Getter @Setter private MovementData movement;
-    @Getter @Setter private CargoData cargo;                                            //Cargo is 3 times the value in the board game. This is done to avoid fractions.
+    @Getter @Setter private CargoData cargo;             //Cargo is 3 times the value in the board game. This is done to avoid fractions.
     @Getter @Setter private int victoryPoints;
     @Getter @Setter private String originPort;
     @Getter @Setter private List<LandingType> landingType;
-    @Getter @Setter private List<SquadronData> aircraft;
+
+    @Getter @Setter private SquadronsData squadronsData; //squadrons stationed at the airfield.
+    @Getter @Setter private MissionsData missionsData;
+    @Getter @Setter private PatrolsData patrolsData;
+
 
     /** The default ship data constructor.
      *

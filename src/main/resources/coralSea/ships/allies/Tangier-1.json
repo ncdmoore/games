@@ -30,12 +30,14 @@
     "maxOdd": 1,
     "odd": 1
   },
-  "aircraft": [
-  {
-    "model": "Catalina",
-    "strength": "half"
-  }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "Catalina",
+        "strength": "half"
+      }
+    ]
+  },
   "landingType": [
     "SEAPLANE"
   ],

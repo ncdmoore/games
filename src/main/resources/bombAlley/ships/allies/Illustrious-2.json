@@ -36,20 +36,22 @@
     "maxOdd": 3,
     "odd": 3
   },
-  "aircraft": [
-    {
-      "model": "Fulmar",
-      "strength": "full"
-    },
-    {
-      "model": "Albacore",
-      "strength": "full"
-    },
-    {
-      "model": "Albacore",
-      "strength": "full"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "Fulmar",
+        "strength": "full"
+      },
+      {
+        "model": "Albacore",
+        "strength": "full"
+      },
+      {
+        "model": "Albacore",
+        "strength": "full"
+      }
+    ]
+  },
   "landingType": [
     "CARRIER"
   ],

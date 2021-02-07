@@ -36,24 +36,26 @@
     "maxOdd": 3,
     "odd": 3
   },
-  "aircraft": [
-    {
-      "model": "Fulmar",
-      "strength": "half"
-    },
-    {
-      "model": "Swordfish",
-      "strength": "full"
-    },
-    {
-      "model": "Swordfish",
-      "strength": "full"
-    },
-    {
-      "model": "Swordfish",
-      "strength": "half"
-    }
-  ],
+  "squadronsData": {
+    "squadrons": [
+      {
+        "model": "Fulmar",
+        "strength": "half"
+      },
+      {
+        "model": "Swordfish",
+        "strength": "full"
+      },
+      {
+        "model": "Swordfish",
+        "strength": "full"
+      },
+      {
+        "model": "Swordfish",
+        "strength": "half"
+      }
+    ]
+  },
   "landingType": [
     "CARRIER"
   ],
