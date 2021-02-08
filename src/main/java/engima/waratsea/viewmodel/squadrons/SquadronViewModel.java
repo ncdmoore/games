@@ -666,7 +666,7 @@ public class SquadronViewModel {
 
         aircraftProfileSummary.bind(Bindings.createObjectBinding(() -> Optional
                 .ofNullable(squadron.getValue())
-                .map(s -> imageResourceProvider.getAircraftProfileImageView(s.getSide(), s.getAircraft().getModel() + "-240"))
+                .map(s -> imageResourceProvider.getAircraftProfileImageView(s.getSide(), s.getAircraft().getModel()))
                 .orElse(null), squadron));
     }
 

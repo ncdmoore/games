@@ -8,6 +8,9 @@ import engima.waratsea.model.squadron.Squadron;
 
 import java.util.List;
 
+/**
+ * Represents a map region.
+ */
 public interface Region {
     /**
      * Get the name of the region.

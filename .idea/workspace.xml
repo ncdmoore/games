@@ -8,19 +8,97 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/LandRegion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/SeaRegion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/BritishAirfieldCarrierDetails.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/BasicModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/BasicModule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Resource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Resource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/Region.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/Region.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/RegionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/RegionDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/RegionFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/region/RegionFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/AircraftCarrier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/CapitalShip.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/ship/CapitalShip.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/TestModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/TestModule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/airfieldTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/airfieldTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/patrol/PatrolTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/patrol/PatrolTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/squadrons/SquadronViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/squadrons/SquadronViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images/Catalina-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/Catalina-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images/Catalina-British-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images/GST-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images/Hurricane-1-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images/Hurricane-1-USSR-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images/Hurricane-1-USSR-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Albacore-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Beaufort-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Blenheim-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Blenheim-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Catalina-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Catalina-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Fulmar-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Fulmar-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Gladiator-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Hudson-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Hudson-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Hurricane-1-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Hurricane-1f-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Hurricane-2-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Hurricane-2-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Kittyhawk-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Kittyhawk-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Loire 130-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Loire 130-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Maryland-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Maryland-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Skua-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Skua-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Sunderland-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Swordfish-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Swordfish-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Wellington-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Wellington-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/BF109E-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/BF109E-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/BF109F-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/BF109F-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/BF109G-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/BF109G-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/BF109G-profile.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/BF110D-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/BF110D-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/BR20-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/BR20-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/CA309-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/CA309-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/CA313-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/CA313-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/CR32-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/CR42-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/D520-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/FW190-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/FW190-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/G50-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/HE111H-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/HE111H-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/JU87B Italian-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/JU87B-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/JU87D-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/JU87R-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/JU88A-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/JU88A-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/L298-profile-240.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/Leo451-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/Leo451-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/Loire 130-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/Loire 130-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/MC200-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/MC200-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/MC202-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/MC202-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/MC205-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/MC205-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/P108-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/P108-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/RE2001-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/RE2001-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/RE2002-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/RE2005-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/RE2005-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/RO37-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/RO43-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/RO44-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/SM79-2-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/SM79-2-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/SM79-3-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/SM79-3-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/SM81-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/SM81-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/SM85-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/SM85-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/Z1007-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/Z1007-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/Z501-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/Z501-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/Z506-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/g55-240-profile.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/G55-profile.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images/g55-profile.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/view.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/A24-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/A24-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B17E-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B17E-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B25A-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B25A-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B26B-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B26B-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/Catalina-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/F4F3-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/F4F3-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/Hudson-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/Hudson-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/OS2U-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/P39D-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/P39D-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/SBD3-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/TBD-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/A5M4-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/A6M2-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/A6M2N-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/B5N2-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/B5N2-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/D3A1-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/E13A-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/E7K-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/E8N-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/F1M-240-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/G3M2-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/G3M2-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/G4M1-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/G4M1-profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/H6K4-240-profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/H6K4-profile.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,11 +204,11 @@
       <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/scenarios/firstConvoy/taskforce" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/axis/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/coralSea/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/images" />
-      <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/ships/axis/images" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="engima.waratsea.model.map.region" />
@@ -288,13 +366,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00338" summary="Do not show blank tooltips for squadrons on patrol.">
-      <created>1610304133677</created>
-      <option name="number" value="00338" />
-      <option name="presentableId" value="LOCAL-00338" />
-      <option name="project" value="LOCAL" />
-      <updated>1610304133677</updated>
     </task>
     <task id="LOCAL-00339" summary="Rename Aircraft AttackFactor.java to Attack.java">
       <created>1610318658334</created>
@@ -632,7 +703,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612726744398</updated>
     </task>
-    <option name="localTasksCounter" value="387" />
+    <task id="LOCAL-00387" summary="Create a sea region for ships.">
+      <created>1612747044840</created>
+      <option name="number" value="00387" />
+      <option name="presentableId" value="LOCAL-00387" />
+      <option name="project" value="LOCAL" />
+      <updated>1612747044840</updated>
+    </task>
+    <option name="localTasksCounter" value="388" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -647,7 +725,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Arctic Convoy maps done." />
     <MESSAGE value="Add preview map marker adjuster." />
     <MESSAGE value="Fix the maximum length of the game's main map. Always allow room for the asset tab." />
     <MESSAGE value="Add new map menu option for hiding grid references." />
@@ -672,7 +749,8 @@
     <MESSAGE value="Add ship details to task force dialog." />
     <MESSAGE value="Separate out ships that carry float planes from those that do not. Capital Ships carry float planes potentially. All others do not." />
     <MESSAGE value="Breakout AirbasePresenter from AirfieldDialog. This allows the AirbasePresenter to be used by the TaskForceAirOperations class." />
-    <option name="LAST_COMMIT_MESSAGE" value="Breakout AirbasePresenter from AirfieldDialog. This allows the AirbasePresenter to be used by the TaskForceAirOperations class." />
+    <MESSAGE value="Create a sea region for ships." />
+    <option name="LAST_COMMIT_MESSAGE" value="Create a sea region for ships." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
