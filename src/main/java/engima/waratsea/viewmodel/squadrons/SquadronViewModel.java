@@ -87,7 +87,6 @@ public class SquadronViewModel {
 
     @Getter private final ObjectProperty<Image> aircraftImage = new SimpleObjectProperty<>();
     @Getter private final ObjectProperty<Image> aircraftProfile = new SimpleObjectProperty<>();
-    @Getter private final ObjectProperty<Image> aircraftProfileSummary = new SimpleObjectProperty<>();
 
     private final StringProperty airfield = new SimpleStringProperty();
     private final StringProperty status = new SimpleStringProperty();
@@ -660,11 +659,6 @@ public class SquadronViewModel {
                 .orElse(null), squadron));
 
         aircraftProfile.bind(Bindings.createObjectBinding(() -> Optional
-                .ofNullable(squadron.getValue())
-                .map(s -> imageResourceProvider.getAircraftProfileImageView(s.getSide(), s.getAircraft().getModel()))
-                .orElse(null), squadron));
-
-        aircraftProfileSummary.bind(Bindings.createObjectBinding(() -> Optional
                 .ofNullable(squadron.getValue())
                 .map(s -> imageResourceProvider.getAircraftProfileImageView(s.getSide(), s.getAircraft().getModel()))
                 .orElse(null), squadron));

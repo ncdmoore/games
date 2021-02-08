@@ -111,7 +111,7 @@ public class SquadronSummaryView {
 
         aircraftProfile.imageProperty().bind(Bindings.createObjectBinding(() -> Optional
                 .ofNullable(squadron.getValue())
-                .map(svm -> svm.getAircraftProfileSummary().getValue())
+                .map(svm -> svm.getAircraftProfile().getValue())
                 .orElse(null), squadron));
 
         mainPane.visibleProperty().bind(Bindings.createBooleanBinding(() -> Optional
