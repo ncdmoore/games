@@ -20,14 +20,14 @@ import java.util.Optional;
 @Slf4j
 public class AirfieldEvent extends GameEvent {
     private static transient List<GameEventHandler<AirfieldEvent>> handlers = new ArrayList<>();
-    private static transient Map<Object, GameEventHandler<AirfieldEvent>> map = new HashMap<>();
+    private static final transient Map<Object, GameEventHandler<AirfieldEvent>> MAP = new HashMap<>();
 
     /**
      * Initialize the airfield event class. This method clears out all airfield event handlers.
      */
     public static void init() {
         handlers.clear();
-        map.clear();
+        MAP.clear();
     }
 
     /**
@@ -37,7 +37,7 @@ public class AirfieldEvent extends GameEvent {
      * @param airfieldEventHandler The airfield event handler that is registered.
      */
     public static void register(final Object handler, final GameEventHandler<AirfieldEvent> airfieldEventHandler) {
-        map.put(handler, airfieldEventHandler);
+        MAP.put(handler, airfieldEventHandler);
         handlers = add(AirfieldEvent.class, handlers, airfieldEventHandler);
     }
 
@@ -47,8 +47,8 @@ public class AirfieldEvent extends GameEvent {
      * @param handler The airfield event handler that is unregistered.
      */
     public static void unregister(final Object handler) {
-        if (map.containsKey(handler)) {
-            handlers = remove(AirfieldEvent.class, handlers, map.get(handler));
+        if (MAP.containsKey(handler)) {
+            handlers = remove(AirfieldEvent.class, handlers, MAP.get(handler));
         }
     }
 
@@ -66,7 +66,7 @@ public class AirfieldEvent extends GameEvent {
 
     @Getter
     @Setter
-    private AssetType by;                       // The game asset ship, sub or aircraft that caused the event. The asset that did the event. Not all events have a by.
+    private AssetType by;                  // The game asset ship, sub or aircraft that caused the event. The asset that did the event. Not all events have a by.
 
     /**
      * This is how an event is fired and all the event handlers receive

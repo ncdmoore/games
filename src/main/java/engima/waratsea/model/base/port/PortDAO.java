@@ -29,10 +29,10 @@ import java.util.Optional;
 @Slf4j
 @Singleton
 public class PortDAO {
-    private Resource config;
-    private PortFactory factory;
+    private final Resource config;
+    private final PortFactory factory;
 
-    private Map<String, Port> cache = new HashMap<>();
+    private final Map<String, Port> cache = new HashMap<>();
     /**
      * Constructor called by guice.
      *

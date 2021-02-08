@@ -19,14 +19,14 @@ import java.util.Map;
 @Slf4j
 public class ShipEvent extends GameEvent {
     private static transient List<GameEventHandler<ShipEvent>> handlers = new ArrayList<>();
-    private static transient Map<Object, GameEventHandler<ShipEvent>> map = new HashMap<>();
+    private static final transient Map<Object, GameEventHandler<ShipEvent>> MAP = new HashMap<>();
 
     /**
      * Initialize the ship event class. This method clears out all ship event handlers.
      */
     public static void init() {
         handlers.clear();
-        map.clear();
+        MAP.clear();
     }
 
     /**
@@ -36,7 +36,7 @@ public class ShipEvent extends GameEvent {
      * @param shipEventHandler The ship event handler that is registered.
      */
     public static void register(final Object handler, final GameEventHandler<ShipEvent> shipEventHandler) {
-        map.put(handler, shipEventHandler);
+        MAP.put(handler, shipEventHandler);
         handlers = add(ShipEvent.class, handlers, shipEventHandler);
     }
 
@@ -46,8 +46,8 @@ public class ShipEvent extends GameEvent {
      * @param handler The ship event handler that is unregistered.
      */
     public static void unregister(final Object handler) {
-        if (map.containsKey(handler)) {
-            handlers = remove(ShipEvent.class, handlers, map.get(handler));
+        if (MAP.containsKey(handler)) {
+            handlers = remove(ShipEvent.class, handlers, MAP.get(handler));
         }
     }
 

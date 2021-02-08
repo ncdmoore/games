@@ -23,11 +23,6 @@ import java.util.stream.Collectors;
 
 /**
  * Represents a reconnaissance aircraft.
- * Supported configurations:
- *
- *  SquadronConfig.NONE
- *  SquadronConfig.REDUCED_PAYLOAD
- *  SquadronConfig.SEARCH
  */
 public class Recon implements Aircraft {
     private final Map<AttackType, FunctionalMap<SquadronConfig, Attack>> attackMap = new HashMap<>();

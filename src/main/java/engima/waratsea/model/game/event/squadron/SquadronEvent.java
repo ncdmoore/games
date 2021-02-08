@@ -19,14 +19,14 @@ import java.util.Map;
 @Slf4j
 public class SquadronEvent extends GameEvent {
     private static transient List<GameEventHandler<SquadronEvent>> handlers = new ArrayList<>();
-    private static transient Map<Object, GameEventHandler<SquadronEvent>> map = new HashMap<>();
+    private static final transient Map<Object, GameEventHandler<SquadronEvent>> MAP = new HashMap<>();
 
     /**
      * Initialize the squadron event class. This method clears out all squadron event handlers.
      */
     public static void init() {
         handlers.clear();
-        map.clear();
+        MAP.clear();
     }
 
     /**
@@ -36,7 +36,7 @@ public class SquadronEvent extends GameEvent {
      * @param squadronEventHandler The squadron event handler that is registered.
      */
     public static void register(final Object handler, final GameEventHandler<SquadronEvent> squadronEventHandler) {
-        map.put(handler, squadronEventHandler);
+        MAP.put(handler, squadronEventHandler);
         handlers = add(SquadronEvent.class, handlers, squadronEventHandler);
     }
 
@@ -46,8 +46,8 @@ public class SquadronEvent extends GameEvent {
      * @param handler The squadron event handler that is unregistered.
      */
     public static void unregister(final Object handler) {
-        if (map.containsKey(handler)) {
-            handlers = remove(SquadronEvent.class, handlers, map.get(handler));
+        if (MAP.containsKey(handler)) {
+            handlers = remove(SquadronEvent.class, handlers, MAP.get(handler));
         }
     }
 
@@ -61,7 +61,7 @@ public class SquadronEvent extends GameEvent {
 
     @Getter
     @Setter
-    private AssetType by;                       // The game asset ship, sub or aircraft that caused the event. The asset that did the event. Not all events have a by.
+    private AssetType by;                  // The game asset ship, sub or aircraft that caused the event. The asset that did the event. Not all events have a by.
 
     /**
      * This is how an event is fired and all the event handlers receive

@@ -32,7 +32,6 @@ public class AirfieldDAO {
     private final Resource config;
     private final AirfieldFactory factory;
 
-
     private final Map<String, Airfield> cache = new HashMap<>();
 
     /**

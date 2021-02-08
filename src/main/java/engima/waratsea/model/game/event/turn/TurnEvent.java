@@ -17,9 +17,10 @@ import java.util.Map;
 @Slf4j
 public class TurnEvent extends GameEvent {
     private static transient List<GameEventHandler<TurnEvent>> handlers = new ArrayList<>();
-    private static transient Map<Object, GameEventHandler<TurnEvent>> map = new HashMap<>();
+    private static final transient Map<Object, GameEventHandler<TurnEvent>> MAP = new HashMap<>();
 
     /**
+     *
      * Initialize the turn event class. This method clears out all turn event handlers.
      */
     public static void init() {
@@ -33,7 +34,7 @@ public class TurnEvent extends GameEvent {
      * @param turnEventHandler The turn event handler that is registered.
      */
     public static void register(final Object handler, final GameEventHandler<TurnEvent> turnEventHandler) {
-        map.put(handler, turnEventHandler);
+        MAP.put(handler, turnEventHandler);
         handlers = add(TurnEvent.class, handlers, turnEventHandler);
     }
 
@@ -43,8 +44,8 @@ public class TurnEvent extends GameEvent {
      * @param handler The turn event handler that is unregistered.
      */
     public static void unregister(final Object handler) {
-        if (map.containsKey(handler)) {
-            handlers = remove(TurnEvent.class, handlers, map.get(handler));
+        if (MAP.containsKey(handler)) {
+            handlers = remove(TurnEvent.class, handlers, MAP.get(handler));
         }
     }
 

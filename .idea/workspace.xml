@@ -9,28 +9,10 @@
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/squadrons/SquadronViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/squadrons/SquadronViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images/Hurricane-1-USSR-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Blenheim-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Catalina-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Hudson-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Hurricane-2-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Kittyhawk-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Maryland-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images/Wellington-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/A24-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B17E-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B25A-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/B26B-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/Catalina-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/F4F3-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/Hudson-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/allies/images/P39D-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/B5N2-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/G3M2-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/G4M1-profile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/aircraft/axis/images/H6K4-profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Recon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Recon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/AirfieldDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/AirfieldDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/port/PortDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/port/PortDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEvent.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -298,27 +280,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00340" summary="Refactor poor naval bomber to ItalianBomber. Add final modifier to Attack.">
-      <created>1610322647393</created>
-      <option name="number" value="00340" />
-      <option name="presentableId" value="LOCAL-00340" />
-      <option name="project" value="LOCAL" />
-      <updated>1610322647393</updated>
-    </task>
-    <task id="LOCAL-00341" summary="Separate naval attack into naval warship attack and naval transport attack.">
-      <created>1610419269817</created>
-      <option name="number" value="00341" />
-      <option name="presentableId" value="LOCAL-00341" />
-      <option name="project" value="LOCAL" />
-      <updated>1610419269818</updated>
-    </task>
-    <task id="LOCAL-00342" summary="Move squadron configuration calculations to be inside the SquadronConfig class and not inside the Aircraft classes.">
-      <created>1610753228550</created>
-      <option name="number" value="00342" />
-      <option name="presentableId" value="LOCAL-00342" />
-      <option name="project" value="LOCAL" />
-      <updated>1610753228550</updated>
     </task>
     <task id="LOCAL-00343" summary="Move allowed squadron configurations to aircraft data json files.">
       <created>1610813353140</created>
@@ -642,7 +603,28 @@
       <option name="project" value="LOCAL" />
       <updated>1612810703756</updated>
     </task>
-    <option name="localTasksCounter" value="389" />
+    <task id="LOCAL-00389" summary="Use only one aircraft profile image.">
+      <created>1612811700391</created>
+      <option name="number" value="00389" />
+      <option name="presentableId" value="LOCAL-00389" />
+      <option name="project" value="LOCAL" />
+      <updated>1612811700391</updated>
+    </task>
+    <task id="LOCAL-00390" summary="Use only one aircraft profile image.">
+      <created>1612811751180</created>
+      <option name="number" value="00390" />
+      <option name="presentableId" value="LOCAL-00390" />
+      <option name="project" value="LOCAL" />
+      <updated>1612811751180</updated>
+    </task>
+    <task id="LOCAL-00391" summary="Use only one aircraft profile image.">
+      <created>1612811829926</created>
+      <option name="number" value="00391" />
+      <option name="presentableId" value="LOCAL-00391" />
+      <option name="project" value="LOCAL" />
+      <updated>1612811829926</updated>
+    </task>
+    <option name="localTasksCounter" value="392" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -709,17 +691,17 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/AirfieldDAO.java</url>
-          <line>65</line>
+          <line>64</line>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/AirfieldDAO.java</url>
-          <line>97</line>
+          <line>96</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/AirfieldDAO.java</url>
-          <line>125</line>
+          <line>124</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
