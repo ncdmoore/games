@@ -1,5 +1,6 @@
 package engima.waratsea.model.map.region;
 
+import com.google.inject.name.Named;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.data.RegionData;
 
@@ -13,5 +14,6 @@ public interface RegionFactory {
      * @param data Region data read from a JSON file.
      * @return A Region initialized with the data from the JSON file.
      */
-    Region create(Side side, RegionData data);
+    @Named("land")
+    Region createLandRegion(Side side, RegionData data);
 }

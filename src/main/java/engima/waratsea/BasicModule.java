@@ -52,6 +52,7 @@ import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
 import engima.waratsea.model.game.event.squadron.SquadronEvent;
 import engima.waratsea.model.game.event.squadron.SquadronEventMatcher;
 import engima.waratsea.model.game.event.squadron.SquadronEventMatcherFactory;
+import engima.waratsea.model.map.region.LandRegion;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.map.region.RegionFactory;
 import engima.waratsea.model.minefield.Minefield;
@@ -67,9 +68,9 @@ import engima.waratsea.model.player.HumanPlayer;
 import engima.waratsea.model.player.NeutralPlayer;
 import engima.waratsea.model.player.Player;
 import engima.waratsea.model.ship.AircraftCarrier;
+import engima.waratsea.model.ship.CapitalShip;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.ship.ShipFactory;
-import engima.waratsea.model.ship.CapitalShip;
 import engima.waratsea.model.ship.SurfaceShip;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
@@ -168,8 +169,9 @@ public class BasicModule extends AbstractModule {
                 .implement(Aircraft.class, Names.named("recon"), Recon.class)
                 .build(AircraftFactory.class));
 
-
-        install(new FactoryModuleBuilder().implement(Region.class, Region.class).build(RegionFactory.class));
+        install(new FactoryModuleBuilder()
+                .implement(Region.class, Names.named("land"), LandRegion.class)
+                .build(RegionFactory.class));
 
         install(new FactoryModuleBuilder().implement(VictoryConditions.class, VictoryConditions.class).build(VictoryConditionsFactory.class));
 

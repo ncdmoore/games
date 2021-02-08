@@ -136,6 +136,6 @@ public class PatrolTest {
         regionData.setName("Gibraltar");
         regionData.setNation(Nation.BRITISH);
 
-        return regionFactory.create(Side.ALLIES, regionData);
+        return regionFactory.createLandRegion(Side.ALLIES, regionData);
     }
 }

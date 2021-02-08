@@ -52,6 +52,7 @@ import engima.waratsea.model.game.event.ship.ShipEventMatcherFactory;
 import engima.waratsea.model.game.event.squadron.SquadronEvent;
 import engima.waratsea.model.game.event.squadron.SquadronEventMatcher;
 import engima.waratsea.model.game.event.squadron.SquadronEventMatcherFactory;
+import engima.waratsea.model.map.region.LandRegion;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.map.region.RegionFactory;
 import engima.waratsea.model.minefield.Minefield;
@@ -159,8 +160,10 @@ public class TestModule extends AbstractModule {
                 .implement(Aircraft.class, Names.named("recon"), Recon.class)
                 .build(AircraftFactory.class));
 
-        install(new FactoryModuleBuilder().implement(Region.class, Region.class).build(RegionFactory.class));
-
+        install(new FactoryModuleBuilder()
+                .implement(Region.class, Names.named("land"), LandRegion.class)
+                .build(RegionFactory.class));
+        
         install(new FactoryModuleBuilder().implement(VictoryConditions.class, VictoryConditions.class).build(VictoryConditionsFactory.class));
 
         install(new FactoryModuleBuilder()

@@ -23,6 +23,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
+import engima.waratsea.model.map.region.SeaRegion;
 import engima.waratsea.model.ship.data.GunData;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.squadron.Squadron;
@@ -77,6 +78,7 @@ public class AircraftCarrier implements Ship, Airbase {
     private final Patrols patrols;
     private final AirOperations airOperations;
     private final GameMap gameMap;
+    private final Region region;
 
     /**
      * Constructor called by guice.
@@ -87,6 +89,7 @@ public class AircraftCarrier implements Ship, Airbase {
      * @param patrols The aircraft carriers air patrols.
      * @param airOperations This carrier's air operations.
      * @param gameMap The game map.
+     * @param region The aircraft carrier's region.
      */
     @Inject
     public AircraftCarrier(@Assisted final ShipData data,
@@ -94,13 +97,15 @@ public class AircraftCarrier implements Ship, Airbase {
                                      final Missions missions,
                                      final Patrols patrols,
                                      final AirOperations airOperations,
-                                     final GameMap gameMap) {
+                                     final GameMap gameMap,
+                                     final SeaRegion region) {
 
         this.squadrons = squadrons;
         this.missions = missions;
         this.patrols = patrols;
         this.airOperations = airOperations;
         this.gameMap = gameMap;
+        this.region = region;
 
         shipId = data.getShipId();
         taskForce = data.getTaskForce();
@@ -136,6 +141,8 @@ public class AircraftCarrier implements Ship, Airbase {
         squadrons.build(this, data.getSquadronsData());
         missions.build(this, data.getMissionsData());
         patrols.build(this, data.getPatrolsData());
+
+
     }
 
     /**
@@ -247,7 +254,7 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public Region getRegion(final Nation squadronNation) {
-        return null; // Aircraft carrier's do not have regions.
+        return region;
     }
 
     /**
@@ -257,7 +264,7 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public String getRegionTitle() {
-        return "Unknown";
+        return region.getTitle();
     }
 
     /**

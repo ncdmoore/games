@@ -23,6 +23,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
+import engima.waratsea.model.map.region.SeaRegion;
 import engima.waratsea.model.ship.data.GunData;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.squadron.Squadron;
@@ -79,6 +80,7 @@ public class CapitalShip implements Ship, Airbase {
     private final Patrols patrols;
     private final AirOperations airOperations;
     private final GameMap gameMap;
+    private final Region region;
 
     /**
      * Constructor called by guice.
@@ -89,6 +91,7 @@ public class CapitalShip implements Ship, Airbase {
      * @param patrols The aircraft carriers air patrols.
      * @param airOperations This carrier's air operations.
      * @param gameMap The game map.
+     * @param region The ship's region.
      */
     @Inject
     public CapitalShip(@Assisted final ShipData data,
@@ -96,13 +99,15 @@ public class CapitalShip implements Ship, Airbase {
                        final Missions missions,
                        final Patrols patrols,
                        final AirOperations airOperations,
-                       final GameMap gameMap) {
+                       final GameMap gameMap,
+                       final SeaRegion region) {
 
         this.squadrons = squadrons;
         this.missions = missions;
         this.patrols = patrols;
         this.airOperations = airOperations;
         this.gameMap = gameMap;
+        this.region = region;
 
         shipId = data.getShipId();
         taskForce = data.getTaskForce();
@@ -246,7 +251,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public Region getRegion(final Nation shipNation) {
-        return null;
+        return region;
     }
 
     /**
@@ -257,7 +262,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public String getRegionTitle() {
-        return "Unknown";
+        return region.getTitle();
     }
 
     /**

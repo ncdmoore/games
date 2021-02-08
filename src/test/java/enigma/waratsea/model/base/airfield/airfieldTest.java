@@ -433,7 +433,7 @@ public class airfieldTest {
         regionData.setName("Gibraltar");
         regionData.setNation(Nation.BRITISH);
 
-        return regionFactory.create(Side.ALLIES, regionData);
+        return regionFactory.createLandRegion(Side.ALLIES, regionData);
     }
 
     private Region buildRegionCoralSea() {
@@ -443,7 +443,7 @@ public class airfieldTest {
         regionData.setName("Australia");
         regionData.setNation(Nation.UNITED_STATES);
 
-        return regionFactory.create(Side.ALLIES, regionData);
+        return regionFactory.createLandRegion(Side.ALLIES, regionData);
     }
 
     private Squadron buildSquadronLandFighter() {
