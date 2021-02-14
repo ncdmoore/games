@@ -65,7 +65,7 @@ public class BaseMarker {
     private final RangeMarker rangeMarker;
 
     @Getter private MenuItem airfieldMenuItem;
-    @Getter private MenuItem taskForceMenuOperations;
+    @Getter private MenuItem taskForceMenuNavalOperations;
     @Getter private MenuItem taskForceMenuDetach;
     @Getter private MenuItem taskForceMenuJoin;
 
@@ -90,8 +90,6 @@ public class BaseMarker {
         this.mapView = mapView;
         this.game = game;
         this.props = props;
-
-        String scenarioName = game.getScenario().getName();
 
         BaseGridType type = baseGrid.getType();
 
@@ -271,12 +269,12 @@ public class BaseMarker {
     }
 
     /**
-     * Set the base task force operations menu item handler.
+     * Set the base task force naval operations menu item handler.
      *
      * @param handler The menu item handler.
      */
-    public void setTaskForceMenuOperations(final EventHandler<ActionEvent> handler) {
-        taskForceMenuOperations.setOnAction(handler);
+    public void setTaskForceNavalMenuOperations(final EventHandler<ActionEvent> handler) {
+        taskForceMenuNavalOperations.setOnAction(handler);
     }
 
     /**
@@ -478,19 +476,19 @@ public class BaseMarker {
             airfieldMenuItem.setUserData(getBaseGrid().getAirfield());
 
             Menu taskForceMenu = new Menu("Task Force");
-            taskForceMenuOperations = new MenuItem("Operations...");
+            taskForceMenuNavalOperations = new MenuItem("Naval Operations...");
             taskForceMenuDetach = new MenuItem("Detach...");
             taskForceMenuJoin = new MenuItem("Join...");
 
-            taskForceMenu.getItems().addAll(taskForceMenuOperations, taskForceMenuDetach, taskForceMenuJoin);
+            taskForceMenu.getItems().addAll(taskForceMenuNavalOperations, taskForceMenuDetach, taskForceMenuJoin);
 
             List<TaskForce> taskForces = getBaseGrid()
                     .getPort()
                     .map(Port::getTaskForces)
                     .orElseGet(Collections::emptyList);
 
-            taskForceMenuOperations.setDisable(taskForces.isEmpty());
-            taskForceMenuOperations.setUserData(taskForces);
+            taskForceMenuNavalOperations.setDisable(taskForces.isEmpty());
+            taskForceMenuNavalOperations.setUserData(taskForces);
 
             taskForceMenuDetach.setDisable(taskForces.isEmpty());
             taskForceMenuDetach.setUserData(taskForces);

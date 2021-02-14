@@ -15,12 +15,14 @@ import engima.waratsea.presenter.airfield.AirfieldDialog;
 import engima.waratsea.presenter.airfield.mission.MissionDialog;
 import engima.waratsea.presenter.airfield.patrol.PatrolDialog;
 import engima.waratsea.presenter.asset.AssetPresenter;
-import engima.waratsea.presenter.taskforce.TaskForceDialog;
+import engima.waratsea.presenter.taskforce.TaskForceAirDialog;
+import engima.waratsea.presenter.taskforce.TaskForceNavalDialog;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
 import engima.waratsea.view.map.marker.main.RegionMarker;
+import engima.waratsea.view.map.marker.main.TaskForceMarker;
 import javafx.event.ActionEvent;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuItem;
@@ -51,7 +53,8 @@ public class MainMapPresenter {
     private final AssetPresenter assetPresenter;
     private final SelectedMapGrid selectedGrid;
 
-    private final Provider<TaskForceDialog> taskForceDialogProvider;
+    private final Provider<TaskForceNavalDialog> taskForceNavalDialogProvider;
+    private final Provider<TaskForceAirDialog> taskForceAirDialogProvider;
 
     /**
      * The constructor called by guice.
@@ -62,7 +65,9 @@ public class MainMapPresenter {
      * @param menuProvider Provides the main menu.
      * @param airfieldDetailsDialogProvider Provides airfield details dialog.
      * @param patrolDetailsDialogProvider Provides patrol radius details dialog.
-     * @param missionDetailsDialogProvider Provides mission arrow details dialog
+     * @param missionDetailsDialogProvider Provides mission arrow details dialog.
+     * @param taskForceNavalDialogProvider Provides task force naval dialogs.
+     * @param taskForceAirDialogProvider Provides task force air dialogs.
      * @param assetPresenter The asset presenter.
      * @param selectedGrid The selected game grid.
      */
@@ -75,7 +80,8 @@ public class MainMapPresenter {
                             final Provider<AirfieldDialog> airfieldDetailsDialogProvider,
                             final Provider<PatrolDialog> patrolDetailsDialogProvider,
                             final Provider<MissionDialog> missionDetailsDialogProvider,
-                            final Provider<TaskForceDialog> taskForceDialogProvider,
+                            final Provider<TaskForceNavalDialog> taskForceNavalDialogProvider,
+                            final Provider<TaskForceAirDialog> taskForceAirDialogProvider,
                             final AssetPresenter assetPresenter,
                             final SelectedMapGrid selectedGrid) {
         //CHECKSTYLE:ON
@@ -89,7 +95,8 @@ public class MainMapPresenter {
         this.patrolDetailsDialogProvider = patrolDetailsDialogProvider;
         this.missionDetailsDialogProvider = missionDetailsDialogProvider;
 
-        this.taskForceDialogProvider = taskForceDialogProvider;
+        this.taskForceNavalDialogProvider = taskForceNavalDialogProvider;
+        this.taskForceAirDialogProvider = taskForceAirDialogProvider;
 
         this.assetPresenter = assetPresenter;
 
@@ -125,9 +132,12 @@ public class MainMapPresenter {
         mainMapView.setMissionArrowClickHandler(humanSide, this::missionArrowClickHandler);
 
         mainMapView.setAirfieldMenuHandler(humanSide, this::airfieldHandler);
-        mainMapView.setTaskForceOperationsMenuHandler(humanSide, this::taskForceOperationsHandler);
+        mainMapView.setTaskForceNavalOperationsMenuHandler(humanSide, this::taskForceNavalOperationsHandler);
+        mainMapView.setTaskForceAirOperationsMenuHandler(humanSide, this::taskForceAirOperationsHandler);
         mainMapView.setTaskForceDetachMenuHandler(humanSide, this::taskForceDetachHandler);
         mainMapView.setTaskForceJoinMenuHandler(humanSide, this::taskForceJoinHandler);
+
+        mainMapView.setTaskForceClickHandler(humanSide, this::humanTaskForceClickHandler);
 
         mainMapView.setGridClickHandler(this::gridClickHandler);
     }
@@ -217,6 +227,20 @@ public class MainMapPresenter {
     }
 
     /**
+     * Callback for when a human task force grid is clicked.
+     *
+     * @param event The mouse event.
+     */
+    private void humanTaskForceClickHandler(final MouseEvent event) {
+        if (event.getButton() == MouseButton.PRIMARY) {
+            VBox imageView = (VBox) event.getSource();
+            TaskForceMarker taskForceMarker = (TaskForceMarker) imageView.getUserData();
+
+            boolean selected = mainMapView.selectTaskForceMarker(taskForceMarker);
+        }
+    }
+
+    /**
      * Callback for when the a computer base grid is clicked.
      *
      * @param event The mouse event.
@@ -255,15 +279,27 @@ public class MainMapPresenter {
     }
 
     /**
-     * Callback for when the task force marker's operations menu item is selected.
+     * Callback for when the task force marker's naval operations menu item is selected.
      *
      * @param event The click event.
      */
     @SuppressWarnings("unchecked")
-    private void taskForceOperationsHandler(final ActionEvent event) {
+    private void taskForceNavalOperationsHandler(final ActionEvent event) {
         MenuItem item = (MenuItem) event.getSource();
         List<TaskForce> taskForces = (List<TaskForce>) item.getUserData();
-        taskForceDialogProvider.get().show(taskForces);
+        taskForceNavalDialogProvider.get().show(taskForces);
+    }
+
+    /**
+     * Callback for when the task force marker's air operations menu item is selected.
+     *
+     * @param event The click event.
+     */
+    @SuppressWarnings("unchecked")
+    private void taskForceAirOperationsHandler(final ActionEvent event) {
+        MenuItem item = (MenuItem) event.getSource();
+        List<TaskForce> taskForces = (List<TaskForce>) item.getUserData();
+        taskForceAirDialogProvider.get().show(taskForces);
     }
 
     /**

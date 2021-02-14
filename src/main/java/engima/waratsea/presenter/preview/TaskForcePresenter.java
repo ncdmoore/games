@@ -15,7 +15,7 @@ import engima.waratsea.view.map.marker.preview.PopUp;
 import engima.waratsea.view.map.marker.preview.TargetMarker;
 import engima.waratsea.view.preview.TaskForceView;
 import engima.waratsea.viewmodel.ship.ShipViewModel;
-import engima.waratsea.viewmodel.taskforce.TaskForcesViewModel;
+import engima.waratsea.viewmodel.taskforce.naval.TaskForcesNavalViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
@@ -42,7 +42,7 @@ public class TaskForcePresenter implements Presenter {
     private TaskForceView view;
     private Stage stage;
 
-    private final TaskForcesViewModel taskForcesViewModel;
+    private final TaskForcesNavalViewModel taskForcesViewModel;
 
     private final Provider<TaskForceView> viewProvider;
     private final Provider<ShipDetailsDialog> shipDetailsDialogProvider;
@@ -60,7 +60,7 @@ public class TaskForcePresenter implements Presenter {
     @Inject
     public TaskForcePresenter(final Game game,
                               final Provider<TaskForceView> viewProvider,
-                              final TaskForcesViewModel taskForcesViewModel,
+                              final TaskForcesNavalViewModel taskForcesViewModel,
                               final Provider<ShipDetailsDialog> shipDetailsDialogProvider,
                               final Navigate navigate) {
         this.game = game;

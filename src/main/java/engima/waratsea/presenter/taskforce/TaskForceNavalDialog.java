@@ -6,37 +6,39 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.taskforce.TaskForcesView;
-import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
+import engima.waratsea.view.taskforce.TaskForcesNavalView;
+import engima.waratsea.viewmodel.taskforce.naval.TaskForceNavalViewModel;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TaskForceDialog {
-    private static final String CSS_FILE = "taskForceDetails.css";
+/**
+ * Represents the task force's naval operations dialog.
+ */
+public class TaskForceNavalDialog {
+    private static final String CSS_FILE = "taskForceNavalDetails.css";
 
     private List<TaskForce> taskForces;
 
     private final CssResourceProvider cssResourceProvider;
     private final Provider<DialogView> dialogProvider;
-    private final Provider<TaskForcesView> viewProvider;
-    private final Provider<TaskForceViewModel> viewModelProvider;
+    private final Provider<TaskForcesNavalView> viewProvider;
+    private final Provider<TaskForceNavalViewModel> viewModelProvider;
 
     private final ViewProps props;
     private Stage stage;
-    private TaskForcesView view;
 
-    private List<TaskForceViewModel> viewModels;
+    private List<TaskForceNavalViewModel> viewModels;
 
     //CHECKSTYLE:OFF
     @Inject
-    public TaskForceDialog(final CssResourceProvider cssResourceProvider,
-                           final Provider<DialogView> dialogProvider,
-                           final Provider<TaskForcesView> viewProvider,
-                           final Provider<TaskForceViewModel> viewModelProvider,
-                           final ViewProps props) {
+    public TaskForceNavalDialog(final CssResourceProvider cssResourceProvider,
+                                final Provider<DialogView> dialogProvider,
+                                final Provider<TaskForcesNavalView> viewProvider,
+                                final Provider<TaskForceNavalViewModel> viewModelProvider,
+                                final ViewProps props) {
         //CHECKSTYLE:ON
         this.cssResourceProvider = cssResourceProvider;
         this.dialogProvider = dialogProvider;
@@ -63,7 +65,7 @@ public class TaskForceDialog {
         dialog.setHeight(props.getInt("airfield.dialog.height"));
         dialog.setCss(cssResourceProvider.get(CSS_FILE));
 
-        view = viewProvider.get();
+        TaskForcesNavalView view = viewProvider.get();
 
         buildViewModel();
 

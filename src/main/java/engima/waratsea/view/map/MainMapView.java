@@ -11,6 +11,7 @@ import engima.waratsea.model.map.BaseGridType;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.TaskForceGrid;
 import engima.waratsea.model.map.region.RegionGrid;
+import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.ViewProps;
@@ -54,7 +55,8 @@ public class MainMapView {
     private final Map<Side, List<BaseMarker>> baseMarkers = new HashMap<>();
     private final Map<Side, List<TaskForceMarker>> taskForceMarkers = new HashMap<>();
     private final Map<Side, List<RegionMarker>> regionMarkers = new HashMap<>();
-    private final Map<Airbase, BaseMarker> airbases = new HashMap<>();
+    private final Map<Airbase, BaseMarker> airbaseMarkersMap = new HashMap<>();
+    private final Map<TaskForce, TaskForceMarker> taskForceMarkersMap = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -89,7 +91,9 @@ public class MainMapView {
      * @return The node that contians the map.
      */
     public Node build() {
-        airbases.clear();
+        airbaseMarkersMap.clear();
+        taskForceMarkersMap.clear();
+
         regionMarkers.put(Side.ALLIES, new ArrayList<>());
         regionMarkers.put(Side.AXIS, new ArrayList<>());
         baseMarkers.put(Side.ALLIES, new ArrayList<>());
@@ -148,6 +152,16 @@ public class MainMapView {
     }
 
     /**
+     * Set the task force grid click handler.
+     *
+     * @param side The side ALLIES or AXIS.
+     * @param handler The task force grid mouse click handler.
+     */
+    public void setTaskForceClickHandler(final Side side, final EventHandler<? super MouseEvent> handler) {
+        taskForceMarkers.get(side).forEach(taskForceMarker -> taskForceMarker.setClickHandler(handler));
+    }
+
+    /**
      * Set the base grid mouse entered handler.
      *
      * @param side The side ALLIES or AXIS.
@@ -183,9 +197,19 @@ public class MainMapView {
      * @param side The side ALLIES of AXIS.
      * @param handler The task force menu item handler.
      */
-    public void setTaskForceOperationsMenuHandler(final Side side, final EventHandler<ActionEvent> handler) {
-        baseMarkers.get(side).forEach(baseMarker -> baseMarker.setTaskForceMenuOperations(handler));
-        taskForceMarkers.get(side).forEach(taskForceMarker -> taskForceMarker.setOperationsMenuHandler(handler));
+    public void setTaskForceNavalOperationsMenuHandler(final Side side, final EventHandler<ActionEvent> handler) {
+        baseMarkers.get(side).forEach(baseMarker -> baseMarker.setTaskForceNavalMenuOperations(handler));
+        taskForceMarkers.get(side).forEach(taskForceMarker -> taskForceMarker.setNavalOperationsMenuHandler(handler));
+    }
+
+    /**
+     * Set the base grid's context task force operations menu item.
+     *
+     * @param side The side ALLIES of AXIS.
+     * @param handler The task force menu item handler.
+     */
+    public void setTaskForceAirOperationsMenuHandler(final Side side, final EventHandler<ActionEvent> handler) {
+        taskForceMarkers.get(side).forEach(taskForceMarker -> taskForceMarker.setAirOperationsMenuHandler(handler));
     }
 
     /**
@@ -276,7 +300,7 @@ public class MainMapView {
     }
 
     /**
-     * Draw the given base's marker patrol radii.
+     * Select the given base marker.
      *
      * @param baseMarker A base marker.
      *
@@ -287,12 +311,31 @@ public class MainMapView {
     }
 
     /**
+     * Select the given task force marker.
+     *
+     * @param taskForceMarker The task force marker.
+     * @return True if the marker is selected. False if the marker is not selected.
+     */
+    public boolean selectTaskForceMarker(final TaskForceMarker taskForceMarker) {
+        return taskForceMarker.selectMarker();
+    }
+
+    /**
      * Draw the given airbase patrol radii.
      *
      * @param airbase An airbase.
      */
     public void toggleBaseMarkers(final Airbase airbase) {
-        airbases.get(airbase).toggleMarkers();
+        airbaseMarkersMap.get(airbase).toggleMarkers();
+    }
+
+    /**
+     * Draw teh given task force patrol radii.
+     *
+     * @param taskForce The task force.
+     */
+    public void toggleTaskForceMarkers(final TaskForce taskForce) {
+        taskForceMarkersMap.get(taskForce).toggleMarkers();
     }
 
     /**
@@ -311,7 +354,7 @@ public class MainMapView {
      * @param radius The radius that is highlighted.
      */
     public void highlightPatrolRadius(final Airbase airbase, final int radius) {
-        airbases.get(airbase).highlightRadius(radius);
+        airbaseMarkersMap.get(airbase).highlightRadius(radius);
     }
 
     /**
@@ -320,7 +363,7 @@ public class MainMapView {
      * @param airbase The airbase that has one of its patrol raddi highlight removed.
      */
     public void unhighlightPatrolRadius(final Airbase airbase) {
-        airbases.get(airbase).unhighlightRadius();
+        airbaseMarkersMap.get(airbase).unhighlightRadius();
     }
 
     /**
@@ -330,7 +373,7 @@ public class MainMapView {
      * @param radius The range radius.
      */
     public void drawRangeMarker(final Airbase airbase, final int radius) {
-        airbases.get(airbase).drawRangeMarker(radius);
+        airbaseMarkersMap.get(airbase).drawRangeMarker(radius);
     }
 
     /**
@@ -339,7 +382,7 @@ public class MainMapView {
      * @param airbase The airbase.
      */
     public void hideRangeMarker(final Airbase airbase) {
-        airbases.get(airbase).hideRangeMarker();
+        airbaseMarkersMap.get(airbase).hideRangeMarker();
     }
 
     /**
@@ -396,7 +439,7 @@ public class MainMapView {
         baseMarker
                 .getBaseGrid()
                 .getAirfield()
-                .ifPresent(airfield -> airbases.put(airfield, baseMarker));
+                .ifPresent(airfield -> airbaseMarkersMap.put(airfield, baseMarker));
 
         if (displayBaseMarker(type)) {
             baseMarker.draw();
@@ -440,6 +483,8 @@ public class MainMapView {
 
         taskForceMarkers.get(taskForceGrid.getSide()).add(taskForceMarker);
 
+        taskForceGrid.getTaskForces().forEach(taskForce -> taskForceMarkersMap.put(taskForce, taskForceMarker));
+
         taskForceMarker.draw();
     }
 
@@ -467,7 +512,7 @@ public class MainMapView {
                 .getRegions()
                 .stream().flatMap(region -> region.getAirfields().stream())
                 .distinct()
-                .map(airbases::get)
+                .map(airbaseMarkersMap::get)
                 .forEach(regionMarker::add);
 
         if (displayRegionMarker()) {

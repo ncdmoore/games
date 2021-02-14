@@ -116,7 +116,7 @@ public class VictoryDAO {
      * @param conditions The victory conditions data that is saved.
      */
     public void save(final Scenario scenario, final Side side, final VictoryConditions conditions) {
-        log.info("Saving victory, scenario: {}, side: {}", scenario.getTitle(), side);
+        log.debug("Saving victory, scenario: {}, side: {}", scenario.getTitle(), side);
         String fileName = config.getSavedFileName(side, VictoryConditions.class);
         PersistentUtility.save(fileName, conditions);
     }
@@ -130,7 +130,7 @@ public class VictoryDAO {
      * @throws VictoryException An error occurred while attempting to read the victory data.
      */
     private VictoryConditionsData loadDefaultVictoryData(final Side side) throws VictoryException {
-        log.info("Load default victory");
+        log.debug("Load default victory");
         return config
                 .getDefaultURL(side, VictoryConditions.class)
                 .map(this::readVictory)
@@ -146,7 +146,7 @@ public class VictoryDAO {
      * @throws VictoryException Indicates that an error occurred while attempting to read the scenario victory data.
      */
     private VictoryConditionsData loadScenarioVictoryData(final Scenario scenario, final Side side) throws VictoryException {
-        log.info("Load scenario victory, scenario: '{}', side: '{}'", scenario.getTitle(), side);
+        log.debug("Load scenario victory, scenario: '{}', side: '{}'", scenario.getTitle(), side);
         return config
                 .getScenarioURL(side, VictoryConditions.class)
                 .map(this::readVictory)
@@ -162,7 +162,7 @@ public class VictoryDAO {
      * @throws VictoryException Indicates that an error occured while attempting to read the saved game victory data.
      */
     private VictoryConditionsData loadSavedGameVictoryData(final Scenario scenario, final Side side) throws VictoryException {
-        log.info("Load victory, scenario: '{}', side: '{}'", scenario.getTitle(), side);
+        log.debug("Load victory, scenario: '{}', side: '{}'", scenario.getTitle(), side);
         return config
                 .getSavedURL(side, VictoryConditions.class)
                 .map(this::readVictory)
@@ -182,7 +182,7 @@ public class VictoryDAO {
             Gson gson = new Gson();
             VictoryConditionsData data = gson.fromJson(br, VictoryConditionsData.class);
 
-            log.info("load victory '{}'", url.getPath());
+            log.debug("load victory '{}'", url.getPath());
 
             return data;
         } catch (Exception ex) {                                                                                        // Catch any Gson errors.

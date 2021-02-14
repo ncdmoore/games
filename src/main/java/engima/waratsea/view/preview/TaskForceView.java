@@ -16,8 +16,8 @@ import engima.waratsea.view.map.marker.preview.TargetMarker;
 import engima.waratsea.view.ship.ShipViewType;
 import engima.waratsea.view.taskforce.info.TaskForceInfo;
 import engima.waratsea.viewmodel.ship.ShipViewModel;
-import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
-import engima.waratsea.viewmodel.taskforce.TaskForcesViewModel;
+import engima.waratsea.viewmodel.taskforce.naval.TaskForceNavalViewModel;
+import engima.waratsea.viewmodel.taskforce.naval.TaskForcesNavalViewModel;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -159,10 +159,10 @@ public class TaskForceView {
      * @param viewModel The task force view model.
      * @return This object.
      */
-    public TaskForceView bind(final TaskForcesViewModel viewModel) {
+    public TaskForceView bind(final TaskForcesNavalViewModel viewModel) {
         taskForces.itemsProperty().bind(viewModel.getTaskForces());
 
-        TaskForceViewModel selectedTaskForce = viewModel.getSelectedTaskForce();
+        TaskForceNavalViewModel selectedTaskForce = viewModel.getSelectedTaskForce();
 
         stateValue.textProperty().bind(selectedTaskForce.getState());
         stateValue.textFillProperty().bind(selectedTaskForce.getStateColor());

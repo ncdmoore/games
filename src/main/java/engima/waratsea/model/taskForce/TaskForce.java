@@ -329,6 +329,19 @@ public class TaskForce implements Comparable<TaskForce>, Asset, PersistentData<T
     }
 
     /**
+     * Indicates if this task force has any squadrons currently stationed.
+     * This does not take into account any squadrons given a ferry mission
+     * to this airbase.
+     *
+     * @return True if any squadron is based at this task force. False otherwise.
+     */
+    public boolean areSquadronsPresent() {
+        return airbases
+                .stream()
+                .anyMatch(Airbase::areSquadronsPresent);
+    }
+
+    /**
      * Build all the task force's ships.
      * @param shipNames list of ship names.
      */

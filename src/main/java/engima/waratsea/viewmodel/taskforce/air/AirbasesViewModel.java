@@ -1,4 +1,4 @@
-package engima.waratsea.viewmodel.taskforce;
+package engima.waratsea.viewmodel.taskforce.air;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,6 +45,13 @@ public class AirbasesViewModel {
      */
     public void setModel(final TaskForce newTaskForce) {
         taskForce.setValue(newTaskForce);
+    }
+
+    /**
+     * Save the task force's airbases data to the model.
+     */
+    public void save() {
+        airbases.forEach(AirbaseViewModel::save);
     }
 
     private void bindAirbases() {

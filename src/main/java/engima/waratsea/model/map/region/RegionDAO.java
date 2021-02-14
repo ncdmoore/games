@@ -69,13 +69,13 @@ public class RegionDAO {
      * @return A list of regions.
      */
     private List<Region> loadScenarioSpecific(final Scenario scenario, final Side side)  {
-        log.info("load specific regions scenario: '{}', side: {}", scenario.getTitle(), side);
+        log.debug("load specific regions scenario: '{}', side: {}", scenario.getTitle(), side);
         List<Region> regions = config
                 .getScenarioURL(side, LandRegion.class, scenario.getMap() + ".json")
                 .map(url -> readRegions(scenario, url, side))
                 .orElse(null);
 
-        log.info("load specific regions scenario: '{}', side: {} , success: {}", new Object[]{scenario.getTitle(), side, regions != null});
+        log.debug("load specific regions scenario: '{}', side: {} , success: {}", new Object[]{scenario.getTitle(), side, regions != null});
         return regions;
     }
 
@@ -88,7 +88,7 @@ public class RegionDAO {
      * @throws MapException if the regions cannot be loaded.
      */
     private List<Region> loadDefault(final Scenario scenario, final Side side) throws MapException {
-        log.info("Load default regions for scenario: {}, side: {}", scenario.getTitle(), side);
+        log.debug("Load default regions for scenario: {}, side: {}", scenario.getTitle(), side);
         return config
                 .getGameURL(side, LandRegion.class, scenario.getMap() + ".json")
                 .map(url -> readRegions(scenario, url, side))
@@ -112,7 +112,7 @@ public class RegionDAO {
             Gson gson = new Gson();
             List<RegionData> regions = gson.fromJson(br, collectionType);
 
-            log.info("Scenario: '{}' load map regions for side: {}, number regions: {}", new Object[] {scenario.getTitle(), side, regions.size()});
+            log.debug("Scenario: '{}' load map regions for side: {}, number regions: {}", new Object[] {scenario.getTitle(), side, regions.size()});
 
             return regions
                     .stream()

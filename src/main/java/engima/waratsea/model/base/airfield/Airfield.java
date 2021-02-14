@@ -478,6 +478,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * will contain a single entry where the single maximum radius maps to all three types
      * of patrols.
      */
+    @Override
     public Map<Integer, List<Patrol>> getPatrolRadiiMap() {
         return patrols.getPatrolRadiiMap();
     }

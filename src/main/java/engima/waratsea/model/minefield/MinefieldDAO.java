@@ -66,7 +66,7 @@ public class MinefieldDAO {
      * @return A list of minefields.
      */
     public List<Minefield> load(final Side side) {
-        log.info("Load minefields for side: {}", side);
+        log.debug("Load minefields for side: {}", side);
         return loadMinefieldData(side)
                 .stream()
                 .map(minefieldFactory::create)
@@ -82,7 +82,7 @@ public class MinefieldDAO {
      * @param minefields The minefield data that is saved.
      */
     public void save(final Scenario scenario, final Side side, final List<Minefield> minefields) {
-        log.info("Saving minefields, scenario: '{}',side {}", scenario.getTitle(), side);
+        log.debug("Saving minefields, scenario: '{}',side {}", scenario.getTitle(), side);
         String fileName = config.getSavedFileName(side, Minefield.class);
         PersistentUtility.save(fileName, minefields);
     }
@@ -97,7 +97,7 @@ public class MinefieldDAO {
         String name = minefield.getZoneName();
         Side side = minefield.getSide();
 
-        log.info("Add minefield zone: '{}' for side: {}", name, side);
+        log.debug("Add minefield zone: '{}' for side: {}", name, side);
 
         MinefieldZoneId zoneId = new MinefieldZoneId(name, side);
         MinefieldZoneData data = loadMinefieldZoneData(zoneId);

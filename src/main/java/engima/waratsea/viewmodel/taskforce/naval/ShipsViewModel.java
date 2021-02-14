@@ -1,4 +1,4 @@
-package engima.waratsea.viewmodel.taskforce;
+package engima.waratsea.viewmodel.taskforce.naval;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;

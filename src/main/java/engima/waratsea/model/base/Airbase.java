@@ -279,6 +279,16 @@ public interface Airbase extends Base {
     void updatePatrol(PatrolType patrolType, List<Squadron> squadrons);
 
     /**
+     * Get a map of patrol maximum radius to list of patrols.
+     *
+     * @return A map containing the patrol maximum radius as key and the patrol as the value.
+     * Note, that if all the patrol types have the same maximum radius value then this map
+     * will contain a single entry where the single maximum radius maps to all three types
+     * of patrols.
+     */
+    Map<Integer, List<Patrol>> getPatrolRadiiMap();
+
+    /**
      * Get this airbase's air operation stats.
      *
      * @return This airbase's air operation stats.

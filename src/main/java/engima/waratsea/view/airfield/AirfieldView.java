@@ -127,6 +127,10 @@ public class AirfieldView {
         }
 
         HBox hBox = new HBox(summary, accordion, airOpts);
+
+        hBox.setMinHeight(props.getInt("airfield.dialog.accordion.height"));
+        hBox.setMaxHeight(props.getInt("airfield.dialog.accordion.height"));
+
         hBox.setId("main-pane");
 
         Tab tab = new Tab(nation.toString());

@@ -7,7 +7,7 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.ship.ShipDetailsView;
 import engima.waratsea.view.ship.ShipViewType;
 import engima.waratsea.viewmodel.ship.ShipViewModel;
-import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
+import engima.waratsea.viewmodel.taskforce.naval.TaskForceNavalViewModel;
 import javafx.beans.property.ListProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
@@ -22,15 +22,15 @@ import javafx.scene.layout.VBox;
 import lombok.Getter;
 
 /**
- * Represents the naval operations tab of a given task force view.
+ * Represents the naval operations of a given task force view. Used by the naval operations didalog.
  */
 public class TaskForceNavalOperations {
     private final ViewProps props;
     private final Provider<ShipDetailsView> shipsDetailProvider;
 
-    private TaskForceViewModel viewModel;
+    private TaskForceNavalViewModel viewModel;
 
-    private final TaskForceSummaryView summaryView;
+    private final TaskForceNavalSummaryView summaryView;
 
     @Getter private final ChoiceBox<SeaMissionType> missionType = new ChoiceBox<>();
 
@@ -44,7 +44,7 @@ public class TaskForceNavalOperations {
     @Inject
     public TaskForceNavalOperations(final Provider<ShipDetailsView> shipsDetailProvider,
                                     final ViewProps props,
-                                    final TaskForceSummaryView summaryView) {
+                                    final TaskForceNavalSummaryView summaryView) {
         this.props  = props;
         this.shipsDetailProvider = shipsDetailProvider;
         this.summaryView = summaryView;
@@ -58,14 +58,10 @@ public class TaskForceNavalOperations {
      * @param taskForceVM The task force view model.
      * @return A tab for the given operation.
      */
-    public Tab createOperationTab(final TaskForceViewModel taskForceVM) {
+    public Node build(final TaskForceNavalViewModel taskForceVM) {
         viewModel = taskForceVM;
 
-        Tab tab = new Tab();
-        tab.setText("Naval Operations");
-
         Node summary = buildSummary();
-
 
         //Node missionNode = buildMissionNode();
         TitledPane shipsNode = buildShipsNode();
@@ -76,9 +72,7 @@ public class TaskForceNavalOperations {
         HBox hBox = new HBox(summary, accordion);
         hBox.setId("main-pane");
 
-        tab.setContent(hBox);
-
-        return tab;
+        return hBox;
     }
 
     private Node buildSummary() {

@@ -76,8 +76,8 @@ public class FlotillaDAO {
      * @return A list of all the flotilla data read in from a JSON file.
      */
     private List<FlotillaData> loadData(final Scenario scenario, final Side side, final Class<?> clazz) {
-        log.info("Load flotilla, scenario: '{}', side: '{}'", scenario.getTitle(), side);
-        log.info("Load flotilla, type: '{}'", clazz.getSimpleName());
+        log.debug("Load flotilla, scenario: '{}', side: '{}'", scenario.getTitle(), side);
+        log.debug("Load flotilla, type: '{}'", clazz.getSimpleName());
         return getURL(side, clazz)
                 .map(this::exists)
                 .map(u -> readFlotilla(u, side))
@@ -110,8 +110,8 @@ public class FlotillaDAO {
 
         Class<?> clazz = flotillas.get(0).getClass();
 
-        log.info("Saving flotillas, scenario: '{}',side {}", scenario.getTitle(), side);
-        log.info("Saving {} flotillas", flotillas.size());
+        log.debug("Saving flotillas, scenario: '{}',side {}", scenario.getTitle(), side);
+        log.debug("Saving {} flotillas", flotillas.size());
 
         String fileName = config.getSavedFileName(side, clazz);
         PersistentUtility.save(fileName, flotillas);

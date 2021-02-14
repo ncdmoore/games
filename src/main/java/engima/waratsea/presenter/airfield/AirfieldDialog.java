@@ -14,7 +14,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -34,7 +33,6 @@ public class AirfieldDialog {
     private final ViewProps props;
     private Stage stage;
 
-    @Getter
     private MainMapView mapView;
 
     private Airbase airbase;

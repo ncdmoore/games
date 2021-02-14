@@ -1,29 +1,32 @@
 package engima.waratsea.view.taskforce;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import engima.waratsea.presenter.airfield.AirbasePresenter;
-import engima.waratsea.view.airfield.AirfieldView;
 import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
-import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
+import engima.waratsea.viewmodel.taskforce.air.TaskForceAirViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
 
+/**
+ * Task force air operations view. Used by task force air operations dialog box.
+ */
 public class TaskForceAirOperations {
-    private TaskForceViewModel taskForceViewModel;
-    private AirbasePresenter airbasePresenter;
-    private final Provider<AirfieldView> airfieldProvider;
+    private final AirbasePresenter airbasePresenter;
+
+    private final TaskForceAirSummaryView summaryView;
 
     private final VBox airbaseNode = new VBox();
 
+    private TaskForceAirViewModel viewModel;
+
     @Inject
     public TaskForceAirOperations(final AirbasePresenter airbasePresenter,
-                                  final Provider<AirfieldView> airfieldProvider) {
+                                  final TaskForceAirSummaryView summaryView) {
         this.airbasePresenter = airbasePresenter;
-        this.airfieldProvider = airfieldProvider;
+
+        this.summaryView = summaryView;
     }
 
     /**
@@ -32,11 +35,10 @@ public class TaskForceAirOperations {
      * @param taskForceVM The task force view model.
      * @return A tab for the given operation.
      */
-    public Tab createOperationTab(final TaskForceViewModel taskForceVM) {
-        taskForceViewModel = taskForceVM;
+    public Node build(final TaskForceAirViewModel taskForceVM) {
+        viewModel = taskForceVM;
 
-        Tab tab = new Tab();
-        tab.setText("Air Operations");
+        Label label = new Label("Ships with aircraft:");
 
         ChoiceBox<AirbaseViewModel> airbases = new ChoiceBox<>();
 
@@ -49,12 +51,19 @@ public class TaskForceAirOperations {
 
         airbases.getSelectionModel().selectFirst();
 
-        Label label = new Label("Ships with aircraft:");
-        VBox vBox = new VBox(label, airbases, airbaseNode);
+        VBox airbaseSelectionVBox = new VBox(label, airbases);
 
-        tab.setContent(vBox);
+        VBox vBox = new VBox(airbaseSelectionVBox, airbaseNode);
 
-        return tab;
+        vBox.setId("air-operations-main-pane");
+
+        return vBox;
+    }
+
+    private Node buildSummary() {
+        return summaryView
+                .build()
+                .bind(viewModel);
     }
 
     private void airbaseSelected(final AirbaseViewModel airbase) {

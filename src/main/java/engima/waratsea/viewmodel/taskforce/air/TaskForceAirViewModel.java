@@ -1,4 +1,4 @@
-package engima.waratsea.viewmodel.taskforce;
+package engima.waratsea.viewmodel.taskforce.air;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.AircraftType;
@@ -10,11 +10,8 @@ import engima.waratsea.model.taskForce.mission.SeaMissionType;
 import engima.waratsea.model.taskForce.mission.rules.SeaMissionRules;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.ship.ShipViewType;
 import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
-import engima.waratsea.viewmodel.ship.ShipViewModel;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
@@ -36,7 +33,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
@@ -47,7 +43,7 @@ import java.util.stream.Collectors;
  * task force. The presenter populates this class with the selected task force. The view binds its GUI elements
  * to the values in this class.
  */
-public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
+public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> {
     private static final String NOT_SET = "Not Set";
 
     private final SeaMissionRules seaMissionRules;
@@ -66,14 +62,11 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
     @Getter private final StringProperty location = new SimpleStringProperty();
     @Getter private final StringProperty reason = new SimpleStringProperty();  // The reasons the task force becomes active.
 
-    @Getter private final ListProperty<String> possibleStartingLocations = new SimpleListProperty<>();
-
     @Getter private final MapProperty<AircraftType, Integer> squadronTypeMap = new SimpleMapProperty<>(FXCollections.emptyObservableMap());
     @Getter private final Map<String, IntegerProperty> squadronCounts = new LinkedHashMap<>();
 
     @Getter private final ObjectProperty<TaskForce> taskForce = new SimpleObjectProperty<>();
 
-    private final ShipsViewModel shipsViewModel;
     private final AirbasesViewModel airbasesViewModel;
 
     /**
@@ -82,17 +75,14 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
      * @param imageResourceProvider Provides images.
      * @param props View properties.
      * @param seaMissionRules The sea mission rules.
-     * @param shipsViewModel The ship view models in this task force.
      * @param airbasesViewModel The airbase view models in this task force. Aircraft carriers, etc...
      */
     @Inject
-    public TaskForceViewModel(final ImageResourceProvider imageResourceProvider,
-                              final ViewProps props,
-                              final SeaMissionRules seaMissionRules,
-                              final ShipsViewModel shipsViewModel,
-                              final AirbasesViewModel airbasesViewModel) {
+    public TaskForceAirViewModel(final ImageResourceProvider imageResourceProvider,
+                                 final ViewProps props,
+                                 final SeaMissionRules seaMissionRules,
+                                 final AirbasesViewModel airbasesViewModel) {
         this.seaMissionRules = seaMissionRules;
-        this.shipsViewModel = shipsViewModel;
         this.airbasesViewModel = airbasesViewModel;
 
         bindTitles();
@@ -108,9 +98,8 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
      * @param force The selected task force.
      * @return This task force view model.
      */
-    public TaskForceViewModel setModel(final TaskForce force) {
+    public TaskForceAirViewModel setModel(final TaskForce force) {
         taskForce.setValue(force);
-        shipsViewModel.setModel(force);
         airbasesViewModel.setModel(force);
 
         String taskForceLocation = Optional
@@ -123,54 +112,19 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
     }
 
     /**
-     * Set the task force's location.
-     *
-     * @param newLocation The new location of the task force.
-     */
-    public void setLocation(final String newLocation) {
-        location.setValue(newLocation);
-
-        if (NOT_SET.equalsIgnoreCase(newLocation)) {
-            taskForce.getValue().setReference(null);
-        } else {
-            taskForce.getValue().setReference(newLocation);
-        }
-    }
-
-    /**
-     * Get a map of ship type to list of ships of that type.
-     *
-     * @return A map of ship type to list of ships of that type.
-     */
-    public MapProperty<ShipViewType, ListProperty<ShipViewModel>> getShipTypeMap() {
-        return shipsViewModel.getShipTypeMap();
-    }
-
-    /**
-     * Get a map of ship type (String) to number of ships of that type.
-     *
-     * @return A map of ship type, the String representation, to number of ships of that type.
-     */
-    public Map<String, IntegerProperty> getShipCounts() {
-        return shipsViewModel.getShipCounts();
-    }
-
-    /**
-     * Get a map of ship type to an indication of whether that type is present in this task force.
-     *
-     * @return A map of ship type to an indication of whether that type is present in this task force.
-     */
-    public Map<ShipViewType, BooleanProperty> getShipPresent() {
-        return shipsViewModel.getShipNotPresent();
-    }
-
-    /**
      * Get this task forces airbases.
      *
      * @return A list of this task forces airbases.
      */
     public ListProperty<AirbaseViewModel> getAirbases() {
         return airbasesViewModel.getAirbases();
+    }
+
+    /**
+     * Save the task force's airbases data to the model.
+     */
+    public void save() {
+        airbasesViewModel.save();
     }
 
     /**
@@ -211,13 +165,6 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
                 .filter(t -> t.getState() == TaskForceState.RESERVE)
                 .map(t -> Color.RED)
                 .orElse(Color.BLACK), taskForce));
-
-        possibleStartingLocations.bind(Bindings.createObjectBinding(() -> Optional
-                .ofNullable(taskForce.getValue())
-                .map(TaskForce::getPossibleStartingLocations)
-                .map(this::addNotSet)
-                .map(FXCollections::observableArrayList)
-                .orElse(FXCollections.emptyObservableList()), taskForce));
     }
 
     private void bindSquadronTypeMap() {
@@ -290,19 +237,6 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
     }
 
     /**
-     * Add a "Not Set" to the starting locations. This is how a task force is temporarily removed from the game map.
-     *
-     * @param startingLocations All possible starting locations of a given task force.
-     * @return The list of starting locations augmented with a "Not Set" choice.
-     */
-    private List<String> addNotSet(final List<String> startingLocations) {
-        if (startingLocations.size() > 1 && !startingLocations.contains(NOT_SET)) {
-            startingLocations.add(0, NOT_SET);
-        }
-        return startingLocations;
-    }
-
-    /**
      * Compares this object with the specified object for order.  Returns a
      * negative integer, zero, or a positive integer as this object is less
      * than, equal to, or greater than the specified object.
@@ -342,7 +276,7 @@ public class TaskForceViewModel implements Comparable<TaskForceViewModel> {
      *                              from being compared to this object.
      */
     @Override
-    public int compareTo(final @NotNull TaskForceViewModel o) {
+    public int compareTo(final @NotNull TaskForceAirViewModel o) {
         return taskForce.getValue().compareTo(o.getTaskForce().getValue());
     }
 }

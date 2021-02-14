@@ -33,25 +33,25 @@ import java.util.List;
 public class MinefieldView {
     private static final String CSS_FILE = "minefieldView.css";
 
-    private ViewProps props;
-    private CssResourceProvider cssResourceProvider;
-    private ImageResourceProvider imageResourceProvider;
+    private final ViewProps props;
+    private final CssResourceProvider cssResourceProvider;
+    private final ImageResourceProvider imageResourceProvider;
 
-    private Game game;
-
-    @Getter
-    private ChoiceBox<Minefield> minefields = new ChoiceBox<>();
+    private final Game game;
 
     @Getter
-    private Button continueButton = new Button("Continue");
+    private final ChoiceBox<Minefield> minefields = new ChoiceBox<>();
 
     @Getter
-    private Button backButton = new Button("Back");
+    private final Button continueButton = new Button("Continue");
 
-    private MinefieldPreviewMapView minefieldMap;
+    @Getter
+    private final Button backButton = new Button("Back");
 
-    private Label minesAvailableValue = new Label();
-    private Label minesDeployedValue = new Label();
+    private final MinefieldPreviewMapView minefieldMap;
+
+    private final Label minesAvailableValue = new Label();
+    private final Label minesDeployedValue = new Label();
 
     /**
      * Constructor called by guice.

@@ -2,6 +2,7 @@ package engima.waratsea.model.map;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.game.Side;
@@ -9,11 +10,14 @@ import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.ListUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * This class represents a task force grid on the game map.
@@ -53,6 +57,18 @@ public class TaskForceGrid implements MarkerGrid {
         side = taskForce.getSide();
         reference = taskForce.getReference();
         return this;
+    }
+
+    /**
+     * Get the title of the base. Use the airfield title if it exists; otherwise use the port title.
+     *
+     * @return The base title.
+     */
+    public String getTitle() {
+        return taskForces
+                .stream()
+                .map(TaskForce::toString)
+                .collect(Collectors.joining("\n"));
     }
 
     /**
@@ -124,11 +140,17 @@ public class TaskForceGrid implements MarkerGrid {
      */
     @Override
     public Optional<Map<Integer, List<Patrol>>> getPatrols() {
+        // Get all the task force's patrols and the build a combined map.
+        // For each task force we get each ship that may act as an airbase.
+        Map<Integer, List<Patrol>> patrolMap = taskForces
+                .stream()
+                .flatMap(taskForce -> taskForce.getAirbases().stream())
+                .map(Airbase::getPatrolRadiiMap)
+                .map(Map::entrySet)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, ListUtils::union));
 
-        // Will need to get all the task force's patrols and the build a combined map.
-
-
-        return Optional.empty();
+        return Optional.of(patrolMap);
     }
 
     /**

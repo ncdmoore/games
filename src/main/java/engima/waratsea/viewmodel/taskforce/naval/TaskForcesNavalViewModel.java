@@ -1,4 +1,4 @@
-package engima.waratsea.viewmodel.taskforce;
+package engima.waratsea.viewmodel.taskforce.naval;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.taskForce.TaskForce;
@@ -14,14 +14,14 @@ import java.util.List;
 /**
  * Represents the view model of a given side's task forces.
  */
-public class TaskForcesViewModel {
+public class TaskForcesNavalViewModel {
     @Getter private final ListProperty<TaskForce> taskForces = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
-    @Getter private final TaskForceViewModel selectedTaskForce;                                                         // Selected task force.
+    @Getter private final TaskForceNavalViewModel selectedTaskForce;                                                         // Selected task force.
     @Getter private final BooleanProperty anyTaskForceNotSet = new SimpleBooleanProperty(true);               // Initially not all task forces are set.
 
     @Inject
-    public TaskForcesViewModel(final TaskForceViewModel taskForceViewModel) {
+    public TaskForcesNavalViewModel(final TaskForceNavalViewModel taskForceViewModel) {
         this.selectedTaskForce = taskForceViewModel;
     }
 

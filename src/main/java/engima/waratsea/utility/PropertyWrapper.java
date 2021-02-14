@@ -23,7 +23,7 @@ public class PropertyWrapper {
     public void init(final String name) {
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(name)) {
             properties.load(inputStream);
-            log.info("Loaded properties: {}", name);
+            log.debug("Loaded properties: {}", name);
         } catch (IOException | RuntimeException ex) {
             log.warn("Unable to load properties file {}", name);
         }
