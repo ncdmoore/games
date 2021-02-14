@@ -7,6 +7,8 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.weather.SmallWeatherView;
 import engima.waratsea.viewmodel.airfield.PatrolViewModel;
+import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
+import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -64,7 +66,7 @@ public class PatrolStatsView {
      * @param viewModel The patrol view model.
      */
     public void bind(final PatrolViewModel viewModel) {
-        viewModel.getAssignedAllNations().addListener((o, ov, nv) -> setAssigned(viewModel.getPatrol()));
+        viewModel.getAssignedAllNations().addListener((ListChangeListener<SquadronViewModel>) c -> setAssigned(viewModel.getPatrol()));
         setAssigned(viewModel.getPatrol());
         weatherView.bind(viewModel.getIsAffectedByWeather());
     }
