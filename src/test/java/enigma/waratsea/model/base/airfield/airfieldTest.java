@@ -7,7 +7,6 @@ import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
-import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.GameName;
 import engima.waratsea.model.game.GameTitle;
@@ -36,8 +35,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class airfieldTest {
 
@@ -352,53 +349,6 @@ public class airfieldTest {
         searchRadius = airfield.getPatrol(PatrolType.SEARCH).getMaxRadius();
 
         Assert.assertEquals(fighterRadius, searchRadius);
-    }
-
-    @Test
-    public void radiiMapTest() {
-        gameTitle.setName(GameName.BOMB_ALLEY);
-
-        Region region = buildRegion();
-
-        AirfieldData data = new AirfieldData();
-        data.setName("Gibraltar");
-        data.setSide(Side.ALLIES);
-        data.setLandingType(new ArrayList<>(Arrays.asList(LandingType.LAND, LandingType.SEAPLANE)));
-        data.setMaxCapacity(40);
-        data.setAntiAir(6);
-        data.setLocation("G20");
-
-        Airfield airfield = airfieldFactory.create(data);
-
-        airfield.addRegion(region);
-
-        Squadron reconSquadron = buildSquadronSeaplaneRecon();
-        Squadron fighterSquadron = buildSquadronLandFighter();
-
-        airfield.addSquadron(reconSquadron);
-        airfield.addSquadron(fighterSquadron);
-
-        airfield.getPatrol(PatrolType.SEARCH).addSquadron(fighterSquadron);
-        airfield.getPatrol(PatrolType.SEARCH).addSquadron(reconSquadron);
-        airfield.getPatrol(PatrolType.ASW).addSquadron(reconSquadron);
-
-        Map<Integer, List<Patrol>> radiiMap = airfield.getPatrolRadiiMap();
-
-        Set<Integer> radii = radiiMap.keySet();
-
-        boolean result = radii.contains(airfield.getPatrol(PatrolType.SEARCH).getTrueMaxRadius());
-
-        Assert.assertTrue(result);
-
-        airfield.getPatrol(PatrolType.CAP).addSquadron(fighterSquadron);
-
-        radiiMap = airfield.getPatrolRadiiMap();
-
-        radii = radiiMap.keySet();
-
-        result = radii.contains(airfield.getPatrol(PatrolType.CAP).getTrueMaxRadius());
-
-        Assert.assertTrue(result);  // Fighter is on CAP so its radius should be in the map.
     }
 
     @Test

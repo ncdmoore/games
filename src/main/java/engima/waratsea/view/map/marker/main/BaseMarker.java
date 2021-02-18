@@ -47,7 +47,7 @@ import static java.util.stream.Collectors.joining;
  * A base marker occupies a game grid.
  */
 @Slf4j
-public class BaseMarker {
+public class BaseMarker implements AirOperationsMarker {
     private static final int SHADOW_RADIUS = 3;
 
     @Getter private final BaseGrid baseGrid;
@@ -314,7 +314,7 @@ public class BaseMarker {
     }
 
     /**
-     * Highlight a patrol radius for this base.
+     * Highlight a patrol radius for this marker.
      *
      * @param radius The radius to highlight.
      */
@@ -323,7 +323,7 @@ public class BaseMarker {
     }
 
     /**
-     * Remove this base's highlighted patrol radius.
+     * Remove this marker's highlighted patrol radius.
      */
     public void unhighlightRadius() {
         patrolMarkers.unhighlightRadius();

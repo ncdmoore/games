@@ -47,7 +47,7 @@ public class PatrolViewModel {
 
     @Getter private SquadronsViewModel squadrons;
 
-    @Getter private Patrol patrol; // Used only to display current patrol stats. This is not saved.
+    private Patrol patrol; // Used only to determine squadron configuration. This is not saved.
 
     private PatrolType patrolType;
     private Airbase airbase;
@@ -92,7 +92,7 @@ public class PatrolViewModel {
 
         Set<Nation> nations = patrolModel.getAirbase().getNations();
 
-        nations.forEach(this::setAssignedSquadrons);
+        nations.forEach(n -> setAssignedSquadrons(n, patrolModel));              // The assigned comes directory from the model.
         assignedAllNations.set(FXCollections.observableArrayList(squadronsOnPatrol));
 
         isAffectedByWeather.setValue(patrolModel.isAffectedByWeather());
@@ -129,11 +129,6 @@ public class PatrolViewModel {
         Nation nation = squadron.getNation();
         assigned.get(nation).get().add(squadron);
         squadron.setOnPatrol();
-
-        // patrol must be updated before assigned all nations, so the view gets the correct patrol information
-        // when its change handler fires.
-        patrol.addSquadron(squadron.get());
-        isAffectedByWeather.setValue(patrol.isAffectedByWeather());
         assignedAllNations.add(squadron);
     }
 
@@ -146,11 +141,6 @@ public class PatrolViewModel {
         Nation nation = squadron.getNation();
         assigned.get(nation).get().remove(squadron);
         squadron.setOffPatrol();
-
-        // patrol must be updated before assigned all nations, so the view gets the correct patrol information
-        // when its change handler fires.
-        patrol.removeSquadron(squadron.get());
-        isAffectedByWeather.setValue(patrol.isAffectedByWeather());
         assignedAllNations.remove(squadron);
     }
 
@@ -187,7 +177,7 @@ public class PatrolViewModel {
      */
     private Patrol buildPatrol(final Patrol patrolModel) {
         PatrolData data = new PatrolData();
-        data.setType(PatrolType.getType(patrolModel));
+        data.setType(patrolModel.getType());
         data.setAirbase(patrolModel.getAirbase());
 
         List<String> squadronNames = patrolModel
@@ -204,11 +194,11 @@ public class PatrolViewModel {
     /**
      * Set the squadrons from the patrol model for the given nation.
      *
+     * @param patrolModel The patrol model.
      * @param nation The nation: BRITISH, ITALIAN, etc...
      */
-    private void setAssignedSquadrons(final Nation nation) {
-        List<SquadronViewModel> assignedToPatrol = squadrons
-                .get(patrol.getAssignedSquadrons(nation));
+    private void setAssignedSquadrons(final Nation nation, final Patrol patrolModel) {
+        List<SquadronViewModel> assignedToPatrol = squadrons.get(patrolModel.getAssignedSquadrons(nation));
 
         assigned.put(nation, new SimpleListProperty<>(FXCollections.observableArrayList(assignedToPatrol)));
         assignedExists.put(nation, new SimpleBooleanProperty(assignedToPatrol.isEmpty()));

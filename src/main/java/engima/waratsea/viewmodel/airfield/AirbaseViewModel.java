@@ -5,7 +5,12 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.taskForce.patrol.PatrolGroup;
+import engima.waratsea.model.taskForce.patrol.PatrolGroupDAO;
+import engima.waratsea.model.taskForce.patrol.data.PatrolGroupData;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
+import engima.waratsea.viewmodel.taskforce.air.AirbasesViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
@@ -49,6 +54,10 @@ public class AirbaseViewModel {
     private final Provider<AirMissionViewModel> missionViewModelProvider;
     private final Provider<PatrolViewModel> patrolViewModelProvider;
 
+    private AirbasesViewModel airbaseGroup;
+
+    private final PatrolGroupDAO patrolGroupDAO;
+
     /**
      * Constructor called by guice.
      *
@@ -56,16 +65,19 @@ public class AirbaseViewModel {
      * @param missionViewModelProvider Provides mission view models.
      * @param patrolViewModelProvider Provides patrol view models.
      * @param squadronsViewModel The squadrons view model. It houses all the airbase squadron view models.
+     * @param patrolGroupDAO Provides patrol groups.
      */
     @Inject
     public AirbaseViewModel(final Provider<NationAirbaseViewModel> nationAirbaseViewModelProvider,
                             final Provider<AirMissionViewModel> missionViewModelProvider,
                             final Provider<PatrolViewModel> patrolViewModelProvider,
-                            final SquadronsViewModel squadronsViewModel) {
+                            final SquadronsViewModel squadronsViewModel,
+                            final PatrolGroupDAO patrolGroupDAO) {
         this.nationAirbaseViewModelProvider = nationAirbaseViewModelProvider;
         this.missionViewModelProvider = missionViewModelProvider;
         this.patrolViewModelProvider = patrolViewModelProvider;
         this.squadronsViewModel = squadronsViewModel;
+        this.patrolGroupDAO = patrolGroupDAO;
     }
 
     /**
@@ -82,6 +94,19 @@ public class AirbaseViewModel {
 
         bindTotalMissions();  // We have to wait to bind until the nations are known.
 
+        return this;
+    }
+
+    /**
+     * Set the airbase's group. This indicates that this airbase is part of a group.
+     * This is currently only used by ships: aircraft carriers and capital ships in
+     * a task force where the task force is the airbase group.
+     *
+     * @param group The airbase group.
+     * @return This airbase view model.
+     */
+    public AirbaseViewModel setGroup(final AirbasesViewModel group) {
+        airbaseGroup = group;
         return this;
     }
 
@@ -210,7 +235,15 @@ public class AirbaseViewModel {
      * @param squadron The squadron added to the patrol of the given type.
      */
     public void addToPatrol(final PatrolType type, final SquadronViewModel squadron) {
-        patrolViewModels.get(type).addToPatrol(squadron);
+        // Update the group first, since the view watches for the patrol view model update
+        // to display the patrol stats. This way the stats are correct.
+        Optional
+                .ofNullable(airbaseGroup)
+                .ifPresent(group -> group.addToPatrol(type, squadron));
+
+        patrolViewModels
+                .get(type)
+                .addToPatrol(squadron);
     }
 
     /**
@@ -220,7 +253,34 @@ public class AirbaseViewModel {
      * @param squadron The squadron removed from the patrol of the given type.
      */
     public void removeFromPatrol(final PatrolType type, final SquadronViewModel squadron) {
-        patrolViewModels.get(type).removeFromPatrol(squadron);
+        // Update the group first, since the view watches for the patrol view model update
+        // to display the patrol stats. This way the stats are correct.
+        Optional
+                .ofNullable(airbaseGroup)
+                .ifPresent(group -> group.removeFromPatrol(type, squadron));
+
+        patrolViewModels
+                .get(type)
+                .removeFromPatrol(squadron);
+    }
+
+    /**
+     * Get the airbase patrol group.
+     *
+     * For airfields this is simply the patrol group of the airfield. This consists of
+     * only the squadrons in this airbase's patrol view models.
+     *
+     * For task forces this is the aggregate of all airbases within the task force; i.e.,
+     * all ships with squadrons.
+     *
+     * @param patrolType The patrol type.
+     * @return The corresponding patrol group for the given patrol type.
+     */
+    public PatrolGroup getPatrolGroup(final PatrolType patrolType) {
+        return Optional
+                .ofNullable(airbaseGroup)
+                .map(group -> group.getPatrolGroup(patrolType))
+                .orElseGet(() -> getThisAirbasesPatrolGroup(patrolType));
     }
 
     /**
@@ -261,7 +321,7 @@ public class AirbaseViewModel {
      */
     private void relateChildViewModels() {
         missionViewModels.forEach(this::addNationViewToMissionView);
-        patrolViewModels.values().forEach(patrolVM -> patrolVM.setNationViewModels(nationViewModels));
+        patrolViewModels.values().forEach(this::addNationViewToPatrolView);
         nationViewModels.values().forEach(nationVM -> nationVM.setPatrolViewModels(patrolViewModels));
         nationViewModels.forEach((nation, nationVM) -> nationVM.setMissionViewModels(missionViewModels));
     }
@@ -341,5 +401,37 @@ public class AirbaseViewModel {
      */
     private void addNationViewToMissionView(final Nation nation, final List<AirMissionViewModel> missionVMs) {
         missionVMs.forEach(missionVM -> missionVM.setNationViewModel(nationViewModels.get(nation)));
+    }
+
+    /**
+     * Add the airbase nation view models to the patrol view model.
+     *
+     * @param patrolViewModel A given patrol view model.
+     */
+    private void addNationViewToPatrolView(final PatrolViewModel patrolViewModel) {
+        patrolViewModel.setNationViewModels(nationViewModels);
+    }
+
+    /**
+     * Get this airbase's patrol group. This is used by airfields which are a single air group of themselves.
+     *
+     * @param patrolType The patrol type.
+     * @return A this airbase's patrol group that corresponds to the given patrol type.
+     */
+    private PatrolGroup getThisAirbasesPatrolGroup(final PatrolType patrolType) {
+        PatrolGroupData data = new PatrolGroupData();
+
+        List<Squadron> totalOnPatrol = patrolViewModels
+                .get(patrolType)
+                .getAssignedAllNations()
+                .getValue()
+                .stream()
+                .map(SquadronViewModel::get)
+                .collect(Collectors.toList());
+
+        data.setType(patrolType);
+        data.setSquadrons(totalOnPatrol);
+
+        return patrolGroupDAO.load(data);
     }
 }

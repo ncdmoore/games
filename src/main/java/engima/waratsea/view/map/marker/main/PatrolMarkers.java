@@ -1,7 +1,9 @@
 package engima.waratsea.view.map.marker.main;
 
-import engima.waratsea.model.base.airfield.patrol.Patrol;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.map.MarkerGrid;
+import engima.waratsea.model.taskForce.patrol.PatrolGroup;
+import engima.waratsea.model.taskForce.patrol.PatrolGroups;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import javafx.event.EventHandler;
@@ -11,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Pair;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -53,17 +56,20 @@ public class PatrolMarkers {
 
     /**
      * Draw all the marker's patrol radii.
+     *
+     * Note, if the patrol group ever changes this marker needs to be redrawn so it reflects the newly updated
+     * patrol group.
      */
     public void draw() {
         List<PatrolMarker> newMarkers = markerGrid
-                .getPatrols()
-                .map(patrolMap -> patrolMap
-                        .entrySet()
-                        .stream()
-                        .filter(this::filterZeroRadius)
-                        .map(this::drawMarker)
-                        .collect(Collectors.toList()))
-                .orElseGet(Collections::emptyList);
+                .getPatrolGroups()
+                .map(this::getPatrolGroupMap)
+                .orElse(Collections.emptyMap())
+                .entrySet()
+                .stream()
+                .filter(this::filterZeroRadius)
+                .map(this::drawMarker)
+                .collect(Collectors.toList());
 
         // Get any circles that are no longer needed.
         List<PatrolMarker> removed = ListUtils.subtract(patrolMarkers, newMarkers);
@@ -103,7 +109,7 @@ public class PatrolMarkers {
      * @param entry An entry in the airbase's patrol map. It contains the max radius -> List of Patrols.
      * @return True if the patrols radius is not zero. False if the patrols radius is zero.
      */
-    private boolean filterZeroRadius(final Map.Entry<Integer, List<Patrol>> entry) {
+    private boolean filterZeroRadius(final Map.Entry<Integer, List<PatrolGroup>> entry) {
         return entry.getKey() != 0;
     }
 
@@ -113,7 +119,7 @@ public class PatrolMarkers {
      * @param entry A map entry of circle's radius => list of patrols.
      * @return The circle representing the patrols radius.
      */
-    private PatrolMarker drawMarker(final Map.Entry<Integer, List<Patrol>> entry) {
+    private PatrolMarker drawMarker(final Map.Entry<Integer, List<PatrolGroup>> entry) {
 
         int radius = entry.getKey() * gridView.getSize();
 
@@ -125,7 +131,7 @@ public class PatrolMarkers {
                 .orElseGet(() -> buildPatrolMarker(entry));
 
         patrolMarker.add();
-        patrolMarker.setData(entry.getValue());
+        patrolMarker.setData(entry.getValue());                // Save the patrol groups with this marker.
         patrolMarker.setClickHandler(radiusMouseHandler);
 
         return patrolMarker;
@@ -137,7 +143,7 @@ public class PatrolMarkers {
      * @param entry An entry in the airbase's patrol map. It contains the max radius -> List of Patrols.
      * @return The new patrol radius.
      */
-    private PatrolMarker buildPatrolMarker(final Map.Entry<Integer, List<Patrol>> entry) {
+    private PatrolMarker buildPatrolMarker(final Map.Entry<Integer, List<PatrolGroup>> entry) {
         PatrolMarker patrolMarker = new PatrolMarker(mapView, gridView);
         patrolMarker.drawRadius(entry.getKey(), entry.getValue());
         return patrolMarker;
@@ -175,5 +181,20 @@ public class PatrolMarkers {
         Optional
                 .ofNullable(highlighted)
                 .ifPresent(mapView::remove);
+    }
+
+    private Map<Integer, List<PatrolGroup>> getPatrolGroupMap(final PatrolGroups patrolGroups) {
+        return PatrolType
+                .stream()
+                .map(patrolGroups::getPatrolGroup)
+                .map(this::getPair)
+                .collect(Collectors.toMap(
+                        Pair::getKey,
+                        p -> Collections.singletonList(p.getValue()),
+                        ListUtils::union));
+    }
+
+    private Pair<Integer, PatrolGroup> getPair(final PatrolGroup patrolGroup) {
+        return new Pair<>(patrolGroup.getTrueMaxRadius(), patrolGroup);
     }
 }

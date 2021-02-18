@@ -6,10 +6,7 @@ import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolsData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
-import javafx.util.Pair;
-import org.apache.commons.collections4.ListUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Represents an airfield's or aircraft carrier's patrols.
+ * Represents an airfield's or ship's collection of patrols.
  */
 public class Patrols {
     private final Map<PatrolType, Patrol> patrolMap = new HashMap<>();
@@ -42,7 +39,7 @@ public class Patrols {
      * @param data The patrols data.
      */
     public void build(final Airbase base, final PatrolsData data) {
-        this.airbase = base;
+        airbase = base;
         PatrolType
                 .stream()
                 .forEach(patrolType -> buildPatrol(patrolType, data));
@@ -107,22 +104,6 @@ public class Patrols {
     }
 
     /**
-     * Get a map of patrol maximum radius to list of patrols.
-     *
-     * @return A map containing the patrol maximum radius as key and the patrol as the value.
-     * Note, that if all the patrol types have the same maximum radius value then this map
-     * will contain a single entry where the single maximum radius maps to all three types
-     * of patrols.
-     */
-    public Map<Integer, List<Patrol>> getPatrolRadiiMap() {
-        return PatrolType.stream()
-                .map(this::getPatrolRadii)
-                .collect(Collectors.toMap(Pair::getKey,
-                        this::createList,
-                        ListUtils::union));
-    }
-
-    /**
      * Build a patrol.
      *
      * @param patrolType The patrol type to build.
@@ -143,7 +124,7 @@ public class Patrols {
 
     /**
      * Get a given patrol entry's data. This is just a utility method to aid in
-     * getting a given patrols's persistent data.
+     * getting a given patrol's persistent data.
      *
      * @param entry a map entry with patrol type as key and the patrol as the value.
      * @return The patrol's persistent data.
@@ -152,30 +133,4 @@ public class Patrols {
         return entry.getValue().getData();
     }
 
-    /**
-     * Get a Pair of max radius to patrol.
-     *
-     * @param patrolType The type of patrol.
-     * @return A Pair of radius, patrol.
-     */
-    private Pair<Integer, Patrol> getPatrolRadii(final PatrolType patrolType) {
-        int radius = patrolMap
-                .get(patrolType)
-                .getTrueMaxRadius();
-
-        return new Pair<>(radius, patrolMap.get(patrolType));
-    }
-
-    /**
-     * Create a list of Patrols from a pair of radius, patrol.
-     *
-     * @param pair  A radius, patrol pair.
-     * @return A list of Patrols.
-     */
-    private  List<Patrol> createList(final Pair<Integer, Patrol> pair) {
-        Patrol patrol = pair.getValue();
-        List<Patrol> list = new ArrayList<>();
-        list.add(patrol);
-        return list;
-    }
 }

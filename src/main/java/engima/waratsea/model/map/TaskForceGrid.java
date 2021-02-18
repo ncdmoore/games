@@ -2,18 +2,16 @@ package engima.waratsea.model.map;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMission;
-import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.model.taskForce.TaskForceGroup;
+import engima.waratsea.model.taskForce.patrol.PatrolGroups;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.ListUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -31,6 +29,7 @@ import java.util.stream.Collectors;
 public class TaskForceGrid implements MarkerGrid {
 
     private final Provider<GameMap> gameMapProvider;
+    private final Provider<TaskForceGroup> taskForceGroupProvider;
 
     @Getter private Side side;                                            // The side of the task force.
     @Getter private String reference;                                     // The map reference location of this task force grid.
@@ -40,10 +39,13 @@ public class TaskForceGrid implements MarkerGrid {
      * The constructor called by guice.
      *
      * @param gameMapProvider Provides the game map.
+     * @param taskForceGroupProvider Provides task force groups.
      */
     @Inject
-    public TaskForceGrid(final Provider<GameMap> gameMapProvider) {
+    public TaskForceGrid(final Provider<GameMap> gameMapProvider,
+                         final Provider<TaskForceGroup> taskForceGroupProvider) {
         this.gameMapProvider = gameMapProvider;
+        this.taskForceGroupProvider = taskForceGroupProvider;
     }
 
     /**
@@ -133,24 +135,21 @@ public class TaskForceGrid implements MarkerGrid {
     }
 
     /**
-     * Get the marker grid's patrol radii map.
+     * Get the marker grid's patrol groups.
      *
-     * @return A map of the true maximum patrol radius to a list of
-     * patrols that can reach that true maximum radius.
+     * @return The marker grids patrol groups.
      */
     @Override
-    public Optional<Map<Integer, List<Patrol>>> getPatrols() {
-        // Get all the task force's patrols and the build a combined map.
-        // For each task force we get each ship that may act as an airbase.
-        Map<Integer, List<Patrol>> patrolMap = taskForces
-                .stream()
-                .flatMap(taskForce -> taskForce.getAirbases().stream())
-                .map(Airbase::getPatrolRadiiMap)
-                .map(Map::entrySet)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, ListUtils::union));
+    public Optional<PatrolGroups> getPatrolGroups() {
+        // Build a task force group to represent the aggregate of all the task forces patrols.
+        // Note, if a task force moves and leaves the group, then the group must be rebuilt
+        // to reflect the correct patrol groups.
+        TaskForceGroup group = taskForceGroupProvider
+                .get()
+                .build(taskForces);
 
-        return Optional.of(patrolMap);
+
+        return Optional.of(group.getPatrolGroups());
     }
 
     /**

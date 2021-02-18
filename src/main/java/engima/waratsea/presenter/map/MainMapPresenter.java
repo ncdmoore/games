@@ -5,12 +5,12 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.mission.AirMission;
-import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.model.taskForce.patrol.PatrolGroup;
 import engima.waratsea.presenter.airfield.AirfieldDialog;
 import engima.waratsea.presenter.airfield.mission.MissionDialog;
 import engima.waratsea.presenter.airfield.patrol.PatrolDialog;
@@ -337,7 +337,7 @@ public class MainMapPresenter {
     @SuppressWarnings("unchecked")
     private void patrolRadiusClickHandler(final MouseEvent event) {
         Circle circle = (Circle) event.getSource();
-        List<Patrol> patrols = (List<Patrol>) circle.getUserData();
+        List<PatrolGroup> patrols = (List<PatrolGroup>) circle.getUserData();
         patrolDetailsDialogProvider.get().show(patrols);
     }
 

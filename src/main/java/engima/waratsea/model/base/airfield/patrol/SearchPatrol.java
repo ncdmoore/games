@@ -6,26 +6,19 @@ import com.google.inject.name.Named;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
-import engima.waratsea.model.base.airfield.patrol.stats.PatrolStat;
-import engima.waratsea.model.base.airfield.patrol.stats.PatrolStats;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.rules.GameRules;
 import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.model.squadron.state.SquadronAction;
-import engima.waratsea.model.squadron.state.SquadronState;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -170,21 +163,6 @@ public class SearchPatrol implements Patrol {
     }
 
     /**
-     * Determine the squadrons available to perform this patrol for the given nation.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @return A list of squadrons available for this patrol for the given nation.
-     */
-    @Override
-    public List<Squadron> getAvailableSquadrons(final Nation nation) {
-        return airbase
-                .getSquadrons(nation)
-                .stream()
-                .filter(squadron -> squadron.isAtState(SquadronState.READY))
-                .filter(squadron -> squadron.canDoPatrol(PatrolType.SEARCH))
-                .collect(Collectors.toList());    }
-
-    /**
      * Get the patrol's true maximum squadron radius. This is the maximum radius
      * at which the patrol has a greater than 0 % chance to be successful.
      *
@@ -241,31 +219,6 @@ public class SearchPatrol implements Patrol {
     }
 
     /**
-     * Get the patrol data.
-     *
-     * @return A map of data for this patrol.
-     */
-    @Override
-    public PatrolStats getPatrolStats() {
-        Map<String, String> toolTips = new HashMap<>();
-        toolTips.put("Search", "Search effectiveness with present weather affects");
-        toolTips.put("No Weather", "Search effectiveness without any weather affects");
-
-        int trueMaxRadius = getTrueMaxRadius();
-
-        Map<Integer, Map<String, PatrolStat>> stats = IntStream
-                .range(1, trueMaxRadius + 1)
-                .boxed()
-                .collect(Collectors.toMap(radius -> radius, this::getPatrolStat));
-
-        PatrolStats patrolStats = new PatrolStats();
-        patrolStats.setData(stats);
-        patrolStats.setMetaData(toolTips);
-
-        return patrolStats;
-    }
-
-    /**
      * Clear all of the squadrons from this patrol.
      */
     @Override
@@ -291,63 +244,6 @@ public class SearchPatrol implements Patrol {
 
         squadrons.removeAll(toRemove);
         updateMaxRadius();
-    }
-
-    /**
-     * Get the patrol data that corresponds to the given radius. This is the
-     * data for a patrol that takes place at the given radius.
-     *
-     * @param radius The patrol radius.
-     * @return A map of data for this patrol that corresponds to the given radius.
-     */
-    private Map<String, PatrolStat> getPatrolStat(final int radius) {
-        List<Squadron> inRange = getAssignedSquadrons(radius);
-
-        Map<String, PatrolStat> data = new LinkedHashMap<>();
-        data.put("Squadrons", new PatrolStat(inRange.size(), getPatrolSquadrons(radius)));
-        data.put("Steps", new PatrolStat(inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add)));
-        data.put("Search", new PatrolStat(getSuccessRate(radius) + " %", getPatrolSearchFactors(radius)));
-        data.put("No Weather", new PatrolStat(searchRules.getBaseSearchSuccessNoWeather(radius, inRange) + "%"));
-
-        return data;
-    }
-
-    /**
-     * Get the squadron titles that are affective at the given radius.
-     *
-     * @param radius Patrol radius.
-     * @return A list of squadron titles that are affective at the given radius.
-     */
-    private String getPatrolSquadrons(final int radius) {
-       return getAssignedSquadrons(radius)
-                .stream()
-                .map(Squadron::getTitle)
-                .collect(Collectors.joining("\n"));
-    }
-
-    /**
-     * Get the patrol factors at the given radius.
-     *
-     * @param radius Patrol radius.
-     * @return A string that specifies the factors that determine the patrols success.
-     */
-    private String getPatrolSearchFactors(final int radius) {
-        return getSearchFactors(radius)
-                .entrySet()
-                .stream()
-                .map(e -> e.getKey() + " = " + e.getValue())
-                .collect(Collectors.joining("\n"));
-    }
-
-    /**
-     * Get the patrol success factors.
-     *
-     * @param radius The distance to the target.
-     * @return A map of factor name to factor value.
-     */
-    private Map<String, String> getSearchFactors(final int radius) {
-        List<Squadron> inRange = getAssignedSquadrons(radius);
-        return searchRules.getBaseSearchFactors(radius, inRange);
     }
 
     /**

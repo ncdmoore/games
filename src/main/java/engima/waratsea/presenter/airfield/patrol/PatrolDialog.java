@@ -2,9 +2,8 @@ package engima.waratsea.presenter.airfield.patrol;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.patrol.Patrol;
-import engima.waratsea.model.base.airfield.patrol.PatrolType;
+import engima.waratsea.model.base.AirbaseGroup;
+import engima.waratsea.model.taskForce.patrol.PatrolGroup;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogOkOnlyView;
 import engima.waratsea.view.ViewProps;
@@ -41,7 +40,7 @@ public class PatrolDialog {
 
     private Stage stage;
 
-    private Airbase airbase;
+    private AirbaseGroup airbaseGroup;
 
     private PatrolDetailsView view;
 
@@ -74,15 +73,15 @@ public class PatrolDialog {
      *
      * @param patrols The patrols for the selected radius.
      */
-    public void show(final List<Patrol> patrols) {
-        airbase = patrols.get(0).getAirbase();
+    public void show(final List<PatrolGroup> patrols) {
+        airbaseGroup = patrols.get(0).getHomeGroup();
 
         dialog = dialogProvider.get();     // The dialog view that contains the airfield details view.
         view = viewProvider.get();
 
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle(airbase.getTitle() + " " +  airbase.getAirbaseType().getTitle() + " Patrol Details");
+        stage.setTitle("Patrol Details");
 
         dialog.setWidth(props.getInt("patrol.dialog.width"));
         dialog.setHeight(props.getInt("patrol.dialog.height"));
@@ -91,7 +90,7 @@ public class PatrolDialog {
 
         patrols
                 .stream()
-                .map(PatrolType::getType)
+                .map(PatrolGroup::getType)
                 .forEach(patrolType ->
                         view
                                 .getLabelMap()
@@ -120,7 +119,7 @@ public class PatrolDialog {
      * Close this dialog.
      */
     private void ok() {
-        mapViewProvider.get().unhighlightPatrolRadius(airbase);
+        mapViewProvider.get().unhighlightPatrolRadius(airbaseGroup);
         stage.close();
     }
 
@@ -160,11 +159,11 @@ public class PatrolDialog {
         int radius = (int) label.getUserData();
 
         unhighlightLabel();
-        mapViewProvider.get().unhighlightPatrolRadius(airbase);
+        mapViewProvider.get().unhighlightPatrolRadius(airbaseGroup);
 
         if (label != highlighted) {
             highlightLabel(label);
-            mapViewProvider.get().highlightPatrolRadius(airbase, radius);
+            mapViewProvider.get().highlightPatrolRadius(airbaseGroup, radius);
         }
     }
 

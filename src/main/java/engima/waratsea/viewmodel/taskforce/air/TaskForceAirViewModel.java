@@ -5,9 +5,6 @@ import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.model.taskForce.TaskForceState;
-import engima.waratsea.model.taskForce.mission.SeaMissionType;
-import engima.waratsea.model.taskForce.mission.rules.SeaMissionRules;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
@@ -17,15 +14,12 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,16 +33,12 @@ import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 /**
- * This class represents the task force view model. It contains properties based on the currently selected
+ * This class represents the task force air view model. It contains properties based on the currently selected
  * task force. The presenter populates this class with the selected task force. The view binds its GUI elements
  * to the values in this class.
  */
 public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> {
     private static final String NOT_SET = "Not Set";
-
-    private final SeaMissionRules seaMissionRules;
-
-    @Getter private final ListProperty<SeaMissionType> missionTypes = new SimpleListProperty<>();   // The task force's available missions.
 
     @Getter private final StringProperty name = new SimpleStringProperty();
     @Getter private final StringProperty title = new SimpleStringProperty();
@@ -56,40 +46,47 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
 
     @Getter private final ObjectProperty<Image> image = new SimpleObjectProperty<>();
 
-    @Getter private final StringProperty state = new SimpleStringProperty();
-    @Getter private final ObjectProperty<Paint> stateColor = new SimpleObjectProperty<>();
-    @Getter private final ObjectProperty<SeaMissionType> mission = new SimpleObjectProperty<>();
     @Getter private final StringProperty location = new SimpleStringProperty();
-    @Getter private final StringProperty reason = new SimpleStringProperty();  // The reasons the task force becomes active.
 
     @Getter private final MapProperty<AircraftType, Integer> squadronTypeMap = new SimpleMapProperty<>(FXCollections.emptyObservableMap());
     @Getter private final Map<String, IntegerProperty> squadronCounts = new LinkedHashMap<>();
 
     @Getter private final ObjectProperty<TaskForce> taskForce = new SimpleObjectProperty<>();
 
+    @Getter private TaskForcesAirViewModel taskForcesAirViewModel;
     private final AirbasesViewModel airbasesViewModel;
+
 
     /**
      * Constructor called by guice.
      *
      * @param imageResourceProvider Provides images.
      * @param props View properties.
-     * @param seaMissionRules The sea mission rules.
      * @param airbasesViewModel The airbase view models in this task force. Aircraft carriers, etc...
      */
     @Inject
     public TaskForceAirViewModel(final ImageResourceProvider imageResourceProvider,
                                  final ViewProps props,
-                                 final SeaMissionRules seaMissionRules,
                                  final AirbasesViewModel airbasesViewModel) {
-        this.seaMissionRules = seaMissionRules;
         this.airbasesViewModel = airbasesViewModel;
 
         bindTitles();
-        bindDetails();
         bindSquadronTypeMap();
         bindSquadronCounts();
         bindImages(imageResourceProvider, props);
+
+        airbasesViewModel.setTaskForceAirViewModel(this);
+    }
+
+    /**
+     * Set teh task forces air view model.
+     *
+     * @param parent The parent task forces air view model.
+     * @return This task force air view model.
+     */
+    public TaskForceAirViewModel setTaskForcesAirViewModel(final TaskForcesAirViewModel parent) {
+        taskForcesAirViewModel = parent;
+        return this;
     }
 
     /**
@@ -134,37 +131,6 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
         name.bind(Bindings.createStringBinding(() -> Optional.ofNullable(taskForce.getValue()).map(TaskForce::getName).orElse(""), taskForce));
         title.bind(Bindings.createStringBinding(() -> Optional.ofNullable(taskForce.getValue()).map(TaskForce::getTitle).orElse(""), taskForce));
         nameAndTitle.bind(name.concat(new SimpleStringProperty(" ")).concat(title));
-    }
-
-    /**
-     * bind the task force details.
-     */
-    private void bindDetails() {
-        state.bind(Bindings.createStringBinding(() -> Optional
-                .ofNullable(taskForce.getValue())
-                .map(t -> t.getState().toString())
-                .orElse(""), taskForce));
-
-        mission.bind(Bindings.createObjectBinding(() -> Optional
-                .ofNullable(taskForce.getValue())
-                .map(t -> t.getMission().getType())
-                .orElse(null), taskForce));
-
-        missionTypes.bind(Bindings.createObjectBinding(() -> Optional
-                .ofNullable(taskForce.getValue())
-                .map(t -> FXCollections.observableArrayList(seaMissionRules.getMissions(t)))
-                .orElse(FXCollections.emptyObservableList()), taskForce));
-
-        reason.bind(Bindings.createStringBinding(() -> Optional
-                .ofNullable(taskForce.getValue())
-                .map(t -> String.join("\n", t.getActivatedByText()))
-                .orElse(""), taskForce));
-
-        stateColor.bind(Bindings.createObjectBinding(() -> Optional
-                .ofNullable(taskForce.getValue())
-                .filter(t -> t.getState() == TaskForceState.RESERVE)
-                .map(t -> Color.RED)
-                .orElse(Color.BLACK), taskForce));
     }
 
     private void bindSquadronTypeMap() {

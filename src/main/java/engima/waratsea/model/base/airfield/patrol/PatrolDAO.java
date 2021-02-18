@@ -1,14 +1,16 @@
 package engima.waratsea.model.base.airfield.patrol;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Singleton
 public class PatrolDAO {
-    private Map<PatrolType, Function<PatrolData, Patrol>> factoryMap = new HashMap<>();
+    private final Map<PatrolType, Function<PatrolData, Patrol>> factoryMap = new HashMap<>();
 
     /**
      * Constructor called by guice.

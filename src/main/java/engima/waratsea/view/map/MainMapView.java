@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.AirbaseGroup;
+import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.BaseGrid;
@@ -15,6 +17,7 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.map.marker.main.AirOperationsMarker;
 import engima.waratsea.view.map.marker.main.BaseMarker;
 import engima.waratsea.view.map.marker.main.BaseMarkerFactory;
 import engima.waratsea.view.map.marker.main.RegionMarker;
@@ -58,6 +61,8 @@ public class MainMapView {
     private final Map<Airbase, BaseMarker> airbaseMarkersMap = new HashMap<>();
     private final Map<TaskForce, TaskForceMarker> taskForceMarkersMap = new HashMap<>();
 
+    private final Map<AirbaseGroup, AirOperationsMarker> airOpsMarkersMap = new HashMap<>();
+
     /**
      * Constructor called by guice.
      * @param game The game.
@@ -93,6 +98,7 @@ public class MainMapView {
     public Node build() {
         airbaseMarkersMap.clear();
         taskForceMarkersMap.clear();
+        airOpsMarkersMap.clear();
 
         regionMarkers.put(Side.ALLIES, new ArrayList<>());
         regionMarkers.put(Side.AXIS, new ArrayList<>());
@@ -242,6 +248,7 @@ public class MainMapView {
      */
     public void setPatrolRadiusClickHandler(final Side side, final EventHandler<? super MouseEvent> handler) {
         baseMarkers.get(side).forEach(baseMarker -> baseMarker.setPatrolRadiusClickHandler(handler));
+        taskForceMarkers.get(side).forEach(taskForceMarker -> taskForceMarker.setPatrolRadiusClickHandler(handler));
     }
 
     /**
@@ -350,20 +357,20 @@ public class MainMapView {
     /**
      * Highlight a patrol radius.
      *
-     * @param airbase The airbase that has one of its patrol radii highlighted.
+     * @param airbaseGroup The airbase that has one of its patrol radii highlighted.
      * @param radius The radius that is highlighted.
      */
-    public void highlightPatrolRadius(final Airbase airbase, final int radius) {
-        airbaseMarkersMap.get(airbase).highlightRadius(radius);
+    public void highlightPatrolRadius(final AirbaseGroup airbaseGroup, final int radius) {
+        airOpsMarkersMap.get(airbaseGroup).highlightRadius(radius);
     }
 
     /**
      * Remove a highlight from a patrol radius.
      *
-     * @param airbase The airbase that has one of its patrol raddi highlight removed.
+     * @param airbaseGroup The airbase that has one of its patrol raddi highlight removed.
      */
-    public void unhighlightPatrolRadius(final Airbase airbase) {
-        airbaseMarkersMap.get(airbase).unhighlightRadius();
+    public void unhighlightPatrolRadius(final AirbaseGroup airbaseGroup) {
+        airOpsMarkersMap.get(airbaseGroup).unhighlightRadius();
     }
 
     /**
@@ -439,7 +446,7 @@ public class MainMapView {
         baseMarker
                 .getBaseGrid()
                 .getAirfield()
-                .ifPresent(airfield -> airbaseMarkersMap.put(airfield, baseMarker));
+                .ifPresent(airfield -> storeBaseMarker(airfield, baseMarker));
 
         if (displayBaseMarker(type)) {
             baseMarker.draw();
@@ -483,7 +490,9 @@ public class MainMapView {
 
         taskForceMarkers.get(taskForceGrid.getSide()).add(taskForceMarker);
 
-        taskForceGrid.getTaskForces().forEach(taskForce -> taskForceMarkersMap.put(taskForce, taskForceMarker));
+        taskForceGrid
+                .getTaskForces()
+                .forEach(taskForce -> storeTaskForceMarker(taskForce, taskForceMarker));
 
         taskForceMarker.draw();
     }
@@ -494,7 +503,9 @@ public class MainMapView {
      * @param side The side: ALLIES or AXIS.
      */
     private void drawRegionMarkers(final Side side) {
-        gameMap.getRegionGrids(side).forEach(this::drawRegionMarker);
+        gameMap
+                .getRegionGrids(side)
+                .forEach(this::drawRegionMarker);
     }
 
     /**
@@ -578,5 +589,15 @@ public class MainMapView {
         }
 
         return type == BaseGridType.BOTH && (showAirfields || showPorts);
+    }
+
+    private void storeBaseMarker(final Airfield airfield, final BaseMarker baseMarker) {
+        airbaseMarkersMap.put(airfield, baseMarker);
+        airOpsMarkersMap.put(airfield, baseMarker);
+    }
+
+    private void storeTaskForceMarker(final TaskForce taskForce, final TaskForceMarker taskForceMarker) {
+        taskForceMarkersMap.put(taskForce, taskForceMarker);
+        airOpsMarkersMap.put(taskForce, taskForceMarker);
     }
 }

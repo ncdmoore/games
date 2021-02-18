@@ -106,6 +106,11 @@ import engima.waratsea.model.taskForce.mission.MissionFactory;
 import engima.waratsea.model.taskForce.mission.SeaMission;
 import engima.waratsea.model.taskForce.mission.StayInPort;
 import engima.waratsea.model.taskForce.mission.Transport;
+import engima.waratsea.model.taskForce.patrol.AswPatrolGroup;
+import engima.waratsea.model.taskForce.patrol.CapPatrolGroup;
+import engima.waratsea.model.taskForce.patrol.PatrolGroup;
+import engima.waratsea.model.taskForce.patrol.PatrolGroupFactory;
+import engima.waratsea.model.taskForce.patrol.SearchPatrolGroup;
 import engima.waratsea.model.victory.AirfieldVictory;
 import engima.waratsea.model.victory.AirfieldVictoryFactory;
 import engima.waratsea.model.victory.RequiredShipVictory;
@@ -202,12 +207,17 @@ public class BasicModule extends AbstractModule {
         bind(MissionAirRules.class).annotatedWith(Names.named("airStrike")).to(MissionAirStrikeRules.class);
         bind(MissionAirRules.class).annotatedWith(Names.named("airSweep")).to(MissionAirSweepRules.class);
 
-
         install(new FactoryModuleBuilder()
                 .implement(Patrol.class, Names.named("search"), SearchPatrol.class)
                 .implement(Patrol.class, Names.named("asw"), AswPatrol.class)
                 .implement(Patrol.class, Names.named("cap"), CapPatrol.class)
                 .build(PatrolFactory.class));
+
+        install(new FactoryModuleBuilder()
+                .implement(PatrolGroup.class, Names.named("search"), SearchPatrolGroup.class)
+                .implement(PatrolGroup.class, Names.named("asw"), AswPatrolGroup.class)
+                .implement(PatrolGroup.class, Names.named("cap"), CapPatrolGroup.class)
+                .build(PatrolGroupFactory.class));
 
         bind(PatrolAirRules.class).annotatedWith(Names.named("search")).to(PatrolAirSearchRules.class);
         bind(PatrolAirRules.class).annotatedWith(Names.named("asw")).to(PatrolAirAswRules.class);

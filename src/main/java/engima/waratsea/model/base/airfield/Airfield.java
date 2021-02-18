@@ -1,6 +1,7 @@
 package engima.waratsea.model.base.airfield;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.aircraft.Aircraft;
@@ -9,6 +10,7 @@ import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.AirbaseGroup;
 import engima.waratsea.model.base.Base;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.base.airfield.mission.AirMission;
@@ -26,6 +28,7 @@ import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
+import engima.waratsea.model.taskForce.patrol.PatrolGroups;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +46,9 @@ import java.util.stream.Collectors;
  * Represents airfield's in the game.
  */
 @Slf4j
-public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
+public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<AirfieldData> {
+    private final Provider<PatrolGroups> patrolGroupsProvider;
+
     @Getter private final Side side;
     @Getter private final String name;              // unique id.
     @Getter private final String title;
@@ -68,6 +73,7 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      * Constructor called by guice.
      *
      * @param data The airfield data read in from a JSON file.
+     * @param patrolGroupsProvider Provides patrol groups.
      * @param squadrons The airbase's squadrons.
      * @param missions  This airbase's missions.
      * @param patrols This airbase's patrols.
@@ -76,11 +82,14 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Inject
     public Airfield(@Assisted final AirfieldData data,
+                    final Provider<PatrolGroups> patrolGroupsProvider,
                     final Squadrons squadrons,
                     final Missions missions,
                     final Patrols patrols,
                     final AirOperations airOperations,
                     final GameMap gameMap) {
+
+        this.patrolGroupsProvider = patrolGroupsProvider;
 
         this.squadrons = squadrons;
         this.missions = missions;
@@ -132,6 +141,19 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
      */
     @Override
     public void saveChildrenData() {
+    }
+
+    /**
+     * Get the airbases in this group.
+     * <p>
+     * For airfields there is just a single airbase in the group: the airfield.
+     * For task forces there are multiple airbases: one for each aircraft carrier and capital ship within the task force.
+     *
+     * @return All the airbases within this air base group.
+     */
+    @Override
+    public List<Airbase> getAirbases() {
+        return List.of(this);
     }
 
     /**
@@ -471,16 +493,16 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     }
 
     /**
-     * Get a map of patrol maximum radius to list of patrols.
+     * Get the airbase patrol groups. For airfields the patrol groups are simply the collection
+     * of airbase patrols. Essentially, that data in the PatrolGroups == the data in the Patrols.
      *
-     * @return A map containing the patrol maximum radius as key and the patrol as the value.
-     * Note, that if all the patrol types have the same maximum radius value then this map
-     * will contain a single entry where the single maximum radius maps to all three types
-     * of patrols.
+     * @return The airbase's patrol groups.
      */
     @Override
-    public Map<Integer, List<Patrol>> getPatrolRadiiMap() {
-        return patrols.getPatrolRadiiMap();
+    public PatrolGroups getPatrolGroups() {
+        return patrolGroupsProvider
+                .get()
+                .build(this);
     }
 
     /**
@@ -605,4 +627,5 @@ public class Airfield implements Asset, Airbase, PersistentData<AirfieldData> {
     public int compareTo(@NotNull final Base o) {
         return getTitle().compareTo(o.getTitle());
     }
+
 }

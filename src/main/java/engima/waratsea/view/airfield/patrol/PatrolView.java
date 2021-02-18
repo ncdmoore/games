@@ -89,7 +89,7 @@ public class PatrolView {
     public TitledPane bind(final NationAirbaseViewModel viewModel) {
         patrolListMap.forEach((type, list) -> bindList(type, list, viewModel));
 
-        patrolStatsMap.forEach((type, stats) -> stats.bind(viewModel.getPatrolsViewModels().get(type)));
+        patrolStatsMap.forEach((type, stats) -> stats.bind(viewModel.getAirbaseViewModel(), type));
 
         return titledPane;
     }

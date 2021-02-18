@@ -2,7 +2,6 @@ package engima.waratsea.model.base.airfield.patrol;
 
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
-import engima.waratsea.model.base.airfield.patrol.stats.PatrolStats;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
@@ -57,14 +56,6 @@ public interface Patrol {
     List<Squadron> getAssignedSquadrons(int targetRadius);
 
     /**
-     * Determine the squadrons available to perform this patrol for the given nation.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @return A list of squadrons available for this patrol for the given nation.
-     */
-    List<Squadron> getAvailableSquadrons(Nation nation);
-
-    /**
      * Add a squadron to the patrol.
      *
      * @param squadron The squadron added to the patrol.
@@ -85,13 +76,6 @@ public interface Patrol {
      * @return The success rate an integer percentage.
      */
     int getSuccessRate(int distance);
-
-    /**
-     * Get the patrol data.
-     *
-     * @return A map of data for this patrol.
-     */
-    PatrolStats getPatrolStats();
 
     /**
      * Get the Patrol's maximum squadron radius. This is the radius of the squadron

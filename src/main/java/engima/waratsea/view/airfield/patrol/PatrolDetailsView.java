@@ -2,10 +2,10 @@ package engima.waratsea.view.airfield.patrol;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.AircraftBaseType;
-import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.base.airfield.patrol.stats.PatrolStat;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.taskForce.patrol.PatrolGroup;
 import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -56,7 +56,7 @@ public class PatrolDetailsView {
      * @param patrols The airfield whose details are shown.
      * @return A node containing the airfield details.
      */
-    public Node show(final List<Patrol> patrols) {
+    public Node show(final List<PatrolGroup> patrols) {
         patrolsTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         List<Tab> tabs = patrols
@@ -75,8 +75,8 @@ public class PatrolDetailsView {
      * @param patrol A given patrol.
      * @return A tab for the given patrol.
      */
-    private Tab buildTab(final Patrol patrol) {
-        Tab tab = new Tab(PatrolType.getTitle(patrol));
+    private Tab buildTab(final PatrolGroup patrol) {
+        Tab tab = new Tab(patrol.getTitle());
 
         Node squadronPane = buildSquadrons(patrol);
         Node radiiPane = buildRadii(patrol);
@@ -98,12 +98,12 @@ public class PatrolDetailsView {
      * @param patrol The patrol.
      * @return The squadron summary grid.
      **/
-    private Node buildSquadrons(final Patrol patrol) {
+    private Node buildSquadrons(final PatrolGroup patrol) {
         GridPane gridPane = new GridPane();
         AtomicInteger column = new AtomicInteger();
 
         Map<AircraftBaseType, List<Squadron>> squadronTypeMap = patrol
-                .getAssignedSquadrons()
+                .getSquadrons()
                 .stream()
                 .collect(Collectors.groupingBy(Squadron::getBaseType));
 
@@ -149,11 +149,11 @@ public class PatrolDetailsView {
      * @param patrol The patrol.
      * @return A Node containing the radius effectiveness grid.
      */
-    private Node buildRadii(final Patrol patrol) {
+    private Node buildRadii(final PatrolGroup patrol) {
         GridPane gridPane = new GridPane();
         gridPane.setId("patrol-details-grid");
 
-        labelMap.get(PatrolType.getType(patrol)).clear();
+        labelMap.get(patrol.getType()).clear();
 
         Map<Integer, Map<String, PatrolStat>> data = patrol.getPatrolStats().getData();
 
@@ -162,7 +162,7 @@ public class PatrolDetailsView {
         int row = 1;
         for (Map.Entry<Integer, Map<String, PatrolStat>> entry : data.entrySet()) {
             Label radiusLabel = buildRow(gridPane, entry, row);
-            labelMap.get(PatrolType.getType(patrol)).add(radiusLabel);
+            labelMap.get(patrol.getType()).add(radiusLabel);
             row++;
         }
 
@@ -177,7 +177,7 @@ public class PatrolDetailsView {
      * @param gridPane The grid pane that houses the grid.
      * @param patrol The patrol.
      */
-    private void buildHeaders(final GridPane gridPane, final Patrol patrol) {
+    private void buildHeaders(final GridPane gridPane, final PatrolGroup patrol) {
         Map<String, PatrolStat> data = patrol.getPatrolStats().getData().get(1);
 
         Label label = new Label("Radius");

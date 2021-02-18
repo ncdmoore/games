@@ -8,12 +8,11 @@ import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.taskforce.TaskForcesAirView;
-import engima.waratsea.viewmodel.taskforce.air.TaskForceAirViewModel;
+import engima.waratsea.viewmodel.taskforce.air.TaskForcesAirViewModel;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Represents the Task force's air operations dialog.
@@ -27,14 +26,14 @@ public class TaskForceAirDialog {
     private final Provider<DialogView> dialogProvider;
     private final Provider<MainMapView> mapViewProvider;
     private final Provider<TaskForcesAirView> viewProvider;
-    private final Provider<TaskForceAirViewModel> viewModelProvider;
+    private final Provider<TaskForcesAirViewModel> viewModelProvider;
 
     private final ViewProps props;
     private Stage stage;
 
     private MainMapView mapView;
 
-    private List<TaskForceAirViewModel> viewModels;
+    private TaskForcesAirViewModel viewModel;
 
     //CHECKSTYLE:OFF
     @Inject
@@ -42,7 +41,7 @@ public class TaskForceAirDialog {
                               final Provider<DialogView> dialogProvider,
                               final Provider<MainMapView> mapViewProvider,
                               final Provider<TaskForcesAirView> viewProvider,
-                              final Provider<TaskForceAirViewModel> viewModelProvider,
+                              final Provider<TaskForcesAirViewModel> viewModelProvider,
                               final ViewProps props) {
         //CHECKSTYLE:ON
         this.cssResourceProvider = cssResourceProvider;
@@ -75,9 +74,11 @@ public class TaskForceAirDialog {
 
         TaskForcesAirView view = viewProvider.get();
 
-        buildViewModel();
+        viewModel = viewModelProvider
+                .get()
+                .setModel(taskForces);
 
-        dialog.setContents(view.build(viewModels));
+        dialog.setContents(view.build(viewModel));
 
         registerHandlers(dialog);
 
@@ -97,16 +98,6 @@ public class TaskForceAirDialog {
     }
 
     /**
-     * Build the view model.
-     */
-    private void buildViewModel() {
-        viewModels = taskForces
-                .stream()
-                .map(taskForce -> viewModelProvider.get().setModel(taskForce))
-                .collect(Collectors.toList());
-    }
-
-    /**
      * Register callback handlers.
      *
      * @param dialog This dialog's view.
@@ -120,7 +111,7 @@ public class TaskForceAirDialog {
      * Call back for the ok button.
      */
     private void ok() {
-        viewModels.forEach(TaskForceAirViewModel::save);
+        viewModel.save();
 
         mapView.toggleTaskForceMarkers(taskForces.get(0));   // There must be at least one task force.
 

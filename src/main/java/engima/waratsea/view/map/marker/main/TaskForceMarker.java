@@ -29,7 +29,7 @@ import java.util.List;
  * Represents a task force marker on the main game map.
  * Multiple task forces that occupy the same game grid are represented by a single task force marker.
  */
-public class TaskForceMarker {
+public class TaskForceMarker implements AirOperationsMarker {
     private static final int SHADOW_RADIUS = 3;
 
     @Getter private final TaskForceGrid taskForceGrid;
@@ -178,6 +178,31 @@ public class TaskForceMarker {
      */
     public void setJoinMenuHandler(final EventHandler<ActionEvent> handler) {
         joinMenuItem.setOnAction(handler);
+    }
+
+    /**
+     * Set the base patrol radius clicked handler.
+     *
+     * @param handler The mouse click handler.
+     */
+    public void setPatrolRadiusClickHandler(final EventHandler<? super MouseEvent> handler) {
+        patrolMarkers.setRadiusMouseHandler(handler);
+    }
+
+    /**
+     * Highlight a patrol radius for this marker.
+     *
+     * @param radius The radius to highlight.
+     */
+    public void highlightRadius(final int radius) {
+        patrolMarkers.highlightRadius(radius);
+    }
+
+    /**
+     * Remove this marker's highlighted patrol radius.
+     */
+    public void unhighlightRadius() {
+        patrolMarkers.unhighlightRadius();
     }
 
     /**

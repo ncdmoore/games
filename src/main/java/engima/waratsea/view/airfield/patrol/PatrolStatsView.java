@@ -1,11 +1,13 @@
 package engima.waratsea.view.airfield.patrol;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.base.airfield.patrol.Patrol;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.base.airfield.patrol.stats.PatrolStat;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.taskForce.patrol.PatrolGroup;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.weather.SmallWeatherView;
+import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import engima.waratsea.viewmodel.airfield.PatrolViewModel;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.collections.ListChangeListener;
@@ -64,30 +66,42 @@ public class PatrolStatsView {
      * Bind to the view model.
      *
      * @param viewModel The patrol view model.
+     * @param patrolType The patrol type.
      */
-    public void bind(final PatrolViewModel viewModel) {
-        viewModel.getAssignedAllNations().addListener((ListChangeListener<SquadronViewModel>) c -> setAssigned(viewModel.getPatrol()));
-        setAssigned(viewModel.getPatrol());
-        weatherView.bind(viewModel.getIsAffectedByWeather());
+    public void bind(final AirbaseViewModel viewModel, final PatrolType patrolType) {
+        PatrolViewModel patrolViewModel = viewModel
+                .getPatrolViewModels()
+                .get(patrolType);
+
+        patrolViewModel
+                .getAssignedAllNations()
+                .addListener((ListChangeListener<SquadronViewModel>) c -> setAssigned(viewModel, patrolType));
+
+        setAssigned(viewModel, patrolType);
+
+        weatherView.bind(patrolViewModel.getIsAffectedByWeather());
     }
 
     /**
      * Update the patrol stats.
      *
-     * @param patrol The updated patrol.
+     * @param viewModel The airbase view model.
+     * @param patrolType The patrol type.
      */
-    private void setAssigned(final Patrol patrol) {
-        Map<Integer, Map<String, PatrolStat>> stats = patrol.getPatrolStats().getData();
+    private void setAssigned(final AirbaseViewModel viewModel, final PatrolType patrolType) {
+        PatrolGroup patrolGroup = viewModel.getPatrolGroup(patrolType);
+
+        Map<Integer, Map<String, PatrolStat>> stats = patrolGroup.getPatrolStats().getData();
 
         vBox.getChildren().clear();
         hBox.getChildren().clear();
 
-        if (!patrol.getAssignedSquadrons(nation).isEmpty()) {    // Squadrons are assigned to this patrol.
+        if (patrolGroup.areSquadronsPresent(nation)) {    // Squadrons are assigned to this patrol.
             StackPane titlePane = new StackPane(new Label("Patrol Average Statistics"));
             titlePane.setId("summary-title-pane-" + nation.getFileName().toLowerCase());
 
             if (!stats.isEmpty()) {  // This patrol is effective.
-                int max = patrol.getTrueMaxRadius();
+                int max = patrolGroup.getTrueMaxRadius();
                 int min = stats.keySet().stream().min(Integer::compareTo).orElse(0);
                 int med = max / 2;
 

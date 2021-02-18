@@ -3,11 +3,10 @@ package engima.waratsea.view.taskforce;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.viewmodel.taskforce.air.TaskForceAirViewModel;
+import engima.waratsea.viewmodel.taskforce.air.TaskForcesAirViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-
-import java.util.List;
 
 /**
  * This represents the task forces view as shown in the task force dialog box.
@@ -32,14 +31,15 @@ public class TaskForcesAirView {
     /**
      * Show the task force details.
      *
-     * @param taskForces A list of task forces.
+     * @param taskForcesAirViewModel A list of task forces.
      * @return A node containing the airbase details.
      */
-    public Node build(final List<TaskForceAirViewModel> taskForces) {
+    public Node build(final TaskForcesAirViewModel taskForcesAirViewModel) {
 
         taskforcePane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        taskForces
+        taskForcesAirViewModel
+                .getTaskForceViewModels()
                 .stream()
                 .sorted()
                 .map(this::createTaskForceTab)

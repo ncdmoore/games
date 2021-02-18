@@ -99,7 +99,6 @@ public class AircraftCarrier implements Ship, Airbase {
                                      final AirOperations airOperations,
                                      final GameMap gameMap,
                                      final SeaRegion region) {
-
         this.squadrons = squadrons;
         this.missions = missions;
         this.patrols = patrols;
@@ -529,19 +528,6 @@ public class AircraftCarrier implements Ship, Airbase {
     @Override
     public void updatePatrol(final PatrolType patrolType, final List<Squadron> patrolSquadrons) {
         patrols.update(patrolType, patrolSquadrons);
-    }
-
-    /**
-     * Get a map of patrol maximum radius to list of patrols.
-     *
-     * @return A map containing the patrol maximum radius as key and the patrol as the value.
-     * Note, that if all the patrol types have the same maximum radius value then this map
-     * will contain a single entry where the single maximum radius maps to all three types
-     * of patrols.
-     */
-    @Override
-    public Map<Integer, List<Patrol>> getPatrolRadiiMap() {
-        return patrols.getPatrolRadiiMap();
     }
 
     /**

@@ -1,8 +1,8 @@
 package engima.waratsea.model.map;
 
 import engima.waratsea.model.base.airfield.mission.AirMission;
-import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.target.Target;
+import engima.waratsea.model.taskForce.patrol.PatrolGroups;
 
 import java.util.List;
 import java.util.Map;
@@ -12,13 +12,13 @@ import java.util.Optional;
  * Represents a marker's grid on the game map. This may be a base grid or a task force grid.
  */
 public interface MarkerGrid {
+
     /**
-     * Get the marker grid's patrol radii map.
+     * Get the marker grid's patrol groups.
      *
-     * @return A map of the true maximum patrol radius to a list of
-     * patrols that can reach that true maximum radius.
+     * @return The marker grids patrol groups.
      */
-    Optional<Map<Integer, List<Patrol>>> getPatrols();
+    Optional<PatrolGroups> getPatrolGroups();
 
     /**
      * Get the marker grid's air missions.

@@ -57,5 +57,4 @@ public class TaskForceData {
     @Getter
     @Setter
     private List<String> cargoShips;
-
 }

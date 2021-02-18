@@ -5,10 +5,10 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.base.airfield.mission.AirMission;
-import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.target.Target;
+import engima.waratsea.model.taskForce.patrol.PatrolGroups;
 import lombok.Getter;
 
 import javax.annotation.Nonnull;
@@ -145,14 +145,13 @@ public class BaseGrid implements MarkerGrid {
     }
 
     /**
-     * Get the marker grid's patrol radii map.
+     * Get the marker grid's patrol groups.
      *
-     * @return A map of the true maximum patrol radius to a list of
-     * patrols that can reach that true maximum radius.
+     * @return The marker grids patrol groups.
      */
     @Override
-    public Optional<Map<Integer, List<Patrol>>> getPatrols() {
-        return getAirfield().map(Airfield::getPatrolRadiiMap);
+    public Optional<PatrolGroups> getPatrolGroups() {
+        return getAirfield().map(Airfield::getPatrolGroups);
     }
 
     /**
@@ -168,8 +167,6 @@ public class BaseGrid implements MarkerGrid {
                           .stream()
                           .collect(Collectors.groupingBy(AirMission::getTarget)));
     }
-
-
 
     /**
      * Determine the base grid type based on the airfield alone.

@@ -1,9 +1,8 @@
 package engima.waratsea.view.map.marker.main;
 
-import engima.waratsea.model.base.airfield.patrol.AswPatrol;
-import engima.waratsea.model.base.airfield.patrol.Patrol;
-import engima.waratsea.model.base.airfield.patrol.SearchPatrol;
-import engima.waratsea.model.base.airfield.patrol.PatrolType;
+import engima.waratsea.model.taskForce.patrol.AswPatrolGroup;
+import engima.waratsea.model.taskForce.patrol.PatrolGroup;
+import engima.waratsea.model.taskForce.patrol.SearchPatrolGroup;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;
@@ -52,7 +51,7 @@ public class PatrolMarker {
      * @param gridRadius The radius of the patrol.
      * @param patrols A list of Patrols.
      */
-    public void drawRadius(final int gridRadius, final List<Patrol> patrols) {
+    public void drawRadius(final int gridRadius, final List<PatrolGroup> patrols) {
         int offset = gridView.getSize() / 2;
 
         int radius = gridRadius * gridView.getSize();
@@ -101,16 +100,17 @@ public class PatrolMarker {
     }
 
     /**
-     * Set the patrol radius data.
+     * Set the patrol radius data. The corresponding list of patrol groups represented by the circle
+     * are associated with the circle.
      *
      * @param patrols The patrols that correspond to this patrol radius.
      */
-    public void setData(final List<Patrol> patrols) {
+    public void setData(final List<PatrolGroup> patrols) {
         circle.setUserData(patrols);
 
         String text = patrols
                 .stream()
-                .map(PatrolType::getTitle)
+                .map(PatrolGroup::getTitle)
                 .collect(Collectors.joining("\\"));
 
         label.setText(text);
@@ -134,11 +134,11 @@ public class PatrolMarker {
      * @param patrols A list of patrols that map to a given circle.
      * @return The name of the style for the circle that corresponds to the list of patrols.
      */
-    private String getStyle(final List<Patrol> patrols) {
+    private String getStyle(final List<PatrolGroup> patrols) {
         String id = "patrol-radius-";
-        if (patrols.stream().anyMatch(patrol -> patrol.getClass() == SearchPatrol.class)) {
+        if (patrols.stream().anyMatch(patrol -> patrol.getClass() == SearchPatrolGroup.class)) {
             id += "search";
-        } else if (patrols.stream().anyMatch(patrol -> patrol.getClass() == AswPatrol.class)) {
+        } else if (patrols.stream().anyMatch(patrol -> patrol.getClass() == AswPatrolGroup.class)) {
             id += "asw";
         } else {
             id += "cap";
@@ -152,10 +152,10 @@ public class PatrolMarker {
      *
      * @param patrols The base's patrols.
      */
-    private void drawLabel(final List<Patrol> patrols) {
+    private void drawLabel(final List<PatrolGroup> patrols) {
         String text = patrols
                 .stream()
-                .map(PatrolType::getTitle)
+                .map(PatrolGroup::getTitle)
                 .collect(Collectors.joining("\n"));
 
         label = new Label(text);

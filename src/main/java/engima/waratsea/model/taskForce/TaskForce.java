@@ -6,6 +6,7 @@ import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.AirbaseGroup;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEvent;
@@ -28,6 +29,7 @@ import engima.waratsea.model.taskForce.data.TaskForceData;
 import engima.waratsea.model.taskForce.mission.MissionDAO;
 import engima.waratsea.model.taskForce.mission.SeaMission;
 import engima.waratsea.model.taskForce.mission.SeaMissionType;
+import engima.waratsea.model.taskForce.patrol.PatrolGroups;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,7 +50,7 @@ import java.util.stream.Stream;
  * This class represents a task force, which is a collection of ships.
  */
 @Slf4j
-public class TaskForce implements Comparable<TaskForce>, Asset, PersistentData<TaskForceData> {
+public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, PersistentData<TaskForceData> {
     @Getter private final Side side;
     @Getter @Setter private String name;
     @Getter @Setter private String title;
@@ -65,6 +67,8 @@ public class TaskForce implements Comparable<TaskForce>, Asset, PersistentData<T
     @Getter private Map<String, Ship> shipMap;
     @Getter private Map<ShipType, List<Ship>> shipTypeMap;
 
+    @Getter private final PatrolGroups patrolGroups;
+
     private final Shipyard shipyard;
     private final ShipEventMatcherFactory shipEventMatcherFactory;
     private final GameMap gameMap;
@@ -74,6 +78,7 @@ public class TaskForce implements Comparable<TaskForce>, Asset, PersistentData<T
      *
      * @param side The side of the task force. ALLIES or AXIS.
      * @param data The task force data read from a JSON file.
+     * @param patrolGroups The task force patrol groups.
      * @param shipyard builds ships from ship names and side.
      * @param shipEventMatcherFactory Factory for creating ship event matchers.
      * @param missionDAO mission data access object, loads missions.
@@ -82,10 +87,13 @@ public class TaskForce implements Comparable<TaskForce>, Asset, PersistentData<T
     @Inject
     public TaskForce(@Assisted final Side side,
                      @Assisted final TaskForceData data,
+                               final PatrolGroups patrolGroups,
                                final Shipyard shipyard,
                                final ShipEventMatcherFactory shipEventMatcherFactory,
                                final MissionDAO missionDAO,
                                final GameMap gameMap) {
+
+        this.patrolGroups = patrolGroups;
 
         this.shipEventMatcherFactory = shipEventMatcherFactory;
         this.gameMap = gameMap;
@@ -112,6 +120,8 @@ public class TaskForce implements Comparable<TaskForce>, Asset, PersistentData<T
         buildShips(data.getShips());
         getCargoShips(data.getCargoShips());
         setAirbases();
+
+        patrolGroups.build(this);
 
         buildShipEvents(data.getReleaseShipEvents());
         buildTurnEvents(data.getReleaseTurnEvents());
@@ -324,7 +334,9 @@ public class TaskForce implements Comparable<TaskForce>, Asset, PersistentData<T
     public List<Squadron> getSquadrons() {
         return airbases
                 .stream()
-                .flatMap(ship -> ship.getSquadrons().stream())
+                .flatMap(ship -> ship
+                        .getSquadrons()
+                        .stream())
                 .collect(Collectors.toList());
     }
 
