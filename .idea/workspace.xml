@@ -9,9 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/patrol/AswPatrolGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/patrol/AswPatrolGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/patrol/CapPatrolGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/patrol/CapPatrolGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/patrol/SearchPatrolGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/patrol/SearchPatrolGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolDetailsView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -279,13 +277,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00353" summary="Add french airfield 30x30 icon image.">
-      <created>1611012906227</created>
-      <option name="number" value="00353" />
-      <option name="presentableId" value="LOCAL-00353" />
-      <option name="project" value="LOCAL" />
-      <updated>1611012906227</updated>
     </task>
     <task id="LOCAL-00354" summary="Fix issue where not all nation's squadrons displayed in forces menu for task force squadrons.">
       <created>1611016529078</created>
@@ -623,7 +614,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613666884433</updated>
     </task>
-    <option name="localTasksCounter" value="402" />
+    <task id="LOCAL-00402" summary="Add squadron home text to patrol tool tip.">
+      <created>1613678094958</created>
+      <option name="number" value="00402" />
+      <option name="presentableId" value="LOCAL-00402" />
+      <option name="project" value="LOCAL" />
+      <updated>1613678094958</updated>
+    </task>
+    <option name="localTasksCounter" value="403" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -638,7 +636,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add selected grid details view to main game window." />
     <MESSAGE value="Add airfield and port tiny icons to selected grid view." />
     <MESSAGE value="Use aircraft's name in squadron name and the aircraft's model." />
     <MESSAGE value="Fix SquadronDetailsView profile height." />
@@ -663,7 +660,8 @@
     <MESSAGE value="Refactor patrol view model regarding its temporary patrol used for patrol stat viewing." />
     <MESSAGE value="Add patrol groups and task force groups. This allows task forces with multiple airbases to aggregate patrol squadrons. It allows grids with multiple task forces to aggregate patrol squadrons." />
     <MESSAGE value="Friendly airfield targets are now friendly airbase targets to support ferrying squadrons from and to aircraft carriers." />
-    <option name="LAST_COMMIT_MESSAGE" value="Friendly airfield targets are now friendly airbase targets to support ferrying squadrons from and to aircraft carriers." />
+    <MESSAGE value="Add squadron home text to patrol tool tip." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add squadron home text to patrol tool tip." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

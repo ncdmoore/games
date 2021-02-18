@@ -78,10 +78,11 @@ public class PatrolDetailsView {
     private Tab buildTab(final PatrolGroup patrol) {
         Tab tab = new Tab(patrol.getTitle());
 
-        Node squadronPane = buildSquadrons(patrol);
+        Node squadronSummaryPane = buildSquadronSummary(patrol);
         Node radiiPane = buildRadii(patrol);
+        Node squadronDetails = buildSquadronDetails(patrol);
 
-        VBox vBox = new VBox(squadronPane, radiiPane);
+        VBox vBox = new VBox(squadronSummaryPane, radiiPane, squadronDetails);
         vBox.setId("patrol-details-vbox");
 
         ScrollPane scrollPane = new ScrollPane(vBox);
@@ -98,7 +99,7 @@ public class PatrolDetailsView {
      * @param patrol The patrol.
      * @return The squadron summary grid.
      **/
-    private Node buildSquadrons(final PatrolGroup patrol) {
+    private Node buildSquadronSummary(final PatrolGroup patrol) {
         GridPane gridPane = new GridPane();
         AtomicInteger column = new AtomicInteger();
 
@@ -122,12 +123,12 @@ public class PatrolDetailsView {
                     .orElse(0);
 
             Label count = new Label(size + "");
-            styleLabel(count);
+            styleRowLabel(count);
 
             String names = squadrons
                     .orElseGet(Collections::emptyList)
                     .stream()
-                    .map(Squadron::getTitle)
+                    .map(this::getSquadronTitleAndHome)
                     .collect(Collectors.joining("\n"));
 
             if (StringUtils.isNotBlank(names)) {
@@ -157,11 +158,11 @@ public class PatrolDetailsView {
 
         Map<Integer, Map<String, PatrolStat>> data = patrol.getPatrolStats().getData();
 
-        buildHeaders(gridPane, patrol);
+        buildRadiiHeaders(gridPane, patrol);
 
         int row = 1;
         for (Map.Entry<Integer, Map<String, PatrolStat>> entry : data.entrySet()) {
-            Label radiusLabel = buildRow(gridPane, entry, row);
+            Label radiusLabel = buildRadiiRow(gridPane, entry, row);
             labelMap.get(patrol.getType()).add(radiusLabel);
             row++;
         }
@@ -172,12 +173,30 @@ public class PatrolDetailsView {
     }
 
     /**
+     * Build the squadron summary.
+     *
+     * @param patrol The patrol.
+     * @return The squadron summary grid.
+     **/
+    private Node buildSquadronDetails(final PatrolGroup patrol) {
+        GridPane gridPane = new GridPane();
+
+        buildDetailsHeaderRow(gridPane);
+        buildDetailsDataRow(gridPane, patrol);
+
+        gridPane.setId("patrol-details-grid");
+
+        Label title = new Label("Patrol Squadron Details:");
+        return new VBox(title, gridPane);
+    }
+
+    /**
      * Build the patrol details grid header.
      *
      * @param gridPane The grid pane that houses the grid.
      * @param patrol The patrol.
      */
-    private void buildHeaders(final GridPane gridPane, final PatrolGroup patrol) {
+    private void buildRadiiHeaders(final GridPane gridPane, final PatrolGroup patrol) {
         Map<String, PatrolStat> data = patrol.getPatrolStats().getData().get(1);
 
         Label label = new Label("Radius");
@@ -211,13 +230,13 @@ public class PatrolDetailsView {
      * @param row The patrol radius.
      * @return The radius label.
      */
-    private Label buildRow(final GridPane gridPane, final Map.Entry<Integer, Map<String, PatrolStat>> entry, final int row) {
+    private Label buildRadiiRow(final GridPane gridPane, final Map.Entry<Integer, Map<String, PatrolStat>> entry, final int row) {
         int radius = entry.getKey();
         Map<String, PatrolStat> data = entry.getValue();
 
         // Add the patrol radius label.
         Label radiusLabel = new Label(radius + "");
-        styleLabel(radiusLabel);
+        styleRowLabel(radiusLabel);
         radiusLabel.setUserData(radius);
         gridPane.add(radiusLabel, 0, row);
 
@@ -226,7 +245,7 @@ public class PatrolDetailsView {
         // Add the remaining row labels.
         data.forEach((key, stat) -> {
             Label label = new Label(stat.getValue());
-            styleLabel(label);
+            styleRowLabel(label);
             if (StringUtils.isNotBlank(stat.getFactors())) {
                 label.setTooltip(new Tooltip(stat.getFactors()));
             }
@@ -234,6 +253,43 @@ public class PatrolDetailsView {
         });
 
         return radiusLabel;
+    }
+
+    private void buildDetailsHeaderRow(final GridPane gridPane) {
+        List<String> headers = List.of("Name", "Type", "Airbase", "Strength", "Radius");
+
+        AtomicInteger column = new AtomicInteger();
+
+        headers.forEach(header -> {
+            int col = column.getAndIncrement();
+            Label headerLabel = new Label(header);
+            styleHeaderLabel(headerLabel);
+            gridPane.add(headerLabel, col, 0);
+        });
+    }
+
+    private void buildDetailsDataRow(final GridPane gridPane, final PatrolGroup patrol) {
+        List<Squadron> squadrons = patrol.getSquadrons();
+
+        AtomicInteger row = new AtomicInteger(1);
+
+        squadrons.forEach(squadron -> {
+            int r = row.getAndIncrement();
+            AtomicInteger column = new AtomicInteger();
+
+            List<String> rowData = List.of(squadron.getTitle(),
+                    squadron.getType().toString(),
+                    squadron.getHome().getTitle(),
+                    squadron.getStrength().toString(),
+                    squadron.getRadius() + "");
+
+            rowData.forEach(rowValue -> {
+                int col = column.getAndIncrement();
+                Label rowLabel = new Label(rowValue);
+                styleRowLabel(rowLabel);
+                gridPane.add(rowLabel, col, r);
+            });
+        });
     }
 
     /**
@@ -251,9 +307,13 @@ public class PatrolDetailsView {
      *
      * @param label A label that is styled.
      */
-    private void styleLabel(final Label label) {
+    private void styleRowLabel(final Label label) {
         label.setMaxWidth(props.getInt("patrol.grid.details.label.width"));
         label.setMinWidth(props.getInt("patrol.grid.details.label.width"));
         label.setId("patrol-details-cell");
+    }
+
+    private String getSquadronTitleAndHome(final Squadron squadron) {
+        return squadron.getTitle() + " : " + squadron.getHome().getTitle();
     }
 }
