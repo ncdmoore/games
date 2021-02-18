@@ -150,7 +150,7 @@ public class CapPatrolGroup implements PatrolGroup {
     private String getPatrolSquadrons(final int radius) {
         return getSquadronsInRange(radius)
                 .stream()
-                .map(Squadron::getTitle)
+                .map(this::getSquadronTitleAndHome)
                 .collect(Collectors.joining("\n"));
     }
 
@@ -186,5 +186,9 @@ public class CapPatrolGroup implements PatrolGroup {
     private Map<String, String> getMetaData() {
         return Map.of("Intercept", "Intercept effectiveness with present weather affects",
                       "No Weather", "Intercept effectiveness without any weather affects");
+    }
+
+    private String getSquadronTitleAndHome(final Squadron squadron) {
+        return  squadron.getTitle() + " : " + squadron.getHome().getTitle();
     }
 }

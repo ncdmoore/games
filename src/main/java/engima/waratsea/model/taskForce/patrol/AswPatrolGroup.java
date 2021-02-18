@@ -157,7 +157,7 @@ public class AswPatrolGroup implements PatrolGroup {
     private String getPatrolSquadrons(final int radius) {
         return getSquadronsInRange(radius)
                 .stream()
-                .map(Squadron::getTitle)
+                .map(this::getSquadronTitleAndHome)
                 .collect(Collectors.joining("\n"));
     }
 
@@ -255,5 +255,9 @@ public class AswPatrolGroup implements PatrolGroup {
     private Map<String, String> getMetaData() {
         return Map.of("Search", "Chance submarine is successfully spotted",
                       "Attack", "Chance submarine is successfully attacked");
+    }
+
+    private String getSquadronTitleAndHome(final Squadron squadron) {
+        return  squadron.getTitle() + " : " + squadron.getHome().getTitle();
     }
 }
