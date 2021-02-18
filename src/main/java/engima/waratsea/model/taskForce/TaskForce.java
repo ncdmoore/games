@@ -49,6 +49,9 @@ import java.util.stream.Stream;
 
 /**
  * This class represents a task force, which is a collection of ships.
+ *
+ * Ships that may station squadrons implement the airbase interface; therefore this class implements the
+ * airbase group interface.
  */
 @Slf4j
 public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, PersistentData<TaskForceData> {
