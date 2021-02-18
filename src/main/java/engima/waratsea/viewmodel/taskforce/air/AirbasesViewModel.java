@@ -83,11 +83,6 @@ public class AirbasesViewModel {
      */
     public void save() {
         airbases.forEach(AirbaseViewModel::save);
-
-        taskForce
-                .getValue()
-                .getPatrolGroups()
-                .update();   // This causes the task force to rebuild its patrol groups.
     }
 
     /**

@@ -1,6 +1,7 @@
 package engima.waratsea.model.taskForce;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.aircraft.LandingType;
@@ -51,6 +52,8 @@ import java.util.stream.Stream;
  */
 @Slf4j
 public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, PersistentData<TaskForceData> {
+    private final Provider<PatrolGroups> provider;
+
     @Getter private final Side side;
     @Getter @Setter private String name;
     @Getter @Setter private String title;
@@ -67,8 +70,6 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
     @Getter private Map<String, Ship> shipMap;
     @Getter private Map<ShipType, List<Ship>> shipTypeMap;
 
-    @Getter private final PatrolGroups patrolGroups;
-
     private final Shipyard shipyard;
     private final ShipEventMatcherFactory shipEventMatcherFactory;
     private final GameMap gameMap;
@@ -78,7 +79,7 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
      *
      * @param side The side of the task force. ALLIES or AXIS.
      * @param data The task force data read from a JSON file.
-     * @param patrolGroups The task force patrol groups.
+     * @param provider Provides patrol groups.
      * @param shipyard builds ships from ship names and side.
      * @param shipEventMatcherFactory Factory for creating ship event matchers.
      * @param missionDAO mission data access object, loads missions.
@@ -87,13 +88,12 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
     @Inject
     public TaskForce(@Assisted final Side side,
                      @Assisted final TaskForceData data,
-                               final PatrolGroups patrolGroups,
+                               final Provider<PatrolGroups> provider,
                                final Shipyard shipyard,
                                final ShipEventMatcherFactory shipEventMatcherFactory,
                                final MissionDAO missionDAO,
                                final GameMap gameMap) {
-
-        this.patrolGroups = patrolGroups;
+        this.provider = provider;
 
         this.shipEventMatcherFactory = shipEventMatcherFactory;
         this.gameMap = gameMap;
@@ -120,8 +120,6 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
         buildShips(data.getShips());
         getCargoShips(data.getCargoShips());
         setAirbases();
-
-        patrolGroups.build(this);
 
         buildShipEvents(data.getReleaseShipEvents());
         buildTurnEvents(data.getReleaseTurnEvents());
@@ -351,6 +349,18 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
         return airbases
                 .stream()
                 .anyMatch(Airbase::areSquadronsPresent);
+    }
+
+    /**
+     * Get this task forces patrol groups.
+     *
+     * @return This task force's patrol groups.
+     */
+    @Override
+    public PatrolGroups getPatrolGroups() {
+        return provider
+                .get()
+                .build(this);
     }
 
     /**
