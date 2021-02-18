@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 /**
  * This class represents a group of task forces. This occurs when more than one task force occupies the same
- * game grid. This class is needed to properly model the patrols that orginate from a 'group' of task forces
+ * game grid. This class is needed to properly model the patrols that originate from a 'group' of task forces
  * that occupy the same game grid.
  *
  * When task forces occupy the same game grid, it is the aggregate of their squadrons on patrol that determine
