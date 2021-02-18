@@ -93,6 +93,14 @@ public interface Airbase extends Base {
     Set<Nation> getNations();
 
     /**
+     * Determine if the given nation may use or station squadrons at this airbase.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return True if the given nation can use this airbase. False otherwise.
+     */
+    boolean canUse(Nation nation);
+
+    /**
      * The maximum capacity of the airbase. This is the undamaged squadron step capacity of this airbase.
      *
      * @return The maximum squadron step capacity of this airbase.

@@ -1,5 +1,6 @@
 package engima.waratsea.model.player;
 
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.port.Port;
@@ -198,6 +199,15 @@ public interface Player {
      * @return The airfield corresponding to the given name.
      */
     Airfield getAirfield(String name);
+
+    /**
+     * Get the player's airbase given its name. Airbases may either be an airfield or a ship
+     * that may station squadrons such as an aircraft carrier or a capital ship.
+     *
+     * @param name The name of the airbase.
+     * @return The airbase corresponding to the given name.
+     */
+    Airbase getAirbase(String name);
 
     /**
      * This gets the enemy player's airfield view given its name.

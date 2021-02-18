@@ -223,6 +223,17 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
     }
 
     /**
+     * Determine if the given nation may use or station squadrons at this airbase.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return True if the given nation can use this airbase. False otherwise.
+     */
+    @Override
+    public boolean canUse(final Nation nation) {
+        return regions.containsKey(nation);
+    }
+
+    /**
      * Indicates if this airbase has any squadrons.
      *
      * @return True if any squadron is based at this airbase. False otherwise.

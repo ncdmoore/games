@@ -2,6 +2,7 @@ package engima.waratsea.model.target;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.target.data.TargetData;
@@ -29,7 +30,7 @@ public class TargetDAO {
     @Inject
     public TargetDAO(final TargetFactory factory) {
         factoryMap.put(TargetType.ENEMY_AIRFIELD, factory::createEnemyAirfieldTarget);
-        factoryMap.put(TargetType.FRIENDLY_AIRFIELD, factory::createFriendlyAirfieldTarget);
+        factoryMap.put(TargetType.FRIENDLY_AIRBASE, factory::createFriendlyAirfieldTarget);
         factoryMap.put(TargetType.ENEMY_PORT, factory::createEnemyPortTarget);
         factoryMap.put(TargetType.FRIENDLY_PORT, factory::createFriendlyPortTarget);
         factoryMap.put(TargetType.ENEMY_TASK_FORCE, factory::createEnemyTaskForceTarget);
@@ -60,23 +61,23 @@ public class TargetDAO {
     }
 
     /**
-     * Get a friendly airfield target.
+     * Get a friendly airbase target.
      *
-     * @param airfield The friendly airfield.
-     * @return A friendly airfield target that corresponds to the given airfield.
+     * @param airbase The friendly airbase.
+     * @return A friendly airfield target that corresponds to the given airbase.
      */
-    public Target getFriendlyAirfieldTarget(final Airfield airfield) {
-        if (cache.get(TargetType.FRIENDLY_AIRFIELD).containsKey(airfield.getName())) {
-            return cache.get(TargetType.FRIENDLY_AIRFIELD).get(airfield.getName());
+    public Target getFriendlyAirbaseTarget(final Airbase airbase) {
+        if (cache.get(TargetType.FRIENDLY_AIRBASE).containsKey(airbase.getName())) {
+            return cache.get(TargetType.FRIENDLY_AIRBASE).get(airbase.getName());
         }
 
         TargetData data = new TargetData();
-        data.setSide(airfield.getSide());
-        data.setName(airfield.getName());
-        data.setType(TargetType.FRIENDLY_AIRFIELD);
+        data.setSide(airbase.getSide());
+        data.setName(airbase.getName());
+        data.setType(TargetType.FRIENDLY_AIRBASE);
 
         Target target = load(data);
-        cache.get(TargetType.FRIENDLY_AIRFIELD).put(airfield.getName(), target);
+        cache.get(TargetType.FRIENDLY_AIRBASE).put(airbase.getName(), target);
         return target;
     }
 

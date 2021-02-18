@@ -3,7 +3,6 @@ package engima.waratsea.model.target;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Game;
@@ -21,13 +20,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 /**
- * Represents a friendly airfield target. This is used in squadron ferry missions.
- * The destination airfield is a friendly airfield target. This allows ferry missions
- * to work like all other missions.
+ * Represents a friendly airbase target. This is used in squadron ferry missions.
+ * The destination airbase is a friendly airbase target. This allows ferry missions
+ * to work like all other missions. A friendly airbase may be an airfield or a ship
+ * that implements the airbase interface such as an aircraft carrier or capital ship.
  */
 @Slf4j
-public class TargetFriendlyAirfield implements Target {
-
+public class TargetFriendlyAirbase implements Target {
     private final Game game;
     private final GameMap gameMap;
 
@@ -38,7 +37,7 @@ public class TargetFriendlyAirfield implements Target {
 
     //private int priority;
 
-    private Airfield airfield;
+    private Airbase airbase;
 
     /**
      * Constructor called by guice.
@@ -48,9 +47,9 @@ public class TargetFriendlyAirfield implements Target {
      * @param gameMap The game map.
      */
     @Inject
-    public TargetFriendlyAirfield(@Assisted final TargetData data,
-                                  final Game game,
-                                  final GameMap gameMap) {
+    public TargetFriendlyAirbase(@Assisted final TargetData data,
+                                 final Game game,
+                                 final GameMap gameMap) {
         this.game = game;
         this.gameMap = gameMap;
 
@@ -65,7 +64,7 @@ public class TargetFriendlyAirfield implements Target {
      */
     @Override
     public String getTitle() {
-        return getAirfield().getTitle();
+        return getAirbase().getTitle();
     }
 
     /**
@@ -76,7 +75,7 @@ public class TargetFriendlyAirfield implements Target {
      */
     @Override
     public Region getRegion(final Nation nation) {
-        return getAirfield().getRegion(nation);
+        return getAirbase().getRegion(nation);
     }
 
 
@@ -88,7 +87,7 @@ public class TargetFriendlyAirfield implements Target {
      */
     @Override
     public String getRegionTitle(final Nation nation) {
-        return getAirfield().getRegion(nation).getName();
+        return getAirbase().getRegion(nation).getName();
     }
 
     /**
@@ -99,8 +98,8 @@ public class TargetFriendlyAirfield implements Target {
     @Override
     public String getLocation() {
         return Optional
-                .ofNullable(airfield)
-                .orElseGet(this::getAirfield)
+                .ofNullable(airbase)
+                .orElseGet(this::getAirbase)
                 .getReference();
     }
 
@@ -112,8 +111,8 @@ public class TargetFriendlyAirfield implements Target {
     @Override
     public Optional<GameGrid> getGrid() {
         return Optional
-                .ofNullable(airfield)
-                .orElseGet(this::getAirfield)
+                .ofNullable(airbase)
+                .orElseGet(this::getAirbase)
                 .getGrid();
     }
 
@@ -125,7 +124,7 @@ public class TargetFriendlyAirfield implements Target {
     @Override
     public TargetData getData() {
         TargetData data = new TargetData();
-        data.setType(TargetType.FRIENDLY_AIRFIELD);
+        data.setType(TargetType.FRIENDLY_AIRBASE);
         data.setName(name);
         return data;
     }
@@ -137,7 +136,7 @@ public class TargetFriendlyAirfield implements Target {
      */
     @Override
     public Object getView() {
-        return getAirfield();
+        return getAirbase();
     }
 
     /**
@@ -148,8 +147,8 @@ public class TargetFriendlyAirfield implements Target {
     @Override
     public String toString() {
         return Optional
-                .ofNullable(airfield)
-                .orElseGet(this::getAirfield)
+                .ofNullable(airbase)
+                .orElseGet(this::getAirbase)
                 .getTitle();
     }
 
@@ -161,7 +160,7 @@ public class TargetFriendlyAirfield implements Target {
      */
     @Override
     public boolean isEqual(final Target target) {
-        return getAirfield() == target.getView();
+        return getAirbase() == target.getView();
     }
 
     /**
@@ -178,13 +177,13 @@ public class TargetFriendlyAirfield implements Target {
     /**
      * Get the distance to this target from the given airbase.
      *
-     * @param airbase The airbase whose distance to target is returned.
+     * @param originAirbase The airbase whose distance to target is returned.
      * @return The distance to this target from the given airbase.
      */
     @Override
-    public int getDistance(final Airbase airbase) {
+    public int getDistance(final Airbase originAirbase) {
         String targetReference = gameMap.convertNameToReference(getLocation());
-        String airbaseReference = airbase.getReference();
+        String airbaseReference = originAirbase.getReference();
 
         return gameMap.determineDistance(targetReference, airbaseReference);
     }
@@ -198,7 +197,7 @@ public class TargetFriendlyAirfield implements Target {
      */
     @Override
     public boolean mayAttack(final Squadron squadron) {
-        return getAirfield()
+        return getAirbase()
                 .getLandingType()
                 .contains(squadron.getLandingType());
     }
@@ -234,7 +233,7 @@ public class TargetFriendlyAirfield implements Target {
      */
     @Override
     public int getCapacitySteps() {
-        return getAirfield().getCapacity();
+        return getAirbase().getCapacity();
     }
 
     /**
@@ -244,7 +243,7 @@ public class TargetFriendlyAirfield implements Target {
      */
     @Override
     public int getCurrentSteps() {
-        return getAirfield().getCurrentSteps().intValue();
+        return getAirbase().getCurrentSteps().intValue();
     }
 
     /**
@@ -255,7 +254,7 @@ public class TargetFriendlyAirfield implements Target {
      */
     @Override
     public int getRegionMaxSteps(final Nation nation) {
-        return getAirfield()
+        return getAirbase()
                 .getRegion(nation)
                 .getMaxSteps();
     }
@@ -268,7 +267,7 @@ public class TargetFriendlyAirfield implements Target {
      */
     @Override
     public int getRegionCurrentSteps(final Nation nation) {
-        return getAirfield()
+        return getAirbase()
                 .getRegion(nation)
                 .getCurrentSteps();
     }
@@ -280,18 +279,18 @@ public class TargetFriendlyAirfield implements Target {
      *
      * @param missionType The type of mission.
      * @param nation      The nation: BRITISH, ITALIAN, etc...
-     * @param airbase     The airbase that contains the mission that has this target as a target.
+     * @param originAirbase     The airbase that contains the mission that has this target as a target.
      * @return The total number of squadron steps with the given mission type
      * that originate outside of the region of this target, but have a
      * target in the same region as this target.
      */
     @Override
-    public int getMissionStepsEnteringRegion(final AirMissionType missionType, final Nation nation, final Airbase airbase) {
+    public int getMissionStepsEnteringRegion(final AirMissionType missionType, final Nation nation, final Airbase originAirbase) {
         return game
                 .getPlayer(side)
                 .getAirfields()
                 .stream()
-                .filter(a -> a != airbase)
+                .filter(a -> a != originAirbase)
                 .filter(a -> a.getRegion(nation) != getRegion(nation))
                 .flatMap(a -> a
                         .getMissions(nation)
@@ -309,19 +308,19 @@ public class TargetFriendlyAirfield implements Target {
      *
      * @param missionType The type of mission.
      * @param nation      The nation: BRITISH, ITALIAN, etc...
-     * @param airbase     The airbase that contains the mission that has this as a target.
+     * @param originAirbase     The airbase that contains the mission that has this as a target.
      * @return The total number of squadron steps with the given mission type
      * that originate in the same region as the given airbase and that have targets
      * in different regions than the airbase region.
      */
     @Override
-    public int getMissionStepsLeavingRegion(final AirMissionType missionType, final Nation nation, final Airbase airbase) {
+    public int getMissionStepsLeavingRegion(final AirMissionType missionType, final Nation nation, final Airbase originAirbase) {
         return game
                 .getPlayer(side)
                 .getAirfields()
                 .stream()
-                .filter(a -> a != airbase)
-                .filter(a -> a.getRegion(nation) == airbase.getRegion(nation))
+                .filter(a -> a != originAirbase)
+                .filter(a -> a.getRegion(nation) == originAirbase.getRegion(nation))
                 .flatMap(a -> a
                         .getMissions(nation)
                         .stream()
@@ -342,9 +341,9 @@ public class TargetFriendlyAirfield implements Target {
      */
     @Override
     public boolean hasAirbaseCapacity(final Airbase excludedAirbase, final int currentAirbaseMissionSteps) {
-        int airbaseMaxSteps = getAirfield().getCapacity();
+        int airbaseMaxSteps = getAirbase().getCapacity();
 
-        int airbaseCurrentSteps = getAirfield().getCurrentSteps().intValue();
+        int airbaseCurrentSteps = getAirbase().getCurrentSteps().intValue();
         int airbaseMissionSteps = getMissionSteps(excludedAirbase);    // excludes current airbase.
 
         return airbaseMaxSteps >= airbaseCurrentSteps + airbaseMissionSteps + currentAirbaseMissionSteps;
@@ -363,7 +362,7 @@ public class TargetFriendlyAirfield implements Target {
      */
     @Override
     public boolean hasRegionCapacity(final Nation nation, final Airbase excludedAirbase, final int currentAirbaseMissionSteps) {
-        Region region = getAirfield().getRegion(nation);  // The region of the target.
+        Region region = getAirbase().getRegion(nation);  // The region of the target.
 
         // If the target is in the same region as the excluded air base, then the region must have capacity.
         // This is the case where the airbase that originates the mission and the target are both in the same region.
@@ -393,20 +392,20 @@ public class TargetFriendlyAirfield implements Target {
     }
 
     /**
-     * Get the airfield view for this target.
+     * Get the airbase view for this target.
      *
-     * @return This target's airfield view.
+     * @return This target's airbase view.
      */
-    private Airfield getAirfield() {
-        airfield = game
+    private Airbase getAirbase() {
+        airbase = game
                 .getPlayer(side)
-                .getAirfield(name);
+                .getAirbase(name);
 
-        if (airfield == null) {
-            log.error("Cannot find airfield view: '{}'", name);
+        if (airbase == null) {
+            log.error("Cannot find airbase view: '{}'", name);
         }
 
-        return airfield;
+        return airbase;
     }
 
 

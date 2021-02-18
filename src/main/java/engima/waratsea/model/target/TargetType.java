@@ -10,8 +10,8 @@ public enum TargetType {
     @SerializedName(value = "ENEMY_AIRFIELD", alternate = {"Enemy_Airfield", "enemy_airfield"})
     ENEMY_AIRFIELD,
 
-    @SerializedName(value = "FRIENDLY_AIRFIELD", alternate = {"Friendly_Airfield", "friendly_airfield"})
-    FRIENDLY_AIRFIELD,
+    @SerializedName(value = "FRIENDLY_AIRBASE", alternate = {"Friendly_Airbase", "friendly_airbase"})
+    FRIENDLY_AIRBASE,
 
     @SerializedName(value = "ENEMY_PORT", alternate = {"Enemy_Port", "enemy_port"})
     ENEMY_PORT,
@@ -37,7 +37,7 @@ public enum TargetType {
         TITLE_MAP.put(TargetEnemyAirfield.class, "Airfield");
         TITLE_MAP.put(TargetEnemyPort.class, "Port");
         TITLE_MAP.put(TargetEnemyTaskForce.class, "Task Force");
-        TITLE_MAP.put(TargetFriendlyAirfield.class, "Airfield");
+        TITLE_MAP.put(TargetFriendlyAirbase.class, "Airbase");
         TITLE_MAP.put(TargetFriendlyPort.class, "Port");
         TITLE_MAP.put(TargetFriendlyTaskForce.class, "Task Force");
         TITLE_MAP.put(TargetLandGrid.class, "Land Grid");

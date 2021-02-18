@@ -1,6 +1,7 @@
 package engima.waratsea.model.player;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldDAO;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
@@ -88,6 +89,7 @@ public class HumanPlayer implements Player {
 
     private Map<String, TaskForce> taskForceMap;
     private Map<String, Airfield> airfieldMap;
+    private final Map<String, Airbase> airbaseMap = new HashMap<>();
     private Map<String, Port> portMap;
 
     private Map<String, TaskForceView> enemyTaskForceMap;
@@ -97,7 +99,7 @@ public class HumanPlayer implements Player {
     private final Map<FlotillaType, List<Flotilla>> flotillas = new HashMap<>();
     private final Map<Nation, List<Squadron>> squadrons = new HashMap<>();
     private final Map<SquadronDeploymentType, BiConsumer<Scenario, Player>> deploymentMap = new HashMap<>();
-    private final Map<AirMissionType, Function<Nation, List<Target>>> targetMap = new HashMap<>();
+    private final Map<AirMissionType, Function<Nation, List<Target>>> airTargetMap = new HashMap<>();
     private final Map<SeaMissionType, Supplier<List<Target>>> seaTargetMap = new HashMap<>();
 
     /**
@@ -154,12 +156,12 @@ public class HumanPlayer implements Player {
         deploymentMap.put(SquadronDeploymentType.COMPUTER, squadronAI::deploy);
         deploymentMap.put(SquadronDeploymentType.HUMAN,    squadronAI::manualDeployment);
 
-        targetMap.put(AirMissionType.FERRY, this::getFriendlyAirfieldTargets);
-        targetMap.put(AirMissionType.LAND_STRIKE, nation -> getEnemyAirfieldTargets());
-        targetMap.put(AirMissionType.SWEEP_AIRFIELD, nation -> getEnemyAirfieldTargets());
-        targetMap.put(AirMissionType.NAVAL_PORT_STRIKE, nation -> getEnemyPortTargets());
-        targetMap.put(AirMissionType.SWEEP_PORT, nation -> getEnemyPortTargets());
-        targetMap.put(AirMissionType.NAVAL_TASK_FORCE_STRIKE, nation -> getEnemyTaskForceTargets());
+        airTargetMap.put(AirMissionType.FERRY, this::getFriendlyAirbaseTargets);
+        airTargetMap.put(AirMissionType.LAND_STRIKE, nation -> getEnemyAirfieldTargets());
+        airTargetMap.put(AirMissionType.SWEEP_AIRFIELD, nation -> getEnemyAirfieldTargets());
+        airTargetMap.put(AirMissionType.NAVAL_PORT_STRIKE, nation -> getEnemyPortTargets());
+        airTargetMap.put(AirMissionType.SWEEP_PORT, nation -> getEnemyPortTargets());
+        airTargetMap.put(AirMissionType.NAVAL_TASK_FORCE_STRIKE, nation -> getEnemyTaskForceTargets());
 
         seaTargetMap.put(SeaMissionType.INTERCEPT, this::getEnemyTaskForceTargets);
     }
@@ -206,6 +208,8 @@ public class HumanPlayer implements Player {
         airfieldMap = airfields
                 .stream()
                 .collect(Collectors.toMap(Airfield::getName, airfield -> airfield));
+
+        airbaseMap.putAll(airfieldMap);   // All airfields are airbases.
 
         ports = gameMap.getPorts(side);
 
@@ -421,6 +425,17 @@ public class HumanPlayer implements Player {
     }
 
     /**
+     * Get the player's airbase given its name.
+     *
+     * @param name The name of the airbase.
+     * @return The airbase corresponding to the given name.
+     */
+    @Override
+    public Airbase getAirbase(final String name) {
+        return airbaseMap.get(name);
+    }
+
+    /**
      * This gets the enemy player's airfield view given its name.
      *
      * @param name The name of the enemy airfield.
@@ -492,7 +507,7 @@ public class HumanPlayer implements Player {
      */
     @Override
     public List<Target> getTargets(final AirMissionType missionType, final Nation nation) {
-        return targetMap
+        return airTargetMap
                 .get(missionType)
                 .apply(nation);
     }
@@ -541,16 +556,17 @@ public class HumanPlayer implements Player {
     }
 
     /**
-     * Get the friendly airfield targets for the given nation.
+     * Get the friendly airbase targets for the given nation.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @return A list of friendly airfield targets.
+     * @return A list of friendly airbase targets.
      */
-    private List<Target> getFriendlyAirfieldTargets(final Nation nation) {
-        return gameMap
-                .getNationAirfields(side, nation)
+    private List<Target> getFriendlyAirbaseTargets(final Nation nation) {
+        return airbaseMap
+                .values()
                 .stream()
-                .map(targetDAO::getFriendlyAirfieldTarget)
+                .filter(airbase -> airbase.canUse(nation))
+                .map(targetDAO::getFriendlyAirbaseTarget)
                 .sorted()
                 .collect(Collectors.toList());
     }
@@ -567,6 +583,11 @@ public class HumanPlayer implements Player {
         taskForceMap = taskForces
                 .stream()
                 .collect(Collectors.toMap(TaskForce::getName, taskForce -> taskForce));
+
+        taskForces
+                .stream()
+                .flatMap(taskForce -> taskForce.getAirbases().stream())
+                .forEach(airbase -> airbaseMap.put(airbase.getName(), airbase));
     }
 
     /**

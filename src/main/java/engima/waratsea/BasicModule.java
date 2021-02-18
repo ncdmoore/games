@@ -87,7 +87,7 @@ import engima.waratsea.model.target.TargetEnemyAirfield;
 import engima.waratsea.model.target.TargetEnemyPort;
 import engima.waratsea.model.target.TargetEnemyTaskForce;
 import engima.waratsea.model.target.TargetFactory;
-import engima.waratsea.model.target.TargetFriendlyAirfield;
+import engima.waratsea.model.target.TargetFriendlyAirbase;
 import engima.waratsea.model.target.TargetFriendlyPort;
 import engima.waratsea.model.target.TargetFriendlyTaskForce;
 import engima.waratsea.model.target.TargetLandGrid;
@@ -246,7 +246,7 @@ public class BasicModule extends AbstractModule {
 
         install(new FactoryModuleBuilder()
                 .implement(Target.class, Names.named("enemyAirfield"), TargetEnemyAirfield.class)
-                .implement(Target.class, Names.named("friendlyAirfield"), TargetFriendlyAirfield.class)
+                .implement(Target.class, Names.named("friendlyAirfield"), TargetFriendlyAirbase.class)
                 .implement(Target.class, Names.named("enemyPort"), TargetEnemyPort.class)
                 .implement(Target.class, Names.named("friendlyPort"), TargetFriendlyPort.class)
                 .implement(Target.class, Names.named("enemyTaskForce"), TargetEnemyTaskForce.class)

@@ -1,6 +1,7 @@
 package engima.waratsea.model.player;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldDAO;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
@@ -87,9 +88,10 @@ public class ComputerPlayer implements Player {
     @Getter private List<PortView> enemyPorts;
     @Getter private List<Minefield> minefields;
 
-    private Map<String, Airfield> airfieldMap;
-    private Map<String, Port> portMap;
     private Map<String, TaskForce> taskForceMap;
+    private Map<String, Airfield> airfieldMap;
+    private final Map<String, Airbase> airbaseMap = new HashMap<>();
+    private Map<String, Port> portMap;
 
     private Map<String, AirfieldView> enemyAirfieldMap;
     private Map<String, PortView> enemyPortMap;
@@ -155,7 +157,7 @@ public class ComputerPlayer implements Player {
         this.squadronAI = squadronAI;
         this.minefieldAI = minefieldAI;
 
-        airTargetMap.put(AirMissionType.FERRY, this::getFriendlyAirfieldTargets);
+        airTargetMap.put(AirMissionType.FERRY, this::getFriendlyAirbaseTargets);
         airTargetMap.put(AirMissionType.LAND_STRIKE, nation -> getEnemyAirfieldTargets());
         airTargetMap.put(AirMissionType.SWEEP_AIRFIELD, nation -> getEnemyAirfieldTargets());
         airTargetMap.put(AirMissionType.NAVAL_PORT_STRIKE, nation -> getEnemyPortTargets());
@@ -207,6 +209,8 @@ public class ComputerPlayer implements Player {
         airfieldMap = airfields
                 .stream()
                 .collect(Collectors.toMap(Airfield::getName, airfield -> airfield));
+
+        airbaseMap.putAll(airfieldMap);   // All airfields are airbases.
 
         ports = gameMap.getPorts(side);
 
@@ -415,6 +419,17 @@ public class ComputerPlayer implements Player {
     }
 
     /**
+     * Get the player's airbase given its name.
+     *
+     * @param name The name of the airbase.
+     * @return The airbase corresponding to the given name.
+     */
+    @Override
+    public Airbase getAirbase(final String name) {
+        return airbaseMap.get(name);
+    }
+
+    /**
      * This gets the enemy player's airfield view given its name.
      *
      * @param name The name of the enemy airfield.
@@ -531,16 +546,17 @@ public class ComputerPlayer implements Player {
     }
 
     /**
-     * Get the friendly airfield targets for the given nation.
+     * Get the friendly airbase targets for the given nation.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
-     * @return A list of friendly airfield targets.
+     * @return A list of friendly airbase targets.
      */
-    private List<Target> getFriendlyAirfieldTargets(final Nation nation) {
-        return gameMap
-                .getNationAirfields(side, nation)
+    private List<Target> getFriendlyAirbaseTargets(final Nation nation) {
+        return airbaseMap
+                .values()
                 .stream()
-                .map(targetDAO::getFriendlyAirfieldTarget)
+                .filter(airbase -> airbase.canUse(nation))
+                .map(targetDAO::getFriendlyAirbaseTarget)
                 .collect(Collectors.toList());
     }
 
@@ -556,6 +572,11 @@ public class ComputerPlayer implements Player {
         taskForceMap = taskForces
                 .stream()
                 .collect(Collectors.toMap(TaskForce::getName, taskForce -> taskForce));
+
+        taskForces
+                .stream()
+                .flatMap(taskForce -> taskForce.getAirbases().stream())
+                .forEach(airbase -> airbaseMap.put(airbase.getName(), airbase));
     }
 
     /**

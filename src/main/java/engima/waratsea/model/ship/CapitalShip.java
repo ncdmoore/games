@@ -244,6 +244,17 @@ public class CapitalShip implements Ship, Airbase {
     }
 
     /**
+     * Determine if the given nation may use or station squadrons at this airbase.
+     *
+     * @param country The nation: BRITISH, ITALIAN, etc...
+     * @return True if the given nation can use this airbase. False otherwise.
+     */
+    @Override
+    public boolean canUse(final Nation country) {
+        return country == nation;
+    }
+
+    /**
      * Get the ship's region for the given nation.
      *
      * @param shipNation The nation: BRITISH or ITALIAN, etc...

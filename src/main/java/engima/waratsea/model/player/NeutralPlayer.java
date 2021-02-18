@@ -1,6 +1,7 @@
 package engima.waratsea.model.player;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldDAO;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
@@ -267,6 +268,17 @@ public class NeutralPlayer implements Player {
      */
     @Override
     public Airfield getAirfield(final String name) {
+        return airfieldMap.get(name);
+    }
+
+    /**
+     * Get the player's airbase given its name.
+     *
+     * @param name The name of the airbase.
+     * @return The airbase corresponding to the given name.
+     */
+    @Override
+    public Airbase getAirbase(final String name) {
         return airfieldMap.get(name);
     }
 
