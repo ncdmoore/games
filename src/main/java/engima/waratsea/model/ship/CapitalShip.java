@@ -252,7 +252,7 @@ public class CapitalShip implements Ship, Airbase {
     @Override
     public boolean canUse(final Nation country) {
         return false; // Squadrons cannot be ferried to a capital ship.
-    }
+    }                 // However, squadrons can be ferried from a capital ship.
 
     /**
      * Get the ship's region for the given nation.
