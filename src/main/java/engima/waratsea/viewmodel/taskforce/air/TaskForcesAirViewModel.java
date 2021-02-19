@@ -139,7 +139,9 @@ public class TaskForcesAirViewModel {
         TaskForceGroup taskForceGroup = taskForceGroupProvider.get();
         taskForceGroup.build(taskForces);
 
-        // Fake a patrol group.
+        // Fake a patrol group so classes that need the patrol group can
+        // have access to the task force group, which is this patrol group's
+        // airbase group.
         PatrolGroups patrolGroups = patrolGroupsProvider.get();
         patrolGroups.setAirbaseGroup(taskForceGroup);
 

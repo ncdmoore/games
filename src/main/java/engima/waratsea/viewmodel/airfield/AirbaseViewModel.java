@@ -437,7 +437,8 @@ public class AirbaseViewModel {
 
         // Since we are kinda faking out the patrol group, we also
         // need to fake a patrols groups parent and corresponding
-        // airbase group.
+        // airbase group. Classes that use the patrol group typically
+        // also need access to its airbase group.
         PatrolGroups patrolGroups = patrolGroupsProvider.get();
         patrolGroups.setAirbaseGroup((Airfield) airbase.getValue());
 

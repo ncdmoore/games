@@ -222,6 +222,9 @@ public class AirbasesViewModel {
                 .map(SquadronViewModel::get)
                 .collect(Collectors.toList());
 
+        // Fake a patrol group so that classes that need access to the patrol group's
+        // airbase group can have access to it. The patrol group's airbase group
+        // is this classes parent task force.
         PatrolGroups patrolGroups = patrolGroupsProvider.get();
         patrolGroups.setAirbaseGroup(taskForceAirViewModel.getTaskForce().getValue());
 
