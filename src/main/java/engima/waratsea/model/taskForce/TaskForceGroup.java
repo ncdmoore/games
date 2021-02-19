@@ -5,6 +5,7 @@ import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.AirbaseGroup;
 import engima.waratsea.model.taskForce.patrol.PatrolGroups;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,8 +25,11 @@ import java.util.stream.Collectors;
  * an airbase group. Thus, there is no code to keep it updated with the current list of task forces and such.
  */
 public class TaskForceGroup implements AirbaseGroup {
+    private static final int MAX_TITLE_LENGTH = 12;
+
     @Getter private List<Airbase> airbases;
     @Getter private final PatrolGroups patrolGroups;
+    @Getter private String title;
 
     @Inject
     public TaskForceGroup(final PatrolGroups patrolGroups) {
@@ -35,7 +39,7 @@ public class TaskForceGroup implements AirbaseGroup {
     /**
      * Set the task forces for this task forces group.
      *
-     * @param taskForces The task forces that make up this task forces group.
+     * @param taskForces The task forces that make up this task force group.
      * @return This task force group.
      */
     public TaskForceGroup build(final List<TaskForce> taskForces) {
@@ -53,6 +57,18 @@ public class TaskForceGroup implements AirbaseGroup {
         // any task force in this task force group may serve as the home group.
         patrolGroups.setHomeGroup(taskForces.get(0));
 
+        setTitle(taskForces);
+
         return this;
+    }
+
+    /**
+     * Set the title of the airbase group.
+     *
+     * @param taskForces The task forces that make up this task force group.
+     */
+    private void setTitle(final List<TaskForce> taskForces) {
+        String titles = taskForces.stream().map(TaskForce::getName).collect(Collectors.joining(","));
+        title = StringUtils.abbreviate(titles, MAX_TITLE_LENGTH);
     }
 }

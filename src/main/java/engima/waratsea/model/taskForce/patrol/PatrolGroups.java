@@ -18,11 +18,11 @@ public class PatrolGroups {
 
     private final PatrolGroupDAO patrolGroupDAO;
 
-    @Getter private AirbaseGroup airbaseGroup;       // The corresponding airbase group of these patrol groups.
-    @Getter @Setter private AirbaseGroup homeGroup;  // The home airbase group of these patrol groups. The home group
-                                                     // is represented by a single task force or airfield. This is
-                                                     // needed to correlate the patrol groups with a task force marker
-                                                     // on the game map.
+    @Getter @Setter private AirbaseGroup airbaseGroup;  // The corresponding airbase group of these patrol groups.
+    @Getter @Setter private AirbaseGroup homeGroup;     // The home airbase group of these patrol groups. The home group
+                                                        // is represented by a single task force or airfield. This is
+                                                        // needed to correlate the patrol groups with a task force marker
+                                                        // on the game map.
     /**
      * Constructor called by guice.
      *

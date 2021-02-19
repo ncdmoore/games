@@ -10,6 +10,13 @@ import java.util.List;
  */
 public interface AirbaseGroup {
     /**
+     * Get the title of the airbase group.
+     *
+     * @return The airbase group title.
+     */
+    String getTitle();
+
+    /**
      * Get the airbases in this group.
      *
      * For airfields there is just a single airbase in the group: the airfield.

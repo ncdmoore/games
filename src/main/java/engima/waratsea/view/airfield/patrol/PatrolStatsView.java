@@ -97,7 +97,10 @@ public class PatrolStatsView {
         hBox.getChildren().clear();
 
         if (patrolGroup.areSquadronsPresent(nation)) {    // Squadrons are assigned to this patrol.
-            StackPane titlePane = new StackPane(new Label("Patrol Average Statistics"));
+            String title = patrolGroup.getAirbaseGroup().getTitle();
+
+
+            StackPane titlePane = new StackPane(new Label(title + " Patrol Average Statistics"));
             titlePane.setId("summary-title-pane-" + nation.getFileName().toLowerCase());
 
             if (!stats.isEmpty()) {  // This patrol is effective.

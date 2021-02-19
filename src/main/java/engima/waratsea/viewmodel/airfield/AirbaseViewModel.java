@@ -3,11 +3,13 @@ package engima.waratsea.viewmodel.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.patrol.PatrolGroup;
 import engima.waratsea.model.taskForce.patrol.PatrolGroupDAO;
+import engima.waratsea.model.taskForce.patrol.PatrolGroups;
 import engima.waratsea.model.taskForce.patrol.data.PatrolGroupData;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import engima.waratsea.viewmodel.taskforce.air.AirbasesViewModel;
@@ -56,6 +58,7 @@ public class AirbaseViewModel {
 
     private AirbasesViewModel airbaseGroup;
 
+    private final Provider<PatrolGroups> patrolGroupsProvider;
     private final PatrolGroupDAO patrolGroupDAO;
 
     /**
@@ -65,6 +68,7 @@ public class AirbaseViewModel {
      * @param missionViewModelProvider Provides mission view models.
      * @param patrolViewModelProvider Provides patrol view models.
      * @param squadronsViewModel The squadrons view model. It houses all the airbase squadron view models.
+     * @param patrolGroupsProvider Provides patrol groups.
      * @param patrolGroupDAO Provides patrol groups.
      */
     @Inject
@@ -72,11 +76,13 @@ public class AirbaseViewModel {
                             final Provider<AirMissionViewModel> missionViewModelProvider,
                             final Provider<PatrolViewModel> patrolViewModelProvider,
                             final SquadronsViewModel squadronsViewModel,
+                            final Provider<PatrolGroups> patrolGroupsProvider,
                             final PatrolGroupDAO patrolGroupDAO) {
         this.nationAirbaseViewModelProvider = nationAirbaseViewModelProvider;
         this.missionViewModelProvider = missionViewModelProvider;
         this.patrolViewModelProvider = patrolViewModelProvider;
         this.squadronsViewModel = squadronsViewModel;
+        this.patrolGroupsProvider = patrolGroupsProvider;
         this.patrolGroupDAO = patrolGroupDAO;
     }
 
@@ -429,8 +435,15 @@ public class AirbaseViewModel {
                 .map(SquadronViewModel::get)
                 .collect(Collectors.toList());
 
+        // Since we are kinda faking out the patrol group, we also
+        // need to fake a patrols groups parent and corresponding
+        // airbase group.
+        PatrolGroups patrolGroups = patrolGroupsProvider.get();
+        patrolGroups.setAirbaseGroup((Airfield) airbase.getValue());
+
         data.setType(patrolType);
         data.setSquadrons(totalOnPatrol);
+        data.setGroups(patrolGroups);
 
         return patrolGroupDAO.load(data);
     }

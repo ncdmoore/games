@@ -5,8 +5,10 @@ import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.model.taskForce.TaskForceGroup;
 import engima.waratsea.model.taskForce.patrol.PatrolGroup;
 import engima.waratsea.model.taskForce.patrol.PatrolGroupDAO;
+import engima.waratsea.model.taskForce.patrol.PatrolGroups;
 import engima.waratsea.model.taskForce.patrol.data.PatrolGroupData;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.property.ListProperty;
@@ -22,10 +24,13 @@ import java.util.stream.Collectors;
  * Represents the view model of a given side's task forces regarding air operations.
  */
 public class TaskForcesAirViewModel {
-    private final Provider<TaskForceAirViewModel> provider;
+    private final Provider<TaskForceAirViewModel> taskForceAirViewModelProvider;
+    private final Provider<PatrolGroups> patrolGroupsProvider;
+    private final Provider<TaskForceGroup> taskForceGroupProvider;
 
     @Getter private List<TaskForceAirViewModel> taskForceViewModels;
 
+    private List<TaskForce> taskForces;
     private final PatrolGroupDAO patrolGroupDAO;
 
     //This is the total squadrons on patrol of all airbases within a given task force.
@@ -36,24 +41,32 @@ public class TaskForcesAirViewModel {
     /**
      * Called by guice.
      *
-     * @param provider Provides task force air view models.
+     * @param taskForceAirViewModelProvider Provides task force air view models.
+     * @param patrolGroupsProvider Provides patrol groups.
+     * @param taskForceGroupProvider Provides task force groups.
      * @param patrolGroupDAO Provides patrol groups.
      */
     @Inject
-    public TaskForcesAirViewModel(final Provider<TaskForceAirViewModel> provider,
+    public TaskForcesAirViewModel(final Provider<TaskForceAirViewModel> taskForceAirViewModelProvider,
+                                  final Provider<PatrolGroups> patrolGroupsProvider,
+                                  final Provider<TaskForceGroup> taskForceGroupProvider,
                                   final PatrolGroupDAO patrolGroupDAO) {
-        this.provider = provider;
+        this.taskForceAirViewModelProvider = taskForceAirViewModelProvider;
+        this.patrolGroupsProvider = patrolGroupsProvider;
+        this.taskForceGroupProvider = taskForceGroupProvider;
         this.patrolGroupDAO = patrolGroupDAO;
     }
 
     /**
      * Set the task forces model.
      *
-     * @param taskForces The task forces.
+     * @param newTaskForces The task forces.
      * @return This task forces air view model.
      */
-    public TaskForcesAirViewModel setModel(final List<TaskForce> taskForces) {
-        taskForceViewModels = taskForces
+    public TaskForcesAirViewModel setModel(final List<TaskForce> newTaskForces) {
+        taskForces = newTaskForces;
+
+        taskForceViewModels = newTaskForces
                 .stream()
                 .map(this::buildTaskForceAirViewModel)
                 .collect(Collectors.toList());
@@ -122,8 +135,17 @@ public class TaskForcesAirViewModel {
                 .map(SquadronViewModel::get)
                 .collect(Collectors.toList());
 
+        // Fake a task force group.
+        TaskForceGroup taskForceGroup = taskForceGroupProvider.get();
+        taskForceGroup.build(taskForces);
+
+        // Fake a patrol group.
+        PatrolGroups patrolGroups = patrolGroupsProvider.get();
+        patrolGroups.setAirbaseGroup(taskForceGroup);
+
         data.setType(patrolType);
         data.setSquadrons(totalOnPatrol);
+        data.setGroups(patrolGroups);
 
         return patrolGroupDAO.load(data);
     }
@@ -135,7 +157,7 @@ public class TaskForcesAirViewModel {
      * @return A task force air view model.
      */
     private TaskForceAirViewModel buildTaskForceAirViewModel(final TaskForce taskForce) {
-        return provider
+        return taskForceAirViewModelProvider
                 .get()
                 .setTaskForcesAirViewModel(this)
                 .setModel(taskForce);

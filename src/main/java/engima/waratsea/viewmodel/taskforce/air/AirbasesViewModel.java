@@ -8,6 +8,7 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.patrol.PatrolGroup;
 import engima.waratsea.model.taskForce.patrol.PatrolGroupDAO;
+import engima.waratsea.model.taskForce.patrol.PatrolGroups;
 import engima.waratsea.model.taskForce.patrol.data.PatrolGroupData;
 import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
@@ -33,7 +34,8 @@ import java.util.stream.Collectors;
  * of all the ships that may act as airbases.
  */
 public class AirbasesViewModel {
-    private final Provider<AirbaseViewModel> provider;
+    private final Provider<AirbaseViewModel> airbaseViewModelProvider;
+    private final Provider<PatrolGroups> patrolGroupsProvider;
 
     private final ObjectProperty<TaskForce> taskForce = new SimpleObjectProperty<>();
 
@@ -52,13 +54,16 @@ public class AirbasesViewModel {
     /**
      * Constructor called by guice.
      *
-     * @param provider Provides airbase view models.
+     * @param airbaseViewModelProvider Provides airbase view models.
+     * @param patrolGroupsProvider Provides patrol groups.
      * @param patrolGroupDAO Provides patrol groups.
      */
     @Inject
-    public AirbasesViewModel(final Provider<AirbaseViewModel> provider,
+    public AirbasesViewModel(final Provider<AirbaseViewModel> airbaseViewModelProvider,
+                             final Provider<PatrolGroups> patrolGroupsProvider,
                              final PatrolGroupDAO patrolGroupDAO) {
-        this.provider = provider;
+        this.airbaseViewModelProvider = airbaseViewModelProvider;
+        this.patrolGroupsProvider = patrolGroupsProvider;
         this.patrolGroupDAO = patrolGroupDAO;
 
         bindAirbases();
@@ -159,7 +164,7 @@ public class AirbasesViewModel {
                 .getAirbases()
                 .stream()
                 .filter(Airbase::areSquadronsPresent)
-                .map(airbase -> provider
+                .map(airbase -> airbaseViewModelProvider
                         .get()
                         .setModel(airbase)
                         .setGroup(this))
@@ -217,8 +222,12 @@ public class AirbasesViewModel {
                 .map(SquadronViewModel::get)
                 .collect(Collectors.toList());
 
+        PatrolGroups patrolGroups = patrolGroupsProvider.get();
+        patrolGroups.setAirbaseGroup(taskForceAirViewModel.getTaskForce().getValue());
+
         data.setType(patrolType);
         data.setSquadrons(totalOnPatrol);
+        data.setGroups(patrolGroups);
 
         return patrolGroupDAO.load(data);
     }
