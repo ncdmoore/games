@@ -3,6 +3,7 @@ package engima.waratsea.presenter.taskforce;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.presenter.asset.AssetPresenter;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
@@ -24,7 +25,7 @@ public class TaskForceAirDialog {
     private final Provider<DialogView> dialogProvider;
     private final Provider<MainMapView> mapViewProvider;
     private final Provider<TaskForceAirView> viewProvider;
-    private final Provider<TaskForceViewModel> viewModelProvider;
+    private final AssetPresenter assetPresenter;
 
 
     private final ViewProps props;
@@ -34,20 +35,18 @@ public class TaskForceAirDialog {
 
     private TaskForceViewModel viewModel;
 
-    //CHECKSTYLE:OFF
     @Inject
     public TaskForceAirDialog(final CssResourceProvider cssResourceProvider,
                               final Provider<DialogView> dialogProvider,
                               final Provider<MainMapView> mapViewProvider,
                               final Provider<TaskForceAirView> viewProvider,
-                              final Provider<TaskForceViewModel> viewModelProvider,
+                              final AssetPresenter assetPresenter,
                               final ViewProps props) {
-        //CHECKSTYLE:ON
         this.cssResourceProvider = cssResourceProvider;
         this.dialogProvider = dialogProvider;
         this.mapViewProvider = mapViewProvider;
         this.viewProvider = viewProvider;
-        this.viewModelProvider = viewModelProvider;
+        this.assetPresenter = assetPresenter;
         this.props = props;
     }
 
@@ -73,9 +72,9 @@ public class TaskForceAirDialog {
 
         TaskForceAirView view = viewProvider.get();
 
-        viewModel = viewModelProvider
-                .get()
-                .setModel(taskForce);
+        viewModel = assetPresenter
+                .getTaskForceAssetPresenter()
+                .getViewModel(taskForce);
 
         dialog.setContents(view.build(viewModel));
 
@@ -114,6 +113,10 @@ public class TaskForceAirDialog {
 
         mapView.toggleTaskForceMarkers(taskForce);
 
+        assetPresenter
+                .getTaskForceAssetPresenter()
+                .hide(taskForce, false);
+
         stage.close();
     }
 
@@ -121,6 +124,12 @@ public class TaskForceAirDialog {
      * Call back for the cancel button.
      */
     private void cancel() {
+        assetPresenter
+                .getTaskForceAssetPresenter()
+                .hide(taskForce, true);
+
+        mapView.toggleTaskForceMarkers(taskForce);
+
         stage.close();
     }
 }

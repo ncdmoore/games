@@ -30,7 +30,7 @@ public class TaskForceAssetSummaryView implements AssetView {
     private final ImageView assetImage = new ImageView();
     private Map<Nation, ImageView> flagImageViews;
 
-    private TaskForceViewModel viewModel;
+    @Getter private TaskForceViewModel viewModel;
 
     @Getter private HBox node;
 
@@ -60,6 +60,16 @@ public class TaskForceAssetSummaryView implements AssetView {
         bind();
 
         return this;
+    }
+
+    /**
+     * Reset the model binding.
+     *
+     * @param taskForceViewModel The new task force view model that this object is bound too.
+     */
+    public void reset(final TaskForceViewModel taskForceViewModel) {
+        viewModel = taskForceViewModel;
+
     }
 
     private void buildSummary() {

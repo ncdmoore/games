@@ -36,8 +36,8 @@ public class AirfieldAssetPresenter {
     private final Provider<AirbaseViewModel> airbaseViewModelProvider;
     private final Provider<MainMapView> mainMapViewProvider;
 
-    private final Set<String> hideAssets = new HashSet<>();  // Tracks which airfield asset views should be closed
-    // When the corresponding airfield dialog is closed.
+    private final Set<AssetId> hideAssets = new HashSet<>();  // Tracks which airfield asset views should be closed
+                                                              // When the corresponding airfield dialog is closed.
 
     /**
      * Constructor called by guice.
@@ -97,8 +97,8 @@ public class AirfieldAssetPresenter {
      * @return The airbase view model retrieved from the airfield asset view.
      */
     public AirbaseViewModel getViewModel(final Airbase airbase) {
-        AssetSummaryView assetManager = assetSummaryViewProvider.get();
         AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
+        AssetSummaryView assetManager = assetSummaryViewProvider.get();
 
         AirfieldAssetSummaryView airfieldAssetView = (AirfieldAssetSummaryView) assetManager
                 .getAsset(assetId)
@@ -118,9 +118,9 @@ public class AirfieldAssetPresenter {
     public void hide(final Airbase airbase, final boolean reset) {
         AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
 
-        if (hideAssets.contains(assetId.getKey())) {
+        if (hideAssets.contains(assetId)) {
             assetSummaryViewProvider.get().hide(assetId);
-            hideAssets.remove(assetId.getKey());
+            hideAssets.remove(assetId);
         } else if (reset) {
             reset(airbase);
         }
@@ -144,7 +144,7 @@ public class AirfieldAssetPresenter {
      * Any changes that were not saved to the airfield need to be reflected in the asset summary view of
      * the airfield. Thus, the airfield's view model is reset to the data stored in the airfield's model.
      * This way the airfield's asset summary contains the current data from the model. This is only needed
-     * when the airfield asset summary survives the dialog's cancel button, i.e., when this dialog does
+     * when the airfield asset summary survives the dialog's cancel button, i.e., when the dialog does
      * not control the display of the airfield asset summary.
      *
      * @param airbase The airbase that was not saved.
@@ -278,7 +278,7 @@ public class AirfieldAssetPresenter {
         AirfieldAssetSummaryView assetView = airfieldAssetSummaryViewProvider.get();
         assetView.build(viewModel);
 
-        hideAssets.add(assetId.getKey());
+        hideAssets.add(assetId);
         registerCallbacks(viewModel, assetView);
         selectFirstAircraftModel(assetView);
 

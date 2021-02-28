@@ -3,6 +3,7 @@ package engima.waratsea.presenter.taskforce;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.presenter.asset.AssetPresenter;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
@@ -23,24 +24,25 @@ public class TaskForceNavalDialog {
     private final Provider<DialogView> dialogProvider;
     private final Provider<TaskForceNavalView> viewProvider;
     private final Provider<TaskForceViewModel> viewModelProvider;
+    private final AssetPresenter assetPresenter;
 
     private final ViewProps props;
     private Stage stage;
 
     private TaskForceViewModel viewModel;
 
-    //CHECKSTYLE:OFF
     @Inject
     public TaskForceNavalDialog(final CssResourceProvider cssResourceProvider,
                                 final Provider<DialogView> dialogProvider,
                                 final Provider<TaskForceNavalView> viewProvider,
                                 final Provider<TaskForceViewModel> viewModelProvider,
+                                final AssetPresenter assetPresenter,
                                 final ViewProps props) {
-        //CHECKSTYLE:ON
         this.cssResourceProvider = cssResourceProvider;
         this.dialogProvider = dialogProvider;
         this.viewProvider = viewProvider;
         this.viewModelProvider = viewModelProvider;
+        this.assetPresenter = assetPresenter;
         this.props = props;
     }
 
@@ -64,9 +66,9 @@ public class TaskForceNavalDialog {
 
         TaskForceNavalView view = viewProvider.get();
 
-        viewModel = viewModelProvider
-                .get()
-                .setModel(taskForce);
+        viewModel = assetPresenter
+                .getTaskForceAssetPresenter()
+                .getViewModel(taskForce);
 
         dialog.setContents(view.build(viewModel));
 
@@ -100,6 +102,10 @@ public class TaskForceNavalDialog {
      * Call back for the ok button.
      */
     private void ok() {
+        assetPresenter
+                .getTaskForceAssetPresenter()
+                .hide(taskForce, false);
+
         stage.close();
     }
 
@@ -107,6 +113,10 @@ public class TaskForceNavalDialog {
      * Call back for the cancel button.
      */
     private void cancel() {
+        assetPresenter
+                .getTaskForceAssetPresenter()
+                .hide(taskForce, true);
+
         stage.close();
     }
 }
