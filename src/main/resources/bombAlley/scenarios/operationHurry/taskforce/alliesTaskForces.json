@@ -41,7 +41,7 @@
       "type": "FERRY_AIRCRAFT",
       "targets": [
         {
-          "type": "FRIENDLY_AIRFIELD",
+          "type": "FRIENDLY_AIRBASE",
           "name": "Malta-1940"
         }
       ]

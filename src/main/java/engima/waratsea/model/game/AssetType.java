@@ -15,5 +15,7 @@ public enum AssetType {
     SHIP,
 
     @SerializedName(value = "SUB", alternate = {"Sub", "sub"})
-    SUB
+    SUB,
+
+    TASK_FORCE
 }

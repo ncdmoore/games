@@ -235,8 +235,13 @@ public class MainMapPresenter {
         if (event.getButton() == MouseButton.PRIMARY) {
             VBox imageView = (VBox) event.getSource();
             TaskForceMarker taskForceMarker = (TaskForceMarker) imageView.getUserData();
-
             boolean selected = mainMapView.selectTaskForceMarker(taskForceMarker);
+
+            if (selected) {
+                assetPresenter.humanTaskForceSelected(taskForceMarker);
+            } else {
+                assetPresenter.humanTaskForceUnSelected(taskForceMarker);
+            }
         }
     }
 
@@ -283,11 +288,10 @@ public class MainMapPresenter {
      *
      * @param event The click event.
      */
-    @SuppressWarnings("unchecked")
     private void taskForceNavalOperationsHandler(final ActionEvent event) {
         MenuItem item = (MenuItem) event.getSource();
-        List<TaskForce> taskForces = (List<TaskForce>) item.getUserData();
-        taskForceNavalDialogProvider.get().show(taskForces);
+        TaskForce taskForce = (TaskForce) item.getUserData();
+        taskForceNavalDialogProvider.get().show(taskForce);
     }
 
     /**
@@ -295,11 +299,10 @@ public class MainMapPresenter {
      *
      * @param event The click event.
      */
-    @SuppressWarnings("unchecked")
     private void taskForceAirOperationsHandler(final ActionEvent event) {
         MenuItem item = (MenuItem) event.getSource();
-        List<TaskForce> taskForces = (List<TaskForce>) item.getUserData();
-        taskForceAirDialogProvider.get().show(taskForces);
+        TaskForce taskForce = (TaskForce) item.getUserData();
+        taskForceAirDialogProvider.get().show(taskForce);
     }
 
     /**
@@ -307,12 +310,11 @@ public class MainMapPresenter {
      *
      * @param event The click event.
      */
-    @SuppressWarnings("unchecked")
     private void taskForceDetachHandler(final ActionEvent event) {
         MenuItem item = (MenuItem) event.getSource();
-        List<TaskForce> taskForces = (List<TaskForce>) item.getUserData();
+        TaskForce taskForce = (TaskForce) item.getUserData();
 
-        taskForces.forEach(taskForce -> log.info("marker selected: {} - detach", taskForce.getTitle()));
+        log.info("marker selected: {} - detach", taskForce.getTitle());
     }
 
     /**

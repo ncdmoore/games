@@ -12,7 +12,7 @@ import java.util.Optional;
 /**
  * Represents the asset summary view at the bottom of the game screen.
  * This class is essentially a manager of the asset types that are displayed in the asset summary view area at the
- * bottom of the game screen. This class add's asset views to this area and removes assets from this area.
+ * bottom of the game screen. This class adds asset views to this area and removes assets from this area.
  */
 @Singleton
 public class AssetSummaryView {

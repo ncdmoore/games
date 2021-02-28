@@ -2,11 +2,11 @@ package engima.waratsea.model.map;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import engima.waratsea.model.base.AirbaseGroup;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.model.taskForce.TaskForceGroup;
 import engima.waratsea.model.taskForce.patrol.PatrolGroups;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * This class represents a task force grid on the game map.
@@ -29,7 +28,6 @@ import java.util.stream.Collectors;
 public class TaskForceGrid implements MarkerGrid {
 
     private final Provider<GameMap> gameMapProvider;
-    private final Provider<TaskForceGroup> taskForceGroupProvider;
 
     @Getter private Side side;                                            // The side of the task force.
     @Getter private String reference;                                     // The map reference location of this task force grid.
@@ -39,13 +37,10 @@ public class TaskForceGrid implements MarkerGrid {
      * The constructor called by guice.
      *
      * @param gameMapProvider Provides the game map.
-     * @param taskForceGroupProvider Provides task force groups.
      */
     @Inject
-    public TaskForceGrid(final Provider<GameMap> gameMapProvider,
-                         final Provider<TaskForceGroup> taskForceGroupProvider) {
+    public TaskForceGrid(final Provider<GameMap> gameMapProvider) {
         this.gameMapProvider = gameMapProvider;
-        this.taskForceGroupProvider = taskForceGroupProvider;
     }
 
     /**
@@ -59,18 +54,6 @@ public class TaskForceGrid implements MarkerGrid {
         side = taskForce.getSide();
         reference = taskForce.getReference();
         return this;
-    }
-
-    /**
-     * Get the title of the base. Use the airfield title if it exists; otherwise use the port title.
-     *
-     * @return The base title.
-     */
-    public String getTitle() {
-        return taskForces
-                .stream()
-                .map(TaskForce::toString)
-                .collect(Collectors.joining("\n"));
     }
 
     /**
@@ -137,19 +120,12 @@ public class TaskForceGrid implements MarkerGrid {
     /**
      * Get the marker grid's patrol groups.
      *
+     * @param airbaseGroup The airbase group whose patrol groups are retrieved.
      * @return The marker grids patrol groups.
      */
     @Override
-    public Optional<PatrolGroups> getPatrolGroups() {
-        // Build a task force group to represent the aggregate of all the task forces patrols.
-        // Note, if a task force moves and leaves the group, then the group must be rebuilt
-        // to reflect the correct patrol groups.
-        TaskForceGroup group = taskForceGroupProvider
-                .get()
-                .build(taskForces);
-
-
-        return Optional.of(group.getPatrolGroups());
+    public Optional<PatrolGroups> getPatrolGroups(final AirbaseGroup airbaseGroup) {
+        return Optional.of(airbaseGroup.getPatrolGroups());
     }
 
     /**

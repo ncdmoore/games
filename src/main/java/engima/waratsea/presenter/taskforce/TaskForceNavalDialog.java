@@ -6,13 +6,10 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.taskforce.TaskForcesNavalView;
-import engima.waratsea.viewmodel.taskforce.naval.TaskForceNavalViewModel;
+import engima.waratsea.view.taskforce.TaskForceNavalView;
+import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Represents the task force's naval operations dialog.
@@ -20,24 +17,24 @@ import java.util.stream.Collectors;
 public class TaskForceNavalDialog {
     private static final String CSS_FILE = "taskForceNavalDetails.css";
 
-    private List<TaskForce> taskForces;
+    private TaskForce taskForce;
 
     private final CssResourceProvider cssResourceProvider;
     private final Provider<DialogView> dialogProvider;
-    private final Provider<TaskForcesNavalView> viewProvider;
-    private final Provider<TaskForceNavalViewModel> viewModelProvider;
+    private final Provider<TaskForceNavalView> viewProvider;
+    private final Provider<TaskForceViewModel> viewModelProvider;
 
     private final ViewProps props;
     private Stage stage;
 
-    private List<TaskForceNavalViewModel> viewModels;
+    private TaskForceViewModel viewModel;
 
     //CHECKSTYLE:OFF
     @Inject
     public TaskForceNavalDialog(final CssResourceProvider cssResourceProvider,
                                 final Provider<DialogView> dialogProvider,
-                                final Provider<TaskForcesNavalView> viewProvider,
-                                final Provider<TaskForceNavalViewModel> viewModelProvider,
+                                final Provider<TaskForceNavalView> viewProvider,
+                                final Provider<TaskForceViewModel> viewModelProvider,
                                 final ViewProps props) {
         //CHECKSTYLE:ON
         this.cssResourceProvider = cssResourceProvider;
@@ -50,10 +47,10 @@ public class TaskForceNavalDialog {
     /**
      * Show the task force details dialog.
      *
-     * @param forces The task forces
+     * @param force The task force
      */
-    public void show(final List<TaskForce> forces) {
-        taskForces = forces;
+    public void show(final TaskForce force) {
+        taskForce = force;
 
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -65,18 +62,19 @@ public class TaskForceNavalDialog {
         dialog.setHeight(props.getInt("airfield.dialog.height"));
         dialog.setCss(cssResourceProvider.get(CSS_FILE));
 
-        TaskForcesNavalView view = viewProvider.get();
+        TaskForceNavalView view = viewProvider.get();
 
-        buildViewModel();
+        viewModel = viewModelProvider
+                .get()
+                .setModel(taskForce);
 
-        dialog.setContents(view.build(viewModels));
+        dialog.setContents(view.build(viewModel));
 
         registerHandlers(dialog);
 
         dialog.show(stage);
 
         // No code can go here. The dialog blocks until closed.
-
     }
 
     /**
@@ -85,17 +83,7 @@ public class TaskForceNavalDialog {
      * @return The dialog title.
      */
     private String determineTitle() {
-        return taskForces.size() > 1 ? "Multiple Task Force Details" : taskForces.get(0).getTitle() + " Details";
-    }
-
-    /**
-     * Build the view model.
-     */
-    private void buildViewModel() {
-        viewModels = taskForces
-                .stream()
-                .map(taskForce -> viewModelProvider.get().setModel(taskForce))
-                .collect(Collectors.toList());
+        return taskForce.getTitle() + " Details";
     }
 
     /**

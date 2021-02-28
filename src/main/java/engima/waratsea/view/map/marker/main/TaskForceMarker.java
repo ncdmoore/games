@@ -16,6 +16,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
@@ -23,14 +24,20 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents a task force marker on the main game map.
  * Multiple task forces that occupy the same game grid are represented by a single task force marker.
+ *
+ * Clicking this marker toggles through this list of task forces.
+ * Clicking once the last task force has been selected de-selects this marker.
  */
 public class TaskForceMarker implements AirOperationsMarker {
     private static final int SHADOW_RADIUS = 3;
+    private static final int TASK_FORCE_INITIAL_INDEX = -1;
 
     @Getter private final TaskForceGrid taskForceGrid;
 
@@ -38,13 +45,18 @@ public class TaskForceMarker implements AirOperationsMarker {
     private final MapView mapView;
     private final VBox image;
     private final Node title;
+    private final List<TaskForce> taskForces;   // This is a sorted list of the task forces represented by this marker.
+
+    private final Label titleText = new Label();
+
+    private int selectedTaskForceIndex = TASK_FORCE_INITIAL_INDEX;
 
     private final PatrolMarkers patrolMarkers;
 
-    @Getter private MenuItem navalOperationsMenuItem;
-    @Getter private MenuItem airOperationsMenuItem;
-    @Getter private MenuItem detachMenuItem;
-    @Getter private MenuItem joinMenuItem;
+    private final List<MenuItem> navalOperationsMenuItems = new ArrayList<>();
+    private final List<MenuItem> airOperationsMenuItems = new ArrayList<>();
+    private final List<MenuItem> detachMenuItems = new ArrayList<>();
+    private final MenuItem joinMenuItem = new MenuItem("Join ...");
 
     private boolean selected = false;
 
@@ -83,6 +95,11 @@ public class TaskForceMarker implements AirOperationsMarker {
         patrolMarkers = new PatrolMarkers(mapView, taskForceGrid, gridView);
 
         title = buildTitle(gridView);
+        taskForces =  taskForceGrid
+                .getTaskForces()
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
 
         setUpContextMenus();
     }
@@ -101,7 +118,8 @@ public class TaskForceMarker implements AirOperationsMarker {
      */
     public void toggleMarkers() {
         if (selected) {
-            patrolMarkers.draw();
+            patrolMarkers.hide();   // Need to hide the previously selected task force patrol markers.
+            patrolMarkers.draw(taskForces.get(selectedTaskForceIndex));
         } else {
             patrolMarkers.hide();
         }
@@ -113,7 +131,7 @@ public class TaskForceMarker implements AirOperationsMarker {
      * @return True if the marker is selected. False if the marker is not selected.
      */
     public boolean selectMarker() {
-        selected = !selected;
+        selected = determineIfSelected();
 
         if (selected) {
             image.setEffect(null);
@@ -145,30 +163,30 @@ public class TaskForceMarker implements AirOperationsMarker {
     }
 
     /**
-     * Set the naval operations menu handler.
+     * Set the naval operations menu items handler.
      *
-     * @param handler The naval operations menu handler.
+     * @param handler The naval operations menu items handler.
      */
     public void setNavalOperationsMenuHandler(final EventHandler<ActionEvent> handler) {
-        navalOperationsMenuItem.setOnAction(handler);
+        navalOperationsMenuItems.forEach(menuItem -> menuItem.setOnAction(handler));
     }
 
     /**
-     * Set the air operations menu handler.
+     * Set the air operations menu items handler.
      *
-     * @param handler The air operations menu handler.
+     * @param handler The air operations menu items handler.
      */
     public void setAirOperationsMenuHandler(final EventHandler<ActionEvent> handler) {
-        airOperationsMenuItem.setOnAction(handler);
+        airOperationsMenuItems.forEach(menuItem -> menuItem.setOnAction(handler));
     }
 
     /**
-     * Set the detach menu handler.
+     * Set the detach menu items handler.
      *
-     * @param handler The detach menu handler.
+     * @param handler The detach menu items handler.
      */
     public void setDetachMenuHandler(final EventHandler<ActionEvent> handler) {
-        detachMenuItem.setOnAction(handler);
+        detachMenuItems.forEach(menuItem -> menuItem.setOnAction(handler));
     }
 
     /**
@@ -212,37 +230,48 @@ public class TaskForceMarker implements AirOperationsMarker {
         if (taskForceGrid.getSide()  == game.getHumanSide()) {
 
             ContextMenu contextMenu = new ContextMenu();
+            List<Menu> taskForceMenus = buildTaskForceMenus();
 
-            navalOperationsMenuItem = new MenuItem("Naval Operations...");
-            airOperationsMenuItem = new MenuItem("Air Operations...");
-            detachMenuItem = new MenuItem("Detach...");
-            joinMenuItem = new MenuItem("Join...");
+            contextMenu.getItems().addAll(taskForceMenus);
 
-            List<TaskForce> taskForces = taskForceGrid.getTaskForces();
-
-            navalOperationsMenuItem.setUserData(taskForces);
-            airOperationsMenuItem.setUserData(taskForces);
-            airOperationsMenuItem.setDisable(noSquadronsPresent(taskForces));
-            detachMenuItem.setUserData(taskForces);
             joinMenuItem.setUserData(taskForces);
             joinMenuItem.setDisable(taskForces.size() < 2);
 
-            contextMenu.getItems().addAll(navalOperationsMenuItem, airOperationsMenuItem, detachMenuItem, joinMenuItem);
+            contextMenu.getItems().add(joinMenuItem);
 
             image.setOnContextMenuRequested(e -> contextMenu.show(image, e.getScreenX(), e.getScreenY()));
         }
     }
 
-    /**
-     * Determine if the given task forces have any squadrons stationed.
-     *
-     * @param taskForces The task forces represented by this task force marker.
-     * @return True if these task forces contain squadrons. False otherwise.
-     */
-    private boolean noSquadronsPresent(final List<TaskForce> taskForces) {
-        return taskForces
+    private List<Menu> buildTaskForceMenus() {
+       return taskForces
                 .stream()
-                .noneMatch(TaskForce::areSquadronsPresent);
+                .map(this::buildTaskForceMenuItems)
+                .collect(Collectors.toList());
+
+    }
+
+    private Menu buildTaskForceMenuItems(final TaskForce taskForce) {
+        Menu taskForceMenu = new Menu(taskForce.getName());
+
+        MenuItem navalOperationsMenuItem = new MenuItem("Naval Operations...");
+        navalOperationsMenuItem.setUserData(taskForce);
+        navalOperationsMenuItems.add(navalOperationsMenuItem);
+
+        MenuItem airOperationsMenuItem = new MenuItem("Air Operations...");
+        airOperationsMenuItem.setUserData(taskForce);
+        airOperationsMenuItem.setDisable(!taskForce.areSquadronsPresent());
+        airOperationsMenuItems.add(airOperationsMenuItem);
+
+        MenuItem detachMenuItem = new MenuItem("Detach...");
+        detachMenuItem.setUserData(taskForce);
+        detachMenuItems.add(detachMenuItem);
+
+        taskForceMenu
+                .getItems()
+                .addAll(navalOperationsMenuItem, airOperationsMenuItem, detachMenuItem);
+
+        return taskForceMenu;
     }
 
     /**
@@ -255,9 +284,8 @@ public class TaskForceMarker implements AirOperationsMarker {
         //Tooltip tooltip = new Tooltip();
         //tooltip.setText(getToolTipText());
 
-        Label label = new Label(taskForceGrid.getTitle());
         //label.setTooltip(tooltip);
-        VBox vBox = new VBox(label);
+        VBox vBox = new VBox(titleText);
         vBox.setLayoutY(gridView.getY() + gridView.getSize());
         vBox.setLayoutX(gridView.getX());
         vBox.setId("basemarker-title");
@@ -276,5 +304,16 @@ public class TaskForceMarker implements AirOperationsMarker {
      */
     private void hideTitle() {
         mapView.remove(title);
+    }
+
+    private boolean determineIfSelected() {
+        selectedTaskForceIndex++;
+        if (selectedTaskForceIndex < taskForces.size()) {
+            titleText.setText(taskForces.get(selectedTaskForceIndex).toString());
+            return true;
+        } else {
+            selectedTaskForceIndex = TASK_FORCE_INITIAL_INDEX;
+            return false;
+        }
     }
 }

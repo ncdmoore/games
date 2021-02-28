@@ -56,7 +56,6 @@ public class TaskForceNavalViewModel implements Comparable<TaskForceNavalViewMod
     @Getter private final StringProperty name = new SimpleStringProperty();
     @Getter private final StringProperty title = new SimpleStringProperty();
     @Getter private final StringProperty nameAndTitle = new SimpleStringProperty();
-
     @Getter private final ObjectProperty<Image> image = new SimpleObjectProperty<>();
 
     @Getter private final StringProperty state = new SimpleStringProperty();

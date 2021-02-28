@@ -1,5 +1,6 @@
 package engima.waratsea.view.map.marker.main;
 
+import engima.waratsea.model.base.AirbaseGroup;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.map.MarkerGrid;
 import engima.waratsea.model.taskForce.patrol.PatrolGroup;
@@ -45,7 +46,7 @@ public class PatrolMarkers {
      * Constructor.
      *
      * @param mapView The map view.
-     * @param markerGrid The base grid of the patrol radii.
+     * @param markerGrid The base or task force grid of the patrol radii.
      * @param gridView The grid view of the base grid.
      */
     public PatrolMarkers(final MapView mapView, final MarkerGrid markerGrid, final GridView gridView) {
@@ -59,10 +60,12 @@ public class PatrolMarkers {
      *
      * Note, if the patrol group ever changes this marker needs to be redrawn so it reflects the newly updated
      * patrol group.
+     *
+     * @param group The airbase group whose patrol markers are drawn.
      */
-    public void draw() {
+    public void draw(final AirbaseGroup group) {
         List<PatrolMarker> newMarkers = markerGrid
-                .getPatrolGroups()
+                .getPatrolGroups(group)
                 .map(this::getPatrolGroupMap)
                 .orElse(Collections.emptyMap())
                 .entrySet()

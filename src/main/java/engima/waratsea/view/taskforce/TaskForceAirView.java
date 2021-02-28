@@ -1,12 +1,12 @@
 package engima.waratsea.view.taskforce;
 
 import com.google.inject.Inject;
+import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import engima.waratsea.viewmodel.taskforce.air.TaskForceAirViewModel;
 import javafx.scene.Node;
-import javafx.scene.control.Tab;
 
 /**
- * Represents an individual task force view.
+ * Represents an individual task force air view.
  */
 public class TaskForceAirView {
     private final TaskForceAirOperations taskForceAirOperations;
@@ -24,17 +24,11 @@ public class TaskForceAirView {
     /**
      * Build the task force tab.
      *
-     * @param taskForce The task force.
-     * @return The task force's tab.
+     * @param taskForceViewModel The task force view model.
+     * @return The task force's view node.
      */
-    public Tab build(final TaskForceAirViewModel taskForce) {
-        Tab tab = new Tab();
-        tab.textProperty().bind(taskForce.getNameAndTitle());
-
-        Node contents = taskForceAirOperations.build(taskForce);
-
-        tab.setContent(contents);
-
-        return tab;
+    public Node build(final TaskForceViewModel taskForceViewModel) {
+        TaskForceAirViewModel taskForceAirViewModel = taskForceViewModel.getTaskForceAirViewModel();
+        return taskForceAirOperations.build(taskForceAirViewModel);
     }
 }

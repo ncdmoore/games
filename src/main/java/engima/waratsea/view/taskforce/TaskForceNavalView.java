@@ -1,12 +1,12 @@
 package engima.waratsea.view.taskforce;
 
 import com.google.inject.Inject;
+import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import engima.waratsea.viewmodel.taskforce.naval.TaskForceNavalViewModel;
 import javafx.scene.Node;
-import javafx.scene.control.Tab;
 
 /**
- * Represents an individual task force view.
+ * Represents an individual task force naval view.
  */
 public class TaskForceNavalView {
     private final TaskForceNavalOperations taskForceNavalOperations;
@@ -22,19 +22,13 @@ public class TaskForceNavalView {
     }
 
     /**
-     * Build the task force tab.
+     * Build the task force node.
      *
-     * @param taskForce The task force.
-     * @return The task force's tab.
+     * @param taskForceViewModel The task force view model.
+     * @return The task force's view node.
      */
-    public Tab build(final TaskForceNavalViewModel taskForce) {
-        Tab tab = new Tab();
-        tab.textProperty().bind(taskForce.getNameAndTitle());
-
-        Node content = taskForceNavalOperations.build(taskForce);
-
-        tab.setContent(content);
-
-        return tab;
+    public Node build(final TaskForceViewModel taskForceViewModel) {
+        TaskForceNavalViewModel taskForceNavalViewModel = taskForceViewModel.getTaskForceNavalViewModel();
+        return taskForceNavalOperations.build(taskForceNavalViewModel);
     }
 }

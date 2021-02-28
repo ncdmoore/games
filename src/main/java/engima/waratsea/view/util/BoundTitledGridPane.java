@@ -12,6 +12,7 @@ import java.util.Map;
 
 public class BoundTitledGridPane extends TitledPane {
     private int width;
+    private int height;
     private String gridStyleId;
 
     @Setter private List<ColumnConstraints> columnConstraints;
@@ -25,6 +26,17 @@ public class BoundTitledGridPane extends TitledPane {
      */
     public BoundTitledGridPane setWidth(final int value) {
         width = value;
+        return this;
+    }
+
+    /**
+     * Set the titled pane's height.
+     *
+     * @param value the value of the titled pane's height.
+     * @return This titled pane.
+     */
+    public BoundTitledGridPane setHeight(final int value) {
+        height = value;
         return this;
     }
 
@@ -59,6 +71,11 @@ public class BoundTitledGridPane extends TitledPane {
         if (width > 0) {
             setMinWidth(width);
             setMaxWidth(width);
+        }
+
+        if (height > 0) {
+            setMinHeight(height);
+            setMaxHeight(height);
         }
 
         gridPane.setGridStyleId(gridStyleId);

@@ -1,6 +1,7 @@
 package engima.waratsea.viewmodel.taskforce.naval;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import engima.waratsea.model.taskForce.TaskForce;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
@@ -10,18 +11,25 @@ import javafx.collections.FXCollections;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents the view model of a given side's task forces.
  */
 public class TaskForcesNavalViewModel {
-    @Getter private final ListProperty<TaskForce> taskForces = new SimpleListProperty<>(FXCollections.emptyObservableList());
+    private final Provider<TaskForceNavalViewModel> taskForceViewModelProvider;
 
-    @Getter private final TaskForceNavalViewModel selectedTaskForce;                                                         // Selected task force.
-    @Getter private final BooleanProperty anyTaskForceNotSet = new SimpleBooleanProperty(true);               // Initially not all task forces are set.
+    @Getter private List<TaskForceNavalViewModel> taskForceViewModels;
+
+    @Getter private final ListProperty<TaskForce> taskForces = new SimpleListProperty<>(FXCollections.emptyObservableList()); // Used by preview.
+
+    @Getter private final TaskForceNavalViewModel selectedTaskForce;                                                          // Selected task force. Used by preview.
+    @Getter private final BooleanProperty anyTaskForceNotSet = new SimpleBooleanProperty(true);                     // Initially not all task forces are set.
 
     @Inject
-    public TaskForcesNavalViewModel(final TaskForceNavalViewModel taskForceViewModel) {
+    public TaskForcesNavalViewModel(final Provider<TaskForceNavalViewModel> taskForceViewModelProvider,
+                                    final TaskForceNavalViewModel taskForceViewModel) {
+        this.taskForceViewModelProvider = taskForceViewModelProvider;
         this.selectedTaskForce = taskForceViewModel;
     }
 
@@ -29,9 +37,19 @@ public class TaskForcesNavalViewModel {
      * Set the task forces model.
      *
      * @param forces The task forces.
+     * @return The task forces naval view model.
      */
-    public void setModel(final List<TaskForce> forces) {
+    public TaskForcesNavalViewModel setModel(final List<TaskForce> forces) {
         taskForces.setValue(FXCollections.observableList(forces));
+
+        taskForceViewModels = forces
+                .stream()
+                .map(taskforce -> taskForceViewModelProvider
+                        .get()
+                        .setModel(taskforce))
+                .collect(Collectors.toList());
+
+        return this;
     }
 
     /**

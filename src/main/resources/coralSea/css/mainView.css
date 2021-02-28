@@ -93,6 +93,11 @@
     -fx-spacing: 5;
 }
 
+#task-force-summary-hbox {
+    -fx-background-color: white;
+    -fx-spacing: 10;
+}
+
 #map-base-grid-marker {
     -fx-opacity: 1.0;
 }

@@ -236,7 +236,7 @@ public class MainMapView {
      * @param handler The task force menu item handler.
      */
     public void setTaskForceJoinMenuHandler(final Side side, final EventHandler<ActionEvent> handler) {
-        baseMarkers.get(side).forEach(baseMarker -> baseMarker.setTaskForceMenuJoin(handler));
+        baseMarkers.get(side).forEach(baseMarker -> baseMarker.setTaskForceJoinMenuItem(handler));
         taskForceMarkers.get(side).forEach(taskForceMarker -> taskForceMarker.setJoinMenuHandler(handler));
     }
 

@@ -2,6 +2,7 @@ package engima.waratsea.model.map;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import engima.waratsea.model.base.AirbaseGroup;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.base.airfield.mission.AirMission;
@@ -147,10 +148,11 @@ public class BaseGrid implements MarkerGrid {
     /**
      * Get the marker grid's patrol groups.
      *
+     * @param airbaseGroup Unused.
      * @return The marker grids patrol groups.
      */
     @Override
-    public Optional<PatrolGroups> getPatrolGroups() {
+    public Optional<PatrolGroups> getPatrolGroups(final AirbaseGroup airbaseGroup) {
         return getAirfield().map(Airfield::getPatrolGroups);
     }
 

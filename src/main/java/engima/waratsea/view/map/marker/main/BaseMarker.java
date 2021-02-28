@@ -36,9 +36,11 @@ import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
 
@@ -65,9 +67,9 @@ public class BaseMarker implements AirOperationsMarker {
     private final RangeMarker rangeMarker;
 
     @Getter private MenuItem airfieldMenuItem;
-    @Getter private MenuItem taskForceMenuNavalOperations;
-    @Getter private MenuItem taskForceMenuDetach;
-    @Getter private MenuItem taskForceMenuJoin;
+    private final List<MenuItem> taskForceNavalOperationsMenuItems = new ArrayList<>();
+    private final List<MenuItem> taskForceDetachMenuItems = new ArrayList<>();
+    @Getter private MenuItem taskForceJoinMenuItem;
 
     private boolean selected = false;
 
@@ -190,7 +192,10 @@ public class BaseMarker implements AirOperationsMarker {
      */
     public void toggleMarkers() {
         if (selected) {
-            patrolMarkers.draw();
+            patrolMarkers.draw(baseGrid
+                    .getAirfield()
+                    .orElseThrow());
+
             missionMarkers.draw();
         } else {
             patrolMarkers.hide();
@@ -274,7 +279,7 @@ public class BaseMarker implements AirOperationsMarker {
      * @param handler The menu item handler.
      */
     public void setTaskForceNavalMenuOperations(final EventHandler<ActionEvent> handler) {
-        taskForceMenuNavalOperations.setOnAction(handler);
+        taskForceNavalOperationsMenuItems.forEach(menuItem -> menuItem.setOnAction(handler));
     }
 
     /**
@@ -283,7 +288,7 @@ public class BaseMarker implements AirOperationsMarker {
      * @param handler The menu item handler.
      */
     public void setTaskForceMenuDetach(final EventHandler<ActionEvent> handler) {
-        taskForceMenuDetach.setOnAction(handler);
+        taskForceDetachMenuItems.forEach(menuItem -> menuItem.setOnAction(handler));
     }
 
     /**
@@ -291,8 +296,8 @@ public class BaseMarker implements AirOperationsMarker {
      *
      * @param handler The menu item handler.
      */
-    public void setTaskForceMenuJoin(final EventHandler<ActionEvent> handler) {
-        taskForceMenuJoin.setOnAction(handler);
+    public void setTaskForceJoinMenuItem(final EventHandler<ActionEvent> handler) {
+        taskForceJoinMenuItem.setOnAction(handler);
     }
 
     /**
@@ -475,28 +480,21 @@ public class BaseMarker implements AirOperationsMarker {
             airfieldMenuItem = new MenuItem("Airfield...");
             airfieldMenuItem.setUserData(getBaseGrid().getAirfield());
 
-            Menu taskForceMenu = new Menu("Task Force");
-            taskForceMenuNavalOperations = new MenuItem("Naval Operations...");
-            taskForceMenuDetach = new MenuItem("Detach...");
-            taskForceMenuJoin = new MenuItem("Join...");
-
-            taskForceMenu.getItems().addAll(taskForceMenuNavalOperations, taskForceMenuDetach, taskForceMenuJoin);
+            contextMenu.getItems().add(airfieldMenuItem);
 
             List<TaskForce> taskForces = getBaseGrid()
                     .getPort()
                     .map(Port::getTaskForces)
                     .orElseGet(Collections::emptyList);
 
-            taskForceMenuNavalOperations.setDisable(taskForces.isEmpty());
-            taskForceMenuNavalOperations.setUserData(taskForces);
+            List<Menu> taskForceMenus = buildTaskForceMenus(taskForces);
+            contextMenu.getItems().addAll(taskForceMenus);
 
-            taskForceMenuDetach.setDisable(taskForces.isEmpty());
-            taskForceMenuDetach.setUserData(taskForces);
+            taskForceJoinMenuItem = new MenuItem("Detach...");
+            taskForceJoinMenuItem.setDisable(taskForces.size() < 2);
+            taskForceJoinMenuItem.setUserData(taskForces);
 
-            taskForceMenuJoin.setDisable(taskForces.size() < 2);
-            taskForceMenuJoin.setUserData(taskForces);
-
-            contextMenu.getItems().addAll(airfieldMenuItem, taskForceMenu);
+            contextMenu.getItems().add(taskForceJoinMenuItem);
 
             imageView.setOnContextMenuRequested(e -> contextMenu.show(imageView, e.getScreenX(), e.getScreenY()));
             roundel.setOnContextMenuRequested(e -> contextMenu.show(imageView, e.getScreenX(), e.getScreenY()));
@@ -504,5 +502,31 @@ public class BaseMarker implements AirOperationsMarker {
 
             title.setOnContextMenuRequested(e -> contextMenu.show(imageView, e.getScreenX(), e.getScreenY()));
         }
+    }
+
+    private List<Menu> buildTaskForceMenus(final List<TaskForce> taskForces) {
+        return taskForces
+                .stream()
+                .map(this::buildTaskForceMenuItems)
+                .collect(Collectors.toList());
+
+    }
+
+    private Menu buildTaskForceMenuItems(final TaskForce taskForce) {
+        Menu taskForceMenu = new Menu(taskForce.getName());
+
+        MenuItem navalOperationsMenuItem = new MenuItem("Naval Operations...");
+        navalOperationsMenuItem.setUserData(taskForce);
+        taskForceNavalOperationsMenuItems.add(navalOperationsMenuItem);
+
+        MenuItem detachMenuItem = new MenuItem("Detach...");
+        detachMenuItem.setUserData(taskForce);
+        taskForceDetachMenuItems.add(detachMenuItem);
+
+        taskForceMenu
+                .getItems()
+                .addAll(navalOperationsMenuItem, detachMenuItem);
+
+        return taskForceMenu;
     }
 }

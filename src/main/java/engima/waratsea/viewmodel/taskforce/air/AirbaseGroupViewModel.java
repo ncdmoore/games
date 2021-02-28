@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
  * may have several ships that may act as an airbase. This class represents a collection
  * of all the ships that may act as airbases.
  */
-public class AirbasesViewModel {
+public class AirbaseGroupViewModel {
     private final Provider<AirbaseViewModel> airbaseViewModelProvider;
     private final Provider<PatrolGroups> patrolGroupsProvider;
 
@@ -47,7 +47,7 @@ public class AirbasesViewModel {
                     PatrolType.CAP, new SimpleListProperty<>(),
                     PatrolType.SEARCH, new SimpleListProperty<>());
 
-    @Setter private TaskForceAirViewModel taskForceAirViewModel;
+    @Setter private TaskForceAirViewModel taskForceAirViewModel;   // Parent view model.
 
     private final PatrolGroupDAO patrolGroupDAO;
 
@@ -59,9 +59,9 @@ public class AirbasesViewModel {
      * @param patrolGroupDAO Provides patrol groups.
      */
     @Inject
-    public AirbasesViewModel(final Provider<AirbaseViewModel> airbaseViewModelProvider,
-                             final Provider<PatrolGroups> patrolGroupsProvider,
-                             final PatrolGroupDAO patrolGroupDAO) {
+    public AirbaseGroupViewModel(final Provider<AirbaseViewModel> airbaseViewModelProvider,
+                                 final Provider<PatrolGroups> patrolGroupsProvider,
+                                 final PatrolGroupDAO patrolGroupDAO) {
         this.airbaseViewModelProvider = airbaseViewModelProvider;
         this.patrolGroupsProvider = patrolGroupsProvider;
         this.patrolGroupDAO = patrolGroupDAO;
@@ -100,11 +100,6 @@ public class AirbasesViewModel {
         totalSquadronsOnPatrol
                 .get(patrolType)
                 .add(squadronViewModel);
-
-        // If there is a task force group, then let it know about the newly added squadron.
-        taskForceAirViewModel
-                .getTaskForcesAirViewModel()
-                .addToPatrol(patrolType, squadronViewModel);
     }
 
     /**
@@ -117,11 +112,6 @@ public class AirbasesViewModel {
         totalSquadronsOnPatrol
                 .get(patrolType)
                 .remove(squadronViewModel);
-
-        // If there is a task force group, then let it know about the newly removed squadron.
-        taskForceAirViewModel
-                .getTaskForcesAirViewModel()
-                .removeFromPatrol(patrolType, squadronViewModel);
     }
 
     /**
@@ -131,14 +121,26 @@ public class AirbasesViewModel {
      * @return The patrol group for this collection of airbases for the given type of patrol.
      */
     public PatrolGroup getPatrolGroup(final PatrolType patrolType) {
-        boolean isTaskForceGroup = taskForceAirViewModel
-                .getTaskForcesAirViewModel()
-                .isTaskForceGroup();
+        PatrolGroupData data = new PatrolGroupData();
 
-        return isTaskForceGroup
-                ? getTaskForceGroupPatrolGroup(patrolType)
-                : getTheseAirbasesPatrolGroup(patrolType);
-    }
+        List<Squadron> totalOnPatrol = totalSquadronsOnPatrol
+                .get(patrolType)
+                .getValue()
+                .stream()
+                .map(SquadronViewModel::get)
+                .collect(Collectors.toList());
+
+        // Fake a patrol group so that classes that need access to the patrol group's
+        // airbase group can have access to it. The patrol group's airbase group
+        // is this classes parent task force.
+        PatrolGroups patrolGroups = patrolGroupsProvider.get();
+        patrolGroups.setAirbaseGroup(taskForceAirViewModel.getTaskForce().getValue());
+
+        data.setType(patrolType);
+        data.setSquadrons(totalOnPatrol);
+        data.setGroups(patrolGroups);
+
+        return patrolGroupDAO.load(data);    }
 
     /**
      * bind the airbases.
@@ -206,44 +208,5 @@ public class AirbasesViewModel {
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
 
-    /**
-     * Get this collection of airbases patrol group for the given type of patrol.
-     *
-     * @param patrolType The patrol type.
-     * @return This collection of airbases patrol group.
-     */
-    private PatrolGroup getTheseAirbasesPatrolGroup(final PatrolType patrolType) {
-        PatrolGroupData data = new PatrolGroupData();
 
-        List<Squadron> totalOnPatrol = totalSquadronsOnPatrol
-                .get(patrolType)
-                .getValue()
-                .stream()
-                .map(SquadronViewModel::get)
-                .collect(Collectors.toList());
-
-        // Fake a patrol group so that classes that need access to the patrol group's
-        // airbase group can have access to it. The patrol group's airbase group
-        // is this classes parent task force.
-        PatrolGroups patrolGroups = patrolGroupsProvider.get();
-        patrolGroups.setAirbaseGroup(taskForceAirViewModel.getTaskForce().getValue());
-
-        data.setType(patrolType);
-        data.setSquadrons(totalOnPatrol);
-        data.setGroups(patrolGroups);
-
-        return patrolGroupDAO.load(data);
-    }
-
-    /**
-     * Get the patrol group from the parent task force group.
-     *
-     * @param patrolType The patrol type.
-     * @return The patrol group from the parent task force group.
-     */
-    private PatrolGroup getTaskForceGroupPatrolGroup(final PatrolType patrolType) {
-        return taskForceAirViewModel
-                .getTaskForcesAirViewModel()
-                .getPatrolGroup(patrolType);
-    }
 }

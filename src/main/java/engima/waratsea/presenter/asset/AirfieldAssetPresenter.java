@@ -144,7 +144,7 @@ public class AirfieldAssetPresenter {
      * Any changes that were not saved to the airfield need to be reflected in the asset summary view of
      * the airfield. Thus, the airfield's view model is reset to the data stored in the airfield's model.
      * This way the airfield's asset summary contains the current data from the model. This is only needed
-     * when the airfield asset summary survives this dialog's cancel button, i.e., when this dialog does
+     * when the airfield asset summary survives the dialog's cancel button, i.e., when this dialog does
      * not control the display of the airfield asset summary.
      *
      * @param airbase The airbase that was not saved.

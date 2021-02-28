@@ -38,55 +38,37 @@ import java.util.stream.Collectors;
  * to the values in this class.
  */
 public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> {
-    private static final String NOT_SET = "Not Set";
-
     @Getter private final StringProperty name = new SimpleStringProperty();
     @Getter private final StringProperty title = new SimpleStringProperty();
     @Getter private final StringProperty nameAndTitle = new SimpleStringProperty();
-
     @Getter private final ObjectProperty<Image> image = new SimpleObjectProperty<>();
-
-    @Getter private final StringProperty location = new SimpleStringProperty();
 
     @Getter private final MapProperty<AircraftType, Integer> squadronTypeMap = new SimpleMapProperty<>(FXCollections.emptyObservableMap());
     @Getter private final Map<String, IntegerProperty> squadronCounts = new LinkedHashMap<>();
 
     @Getter private final ObjectProperty<TaskForce> taskForce = new SimpleObjectProperty<>();
 
-    @Getter private TaskForcesAirViewModel taskForcesAirViewModel;
-    private final AirbasesViewModel airbasesViewModel;
-
+    private final AirbaseGroupViewModel airbaseGroupViewModel;
 
     /**
      * Constructor called by guice.
      *
      * @param imageResourceProvider Provides images.
      * @param props View properties.
-     * @param airbasesViewModel The airbase view models in this task force. Aircraft carriers, etc...
+     * @param airbaseGroupViewModel The airbase view models in this task force. Aircraft carriers, etc...
      */
     @Inject
     public TaskForceAirViewModel(final ImageResourceProvider imageResourceProvider,
                                  final ViewProps props,
-                                 final AirbasesViewModel airbasesViewModel) {
-        this.airbasesViewModel = airbasesViewModel;
+                                 final AirbaseGroupViewModel airbaseGroupViewModel) {
+        this.airbaseGroupViewModel = airbaseGroupViewModel;
 
         bindTitles();
         bindSquadronTypeMap();
         bindSquadronCounts();
         bindImages(imageResourceProvider, props);
 
-        airbasesViewModel.setTaskForceAirViewModel(this);
-    }
-
-    /**
-     * Set teh task forces air view model.
-     *
-     * @param parent The parent task forces air view model.
-     * @return This task force air view model.
-     */
-    public TaskForceAirViewModel setTaskForcesAirViewModel(final TaskForcesAirViewModel parent) {
-        taskForcesAirViewModel = parent;
-        return this;
+        airbaseGroupViewModel.setTaskForceAirViewModel(this);
     }
 
     /**
@@ -97,13 +79,7 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
      */
     public TaskForceAirViewModel setModel(final TaskForce force) {
         taskForce.setValue(force);
-        airbasesViewModel.setModel(force);
-
-        String taskForceLocation = Optional
-                .ofNullable(force.getLocation())
-                .orElse(NOT_SET);
-
-        location.setValue(taskForceLocation);
+        airbaseGroupViewModel.setModel(force);
 
         return this;
     }
@@ -114,14 +90,14 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
      * @return A list of this task forces airbases.
      */
     public ListProperty<AirbaseViewModel> getAirbases() {
-        return airbasesViewModel.getAirbases();
+        return airbaseGroupViewModel.getAirbases();
     }
 
     /**
      * Save the task force's airbases data to the model.
      */
     public void save() {
-        airbasesViewModel.save();
+        airbaseGroupViewModel.save();
     }
 
     /**

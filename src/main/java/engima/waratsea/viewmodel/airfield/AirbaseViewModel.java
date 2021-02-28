@@ -12,7 +12,7 @@ import engima.waratsea.model.taskForce.patrol.PatrolGroupDAO;
 import engima.waratsea.model.taskForce.patrol.PatrolGroups;
 import engima.waratsea.model.taskForce.patrol.data.PatrolGroupData;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
-import engima.waratsea.viewmodel.taskforce.air.AirbasesViewModel;
+import engima.waratsea.viewmodel.taskforce.air.AirbaseGroupViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
@@ -56,7 +56,7 @@ public class AirbaseViewModel {
     private final Provider<AirMissionViewModel> missionViewModelProvider;
     private final Provider<PatrolViewModel> patrolViewModelProvider;
 
-    private AirbasesViewModel airbaseGroup;
+    private AirbaseGroupViewModel airbaseGroup;
 
     private final Provider<PatrolGroups> patrolGroupsProvider;
     private final PatrolGroupDAO patrolGroupDAO;
@@ -111,7 +111,7 @@ public class AirbaseViewModel {
      * @param group The airbase group.
      * @return This airbase view model.
      */
-    public AirbaseViewModel setGroup(final AirbasesViewModel group) {
+    public AirbaseViewModel setGroup(final AirbaseGroupViewModel group) {
         airbaseGroup = group;
         return this;
     }
