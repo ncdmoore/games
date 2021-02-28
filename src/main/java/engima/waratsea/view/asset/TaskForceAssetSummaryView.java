@@ -1,32 +1,44 @@
 package engima.waratsea.view.asset;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.util.GridPaneMap;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.util.Pair;
 import lombok.Getter;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TaskForceAssetSummaryView implements AssetView {
     private final ViewProps props;
+    private final ImageResourceProvider imageResourceProvider;
 
     private final TitledPane summaryPane = new TitledPane();
     private final GridPaneMap summaryGrid = new GridPaneMap();
 
+    private final ImageView assetImage = new ImageView();
+    private Map<Nation, ImageView> flagImageViews;
 
     private TaskForceViewModel viewModel;
 
     @Getter private HBox node;
 
     @Inject
-    public TaskForceAssetSummaryView(final ViewProps props) {
+    public TaskForceAssetSummaryView(final ViewProps props,
+                                     final ImageResourceProvider imageResourceProvider) {
         this.props = props;
+        this.imageResourceProvider = imageResourceProvider;
     }
 
     /**
@@ -59,7 +71,24 @@ public class TaskForceAssetSummaryView implements AssetView {
 
         Node grid = summaryGrid.buildGrid();
 
-        HBox hBox = new HBox(grid);
+        flagImageViews = viewModel
+                .getTaskForceNavalViewModel()
+                .getTaskForce()
+                .getValue()
+                .getNations()
+                .stream()
+                .map(nation -> new Pair<>(nation, new ImageView()))
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
+
+        VBox flagVBox = new VBox();
+        flagVBox.getChildren().addAll(flagImageViews.values());
+        flagVBox.setId("task-force-summary-flag-vbox");
+
+        VBox imageVBox = new VBox(assetImage, flagVBox);
+
+        imageVBox.setId("task-force-summary-image-vbox");
+
+        HBox hBox = new HBox(imageVBox, grid);
         hBox.setId("task-force-summary-hbox");
 
         summaryPane.setContent(hBox);
@@ -77,6 +106,19 @@ public class TaskForceAssetSummaryView implements AssetView {
      * Show the summary for the selected airfield.
      */
     private void bindSummary() {
+        Image image = imageResourceProvider.getImage(props.getString("anchor.medium.icon"));
+        assetImage.setImage(image);
+
+        viewModel
+                .getTaskForceNavalViewModel()
+                .getTaskForce()
+                .getValue()
+                .getNations()
+                .forEach(nation -> {
+                    Image flag = imageResourceProvider.getImage(props.getString(nation.toString() + ".flag.small.image"));
+                    flagImageViews.get(nation).setImage(flag);
+                });
+
         summaryGrid.updateGrid(getTaskForceData());
     }
 

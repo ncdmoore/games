@@ -98,6 +98,14 @@
     -fx-spacing: 10;
 }
 
+#task-force-summary-image-vbox {
+    -fx-spacing: 20;
+}
+
+#task-force-summary-flag-vbox {
+    -fx-spacing: 5;
+}
+
 #map-base-grid-marker {
     -fx-opacity: 1.0;
 }
