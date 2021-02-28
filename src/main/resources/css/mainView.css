@@ -79,7 +79,7 @@
     -fx-alignment: top-right;
 }
 
-#basemarker-title {
+#base-marker-title {
     -fx-border-color: dodgerblue;
     -fx-background-color: linear-gradient(to right, silver 0%, white 50%, silver);
     -fx-padding: /* top */ 5 /* right */ 5 /* bottom */ 5 /* left */ 5;

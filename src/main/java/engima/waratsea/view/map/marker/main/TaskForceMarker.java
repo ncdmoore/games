@@ -13,19 +13,22 @@ import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +38,8 @@ import java.util.stream.Collectors;
  * Clicking this marker toggles through this list of task forces.
  * Clicking once the last task force has been selected de-selects this marker.
  */
-public class TaskForceMarker implements AirOperationsMarker {
+@Slf4j
+public class TaskForceMarker implements Marker, AirOperationsMarker {
     private static final int SHADOW_RADIUS = 3;
     private static final int TASK_FORCE_INITIAL_INDEX = -1;
 
@@ -44,10 +48,12 @@ public class TaskForceMarker implements AirOperationsMarker {
     private final Game game;
     private final MapView mapView;
     private final VBox image;
-    private final Node title;
-    private final List<TaskForce> taskForces;   // This is a sorted list of the task forces represented by this marker.
+    private final VBox title;
+    @Getter private final List<TaskForce> taskForces;   // This is a sorted list of the task forces represented by this marker.
 
-    private final Label titleText = new Label();
+    private final Text activeText = new Text();
+    private final Text inactiveText = new Text();
+    private final Tooltip tooltip = new Tooltip();
 
     private int selectedTaskForceIndex = TASK_FORCE_INITIAL_INDEX;
 
@@ -102,6 +108,9 @@ public class TaskForceMarker implements AirOperationsMarker {
                 .collect(Collectors.toList());
 
         setUpContextMenus();
+
+        activeText.setFill(Color.BLUE);
+        inactiveText.setFill(Color.BLACK);
     }
 
     /**
@@ -151,6 +160,38 @@ public class TaskForceMarker implements AirOperationsMarker {
      */
     public void hide() {
         mapView.remove(image);
+    }
+
+    /**
+     * Set this marker as the active marker.
+     */
+    public void setActive() {
+        activeText.setText(taskForces.get(selectedTaskForceIndex).toString());
+        title.getChildren().clear();
+        title.getChildren().add(activeText);
+        tooltip.setText(getToolTipText());
+    }
+
+    /**
+     * Set this marker as inactive.
+     */
+    public void setInactive() {
+        if (selectedTaskForceIndex != TASK_FORCE_INITIAL_INDEX) {
+            inactiveText.setText(taskForces.get(selectedTaskForceIndex).toString());
+            title.getChildren().clear();
+            title.getChildren().add(inactiveText);
+        }
+    }
+
+    /**
+     * Get the currently selected task force.
+     *
+     * @return The currently selected task force if one is actually selected.
+     */
+    public Optional<TaskForce> getSelectedTaskForce() {
+        return (selectedTaskForceIndex < taskForces.size()) && (selectedTaskForceIndex != TASK_FORCE_INITIAL_INDEX)
+                ? Optional.of(taskForces.get(selectedTaskForceIndex))
+                : Optional.empty();
     }
 
     /**
@@ -280,15 +321,15 @@ public class TaskForceMarker implements AirOperationsMarker {
      * @param gridView The grid view of this base.
      * @return A node containing the base's title.
      */
-    private Node buildTitle(final GridView gridView) {
-        //Tooltip tooltip = new Tooltip();
-        //tooltip.setText(getToolTipText());
+    private VBox buildTitle(final GridView gridView) {
 
-        //label.setTooltip(tooltip);
-        VBox vBox = new VBox(titleText);
+        Tooltip.install(activeText, tooltip);
+        Tooltip.install(inactiveText, tooltip);
+
+        VBox vBox = new VBox();
         vBox.setLayoutY(gridView.getY() + gridView.getSize());
         vBox.setLayoutX(gridView.getX());
-        vBox.setId("basemarker-title");
+        vBox.setId("base-marker-title");
         return vBox;
     }
 
@@ -309,11 +350,24 @@ public class TaskForceMarker implements AirOperationsMarker {
     private boolean determineIfSelected() {
         selectedTaskForceIndex++;
         if (selectedTaskForceIndex < taskForces.size()) {
-            titleText.setText(taskForces.get(selectedTaskForceIndex).toString());
             return true;
         } else {
             selectedTaskForceIndex = TASK_FORCE_INITIAL_INDEX;
             return false;
         }
+    }
+
+    private String getToolTipText() {
+        TaskForce taskForce = taskForces.get(selectedTaskForceIndex);
+        return taskForce
+                .getShipTypeMap()
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().size()))
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(entry -> entry.getKey() + ":" + entry.getValue())
+                .collect(Collectors.joining("\n"));
     }
 }

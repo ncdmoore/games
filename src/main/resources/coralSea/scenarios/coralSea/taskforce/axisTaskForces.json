@@ -2,7 +2,7 @@
   {
     "name": "TF1",
     "title": "Support Force",
-    "location": "O1",
+    "location": "M1",
     "state": "ACTIVE",
     "mission": {
       "type": "PATROL"

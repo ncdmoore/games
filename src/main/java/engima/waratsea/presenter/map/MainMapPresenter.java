@@ -21,6 +21,7 @@ import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
+import engima.waratsea.view.map.marker.main.Marker;
 import engima.waratsea.view.map.marker.main.RegionMarker;
 import engima.waratsea.view.map.marker.main.TaskForceMarker;
 import javafx.event.ActionEvent;
@@ -33,6 +34,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Path;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +54,8 @@ public class MainMapPresenter {
     private final Provider<MissionDialog> missionDetailsDialogProvider;
     private final AssetPresenter assetPresenter;
     private final SelectedMapGrid selectedGrid;
+
+    private final List<Marker> activeMarkers = new LinkedList<>();
 
     private final Provider<TaskForceNavalDialog> taskForceNavalDialogProvider;
     private final Provider<TaskForceAirDialog> taskForceAirDialogProvider;
@@ -162,8 +166,7 @@ public class MainMapPresenter {
     private void regionMouseEnterHandler(final MouseEvent event) {
         VBox regionTitle = (VBox) event.getSource();
         RegionMarker regionMarker = (RegionMarker) regionTitle.getUserData();
-        mainMapView.highlightRegion(regionMarker);
-    }
+        regionMarker.getBaseMarkers().forEach(this::outlineMarker);    }
 
     /**
      * Callback for when the mouse exits the region label.
@@ -173,8 +176,7 @@ public class MainMapPresenter {
     private void regionMouseExitHandler(final MouseEvent event) {
         VBox regionTitle = (VBox) event.getSource();
         RegionMarker regionMarker = (RegionMarker) regionTitle.getUserData();
-        mainMapView.unHighlightRegion(regionMarker);
-    }
+        regionMarker.getBaseMarkers().forEach(this::unOutlineMarker);    }
 
     /**
      * Callback for when the show airfields map menu item is clicked.
@@ -191,7 +193,7 @@ public class MainMapPresenter {
     private void baseMouseEnterHandler(final MouseEvent event) {
         VBox imageView = (VBox) event.getSource();
         BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
-        mainMapView.highlightBaseMarker(baseMarker);
+        baseMarker.highlightMarker();
     }
 
     /**
@@ -202,7 +204,7 @@ public class MainMapPresenter {
     private void baseMouseExitHandler(final MouseEvent event) {
         VBox imageView = (VBox) event.getSource();
         BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
-        mainMapView.unHighlightBaseMarker(baseMarker);
+        baseMarker.unHighlightMarker();
     }
 
     /**
@@ -214,11 +216,13 @@ public class MainMapPresenter {
         if (event.getButton() == MouseButton.PRIMARY) {
             VBox imageView = (VBox) event.getSource();
             BaseMarker baseMarker = (BaseMarker) imageView.getUserData();
-            boolean selected = mainMapView.selectBaseMarker(baseMarker);
+            boolean selected = baseMarker.selectMarker();
 
             if (selected) {
+                setMarkerActive(baseMarker);
                 assetPresenter.humanBaseSelected(baseMarker);
             } else {
+                setMarkerInactive(baseMarker);
                 assetPresenter.humanBaseUnSelected(baseMarker);
             }
 
@@ -235,11 +239,13 @@ public class MainMapPresenter {
         if (event.getButton() == MouseButton.PRIMARY) {
             VBox imageView = (VBox) event.getSource();
             TaskForceMarker taskForceMarker = (TaskForceMarker) imageView.getUserData();
-            boolean selected = mainMapView.selectTaskForceMarker(taskForceMarker);
+            boolean selected = taskForceMarker.selectMarker();
 
             if (selected) {
+                setMarkerActive(taskForceMarker);
                 assetPresenter.humanTaskForceSelected(taskForceMarker);
             } else {
+                setMarkerInactive(taskForceMarker);
                 assetPresenter.humanTaskForceUnSelected(taskForceMarker);
             }
         }
@@ -359,5 +365,57 @@ public class MainMapPresenter {
         GridView gv = mainMapView.getGridView(event);
         GameGrid gameGrid = gameMap.getGrid(gv.getRow(), gv.getColumn());
         selectedGrid.set(gameGrid);
+    }
+
+    /**
+     * Set the given marker as the active marker within the game.
+     *
+     * @param marker The new active marker.
+     */
+    private void setMarkerActive(final Marker marker) {
+        activeMarkers.forEach(Marker::setInactive);   // Set all markers that were active inactive.
+
+        marker.setActive();
+
+        // A marker may contain several task forces and therefore may be selected several times.
+        // Only add the task force marker to the active markers list once. We do not want duplicate
+        // markers in the active markers list.
+        if (!activeMarkers.contains(marker)) {
+            activeMarkers.add(marker);
+        }
+    }
+
+    /**
+     * Set the given marker as inactive.
+     *
+     * @param marker The marker that is set inactive.
+     */
+    private void setMarkerInactive(final Marker marker) {
+        marker.setInactive();
+        activeMarkers.remove(marker);
+
+        // The last marker that remains in the active marker list is now the new
+        // active marker. The marker list is essentially a stack.
+        if (activeMarkers.size() > 0) {
+            activeMarkers.get(activeMarkers.size() - 1).setActive();
+        }
+    }
+
+    /**
+     * Draw an outline around the base marker.
+     *
+     * @param baseMarker The base marker that is outlined.
+     */
+    private void outlineMarker(final BaseMarker baseMarker) {
+        baseMarker.outline();
+    }
+
+    /**
+     * Remove the outline from around the base marker.
+     *
+     * @param baseMarker The base marker that has its outline removed.
+     */
+    private void unOutlineMarker(final BaseMarker baseMarker) {
+        baseMarker.unOutline();
     }
 }

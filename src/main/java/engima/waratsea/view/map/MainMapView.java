@@ -271,63 +271,6 @@ public class MainMapView {
     }
 
     /**
-     * Highlight the region marker.
-     *
-     * @param regionMarker The region marker highlighted.
-     */
-    public void highlightRegion(final RegionMarker regionMarker) {
-        regionMarker.getBaseMarkers().forEach(this::outlineMarker);
-    }
-
-    /**
-     * Un-highlight the region marker.
-     *
-     * @param regionMarker The region marker that is un-highlighted.
-     */
-    public void unHighlightRegion(final RegionMarker regionMarker) {
-        regionMarker.getBaseMarkers().forEach(this::unOutlineMarker);
-    }
-
-    /**
-     * Highlight the given base marker.
-     *
-     * @param baseMarker A base marker.
-     */
-    public void highlightBaseMarker(final BaseMarker baseMarker) {
-        baseMarker.highlightMarker();
-    }
-
-    /**
-     * Un-highlight the given base marker.
-     *
-     * @param baseMarker A base marker.
-     */
-    public void unHighlightBaseMarker(final BaseMarker baseMarker) {
-        baseMarker.unHighlightMarker();
-    }
-
-    /**
-     * Select the given base marker.
-     *
-     * @param baseMarker A base marker.
-     *
-     * @return True if the marker is selected. False if the marker is not selected.
-     */
-    public boolean selectBaseMarker(final BaseMarker baseMarker) {
-        return baseMarker.selectMarker();
-    }
-
-    /**
-     * Select the given task force marker.
-     *
-     * @param taskForceMarker The task force marker.
-     * @return True if the marker is selected. False if the marker is not selected.
-     */
-    public boolean selectTaskForceMarker(final TaskForceMarker taskForceMarker) {
-        return taskForceMarker.selectMarker();
-    }
-
-    /**
      * Draw the given airbase patrol radii.
      *
      * @param airbase An airbase.
@@ -451,24 +394,6 @@ public class MainMapView {
         if (displayBaseMarker(type)) {
             baseMarker.draw();
         }
-    }
-
-    /**
-     * Draw an outline around the base marker.
-     *
-     * @param baseMarker The base marker that is outlined.
-     */
-    private void outlineMarker(final BaseMarker baseMarker) {
-        baseMarker.outline();
-    }
-
-    /**
-     * Remove the outline from around the base marker.
-     *
-     * @param baseMarker The base marker that has its outline removed.
-     */
-    private void unOutlineMarker(final BaseMarker baseMarker) {
-        baseMarker.unOutline();
     }
 
     /**

@@ -55,9 +55,8 @@ public class AssetPresenter {
      */
     public void humanTaskForceSelected(final TaskForceMarker taskForceMarker) {
         taskForceMarker
-                .getTaskForceGrid()
-                .getTaskForces()
-                .forEach(taskForceAssetPresenter::addTaskForceToAssetSummary);
+                .getSelectedTaskForce()
+                .ifPresent(taskForceAssetPresenter::addTaskForceToAssetSummary);
     }
 
     /**
@@ -67,7 +66,6 @@ public class AssetPresenter {
      */
     public void humanTaskForceUnSelected(final TaskForceMarker taskForceMarker) {
         taskForceMarker
-                .getTaskForceGrid()
                 .getTaskForces()
                 .forEach(taskForceAssetPresenter::removeTaskForceFromAssetSummary);
     }

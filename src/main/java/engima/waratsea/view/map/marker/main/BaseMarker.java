@@ -18,9 +18,7 @@ import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tooltip;
@@ -33,6 +31,7 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,7 +48,7 @@ import static java.util.stream.Collectors.joining;
  * A base marker occupies a game grid.
  */
 @Slf4j
-public class BaseMarker implements AirOperationsMarker {
+public class BaseMarker implements Marker, AirOperationsMarker {
     private static final int SHADOW_RADIUS = 3;
 
     @Getter private final BaseGrid baseGrid;
@@ -60,7 +59,7 @@ public class BaseMarker implements AirOperationsMarker {
     private final VBox imageView;
     private final VBox roundel;
     private final VBox flag;
-    private final Node title;
+    private final VBox title;
 
     private final PatrolMarkers patrolMarkers;
     private final MissionMarkers missionMarkers;
@@ -72,6 +71,9 @@ public class BaseMarker implements AirOperationsMarker {
     @Getter private MenuItem taskForceJoinMenuItem;
 
     private boolean selected = false;
+
+    private final Text activeText = new Text();
+    private final Text inactiveText = new Text();
 
     /**
      * The constructor.
@@ -99,6 +101,7 @@ public class BaseMarker implements AirOperationsMarker {
         final String humanPrefix = game.getHumanSide().getValue().toLowerCase();
 
         this.imageView = new VBox(imageResourceProvider.getImageView(props.getString(imagePrefix + "." + type.toLower() + ".base.icon")));
+
         this.roundel = new VBox(imageResourceProvider.getImageView(props.getString(humanPrefix + ".roundel.small.image")));
         this.flag = new VBox(imageResourceProvider.getImageView(props.getString(humanPrefix + ".flag.tiny.image")));
 
@@ -131,6 +134,11 @@ public class BaseMarker implements AirOperationsMarker {
         rangeMarker = new RangeMarker(mapView, gridView);
 
         setUpContextMenus();
+
+        activeText.setFill(Color.BLUE);
+        activeText.setText(baseGrid.getTitle());
+        inactiveText.setFill(Color.BLACK);
+        inactiveText.setText(baseGrid.getTitle());
     }
 
     /**
@@ -167,7 +175,7 @@ public class BaseMarker implements AirOperationsMarker {
     }
 
     /**
-     * This base marker has been selected.
+     * This base marker has been selected/unselected.
      *
      * @return True if the marker is selected. False if the marker is not selected.
      */
@@ -229,6 +237,24 @@ public class BaseMarker implements AirOperationsMarker {
      */
     public void unOutline() {
         imageView.setBorder(Border.EMPTY);
+    }
+
+    /**
+     * Set the marker as the current active marker. Only a single marker may be the active marker.
+     */
+    @Override
+    public void setActive() {
+        title.getChildren().clear();
+        title.getChildren().add(activeText);
+    }
+
+    /**
+     * Set the marker as inactive.
+     */
+    @Override
+    public void setInactive() {
+        title.getChildren().clear();
+        title.getChildren().add(inactiveText);
     }
 
     /**
@@ -382,16 +408,17 @@ public class BaseMarker implements AirOperationsMarker {
      * @param gridView The grid view of this base.
      * @return A node containing the base's title.
      */
-    private Node buildTitle(final GridView gridView) {
+    private VBox buildTitle(final GridView gridView) {
         Tooltip tooltip = new Tooltip();
         tooltip.setText(getToolTipText());
 
-        Label label = new Label(baseGrid.getTitle());
-        label.setTooltip(tooltip);
-        VBox vBox = new VBox(label);
+        Tooltip.install(activeText, tooltip);
+        Tooltip.install(inactiveText, tooltip);
+
+        VBox vBox = new VBox(inactiveText);
         vBox.setLayoutY(gridView.getY() + gridView.getSize());
         vBox.setLayoutX(gridView.getX());
-        vBox.setId("basemarker-title");
+        vBox.setId("base-marker-title");
         return vBox;
     }
 
