@@ -93,6 +93,24 @@
     -fx-spacing: 5;
 }
 
+#task-force-summary-hbox {
+    -fx-background-color: white;
+    -fx-spacing: 10;
+}
+
+#task-force-summary-image-vbox {
+    -fx-spacing: 20;
+}
+
+#task-force-summary-flag-vbox {
+    -fx-spacing: 5;
+}
+
+#task-force-summary-flag {
+    -fx-border-width: 1px;
+    -fx-border-color: lightslategray;
+}
+
 #map-base-grid-marker {
     -fx-opacity: 1.0;
 }

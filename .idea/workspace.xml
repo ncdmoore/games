@@ -8,13 +8,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/AustralianFlag30x20.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/BritishNavalFlag30x20.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/images/PolishFlag30x20.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/asset/AirfieldAssetPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/asset/AirfieldAssetPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/asset/TaskForceAssetPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/asset/TaskForceAssetPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/taskforce/TaskForceAirDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/taskforce/TaskForceAirDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/taskforce/TaskForceNavalDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/taskforce/TaskForceNavalDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AssetId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AssetId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/TaskForce.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/TaskForceAssetSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/TaskForceAssetSummaryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/properties/view.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/properties/view.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,10 +122,10 @@
       <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies" />
       <recent name="$PROJECT_DIR$/src/main/resources/coralSea/images" />
-      <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies/images" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
@@ -282,13 +284,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00361" summary="Make sure the neutral side's bases toggle on and off correctly.">
-      <created>1611428839097</created>
-      <option name="number" value="00361" />
-      <option name="presentableId" value="LOCAL-00361" />
-      <option name="project" value="LOCAL" />
-      <updated>1611428839097</updated>
     </task>
     <task id="LOCAL-00362" summary="Make sure the neutral side's bases toggle on and off correctly.">
       <created>1611429022126</created>
@@ -626,7 +621,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614543863954</updated>
     </task>
-    <option name="localTasksCounter" value="410" />
+    <task id="LOCAL-00410" summary="Tie task force dialogs into task force asset summary.">
+      <created>1614547371750</created>
+      <option name="number" value="00410" />
+      <option name="presentableId" value="LOCAL-00410" />
+      <option name="project" value="LOCAL" />
+      <updated>1614547371751</updated>
+    </task>
+    <option name="localTasksCounter" value="411" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -641,7 +643,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Update comment on loading flotillas." />
     <MESSAGE value="Add the ability to pick where a task force begin play on the preview map." />
     <MESSAGE value="Turn off some of the resource logging." />
     <MESSAGE value="Store selected task force in the TaskForcesViewModel only." />
@@ -666,7 +667,8 @@
     <MESSAGE value="Add airbase group title to patrol details dialog and patrol stats on airbase dialog." />
     <MESSAGE value="Create TaskForce Asset for asset manager." />
     <MESSAGE value="Denote one of the airfields or task force markers as the currently selected marker on the game map." />
-    <option name="LAST_COMMIT_MESSAGE" value="Denote one of the airfields or task force markers as the currently selected marker on the game map." />
+    <MESSAGE value="Tie task force dialogs into task force asset summary." />
+    <option name="LAST_COMMIT_MESSAGE" value="Tie task force dialogs into task force asset summary." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -740,6 +742,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/taskForce/patrol/SearchPatrolGroup.java</url>
           <line>69</line>
           <option name="timeStamp" value="90" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/TaskForceAssetSummaryView.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="95" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.UnsupportedOperationException" package="java.lang" />

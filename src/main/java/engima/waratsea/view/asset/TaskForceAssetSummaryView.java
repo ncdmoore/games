@@ -5,6 +5,7 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.ImageResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.view.taskforce.info.TaskForceInfo;
 import engima.waratsea.view.util.GridPaneMap;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.scene.Node;
@@ -17,6 +18,7 @@ import javafx.util.Pair;
 import lombok.Getter;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,8 @@ public class TaskForceAssetSummaryView implements AssetView {
     private final TitledPane summaryPane = new TitledPane();
     private final GridPaneMap summaryGrid = new GridPaneMap();
 
+    private final TaskForceInfo shipSummary;
+
     private final ImageView assetImage = new ImageView();
     private Map<Nation, ImageView> flagImageViews;
 
@@ -36,9 +40,12 @@ public class TaskForceAssetSummaryView implements AssetView {
 
     @Inject
     public TaskForceAssetSummaryView(final ViewProps props,
-                                     final ImageResourceProvider imageResourceProvider) {
+                                     final ImageResourceProvider imageResourceProvider,
+                                     final TaskForceInfo taskForceInfo) {
         this.props = props;
         this.imageResourceProvider = imageResourceProvider;
+
+        this.shipSummary = taskForceInfo;
     }
 
     /**
@@ -52,7 +59,9 @@ public class TaskForceAssetSummaryView implements AssetView {
 
         buildSummary();
 
-        node = new HBox(summaryPane);
+        Node shipSummaryNode = shipSummary.build("Ship Summary");
+
+        node = new HBox(summaryPane, shipSummaryNode);
         node.setId("asset-hbox");
 
         summaryPane.setMinHeight(props.getInt("asset.pane.component.height"));
@@ -90,12 +99,18 @@ public class TaskForceAssetSummaryView implements AssetView {
                 .map(nation -> new Pair<>(nation, new ImageView()))
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
 
+        List<VBox> flags = flagImageViews
+                .values()
+                .stream()
+                .map(VBox::new)
+                .peek(vb -> vb.setId("task-force-summary-flag"))
+                .collect(Collectors.toList());
+
         VBox flagVBox = new VBox();
-        flagVBox.getChildren().addAll(flagImageViews.values());
+        flagVBox.getChildren().addAll(flags);
         flagVBox.setId("task-force-summary-flag-vbox");
 
         VBox imageVBox = new VBox(assetImage, flagVBox);
-
         imageVBox.setId("task-force-summary-image-vbox");
 
         HBox hBox = new HBox(imageVBox, grid);
@@ -110,6 +125,9 @@ public class TaskForceAssetSummaryView implements AssetView {
     private void bind() {
         bindSummary();
 
+        shipSummary.bind(viewModel
+                .getTaskForceNavalViewModel()
+                .getShipCounts());
     }
 
     /**
@@ -125,7 +143,7 @@ public class TaskForceAssetSummaryView implements AssetView {
                 .getValue()
                 .getNations()
                 .forEach(nation -> {
-                    Image flag = imageResourceProvider.getImage(props.getString(nation.toString() + ".flag.small.image"));
+                    Image flag = imageResourceProvider.getImage(props.getString(nation.toString() + ".naval.flag.small.image"));
                     flagImageViews.get(nation).setImage(flag);
                 });
 

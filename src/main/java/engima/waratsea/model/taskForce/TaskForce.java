@@ -43,7 +43,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -175,15 +174,17 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
     }
 
     /**
-     * Get the task force airbases nations. All the nations that have squadrons based within this task force.
+     * Get the task force nations.
      *
-     * @return The task force airbases nations.
+     * @return The task force nations.
      */
-    public Set<Nation> getNations() {
-        return airbases
+    public List<Nation> getNations() {
+        return ships
                 .stream()
-                .flatMap(airbase -> airbase.getNations().stream())
-                .collect(Collectors.toSet());
+                .map(Ship::getNation)
+                .sorted()
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     /**
