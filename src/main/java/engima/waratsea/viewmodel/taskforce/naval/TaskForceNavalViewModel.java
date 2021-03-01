@@ -8,7 +8,7 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.TaskForceState;
 import engima.waratsea.model.taskForce.mission.SeaMissionType;
 import engima.waratsea.model.taskForce.mission.rules.SeaMissionRules;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.ship.ShipViewType;
 import engima.waratsea.viewmodel.ship.ShipViewModel;
@@ -82,7 +82,7 @@ public class TaskForceNavalViewModel implements Comparable<TaskForceNavalViewMod
      * @param shipsViewModel The ship view models in this task force.
      */
     @Inject
-    public TaskForceNavalViewModel(final ImageResourceProvider imageResourceProvider,
+    public TaskForceNavalViewModel(final ResourceProvider imageResourceProvider,
                                    final ViewProps props,
                                    final SeaMissionRules seaMissionRules,
                                    final ShipsViewModel shipsViewModel) {
@@ -243,7 +243,7 @@ public class TaskForceNavalViewModel implements Comparable<TaskForceNavalViewMod
      * @param imageResourceProvider Provides images.
      * @param props View properties.
      */
-    private void bindImages(final ImageResourceProvider imageResourceProvider, final ViewProps props) {
+    private void bindImages(final ResourceProvider imageResourceProvider, final ViewProps props) {
         image.bind(Bindings.createObjectBinding(() -> Optional
                 .ofNullable(taskForce.getValue())
                 .map(t -> imageResourceProvider.getImage(getImageName(t, props)))

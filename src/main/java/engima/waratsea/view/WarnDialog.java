@@ -3,7 +3,7 @@ package engima.waratsea.view;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.utility.CssResourceProvider;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,22 +18,22 @@ public class WarnDialog {
     private static final String CSS_FILE = "warn.css";
 
     private final CssResourceProvider cssResourceProvider;
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
     private final ViewProps props;
 
     /**
      * Constructor called by guice.
      *
      * @param cssResourceProvider provides css files.
-     * @param imageResourceProvider provides images.
+     * @param resourceProvider provides images.
      * @param props View properties.
      */
     @Inject
     public WarnDialog(final CssResourceProvider cssResourceProvider,
-                      final ImageResourceProvider imageResourceProvider,
+                      final ResourceProvider resourceProvider,
                       final ViewProps props) {
         this.cssResourceProvider = cssResourceProvider;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.props = props;
     }
 
@@ -49,7 +49,7 @@ public class WarnDialog {
         stage.setTitle("Warning");
         stage.setMinWidth(props.getInt("warn.dialog.stage.width"));
 
-        ImageView imageView = imageResourceProvider.getImageView(props.getString("warn.small.icon"));
+        ImageView imageView = resourceProvider.getImageView(props.getString("warn.small.icon"));
         Label label = new Label(message);
 
         HBox hBox = new HBox(imageView, label);

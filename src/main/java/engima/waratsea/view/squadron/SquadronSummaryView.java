@@ -2,7 +2,7 @@ package engima.waratsea.view.squadron;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.util.BoundTitledGridPane;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class SquadronSummaryView {
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
     private final ViewProps props;
 
     private final ObjectProperty<SquadronViewModel> squadron = new SimpleObjectProperty<>();
@@ -60,9 +60,9 @@ public class SquadronSummaryView {
     private final BoundTitledGridPane performancePane = new BoundTitledGridPane();
 
     @Inject
-    public SquadronSummaryView(final ImageResourceProvider imageResourceProvider,
+    public SquadronSummaryView(final ResourceProvider resourceProvider,
                                final ViewProps props) {
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.props = props;
 
         bind();
@@ -225,7 +225,7 @@ public class SquadronSummaryView {
     }
 
     private void buildAttack() {
-        ImageView imageView = imageResourceProvider.getImageView(props.getString("info.small.image"));
+        ImageView imageView = resourceProvider.getImageView(props.getString("info.small.image"));
         HBox hbox = new HBox(imageView);
         hbox.setId("squadron-attack-data-title");
 
@@ -246,7 +246,7 @@ public class SquadronSummaryView {
 
 
     private void buildPerformance() {
-        ImageView imageView = imageResourceProvider.getImageView(props.getString("info.small.image"));
+        ImageView imageView = resourceProvider.getImageView(props.getString("info.small.image"));
         HBox hbox = new HBox(imageView);
         hbox.setId("squadron-performance-data-title");
 

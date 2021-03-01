@@ -7,7 +7,7 @@ import engima.waratsea.model.game.Game;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.FlotillaPreviewMapView;
 import engima.waratsea.viewmodel.FlotillaViewModel;
@@ -44,7 +44,7 @@ public class FlotillaView {
 
     private final ViewProps props;
     private final CssResourceProvider cssResourceProvider;
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
 
     private final Game game;
     private final FlotillaPreviewMapView flotillaMap;
@@ -65,19 +65,19 @@ public class FlotillaView {
      *
      * @param props The view properties.
      * @param cssResourceProvider CSS file provider.
-     * @param imageResourceProvider Image file provider.
+     * @param resourceProvider Image file provider.
      * @param game The game.
      * @param flotillaMap The flotilla map.
      */
     @Inject
     public FlotillaView(final ViewProps props,
                         final CssResourceProvider cssResourceProvider,
-                        final ImageResourceProvider imageResourceProvider,
+                        final ResourceProvider resourceProvider,
                         final Game game,
                         final FlotillaPreviewMapView flotillaMap) {
         this.props = props;
         this.cssResourceProvider = cssResourceProvider;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
 
         this.game = game;
 
@@ -208,7 +208,7 @@ public class FlotillaView {
      */
     private Node buildObjectives(final Scenario scenario) {
         Label objectiveLabel = new Label("Objectives: Current Submarine Deployment.");
-        ImageView flag = imageResourceProvider.getImageView(props.getString(game.getHumanSide().toLower() + ".flag.medium.image"));
+        ImageView flag = resourceProvider.getImageView(props.getString(game.getHumanSide().toLower() + ".flag.medium.image"));
 
         HBox hBox = new HBox(flag, objectiveLabel);
         hBox.setId("objectives-pane");

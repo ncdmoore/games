@@ -61,7 +61,7 @@
         <appender-ref ref="MISSING_AIRCRAFT_FILE" />
     </logger>
 
-    <logger name="engima.waratsea.utility.ImageResourceProvider" level="debug" additivity="false">
+    <logger name="engima.waratsea.utility.ResourceProvider" level="debug" additivity="false">
         <appender-ref ref="MISSING_IMAGE_FILE" />
     </logger>
 

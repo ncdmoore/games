@@ -21,7 +21,7 @@ import java.util.Optional;
  */
 @Singleton
 @Slf4j
-public class ImageResourceProvider {
+public class ResourceProvider {
 
     private static final String IMAGE_EXT = ".png";
     private static final String AIRCRAFT_DIR = "/aircraft/";
@@ -38,8 +38,8 @@ public class ImageResourceProvider {
      * @param resource The game resources.
      */
     @Inject
-    public ImageResourceProvider(final GameTitle gameTitle,
-                                 final Resource resource) {
+    public ResourceProvider(final GameTitle gameTitle,
+                            final Resource resource) {
         this.gameTitle = gameTitle;
         this.resource = resource;
     }

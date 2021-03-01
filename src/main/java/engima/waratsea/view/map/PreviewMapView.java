@@ -6,7 +6,7 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.marker.preview.AirfieldMarker;
 import engima.waratsea.view.map.marker.preview.SquadronRangeMarker;
@@ -37,7 +37,7 @@ import java.util.Optional;
 public class PreviewMapView {
 
     private final ViewProps props;
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
     private final Provider<TaskForceMarker> taskForceMarkerProvider;
     private final Provider<AirfieldMarker> airfieldMarkerProvider;
     private final Provider<TargetMarker> targetMarkerProvider;
@@ -60,7 +60,7 @@ public class PreviewMapView {
      * Constructor called by guice.
      *
      * @param props View properties.
-     * @param imageResourceProvider The image resource provider.
+     * @param resourceProvider The image resource provider.
      * @param taskForceMarkerProvider Provides task force markers.
      * @param airfieldMarkerProvider Provides airfield markers.
      * @param targetMarkerProvider Provides target markers.
@@ -69,14 +69,14 @@ public class PreviewMapView {
      */
     @Inject
     public PreviewMapView(final ViewProps props,
-                          final ImageResourceProvider imageResourceProvider,
+                          final ResourceProvider resourceProvider,
                           final Provider<TaskForceMarker> taskForceMarkerProvider,
                           final Provider<AirfieldMarker> airfieldMarkerProvider,
                           final Provider<TargetMarker> targetMarkerProvider,
                           final GameMap gameMap,
                           final MapView mapView) {
         this.props = props;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.taskForceMarkerProvider = taskForceMarkerProvider;
         this.airfieldMarkerProvider = airfieldMarkerProvider;
         this.targetMarkerProvider = targetMarkerProvider;
@@ -90,7 +90,7 @@ public class PreviewMapView {
      * @return The node containing the map grid.
      */
     public Node draw() {
-        imageView = imageResourceProvider.getImageView(props.getString("preview.map.image"));
+        imageView = resourceProvider.getImageView(props.getString("preview.map.image"));
         int gridSize = props.getInt("taskforce.previewMap.gridSize");
 
         Node grid = mapView.draw(imageView, gridSize);

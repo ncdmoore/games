@@ -3,7 +3,7 @@ package engima.waratsea.view.preview;
 import com.google.inject.Inject;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.utility.CssResourceProvider;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.ScenarioViewModel;
 import javafx.beans.binding.Bindings;
@@ -51,7 +51,7 @@ public class ScenarioView {
     private final ScenarioViewModel scenarioViewModel;
     private final ViewProps props;
     private final CssResourceProvider cssResourceProvider;
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
 
     /**
      * Constructor called by guice.
@@ -59,18 +59,18 @@ public class ScenarioView {
      * @param scenarioViewModel The selected scenario.
      * @param props view properties.
      * @param cssResourceProvider CSS file provider.
-     * @param imageResourceProvider Image file provider.
+     * @param resourceProvider Image file provider.
      */
     @Inject
     public ScenarioView(final ScenarioViewModel scenarioViewModel,
                         final ViewProps props,
                         final CssResourceProvider cssResourceProvider,
-                        final ImageResourceProvider imageResourceProvider) {
+                        final ResourceProvider resourceProvider) {
 
         this.scenarioViewModel = scenarioViewModel;
         this.props = props;
         this.cssResourceProvider = cssResourceProvider;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
     }
 
     /**
@@ -127,14 +127,14 @@ public class ScenarioView {
 
         scenarioImage.imageProperty().bind(Bindings.createObjectBinding(() ->
                 Optional.ofNullable(scenario.getValue())
-                        .map(s -> imageResourceProvider.getImage(s.getName(), s.getImage()))
+                        .map(s -> resourceProvider.getImage(s.getName(), s.getImage()))
                         .orElse(null), scenario));
 
         axisFlag.imageProperty().bind(Bindings.createObjectBinding(() ->
-                imageResourceProvider.getImage(name.getValue(), props.getString("axis.flag.medium.image")), name));
+                resourceProvider.getImage(name.getValue(), props.getString("axis.flag.medium.image")), name));
 
         alliesFlag.imageProperty().bind(Bindings.createObjectBinding(() ->
-                imageResourceProvider.getImage(name.getValue(), props.getString("allies.flag.medium.image")), name));
+                resourceProvider.getImage(name.getValue(), props.getString("allies.flag.medium.image")), name));
 
         // Bind the view model's currently selected scenario to the selected item of the view's scenario list.
         scenarioViewModel.getScenario().bind(scenarios.getSelectionModel().selectedItemProperty());

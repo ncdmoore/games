@@ -3,7 +3,7 @@ package engima.waratsea.view.preview;
 import com.google.inject.Inject;
 import engima.waratsea.model.game.data.GameData;
 import engima.waratsea.utility.CssResourceProvider;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.SavedGameViewModel;
 import javafx.beans.binding.Bindings;
@@ -46,23 +46,23 @@ public class SavedGameView {
 
     private final ViewProps props;
     private final CssResourceProvider cssResourceProvider;
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
 
     /**
      * Constructor called by guice.
      *
      * @param props view properties.
      * @param cssResourceProvider CSS file provider.
-     * @param imageResourceProvider Image file provider.
+     * @param resourceProvider Image file provider.
      */
     @Inject
     public SavedGameView(final ViewProps props,
                          final CssResourceProvider cssResourceProvider,
-                         final ImageResourceProvider imageResourceProvider) {
+                         final ResourceProvider resourceProvider) {
 
         this.props = props;
         this.cssResourceProvider = cssResourceProvider;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
     }
     /**
      * Show the scenario selection view.
@@ -115,7 +115,7 @@ public class SavedGameView {
 
         scenarioImage.imageProperty().bind(Bindings.createObjectBinding(() ->
                 Optional.ofNullable(game.getValue())
-                        .map(g -> imageResourceProvider.getImage(g.getScenario().getName(), g.getScenario().getImage()))
+                        .map(g -> resourceProvider.getImage(g.getScenario().getName(), g.getScenario().getImage()))
                         .orElse(null), game));
 
         sideValue.textProperty().bind(viewModel.getSide());

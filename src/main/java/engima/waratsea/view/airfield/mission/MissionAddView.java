@@ -5,7 +5,7 @@ import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.target.Target;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronSummaryView;
 import engima.waratsea.view.util.ListViewPair;
@@ -35,7 +35,7 @@ import java.util.stream.Stream;
  * Represents the mission being added view.
  */
 public class MissionAddView {
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
     private final ViewProps props;
 
     @Getter private final ChoiceBox<AirMissionType> missionType = new ChoiceBox<>();
@@ -59,15 +59,15 @@ public class MissionAddView {
      *
      * @param props The view properties.
      * @param targetView The target view.
-     * @param imageResourceProvider Provides images.
+     * @param resourceProvider Provides images.
      * @param squadronSummaryView The squadron summary view.
      */
     @Inject
     public MissionAddView(final ViewProps props,
                           final TargetView targetView,
-                          final ImageResourceProvider imageResourceProvider,
+                          final ResourceProvider resourceProvider,
                           final SquadronSummaryView squadronSummaryView) {
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.props = props;
         this.targetView = targetView;
         this.squadronSummaryView = squadronSummaryView;
@@ -152,7 +152,7 @@ public class MissionAddView {
     private Image getImage(final Nation nation, final ReadOnlyObjectProperty<AirMissionType> type) {
         Image image = null;
         if (type.getValue() != null) {
-            image = imageResourceProvider.getImage(props.getString(nation.toLower()
+            image = resourceProvider.getImage(props.getString(nation.toLower()
                     + "." + type.getValue().toLower() + ".image"));
         }
 
@@ -268,7 +268,7 @@ public class MissionAddView {
      * @param role The squadrons role.
      */
     private void createSquadronList(final MissionRole role) {
-        squadrons.put(role, new ListViewPair<>("missions", props, imageResourceProvider));
+        squadrons.put(role, new ListViewPair<>("missions", props, resourceProvider));
         stackPanes.put(role, new StackPane());
 
         Label label = new Label();

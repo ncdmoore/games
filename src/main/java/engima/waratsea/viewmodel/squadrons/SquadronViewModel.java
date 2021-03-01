@@ -13,7 +13,7 @@ import engima.waratsea.model.squadron.SquadronAttack;
 import engima.waratsea.model.squadron.state.SquadronAction;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.utility.Probability;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -92,7 +92,7 @@ public class SquadronViewModel {
     private final StringProperty status = new SimpleStringProperty();
 
     @Inject
-    public SquadronViewModel(final ImageResourceProvider imageResourceProvider,
+    public SquadronViewModel(final ResourceProvider imageResourceProvider,
                              final Probability probability) {
         this.probability = probability;
 
@@ -652,7 +652,7 @@ public class SquadronViewModel {
                 .orElse(""), squadron));
     }
 
-    private void bindImages(final ImageResourceProvider imageResourceProvider) {
+    private void bindImages(final ResourceProvider imageResourceProvider) {
         aircraftImage.bind(Bindings.createObjectBinding(() -> Optional
                 .ofNullable(squadron.getValue())
                 .map(s -> imageResourceProvider.getAircraftImageView(s.getAircraft()))

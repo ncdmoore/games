@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import engima.waratsea.model.motorTorpedoBoat.MotorTorpedoBoat;
 import engima.waratsea.model.ship.Component;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
@@ -34,22 +34,22 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class MotorTorpedoBoatDetailsView {
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
     private final ViewProps props;
 
     @Getter
-    private ChoiceBox<Squadron> squadrons = new ChoiceBox<>();
+    private final ChoiceBox<Squadron> squadrons = new ChoiceBox<>();
 
     /**
      * Constructor called by guice.
      *
-     * @param imageResourceProvider Provides images.
+     * @param resourceProvider Provides images.
      * @param props View properties.
      */
     @Inject
-    public MotorTorpedoBoatDetailsView(final ImageResourceProvider imageResourceProvider,
+    public MotorTorpedoBoatDetailsView(final ResourceProvider resourceProvider,
                                        final ViewProps props) {
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.props = props;
     }
 
@@ -322,7 +322,7 @@ public class MotorTorpedoBoatDetailsView {
      * @return The submarine's image view.
      */
     private ImageView getImage(final MotorTorpedoBoat mtb) {
-        return imageResourceProvider.getShipImageView(mtb);
+        return resourceProvider.getShipImageView(mtb);
     }
 
     /**
@@ -332,6 +332,6 @@ public class MotorTorpedoBoatDetailsView {
      * @return The MTB's profile image view.
      */
     private ImageView getProfileImage(final MotorTorpedoBoat mtb) {
-        return imageResourceProvider.getShipProfileImageView(mtb);
+        return resourceProvider.getShipProfileImageView(mtb);
     }
 }

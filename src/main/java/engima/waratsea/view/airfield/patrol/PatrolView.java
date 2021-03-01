@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronSummaryView;
 import engima.waratsea.view.util.ListViewPair;
@@ -42,7 +42,7 @@ public class PatrolView {
      * @param squadronSummaryViewProvider Provides the squadron summary view.
      */
     @Inject
-    public PatrolView(final ImageResourceProvider imageResourceProvider,
+    public PatrolView(final ResourceProvider imageResourceProvider,
                       final ViewProps props,
                       final Provider<PatrolStatsView> airfieldPatrolStatsViewProvider,
                       final Provider<SquadronSummaryView> squadronSummaryViewProvider) {

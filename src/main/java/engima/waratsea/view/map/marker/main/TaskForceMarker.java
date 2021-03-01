@@ -6,7 +6,7 @@ import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.TaskForceGrid;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
@@ -79,7 +79,7 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
     public TaskForceMarker(@Assisted final TaskForceGrid taskForceGrid,
                            @Assisted final MapView mapView,
                                      final Game game,
-                                     final ImageResourceProvider imageResourceProvider,
+                                     final ResourceProvider imageResourceProvider,
                                      final ViewProps props) {
         this.game = game;
         this.taskForceGrid = taskForceGrid;

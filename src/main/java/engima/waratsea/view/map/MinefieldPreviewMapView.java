@@ -6,7 +6,7 @@ import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.presenter.dto.map.MinefieldDTO;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.marker.preview.MineMarker;
 import javafx.event.EventHandler;
@@ -34,7 +34,7 @@ import java.util.Set;
 @Slf4j
 public class MinefieldPreviewMapView {
     private final ViewProps props;
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
 
     private final GameMap gameMap;
     private final MapView mapView;
@@ -48,17 +48,17 @@ public class MinefieldPreviewMapView {
      * Constructor called by guice.
      *
      * @param props View properties.
-     * @param imageResourceProvider The image resource provider.
+     * @param resourceProvider The image resource provider.
      * @param gameMap The game map.
      * @param mapView A utility to aid in drawing the map grid.
      */
     @Inject
     public MinefieldPreviewMapView(final ViewProps props,
-                                   final ImageResourceProvider imageResourceProvider,
+                                   final ResourceProvider resourceProvider,
                                    final GameMap gameMap,
                                    final MapView mapView) {
         this.props = props;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.gameMap = gameMap;
         this.mapView = mapView;
     }
@@ -69,7 +69,7 @@ public class MinefieldPreviewMapView {
      * @return The node containing the map grid.
      */
     public Node draw() {
-        ImageView imageView = imageResourceProvider.getImageView(props.getString("preview.map.image"));
+        ImageView imageView = resourceProvider.getImageView(props.getString("preview.map.image"));
         int gridSize = props.getInt("taskforce.previewMap.gridSize");
 
         Node grid = mapView.draw(imageView, gridSize);

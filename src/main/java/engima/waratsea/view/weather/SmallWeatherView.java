@@ -2,7 +2,7 @@ package engima.waratsea.view.weather;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.weather.Weather;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -26,17 +26,17 @@ import javafx.scene.paint.Color;
 public class SmallWeatherView {
     private final BooleanProperty isAffected = new SimpleBooleanProperty(false);
 
-    private final ImageResourceProvider imageProvider;
+    private final ResourceProvider resourceProvider;
     private final ViewProps props;
     private final Weather weather;
 
     private final Label label = new Label();
 
     @Inject
-    public SmallWeatherView(final ImageResourceProvider imageProvider,
+    public SmallWeatherView(final ResourceProvider resourceProvider,
                             final ViewProps props,
                             final Weather weather) {
-        this.imageProvider = imageProvider;
+        this.resourceProvider = resourceProvider;
         this.props = props;
         this.weather = weather;
 
@@ -50,7 +50,7 @@ public class SmallWeatherView {
      * @return The node containing the weather image.
      */
     public Node build() {
-        ImageView image = imageProvider.getImageView(props.getString(weather.getCurrent().toLower() + ".small.image"));
+        ImageView image = resourceProvider.getImageView(props.getString(weather.getCurrent().toLower() + ".small.image"));
         VBox imageBox = new VBox(label, image);
 
         imageBox.setId("affected-weather-box");

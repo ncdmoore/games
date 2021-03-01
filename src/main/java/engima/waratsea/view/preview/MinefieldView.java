@@ -6,7 +6,7 @@ import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.presenter.dto.map.MinefieldDTO;
 import engima.waratsea.utility.CssResourceProvider;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.MinefieldPreviewMapView;
 import javafx.scene.Node;
@@ -35,7 +35,7 @@ public class MinefieldView {
 
     private final ViewProps props;
     private final CssResourceProvider cssResourceProvider;
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
 
     private final Game game;
 
@@ -58,19 +58,19 @@ public class MinefieldView {
      *
      * @param props The view properties.
      * @param cssResourceProvider Provides access to the css file.
-     * @param imageResourceProvider Image file provider.
+     * @param resourceProvider Image file provider.
      * @param minefieldMap The minefield map.
      * @param game The game.
      */
     @Inject
     public MinefieldView(final ViewProps props,
                          final CssResourceProvider cssResourceProvider,
-                         final ImageResourceProvider imageResourceProvider,
+                         final ResourceProvider resourceProvider,
                          final MinefieldPreviewMapView minefieldMap,
                          final Game game) {
         this.props = props;
         this.cssResourceProvider = cssResourceProvider;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
 
         this.minefieldMap = minefieldMap;
 
@@ -193,7 +193,7 @@ public class MinefieldView {
      */
     private Node buildObjectives(final Scenario scenario) {
         Label objectiveLabel = new Label("Objectives: Place available mines in each minefield zone.");
-        ImageView flag = imageResourceProvider.getImageView(props.getString(game.getHumanSide().toLower() + ".flag.medium.image"));
+        ImageView flag = resourceProvider.getImageView(props.getString(game.getHumanSide().toLower() + ".flag.medium.image"));
 
         HBox hBox = new HBox(flag, objectiveLabel);
         hBox.setId("objectives-pane");

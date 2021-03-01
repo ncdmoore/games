@@ -11,7 +11,7 @@ import engima.waratsea.model.map.BaseGrid;
 import engima.waratsea.model.map.BaseGridType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
@@ -88,7 +88,7 @@ public class BaseMarker implements Marker, AirOperationsMarker {
     public BaseMarker(@Assisted final BaseGrid baseGrid,
                       @Assisted final MapView mapView,
                       final Game game,
-                      final ImageResourceProvider imageResourceProvider,
+                      final ResourceProvider imageResourceProvider,
                       final ViewProps props) {
         this.baseGrid = baseGrid;
         this.mapView = mapView;

@@ -15,7 +15,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import lombok.Getter;
 import engima.waratsea.utility.CssResourceProvider;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 
 /**
  * This class contains the start view GUI components.
@@ -29,23 +29,23 @@ public class StartView {
     @Getter private Button optionsButton;
 
     private final ViewProps props;
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
     private final CssResourceProvider cssResourceProvider;
 
     /**
      * This is the constructor for the StartView.
      *
      * @param props the view properties.
-     * @param imageResourceProvider Utility that provides resource images.
+     * @param resourceProvider Utility that provides resource images.
      * @param cssResourceProvider Utility that provides CSS files.
      */
     @Inject
     public StartView(final ViewProps props,
-                     final ImageResourceProvider imageResourceProvider,
+                     final ResourceProvider resourceProvider,
                      final CssResourceProvider cssResourceProvider) {
 
         this.props = props;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.cssResourceProvider = cssResourceProvider;
     }
 
@@ -57,8 +57,8 @@ public class StartView {
     public void show(final Stage stage) {
         int paneWidth = props.getInt("start.image.width");
 
-        ImageView alliesFlag = imageResourceProvider.getImageView(props.getString("allies.flag.large.image"));
-        ImageView axisFlag = imageResourceProvider.getImageView(props.getString("axis.flag.large.image"));
+        ImageView alliesFlag = resourceProvider.getImageView(props.getString("allies.flag.large.image"));
+        ImageView axisFlag = resourceProvider.getImageView(props.getString("axis.flag.large.image"));
 
         HBox hBox = new HBox(alliesFlag, axisFlag);
         hBox.setId("flags");
@@ -72,7 +72,7 @@ public class StartView {
 
         Node buttons = buildButtons();
 
-        ImageView backGroundImageView = imageResourceProvider.getImageView(props.getString("start.image"));
+        ImageView backGroundImageView = resourceProvider.getImageView(props.getString("start.image"));
 
         StackPane mainPane = new StackPane(backGroundImageView, buttons);
         mainPane.setId("main-pane");

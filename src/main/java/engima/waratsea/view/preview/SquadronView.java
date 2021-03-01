@@ -14,7 +14,7 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.squadron.Deployment;
 import engima.waratsea.utility.CssResourceProvider;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.PreviewMapView;
 import engima.waratsea.viewmodel.DeploymentViewModel;
@@ -63,7 +63,7 @@ public class SquadronView {
 
     private final ViewProps props;
     private final CssResourceProvider cssResourceProvider;
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
 
     @Getter private TabPane nationsTabPane;
     @Getter private final Map<Nation, ChoiceBox<Region>> regions = new HashMap<>();
@@ -106,7 +106,7 @@ public class SquadronView {
      *
      * @param props view properties.
      * @param cssResourceProvider CSS file provider.
-     * @param imageResourceProvider Image file provider.
+     * @param resourceProvider Image file provider.
      * @param mapProvider Provides the maps.
      * @param game The game.
      * @param gameMap The game map.
@@ -114,19 +114,19 @@ public class SquadronView {
     @Inject
     public SquadronView(final ViewProps props,
                         final CssResourceProvider cssResourceProvider,
-                        final ImageResourceProvider imageResourceProvider,
+                        final ResourceProvider resourceProvider,
                         final Game game,
                         final GameMap gameMap,
                         final Provider<PreviewMapView> mapProvider) {
 
         this.props = props;
         this.cssResourceProvider = cssResourceProvider;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.game = game;
         this.gameMap = gameMap;
 
-        Image redX = imageResourceProvider.getImage(props.getString("redX.image"));
-        Image greenCheck = imageResourceProvider.getImage(props.getString("greenCheck.image"));
+        Image redX = resourceProvider.getImage(props.getString("redX.image"));
+        Image greenCheck = resourceProvider.getImage(props.getString("greenCheck.image"));
 
         imageMap = Map.of(true, greenCheck, false, redX);
 
@@ -395,7 +395,7 @@ public class SquadronView {
                 .stream()
                 .map(nation -> nation.toString() + ".flag.image")
                 .map(props::getString)
-                .map(imageResourceProvider::getImageView)
+                .map(resourceProvider::getImageView)
                 .collect(Collectors.toList());
 
         HBox hBox = new HBox();
@@ -474,7 +474,7 @@ public class SquadronView {
 
         tab.setContent(hBox);
 
-        ImageView roundel = imageResourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
+        ImageView roundel = resourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
 
         tab.setGraphic(roundel);
         return tab;
@@ -690,8 +690,8 @@ public class SquadronView {
         available.setMinWidth(props.getInt("squadron.tabPane.width"));
         available.setMaxWidth(props.getInt("squadron.tabPane.width"));
 
-        deployButton.setGraphic(imageResourceProvider.getImageView(props.getString("right.arrow.image")));
-        removeButton.setGraphic(imageResourceProvider.getImageView(props.getString("left.arrow.image")));
+        deployButton.setGraphic(resourceProvider.getImageView(props.getString("right.arrow.image")));
+        removeButton.setGraphic(resourceProvider.getImageView(props.getString("left.arrow.image")));
 
         deployButton.setMinWidth(props.getInt("squadron.button.width"));
         deployButton.setMaxWidth(props.getInt("squadron.button.width"));

@@ -14,7 +14,7 @@ import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.TaskForceGrid;
 import engima.waratsea.model.map.region.RegionGrid;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.MainMenu;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.marker.main.AirOperationsMarker;
@@ -43,7 +43,7 @@ import java.util.Map;
 @Slf4j
 @Singleton
 public class MainMapView {
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
     private final Game game;
     private final GameMap gameMap;
     private final ViewProps props;
@@ -68,7 +68,7 @@ public class MainMapView {
      * @param game The game.
      * @param gameMap The game map.
      * @param props The view properties.
-     * @param imageResourceProvider provides images.
+     * @param resourceProvider provides images.
      * @param menuProvider The main menu provider.
      * @param markerFactory The base marker provider.
      * @param mapView A utility to draw the map's grid.
@@ -77,14 +77,14 @@ public class MainMapView {
     public MainMapView(final Game game,
                        final GameMap gameMap,
                        final ViewProps props,
-                       final ImageResourceProvider imageResourceProvider,
+                       final ResourceProvider resourceProvider,
                        final Provider<MainMenu> menuProvider,
                        final BaseMarkerFactory markerFactory,
                        final MapView mapView) {
         this.game = game;
         this.gameMap = gameMap;
         this.props = props;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.menuProvider = menuProvider;
         this.markerFactory = markerFactory;
         this.mapView = mapView;
@@ -108,7 +108,7 @@ public class MainMapView {
         taskForceMarkers.put(Side.ALLIES, new ArrayList<>());
         taskForceMarkers.put(Side.AXIS, new ArrayList<>());
 
-        mapImageView = imageResourceProvider.getImageView(props.getString("main.map.image"));
+        mapImageView = resourceProvider.getImageView(props.getString("main.map.image"));
         int gridSize = props.getInt("taskforce.mainMap.gridSize");
 
         Node mapGrid = mapView.draw(mapImageView, gridSize);

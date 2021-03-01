@@ -3,7 +3,7 @@ package engima.waratsea.view.squadron;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.squadrons.SideSquadronsViewModel;
 import javafx.scene.Node;
@@ -25,7 +25,7 @@ public class SquadronsView {
     @Getter private final Map<Nation, SquadronsNationView> nationView = new HashMap<>();
 
     private final Provider<SquadronsNationView> squadronsNationViewProvider;
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
     private final ViewProps props;
 
     private SideSquadronsViewModel viewModel;
@@ -34,15 +34,15 @@ public class SquadronsView {
      * Constructor called by guice.
      *
      * @param squadronsNationViewProvider The nation's squadron view.
-     * @param imageResourceProvider Provides images.
+     * @param resourceProvider Provides images.
      * @param props The view properties.
      */
     @Inject
     public SquadronsView(final Provider<SquadronsNationView> squadronsNationViewProvider,
-                         final ImageResourceProvider imageResourceProvider,
+                         final ResourceProvider resourceProvider,
                          final ViewProps props) {
         this.squadronsNationViewProvider = squadronsNationViewProvider;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.props = props;
     }
 
@@ -92,7 +92,7 @@ public class SquadronsView {
         SquadronsNationView nationSquadronsView = squadronsNationViewProvider.get();
         nationView.put(nation, nationSquadronsView);
         Node content = nationSquadronsView.buildAndBind(viewModel.getNationViewModel(nation));
-        ImageView roundel = imageResourceProvider.getImageView(props.getString(nation + ROUNDEL));
+        ImageView roundel = resourceProvider.getImageView(props.getString(nation + ROUNDEL));
 
         tab.setGraphic(roundel);
         tab.setContent(content);

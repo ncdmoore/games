@@ -9,7 +9,7 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.PreviewMapView;
 import engima.waratsea.view.map.marker.preview.TargetMarker;
@@ -57,7 +57,7 @@ public class TaskForceView {
 
     private final ViewProps props;
     private final CssResourceProvider cssResourceProvider;
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
 
     @Getter private final ChoiceBox<TaskForce> taskForces = new ChoiceBox<>();
     @Getter private final Button continueButton = new Button("Continue");
@@ -92,7 +92,7 @@ public class TaskForceView {
      * @param props view properties.
      * @param infoProvider Provides info panes.
      * @param cssResourceProvider CSS file provider.
-     * @param imageResourceProvider Image file provider.
+     * @param resourceProvider Image file provider.
      * @param game The game.
      * @param taskForceMap The task force preview map.
      */
@@ -100,13 +100,13 @@ public class TaskForceView {
     public TaskForceView(final ViewProps props,
                          final Provider<TaskForceInfo> infoProvider,
                          final CssResourceProvider cssResourceProvider,
-                         final ImageResourceProvider imageResourceProvider,
+                         final ResourceProvider resourceProvider,
                          final Game game,
                          final PreviewMapView taskForceMap) {
 
         this.props = props;
         this.cssResourceProvider = cssResourceProvider;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.game = game;
         this.taskForceMap = taskForceMap;
         this.shipSummary = infoProvider.get();
@@ -193,7 +193,7 @@ public class TaskForceView {
     private Node buildObjectives(final Scenario scenario) {
         Label objectiveLabel = new Label("Objectives:");
         Label objectiveValue = new Label(scenario.getObjectives());
-        ImageView flag = imageResourceProvider.getImageView(props.getString(game.getHumanSide().toLower() + ".flag.medium.image"));
+        ImageView flag = resourceProvider.getImageView(props.getString(game.getHumanSide().toLower() + ".flag.medium.image"));
 
         HBox hBox = new HBox(flag, objectiveLabel, objectiveValue);
         hBox.setId("objective-pane");

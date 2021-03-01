@@ -5,7 +5,7 @@ import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import javafx.beans.binding.Bindings;
@@ -58,7 +58,7 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
      * @param airbaseGroupViewModel The airbase view models in this task force. Aircraft carriers, etc...
      */
     @Inject
-    public TaskForceAirViewModel(final ImageResourceProvider imageResourceProvider,
+    public TaskForceAirViewModel(final ResourceProvider imageResourceProvider,
                                  final ViewProps props,
                                  final AirbaseGroupViewModel airbaseGroupViewModel) {
         this.airbaseGroupViewModel = airbaseGroupViewModel;
@@ -148,7 +148,7 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
      * @param imageResourceProvider Provides images.
      * @param props View properties.
      */
-    private void bindImages(final ImageResourceProvider imageResourceProvider, final ViewProps props) {
+    private void bindImages(final ResourceProvider imageResourceProvider, final ViewProps props) {
         image.bind(Bindings.createObjectBinding(() -> Optional
                 .ofNullable(taskForce.getValue())
                 .map(t -> imageResourceProvider.getImage(getImageName(t, props)))

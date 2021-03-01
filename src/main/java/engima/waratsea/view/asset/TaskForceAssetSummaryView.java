@@ -3,9 +3,10 @@ package engima.waratsea.view.asset;
 import com.google.inject.Inject;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.taskForce.TaskForce;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.taskforce.info.TaskForceInfo;
+import engima.waratsea.view.util.BoundTitledGridPane;
 import engima.waratsea.view.util.GridPaneMap;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.scene.Node;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 
 public class TaskForceAssetSummaryView implements AssetView {
     private final ViewProps props;
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
 
     private final TitledPane summaryPane = new TitledPane();
     private final GridPaneMap summaryGrid = new GridPaneMap();
@@ -40,10 +41,10 @@ public class TaskForceAssetSummaryView implements AssetView {
 
     @Inject
     public TaskForceAssetSummaryView(final ViewProps props,
-                                     final ImageResourceProvider imageResourceProvider,
+                                     final ResourceProvider resourceProvider,
                                      final TaskForceInfo taskForceInfo) {
         this.props = props;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
 
         this.shipSummary = taskForceInfo;
     }
@@ -59,7 +60,8 @@ public class TaskForceAssetSummaryView implements AssetView {
 
         buildSummary();
 
-        Node shipSummaryNode = shipSummary.build("Ship Summary");
+        BoundTitledGridPane shipSummaryNode = shipSummary.build("Ship Summary");
+        shipSummaryNode.setMinHeight(props.getInt("asset.pane.component.height"));
 
         node = new HBox(summaryPane, shipSummaryNode);
         node.setId("asset-hbox");
@@ -134,7 +136,7 @@ public class TaskForceAssetSummaryView implements AssetView {
      * Show the summary for the selected airfield.
      */
     private void bindSummary() {
-        Image image = imageResourceProvider.getImage(props.getString("anchor.medium.icon"));
+        Image image = resourceProvider.getImage(props.getString("anchor.medium.icon"));
         assetImage.setImage(image);
 
         viewModel
@@ -143,7 +145,7 @@ public class TaskForceAssetSummaryView implements AssetView {
                 .getValue()
                 .getNations()
                 .forEach(nation -> {
-                    Image flag = imageResourceProvider.getImage(props.getString(nation.toString() + ".naval.flag.small.image"));
+                    Image flag = resourceProvider.getImage(props.getString(nation.toString() + ".naval.flag.small.image"));
                     flagImageViews.get(nation).setImage(flag);
                 });
 

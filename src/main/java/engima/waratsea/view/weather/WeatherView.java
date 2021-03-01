@@ -3,7 +3,7 @@ package engima.waratsea.view.weather;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.weather.Weather;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
 @Singleton
 public class WeatherView {
 
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
     private final ViewProps props;
 
     private final Weather weather;
@@ -25,15 +25,15 @@ public class WeatherView {
     /**
      * THe constructor called by guice.
      *
-     * @param imageResourceProvider The image resource provider.
+     * @param resourceProvider The image resource provider.
      * @param props The view properties.
      * @param weather The game's weather.
      */
     @Inject
-    public WeatherView(final ImageResourceProvider imageResourceProvider,
+    public WeatherView(final ResourceProvider resourceProvider,
                        final ViewProps props,
                        final Weather weather) {
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.props = props;
         this.weather = weather;
     }
@@ -49,7 +49,7 @@ public class WeatherView {
 
         Label label = new Label(weather.getCurrent().toString());
 
-        ImageView icon = imageResourceProvider.getImageView(props.getString(weather.getCurrent().toLower() + ".image"));
+        ImageView icon = resourceProvider.getImageView(props.getString(weather.getCurrent().toLower() + ".image"));
 
         VBox vBox = new VBox(label, icon);
 

@@ -1,6 +1,6 @@
 package engima.waratsea.view.util;
 
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -28,18 +28,18 @@ public class ListViewPair<T> {
     private final Label assignedLabel = new Label();
 
     private final ViewProps props;
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
 
     /**
      * Constructor called by guice.
      *  @param name The name used in CSS.
      * @param props The view properties.
-     * @param imageResourceProvider Provides images.
+     * @param resourceProvider Provides images.
      */
-    public ListViewPair(final String name, final ViewProps props, final ImageResourceProvider imageResourceProvider) {
+    public ListViewPair(final String name, final ViewProps props, final ResourceProvider resourceProvider) {
         this.name = name;
         this.props = props;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
     }
 
     /**
@@ -66,8 +66,8 @@ public class ListViewPair<T> {
      * @return A node that contains the listView pair.
      */
     public Node build() {
-        add.setGraphic(imageResourceProvider.getImageView(props.getString("right.arrow.image")));
-        remove.setGraphic(imageResourceProvider.getImageView(props.getString("left.arrow.image")));
+        add.setGraphic(resourceProvider.getImageView(props.getString("right.arrow.image")));
+        remove.setGraphic(resourceProvider.getImageView(props.getString("left.arrow.image")));
 
         available.setMinWidth(width);
         available.setMaxWidth(width);

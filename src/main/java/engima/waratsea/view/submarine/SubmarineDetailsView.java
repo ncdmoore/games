@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import engima.waratsea.model.ship.Component;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.submarine.Submarine;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
@@ -34,22 +34,22 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class SubmarineDetailsView {
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
     private final ViewProps props;
 
     @Getter
-    private ChoiceBox<Squadron> squadrons = new ChoiceBox<>();
+    private final ChoiceBox<Squadron> squadrons = new ChoiceBox<>();
 
     /**
      * Constructor called by guice.
      *
-     * @param imageResourceProvider Provides images.
+     * @param resourceProvider Provides images.
      * @param props View properties.
      */
     @Inject
-    public SubmarineDetailsView(final ImageResourceProvider imageResourceProvider,
+    public SubmarineDetailsView(final ResourceProvider resourceProvider,
                                 final ViewProps props) {
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.props = props;
     }
 
@@ -322,7 +322,7 @@ public class SubmarineDetailsView {
      * @return The submarine's image view.
      */
     private ImageView getImage(final Submarine submarine) {
-        return imageResourceProvider.getShipImageView(submarine);
+        return resourceProvider.getShipImageView(submarine);
     }
 
     /**
@@ -332,6 +332,6 @@ public class SubmarineDetailsView {
      * @return The submarine's profile image view.
      */
     private ImageView getProfileImage(final Submarine submarine) {
-        return imageResourceProvider.getShipProfileImageView(submarine);
+        return resourceProvider.getShipProfileImageView(submarine);
     }
 }

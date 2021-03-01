@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.marker.preview.TaskForceMarker;
 import javafx.geometry.Pos;
@@ -27,7 +27,7 @@ import java.util.Map;
 @Slf4j
 public class FlotillaPreviewMapView {
     private final ViewProps props;
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
     private final Provider<TaskForceMarker> taskForceMarkerProvider;
 
     private final GameMap gameMap;
@@ -39,19 +39,19 @@ public class FlotillaPreviewMapView {
      * Constructor called by guice.
      *
      * @param props View properties.
-     * @param imageResourceProvider The image resource provider.
+     * @param resourceProvider The image resource provider.
      * @param taskForceMarkerProvider Provides task force markers.
      * @param gameMap The game map.
      * @param mapView A utility to aid in drawing the map grid.
      */
     @Inject
     public FlotillaPreviewMapView(final ViewProps props,
-                                  final ImageResourceProvider imageResourceProvider,
+                                  final ResourceProvider resourceProvider,
                                   final Provider<TaskForceMarker> taskForceMarkerProvider,
                                   final GameMap gameMap,
                                   final MapView mapView) {
         this.props = props;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.taskForceMarkerProvider = taskForceMarkerProvider;
         this.gameMap = gameMap;
         this.mapView = mapView;
@@ -63,7 +63,7 @@ public class FlotillaPreviewMapView {
      * @return The node containing the map grid.
      */
     public Node draw() {
-        ImageView imageView = imageResourceProvider.getImageView(props.getString("preview.map.image"));
+        ImageView imageView = resourceProvider.getImageView(props.getString("preview.map.image"));
         int gridSize = props.getInt("taskforce.previewMap.gridSize");
 
         Node grid = mapView.draw(imageView, gridSize);

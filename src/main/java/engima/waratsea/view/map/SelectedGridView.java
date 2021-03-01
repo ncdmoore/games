@@ -3,7 +3,7 @@ package engima.waratsea.view.map;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.presenter.map.SelectedMapGrid;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
@@ -31,7 +31,7 @@ public class SelectedGridView {
     @Inject
     public SelectedGridView(final SelectedMapGrid selectedMapGrid,
                             final ViewProps props,
-                            final ImageResourceProvider imageResourceProvider) {
+                            final ResourceProvider imageResourceProvider) {
         this.selectedMapGrid = selectedMapGrid;
 
         airfieldImage = imageResourceProvider.getImageView(props.getString("airfield.tiny.image"));

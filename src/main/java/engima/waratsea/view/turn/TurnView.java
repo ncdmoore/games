@@ -2,7 +2,7 @@ package engima.waratsea.view.turn;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.game.Turn;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 
 public class TurnView {
 
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
     private final ViewProps props;
 
     private final Turn turn;
@@ -24,15 +24,15 @@ public class TurnView {
     /**
      * THe constructor called by guice.
      *
-     * @param imageResourceProvider The image resource provider.
+     * @param resourceProvider The image resource provider.
      * @param props The view properties.
      * @param turn The game's weather.
      */
     @Inject
-    public TurnView(final ImageResourceProvider imageResourceProvider,
+    public TurnView(final ResourceProvider resourceProvider,
                     final ViewProps props,
                     final Turn turn) {
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.props = props;
         this.turn = turn;
     }
@@ -46,7 +46,7 @@ public class TurnView {
         TitledPane titledPane = new TitledPane();
         titledPane.setText("Turn");
 
-        ImageView imageView = imageResourceProvider.getImageView(props.getString(turn.getType().toLower() + ".image"));
+        ImageView imageView = resourceProvider.getImageView(props.getString(turn.getType().toLower() + ".image"));
 
         HBox hBox = new HBox(imageView);
         hBox.setId("turn-image-pane");

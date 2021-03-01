@@ -12,7 +12,7 @@ import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronState;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.squadron.SquadronViewType;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
@@ -88,7 +88,7 @@ public class NationAirbaseViewModel {
      * @param rangeViewModel The range view model for this nation.
      **/
     @Inject
-    public NationAirbaseViewModel(final ImageResourceProvider imageResourceProvider,
+    public NationAirbaseViewModel(final ResourceProvider imageResourceProvider,
                                   final ViewProps props,
                                   final Provider<SquadronStateViewModel> provider,
                                   final RangeViewModel rangeViewModel) {
@@ -499,7 +499,7 @@ public class NationAirbaseViewModel {
         regionCounts.put("Current (Steps):", regionCurrent);
     }
 
-    private void bindImages(final ImageResourceProvider imageResourceProvider, final ViewProps props) {
+    private void bindImages(final ResourceProvider imageResourceProvider, final ViewProps props) {
         image.bind(Bindings.createObjectBinding(() -> Optional
                 .ofNullable(airbase.getValue())
                 .map(a -> imageResourceProvider.getImage(getImageName(a, props)))

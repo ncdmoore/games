@@ -5,7 +5,7 @@ import com.google.inject.Provider;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.info.AirfieldInfo;
 import engima.waratsea.view.airfield.info.AirfieldRangeInfo;
@@ -38,7 +38,7 @@ public class AirfieldAssetSummaryView implements AssetView {
     private static final String ROUNDEL = ".roundel.image";
 
     private final ViewProps props;
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
 
     private final TitledPane summaryPane = new TitledPane();
     private final GridPaneMap summaryGrid = new GridPaneMap();
@@ -74,19 +74,19 @@ public class AirfieldAssetSummaryView implements AssetView {
      * Constructor called by guice.
      *
      * @param props The view properties.
-     * @param imageResourceProvider Provides images.
+     * @param resourceProvider Provides images.
      * @param airfieldRangeInfoProvider Provides airfield range information.
      * @param infoProvider Provides airfield mission information.
      */
     //CHECKSTYLE:OFF
     @Inject
     public AirfieldAssetSummaryView(final ViewProps props,
-                                    final ImageResourceProvider imageResourceProvider,
+                                    final ResourceProvider resourceProvider,
                                     final Provider<AirfieldRangeInfo> airfieldRangeInfoProvider,
                                     final Provider<AirfieldInfo> infoProvider) {
         //CHECKSTYLE:ON
         this.props = props;
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.airfieldRangeInfoProvider = airfieldRangeInfoProvider;
         this.infoProvider = infoProvider;
     }
@@ -271,11 +271,11 @@ public class AirfieldAssetSummaryView implements AssetView {
      * Show the summary for the selected airfield.
      */
     private void bindSummary() {
-        Image image = imageResourceProvider.getImage(props.getString(airbase.getSide().toLower() + ".airfield.medium.icon"));
+        Image image = resourceProvider.getImage(props.getString(airbase.getSide().toLower() + ".airfield.medium.icon"));
         assetImage.setImage(image);
 
         airbase.getNations().forEach(nation -> {
-            Image flag = imageResourceProvider.getImage(props.getString(nation.toString() + ".flag.small.image"));
+            Image flag = resourceProvider.getImage(props.getString(nation.toString() + ".flag.small.image"));
             flagImageViews.get(nation).setImage(flag);
         });
 
@@ -347,7 +347,7 @@ public class AirfieldAssetSummaryView implements AssetView {
         Tab tab = new Tab();
         tab.setText(nation.toString());
         tab.setUserData(nation);
-        ImageView roundel = imageResourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
+        ImageView roundel = resourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
 
         tab.setGraphic(roundel);
 

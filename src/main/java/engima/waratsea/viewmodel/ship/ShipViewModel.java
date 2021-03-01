@@ -6,7 +6,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.ship.Component;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
@@ -73,7 +73,7 @@ public class ShipViewModel {
     @Getter private final ListProperty<ComponentViewModel> components = new SimpleListProperty<>(FXCollections.emptyObservableList());
 
     @Inject
-    public ShipViewModel(final ImageResourceProvider imageResourceProvider) {
+    public ShipViewModel(final ResourceProvider imageResourceProvider) {
         bindDetails();
         bindSurface();
         bindAntiAir();
@@ -412,7 +412,7 @@ public class ShipViewModel {
     }
 
 
-    private void bindImages(final ImageResourceProvider imageResourceProvider) {
+    private void bindImages(final ResourceProvider imageResourceProvider) {
         shipImage.bind(Bindings.createObjectBinding(() -> Optional
                 .ofNullable(ship.getValue())
                 .map(imageResourceProvider::getShipImage)

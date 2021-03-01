@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.state.SquadronState;
-import engima.waratsea.utility.ImageResourceProvider;
+import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.mission.MissionView;
 import engima.waratsea.view.airfield.patrol.PatrolView;
@@ -30,7 +30,7 @@ import java.util.Map;
 public class AirfieldView {
     private static final String ROUNDEL = ".roundel.image";
 
-    private final ImageResourceProvider imageResourceProvider;
+    private final ResourceProvider resourceProvider;
     private final Provider<AirfieldSummaryView> airfieldSummaryViewProvider;
     private final Provider<MissionView> airfieldMissionViewProvider;
     private final Provider<PatrolView> airfieldPatrolViewProvider;
@@ -55,7 +55,7 @@ public class AirfieldView {
     /**
      * Constructor called by guice.
      *
-     * @param imageResourceProvider Provides images.
+     * @param resourceProvider Provides images.
      * @param airfieldSummaryViewProvider Provides the airfield summary views.
      * @param airfieldMissionViewProvider Provides the airfield mission views.
      * @param airfieldPatrolViewProvider  Provides the airfield patrol views.
@@ -64,14 +64,14 @@ public class AirfieldView {
      * @param props The view properties.
      */
     @Inject
-    public AirfieldView(final ImageResourceProvider imageResourceProvider,
+    public AirfieldView(final ResourceProvider resourceProvider,
                         final Provider<AirfieldSummaryView> airfieldSummaryViewProvider,
                         final Provider<MissionView> airfieldMissionViewProvider,
                         final Provider<PatrolView> airfieldPatrolViewProvider,
                         final Provider<SquadronStateView> squadronStateViewProvider,
                         final Provider<AirOperationsView> airOperationsViewProvider,
                         final ViewProps props) {
-        this.imageResourceProvider = imageResourceProvider;
+        this.resourceProvider = resourceProvider;
         this.airfieldSummaryViewProvider = airfieldSummaryViewProvider;
         this.airfieldMissionViewProvider = airfieldMissionViewProvider;
         this.airfieldPatrolViewProvider = airfieldPatrolViewProvider;
@@ -246,6 +246,6 @@ public class AirfieldView {
      * @return The nation's roundel image view.
      */
     private ImageView getRoundel(final Nation nation) {
-        return imageResourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
+        return resourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
     }
 }
