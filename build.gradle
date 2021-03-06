@@ -6,7 +6,7 @@ plugins {
     
 javafx {
     version = "12.0.1"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.media']
 }
 
 group 'enigma'
@@ -39,7 +39,7 @@ sourceSets {
     main {
         resources {
             srcDirs = ["src/main/resources"]
-            includes = ["**/*.fxml", "**/*.css", "**/*.json", "**/*.xml", "**/*.png", "**/*.properties"]
+            includes = ["**/*.fxml", "**/*.css", "**/*.json", "**/*.xml", "**/*.png", "**/*.mp3", "**/*.properties"]
         }
     }
 }
