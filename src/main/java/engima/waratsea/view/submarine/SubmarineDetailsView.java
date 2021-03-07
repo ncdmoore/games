@@ -71,7 +71,7 @@ public class SubmarineDetailsView {
         tabPane.getTabs().add(buildStatusTab(submarine));
 
         VBox mainPane = new VBox(titlePane, tabPane);
-        mainPane.setId("main-pane");
+        mainPane.setId("sub-main-pane");
 
         return mainPane;
     }
@@ -85,27 +85,27 @@ public class SubmarineDetailsView {
      */
     private Tab buildSubTab(final Submarine submarine) {
         VBox shipVBox = new VBox(getImage(submarine));
-        shipVBox.setId("ship-image");
+        shipVBox.getStyleClass().add("ship-image");
 
         VBox detailsVBox = new VBox(shipVBox);
-        detailsVBox.setId("details-pane");
+        detailsVBox.getStyleClass().add("spacing-5");
 
         VBox weaponComponentsVBox = buildWeapons(submarine);
-        weaponComponentsVBox.setId("components-pane");
+        weaponComponentsVBox.getStyleClass().add("components-pane");
 
         HBox leftHBox = new HBox(detailsVBox, weaponComponentsVBox);
-        leftHBox.setId("left-hbox");
+        leftHBox.getStyleClass().add("spacing-5");
 
         Node profileBox = buildProfile(submarine);
 
         VBox leftVBox = new VBox(leftHBox, profileBox);
-        leftVBox.setId("left-vbox");
+        leftVBox.getStyleClass().add("spacing-5");
 
         Node performanceComponetsVBox = buildPerformance(submarine);
-        performanceComponetsVBox.setId("components-pane");
+        performanceComponetsVBox.getStyleClass().add("components-pane");
 
         HBox hBox = new HBox(leftVBox, performanceComponetsVBox);
-        hBox.setId("main-hbox");
+        hBox.setId("sub-main-hbox");
 
         Tab shipTab = new Tab("Specifications");
         shipTab.setClosable(false);
@@ -123,7 +123,7 @@ public class SubmarineDetailsView {
     private Tab buildStatusTab(final Submarine submarine) {
 
         GridPane gridPane = new GridPane();
-        gridPane.setId("status-grid");
+        gridPane.setId("sub-status-grid");
 
         List<List<Node>> progressBars = submarine
                 .getComponents()
@@ -142,7 +142,7 @@ public class SubmarineDetailsView {
         titledPane.setContent(gridPane);
         titledPane.setExpanded(true);
         titledPane.setCollapsible(false);
-        titledPane.setId("status-pane");
+        titledPane.setId("sub-status-pane");
 
         Tab statusTab = new Tab("Status");
         statusTab.setClosable(false);
@@ -272,7 +272,7 @@ public class SubmarineDetailsView {
      */
     private Map<String, String> getTorpedoData(final Submarine submarine) {
         Map<String, String> weapons = new LinkedHashMap<>();
-        weapons.put("Torpeodo:", submarine.getTorpedo().getHealth() + "");
+        weapons.put("Torpedo:", submarine.getTorpedo().getHealth() + "");
         return weapons;
     }
 
@@ -299,9 +299,9 @@ public class SubmarineDetailsView {
      * @return The submarine's fuel data.
      */
     private Map<String, String> getFuelData(final Submarine submarine) {
-        Map<String, String> fueldata = new LinkedHashMap<>();
-        fueldata.put("Remaing Fuel:", submarine.getFuel().getLevel() + "");
-        return fueldata;
+        Map<String, String> fuelData = new LinkedHashMap<>();
+        fuelData.put("Remaining Fuel:", submarine.getFuel().getLevel() + "");
+        return fuelData;
     }
 
 

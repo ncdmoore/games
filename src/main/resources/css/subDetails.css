@@ -10,8 +10,30 @@
     -fx-background: -fx-var-background-color;
 }
 
+////////////////////////////////////////////////////////////////////
+// Common styles
+////////////////////////////////////////////////////////////////////
+.bold-label {
+    -fx-font: bold 9pt "Lucida Grande";
+    -fx-font-weight: bold;
+}
+.component-grid {
+    -fx-background-color: whitesmoke;
+    -fx-hgap: 10;
+}
+
 .components-pane {
     -fx-spacing: 6;
+}
+
+.detail-pane {
+    -fx-hgap: 15;
+    -fx-vgap: 5;
+    -fx-background-color: lightblue
+}
+
+.detail-pane .label {
+ //   -fx-background-color: lightblue;
 }
 
 .green-bar {
@@ -23,15 +45,18 @@
     -fx-alignment: center;
 }
 
-.spacing-5 {
-    -fx-spacing: 5;
-}
-
 .ship-image {
     -fx-border-color: black;
     -fx-border-width: 1px;
 }
 
+.spacing-5 {
+    -fx-spacing: 5;
+}
+
+////////////////////////////////////////////////////////////////////
+// Specific styles
+////////////////////////////////////////////////////////////////////
 #title-pane-axis {
     -fx-border-width: 1px;
     -fx-border-color: black;
@@ -56,47 +81,15 @@
     -fx-spacing: 5;
 }
 
-
-
-
-
-#ship-details-grid {
-    -fx-hgap: 10;
-}
-
-.component-grid {
-    -fx-background-color: whitesmoke;
-    -fx-hgap: 10;
-}
-
-.bold-label {
-    -fx-font: bold 9pt "Lucida Grande";
-    -fx-font-weight: bold;
-}
-
-.detail-pane {
-    -fx-hgap: 15;
-    -fx-vgap: 5;
-    -fx-background-color: lightblue
-}
-
-.detail-pane .label {
- //   -fx-background-color: lightblue;
-
-}
-
-#status-pane {
+#sub-status-pane {
     -fx-padding: /* top */ 15 /* right */ 15 /* bottom */ 0 /* left */ 15;
-
 }
 
-#status-grid {
+#sub-status-grid {
     -fx-background-color: whitesmoke;
     -fx-hgap: 15;
     -fx-vgap: 20;
 }
-
-
 
 #controls-pane {
     -fx-padding: /* top */ 15 /* right */ 0 /* bottom */ 15 /* left */ 0;
