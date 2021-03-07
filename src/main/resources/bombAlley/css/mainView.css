@@ -4,28 +4,53 @@
 ////////////////////////////////////////////////////////////////////
 * {
     -fx-var-background-color: rgb(224, 228, 203);
+    -fx-var-component-background-color: white;
 }
 
+////////////////////////////////////////////////////////////////////
+// Common styles
+////////////////////////////////////////////////////////////////////
 .root {
     -fx-background: -fx-var-background-color;
-}
-
-.map-ref-text {
-    -fx-font: normal 5pt "Lucida Grande";
-    -fx-fill: grey;
 }
 
 .asset-component-pane {
     -fx-collapsible: false;
 }
 
+.component-background {
+    -fx-background-color: -fx-var-component-background-color;
+}
+
 .component-grid {
-    -fx-background-color: white;
+    -fx-background-color: -fx-var-component-background-color;
     -fx-hgap: 10;
 }
 
-#asset-hbox {
-    -fx-padding: /* top */ 10 /* right */ 10 /* bottom */ 5 /* left */ 10;
+.spacing-5 {
+    -fx-spacing: 5;
+}
+
+.spacing-10 {
+    -fx-spacing: 10;
+}
+
+.spacing-20 {
+    -fx-spacing: 20;
+}
+
+////////////////////////////////////////////////////////////////////
+// Specific styles
+////////////////////////////////////////////////////////////////////
+.map-ref-text {
+    -fx-font: normal 5pt "Lucida Grande";
+    -fx-fill: grey;
+}
+
+.mission-arrow {
+    -fx-fill: red;
+    -fx-stroke: red;
+    -fx-stroke-width: 2;
 }
 
 .region-name-vbox {
@@ -42,17 +67,18 @@
     -fx-font: normal 8pt "Lucida Grande";
 }
 
+.task-force-summary-flag {
+    -fx-border-width: 1px;
+    -fx-border-color: lightslategray;
+}
+
+#asset-hbox {
+    -fx-padding: /* top */ 10 /* right */ 10 /* bottom */ 5 /* left */ 10;
+}
+
 #airfield-summary-hbox {
     -fx-background-color: white;
     -fx-spacing: 10;
-}
-
-#airfield-summary-image-vbox {
-    -fx-spacing: 20;
-}
-
-#airfield-summary-flag-vbox {
-    -fx-spacing: 5;
 }
 
 #airfield-management-vbox {
@@ -70,20 +96,6 @@
     -fx-opacity: 1.0;
 }
 
-#airfield-range-choices-vbox {
-    -fx-background-color: white;
-    -fx-spacing: 10;
-}
-
-#airfield-range-checks-vbox {
-    -fx-background-color: white;
-}
-
-#airfield-range-hbox {
-    -fx-background-color: white;
-    -fx-spacing: 20;
-}
-
 #airfield-nations-tab-pane {
     -fx-padding: /* top */ 10 /* right */ 5 /* bottom */ 5 /* left */ 10;
 }
@@ -91,24 +103,6 @@
 #airfield-nation-tab-hbox {
     -fx-padding: /* top */ 10 /* right */ 0 /* bottom */ 0 /* left */ 10;
     -fx-spacing: 5;
-}
-
-#task-force-summary-hbox {
-    -fx-background-color: white;
-    -fx-spacing: 10;
-}
-
-#task-force-summary-image-vbox {
-    -fx-spacing: 20;
-}
-
-#task-force-summary-flag-vbox {
-    -fx-spacing: 5;
-}
-
-#task-force-summary-flag {
-    -fx-border-width: 1px;
-    -fx-border-color: lightslategray;
 }
 
 #map-base-grid-marker {
@@ -161,12 +155,6 @@
     -fx-border-color: black;
     -fx-background-color: whitesmoke;
     -fx-padding: /* top */ 5 /* right */ 5 /* bottom */ 5 /* left */ 5;
-}
-
-#mission-arrow {
-    -fx-fill: red;
-    -fx-stroke: red;
-    -fx-stroke-width: 2;
 }
 
 #selected-grid-vbox {

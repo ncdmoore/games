@@ -11,6 +11,10 @@ import javafx.scene.layout.VBox;
 
 /**
  * Task force air operations view. Used by task force air operations dialog box.
+ *
+ * CSS Styles used.
+ *
+ * - airfield-main-pane
  */
 public class TaskForceAirOperations {
     private final AirbasePresenter airbasePresenter;
@@ -55,7 +59,7 @@ public class TaskForceAirOperations {
 
         VBox vBox = new VBox(airbaseSelectionVBox, airbaseNode);
 
-        vBox.setId("air-operations-main-pane");
+        vBox.setId("airfield-main-pane");
 
         return vBox;
     }

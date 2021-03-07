@@ -32,6 +32,16 @@ import java.util.stream.Collectors;
 
 /**
  * Represents the view of a mission being edited.
+ *
+ * CSS styles used.
+ *
+ * - alignment-center-left
+ * - spacing-15
+ * - spacing-20
+ * - mission-main-pane
+ * - mission-target-hbox
+ * - mission-list-view-pair (indirectly)
+ * - mission-list-view-pair-controls (indirectly)
  */
 public class MissionEditView {
     private final ResourceProvider resourceProvider;
@@ -78,7 +88,6 @@ public class MissionEditView {
         MissionRole
                 .stream()
                 .forEach(this::createSquadronList);
-
     }
 
     /**
@@ -93,26 +102,26 @@ public class MissionEditView {
         Node targetNode = buildTargetNode();
 
         VBox choiceBoxes = new VBox(missionNode, targetNode);
-        choiceBoxes.setId("choices-pane");
+        choiceBoxes.getStyleClass().add("spacing-15");
 
         Node targetDetailsBox = targetView.build();
 
         HBox hBox = new HBox(choiceBoxes, imageView);
-        hBox.setId("target-hbox");
+        hBox.setId("mission-target-hbox");
 
         Node squadronsList = buildSquadronLists();
 
         Node squadronSummaryNode = squadronSummaryView.build(nation);
 
         VBox leftVBox = new VBox(hBox, squadronsList);
-        leftVBox.setId("left-vbox");
+        leftVBox.getStyleClass().add("spacing-15");
 
         HBox mainHBox = new HBox(leftVBox, targetDetailsBox);
-        mainHBox.setId("main-hbox");
+        mainHBox.getStyleClass().add("spacing-20");
 
         mainVBox.getChildren().addAll(mainHBox, squadronSummaryNode);
 
-        mainVBox.setId("main-pane");
+        mainVBox.setId("mission-main-pane");
         return this;
     }
 
@@ -261,7 +270,7 @@ public class MissionEditView {
         StackPane stackPane = stackPanes.get(role);
         stackPane.getChildren().add(squadronNode);
 
-        stackPane.setId("mission-squadron-pane");
+        stackPane.getStyleClass().add("alignment-center-left");
 
         tab.setContent(stackPane);
 

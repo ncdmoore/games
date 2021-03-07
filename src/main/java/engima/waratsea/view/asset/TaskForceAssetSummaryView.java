@@ -4,8 +4,8 @@ import com.google.inject.Inject;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.ResourceProvider;
+import engima.waratsea.view.InfoPane;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.taskforce.info.TaskForceInfo;
 import engima.waratsea.view.util.BoundTitledGridPane;
 import engima.waratsea.view.util.GridPaneMap;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
@@ -23,6 +23,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Task force summary asset view.
+ *
+ * CSS styles used.
+ *
+ * - asset-component-pane
+ * - asset-hbox
+ * - component-grid
+ * - task-force-summary-flag
+ */
 public class TaskForceAssetSummaryView implements AssetView {
     private final ViewProps props;
     private final ResourceProvider resourceProvider;
@@ -30,7 +40,7 @@ public class TaskForceAssetSummaryView implements AssetView {
     private final TitledPane summaryPane = new TitledPane();
     private final GridPaneMap summaryGrid = new GridPaneMap();
 
-    private final TaskForceInfo shipSummary;
+    private final InfoPane shipSummary;
 
     private final ImageView assetImage = new ImageView();
     private Map<Nation, ImageView> flagImageViews;
@@ -42,7 +52,7 @@ public class TaskForceAssetSummaryView implements AssetView {
     @Inject
     public TaskForceAssetSummaryView(final ViewProps props,
                                      final ResourceProvider resourceProvider,
-                                     final TaskForceInfo taskForceInfo) {
+                                     final InfoPane taskForceInfo) {
         this.props = props;
         this.resourceProvider = resourceProvider;
 
@@ -62,6 +72,7 @@ public class TaskForceAssetSummaryView implements AssetView {
 
         BoundTitledGridPane shipSummaryNode = shipSummary.build("Ship Summary");
         shipSummaryNode.setMinHeight(props.getInt("asset.pane.component.height"));
+        shipSummaryNode.getStyleClass().add("asset-component-pane");
 
         node = new HBox(summaryPane, shipSummaryNode);
         node.setId("asset-hbox");
@@ -80,7 +91,6 @@ public class TaskForceAssetSummaryView implements AssetView {
      */
     public void reset(final TaskForceViewModel taskForceViewModel) {
         viewModel = taskForceViewModel;
-
     }
 
     private void buildSummary() {
@@ -105,18 +115,19 @@ public class TaskForceAssetSummaryView implements AssetView {
                 .values()
                 .stream()
                 .map(VBox::new)
-                .peek(vb -> vb.setId("task-force-summary-flag"))
+                .peek(vb -> vb.getStyleClass().add("task-force-summary-flag"))
                 .collect(Collectors.toList());
 
         VBox flagVBox = new VBox();
         flagVBox.getChildren().addAll(flags);
-        flagVBox.setId("task-force-summary-flag-vbox");
+        flagVBox.getStyleClass().add("spacing-5");
 
         VBox imageVBox = new VBox(assetImage, flagVBox);
-        imageVBox.setId("task-force-summary-image-vbox");
+        imageVBox.getStyleClass().add("spacing-20");
 
         HBox hBox = new HBox(imageVBox, grid);
-        hBox.setId("task-force-summary-hbox");
+        hBox.getStyleClass().add("component-background");
+        hBox.getStyleClass().add("spacing-10");
 
         summaryPane.setContent(hBox);
     }
@@ -127,7 +138,7 @@ public class TaskForceAssetSummaryView implements AssetView {
     private void bind() {
         bindSummary();
 
-        shipSummary.bind(viewModel
+        shipSummary.bindIntegers(viewModel
                 .getTaskForceNavalViewModel()
                 .getShipCounts());
     }

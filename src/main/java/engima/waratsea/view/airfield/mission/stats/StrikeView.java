@@ -15,7 +15,14 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 import java.util.Optional;
 
-
+/**
+ * The strike missions view stats.
+ *
+ * CSS used
+ *
+ *  - spacing-10
+ *  - step-summary-grid
+ */
 public class StrikeView implements StatsView {
     private final Label airbaseTitle = new Label();
     private final Label distanceValue = new Label();
@@ -44,7 +51,7 @@ public class StrikeView implements StatsView {
     public StrikeView build() {
         Node airbaseStats = buildAirbaseStats();
         statsVBox = new VBox(airbaseStats);
-        statsVBox.setId("target-stats-vbox");
+        statsVBox.getStyleClass().add("spacing-10");
         return this;
     }
 
@@ -124,7 +131,8 @@ public class StrikeView implements StatsView {
         gridPane.add(distanceValue, 1, 0);
         gridPane.add(inRoute, 0, 1);
         gridPane.add(inRouteValue, 1, 1);
-        gridPane.setId("target-step-summary-grid");
+
+        gridPane.getStyleClass().add("step-summary-grid");
 
         return new VBox(airbaseTitle, gridPane);
     }

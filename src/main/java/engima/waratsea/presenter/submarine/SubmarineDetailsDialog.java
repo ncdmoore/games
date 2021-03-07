@@ -18,10 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 public class SubmarineDetailsDialog {
     private static final String CSS_FILE = "subDetails.css";
 
-    private CssResourceProvider cssResourceProvider;
-    private Provider<DialogOkOnlyView> dialogProvider;
-    private Provider<SubmarineDetailsView> viewProvider;
-    private ViewProps props;
+    private final CssResourceProvider cssResourceProvider;
+    private final Provider<DialogOkOnlyView> dialogProvider;
+    private final Provider<SubmarineDetailsView> viewProvider;
+    private final ViewProps props;
 
     private Stage stage;
 

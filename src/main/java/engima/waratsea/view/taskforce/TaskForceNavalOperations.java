@@ -23,6 +23,11 @@ import lombok.Getter;
 
 /**
  * Represents the naval operations of a given task force view. Used by the naval operations didalog.
+ *
+ * CSS styles used.
+ *
+ * - task-force-main-pane
+ * - ship-hbox
  */
 public class TaskForceNavalOperations {
     private final ViewProps props;
@@ -70,7 +75,7 @@ public class TaskForceNavalOperations {
         accordion.getPanes().add(shipsNode);
 
         HBox hBox = new HBox(summary, accordion);
-        hBox.setId("main-pane");
+        hBox.setId("task-force-main-pane");
 
         return hBox;
     }

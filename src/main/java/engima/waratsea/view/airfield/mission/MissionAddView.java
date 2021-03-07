@@ -33,6 +33,18 @@ import java.util.stream.Stream;
 
 /**
  * Represents the mission being added view.
+ *
+ * CSS styles used.
+ *
+ * - alignment-center-left
+ * - red-text
+ * - spacing-15
+ * - spacing-20
+ * - mission-main-pane
+ * - mission-target-hbox
+ * - mission-error-vbox
+ * - mission-list-view-pair (indirectly)
+ * - mission-list-view-pair-controls (indirectly)
  */
 public class MissionAddView {
     private final ResourceProvider resourceProvider;
@@ -94,25 +106,25 @@ public class MissionAddView {
         Node targetNode = buildTargetNode();
 
         VBox choiceBoxes = new VBox(missionNode, targetNode);
-        choiceBoxes.setId("choices-pane");
+        choiceBoxes.getStyleClass().add("spacing-15");
 
         Node targetDetailsBox = targetView.build();
 
         HBox hBox = new HBox(choiceBoxes, imageView);
-        hBox.setId("target-hbox");
+        hBox.setId("mission-target-hbox");
 
         Node squadronsList = buildSquadronLists();
 
         Node squadronSummaryNode = squadronSummaryView.build(nation);
 
         VBox leftVBox = new VBox(hBox, squadronsList);
-        leftVBox.setId("left-vbox");
+        leftVBox.getStyleClass().add("spacing-15");
 
         HBox mainHBox = new HBox(leftVBox, targetDetailsBox);
-        mainHBox.setId("main-hbox");
+        mainHBox.getStyleClass().add("spacing-20");
 
         mainVBox.getChildren().addAll(mainHBox, squadronSummaryNode);
-        mainVBox.setId("main-pane");
+        mainVBox.setId("mission-main-pane");
 
         return this;
     }
@@ -253,7 +265,7 @@ public class MissionAddView {
         StackPane stackPane = stackPanes.get(role);
         stackPane.getChildren().add(squadronNode);
 
-        stackPane.setId("mission-squadron-pane");
+        stackPane.getStyleClass().add("alignment-center-left");
 
         tab.setContent(stackPane);
 
@@ -272,7 +284,7 @@ public class MissionAddView {
         stackPanes.put(role, new StackPane());
 
         Label label = new Label();
-        label.setId("mission-error-text");
+        label.getStyleClass().add("red-text");
         errorLabel.put(role, label);
 
         VBox vBox = new VBox(label);

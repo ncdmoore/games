@@ -8,16 +8,64 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/sounds/aircraft.mp3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/ResourceProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/ResourceProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/motorTorpedoBoat/MotorTorpedoDetailsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/motorTorpedoBoat/MotorTorpedoDetailsDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/submarine/SubmarineDetailsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/submarine/SubmarineDetailsDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/taskforce/TaskForceNavalDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/taskforce/TaskForceNavalDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirOperationsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirOperationsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldSummaryView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/InfoPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldRangeInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/info/AirfieldRangeInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionAddView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionAddView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionDetailsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionEditView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionEditView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/MissionView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/TargetView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/TargetView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/stats/FerryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/stats/FerryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/stats/ProbabilityStatsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/stats/ProbabilityStatsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/stats/StrikeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/mission/stats/StrikeView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolDetailsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolStatsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolStatsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/squadron/SquadronStateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/squadron/SquadronStateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AssetSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AssetSummaryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/TaskForceAssetSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/TaskForceAssetSummaryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/MissionMarker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/map/marker/main/MissionMarker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/motorTorpedoBoat/MotorTorpedoBoatDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/motorTorpedoBoat/MotorTorpedoBoatDetailsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ship/ShipDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ship/ShipDetailsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronDetailsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/submarine/SubmarineDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/submarine/SubmarineDetailsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceAirOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceAirOperations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceAirSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceAirSummaryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceNavalOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceNavalOperations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceNavalSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceNavalSummaryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/info/TaskForceInfo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/weather/SmallWeatherView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/weather/SmallWeatherView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/shipDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/shipDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/taskForceDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/taskForceDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/airfieldDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/airfieldDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/missionDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/missionDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/shipDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/shipDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/taskForceAirDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/taskForceAirDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/taskForceNavalDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/taskForceNavalDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/missionDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/missionDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/shipDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/shipDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceAirDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceAirDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceNavalDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceNavalDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/missionDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/missionDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/patrolDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/patrolDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/squadronDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/squadronDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/squadrons.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/squadrons.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/subDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/subDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/properties/view.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,11 +181,11 @@
       <recent name="engima.waratsea.model.map.region" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="engima.waratsea.view" />
       <recent name="engima.waratsea.presenter.taskforce" />
       <recent name="engima.waratsea.view.taskforce" />
       <recent name="engima.waratsea.viewmodel.taskforce" />
       <recent name="engima.waratsea.view.airfield.info" />
-      <recent name="engima.waratsea.model.base.airfield.patrol.rules" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Main">
@@ -150,7 +198,7 @@
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="engima.waratsea.Main" />
       <module name="enigma.worldWarTwoAtSea.main" />
-      <option name="PROGRAM_PARAMETERS" value="game=bombAlley" />
+      <option name="PROGRAM_PARAMETERS" value="game=coralSea" />
       <option name="VM_PARAMETERS" value="--module-path /Library/java/JavaVirtualMachines/javafx-sdk-12.0.2/lib --add-modules javafx.controls,javafx.fxml,javafx.media" />
       <extension name="coverage">
         <pattern>
@@ -258,19 +306,19 @@
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.All in worldWarTwoAtSea.test" />
+      <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
+      <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (4)" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
       <item itemvalue="JUnit.TaskForceTest.testTaskForceCarrierGrouping" />
-      <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (4)" />
-      <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (2)" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (2)" />
-        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
-        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (4)" />
         <item itemvalue="JUnit.TaskForceTest.testTaskForceCarrierGrouping" />
         <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
+        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (4)" />
+        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -285,13 +333,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00364" summary="Cleanup some gameMap code.">
-      <created>1611445834905</created>
-      <option name="number" value="00364" />
-      <option name="presentableId" value="LOCAL-00364" />
-      <option name="project" value="LOCAL" />
-      <updated>1611445834905</updated>
     </task>
     <task id="LOCAL-00365" summary="Refactor main map grid click handler.">
       <created>1611447248563</created>
@@ -629,7 +670,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614640559020</updated>
     </task>
-    <option name="localTasksCounter" value="413" />
+    <task id="LOCAL-00413" summary="Rename ImageResourceProvider.java to ResourceProvider.java.">
+      <created>1615043338959</created>
+      <option name="number" value="00413" />
+      <option name="presentableId" value="LOCAL-00413" />
+      <option name="project" value="LOCAL" />
+      <updated>1615043338959</updated>
+    </task>
+    <option name="localTasksCounter" value="414" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -681,7 +729,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AssetSummaryView.java</url>
-          <line>69</line>
+          <line>68</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
@@ -746,7 +794,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/TaskForceAssetSummaryView.java</url>
-          <line>103</line>
+          <line>113</line>
           <option name="timeStamp" value="95" />
         </line-breakpoint>
         <breakpoint type="java-exception">

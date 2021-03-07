@@ -6,53 +6,54 @@
     -fx-var-background-color: rgb(224, 228, 203);
 }
 
+////////////////////////////////////////////////////////////////////
+// Common styles
+////////////////////////////////////////////////////////////////////
 .root {
     -fx-background: -fx-var-background-color;
 }
 
+.alignment-center-left {
+    -fx-alignment: center-left;
+}
 
-#main-pane {
+.component-grid {
+    -fx-background-color: white;
+    -fx-hgap: 10;
+}
+
+.red-text {
+    -fx-text-fill: red;
+}
+
+.spacing-10 {
+    -fx-spacing: 10;
+}
+
+.spacing-15 {
+    -fx-spacing: 15;
+}
+
+.spacing-20 {
+    -fx-spacing: 20;
+}
+
+.step-summary-grid {
+    -fx-border-color: black;
+    -fx-background-color: whitesmoke;
+    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
+    -fx-vgap: 2;
+    -fx-hgap: 30;
+    -fx-alignment: top-left;
+}
+
+#mission-main-pane {
     -fx-spacing: 15;
     -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
 }
 
-
-#main-hbox {
-    -fx-spacing: 20;
-}
-
-#left-vbox {
-    -fx-spacing: 15;
-}
-
-#target-hbox {
+#mission-target-hbox {
     -fx-spacing: 160;
-}
-
-#choices-pane {
-    -fx-spacing: 15;
-}
-
-#target-stats-vbox {
-    -fx-spacing: 10;
-}
-
-#target-step-summary-grid {
-    -fx-border-color: black;
-    -fx-background-color: whitesmoke;
-    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
-    -fx-vgap: 2;
-    -fx-hgap: 120;
-    -fx-alignment: top-left;
-}
-
-#region-step-summary-grid {
-    -fx-border-color: black;
-    -fx-background-color: whitesmoke;
-    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
-    -fx-vgap: 2;
-    -fx-hgap: 80;
-    -fx-alignment: top-left;
 }
 
 #mission-squadron-pane {
@@ -77,8 +78,8 @@
     -fx-alignment: center
 }
 
-#mission-error-text {
-    -fx-text-fill: red;
+#mission-details-vbox {
+    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
 }
 
 #controls-pane {
@@ -86,6 +87,3 @@
     -fx-spacing: 20;
 }
 
-#mission-details-vbox {
-    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
-}

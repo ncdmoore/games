@@ -6,6 +6,9 @@
     -fx-var-background-color: rgb(224, 228, 203);
 }
 
+////////////////////////////////////////////////////////////////////
+// Common styles
+////////////////////////////////////////////////////////////////////
 .root {
     -fx-background: -fx-var-background-color;
 }
@@ -14,26 +17,87 @@
     -fx-spacing: 7;
 }
 
-.green-bar {
-    -fx-accent: green;
-}
-
 .component-grid {
     -fx-background-color: white;
     -fx-hgap: 10;
 }
 
-#main-pane {
-    -fx-spacing: 15;
-    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
+.green-bar {
+    -fx-accent: green;
 }
 
-#taskforce-summary-vbox {
+.spacing-5 {
     -fx-spacing: 5;
 }
 
-#taskforce-title-pane {
+.spacing-10 {
+    -fx-spacing: 10;
+}
+
+.spacing-75 {
+    -fx-spacing: 75;
+}
+
+.title-pane-non-collapsible {
     -fx-collapsible: false;
+}
+
+////////////////////////////////////////////////////////////////////
+// Specific styles
+////////////////////////////////////////////////////////////////////
+.mission-stats-cell {
+    -fx-background-color: lightgray;
+    -fx-text-fill: black;
+    -fx-alignment: top-center;
+}
+
+.mission-stats-grid {
+    -fx-border-color: black;
+    -fx-background-color: whitesmoke;
+    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
+    -fx-vgap: 1;
+    -fx-hgap: 1;
+    -fx-alignment: top-center;
+}
+
+.mission-stats-header {
+    -fx-font: bold normal 10pt "Lucida Grande";
+    -fx-background-color: lightsteelblue;
+    -fx-alignment: top-center;
+    -fx-padding: /* top */ 2 /* right */ 2 /* bottom */ 2 /* left */ 2;
+}
+
+.patrol-details-header {
+    -fx-font: bold normal 10pt "Lucida Grande";
+    -fx-background-color: lightsteelblue;
+    -fx-alignment: top-center;
+    -fx-padding: /* top */ 2 /* right */ 2 /* bottom */ 2 /* left */ 2;
+}
+
+.patrol-details-row-header {
+    -fx-font: bold normal 10pt "Lucida Grande";
+    -fx-background-color: lightsteelblue;
+    -fx-alignment: top-center;
+}
+
+.patrol-note {
+    -fx-border-color: black;
+    -fx-background-color: lightsteelblue;
+    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
+}
+
+.profile-vbox {
+    -fx-background-color: white;
+    -fx-alignment: center;
+}
+
+#airfield-main-pane {
+    -fx-spacing: 15;
+    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 0 /* left: */ 10;
+}
+
+#patrol-main-pane {
+    -fx-padding: /* top: */ 20 /* right: */ 10 /* bottom: */ 0 /* left: */ 10;
 }
 
 #title-pane-axis {
@@ -64,15 +128,6 @@
     -fx-alignment: top-center;
 }
 
-#air-operations-main-pane {
-    -fx-padding: /* top */ 10 /* right */ 10 /* bottom */ 0 /* left */ 10;
-    -fx-spacing: 10;
-}
-
-#main-pane {
-    -fx-padding: /* top */ 10 /* right */ 0 /* bottom */ 0 /* left */ 0;
-    -fx-spacing: 15;
-}
 
 #left-hbox {
     -fx-spacing: 5;
@@ -96,7 +151,7 @@
     -fx-border-width: 1px;
 }
 
-#profile-vbox {
+.profile-vbox {
     -fx-background-color: white;
     -fx-alignment: center;
 }
@@ -142,19 +197,6 @@
     -fx-spacing: 10;
 }
 
-#patrol-details-header {
-    -fx-font: bold normal 10pt "Lucida Grande";
-    -fx-background-color: lightsteelblue;
-    -fx-alignment: top-center;
-    -fx-padding: /* top */ 2 /* right */ 2 /* bottom */ 2 /* left */ 2;
-}
-
-#patrol-details-row-header {
-    -fx-font: bold normal 10pt "Lucida Grande";
-    -fx-background-color: lightsteelblue;
-    -fx-alignment: top-center;
-}
-
 #patrol-stats-pane {
     -fx-padding: /* top */ 20 /* right */ 0 /* bottom */ 0 /* left */ 0;
 }
@@ -171,7 +213,7 @@
     -fx-vgap: 1;
 }
 
-#patrol-stats-cell {
+.patrol-stats-cell {
     -fx-background-color: whitesmoke;
     -fx-text-fill: black;
     -fx-alignment: top-center;
@@ -184,11 +226,7 @@
     -fx-padding: /* top: */ 5 /* right: */ 10 /* bottom: */ 0 /* left: */ 10;
 }
 
-.patrol-note {
-    -fx-border-color: black;
-    -fx-background-color: lightsteelblue;
-    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
-}
+
 
 #ready-tile-pane {
     -fx-pref-columns: 3;
@@ -196,49 +234,30 @@
     -fx-vgap: 10;
 }
 
-#summary-title-pane-british {
+#summary-title-pane-japanese {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, white, white, red);
+    -fx-alignment: top-center;
+}
+
+#summary-title-pane-united-states {
     -fx-border-width: 1px;
     -fx-border-color: black;
     -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
     -fx-alignment: top-center;
 }
 
-#summary-title-pane-italian {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, green, white, red);
-    -fx-alignment: top-center;
-}
-
-#summary-title-pane-german {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, darkred, white, black);
-    -fx-alignment: top-center;
-}
-
-#summary-title-pane-french {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, red, white, blue);
-    -fx-alignment: top-center;
-}
-
-#summary-pane {
+#squadron-summary-pane {
     -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 10 /* left */ 0;
 }
 
-#summary-vbox {
+#squadron-summary-vbox {
     -fx-spacing: 5;
 }
 
-#summary-hbox {
+#squadron-summary-hbox {
     -fx-spacing: 20;
-}
-
-#profile-vbox {
-    -fx-background-color: white;
-    -fx-alignment: center;
 }
 
 #squadron-attack-data-title {
@@ -249,39 +268,6 @@
     -fx-padding: /* top: */ 0 /* right: */ 0 /* bottom: */ 0 /* left */ 38;
 }
 
-#airfield-operations-vbox {
-    -fx-spacing: 10;
-}
-
-#mission-stats-vbox {
-    -fx-spacing: 10;
-}
-
-#mission-stats-hbox {
-    -fx-spacing: 75;
-}
-
-#mission-stats-header {
-    -fx-background-color: lightsteelblue;
-    -fx-font: bold normal 10pt "Lucida Grande";
-    -fx-alignment: top-center;
-    -fx-padding: /* top */ 2 /* right */ 2 /* bottom */ 2 /* left */ 2;
-}
-
-#mission-stats-grid {
-    -fx-border-color: black;
-    -fx-background-color: whitesmoke;
-    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
-    -fx-vgap: 1;
-    -fx-hgap: 1;
-    -fx-alignment: top-center;
-}
-
-#mission-stats-cell {
-    -fx-background-color: lightgray;
-    -fx-text-fill: black;
-    -fx-alignment: top-center;
-}
 
 #controls-pane {
     -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 10 /* left: */ 0;

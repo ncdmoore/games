@@ -4,76 +4,61 @@
 ////////////////////////////////////////////////////////////////////
 * {
     -fx-var-background-color: rgb(224, 228, 203);
+    -fx-var-component-background-color: white;
 }
 
+////////////////////////////////////////////////////////////////////
+// Common styles
+////////////////////////////////////////////////////////////////////
 .root {
     -fx-background: -fx-var-background-color;
 }
 
-
-#main-pane {
-    -fx-spacing: 15;
-    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
+.alignment-center-left {
+    -fx-alignment: center-left;
 }
 
-#main-hbox {
+.component-grid {
+    -fx-background-color: white;
+    -fx-hgap: 10;
+}
+
+.red-text {
+    -fx-text-fill: red;
+}
+
+.spacing-10 {
+    -fx-spacing: 10;
+}
+
+.spacing-15 {
+    -fx-spacing: 15;
+}
+
+.spacing-20 {
     -fx-spacing: 20;
 }
 
-#left-vbox {
-    -fx-spacing: 15;
-}
-
-#target-hbox {
-    -fx-spacing: 160;
-}
-
-#choices-pane {
-    -fx-spacing: 15;
-}
-
-#target-stats-vbox {
-    -fx-spacing: 10;
-}
-
-#target-step-summary-grid {
-    -fx-border-color: black;
-    -fx-background-color: whitesmoke;
-    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
-    -fx-vgap: 2;
-    -fx-hgap: 120;
-    -fx-alignment: top-left;
-}
-
-#region-step-summary-grid {
-    -fx-border-color: black;
-    -fx-background-color: whitesmoke;
-    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
-    -fx-vgap: 2;
-    -fx-hgap: 80;
-    -fx-alignment: top-left;
-}
-
-#mission-main-vbox {
-    -fx-spacing: 15;
-}
-
-#mission-stats-vbox {
-    -fx-spacing: 10;
-}
-
-#mission-stats-hbox {
+.spacing-75 {
     -fx-spacing: 75;
 }
 
-#mission-stats-header {
-    -fx-background-color: lightsteelblue;
-    -fx-font: bold normal 10pt "Lucida Grande";
+////////////////////////////////////////////////////////////////////
+// Specific styles
+////////////////////////////////////////////////////////////////////
+.mission-stats-cell {
+    -fx-background-color: lightgray;
+    -fx-text-fill: black;
     -fx-alignment: top-center;
-    -fx-padding: /* top */ 2 /* right */ 2 /* bottom */ 2 /* left */ 2;
 }
 
-#mission-stats-grid {
+.mission-details-cell {
+    -fx-background-color: whitesmoke;
+    -fx-text-fill: black;
+    -fx-alignment: top-center;
+}
+
+.mission-stats-grid {
     -fx-border-color: black;
     -fx-background-color: whitesmoke;
     -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
@@ -82,10 +67,25 @@
     -fx-alignment: top-center;
 }
 
-#mission-stats-cell {
-    -fx-background-color: lightgray;
-    -fx-text-fill: black;
+.mission-stats-header {
+    -fx-background-color: lightsteelblue;
+    -fx-font: bold normal 10pt "Lucida Grande";
     -fx-alignment: top-center;
+    -fx-padding: /* top */ 2 /* right */ 2 /* bottom */ 2 /* left */ 2;
+}
+
+.profile-vbox {
+    -fx-background-color: white;
+    -fx-alignment: center;
+}
+
+.step-summary-grid {
+    -fx-border-color: black;
+    -fx-background-color: whitesmoke;
+    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left: */ 10;
+    -fx-vgap: 2;
+    -fx-hgap: 30;
+    -fx-alignment: top-left;
 }
 
 #affected-weather-box {
@@ -95,8 +95,13 @@
     -fx-padding: /* top: */ 5 /* right: */ 10 /* bottom: */ 0 /* left: */ 10;
 }
 
-#mission-squadron-pane {
-    -fx-alignment: center-left;
+#mission-main-pane {
+    -fx-spacing: 15;
+    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
+}
+
+#mission-target-hbox {
+    -fx-spacing: 160;
 }
 
 #missions-list-view-pair {
@@ -118,8 +123,19 @@
     -fx-alignment: center;
 }
 
-#mission-error-text {
-    -fx-text-fill: red;
+#mission-details-summary-grid {
+    -fx-hgap: 40;
+    -fx-vgap: 5;
+}
+
+#mission-details-squadron-grid {
+    -fx-hgap: 1;
+    -fx-vgap: 1;
+}
+
+#mission-details-vbox {
+    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
+    -fx-spacing: 30;
 }
 
 #summary-title-pane-british {
@@ -150,23 +166,18 @@
     -fx-alignment: top-center;
 }
 
-#summary-pane {
+#squadron-summary-pane {
     -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 10 /* left */ 0;
 }
 
-#summary-vbox {
+#squadron-summary-vbox {
     -fx-spacing: 5;
     -fx-alignment: top-center;
 }
 
-#summary-hbox {
+#squadron-summary-hbox {
     -fx-spacing: 20;
     -fx-alignment: top-center;
-}
-
-#profile-vbox {
-    -fx-background-color: white;
-    -fx-alignment: center;
 }
 
 #squadron-attack-data-title {
@@ -182,35 +193,5 @@
     -fx-spacing: 20;
 }
 
-#mission-details-summary-grid {
-    -fx-hgap: 40;
-    -fx-vgap: 5;
-}
 
-#mission-details-squadron-grid {
-    -fx-hgap: 1;
-    -fx-vgap: 1;
-}
 
-#mission-details-vbox {
-    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
-    -fx-spacing: 30;
-}
-
-#mission-details-header {
-    -fx-font: bold normal 10pt "Lucida Grande";
-    -fx-background-color: lightsteelblue;
-    -fx-alignment: top-center;
-    -fx-padding: /* top */ 2 /* bottom */ 2 /* right */ 2 /* left */ 2;
-}
-
-#mission-details-cell {
-    -fx-background-color: whitesmoke;
-    -fx-text-fill: black;
-    -fx-alignment: top-center;
-}
-
-.component-grid {
-    -fx-background-color: white;
-    -fx-hgap: 10;
-}

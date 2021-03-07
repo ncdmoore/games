@@ -28,6 +28,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The squadron summary view.
+ *
+ * CSS styles used.
+ *
+ * - squadron-summary-hbox
+ * - squadron-summary-vbox
+ * - squadron-summary-pane
+ */
 public class SquadronSummaryView {
     private final ResourceProvider resourceProvider;
     private final ViewProps props;
@@ -83,13 +92,13 @@ public class SquadronSummaryView {
         buildPerformance();
 
         HBox hBox = new HBox(profilePane, attackPane, performancePane);
-        hBox.setId("summary-hbox");
+        hBox.setId("squadron-summary-hbox");
 
         VBox vBox = new VBox(titleNode, hBox);
-        vBox.setId("summary-vbox");
+        vBox.setId("squadron-summary-vbox");
 
         mainPane.getChildren().add(vBox);
-        mainPane.setId("summary-pane");
+        mainPane.setId("squadron-summary-pane");
 
         return mainPane;
     }
@@ -214,7 +223,7 @@ public class SquadronSummaryView {
         titledPane.setText("Profile");
 
         VBox vBox = new VBox(aircraftProfile);
-        vBox.setId("profile-vbox");
+        vBox.getStyleClass().add("profile-vbox");
 
         titledPane.setContent(vBox);
         titledPane.setMinHeight(props.getInt("airfield.dialog.profile.height"));

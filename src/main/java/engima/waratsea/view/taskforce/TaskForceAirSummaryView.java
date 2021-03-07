@@ -2,24 +2,31 @@ package engima.waratsea.view.taskforce;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.view.taskforce.info.TaskForceInfo;
+import engima.waratsea.view.InfoPane;
 import engima.waratsea.viewmodel.taskforce.air.TaskForceAirViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
+/**
+ * Task force air summary view.
+ *
+ * CSS Styles used.
+ *
+ *  - spacing-5
+ */
 public class TaskForceAirSummaryView {
     private final ImageView imageView = new ImageView();
 
     private final TitledPane titledPane = new TitledPane();
     private final VBox leftVBox = new VBox();
 
-    private final TaskForceInfo squadronSummary;
+    private final InfoPane squadronSummary;
 
 
     @Inject
-    public TaskForceAirSummaryView(final Provider<TaskForceInfo> infoProvider) {
+    public TaskForceAirSummaryView(final Provider<InfoPane> infoProvider) {
         squadronSummary = infoProvider.get();
     }
 
@@ -29,12 +36,12 @@ public class TaskForceAirSummaryView {
      * @return The Task force summary view.
      */
     public TaskForceAirSummaryView build() {
-        titledPane.setId("taskforce-title-pane");
+        titledPane.getStyleClass().add("title-pane-non-collapsible");
 
         Node squadronSummaryNode = squadronSummary.build("Squadron Summary");
 
         leftVBox.getChildren().addAll(titledPane, imageView, squadronSummaryNode);
-        leftVBox.setId("taskforce-summary-vbox");
+        leftVBox.getStyleClass().add("spacing-5");
 
         return this;
     }
@@ -48,7 +55,7 @@ public class TaskForceAirSummaryView {
     public Node bind(final TaskForceAirViewModel viewModel) {
         titledPane.textProperty().bind(viewModel.getNameAndTitle());
         imageView.imageProperty().bind(viewModel.getImage());
-        squadronSummary.bind(viewModel.getSquadronCounts());
+        squadronSummary.bindIntegers(viewModel.getSquadronCounts());
 
         return leftVBox;
     }

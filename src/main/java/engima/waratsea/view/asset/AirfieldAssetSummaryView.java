@@ -6,8 +6,8 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.utility.ResourceProvider;
+import engima.waratsea.view.InfoPane;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.airfield.info.AirfieldInfo;
 import engima.waratsea.view.airfield.info.AirfieldRangeInfo;
 import engima.waratsea.view.util.GridPaneMap;
 import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
@@ -33,6 +33,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The airfield asset summary view.
+ *
+ * CSS Styles used.
+ *
+ * - spacing-5
+ * - spacing-20
+ * - asset-component-pane
+ * - component-grid
+ * - airfield-summary-hbox
+ * - airfield-nation-tab-hbox
+ */
 @Slf4j
 public class AirfieldAssetSummaryView implements AssetView {
     private static final String ROUNDEL = ".roundel.image";
@@ -52,17 +64,17 @@ public class AirfieldAssetSummaryView implements AssetView {
 
     private final Map<Nation, Tab> tabMap = new HashMap<>();
 
-    private final Provider<AirfieldInfo> infoProvider;
+    private final Provider<InfoPane> infoProvider;
     private final Provider<AirfieldRangeInfo> airfieldRangeInfoProvider;
 
     @Getter private AirbaseViewModel viewModel;
     private Airbase airbase;
     @Getter private final Map<Nation, AirfieldRangeInfo> rangeInfo = new HashMap<>();
-    private final Map<Nation, AirfieldInfo> regionInfo = new HashMap<>();
-    private final Map<Nation, AirfieldInfo> squadronInfo = new HashMap<>();
-    private final Map<Nation, AirfieldInfo> missionInfo = new HashMap<>();
-    private final Map<Nation, AirfieldInfo> patrolInfo = new HashMap<>();
-    private final Map<Nation, AirfieldInfo> readyInfo = new HashMap<>();
+    private final Map<Nation, InfoPane> regionInfo = new HashMap<>();
+    private final Map<Nation, InfoPane> squadronInfo = new HashMap<>();
+    private final Map<Nation, InfoPane> missionInfo = new HashMap<>();
+    private final Map<Nation, InfoPane> patrolInfo = new HashMap<>();
+    private final Map<Nation, InfoPane> readyInfo = new HashMap<>();
 
     private final ImageView assetImage = new ImageView();
 
@@ -83,7 +95,7 @@ public class AirfieldAssetSummaryView implements AssetView {
     public AirfieldAssetSummaryView(final ViewProps props,
                                     final ResourceProvider resourceProvider,
                                     final Provider<AirfieldRangeInfo> airfieldRangeInfoProvider,
-                                    final Provider<AirfieldInfo> infoProvider) {
+                                    final Provider<InfoPane> infoProvider) {
         //CHECKSTYLE:ON
         this.props = props;
         this.resourceProvider = resourceProvider;
@@ -216,11 +228,11 @@ public class AirfieldAssetSummaryView implements AssetView {
 
         VBox flagVBox = new VBox();
         flagVBox.getChildren().addAll(flagImageViews.values());
-        flagVBox.setId("airfield-summary-flag-vbox");
+        flagVBox.getStyleClass().add("spacing-5");
 
         VBox imageVBox = new VBox(assetImage, flagVBox);
 
-        imageVBox.setId("airfield-summary-image-vbox");
+        imageVBox.getStyleClass().add("spacing-20");
 
         HBox hBox = new HBox(imageVBox, grid);
         hBox.setId("airfield-summary-hbox");

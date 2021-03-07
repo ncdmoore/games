@@ -1,14 +1,20 @@
-package engima.waratsea.view.airfield.info;
+package engima.waratsea.view;
 
 import com.google.inject.Inject;
-import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.util.BoundTitledGridPane;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 
 import java.util.Map;
 
-public class AirfieldInfo {
+/**
+ * Contains a an info view pane.
+ *
+ * CSS styles used.
+ *
+ * - component-grid
+ */
+public class InfoPane {
     private final ViewProps props;
 
     private final BoundTitledGridPane infoPane = new BoundTitledGridPane();
@@ -19,7 +25,7 @@ public class AirfieldInfo {
      * @param props The view properties.
      */
     @Inject
-    public AirfieldInfo(final ViewProps props) {
+    public InfoPane(final ViewProps props) {
         this.props = props;
     }
 

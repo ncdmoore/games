@@ -23,6 +23,18 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Patrol stats view.
+ *
+ * CSS styles used.
+ *
+ * - patrol-stats-grid
+ * - summary-title-pane-{nation}
+ * - patrol-note
+ * - patrol-details-header
+ * - patrol-details-row-header
+ * - patrol-stats-cell
+ */
 public class PatrolStatsView {
     private final ViewProps props;
 
@@ -207,7 +219,7 @@ public class PatrolStatsView {
         Label label = new Label(text);
         label.setMaxWidth(props.getInt("patrol.grid.label.width"));
         label.setMinWidth(props.getInt("patrol.grid.label.width"));
-        label.setId("patrol-details-header");
+        label.getStyleClass().add("patrol-details-header");
         return label;
     }
 
@@ -215,7 +227,7 @@ public class PatrolStatsView {
         Label label = new Label(text);
         label.setMaxWidth(props.getInt("patrol.grid.label.width"));
         label.setMinWidth(props.getInt("patrol.grid.label.width"));
-        label.setId("patrol-details-row-header");
+        label.getStyleClass().add("patrol-details-row-header");
         return label;
     }
 
@@ -223,7 +235,7 @@ public class PatrolStatsView {
         Label label = new Label(text);
         label.setMaxWidth(props.getInt("patrol.grid.label.width"));
         label.setMinWidth(props.getInt("patrol.grid.label.width"));
-        label.setId("patrol-stats-cell");
+        label.getStyleClass().add("patrol-stats-cell");
         return label;
     }
 }

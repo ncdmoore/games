@@ -6,16 +6,20 @@
     -fx-var-background-color: rgb(224, 228, 203);
 }
 
+////////////////////////////////////////////////////////////////////
+// Common styles
+////////////////////////////////////////////////////////////////////
 .root {
     -fx-background: -fx-var-background-color;
 }
 
-.components-pane {
-    -fx-spacing: 7;
+.bold-label {
+    -fx-font: bold 9pt "Lucida Grande";
+    -fx-font-weight: bold;
 }
 
-.green-bar {
-    -fx-accent: green;
+.components-pane {
+    -fx-spacing: 7;
 }
 
 .component-grid {
@@ -23,17 +27,39 @@
     -fx-hgap: 10;
 }
 
-#main-pane {
-    -fx-spacing: 15;
-    -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
+.detail-pane {
+    -fx-hgap: 15;
+    -fx-vgap: 5;
+    -fx-background-color: lightblue
 }
 
-#taskforce-summary-vbox {
+.detail-pane .label {
+ //   -fx-background-color: lightblue;
+}
+
+.green-bar {
+    -fx-accent: green;
+}
+
+.spacing-5 {
     -fx-spacing: 5;
 }
 
-#taskforce-title-pane {
+.title-pane-non-collapsible {
     -fx-collapsible: false;
+}
+
+////////////////////////////////////////////////////////////////////
+// Specific styles
+////////////////////////////////////////////////////////////////////
+.profile-vbox {
+    -fx-background-color: white;
+    -fx-alignment: center;
+}
+
+#task-force-main-pane {
+    -fx-spacing: 15;
+    -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 0 /* left: */ 10;
 }
 
 #title-pane-axis {
@@ -89,11 +115,6 @@
 #image {
     -fx-border-color: black;
     -fx-border-width: 1px;
-}
-
-#profile-vbox {
-    -fx-background-color: white;
-    -fx-alignment: center;
 }
 
 #details-grid {

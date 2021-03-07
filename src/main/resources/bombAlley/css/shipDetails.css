@@ -6,6 +6,9 @@
     -fx-var-background-color: rgb(224, 228, 203);
 }
 
+////////////////////////////////////////////////////////////////////
+// Common styles
+////////////////////////////////////////////////////////////////////
 .root {
     -fx-background: -fx-var-background-color;
 }
@@ -32,6 +35,9 @@
     -fx-font-weight: bold;
 }
 
+////////////////////////////////////////////////////////////////////
+// Specific styles
+////////////////////////////////////////////////////////////////////
 .detail-pane {
     -fx-hgap: 15;
     -fx-vgap: 5;
@@ -41,6 +47,11 @@
 .detail-pane .label {
  //   -fx-background-color: lightblue;
 
+}
+
+.profile-vbox {
+    -fx-background-color: white;
+    -fx-alignment: center;
 }
 
 #title-pane-axis {
@@ -98,10 +109,7 @@
     -fx-border-width: 1px;
 }
 
-#profile-vbox {
-    -fx-background-color: white;
-    -fx-alignment: center;
-}
+
 
 #details-grid {
     -fx-hgap: 10;

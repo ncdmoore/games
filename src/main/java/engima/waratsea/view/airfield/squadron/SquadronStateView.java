@@ -25,6 +25,11 @@ import java.util.stream.Stream;
 /**
  * Represents the squadron state view of the airfield dialog. This can be used to show all squadrons
  * of at a given state. If no state is provided then all squadrons are shown.
+ *
+ * CSS Styles used.
+ *
+ * - component-grid
+ * - ready-tile-pane
  */
 public class SquadronStateView {
     private final ViewProps props;

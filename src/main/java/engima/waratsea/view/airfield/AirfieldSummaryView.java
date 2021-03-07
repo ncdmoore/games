@@ -2,7 +2,7 @@ package engima.waratsea.view.airfield;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.view.airfield.info.AirfieldInfo;
+import engima.waratsea.view.InfoPane;
 import engima.waratsea.view.util.BoundTitledGridPane;
 import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
 import javafx.scene.Node;
@@ -14,12 +14,17 @@ import javafx.scene.layout.VBox;
 /**
  * Represents the airfield summary information on the left hand side of the airfield
  * details dialog box.
+ *
+ * CSS styles used
+ *
+ * - spacing-5
+ * - title-pane-non-collapsible
  */
 public class AirfieldSummaryView {
-    private final AirfieldInfo airfieldSquadronInfo;
-    private final AirfieldInfo airfieldMissionInfo;
-    private final AirfieldInfo airfieldPatrolInfo;
-    private final AirfieldInfo airfieldReadyInfo;
+    private final InfoPane airfieldSquadronInfo;
+    private final InfoPane airfieldMissionInfo;
+    private final InfoPane airfieldPatrolInfo;
+    private final InfoPane airfieldReadyInfo;
 
     private final ImageView imageView = new ImageView();
 
@@ -32,8 +37,7 @@ public class AirfieldSummaryView {
      * @param infoProvider The provides airfield information.
      */
     @Inject
-    public AirfieldSummaryView(final Provider<AirfieldInfo> infoProvider) {
-
+    public AirfieldSummaryView(final Provider<InfoPane> infoProvider) {
         this.airfieldSquadronInfo = infoProvider.get();
         this.airfieldMissionInfo = infoProvider.get();
         this.airfieldPatrolInfo = infoProvider.get();
@@ -46,7 +50,7 @@ public class AirfieldSummaryView {
      * @return The node containing the airfield summary.
      */
     public AirfieldSummaryView build() {
-        titledPane.setId("airfield-title-pane");
+        titledPane.getStyleClass().add("title-pane-non-collapsible");
 
         BoundTitledGridPane squadronSummary = airfieldSquadronInfo.build("Squadron Summary");
         BoundTitledGridPane missionSummary = airfieldMissionInfo.build("Mission Summary");
@@ -58,7 +62,7 @@ public class AirfieldSummaryView {
         accordion.setExpandedPane(squadronSummary);
 
         leftVBox.getChildren().addAll(titledPane, imageView, accordion);
-        leftVBox.setId("airfield-summary-vbox");
+        leftVBox.getStyleClass().add("spacing-5");
 
         return this;
     }

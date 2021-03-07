@@ -8,6 +8,14 @@ import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * The air operations view.
+ *
+ * CSS styles used.
+ *
+ *  - spacing-10
+ *  - title-pane-non-collapsible
+ */
 public class AirOperationsView {
     private final TitledPane titledPane = new TitledPane();
     private final ProbabilityStatsView statsView;
@@ -27,7 +35,7 @@ public class AirOperationsView {
      * @return This air operations view.
      */
     public AirOperationsView build() {
-        titledPane.setId("airfield-title-pane");
+        titledPane.getStyleClass().add("title-pane-non-collapsible");
         titledPane.setText("Air Operations");
         return this;
     }
@@ -47,7 +55,7 @@ public class AirOperationsView {
         weatherView.bind(viewModel.getAirOperationsAffectedByWeather());
 
         VBox vBox = new VBox(titledPane, statsNode, weatherNode);
-        vBox.setId("airfield-operations-vbox");
+        vBox.getStyleClass().add("spacing-10");
         return vBox;
     }
 }

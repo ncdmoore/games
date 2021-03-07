@@ -131,7 +131,7 @@ public class AirfieldView {
         hBox.setMinHeight(props.getInt("airfield.dialog.accordion.height"));
         hBox.setMaxHeight(props.getInt("airfield.dialog.accordion.height"));
 
-        hBox.setId("main-pane");
+        hBox.setId("airfield-main-pane");
 
         Tab tab = new Tab(nation.toString());
         ImageView roundel = getRoundel(nation);

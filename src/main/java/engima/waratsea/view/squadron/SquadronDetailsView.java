@@ -132,7 +132,7 @@ public class SquadronDetailsView {
         int height = props.getInt("squadron.detail.profile.height");
         vBox.setMinHeight(height);
         vBox.setMaxHeight(height);
-        vBox.setId("profile-vbox");
+        vBox.getStyleClass().add("profile-vbox");
 
         titledPane.getStyleClass().add("component-grid");
         titledPane.setContent(vBox);

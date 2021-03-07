@@ -10,11 +10,11 @@ import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
 import engima.waratsea.presenter.dto.map.TargetMarkerDTO;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.utility.ResourceProvider;
+import engima.waratsea.view.InfoPane;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.PreviewMapView;
 import engima.waratsea.view.map.marker.preview.TargetMarker;
 import engima.waratsea.view.ship.ShipViewType;
-import engima.waratsea.view.taskforce.info.TaskForceInfo;
 import engima.waratsea.viewmodel.ship.ShipViewModel;
 import engima.waratsea.viewmodel.taskforce.naval.TaskForceNavalViewModel;
 import engima.waratsea.viewmodel.taskforce.naval.TaskForcesNavalViewModel;
@@ -79,8 +79,8 @@ public class TaskForceView {
     private final TabPane taskForceTabPane = new TabPane();
     private Map<ShipViewType, Tab> taskForceTabs;
 
-    private final TaskForceInfo shipSummary;
-    private final TaskForceInfo squadronSummary;
+    private final InfoPane shipSummary;
+    private final InfoPane squadronSummary;
 
     private final StringProperty name = new SimpleStringProperty();
     private final ObjectProperty<Map<ShipViewType, ListProperty<ShipViewModel>>> shipTypeMap = new SimpleObjectProperty<>(Collections.emptyMap());
@@ -98,7 +98,7 @@ public class TaskForceView {
      */
     @Inject
     public TaskForceView(final ViewProps props,
-                         final Provider<TaskForceInfo> infoProvider,
+                         final Provider<InfoPane> infoProvider,
                          final CssResourceProvider cssResourceProvider,
                          final ResourceProvider resourceProvider,
                          final Game game,
@@ -178,8 +178,8 @@ public class TaskForceView {
 
         continueButton.disableProperty().bind(viewModel.getAnyTaskForceNotSet());
 
-        shipSummary.bind(viewModel.getSelectedTaskForce().getShipCounts());
-        squadronSummary.bind(viewModel.getSelectedTaskForce().getSquadronCounts());
+        shipSummary.bindIntegers(viewModel.getSelectedTaskForce().getShipCounts());
+        squadronSummary.bindIntegers(viewModel.getSelectedTaskForce().getSquadronCounts());
 
         return this;
     }

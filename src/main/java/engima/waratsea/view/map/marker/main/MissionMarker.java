@@ -82,7 +82,7 @@ public class MissionMarker {
         arrow.getElements().add(new LineTo(x4, y4));
         arrow.getElements().add(new LineTo(endX, endY));
 
-        arrow.setId("mission-arrow");
+        arrow.getStyleClass().add("mission-arrow");
         arrow.setUserData(missions);
     }
 

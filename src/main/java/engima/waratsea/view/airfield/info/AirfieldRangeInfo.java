@@ -14,6 +14,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
+/**
+ * Airfield range info view. Contains the choice boxes for aircraft model and aircraft configuration.
+ *
+ * CSS used:
+ *  - component-background
+ *  - component-grid
+ *  - spacing-10
+ *  - spacing-20
+ */
 public class AirfieldRangeInfo {
     private final ViewProps props;
 
@@ -54,14 +63,15 @@ public class AirfieldRangeInfo {
         VBox configVbox = new VBox(configLabel, config);
 
         VBox choicesVbox = new VBox(modelVbox, configVbox);
-        choicesVbox.setId("airfield-range-choices-vbox");
+        choicesVbox.getStyleClass().add("spacing-10");
 
         Label blank = new Label();
         VBox checksVbox = new VBox(blank, showRangeOnMap);
-        checksVbox.setId("airfield-range-checks-vbox");
+        checksVbox.getStyleClass().add("component-background");
 
         HBox mainHbox = new HBox(choicesVbox, checksVbox);
-        mainHbox.setId("airfield-range-hbox");
+        mainHbox.getStyleClass().add("component-background");
+        mainHbox.getStyleClass().add("spacing-20");
 
         titledPane.setContent(mainHbox);
 

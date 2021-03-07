@@ -2,24 +2,30 @@ package engima.waratsea.view.taskforce;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.view.taskforce.info.TaskForceInfo;
+import engima.waratsea.view.InfoPane;
 import engima.waratsea.viewmodel.taskforce.naval.TaskForceNavalViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
+/**
+ * Task force naval summary view.
+ *
+ * CSS Styles used.
+ *
+ * - spacing-5
+ */
 public class TaskForceNavalSummaryView {
     private final ImageView imageView = new ImageView();
 
     private final TitledPane titledPane = new TitledPane();
     private final VBox leftVBox = new VBox();
 
-    private final TaskForceInfo shipSummary;
-
+    private final InfoPane shipSummary;
 
     @Inject
-    public TaskForceNavalSummaryView(final Provider<TaskForceInfo> infoProvider) {
+    public TaskForceNavalSummaryView(final Provider<InfoPane> infoProvider) {
         shipSummary = infoProvider.get();
     }
 
@@ -29,12 +35,13 @@ public class TaskForceNavalSummaryView {
      * @return The Task force summary view.
      */
     public TaskForceNavalSummaryView build() {
-        titledPane.setId("taskforce-title-pane");
+        titledPane.getStyleClass().add("title-pane-non-collapsible");
 
         Node shipSummaryNode = shipSummary.build("Ship Summary");
+        shipSummaryNode.getStyleClass().add("title-pane-non-collapsible");
 
         leftVBox.getChildren().addAll(titledPane, imageView, shipSummaryNode);
-        leftVBox.setId("taskforce-summary-vbox");
+        leftVBox.getStyleClass().add("spacing-5");
 
         return this;
     }
@@ -48,7 +55,7 @@ public class TaskForceNavalSummaryView {
     public Node bind(final TaskForceNavalViewModel viewModel) {
         titledPane.textProperty().bind(viewModel.getNameAndTitle());
         imageView.imageProperty().bind(viewModel.getImage());
-        shipSummary.bind(viewModel.getShipCounts());
+        shipSummary.bindIntegers(viewModel.getShipCounts());
 
         return leftVBox;
     }

@@ -6,34 +6,40 @@
     -fx-var-background-color: rgb(224, 228, 203);
 }
 
+////////////////////////////////////////////////////////////////////
+// Common styles
+////////////////////////////////////////////////////////////////////
 .root {
     -fx-background: -fx-var-background-color;
 }
 
+.spacing-30 {
+    -fx-spacing: 30;
+}
+
+////////////////////////////////////////////////////////////////////
+// Specific styles
+////////////////////////////////////////////////////////////////////
 #patrol-details-pane {
     -fx-padding: /* top */ 10 /* bottom */ 0 /* right */ 0 /* left */ 10;
 }
 
-#patrol-details-vbox {
-    -fx-spacing: 30;
-}
-
-#patrol-details-grid {
-    -fx-vgap: 1;
-    -fx-hgap: 1;
-}
-
-#patrol-details-header {
+.patrol-details-header {
     -fx-font: bold normal 10pt "Lucida Grande";
     -fx-background-color: lightsteelblue;
     -fx-alignment: top-center;
     -fx-padding: /* top */ 2 /* bottom */ 2 /* right */ 2 /* left */ 2;
 }
 
-#patrol-details-cell {
+.patrol-details-cell {
     -fx-background-color: whitesmoke;
     -fx-text-fill: black;
     -fx-alignment: top-center;
+}
+
+#patrol-details-grid {
+    -fx-vgap: 1;
+    -fx-hgap: 1;
 }
 
 #controls-pane {

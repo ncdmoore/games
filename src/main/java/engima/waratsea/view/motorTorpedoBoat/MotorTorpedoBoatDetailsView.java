@@ -31,6 +31,10 @@ import java.util.stream.Collectors;
 
 /**
  * The MTB details view.
+ *
+ * CSS Styles used.
+ *
+ * - components-pane
  */
 @Slf4j
 public class MotorTorpedoBoatDetailsView {
@@ -182,7 +186,7 @@ public class MotorTorpedoBoatDetailsView {
         titledPane.setText("Ship Profile");
 
         VBox shipVBox = new VBox(getProfileImage(mtb));
-        shipVBox.setId("profile-vbox");
+        shipVBox.getStyleClass().add("profile-vbox");
 
         titledPane.setContent(shipVBox);
 
@@ -272,7 +276,7 @@ public class MotorTorpedoBoatDetailsView {
      */
     private Map<String, String> getTorpedoData(final MotorTorpedoBoat mtb) {
         Map<String, String> weapons = new LinkedHashMap<>();
-        weapons.put("Torpeodo:", mtb.getTorpedo().getHealth() + "");
+        weapons.put("Torpedo:", mtb.getTorpedo().getHealth() + "");
         return weapons;
     }
 

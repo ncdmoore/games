@@ -182,7 +182,7 @@ public class SubmarineDetailsView {
         titledPane.setText("Ship Profile");
 
         VBox shipVBox = new VBox(getProfileImage(submarine));
-        shipVBox.setId("profile-vbox");
+        shipVBox.getStyleClass().add("profile-vbox");
 
         titledPane.setContent(shipVBox);
 
@@ -197,7 +197,7 @@ public class SubmarineDetailsView {
      */
     private VBox buildWeapons(final Submarine submarine) {
         TitledPane detailsPane = buildPane("Submarine Details", getSubDetailsData(submarine));
-        TitledPane torpedoPane = buildPane("Torpedos", getTorpedoData(submarine));
+        TitledPane torpedoPane = buildPane("Torpedoes", getTorpedoData(submarine));
         TitledPane fuelPane =  buildPane("Fuel", getFuelData(submarine));
         return new VBox(detailsPane, torpedoPane, fuelPane);
     }

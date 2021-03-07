@@ -60,8 +60,8 @@ public class TaskForceNavalDialog {
 
         DialogView dialog = dialogProvider.get();
 
-        dialog.setWidth(props.getInt("airfield.dialog.width"));
-        dialog.setHeight(props.getInt("airfield.dialog.height"));
+        dialog.setWidth(props.getInt("taskforce.naval.dialog.width"));
+        dialog.setHeight(props.getInt("taskforce.naval.dialog.height"));
         dialog.setCss(cssResourceProvider.get(CSS_FILE));
 
         TaskForceNavalView view = viewProvider.get();

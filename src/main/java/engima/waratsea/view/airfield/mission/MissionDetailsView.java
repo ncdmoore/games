@@ -163,14 +163,11 @@ public class MissionDetailsView {
             gridPane.add(count, col, 1);
         });
 
-
         gridPane.setId("mission-details-squadron-grid");
 
         Label title = new Label("Mission Squadron Summary:");
         return new VBox(title, gridPane);
     }
-
-
 
     /**
      * Style the table's data row labels.
@@ -180,7 +177,7 @@ public class MissionDetailsView {
     private void styleHeaderLabel(final Label label) {
         label.setMaxWidth(props.getInt("mission.grid.details.label.width"));
         label.setMinWidth(props.getInt("mission.grid.details.label.width"));
-        label.setId("mission-details-header");
+        label.getStyleClass().add("mission-stats-header");
     }
     /**
      * Style the table's data row labels.
@@ -190,6 +187,6 @@ public class MissionDetailsView {
     private void styleLabel(final Label label) {
         label.setMaxWidth(props.getInt("mission.grid.details.label.width"));
         label.setMinWidth(props.getInt("mission.grid.details.label.width"));
-        label.setId("mission-details-cell");
+        label.getStyleClass().add("mission-details-cell");
     }
 }

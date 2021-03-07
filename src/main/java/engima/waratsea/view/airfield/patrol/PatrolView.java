@@ -24,6 +24,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The patrol view.
+ *
+ * CSS styles used.
+ *
+ * - patrol-main-pane
+ */
 public class PatrolView {
     private final ViewProps props;
 

@@ -16,6 +16,10 @@ import lombok.Getter;
 
 /**
  * This class represents the mission view in the airfield dialog.
+ *
+ * CSS styles used.
+ *
+ *  - spacing-10
  */
 public class MissionView {
     @Getter private final TableView<AirMissionViewModel> table = new TableView<>();
@@ -101,7 +105,7 @@ public class MissionView {
      */
     private Node buildButtons() {
         HBox hBox = new HBox(add, edit, delete);
-        hBox.setId("mission-control-pane");
+        hBox.getStyleClass().add("spacing-10");
         return hBox;
     }
 }

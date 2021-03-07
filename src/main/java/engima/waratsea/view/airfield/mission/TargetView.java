@@ -17,6 +17,10 @@ import java.util.Map;
 
 /**
  * Represents the mission's target view details.
+ *
+ * CSS Styles used.
+ *
+ * - spacing-15
  */
 public class TargetView {
     private final VBox statsVBox = new VBox();
@@ -55,7 +59,7 @@ public class TargetView {
         Node weatherNode = weatherView.build();
         mainVBox.getChildren().addAll(statsVBox, weatherNode);
 
-        mainVBox.setId("mission-main-vbox");
+        mainVBox.getStyleClass().add("spacing-15");
 
         return mainVBox;
     }

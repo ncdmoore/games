@@ -15,7 +15,15 @@ import javafx.scene.layout.VBox;
 
 import java.util.Optional;
 
-
+/**
+ * The ferry mission view stats.
+ *
+ * CSS used
+ *
+ *  - spacing-10
+ *  - step-summary-grid
+ *
+ */
 public class FerryView implements StatsView {
     private final Label airbaseTitle = new Label();
     private final Label distanceValue = new Label();
@@ -55,7 +63,7 @@ public class FerryView implements StatsView {
         Node airbaseRegionStats = buildAirbaseRegionStats();
 
         statsVBox.getChildren().addAll(airbaseStats, targetRegionStats, airbaseRegionStats);
-        statsVBox.setId("target-stats-vbox");
+        statsVBox.getStyleClass().add("spacing-10");
         return this;
     }
 
@@ -194,6 +202,9 @@ public class FerryView implements StatsView {
         Label current = new Label("Stationed steps:");
         Label inRoute = new Label("Steps in route:");
 
+        distance.setMinWidth(props.getInt("airfield.dialog.step.summary.label.length"));
+        distance.setMaxWidth(props.getInt("airfield.dialog.step.summary.label.length"));
+
         GridPane gridPane = new GridPane();
 
         final int row2 = 2;
@@ -208,7 +219,7 @@ public class FerryView implements StatsView {
         gridPane.add(inRoute, 0, row3);
         gridPane.add(inRouteValue, 1, row3);
 
-        gridPane.setId("target-step-summary-grid");
+        gridPane.getStyleClass().add("step-summary-grid");
 
         VBox vBox = new VBox(airbaseTitle, gridPane);
         vBox.setMaxWidth(props.getInt("airfield.dialog.mission.list.width"));
@@ -227,6 +238,9 @@ public class FerryView implements StatsView {
         Label targetRegionCurrentSteps = new Label("Region current steps:");
         Label targetRegionInRoute = new Label("Steps in route to region:");
 
+        targetRegionMaxSteps.setMinWidth(props.getInt("airfield.dialog.step.summary.label.length"));
+        targetRegionMaxSteps.setMaxWidth(props.getInt("airfield.dialog.step.summary.label.length"));
+
         GridPane gridPane = new GridPane();
 
         final int row2 = 2;
@@ -237,7 +251,8 @@ public class FerryView implements StatsView {
         gridPane.add(targetRegionCurrentStepsValue, 1, 1);
         gridPane.add(targetRegionInRoute, 0, row2);
         gridPane.add(targetRegionInRouteValue, 1, row2);
-        gridPane.setId("region-step-summary-grid");
+
+        gridPane.getStyleClass().add("step-summary-grid");
 
         VBox vBox = new VBox(targetRegionTitle, gridPane);
         vBox.setMaxWidth(props.getInt("airfield.dialog.mission.list.width"));
@@ -256,6 +271,9 @@ public class FerryView implements StatsView {
         Label airbaseRegionCurrentSteps = new Label("Region current steps:");
         Label airbaseRegionOutRoute = new Label("Steps out of region:");
 
+        airbaseRegionMinSteps.setMinWidth(props.getInt("airfield.dialog.step.summary.label.length"));
+        airbaseRegionMinSteps.setMaxWidth(props.getInt("airfield.dialog.step.summary.label.length"));
+
         GridPane gridPane = new GridPane();
 
         final int row2 = 2;
@@ -266,7 +284,8 @@ public class FerryView implements StatsView {
         gridPane.add(airbaseRegionCurrentStepsValue, 1, 1);
         gridPane.add(airbaseRegionOutRoute, 0, row2);
         gridPane.add(airbaseRegionOutRouteValue, 1, row2);
-        gridPane.setId("region-step-summary-grid");
+
+        gridPane.getStyleClass().add("step-summary-grid");
 
         VBox vBox = new VBox(airbaseRegionTitle, gridPane);
         vBox.setMaxWidth(props.getInt("airfield.dialog.mission.list.width"));

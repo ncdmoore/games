@@ -262,7 +262,7 @@ public class ShipDetailsView {
         titledPane.setText("Ship Profile");
 
         VBox shipVBox = new VBox(shipProfileImage);
-        shipVBox.setId("profile-vbox");
+        shipVBox.getStyleClass().add("profile-vbox");
 
         titledPane.setContent(shipVBox);
 

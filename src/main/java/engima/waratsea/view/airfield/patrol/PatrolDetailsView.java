@@ -29,6 +29,15 @@ import java.util.stream.Collectors;
 
 /**
  * Represents the patrol details view. Displayed when a patrol radius circle is clicked on the game map.
+ *
+ * CSS styles used.
+ *
+ * - spacing-30
+ * - patrol-details-pane
+ * - patrol-details-header
+ * - patrol-details-cell
+ * - patrol-details-grid
+ * - controls-pane
  */
 public class PatrolDetailsView {
     private final ViewProps props;
@@ -83,7 +92,7 @@ public class PatrolDetailsView {
         Node squadronDetails = buildSquadronDetails(patrol);
 
         VBox vBox = new VBox(squadronSummaryPane, radiiPane, squadronDetails);
-        vBox.setId("patrol-details-vbox");
+        vBox.getStyleClass().add("spacing-30");
 
         ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setId("patrol-details-pane");
@@ -300,7 +309,7 @@ public class PatrolDetailsView {
     private void styleHeaderLabel(final Label label) {
         label.setMaxWidth(props.getInt("patrol.grid.details.label.width"));
         label.setMinWidth(props.getInt("patrol.grid.details.label.width"));
-        label.setId("patrol-details-header");
+        label.getStyleClass().add("patrol-details-header");
     }
     /**
      * Style the table's data row labels.
@@ -310,7 +319,7 @@ public class PatrolDetailsView {
     private void styleRowLabel(final Label label) {
         label.setMaxWidth(props.getInt("patrol.grid.details.label.width"));
         label.setMinWidth(props.getInt("patrol.grid.details.label.width"));
-        label.setId("patrol-details-cell");
+        label.getStyleClass().add("patrol-details-cell");
     }
 
     private String getSquadronTitleAndHome(final Squadron squadron) {

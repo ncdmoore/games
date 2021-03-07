@@ -15,6 +15,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Probability stats view used by missions.
+ *
+ * CSS styles used.
+ *
+ * - spacing-10
+ * - spacing-75
+ * - mission-stats-header
+ * - mission-stats-cell
+ * - mission-stats-grid
+ */
 public class ProbabilityStatsView {
 
     private final ViewProps props;
@@ -28,7 +39,7 @@ public class ProbabilityStatsView {
     @Inject
     public ProbabilityStatsView(final ViewProps props) {
         this.props = props;
-        pane.setId("mission-stats-vbox");
+        pane.getStyleClass().add("spacing-10");
     }
 
     /**
@@ -38,7 +49,7 @@ public class ProbabilityStatsView {
      */
     public ProbabilityStatsView setHorizontal() {
         pane = new HBox();
-        pane.setId("mission-stats-hbox");
+        pane.getStyleClass().add("spacing-75");
         return this;
     }
 
@@ -71,7 +82,7 @@ public class ProbabilityStatsView {
         Label eventHeader = new Label(probabilityStats.getEventColumnTitle());
         eventHeader.setMaxWidth(props.getInt("mission.grid.label.width"));
         eventHeader.setMinWidth(props.getInt("mission.grid.label.width"));
-        eventHeader.setId("mission-stats-header");
+        eventHeader.getStyleClass().add("mission-stats-header");
 
         Label probHeader = new Label(probabilityStats.getProbabilityColumnTitle());
 
@@ -88,12 +99,12 @@ public class ProbabilityStatsView {
 
         probHeader.setMaxWidth(props.getInt("mission.grid.label.width"));
         probHeader.setMinWidth(props.getInt("mission.grid.label.width"));
-        probHeader.setId("mission-stats-header");
+        probHeader.getStyleClass().add("mission-stats-header");
 
         GridPane gridPane = new GridPane();
         gridPane.add(eventHeader, 0, 0);
         gridPane.add(probHeader, 1, 0);
-        gridPane.setId("mission-stats-grid");
+        gridPane.getStyleClass().add("mission-stats-grid");
 
         Map<String, Integer> probability = probabilityStats.getProbability();
 
@@ -103,14 +114,14 @@ public class ProbabilityStatsView {
             Label event = new Label(entry.getKey());
             event.setMaxWidth(props.getInt("mission.grid.label.width"));
             event.setMinWidth(props.getInt("mission.grid.label.width"));
-            event.setId("mission-stats-cell");
+            event.getStyleClass().add("mission-stats-cell");
 
             gridPane.add(event, 0, row);
 
             Label prob = new Label(entry.getValue() + " %");
             prob.setMaxWidth(props.getInt("mission.grid.label.width"));
             prob.setMinWidth(props.getInt("mission.grid.label.width"));
-            prob.setId("mission-stats-cell");
+            prob.getStyleClass().add("mission-stats-cell");
 
             gridPane.add(prob, 1, row);
             row++;

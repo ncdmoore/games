@@ -18,9 +18,9 @@ import javafx.scene.paint.Color;
  * Represents a small weather icon. It also indicates if the current patrol or mission
  * is affected by the current weather.
  *
- * CSS sytle
+ * CSS style
  *
- *  .affected-weather-box
+ *  - affected-weather-box
  *
  */
 public class SmallWeatherView {

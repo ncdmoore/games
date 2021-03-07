@@ -10,6 +10,11 @@
     -fx-background: -fx-var-background-color;
 }
 
+.profile-vbox {
+    -fx-background-color: white;
+    -fx-alignment: center;
+}
+
 #title-pane-axis {
     -fx-border-width: 1px;
     -fx-border-color: black;
@@ -55,16 +60,9 @@
     -fx-border-width: 1px;
 }
 
-#profile-vbox {
-    -fx-background-color: white;
-    -fx-alignment: center;
-}
-
-
 #ship-details-grid {
     -fx-hgap: 10;
 }
-
 
 .component-grid {
     -fx-background-color: whitesmoke;
