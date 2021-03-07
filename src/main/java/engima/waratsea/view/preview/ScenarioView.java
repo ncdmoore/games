@@ -79,10 +79,10 @@ public class ScenarioView {
      */
     public void build(final Stage stage) {
         Label title = new Label("Select a Scenario");
-        title.setId("title");
+        title.setId("scenario-title");
 
         StackPane titlePane = new StackPane(title);
-        titlePane.setId("title-pane");
+        titlePane.setId("scenario-title-pane");
 
         Label label = new Label("Scenarios:");
 
@@ -94,7 +94,7 @@ public class ScenarioView {
         Node pushButtons = buildPushButtons();
 
         VBox mainPane = new VBox(label, scenarioBox, radioButtons, pushButtons);
-        mainPane.setId("main-pane");
+        mainPane.setId("scenario-main-pane");
 
         VBox vBox = new VBox(titlePane, mainPane);
 
@@ -181,7 +181,6 @@ public class ScenarioView {
      * @return The node that contains the side radio buttons.
      */
     private Node buildRadioButtons() {
-
         radioButtonAllies = new RadioButton("Allies");
         radioButtonAxis = new RadioButton("Axis");
 
@@ -192,7 +191,7 @@ public class ScenarioView {
         radioButtonAxis.setToggleGroup(sideGroup);
 
         HBox hBox = new HBox(alliesFlag, radioButtonAllies, radioButtonAxis, axisFlag);
-        hBox.setId("side-radio-buttons");
+        hBox.setId("scenario-side-radio-buttons");
         return hBox;
     }
 
@@ -205,7 +204,7 @@ public class ScenarioView {
         continueButton = new Button("Continue");
 
         HBox hBox =  new HBox(backButton, continueButton);
-        hBox.setId("push-buttons");
+        hBox.setId("scenario-push-buttons");
         return hBox;
     }
 }

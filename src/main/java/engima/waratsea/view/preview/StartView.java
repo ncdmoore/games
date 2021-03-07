@@ -64,10 +64,10 @@ public class StartView {
         hBox.setId("flags");
 
         Label title = new Label(props.getString("title"));
-        title.setId("title");
+        title.setId("start-title");
 
         StackPane titlePane = new StackPane(hBox, title);
-        titlePane.setId("title-pane");
+        titlePane.setId("start-title-pane");
         titlePane.setMaxWidth(paneWidth);
 
         Node buttons = buildButtons();
@@ -75,7 +75,7 @@ public class StartView {
         ImageView backGroundImageView = resourceProvider.getImageView(props.getString("start.image"));
 
         StackPane mainPane = new StackPane(backGroundImageView, buttons);
-        mainPane.setId("main-pane");
+        mainPane.setId("start-main-pane");
         mainPane.setMaxWidth(paneWidth);
 
         VBox vBox = new VBox(titlePane, mainPane);
@@ -125,7 +125,7 @@ public class StartView {
         quitButton.setMinWidth(buttonWidth);
 
         VBox vBox = new VBox(newButton, savedButton, optionsButton, quitButton);
-        vBox.setId("command-buttons");
+        vBox.setId("start-command-buttons");
 
         return vBox;
     }

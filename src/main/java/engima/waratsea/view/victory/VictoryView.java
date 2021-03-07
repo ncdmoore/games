@@ -83,10 +83,10 @@ public class VictoryView {
         Node grid = buildGrid(victoryType);
 
         HBox hBox = new HBox(conditionsVBox, grid);
-        hBox.setId("main-hbox");
+        hBox.setId("victory-main-hbox");
 
         VBox mainVBox = new VBox(titledPane, hBox);
-        mainVBox.setId("main-pane");
+        mainVBox.setId("victory-main-pane");
 
         tab.setContent(mainVBox);
 

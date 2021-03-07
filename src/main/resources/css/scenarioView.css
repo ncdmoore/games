@@ -10,20 +10,19 @@
     -fx-background: -fx-var-background-color;
 }
 
-
-#title {
+#scenario-title {
     -fx-font: bold 16pt "Lucida Grande";
     -fx-text-fill: navy;
 }
 
-#title-pane {
+#scenario-title-pane {
     -fx-border-width: 1px;
     -fx-border-color: -fx-var-background-color;
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, gray 0%, lightblue 100%);
     -fx-alignment: top-center;
 }
 
-#main-pane {
+#scenario-main-pane {
     -fx-border-width: 1px;
     -fx-border-color: -fx-var-background-color;
     -fx-border-insets: /* top: */ 20 /* right: */ 0 /* bottom: */ 0 /* left: */ 200;
@@ -42,13 +41,13 @@
 }
 
 
-#side-radio-buttons  {
+#scenario-side-radio-buttons  {
     -fx-spacing: 173;
     -fx-padding: /* top: */ 60 /* right: */ 0 /* bottom: */ 20 /* left: */ 25;
 
 }
 
-#push-buttons  {
+#scenario-push-buttons  {
     -fx-spacing: 180;
     -fx-padding: /* top: */ 20 /* right: */ 0 /* bottom: */ 20 /* left: */ 250;
 }

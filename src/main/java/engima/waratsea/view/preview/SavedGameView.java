@@ -70,10 +70,10 @@ public class SavedGameView {
      */
     public void show(final Stage stage) {
         Label title = new Label("Select a saved game");
-        title.setId("title");
+        title.setId("save-title");
 
         StackPane titlePane = new StackPane(title);
-        titlePane.setId("title-pane");
+        titlePane.setId("save-title-pane");
 
         Label label = new Label("Saved Games:");
 
@@ -85,7 +85,7 @@ public class SavedGameView {
         Node pushButtons = buildPushButtons();
 
         VBox mainPane = new VBox(label, savedGamesBox, pushButtons);
-        mainPane.setId("main-pane");
+        mainPane.setId("save-main-pane");
 
         VBox vBox = new VBox(titlePane, mainPane);
 
@@ -172,7 +172,7 @@ public class SavedGameView {
         gridPane.add(sideValue, 1, row3);
 
 
-        gridPane.setId("scenario-details");
+        gridPane.setId("save-scenario-details");
         GridPane.setValignment(descriptionLabel, VPos.TOP);
 
         return gridPane;
@@ -187,7 +187,7 @@ public class SavedGameView {
         continueButton = new Button("Continue");
 
         HBox hBox =  new HBox(backButton, continueButton);
-        hBox.setId("push-buttons");
+        hBox.setId("save-push-buttons");
         return hBox;
     }
 }

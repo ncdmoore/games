@@ -53,13 +53,13 @@ public class WarnDialog {
         Label label = new Label(message);
 
         HBox hBox = new HBox(imageView, label);
-        hBox.setId("hbox");
+        hBox.setId("warn-hbox");
 
         Button ok = new Button("Ok");
         ok.setOnAction(event -> close(stage));
 
         VBox vBox = new VBox(hBox, ok);
-        vBox.setId("main-pane");
+        vBox.setId("warn-main-pane");
 
         int width = props.getInt("warn.dialog.scene.width");
         int height = props.getInt("warn.dialog.scene.height");

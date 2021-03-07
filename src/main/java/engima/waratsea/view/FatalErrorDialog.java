@@ -45,7 +45,7 @@ public class FatalErrorDialog {
         ok.setOnAction(event -> close(stage));
 
         VBox vBox = new VBox(20, label, ok);
-        vBox.setId("main-pane");
+        vBox.setId("error-main-pane");
 
         Scene scene = new Scene(vBox, 800, 200);
 

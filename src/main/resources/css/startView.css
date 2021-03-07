@@ -24,7 +24,7 @@
 ////////////////////////////////////////////////////////////////////
 // Game title.
 ////////////////////////////////////////////////////////////////////
-#title {
+#start-title {
     -fx-font: bold 16pt "Lucida Grande";
     -fx-text-fill: navy;
     -fx-padding: /* top: */ 20 /* right: */ 0 /* bottom: */ 0 /* left: */ 0;
@@ -33,7 +33,7 @@
 ////////////////////////////////////////////////////////////////////
 // Center the title pain that contains the flags and title.
 ////////////////////////////////////////////////////////////////////
-#title-pane {
+#start-title-pane {
     -fx-border-width: 1px;
     -fx-border-color: -fx-var-background-color;
     -fx-border-insets: /* top: */ 120 /* right: */ 0 /* bottom: */ 0 /* left: */ 255;
@@ -45,7 +45,7 @@
 ////////////////////////////////////////////////////////////////////
 // Center the main pane that contains the image and command buttons.
 ////////////////////////////////////////////////////////////////////
-#main-pane {
+#start-main-pane {
     -fx-border-insets: /* top: */ 0   /* right: */ 0 /* bottom: */ 0 /* left: */ 255;
     -fx-border-width: 1px;
     -fx-border-color: -fx-var-background-color;
@@ -55,7 +55,7 @@
 ////////////////////////////////////////////////////////////////////
 // Center Command buttons within the main pane.
 ////////////////////////////////////////////////////////////////////
-#command-buttons {
+#start-command-buttons {
     -fx-padding: /* top: */ 120 /* right: */ 0 /* bottom: */ 0 /* left: */ 270;
     -fx-spacing: 3;
 }
