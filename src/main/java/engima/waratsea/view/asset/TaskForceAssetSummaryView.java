@@ -1,6 +1,7 @@
 package engima.waratsea.view.asset;
 
 import com.google.inject.Inject;
+import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.ResourceProvider;
@@ -10,6 +11,8 @@ import engima.waratsea.view.util.BoundTitledGridPane;
 import engima.waratsea.view.util.GridPaneMap;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -39,6 +42,11 @@ public class TaskForceAssetSummaryView implements AssetView {
 
     private final TitledPane summaryPane = new TitledPane();
     private final GridPaneMap summaryGrid = new GridPaneMap();
+    private final TitledPane managementPane = new TitledPane();
+    private final TitledPane landingTypesPane = new TitledPane();
+
+    @Getter private final Button airOperations = new Button("Air Operations");
+    @Getter private final Button navalOperations = new Button("Naval Operations");
 
     private final InfoPane shipSummary;
 
@@ -69,15 +77,19 @@ public class TaskForceAssetSummaryView implements AssetView {
         viewModel = taskForceViewModel;
 
         buildSummary();
+        buildManagementPane();
+        buildLandingTypes();
 
         BoundTitledGridPane shipSummaryNode = shipSummary.build("Ship Summary");
         shipSummaryNode.setMinHeight(props.getInt("asset.pane.component.height"));
         shipSummaryNode.getStyleClass().add("asset-component-pane");
 
-        node = new HBox(summaryPane, shipSummaryNode);
+        node = new HBox(summaryPane, shipSummaryNode, managementPane, landingTypesPane);
         node.setId("asset-hbox");
 
         summaryPane.setMinHeight(props.getInt("asset.pane.component.height"));
+        managementPane.setMinHeight(props.getInt("asset.pane.component.height"));
+        landingTypesPane.setMinHeight(props.getInt("asset.pane.component.height"));
 
         bind();
 
@@ -132,15 +144,53 @@ public class TaskForceAssetSummaryView implements AssetView {
         summaryPane.setContent(hBox);
     }
 
+    private void buildManagementPane() {
+        managementPane.setText("Task Force Management");
+
+        TaskForce taskForce = viewModel
+                .getTaskForceNavalViewModel()
+                .getTaskForce()
+                .getValue();
+
+        airOperations.setUserData(taskForce);
+        navalOperations.setUserData(taskForce);
+
+        airOperations.setMinWidth(props.getInt("asset.pane.button.long.width"));
+        navalOperations.setMinWidth(props.getInt("asset.pane.button.long.width"));
+
+        VBox vbox = new VBox(airOperations, navalOperations);
+        vbox.setId("asset-management-vbox");
+        managementPane.setContent(vbox);
+
+        managementPane.getStyleClass().add("asset-component-pane");
+    }
+
+    /**
+     * Build the landing types.
+     */
+    private void buildLandingTypes() {
+        landingTypesPane.setText("Landing Types");
+        landingTypesPane.getStyleClass().add("asset-component-pane");
+    }
+
     /**
      * Bind the view model.
      **/
     private void bind() {
         bindSummary();
+        bindLandingTypes();
 
         shipSummary.bindIntegers(viewModel
                 .getTaskForceNavalViewModel()
                 .getShipCounts());
+
+        airOperations
+                .disableProperty()
+                .bind(viewModel
+                        .getTaskForceAirViewModel()
+                        .getSquadronsPresent()
+                        .not());
+
     }
 
     /**
@@ -164,12 +214,52 @@ public class TaskForceAssetSummaryView implements AssetView {
     }
 
     /**
+     * Show landing types.
+     */
+    private void bindLandingTypes() {
+        List<CheckBox> checkBoxes = LandingType
+                .stream()
+                .map(this::buildCheckBox)
+                .collect(Collectors.toList());
+
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(checkBoxes);
+        vBox.setId("airfield-landing-type-vbox");
+
+        landingTypesPane.setContent(vBox);
+    }
+
+    /**
+     * Build the landing type check boxes that indicate which
+     * landing types the airfield support.
+     *
+     * @param landingType An aircraft/squadron landing type.
+     * @return A checkbox corresponding to the given landing type.
+     */
+    private CheckBox buildCheckBox(final LandingType landingType) {
+        TaskForce taskForce = viewModel
+                .getTaskForceNavalViewModel()
+                .getTaskForce()
+                .getValue();
+
+        CheckBox checkBox = new CheckBox(landingType.toString());
+        if (taskForce.getLandingType().contains(landingType)) {
+            checkBox.setSelected(true);
+        }
+        checkBox.setDisable(true);
+        return checkBox;
+    }
+
+    /**
      * Get the Airbase's data.
      *
      * @return The given airbase's data.
      */
     private Map<String, String> getTaskForceData() {
-        TaskForce taskForce = viewModel.getTaskForceNavalViewModel().getTaskForce().getValue();
+        TaskForce taskForce = viewModel
+                .getTaskForceNavalViewModel()
+                .getTaskForce()
+                .getValue();
 
         Map<String, String> data = new LinkedHashMap<>();
 

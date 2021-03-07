@@ -8,8 +8,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceAirDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceAirDetails.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceNavalDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceNavalDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/asset/TaskForceAssetPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/asset/TaskForceAssetPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/TaskForceAssetSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/TaskForceAssetSummaryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/taskforce/air/TaskForceAirViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/taskforce/air/TaskForceAirViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/properties/view.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -277,13 +284,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00373" summary="Add the ability to pick where a task force begin play on the preview map.">
-      <created>1612111848904</created>
-      <option name="number" value="00373" />
-      <option name="presentableId" value="LOCAL-00373" />
-      <option name="project" value="LOCAL" />
-      <updated>1612111848904</updated>
     </task>
     <task id="LOCAL-00374" summary="Turn off some of the resource logging.">
       <created>1612112155944</created>
@@ -621,7 +621,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615133760278</updated>
     </task>
-    <option name="localTasksCounter" value="422" />
+    <task id="LOCAL-00422" summary="css refactor.">
+      <created>1615133945343</created>
+      <option name="number" value="00422" />
+      <option name="presentableId" value="LOCAL-00422" />
+      <option name="project" value="LOCAL" />
+      <updated>1615133945343</updated>
+    </task>
+    <option name="localTasksCounter" value="423" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -738,7 +745,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/TaskForceAssetSummaryView.java</url>
-          <line>113</line>
+          <line>125</line>
           <option name="timeStamp" value="95" />
         </line-breakpoint>
         <breakpoint type="java-exception">

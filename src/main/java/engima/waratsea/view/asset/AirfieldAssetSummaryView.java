@@ -118,7 +118,7 @@ public class AirfieldAssetSummaryView implements AssetView {
         buildManagementPane();
         buildNationsTabPane();
 
-        node = new HBox(summaryPane, landingTypesPane, managementPane, nationsTabPane);
+        node = new HBox(summaryPane, managementPane, landingTypesPane, nationsTabPane);
         node.setId("asset-hbox");
 
         summaryPane.setMinHeight(props.getInt("asset.pane.component.height"));
@@ -258,7 +258,7 @@ public class AirfieldAssetSummaryView implements AssetView {
         patrolButton.setMinWidth(props.getInt("asset.pane.button.width"));
 
         VBox vbox = new VBox(missionButton, patrolButton);
-        vbox.setId("airfield-management-vbox");
+        vbox.setId("asset-management-vbox");
         managementPane.setContent(vbox);
 
         managementPane.getStyleClass().add("asset-component-pane");

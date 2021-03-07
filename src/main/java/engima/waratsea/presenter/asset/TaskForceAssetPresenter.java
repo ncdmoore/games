@@ -5,10 +5,14 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.presenter.taskforce.TaskForceAirDialog;
+import engima.waratsea.presenter.taskforce.TaskForceNavalDialog;
 import engima.waratsea.view.asset.AssetId;
 import engima.waratsea.view.asset.AssetSummaryView;
 import engima.waratsea.view.asset.TaskForceAssetSummaryView;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +22,8 @@ public class TaskForceAssetPresenter {
     private final Provider<AssetSummaryView> assetSummaryViewProvider;
     private final Provider<TaskForceViewModel> taskForceViewModelProvider;
     private final Provider<TaskForceAssetSummaryView> taskForceAssetSummaryViewProvider;
+    private final Provider<TaskForceAirDialog> taskForceAirDialogProvider;
+    private final Provider<TaskForceNavalDialog> taskForceNavalDialogProvider;
 
 
     private final Set<AssetId> hideAssets = new HashSet<>();
@@ -25,10 +31,14 @@ public class TaskForceAssetPresenter {
     @Inject
     public TaskForceAssetPresenter(final Provider<AssetSummaryView> assetSummaryViewProvider,
                                    final Provider<TaskForceViewModel> taskForceViewModelProvider,
-                                   final Provider<TaskForceAssetSummaryView> taskForceAssetSummaryViewProvider) {
+                                   final Provider<TaskForceAssetSummaryView> taskForceAssetSummaryViewProvider,
+                                   final Provider<TaskForceAirDialog> taskForceAirDialogProvider,
+                                   final Provider<TaskForceNavalDialog> taskForceNavalDialogProvider) {
         this.assetSummaryViewProvider = assetSummaryViewProvider;
         this.taskForceViewModelProvider = taskForceViewModelProvider;
         this.taskForceAssetSummaryViewProvider = taskForceAssetSummaryViewProvider;
+        this.taskForceAirDialogProvider = taskForceAirDialogProvider;
+        this.taskForceNavalDialogProvider = taskForceNavalDialogProvider;
     }
 
     /**
@@ -46,6 +56,7 @@ public class TaskForceAssetPresenter {
         TaskForceAssetSummaryView assetView = taskForceAssetSummaryViewProvider.get();
         assetView.build(viewModel);
         assetSummaryViewProvider.get().show(assetId, assetView);
+        registerCallbacks(assetView);
     }
 
     /**
@@ -120,6 +131,21 @@ public class TaskForceAssetPresenter {
         assetView.reset(viewModel);   // reset the task force's asset summary's view of the task force.
     }
 
+    /**
+     * Register callbacks for task force asset presenter.
+     *
+     * @param assetView The task force asset summary view.
+     */
+    private void registerCallbacks(final TaskForceAssetSummaryView assetView) {
+        assetView
+                .getAirOperations()
+                .setOnAction(this::taskForceManageAirOpts);
+
+        assetView
+                .getNavalOperations()
+                .setOnAction(this::taskForceManageNavalOpts);
+    }
+
     private TaskForceAssetSummaryView addTaskForceToAssetView(final TaskForce taskForce) {
         AssetId assetId = new AssetId(AssetType.TASK_FORCE, taskForce.getTitle());
 
@@ -133,5 +159,33 @@ public class TaskForceAssetPresenter {
         hideAssets.add(assetId);
 
         return assetView;
+    }
+
+    /**
+     * Callback for manage airfield mission button.
+     *
+     * @param event The button click event.
+     */
+    private void taskForceManageAirOpts(final ActionEvent event) {
+        Button button = (Button) event.getSource();
+        TaskForce taskForce = (TaskForce) button.getUserData();
+
+        taskForceAirDialogProvider
+                .get()
+                .show(taskForce);
+    }
+
+    /**
+     * Callback for manage airfield mission button.
+     *
+     * @param event The button click event.
+     */
+    private void taskForceManageNavalOpts(final ActionEvent event) {
+        Button button = (Button) event.getSource();
+        TaskForce taskForce = (TaskForce) button.getUserData();
+
+        taskForceNavalDialogProvider
+                .get()
+                .show(taskForce);
     }
 }

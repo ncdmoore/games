@@ -9,10 +9,12 @@ import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -42,6 +44,7 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
     @Getter private final StringProperty title = new SimpleStringProperty();
     @Getter private final StringProperty nameAndTitle = new SimpleStringProperty();
     @Getter private final ObjectProperty<Image> image = new SimpleObjectProperty<>();
+    @Getter private final BooleanProperty squadronsPresent = new SimpleBooleanProperty(false);
 
     @Getter private final MapProperty<AircraftType, Integer> squadronTypeMap = new SimpleMapProperty<>(FXCollections.emptyObservableMap());
     @Getter private final Map<String, IntegerProperty> squadronCounts = new LinkedHashMap<>();
@@ -64,6 +67,7 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
         this.airbaseGroupViewModel = airbaseGroupViewModel;
 
         bindTitles();
+        bindSquadronsPresent();
         bindSquadronTypeMap();
         bindSquadronCounts();
         bindImages(imageResourceProvider, props);
@@ -107,6 +111,13 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
         name.bind(Bindings.createStringBinding(() -> Optional.ofNullable(taskForce.getValue()).map(TaskForce::getName).orElse(""), taskForce));
         title.bind(Bindings.createStringBinding(() -> Optional.ofNullable(taskForce.getValue()).map(TaskForce::getTitle).orElse(""), taskForce));
         nameAndTitle.bind(name.concat(new SimpleStringProperty(" ")).concat(title));
+    }
+
+    /**
+     * Bind the task force squadrons present flag.
+     */
+    private void bindSquadronsPresent() {
+        squadronsPresent.bind(Bindings.createBooleanBinding(() -> Optional.ofNullable(taskForce.getValue()).map(TaskForce::areSquadronsPresent).orElse(false), taskForce));
     }
 
     private void bindSquadronTypeMap() {
