@@ -1,6 +1,7 @@
 package engima.waratsea.view.asset;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.taskForce.TaskForce;
@@ -9,10 +10,14 @@ import engima.waratsea.view.InfoPane;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.util.BoundTitledGridPane;
 import engima.waratsea.view.util.GridPaneMap;
+import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import lombok.Getter;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +43,8 @@ import java.util.stream.Collectors;
  * - task-force-summary-flag
  */
 public class TaskForceAssetSummaryView implements AssetView {
+    private static final String ROUNDEL = ".roundel.image";
+
     private final ViewProps props;
     private final ResourceProvider resourceProvider;
 
@@ -48,23 +56,37 @@ public class TaskForceAssetSummaryView implements AssetView {
     @Getter private final Button airOperations = new Button("Air Operations");
     @Getter private final Button navalOperations = new Button("Naval Operations");
 
-    private final InfoPane shipSummary;
+    @Getter private final TabPane shipTabPane = new TabPane();
 
-    private final ImageView assetImage = new ImageView();
-    private Map<Nation, ImageView> flagImageViews;
+    private final Map<String, Tab> tabMap = new HashMap<>();
+
+    private final Provider<InfoPane> infoProvider;
 
     @Getter private TaskForceViewModel viewModel;
+
+    private final InfoPane shipSummary;
+    private final Map<String, InfoPane> squadronInfo = new HashMap<>();
+    private final Map<String, InfoPane> missionInfo = new HashMap<>();
+    private final Map<String, InfoPane> patrolInfo = new HashMap<>();
+    private final Map<String, InfoPane> readyInfo = new HashMap<>();
+
+    private final ImageView assetImage = new ImageView();
+
+    private Map<Nation, ImageView> flagImageViews;
+
 
     @Getter private HBox node;
 
     @Inject
     public TaskForceAssetSummaryView(final ViewProps props,
                                      final ResourceProvider resourceProvider,
-                                     final InfoPane taskForceInfo) {
+                                     final InfoPane taskForceInfo,
+                                     final Provider<InfoPane> infoProvider) {
         this.props = props;
         this.resourceProvider = resourceProvider;
-
         this.shipSummary = taskForceInfo;
+        this.infoProvider = infoProvider;
+
     }
 
     /**
@@ -79,12 +101,13 @@ public class TaskForceAssetSummaryView implements AssetView {
         buildSummary();
         buildManagementPane();
         buildLandingTypes();
+        buildShipsTabPane();
 
         BoundTitledGridPane shipSummaryNode = shipSummary.build("Ship Summary");
         shipSummaryNode.setMinHeight(props.getInt("asset.pane.component.height"));
         shipSummaryNode.getStyleClass().add("asset-component-pane");
 
-        node = new HBox(summaryPane, shipSummaryNode, managementPane, landingTypesPane);
+        node = new HBox(summaryPane, shipSummaryNode, managementPane, landingTypesPane, shipTabPane);
         node.setId("asset-hbox");
 
         summaryPane.setMinHeight(props.getInt("asset.pane.component.height"));
@@ -97,12 +120,32 @@ public class TaskForceAssetSummaryView implements AssetView {
     }
 
     /**
+     * Select the given nation's tab.
+     *
+     * @param airbaseViewModel The air base view model.
+     */
+    public void setShip(final AirbaseViewModel airbaseViewModel) {
+        String title = airbaseViewModel
+                .getAirbase()
+                .getValue()
+                .getTitle();
+
+        Tab tab = tabMap.get(title);
+        shipTabPane.getSelectionModel().select(tab);
+    }
+
+    /**
      * Reset the model binding.
      *
      * @param taskForceViewModel The new task force view model that this object is bound too.
      */
     public void reset(final TaskForceViewModel taskForceViewModel) {
         viewModel = taskForceViewModel;
+
+        viewModel
+                .getTaskForceAirViewModel()
+                .getAirbases()
+                .forEach(this::bindShip);
     }
 
     private void buildSummary() {
@@ -174,6 +217,75 @@ public class TaskForceAssetSummaryView implements AssetView {
     }
 
     /**
+     * Build the nation's tabs.
+     */
+    private void buildShipsTabPane() {
+        shipTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        shipTabPane.setId("asset-nations-tab-pane");
+
+        viewModel
+                .getTaskForceAirViewModel()
+                .getAirbases()
+                .stream()
+                .sorted()
+                .map(this::buildShipTab)
+                .forEach(tab -> shipTabPane.getTabs().add(tab));
+    }
+
+    /**
+     * Build a ship's tab.
+     *
+     * @param airbaseViewModel The air base view model.
+     * @return The ship's tab.
+     */
+    private Tab buildShipTab(final AirbaseViewModel airbaseViewModel) {
+        String title = airbaseViewModel
+                .getAirbase()
+                .getValue()
+                .getTitle();
+
+        Tab tab = new Tab();
+        tab.setText(title);
+        tab.setUserData(airbaseViewModel);
+
+        Nation nation = getNation(airbaseViewModel);
+        ImageView roundel = resourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
+
+        tab.setGraphic(roundel);
+
+        squadronInfo.put(title, infoProvider.get());
+        TitledPane squadronInfoNode = squadronInfo.get(title).build("Squadron Summary");
+        squadronInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
+        squadronInfoNode.getStyleClass().add("asset-component-pane");
+
+        missionInfo.put(title, infoProvider.get());
+        TitledPane missionInfoNode = missionInfo.get(title).build("Mission Summary");
+        missionInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
+        missionInfoNode.getStyleClass().add("asset-component-pane");
+
+        patrolInfo.put(title, infoProvider.get());
+        TitledPane patrolInfoNode = patrolInfo.get(title).build("Patrol Summary");
+        patrolInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
+        patrolInfoNode.getStyleClass().add("asset-component-pane");
+
+        readyInfo.put(title, infoProvider.get());
+        TitledPane readyInfoNode = readyInfo.get(title).build("Ready Summary");
+        readyInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
+        readyInfoNode.getStyleClass().add("asset-component-pane");
+
+        HBox hBox = new HBox(squadronInfoNode, readyInfoNode, missionInfoNode, patrolInfoNode);
+        hBox.setId("asset-nation-tab-hbox");
+
+        hBox.setFillHeight(false);
+
+        tab.setContent(hBox);
+
+        tabMap.put(title, tab);
+
+        return tab;
+    }
+
+    /**
      * Bind the view model.
      **/
     private void bind() {
@@ -191,6 +303,10 @@ public class TaskForceAssetSummaryView implements AssetView {
                         .getSquadronsPresent()
                         .not());
 
+        viewModel
+                .getTaskForceAirViewModel()
+                .getAirbases()
+                .forEach(this::bindShip);
     }
 
     /**
@@ -227,6 +343,39 @@ public class TaskForceAssetSummaryView implements AssetView {
         vBox.setId("airfield-landing-type-vbox");
 
         landingTypesPane.setContent(vBox);
+    }
+
+    /**
+     * Bind the patrol view model for the given nation.
+     *
+     * @param airbaseViewModel The air base view model.
+     */
+    private void bindShip(final AirbaseViewModel airbaseViewModel) {
+        Nation nation = getNation(airbaseViewModel);
+        NationAirbaseViewModel nationAirbaseViewModel = airbaseViewModel
+                .getNationViewModels()
+                .get(nation);
+
+        String title = airbaseViewModel
+                .getAirbase()
+                .getValue()
+                .getTitle();
+
+        squadronInfo
+                .get(title)
+                .bindIntegers(nationAirbaseViewModel.getSquadronCounts());
+
+        missionInfo
+                .get(title)
+                .bindIntegers(nationAirbaseViewModel.getMissionCounts());
+
+        patrolInfo
+                .get(title)
+                .bindIntegers(nationAirbaseViewModel.getPatrolCounts());
+
+        readyInfo
+                .get(title)
+                .bindIntegers(nationAirbaseViewModel.getReadyCounts());
     }
 
     /**
@@ -273,5 +422,18 @@ public class TaskForceAssetSummaryView implements AssetView {
         data.put("Location:", taskForce.getLocation());
 
         return data;
+    }
+
+    /**
+     * Get the nation of the airbase. For task force's each airbase is a single ship.
+     * A single ship has only one nation.
+     *
+     * @param airbaseViewModel The airbase view model.
+     * @return The nation of the airbase view model. The backing model is a single ship.
+     */
+    private Nation getNation(final AirbaseViewModel airbaseViewModel) {
+        List<Nation> nations = List.copyOf(airbaseViewModel.getNations());
+
+        return nations.get(0); // There is only one nation for ships.
     }
 }

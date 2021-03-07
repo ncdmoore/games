@@ -3,6 +3,7 @@ package engima.waratsea.viewmodel.taskforce.air;
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.ResourceProvider;
@@ -29,6 +30,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
@@ -86,6 +88,21 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
         airbaseGroupViewModel.setModel(force);
 
         return this;
+    }
+
+    /**
+     * Get the nations that have airbases (ships that support aircraft) within this task force.
+     *
+     * @return A list of nations that may have squadrons in this task force.
+     */
+    public List<Nation> getNations() {
+        return airbaseGroupViewModel
+                .getAirbases()
+                .stream()
+                .flatMap(airbase -> airbase
+                        .getNations()
+                        .stream())
+                .collect(Collectors.toList());
     }
 
     /**

@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
 
 /**
  * Task force air operations view. Used by task force air operations dialog box.
@@ -19,6 +20,8 @@ import javafx.scene.layout.VBox;
 public class TaskForceAirOperations {
     private final AirbasePresenter airbasePresenter;
 
+    @Getter private final ChoiceBox<AirbaseViewModel> airbases = new ChoiceBox<>();
+
     private final TaskForceAirSummaryView summaryView;
 
     private final VBox airbaseNode = new VBox();
@@ -29,7 +32,6 @@ public class TaskForceAirOperations {
     public TaskForceAirOperations(final AirbasePresenter airbasePresenter,
                                   final TaskForceAirSummaryView summaryView) {
         this.airbasePresenter = airbasePresenter;
-
         this.summaryView = summaryView;
     }
 
@@ -44,16 +46,7 @@ public class TaskForceAirOperations {
 
         Label label = new Label("Ships with aircraft:");
 
-        ChoiceBox<AirbaseViewModel> airbases = new ChoiceBox<>();
-
         airbases.itemsProperty().bind(taskForceVM.getAirbases());
-
-        airbases
-                .getSelectionModel()
-                .selectedItemProperty()
-                .addListener((o, ov, nv) -> airbaseSelected(nv));
-
-        airbases.getSelectionModel().selectFirst();
 
         VBox airbaseSelectionVBox = new VBox(label, airbases);
 
@@ -64,16 +57,20 @@ public class TaskForceAirOperations {
         return vBox;
     }
 
-    private Node buildSummary() {
-        return summaryView
-                .build()
-                .bind(viewModel);
-    }
-
-    private void airbaseSelected(final AirbaseViewModel airbase) {
+    /**
+     * An airbase has been selected.
+     *
+     * @param airbase The selected airbase view model.
+     */
+    public void airbaseSelected(final AirbaseViewModel airbase) {
         Node contents = airbasePresenter.build(airbase, false);
         airbaseNode.getChildren().clear();
         airbaseNode.getChildren().add(contents);
     }
 
+    private Node buildSummary() {
+        return summaryView
+                .build()
+                .bind(viewModel);
+    }
 }

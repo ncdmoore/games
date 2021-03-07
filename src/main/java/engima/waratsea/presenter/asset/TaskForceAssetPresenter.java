@@ -9,12 +9,15 @@ import engima.waratsea.presenter.taskforce.TaskForceAirDialog;
 import engima.waratsea.presenter.taskforce.TaskForceNavalDialog;
 import engima.waratsea.view.asset.AssetId;
 import engima.waratsea.view.asset.AssetSummaryView;
+import engima.waratsea.view.asset.AssetView;
 import engima.waratsea.view.asset.TaskForceAssetSummaryView;
+import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Singleton
@@ -107,6 +110,20 @@ public class TaskForceAssetPresenter {
     }
 
     /**
+     * Select the given ship tab of the given task force.
+     *
+     * @param airbaseViewModel The airbase view model (ship) whose tab is selected.
+     * @param taskForce The task force that the ship is in.
+     */
+    public void setShip(final AirbaseViewModel airbaseViewModel, final TaskForce taskForce) {
+        AssetSummaryView assetManager = assetSummaryViewProvider.get();
+        AssetId assetId = new AssetId(AssetType.TASK_FORCE, taskForce.getTitle());
+
+        Optional<AssetView> taskForceAssetView = assetManager.getAsset(assetId);
+        taskForceAssetView.ifPresent(asset -> ((TaskForceAssetSummaryView) asset).setShip(airbaseViewModel));
+    }
+
+    /**
      * Any changes that were not saved to the task force need to be reflected in the asset summary view of
      * the task force. Thus, the task force's view model is reset to the data stored in the task force's model.
      * This way the task force's asset summary contains the current data from the model. This is only needed
@@ -129,6 +146,7 @@ public class TaskForceAssetPresenter {
                 .orElseThrow();
 
         assetView.reset(viewModel);   // reset the task force's asset summary's view of the task force.
+        registerCallbacks(assetView);
     }
 
     /**

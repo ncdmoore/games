@@ -9,6 +9,7 @@ import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.taskforce.TaskForceAirView;
+import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,6 +35,7 @@ public class TaskForceAirDialog {
     private MainMapView mapView;
 
     private TaskForceViewModel viewModel;
+    private TaskForceAirView view;
 
     @Inject
     public TaskForceAirDialog(final CssResourceProvider cssResourceProvider,
@@ -70,7 +72,7 @@ public class TaskForceAirDialog {
 
         mapView = mapViewProvider.get();
 
-        TaskForceAirView view = viewProvider.get();
+        view = viewProvider.get();
 
         viewModel = assetPresenter
                 .getTaskForceAssetPresenter()
@@ -83,7 +85,6 @@ public class TaskForceAirDialog {
         dialog.show(stage);
 
         // No code can go here. The dialog blocks until closed.
-
     }
 
     /**
@@ -103,6 +104,30 @@ public class TaskForceAirDialog {
     private void registerHandlers(final DialogView dialog) {
         dialog.getCancelButton().setOnAction(event -> cancel());
         dialog.getOkButton().setOnAction(event -> ok());
+
+        view
+                .getChoiceBox()
+                .getSelectionModel()
+                .selectedItemProperty()
+                .addListener((o, ov, nv) -> airbaseSelected(nv));
+
+        view
+                .getChoiceBox()
+                .getSelectionModel()
+                .selectFirst();
+    }
+
+    /**
+     * The airbase (ship) has been selected.
+     *
+     * @param airbaseViewModel The airbase view model of the ship selected.
+     */
+    private void airbaseSelected(final AirbaseViewModel airbaseViewModel) {
+        view.setAirbase(airbaseViewModel);
+
+        assetPresenter
+                .getTaskForceAssetPresenter()
+                .setShip(airbaseViewModel, taskForce);
     }
 
     /**

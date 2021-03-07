@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
  * - asset-component-pane
  * - component-grid
  * - airfield-summary-hbox
- * - airfield-nation-tab-hbox
+ * - asset-nation-tab-hbox
  */
 @Slf4j
 public class AirfieldAssetSummaryView implements AssetView {
@@ -215,7 +215,7 @@ public class AirfieldAssetSummaryView implements AssetView {
         col2.setPercentWidth(secondColumnWidth);
 
         summaryGrid.setGridStyleId("component-grid");
-        summaryGrid.setWidth(props.getInt("asset.pane.grid.component.width"));
+        summaryGrid.setWidth(props.getInt("asset.pane.grid.component.long.width"));
         summaryGrid.setColumnConstraints(List.of(col1, col2));
 
         Node grid = summaryGrid.buildGrid();
@@ -269,7 +269,7 @@ public class AirfieldAssetSummaryView implements AssetView {
      */
     private void buildNationsTabPane() {
         nationsTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        nationsTabPane.setId("airfield-nations-tab-pane");
+        nationsTabPane.setId("asset-nations-tab-pane");
 
         airbase.
                 getNations()
@@ -394,7 +394,7 @@ public class AirfieldAssetSummaryView implements AssetView {
         readyInfoNode.getStyleClass().add("asset-component-pane");
 
         HBox hBox = new HBox(rangeInfoNode, regionInfoNode, squadronInfoNode, readyInfoNode, missionInfoNode, patrolInfoNode);
-        hBox.setId("airfield-nation-tab-hbox");
+        hBox.setId("asset-nation-tab-hbox");
 
         hBox.setFillHeight(false);
 

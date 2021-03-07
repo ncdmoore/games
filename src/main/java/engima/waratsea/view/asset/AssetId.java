@@ -34,7 +34,7 @@ public class AssetId {
      * Determine if two asset id's are equal.
      *
      * @param o The other asset id.
-     * @return True if this asset id and the other asset id are equql.
+     * @return True if this asset id and the other asset id are equal.
      */
     @Override
     public boolean equals(final Object o) {
