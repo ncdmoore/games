@@ -10,9 +10,26 @@
     -fx-background: -fx-var-background-color;
 }
 
+.components-pane {
+    -fx-spacing: 6;
+}
+
+.green-bar {
+    -fx-accent: green;
+}
+
 .profile-vbox {
     -fx-background-color: white;
     -fx-alignment: center;
+}
+
+.spacing-5 {
+    -fx-spacing: 5;
+}
+
+.ship-image {
+    -fx-border-color: black;
+    -fx-border-width: 1px;
 }
 
 #title-pane-axis {
@@ -29,36 +46,19 @@
     -fx-alignment: top-center;
 }
 
-#main-pane {
+#sub-main-pane {
     -fx-padding: /* top */ 10 /* right */ 10 /* bottom */ 0 /* left */ 10;
     -fx-spacing: 5;
 }
 
-#main-hbox {
+#sub-main-hbox {
     -fx-padding: /* top */ 5 /* right */ 0 /* bottom */ 0 /* left */ 0;
     -fx-spacing: 5;
 }
 
-#left-hbox {
-    -fx-spacing: 5;
-}
 
-#left-vbox {
-    -fx-spacing: 5;
-}
 
-#details-pane {
-    -fx-spacing: 5;
-}
 
-#components-pane {
-    -fx-spacing: 6;
-}
-
-#ship-image {
-    -fx-border-color: black;
-    -fx-border-width: 1px;
-}
 
 #ship-details-grid {
     -fx-hgap: 10;
@@ -96,9 +96,7 @@
     -fx-vgap: 20;
 }
 
-.green-bar {
-    -fx-accent: green;
-}
+
 
 #controls-pane {
     -fx-padding: /* top */ 15 /* right */ 0 /* bottom */ 15 /* left */ 0;
