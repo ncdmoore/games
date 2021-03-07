@@ -155,12 +155,12 @@ public class ShipDetailsView {
         weaponComponentsVBox.getStyleClass().add("components-pane");
 
         HBox leftHBox = new HBox(detailsVBox, weaponComponentsVBox);
-        leftHBox.setId("left-hbox");
+        leftHBox.getStyleClass().add("spacing-5");
 
         Node profileBox = buildProfile();
 
         VBox leftVBox = new VBox(leftHBox, profileBox);
-        leftVBox.setId("left-vbox");
+        leftVBox.getStyleClass().add("spacing-5");
 
         Node performanceComponentsVBox = buildPerformance();
         performanceComponentsVBox.getStyleClass().add("components-pane");

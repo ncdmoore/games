@@ -43,14 +43,6 @@
     -fx-spacing: 5;
 }
 
-#ship-left-hbox {
-    -fx-spacing: 5;
-}
-
-#ship-left-vbox {
-    -fx-spacing: 5;
-}
-
 #ship-main-hbox {
     -fx-padding: /* top */ 5 /* right */ 0 /* bottom */ 0 /* left */ 0;
     -fx-spacing: 5;
