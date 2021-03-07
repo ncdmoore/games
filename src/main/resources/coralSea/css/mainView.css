@@ -1,43 +1,5 @@
-////////////////////////////////////////////////////////////////////
-// Define variables that may be used in this file.
-// Currently only colors variables can be defined.
-////////////////////////////////////////////////////////////////////
-* {
-    -fx-var-background-color: rgb(224, 228, 203);
-    -fx-var-component-background-color: white;
-}
-
-////////////////////////////////////////////////////////////////////
-// Common styles
-////////////////////////////////////////////////////////////////////
-.root {
-    -fx-background: -fx-var-background-color;
-}
-
-.asset-component-pane {
-    -fx-collapsible: false;
-}
-
-.component-background {
-    -fx-background-color: -fx-var-component-background-color;
-}
-
-.component-grid {
-    -fx-background-color: -fx-var-component-background-color;
-    -fx-hgap: 10;
-}
-
-.spacing-5 {
-    -fx-spacing: 5;
-}
-
-.spacing-10 {
-    -fx-spacing: 10;
-}
-
-.spacing-20 {
-    -fx-spacing: 20;
-}
+@import "../../css/colors.css"
+@import "../../css/commons.css"
 
 ////////////////////////////////////////////////////////////////////
 // Specific styles

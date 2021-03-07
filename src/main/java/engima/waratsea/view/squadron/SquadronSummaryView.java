@@ -33,9 +33,14 @@ import java.util.Optional;
  *
  * CSS styles used.
  *
+ * - component-grid
+ * - profile-vbox
  * - squadron-summary-hbox
  * - squadron-summary-vbox
  * - squadron-summary-pane
+ * - squadron-attack-data-title
+ * - squadron-performance-data-title
+ * - title-pane-{nation}
  */
 public class SquadronSummaryView {
     private final ResourceProvider resourceProvider;
@@ -208,7 +213,7 @@ public class SquadronSummaryView {
         title.setId("summary-title");
 
         StackPane titlePane = new StackPane(title);
-        titlePane.setId("summary-title-pane-" + nation.getFileName().toLowerCase());
+        titlePane.setId("title-pane-" + nation.getFileName().toLowerCase());
 
         return titlePane;
     }

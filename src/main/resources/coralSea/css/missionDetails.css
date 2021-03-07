@@ -1,47 +1,6 @@
-////////////////////////////////////////////////////////////////////
-// Define variables that may be used in this file.
-// Currently only colors variables can be defined.
-////////////////////////////////////////////////////////////////////
-* {
-    -fx-var-background-color: rgb(224, 228, 203);
-    -fx-var-component-background-color: white;
-}
-
-////////////////////////////////////////////////////////////////////
-// Common styles
-////////////////////////////////////////////////////////////////////
-.root {
-    -fx-background: -fx-var-background-color;
-}
-
-.alignment-center-left {
-    -fx-alignment: center-left;
-}
-
-.component-grid {
-    -fx-background-color: white;
-    -fx-hgap: 10;
-}
-
-.red-text {
-    -fx-text-fill: red;
-}
-
-.spacing-10 {
-    -fx-spacing: 10;
-}
-
-.spacing-15 {
-    -fx-spacing: 15;
-}
-
-.spacing-20 {
-    -fx-spacing: 20;
-}
-
-.spacing-75 {
-    -fx-spacing: 75;
-}
+@import "../../css/colors.css"
+@import "../../css/commons.css"
+@import "nations.css"
 
 ////////////////////////////////////////////////////////////////////
 // Specific styles
@@ -136,27 +95,6 @@
 #mission-details-vbox {
     -fx-padding: /* top: */ 10 /* right: */ 0 /* bottom: */ 0 /* left: */ 10;
     -fx-spacing: 30;
-}
-
-#summary-title-pane-australian {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, darkred, white, blue);
-    -fx-alignment: top-center;
-}
-
-#summary-title-pane-united-states {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
-    -fx-alignment: top-center;
-}
-
-#summary-title-pane-japanese {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, white, white, red);
-    -fx-alignment: top-center;
 }
 
 #squadron-summary-pane {

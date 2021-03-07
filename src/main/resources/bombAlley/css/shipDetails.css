@@ -1,17 +1,6 @@
-////////////////////////////////////////////////////////////////////
-// Define variables that may be used in this file.
-// Currently only colors variables can be defined.
-////////////////////////////////////////////////////////////////////
-* {
-    -fx-var-background-color: rgb(224, 228, 203);
-}
-
-////////////////////////////////////////////////////////////////////
-// Common styles
-////////////////////////////////////////////////////////////////////
-.root {
-    -fx-background: -fx-var-background-color;
-}
+@import "../../css/colors.css"
+@import "../../css/commons.css"
+@import "nations.css"
 
 .components-pane {
     -fx-spacing: 6;
@@ -21,18 +10,9 @@
     -fx-spacing: 7;
 }
 
-.green-bar {
-    -fx-accent: green;
-}
-
 .component-grid {
     -fx-background-color: whitesmoke;
     -fx-hgap: 10;
-}
-
-.bold-label {
-    -fx-font: bold 9pt "Lucida Grande";
-    -fx-font-weight: bold;
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -52,34 +32,6 @@
 .profile-vbox {
     -fx-background-color: white;
     -fx-alignment: center;
-}
-
-#title-pane-axis {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, green, white, red);
-    -fx-alignment: top-center;
-}
-
-#title-pane-allied {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
-    -fx-alignment: top-center;
-}
-
-#title-pane-italian {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, green, white, red);
-    -fx-alignment: top-center;
-}
-
-#title-pane-british {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
-    -fx-alignment: top-center;
 }
 
 #ship-main-pane {

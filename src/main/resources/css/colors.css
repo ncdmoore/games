@@ -1,0 +1,10 @@
+////////////////////////////////////////////////////////////////////
+// Define variables that may be used in this file.
+// Currently only colors variables can be defined.
+////////////////////////////////////////////////////////////////////
+* {
+    -fx-var-background-color: rgb(224, 228, 203);
+    -fx-var-component-background-color: white;
+}
+
+

@@ -1,52 +1,12 @@
-////////////////////////////////////////////////////////////////////
-// Define variables that may be used in this file.
-// Currently only colors variables can be defined.
-////////////////////////////////////////////////////////////////////
-* {
-    -fx-var-background-color: rgb(224, 228, 203);
-}
+@import "../../css/colors.css"
+@import "../../css/commons.css"
+@import "nations.css"
 
 ////////////////////////////////////////////////////////////////////
 // Common styles
 ////////////////////////////////////////////////////////////////////
-.root {
-    -fx-background: -fx-var-background-color;
-}
-
-.bold-label {
-    -fx-font: bold 9pt "Lucida Grande";
-    -fx-font-weight: bold;
-}
-
 .components-pane {
     -fx-spacing: 7;
-}
-
-.component-grid {
-    -fx-background-color: white;
-    -fx-hgap: 10;
-}
-
-.detail-pane {
-    -fx-hgap: 15;
-    -fx-vgap: 5;
-    -fx-background-color: lightblue
-}
-
-.detail-pane .label {
- //   -fx-background-color: lightblue;
-}
-
-.green-bar {
-    -fx-accent: green;
-}
-
-.spacing-5 {
-    -fx-spacing: 5;
-}
-
-.title-pane-non-collapsible {
-    -fx-collapsible: false;
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -60,34 +20,6 @@
 #task-force-main-pane {
     -fx-spacing: 15;
     -fx-padding: /* top: */ 10 /* right: */ 10 /* bottom: */ 0 /* left: */ 10;
-}
-
-#title-pane-axis {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, green, white, red);
-    -fx-alignment: top-center;
-}
-
-#title-pane-allied {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
-    -fx-alignment: top-center;
-}
-
-#title-pane-italian {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, green, white, red);
-    -fx-alignment: top-center;
-}
-
-#title-pane-british {
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
-    -fx-alignment: top-center;
 }
 
 #ship-main-pane {

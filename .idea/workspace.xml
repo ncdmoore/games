@@ -7,7 +7,47 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="" />
+    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/nations.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/nations.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/nations.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/css/colors.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/css/commons.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolStatsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolStatsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronSummaryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/shipDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/shipDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/squadronView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/squadronView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/taskForceNavalDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/taskForceNavalDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/airfieldDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/airfieldDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/missionDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/missionDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/shipDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/shipDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/squadronView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/squadronView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/taskForceAirDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/taskForceAirDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/taskForceNavalDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/taskForceNavalDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/airfieldDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/missionDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/missionDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/shipDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/shipDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/squadronView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/squadronView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceAirDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceAirDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceNavalDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceNavalDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/flotillaView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/flotillaView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/minefieldView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/minefieldView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/missionDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/missionDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/patrolDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/patrolDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/savedGameView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/savedGameView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/scenarioView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/scenarioView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/shipDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/shipDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/squadronDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/squadronDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/squadrons.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/squadrons.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/startView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/startView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/subDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/subDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/taskForceView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/taskForceView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/victoryDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/victoryDetails.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -112,11 +152,11 @@
       <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/css" />
       <recent name="$PROJECT_DIR$/src/main/resources/sounds" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies" />
-      <recent name="$PROJECT_DIR$/src/main/resources/coralSea/images" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="engima.waratsea.model.map.region" />
@@ -274,13 +314,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00370" summary="Add arctic convoy aircraft images.">
-      <created>1611524921297</created>
-      <option name="number" value="00370" />
-      <option name="presentableId" value="LOCAL-00370" />
-      <option name="project" value="LOCAL" />
-      <updated>1611524921298</updated>
     </task>
     <task id="LOCAL-00371" summary="Show base grid details even if base grid is deselected on grid click.">
       <created>1611525140694</created>
@@ -618,7 +651,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615093352839</updated>
     </task>
-    <option name="localTasksCounter" value="419" />
+    <task id="LOCAL-00419" summary="css refactor.">
+      <created>1615093521238</created>
+      <option name="number" value="00419" />
+      <option name="presentableId" value="LOCAL-00419" />
+      <option name="project" value="LOCAL" />
+      <updated>1615093521238</updated>
+    </task>
+    <option name="localTasksCounter" value="420" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

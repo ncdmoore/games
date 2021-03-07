@@ -1,0 +1,28 @@
+
+#title-pane-axis {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, red, white, black);
+    -fx-alignment: top-center;
+}
+
+#title-pane-allied {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
+    -fx-alignment: top-center;
+}
+
+#title-pane-german {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, red, white, black);
+    -fx-alignment: top-center;
+}
+
+#title-pane-british {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: linear-gradient(to right, darkred, white, darkblue);
+    -fx-alignment: top-center;
+}

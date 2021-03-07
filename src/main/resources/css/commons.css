@@ -1,0 +1,70 @@
+////////////////////////////////////////////////////////////////////
+// Common styles
+////////////////////////////////////////////////////////////////////
+.root {
+    -fx-background: -fx-var-background-color;
+}
+
+.alignment-center-left {
+    -fx-alignment: center-left;
+}
+
+.asset-component-pane {
+    -fx-collapsible: false;
+}
+
+.bold-label {
+    -fx-font: bold 9pt "Lucida Grande";
+    -fx-font-weight: bold;
+}
+
+.component-background {
+    -fx-background-color: -fx-var-component-background-color;
+}
+
+.component-grid {
+    -fx-background-color: -fx-var-component-background-color;
+    -fx-hgap: 10;
+}
+
+.detail-pane {
+    -fx-hgap: 15;
+    -fx-vgap: 5;
+    -fx-background-color: lightblue
+}
+
+.detail-pane .label {
+ //   -fx-background-color: lightblue;
+}
+
+.green-bar {
+    -fx-accent: green;
+}
+
+.red-text {
+    -fx-text-fill: red;
+}
+
+.spacing-5 {
+    -fx-spacing: 5;
+}
+
+.spacing-10 {
+    -fx-spacing: 10;
+}
+
+.spacing-15 {
+    -fx-spacing: 15;
+}
+
+.spacing-20 {
+    -fx-spacing: 20;
+}
+
+.spacing-75 {
+    -fx-spacing: 75;
+}
+
+.title-pane-non-collapsible {
+    -fx-collapsible: false;
+}

@@ -1,21 +1,13 @@
-////////////////////////////////////////////////////////////////////
-// Define variables that may be used in this file.
-// Currently only colors variables can be defined.
-////////////////////////////////////////////////////////////////////
-* {
-    -fx-var-background-color: rgb(224, 228, 203);
-}
-
-
-.root {
-    -fx-background: -fx-var-background-color;
-}
+@import "colors.css"
 
 .button {
     -fx-text-fill: navy;
     -fx-effect:  dropshadow(one-pass-box, black, 8, 0.0 , 2, 0);
 }
 
+.root {
+    -fx-background: -fx-var-background-color;
+}
 
 #flags {
     -fx-spacing: 490;

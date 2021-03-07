@@ -1,15 +1,5 @@
-////////////////////////////////////////////////////////////////////
-// Define variables that may be used in this file.
-// Currently only colors variables can be defined.
-////////////////////////////////////////////////////////////////////
-* {
-    -fx-var-background-color: rgb(224, 228, 203);
-}
-
-.root {
-    -fx-background: -fx-var-background-color;
-}
-
+@import "../../css/colors.css"
+@import "../../css/commons.css"
 
 #title {
     -fx-font: bold 16pt "Lucida Grande";
@@ -95,7 +85,6 @@
     -fx-stroke: green;
     -fx-fill: linear-gradient( to right bottom, white, lightseagreen);
 }
-
 
 .popup-mapRef {
     -fx-padding: 0 10 0 10;

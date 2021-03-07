@@ -29,7 +29,7 @@ import java.util.Set;
  * CSS styles used.
  *
  * - patrol-stats-grid
- * - summary-title-pane-{nation}
+ * - title-pane-{nation}
  * - patrol-note
  * - patrol-details-header
  * - patrol-details-row-header
@@ -113,7 +113,7 @@ public class PatrolStatsView {
 
 
             StackPane titlePane = new StackPane(new Label(title + " Patrol Average Statistics"));
-            titlePane.setId("summary-title-pane-" + nation.getFileName().toLowerCase());
+            titlePane.setId("title-pane-" + nation.getFileName().toLowerCase());
 
             if (!stats.isEmpty()) {  // This patrol is effective.
                 int max = patrolGroup.getTrueMaxRadius();
