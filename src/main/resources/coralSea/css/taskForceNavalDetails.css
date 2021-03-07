@@ -96,7 +96,7 @@
 }
 
 #squadron-main-pane {
-    -fx-padding: /* top */ 0 /* right */ 10 /* bottom */ 0 /* left */ 10;
+    -fx-padding: /* top */ 0 /* right */ 10 /* bottom */ 0 /* left */ 0;
     -fx-spacing: 5;
 }
 
