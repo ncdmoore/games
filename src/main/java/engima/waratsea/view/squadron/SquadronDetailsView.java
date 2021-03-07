@@ -57,7 +57,7 @@ public class SquadronDetailsView {
 
         VBox mainPane = new VBox(titleBox, hBox);
 
-        mainPane.setId("main-pane");
+        mainPane.setId("squadron-main-pane");
         return mainPane;
     }
 

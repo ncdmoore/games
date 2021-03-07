@@ -100,7 +100,7 @@ public class ShipDetailsView {
         tabPane.getTabs().add(buildAircraftTab());
 
         VBox mainPane = new VBox(titlePane, tabPane);
-        mainPane.setId("main-pane");
+        mainPane.setId("ship-main-pane");
 
         return mainPane;
     }

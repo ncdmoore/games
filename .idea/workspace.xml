@@ -7,20 +7,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="css refactor.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/FatalErrorDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/FatalErrorDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/WarnDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/WarnDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/SavedGameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/SavedGameView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/ScenarioView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/ScenarioView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/StartView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/StartView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/victory/VictoryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/victory/VictoryView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/fatalError.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/fatalError.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/savedGameView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/savedGameView.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/scenarioView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/scenarioView.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/startView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/startView.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/victoryDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/victoryDetails.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/warn.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/warn.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ship/ShipDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/ship/ShipDetailsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronDetailsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/squadron/SquadronDetailsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/taskForceDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arcticConvoy/css/taskForceNavalDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/shipDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/shipDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/taskForceAirDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/taskForceAirDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/taskForceNavalDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/taskForceNavalDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/shipDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/shipDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceAirDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceAirDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceNavalDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/taskForceNavalDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/shipDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/shipDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/squadronDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/squadronDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/squadrons.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/squadrons.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +109,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/arcticConvoy/css" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.25979218" />
@@ -288,13 +288,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00368" summary="Use aircraft's name in squadron name and the aircraft's model.">
-      <created>1611516118864</created>
-      <option name="number" value="00368" />
-      <option name="presentableId" value="LOCAL-00368" />
-      <option name="project" value="LOCAL" />
-      <updated>1611516118865</updated>
     </task>
     <task id="LOCAL-00369" summary="Fix SquadronDetailsView profile height.">
       <created>1611521337704</created>
@@ -632,7 +625,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615091248630</updated>
     </task>
-    <option name="localTasksCounter" value="417" />
+    <task id="LOCAL-00417" summary="css refactor.">
+      <created>1615092236424</created>
+      <option name="number" value="00417" />
+      <option name="presentableId" value="LOCAL-00417" />
+      <option name="project" value="LOCAL" />
+      <updated>1615092236424</updated>
+    </task>
+    <option name="localTasksCounter" value="418" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

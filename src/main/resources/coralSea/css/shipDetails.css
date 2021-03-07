@@ -77,7 +77,12 @@
     -fx-alignment: top-center;
 }
 
-#main-pane {
+#ship-main-pane {
+    -fx-padding: /* top */ 10 /* right */ 10 /* bottom */ 0 /* left */ 10;
+    -fx-spacing: 5;
+}
+
+#squadron-main-pane {
     -fx-padding: /* top */ 10 /* right */ 10 /* bottom */ 0 /* left */ 10;
     -fx-spacing: 5;
 }
@@ -91,6 +96,11 @@
 }
 
 #main-hbox {
+    -fx-padding: /* top */ 5 /* right */ 0 /* bottom */ 0 /* left */ 0;
+    -fx-spacing: 5;
+}
+
+#squadron-main-hbox {
     -fx-padding: /* top */ 5 /* right */ 0 /* bottom */ 0 /* left */ 0;
     -fx-spacing: 5;
 }
