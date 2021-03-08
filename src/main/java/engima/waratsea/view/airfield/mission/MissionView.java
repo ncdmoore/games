@@ -5,6 +5,9 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
 import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -55,9 +58,16 @@ public class MissionView {
      * @return This airfield ready view.
      */
     public TitledPane bind(final NationAirbaseViewModel viewModel) {
+        BooleanProperty noMissions = viewModel.getNoMissionsExist();
+
+        ObservableList<AirMissionViewModel> selectedItems = table
+                .getSelectionModel()
+                .getSelectedItems();
+
         table.itemsProperty().bind(viewModel.getMissionViewModels());
         add.disableProperty().bind(viewModel.getNoSquadronsReady());
-        edit.disableProperty().bind(viewModel.getNoMissionsExist());
+        edit.disableProperty().bind(Bindings.createBooleanBinding(
+                () -> noMissions.getValue() || selectedItems.isEmpty(), noMissions, selectedItems));
         delete.disableProperty().bind(viewModel.getNoMissionsExist());
 
         return titledPane;
