@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * This class represents a task force grid on the game map.
@@ -134,10 +135,10 @@ public class TaskForceGrid implements MarkerGrid {
      * @return A map of the marker grid's air missions keyed by the mission's target.
      */
     @Override
-    public Optional<Map<Target, List<AirMission>>> getMissions() {
-
-        // Will need to get all of the task force's missions and build a combined list.
-
-        return Optional.empty();
+    public Optional<Map<Target, List<AirMission>>> getMissions(final AirbaseGroup airbaseGroup) {
+        return Optional.of(airbaseGroup
+                .getMissions()
+                .stream()
+                .collect(Collectors.groupingBy(AirMission::getTarget)));
     }
 }

@@ -259,6 +259,7 @@ public class MainMapView {
      */
     public void setMissionArrowClickHandler(final Side side, final EventHandler<? super MouseEvent> handler) {
         baseMarkers.get(side).forEach(baseMarker -> baseMarker.setMissionArrowClickHandler(handler));
+        taskForceMarkers.get(side).forEach(taskForceMarker -> taskForceMarker.setMissionArrowClickHandler(handler));
     }
 
     /**

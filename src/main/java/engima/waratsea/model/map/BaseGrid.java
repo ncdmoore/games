@@ -157,12 +157,12 @@ public class BaseGrid implements MarkerGrid {
     }
 
     /**
-     * Get the marker grid's air missions.
+     * Get the marker grid's air missions grouped by target.
      *
      * @return A map of the marker grid's air missions keyed by the mission's target.
      */
     @Override
-    public Optional<Map<Target, List<AirMission>>> getMissions() {
+    public Optional<Map<Target, List<AirMission>>> getMissions(final AirbaseGroup airbaseGroup) {
           return getAirfield()
                   .map(Airfield::getMissions)
                   .map(airMissions -> airMissions

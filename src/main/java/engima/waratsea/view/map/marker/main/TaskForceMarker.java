@@ -58,6 +58,8 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
     private int selectedTaskForceIndex = TASK_FORCE_INITIAL_INDEX;
 
     private final PatrolMarkers patrolMarkers;
+    private final MissionMarkers missionMarkers;
+
 
     private final List<MenuItem> navalOperationsMenuItems = new ArrayList<>();
     private final List<MenuItem> airOperationsMenuItems = new ArrayList<>();
@@ -99,6 +101,7 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
         image.setId("map-taskforce-grid-marker");
 
         patrolMarkers = new PatrolMarkers(mapView, taskForceGrid, gridView);
+        missionMarkers = new MissionMarkers(mapView, taskForceGrid, gridView);
 
         title = buildTitle(gridView);
         taskForces =  taskForceGrid
@@ -129,8 +132,11 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
         if (selected) {
             patrolMarkers.hide();   // Need to hide the previously selected task force patrol markers.
             patrolMarkers.draw(taskForces.get(selectedTaskForceIndex));
+            missionMarkers.hide();
+            missionMarkers.draw(taskForces.get(selectedTaskForceIndex));
         } else {
             patrolMarkers.hide();
+            missionMarkers.hide();
         }
     }
 
@@ -240,12 +246,21 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
     }
 
     /**
-     * Set the base patrol radius clicked handler.
+     * Set the task force patrol radius clicked handler.
      *
      * @param handler The mouse click handler.
      */
     public void setPatrolRadiusClickHandler(final EventHandler<? super MouseEvent> handler) {
         patrolMarkers.setRadiusMouseHandler(handler);
+    }
+
+    /**
+     * Set the task force mission arrow clicked handler.
+     *
+     * @param handler The mouse click handler.
+     */
+    public void setMissionArrowClickHandler(final EventHandler<? super MouseEvent> handler) {
+        missionMarkers.setArrowMouseHandler(handler);
     }
 
     /**

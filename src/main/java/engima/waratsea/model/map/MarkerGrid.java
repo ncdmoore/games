@@ -23,9 +23,10 @@ public interface MarkerGrid {
     Optional<PatrolGroups> getPatrolGroups(AirbaseGroup airbaseGroup);
 
     /**
-     * Get the marker grid's air missions.
+     * Get the marker grid's air missions grouped by target.
      *
+     * @param airbaseGroup The airbase group whose missions are retrieved.
      * @return A map of the marker grid's air missions keyed by the mission's target.
      */
-    Optional<Map<Target, List<AirMission>>> getMissions();
+    Optional<Map<Target, List<AirMission>>> getMissions(AirbaseGroup airbaseGroup);
 }

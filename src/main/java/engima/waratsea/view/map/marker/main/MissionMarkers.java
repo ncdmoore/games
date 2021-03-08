@@ -1,5 +1,6 @@
 package engima.waratsea.view.map.marker.main;
 
+import engima.waratsea.model.base.AirbaseGroup;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.MarkerGrid;
@@ -48,10 +49,12 @@ public class MissionMarkers {
 
     /**
      * Draw all the mission markers.
+     *
+     * @param airbaseGroup The airbase group whose mission markers are drawn.
      */
-    public void draw() {
+    public void draw(final AirbaseGroup airbaseGroup) {
         List<MissionMarker> newMarkers = originationGrid
-                .getMissions()
+                .getMissions(airbaseGroup)
                 .map(missions -> missions
                         .entrySet()
                         .stream()

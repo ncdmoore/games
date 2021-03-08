@@ -8,6 +8,7 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.AirbaseGroup;
+import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEvent;
@@ -353,6 +354,18 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
         return airbases
                 .stream()
                 .anyMatch(Airbase::areSquadronsPresent);
+    }
+
+    /**
+     * Get the airbase group's air missions.
+     *
+     * @return The airbase group's air missions.
+     */
+    public List<AirMission> getMissions() {
+        return airbases
+                .stream()
+                .flatMap(airbase -> airbase.getMissions().stream())
+                .collect(Collectors.toList());
     }
 
     /**

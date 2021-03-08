@@ -1,5 +1,6 @@
 package engima.waratsea.model.base;
 
+import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.taskForce.patrol.PatrolGroups;
 
 import java.util.List;
@@ -25,6 +26,13 @@ public interface AirbaseGroup {
      * @return All the airbases within this air base group.
      */
     List<Airbase> getAirbases();
+
+    /**
+     * Get the airbase group's air missions.
+     *
+     * @return The airbase group's air missions.
+     */
+    List<AirMission> getMissions();
 
     /**
      * Get the airbase group's patrol groups.

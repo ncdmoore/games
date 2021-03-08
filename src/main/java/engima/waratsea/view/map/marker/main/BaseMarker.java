@@ -200,11 +200,9 @@ public class BaseMarker implements Marker, AirOperationsMarker {
      */
     public void toggleMarkers() {
         if (selected) {
-            patrolMarkers.draw(baseGrid
-                    .getAirfield()
-                    .orElseThrow());
-
-            missionMarkers.draw();
+            Airfield airfield = baseGrid.getAirfield().orElseThrow();
+            patrolMarkers.draw(airfield);
+            missionMarkers.draw(airfield);
         } else {
             patrolMarkers.hide();
             missionMarkers.hide();
