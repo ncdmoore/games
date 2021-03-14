@@ -175,6 +175,15 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
     }
 
     /**
+     * Get the task force's name and title.
+     *
+     * @return The task force's name and title concatenated.
+     */
+    public String getNameAndTitle() {
+        return name + " " + title;
+    }
+
+    /**
      * Get the task force nations.
      *
      * @return The task force nations.

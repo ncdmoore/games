@@ -262,6 +262,5 @@ public class TestModule extends AbstractModule {
         install(new FactoryModuleBuilder().implement(AirfieldView.class, AirfieldView.class).build(AirfieldViewFactory.class));
         install(new FactoryModuleBuilder().implement(PortView.class, PortView.class).build(PortViewFactory.class));
         install(new FactoryModuleBuilder().implement(TaskForceView.class, TaskForceView.class).build(TaskForceViewFactory.class));
-
     }
 }

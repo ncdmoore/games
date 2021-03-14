@@ -11,6 +11,7 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;
+import engima.waratsea.view.ship.ShipViewType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
@@ -51,6 +52,7 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
     private final VBox title;
     @Getter private final List<TaskForce> taskForces;   // This is a sorted list of the task forces represented by this marker.
 
+
     private final Text activeText = new Text();
     private final Text inactiveText = new Text();
     private final Tooltip tooltip = new Tooltip();
@@ -80,9 +82,9 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
     @Inject
     public TaskForceMarker(@Assisted final TaskForceGrid taskForceGrid,
                            @Assisted final MapView mapView,
-                                     final Game game,
-                                     final ResourceProvider imageResourceProvider,
-                                     final ViewProps props) {
+                           final Game game,
+                           final ResourceProvider imageResourceProvider,
+                           final ViewProps props) {
         this.game = game;
         this.taskForceGrid = taskForceGrid;
         this.mapView = mapView;
@@ -170,6 +172,8 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
 
     /**
      * Set this marker as the active marker.
+     *
+     * Display the active marker text.
      */
     public void setActive() {
         activeText.setText(taskForces.get(selectedTaskForceIndex).toString());
@@ -180,6 +184,8 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
 
     /**
      * Set this marker as inactive.
+     *
+     * Display the inactive marker text.
      */
     public void setInactive() {
         if (selectedTaskForceIndex != TASK_FORCE_INITIAL_INDEX) {
@@ -374,15 +380,12 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
 
     private String getToolTipText() {
         TaskForce taskForce = taskForces.get(selectedTaskForceIndex);
-        return taskForce
-                .getShipTypeMap()
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().size()))
+        return ShipViewType.convert(taskForce
+                .getShipTypeMap())
                 .entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByKey())
-                .map(entry -> entry.getKey() + ":" + entry.getValue())
+                .map(entry -> entry.getKey() + ":" + entry.getValue().size())
                 .collect(Collectors.joining("\n"));
     }
 }

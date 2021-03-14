@@ -2,10 +2,14 @@ package engima.waratsea.view.ship;
 
 import engima.waratsea.model.ship.ShipType;
 import lombok.Getter;
+import org.apache.commons.collections4.ListUtils;
 
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -82,6 +86,24 @@ public enum ShipViewType  implements Comparator<ShipViewType> {
      */
     public static Stream<ShipViewType> stream() {
         return Stream.of(ShipViewType.values());
+    }
+
+    /**
+     * Convert a map keyed by ShipType to a map keyed by ShipViewType.
+     *
+     * @param map A may keyed by ShipType.
+     * @param <T> List of type T
+     * @return A map keyed by ShipViewType.
+     */
+    public static <T> Map<ShipViewType, List<T>> convert(final Map<ShipType, List<T>> map) {
+        return map
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                        entry -> get(entry.getKey()),
+                        Map.Entry::getValue,
+                        ListUtils::union,
+                        LinkedHashMap::new));
     }
 
     /**

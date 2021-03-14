@@ -450,7 +450,7 @@ public class BaseMarker implements Marker, AirOperationsMarker {
 
         String taskForceText = getBaseTaskForces()
                 .stream()
-                .map(taskForce -> bullet + taskForce.getName() + " " + taskForce.getTitle())
+                .map(taskForce -> bullet + taskForce.getNameAndTitle())
                 .collect(joining("\n"));
 
         String toolTipSquadrons = baseGrid
@@ -460,14 +460,14 @@ public class BaseMarker implements Marker, AirOperationsMarker {
                 ? "Squadrons Present\n" + squadronText
                 : "No Squadrons";
 
-        String taskForceSquadrons = baseGrid
+        String toolTipTaskForces = baseGrid
                 .getPort()
                 .map(Port::areTaskForcesPresent)
                 .orElse(false)
                 ? "Task Forces Present\n" + taskForceText
                 : "No Task Forces";
 
-        return toolTipSquadrons + "\n\n" + taskForceSquadrons;
+        return toolTipSquadrons + "\n\n" + toolTipTaskForces;
     }
 
     /**
