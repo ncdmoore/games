@@ -317,6 +317,6 @@ public class TaskForceTest {
 
         TaskForce taskForce = factory.create(Side.ALLIES, data);
 
-        Assert.assertTrue(taskForce.atFriendlyBase());
+        Assert.assertTrue(taskForce.atPort());
     }
 }

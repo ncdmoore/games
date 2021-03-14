@@ -47,6 +47,7 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
     @Getter private final StringProperty nameAndTitle = new SimpleStringProperty();
     @Getter private final ObjectProperty<Image> image = new SimpleObjectProperty<>();
     @Getter private final BooleanProperty squadronsPresent = new SimpleBooleanProperty(false);
+    @Getter private final BooleanProperty atPort = new SimpleBooleanProperty(false);
 
     @Getter private final MapProperty<AircraftType, Integer> squadronTypeMap = new SimpleMapProperty<>(FXCollections.emptyObservableMap());
     @Getter private final Map<String, IntegerProperty> squadronCounts = new LinkedHashMap<>();
@@ -70,6 +71,7 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
 
         bindTitles();
         bindSquadronsPresent();
+        bindAtPort();
         bindSquadronTypeMap();
         bindSquadronCounts();
         bindImages(imageResourceProvider, props);
@@ -134,7 +136,17 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
      * Bind the task force squadrons present flag.
      */
     private void bindSquadronsPresent() {
-        squadronsPresent.bind(Bindings.createBooleanBinding(() -> Optional.ofNullable(taskForce.getValue()).map(TaskForce::areSquadronsPresent).orElse(false), taskForce));
+        squadronsPresent.bind(Bindings.createBooleanBinding(() -> Optional
+                .ofNullable(taskForce.getValue())
+                .map(TaskForce::areSquadronsPresent)
+                .orElse(false), taskForce));
+    }
+
+    private void bindAtPort() {
+        atPort.bind(Bindings.createBooleanBinding(() -> Optional
+                .ofNullable(taskForce.getValue())
+                .map(TaskForce::atPort)
+                .orElse(false), taskForce));
     }
 
     private void bindSquadronTypeMap() {

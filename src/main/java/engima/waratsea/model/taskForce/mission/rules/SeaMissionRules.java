@@ -58,7 +58,7 @@ public class SeaMissionRules {
             missions.add(SeaMissionType.MINELAYING);
         }
 
-        if (taskForce.atFriendlyBase() || !taskForce.getCargoShips().isEmpty()) {
+        if (taskForce.atPort() || !taskForce.getCargoShips().isEmpty()) {
             missions.add(SeaMissionType.TRANSPORT);
         }
 
@@ -80,7 +80,7 @@ public class SeaMissionRules {
             missions.add(SeaMissionType.INTERCEPT);
         }
 
-        if (taskForce.atFriendlyBase() || taskForce.hasBombardmentAmmo()) {
+        if (taskForce.atPort() || taskForce.hasBombardmentAmmo()) {
             missions.add(SeaMissionType.BOMBARDMENT);
         }
 

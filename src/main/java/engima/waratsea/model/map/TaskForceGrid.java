@@ -115,7 +115,7 @@ public class TaskForceGrid implements MarkerGrid {
      */
     public boolean isBaseGrid() {
         TaskForce taskForce = taskForces.get(0);
-        return taskForce.atFriendlyBase() || taskForce.atEnemyBase();
+        return taskForce.atPort() || taskForce.atEnemyBase();
     }
 
     /**

@@ -238,7 +238,7 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
      *
      * @return True if the task force is currently located at a friendly port. False otherwise.
      */
-    public boolean atFriendlyBase() {
+    public boolean atPort() {
         return gameMap.isLocationBase(side, reference);
     }
 

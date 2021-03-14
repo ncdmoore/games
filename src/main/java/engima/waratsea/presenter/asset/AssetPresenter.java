@@ -30,10 +30,16 @@ public class AssetPresenter {
      * @param baseMarker The base marker that was selected.
      */
     public void humanBaseSelected(final BaseMarker baseMarker) {
+
+        // Only one asset may be selected at a given time. Thus, only one of
+        // these statements will execute.
         baseMarker
-                .getBaseGrid()
-                .getAirfield()
+                .getSelectedAirfield()
                 .ifPresent(airfieldAssetPresenter::addAirfieldToAssetSummary);
+
+        baseMarker
+                .getSelectedTaskForce()
+                .ifPresent(taskForceAssetPresenter::addTaskForceToAssetSummary);
     }
 
     /**
@@ -46,6 +52,10 @@ public class AssetPresenter {
                 .getBaseGrid()
                 .getAirfield()
                 .ifPresent(airfieldAssetPresenter::removeAirfieldFromAssetSummary);
+
+        baseMarker
+                .getTaskForces()
+                .forEach(taskForceAssetPresenter::removeTaskForceFromAssetSummary);
     }
 
     /**

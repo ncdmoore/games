@@ -431,7 +431,7 @@ public class ShipEventMatcher implements PersistentData<ShipMatchData> {
      */
     private boolean matchAnyFriendlyBase(final TaskForce taskForce) {
         return locations.contains(GameMap.ANY_FRIENDLY_BASE)
-                && taskForce.atFriendlyBase();
+                && taskForce.atPort();
     }
 
     /**

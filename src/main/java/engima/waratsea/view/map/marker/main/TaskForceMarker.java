@@ -52,16 +52,10 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
     private final VBox title;
     @Getter private final List<TaskForce> taskForces;   // This is a sorted list of the task forces represented by this marker.
 
-
-    private final Text activeText = new Text();
-    private final Text inactiveText = new Text();
-    private final Tooltip tooltip = new Tooltip();
-
     private int selectedTaskForceIndex = TASK_FORCE_INITIAL_INDEX;
 
     private final PatrolMarkers patrolMarkers;
     private final MissionMarkers missionMarkers;
-
 
     private final List<MenuItem> navalOperationsMenuItems = new ArrayList<>();
     private final List<MenuItem> airOperationsMenuItems = new ArrayList<>();
@@ -69,6 +63,10 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
     private final MenuItem joinMenuItem = new MenuItem("Join ...");
 
     private boolean selected = false;
+
+    private final Text activeText = new Text();
+    private final Text inactiveText = new Text();
+    private final Tooltip tooltip = new Tooltip();
 
     /**
      * Constructor called by guice.
@@ -128,21 +126,6 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
     }
 
     /**
-     * Draw this base marker's patrol range.
-     */
-    public void toggleMarkers() {
-        if (selected) {
-            patrolMarkers.hide();   // Need to hide the previously selected task force patrol markers.
-            patrolMarkers.draw(taskForces.get(selectedTaskForceIndex));
-            missionMarkers.hide();
-            missionMarkers.draw(taskForces.get(selectedTaskForceIndex));
-        } else {
-            patrolMarkers.hide();
-            missionMarkers.hide();
-        }
-    }
-
-    /**
      * This base marker has been selected.
      *
      * @return True if the marker is selected. False if the marker is not selected.
@@ -161,6 +144,21 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
 
         toggleMarkers();
         return selected;
+    }
+
+    /**
+     * Draw this base marker's patrol range.
+     */
+    public void toggleMarkers() {
+        if (selected) {
+            patrolMarkers.hide();   // Need to hide the previously selected task force patrol markers.
+            patrolMarkers.draw(taskForces.get(selectedTaskForceIndex));
+            missionMarkers.hide();
+            missionMarkers.draw(taskForces.get(selectedTaskForceIndex));
+        } else {
+            patrolMarkers.hide();
+            missionMarkers.hide();
+        }
     }
 
     /**
@@ -343,7 +341,6 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
      * @return A node containing the base's title.
      */
     private VBox buildTitle(final GridView gridView) {
-
         Tooltip.install(activeText, tooltip);
         Tooltip.install(inactiveText, tooltip);
 

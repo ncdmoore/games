@@ -16,6 +16,7 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.GridView;
 import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;
+import engima.waratsea.view.ship.ShipViewType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
@@ -46,20 +48,32 @@ import static java.util.stream.Collectors.joining;
 /**
  * Represents a single base marker on the main game map.
  * A base marker occupies a game grid.
+ *
+ * A base marker may be clicked to access it's airfield.
+ * If the base (port) contains task forces, then subsequent
+ * clicks access the task forces.
+ *
+ * Note, while a task force is in port no air operations may be
+ * conducted.
  */
 @Slf4j
 public class BaseMarker implements Marker, AirOperationsMarker {
     private static final int SHADOW_RADIUS = 3;
+    private static final int ASSET_INITIAL_INDEX = -2;
+    private static final int AIRFIELD_INDEX = -1;
 
     @Getter private final BaseGrid baseGrid;
 
-    private final MapView mapView;
     private final Game game;
+    private final MapView mapView;
     private final ViewProps props;
     private final VBox imageView;
     private final VBox roundel;
     private final VBox flag;
     private final VBox title;
+    @Getter private final List<TaskForce> taskForces;   // This is a sorted list of the task forces represented by this marker.
+
+    private int selectedIndex = ASSET_INITIAL_INDEX;
 
     private final PatrolMarkers patrolMarkers;
     private final MissionMarkers missionMarkers;
@@ -71,9 +85,12 @@ public class BaseMarker implements Marker, AirOperationsMarker {
     @Getter private MenuItem taskForceJoinMenuItem;
 
     private boolean selected = false;
+    private boolean airfieldSelected = false;
+    private boolean taskForceSelected = false;
 
     private final Text activeText = new Text();
     private final Text inactiveText = new Text();
+    private final Tooltip tooltip = new Tooltip();
 
     /**
      * The constructor.
@@ -128,6 +145,10 @@ public class BaseMarker implements Marker, AirOperationsMarker {
         flag.setUserData(this);
 
         title = buildTitle(gridView);
+        taskForces = getBaseGrid()
+                .getPort()
+                .map(this::getTaskForces)
+                .orElseGet(Collections::emptyList);
 
         patrolMarkers = new PatrolMarkers(mapView, baseGrid, gridView);
         missionMarkers = new MissionMarkers(mapView, baseGrid, gridView);
@@ -136,9 +157,7 @@ public class BaseMarker implements Marker, AirOperationsMarker {
         setUpContextMenus();
 
         activeText.setFill(Color.BLUE);
-        activeText.setText(baseGrid.getTitle());
         inactiveText.setFill(Color.BLACK);
-        inactiveText.setText(baseGrid.getTitle());
     }
 
     /**
@@ -161,6 +180,9 @@ public class BaseMarker implements Marker, AirOperationsMarker {
      */
     public void highlightMarker() {
         if (!selected) {
+            inactiveText.setText(baseGrid.getTitle());
+            title.getChildren().clear();
+            title.getChildren().add(inactiveText);
             showTitle();
         }
     }
@@ -180,7 +202,7 @@ public class BaseMarker implements Marker, AirOperationsMarker {
      * @return True if the marker is selected. False if the marker is not selected.
      */
     public boolean selectMarker() {
-        selected = !selected;
+        selected = determineIfSelected();
 
         if (selected) {
             imageView.setEffect(null);
@@ -197,9 +219,13 @@ public class BaseMarker implements Marker, AirOperationsMarker {
 
     /**
      * Draw this base marker's patrol range.
+     *
+     * When task forces are in port at a base, no air operations are allowed.
+     * Thus, the patrol and mission markers are not shown for task forces
+     * in port.
      */
     public void toggleMarkers() {
-        if (selected) {
+        if (airfieldSelected) { // Only show the airfield patrol and mission markers.
             Airfield airfield = baseGrid.getAirfield().orElseThrow();
             patrolMarkers.draw(airfield);
             missionMarkers.draw(airfield);
@@ -242,6 +268,14 @@ public class BaseMarker implements Marker, AirOperationsMarker {
      */
     @Override
     public void setActive() {
+        if (airfieldSelected) {
+            activeText.setText(baseGrid.getTitle());
+            tooltip.setText(getAirfieldToolTipText());
+        } else if (taskForceSelected) {
+            activeText.setText(taskForces.get(selectedIndex).toString());
+            tooltip.setText(getTaskForceToolTipText());
+        }
+
         title.getChildren().clear();
         title.getChildren().add(activeText);
     }
@@ -251,8 +285,35 @@ public class BaseMarker implements Marker, AirOperationsMarker {
      */
     @Override
     public void setInactive() {
-        title.getChildren().clear();
-        title.getChildren().add(inactiveText);
+        if (airfieldSelected) {
+            inactiveText.setText(baseGrid.getTitle());
+        } else if (taskForceSelected) {
+            inactiveText.setText(taskForces.get(selectedIndex).toString());
+        }
+
+        if (selected) {
+            title.getChildren().clear();
+            title.getChildren().add(inactiveText);
+        }
+    }
+
+    /**
+     * Get the airfield if it is selected.
+     *
+     * @return The airfield if it is actually selected.
+     */
+    public Optional<Airfield> getSelectedAirfield() {
+        return airfieldSelected ? baseGrid.getAirfield() : Optional.empty();
+    }
+
+    /**
+     * Get the selected task force if one is selected.
+     *
+     * @return The currently selected task force if one is actually selected.
+     */
+    public Optional<TaskForce> getSelectedTaskForce() {
+        return taskForceSelected ? Optional.of(taskForces.get(selectedIndex))
+                : Optional.empty();
     }
 
     /**
@@ -407,9 +468,6 @@ public class BaseMarker implements Marker, AirOperationsMarker {
      * @return A node containing the base's title.
      */
     private VBox buildTitle(final GridView gridView) {
-        Tooltip tooltip = new Tooltip();
-        tooltip.setText(getToolTipText());
-
         Tooltip.install(activeText, tooltip);
         Tooltip.install(inactiveText, tooltip);
 
@@ -439,7 +497,7 @@ public class BaseMarker implements Marker, AirOperationsMarker {
      *
      * @return The base marker's tool tip text.
      */
-    private String getToolTipText() {
+    private String getAirfieldToolTipText() {
         String bullet = "  \u2022  ";
 
         String squadronText = getBaseSquadrons()
@@ -468,6 +526,22 @@ public class BaseMarker implements Marker, AirOperationsMarker {
                 : "No Task Forces";
 
         return toolTipSquadrons + "\n\n" + toolTipTaskForces;
+    }
+
+    /**
+     * Get the tool tip text when a task force is selected.
+     *
+     * @return The task force's tool tip text.
+     */
+    private String getTaskForceToolTipText() {
+        TaskForce taskForce = taskForces.get(selectedIndex);
+        return ShipViewType.convert(taskForce
+                .getShipTypeMap())
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(entry -> entry.getKey() + ":" + entry.getValue().size())
+                .collect(Collectors.joining("\n"));
     }
 
     /**
@@ -507,12 +581,7 @@ public class BaseMarker implements Marker, AirOperationsMarker {
 
             contextMenu.getItems().add(airfieldMenuItem);
 
-            List<TaskForce> taskForces = getBaseGrid()
-                    .getPort()
-                    .map(Port::getTaskForces)
-                    .orElseGet(Collections::emptyList);
-
-            List<Menu> taskForceMenus = buildTaskForceMenus(taskForces);
+            List<Menu> taskForceMenus = buildTaskForceMenus();
             contextMenu.getItems().addAll(taskForceMenus);
 
             taskForceJoinMenuItem = new MenuItem("Detach...");
@@ -529,7 +598,7 @@ public class BaseMarker implements Marker, AirOperationsMarker {
         }
     }
 
-    private List<Menu> buildTaskForceMenus(final List<TaskForce> taskForces) {
+    private List<Menu> buildTaskForceMenus() {
         return taskForces
                 .stream()
                 .map(this::buildTaskForceMenuItems)
@@ -553,5 +622,30 @@ public class BaseMarker implements Marker, AirOperationsMarker {
                 .addAll(navalOperationsMenuItem, detachMenuItem);
 
         return taskForceMenu;
+    }
+
+    private List<TaskForce> getTaskForces(final Port port) {
+        return port
+                .getTaskForces()
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    private boolean determineIfSelected() {
+        selectedIndex++;
+        if (selectedIndex == AIRFIELD_INDEX) {
+            airfieldSelected = true;
+            taskForceSelected = false;
+        } else if (selectedIndex >= 0 && selectedIndex < taskForces.size()) {
+            airfieldSelected = false;
+            taskForceSelected = true;
+        } else {
+            selectedIndex = ASSET_INITIAL_INDEX;
+            airfieldSelected = false;
+            taskForceSelected = false;
+        }
+
+        return airfieldSelected || taskForceSelected;
     }
 }

@@ -13,6 +13,7 @@ import engima.waratsea.view.util.GridPaneMap;
 import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
+import javafx.beans.property.BooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -296,12 +297,17 @@ public class TaskForceAssetSummaryView implements AssetView {
                 .getTaskForceNavalViewModel()
                 .getShipCounts());
 
+        BooleanProperty squadronsPresent = viewModel
+                .getTaskForceAirViewModel()
+                .getSquadronsPresent();
+
+        BooleanProperty atPort = viewModel
+                .getTaskForceAirViewModel()
+                .getAtPort();
+
         airOperations
                 .disableProperty()
-                .bind(viewModel
-                        .getTaskForceAirViewModel()
-                        .getSquadronsPresent()
-                        .not());
+                .bind(squadronsPresent.not().or(atPort));
 
         viewModel
                 .getTaskForceAirViewModel()
