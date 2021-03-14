@@ -59,7 +59,7 @@ import static java.util.stream.Collectors.joining;
 @Slf4j
 public class BaseMarker implements Marker, AirOperationsMarker {
     private static final int SHADOW_RADIUS = 3;
-    private static final int ASSET_INITIAL_INDEX = -2;
+    private static final int ASSET_INITIAL_INDEX = -2;   // Nothing is selected initially.
     private static final int AIRFIELD_INDEX = -1;
 
     @Getter private final BaseGrid baseGrid;

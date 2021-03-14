@@ -42,13 +42,14 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TaskForceMarker implements Marker, AirOperationsMarker {
     private static final int SHADOW_RADIUS = 3;
-    private static final int TASK_FORCE_INITIAL_INDEX = -1;
+    private static final int TASK_FORCE_INITIAL_INDEX = -1; // Nothing is selected initially.
 
     @Getter private final TaskForceGrid taskForceGrid;
 
     private final Game game;
     private final MapView mapView;
     private final VBox image;
+    private final VBox roundel;
     private final VBox title;
     @Getter private final List<TaskForce> taskForces;   // This is a sorted list of the task forces represented by this marker.
 
@@ -90,6 +91,7 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
         Side side = taskForceGrid.getSide();
 
         this.image = new VBox(imageResourceProvider.getImageView(props.getString("taskforce." + side.toString().toLowerCase() + ".marker")));
+        this.roundel = new VBox(imageResourceProvider.getImageView(props.getString(side.toString().toLowerCase() + ".roundel.small.image")));
 
         int gridSize = props.getInt("taskforce.mainMap.gridSize");
         GridView gridView = new GridView(gridSize, taskForceGrid.getGameGrid());
@@ -99,6 +101,11 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
         image.setViewOrder(ViewOrder.MARKER.getValue());
         image.setUserData(this);
         image.setId("map-taskforce-grid-marker");
+
+        roundel.setLayoutX(gridView.getX() + props.getInt("main.map.base.marker.roudel.x.offset"));
+        roundel.setLayoutY(gridView.getY() + gridSize - props.getInt("roundel.size"));
+        roundel.setViewOrder(ViewOrder.MARKER_DECORATION.getValue());
+        roundel.setUserData(this);
 
         patrolMarkers = new PatrolMarkers(mapView, taskForceGrid, gridView);
         missionMarkers = new MissionMarkers(mapView, taskForceGrid, gridView);
@@ -122,6 +129,11 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
     public void draw() {
         if (!taskForceGrid.isBaseGrid()) {
             mapView.add(image);
+
+            if (taskForces.stream().anyMatch(TaskForce::areSquadronsPresent)) {
+                mapView.add(roundel);
+            }
+
         }
     }
 
@@ -211,6 +223,7 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
      */
     public void setClickHandler(final EventHandler<? super MouseEvent> handler) {
         image.setOnMouseClicked(handler);
+        roundel.setOnMouseClicked(handler);
     }
 
     /**
@@ -300,6 +313,7 @@ public class TaskForceMarker implements Marker, AirOperationsMarker {
             contextMenu.getItems().add(joinMenuItem);
 
             image.setOnContextMenuRequested(e -> contextMenu.show(image, e.getScreenX(), e.getScreenY()));
+            roundel.setOnContextMenuRequested(e -> contextMenu.show(image, e.getScreenX(), e.getScreenY()));
         }
     }
 
