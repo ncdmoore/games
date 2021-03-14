@@ -20,6 +20,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -203,7 +204,14 @@ public class TaskForceAssetSummaryView implements AssetView {
         navalOperations.setMinWidth(props.getInt("asset.pane.button.long.width"));
 
         VBox vbox = new VBox(airOperations, navalOperations);
+
+        if (taskForce.atPort()) {
+            Tooltip airOptsTooltip = new Tooltip("Air operations not allowed while in port.");
+            Tooltip.install(vbox, airOptsTooltip);
+        }
+
         vbox.setId("asset-management-vbox");
+
         managementPane.setContent(vbox);
 
         managementPane.getStyleClass().add("asset-component-pane");
@@ -308,6 +316,7 @@ public class TaskForceAssetSummaryView implements AssetView {
         airOperations
                 .disableProperty()
                 .bind(squadronsPresent.not().or(atPort));
+
 
         viewModel
                 .getTaskForceAirViewModel()
