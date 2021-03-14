@@ -16,8 +16,8 @@ import java.util.Optional;
  */
 @Singleton
 public class AssetSummaryView {
-    private final Map<String, Tab> tabMap = new HashMap<>();
-    private final Map<String, AssetView> viewMap = new HashMap<>();
+    private final Map<AssetId, Tab> tabMap = new HashMap<>();
+    private final Map<AssetId, AssetView> viewMap = new HashMap<>();
     private final TabPane tabPane = new TabPane();
 
     /**
@@ -38,15 +38,13 @@ public class AssetSummaryView {
      * @param assetView The asset to show.
      */
     public void show(final AssetId assetId, final AssetView assetView) {
-        String key = assetId.getKey();
-
-        boolean alreadyOnTabPane = tabMap.containsKey(key);
+        boolean alreadyOnTabPane = tabMap.containsKey(assetId);
 
         if (!alreadyOnTabPane) {
             addTab(assetId, assetView);
         }
 
-        selectTab(key);
+        selectTab(assetId);
     }
 
     /**
@@ -56,8 +54,7 @@ public class AssetSummaryView {
      * @return The corresponding asset view of the given asset Id.
      */
     public Optional<AssetView> getAsset(final AssetId assetId) {
-        String key = assetId.getKey();
-        return Optional.ofNullable(viewMap.get(key));
+        return Optional.ofNullable(viewMap.get(assetId));
     }
 
     /**
@@ -66,24 +63,22 @@ public class AssetSummaryView {
      *  @param assetId The Id of the asset to hide.
      */
     public void hide(final AssetId assetId) {
-        String key = assetId.getKey();
-
-        if (tabMap.containsKey(key)) {
-            tabPane.getTabs().remove(tabMap.get(key));
-            tabMap.remove(key);
-            viewMap.remove(key);
+        if (tabMap.containsKey(assetId)) {
+            tabPane.getTabs().remove(tabMap.get(assetId));
+            tabMap.remove(assetId);
+            viewMap.remove(assetId);
         }
     }
 
     /**
      * Select the tab specified by the key.
      *
-     * @param key Specifies which tab to select.
+     * @param assetId Specifies which tab to select.
      */
-    private void selectTab(final String key) {
+    private void selectTab(final AssetId assetId) {
         tabPane
                 .getSelectionModel()
-                .select(tabMap.get(key));
+                .select(tabMap.get(assetId));
     }
 
     /**
@@ -97,7 +92,7 @@ public class AssetSummaryView {
         tab.setText(assetId.getName());
         tab.setContent(assetView.getNode());
         tabPane.getTabs().add(tab);
-        tabMap.put(assetId.getKey(), tab);
-        viewMap.put(assetId.getKey(), assetView);
+        tabMap.put(assetId, tab);
+        viewMap.put(assetId, assetView);
     }
 }
