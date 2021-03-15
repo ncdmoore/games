@@ -21,6 +21,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * The ferry air mission.
+ */
 @Slf4j
 public class Ferry implements AirMission {
     private final Game game;

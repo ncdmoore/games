@@ -200,7 +200,7 @@ public class SquadronSummaryView {
 
         radius.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
-                .map(svm -> svm.getRadius().getValue())
+                .map(svm -> svm.getRadius().getValue() + "")
                 .orElse(""), squadron));
 
         endurance.bind(Bindings.createStringBinding(() -> Optional

@@ -6,7 +6,10 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
+import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.IntegerExpression;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -27,6 +30,7 @@ import java.util.Optional;
 public class FerryView implements StatsView {
     private final Label airbaseTitle = new Label();
     private final Label distanceValue = new Label();
+    private final Label etaValue = new Label();
     private final Label inRouteValue = new Label();
     private final Label capacityValue = new Label();
     private final Label currentValue = new Label();
@@ -87,6 +91,7 @@ public class FerryView implements StatsView {
     public Node bind(final AirMissionViewModel viewModel) {
         airbaseTitle.textProperty().bind(Bindings.createStringBinding(() -> getTargetTitle(viewModel), viewModel.getTarget()));
         distanceValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetDistance(viewModel), viewModel.getTarget()));
+        etaValue.textProperty().bind(Bindings.createStringBinding(() -> getEta(viewModel), viewModel.getTarget(), viewModel.getTotalAssigned()));
         inRouteValue.textProperty().bind(viewModel.getTotalStepsInRouteToTarget().asString());
         capacityValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetCapacity(viewModel), viewModel.getTarget()));
         currentValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetCurrentSteps(viewModel), viewModel.getTarget()));
@@ -126,6 +131,28 @@ public class FerryView implements StatsView {
         Airbase airbase = viewModel.getAirbase();
 
         return Optional.ofNullable(target.getValue()).map(t -> t.getDistance(airbase)).orElse(0) + "";
+    }
+
+    private String getEta(final AirMissionViewModel viewModel) {
+        ObjectProperty<Target> target = viewModel.getTarget();
+        Airbase airbase = viewModel.getAirbase();
+        ListProperty<SquadronViewModel> squadrons = viewModel.getTotalAssigned();
+
+        int minRadius = squadrons
+                .stream()
+                .map(SquadronViewModel::getRadius)
+                .map(IntegerExpression::getValue)
+                .mapToInt(v -> v)
+                .min()
+                .orElse(0);
+
+        if (minRadius == 0) {
+            return "--";
+        }
+
+        int distance = Optional.ofNullable(target.getValue()).map(t -> t.getDistance(airbase)).orElse(0);
+
+        return ((distance / minRadius) + (distance % minRadius > 0 ? 1 : 0)) + "";
     }
 
     /**
@@ -198,6 +225,7 @@ public class FerryView implements StatsView {
      */
     private Node buildAirbaseStats() {
         Label distance = new Label("Distance:");
+        Label eta = new Label("ETA (turns):");
         Label capacity = new Label("Capacity in steps:");
         Label current = new Label("Stationed steps:");
         Label inRoute = new Label("Steps in route:");
@@ -207,17 +235,17 @@ public class FerryView implements StatsView {
 
         GridPane gridPane = new GridPane();
 
-        final int row2 = 2;
-        final int row3 = 3;
-
-        gridPane.add(distance, 0, 0);
-        gridPane.add(distanceValue, 1, 0);
-        gridPane.add(capacity, 0, 1);
-        gridPane.add(capacityValue, 1, 1);
-        gridPane.add(current, 0, row2);
-        gridPane.add(currentValue, 1, row2);
-        gridPane.add(inRoute, 0, row3);
-        gridPane.add(inRouteValue, 1, row3);
+        int row = 0;
+        gridPane.add(distance, 0, row);
+        gridPane.add(distanceValue, 1, row);
+        gridPane.add(eta, 0, ++row);
+        gridPane.add(etaValue, 1, row);
+        gridPane.add(capacity, 0, ++row);
+        gridPane.add(capacityValue, 1, row);
+        gridPane.add(current, 0, ++row);
+        gridPane.add(currentValue, 1, row);
+        gridPane.add(inRoute, 0, ++row);
+        gridPane.add(inRouteValue, 1, row);
 
         gridPane.getStyleClass().add("step-summary-grid");
 
