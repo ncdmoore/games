@@ -139,6 +139,7 @@ public class AirfieldView {
         tab.setGraphic(roundel);
         tab.setContent(hBox);
         tab.setUserData(nation);
+        tab.disableProperty().bind(viewModel.getSquadronsPresent().not());
 
         return tab;
     }

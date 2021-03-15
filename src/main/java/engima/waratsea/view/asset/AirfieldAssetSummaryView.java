@@ -161,6 +161,9 @@ public class AirfieldAssetSummaryView implements AssetView {
         bindSummary();
         bindLandingTypes();
 
+        missionButton.disableProperty().bind(viewModel.getSquadronsPresent().not());
+        patrolButton.disableProperty().bind(viewModel.getSquadronsPresent().not());
+
         airbase
                 .getNations()
                 .forEach(this::bindNation);

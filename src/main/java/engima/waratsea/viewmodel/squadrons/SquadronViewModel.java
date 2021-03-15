@@ -423,7 +423,7 @@ public class SquadronViewModel {
      */
     public Map<String, List<StringProperty>> getPerformance() {
         Map<String, List<StringProperty>> details = new LinkedHashMap<>();
-        details.put("Range:", List.of(range, new SimpleStringProperty("Radius:"), new SimpleStringProperty(radius + "")));
+        details.put("Range:", List.of(range, new SimpleStringProperty("Radius:"), new SimpleStringProperty(radius.getValue() + "")));
         details.put("Endurance:", List.of(endurance, new SimpleStringProperty("Ferry:"), ferry));
         details.put("Altitude Rating:", List.of(altitude));
         details.put("Landing Type:", List.of(landing));

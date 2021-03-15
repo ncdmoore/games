@@ -578,6 +578,7 @@ public class BaseMarker implements Marker, AirOperationsMarker {
 
             airfieldMenuItem = new MenuItem("Airfield...");
             airfieldMenuItem.setUserData(getBaseGrid().getAirfield());
+            airfieldMenuItem.setDisable(baseGrid.getAirfield().map(airfield -> !airfield.areSquadronsPresent()).orElse(true));
 
             contextMenu.getItems().add(airfieldMenuItem);
 

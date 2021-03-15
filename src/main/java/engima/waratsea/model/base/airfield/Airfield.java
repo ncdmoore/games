@@ -244,6 +244,19 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
     }
 
     /**
+     * Indicates if the given nation has any squadrons currently stationed at
+     * this airbase. This does not take into account any squadron given a ferry
+     * mission to this airbase.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return True if the given nation has squadrons based at this airbase. False otherwise.
+     */
+    @Override
+    public boolean areSquadronsPresent(final Nation nation) {
+        return squadrons.areSquadronsPresent(nation);
+    }
+
+    /**
      * Base a squadron from this airfield.
      *
      * @param squadron The squadron which is now based at this airfield.

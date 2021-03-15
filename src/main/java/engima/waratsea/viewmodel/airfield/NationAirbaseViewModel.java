@@ -68,6 +68,7 @@ public class NationAirbaseViewModel {
     @Getter private final Map<String, IntegerProperty> missionCounts = new HashMap<>();                   // Per nation.
     @Getter private final Map<String, IntegerProperty> patrolCounts = new HashMap<>();                    // Per nation.
 
+    @Getter private final BooleanProperty squadronsPresent = new SimpleBooleanProperty(false); // Per nation.
     @Getter private final BooleanProperty noMissionsExist = new SimpleBooleanProperty(true);   // Per nation.
 
     @Getter private final ListProperty<ProbabilityStats> airOperationStats = new SimpleListProperty<>(FXCollections.emptyObservableList());
@@ -97,6 +98,7 @@ public class NationAirbaseViewModel {
         bindRegion();
         bindImages(imageResourceProvider, props);
         bindAirOperationStats();
+        bindSquadronsPresent();
 
         squadronStateViewModel.put(SquadronState.READY, provider.get());
         squadronStateViewModel.put(SquadronState.ALL, provider.get());
@@ -520,6 +522,13 @@ public class NationAirbaseViewModel {
                         .stream()
                         .flatMap(stat -> stat.getProbability().values().stream())
                         .anyMatch(prob -> prob > 0))
+                .orElse(false), airbase));
+    }
+
+    private void bindSquadronsPresent() {
+        squadronsPresent.bind(Bindings.createBooleanBinding(() -> Optional
+                .ofNullable(airbase.getValue())
+                .map(a -> a.areSquadronsPresent(nation))
                 .orElse(false), airbase));
     }
 

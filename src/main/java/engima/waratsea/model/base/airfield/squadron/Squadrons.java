@@ -224,6 +224,16 @@ public class Squadrons {
     }
 
     /**
+     * Indicates if the given nation has any squadrons at this airbase.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return True if the given nation has any squadron stationed at this airbase. False otherwise.
+     */
+    public boolean areSquadronsPresent(final Nation nation) {
+        return squadrons.stream().anyMatch(squadron -> squadron.ofNation(nation));
+    }
+
+    /**
      * Remove a squadron from the airbase.
      *
      * @param squadron The squadron to remove.

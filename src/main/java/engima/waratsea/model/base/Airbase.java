@@ -150,6 +150,16 @@ public interface Airbase extends Base {
     boolean areSquadronsPresent();
 
     /**
+     * Indicates if the given nation has any squadrons currently stationed at
+     * this airbase. This does not take into account any squadron given a ferry
+     * mission to this airbase.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return True if the given nation has squadrons based at this airbase. False otherwise.
+     */
+    boolean areSquadronsPresent(Nation nation);
+
+    /**
      * Get a squadron stationed at this airbase given its name.
      *
      * @param squadronName The squadron name.

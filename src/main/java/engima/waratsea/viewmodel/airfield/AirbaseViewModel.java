@@ -17,6 +17,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -53,6 +54,8 @@ public class AirbaseViewModel implements Comparable<AirbaseViewModel> {
     @Getter private final SquadronsViewModel squadronsViewModel;
     @Getter private final Map<Nation, NationAirbaseViewModel> nationViewModels = new HashMap<>();                       // A given nation's view of this airbase.
 
+    @Getter private final BooleanProperty squadronsPresent = new SimpleBooleanProperty(false);
+
     private final Provider<NationAirbaseViewModel> nationAirbaseViewModelProvider;
     private final Provider<AirMissionViewModel> missionViewModelProvider;
     private final Provider<PatrolViewModel> patrolViewModelProvider;
@@ -85,6 +88,8 @@ public class AirbaseViewModel implements Comparable<AirbaseViewModel> {
         this.squadronsViewModel = squadronsViewModel;
         this.patrolGroupsProvider = patrolGroupsProvider;
         this.patrolGroupDAO = patrolGroupDAO;
+
+        bindSquadronsPresent();
     }
 
     /**
@@ -331,6 +336,16 @@ public class AirbaseViewModel implements Comparable<AirbaseViewModel> {
         patrolViewModels.values().forEach(this::addNationViewToPatrolView);
         nationViewModels.values().forEach(nationVM -> nationVM.setPatrolViewModels(patrolViewModels));
         nationViewModels.forEach((nation, nationVM) -> nationVM.setMissionViewModels(missionViewModels));
+    }
+
+    /**
+     * Bind the squadrons present property.
+     */
+    private void bindSquadronsPresent() {
+        squadronsPresent.bind(Bindings.createBooleanBinding(() -> Optional
+                .ofNullable(airbase.getValue())
+                .map(Airbase::areSquadronsPresent)
+                .orElse(false), airbase));
     }
 
     /**

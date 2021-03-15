@@ -357,6 +357,19 @@ public class CapitalShip implements Ship, Airbase {
     }
 
     /**
+     * Indicates if the given nation has any squadrons currently stationed at
+     * this airbase. This does not take into account any squadron given a ferry
+     * mission to this airbase.
+     *
+     * @param targetNaton The nation: BRITISH, ITALIAN, etc...
+     * @return True if the given nation has squadrons based at this airbase. False otherwise.
+     */
+    @Override
+    public boolean areSquadronsPresent(final Nation targetNaton) {
+        return squadrons.areSquadronsPresent(targetNaton);
+    }
+
+    /**
      * Get a squadron stationed at this airbase given its name.
      *
      * @param squadronName The squadron name.
