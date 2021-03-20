@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,8 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class AirMissionViewModel {
+    private static final Set<AirMissionState> READ_ONLY_STATES = Set.of(AirMissionState.OUT_BOUND, AirMissionState.IN_BOUND, AirMissionState.DONE);
+
     @Getter private final ListProperty<AirMissionType> missionTypes = new SimpleListProperty<>();                       // List of all mission types.
 
     @Getter private final Map<MissionRole, ListProperty<SquadronViewModel>> available = new HashMap<>();                // List of available squadrons for a particular role.
@@ -80,6 +83,7 @@ public class AirMissionViewModel {
 
     @Getter private final BooleanProperty changed = new SimpleBooleanProperty(false);                         // Indicates if the mission has been changed.
     @Getter private final BooleanProperty validMission = new SimpleBooleanProperty(false);                    // Indicates if the mission has assigned squadrons for the MAIN role.
+    @Getter private final BooleanProperty readOnly = new SimpleBooleanProperty(false);                        // Indicates if the mission may be changed.
 
     @Getter private SquadronsViewModel squadrons;
     @Getter private NationAirbaseViewModel nationAirbaseViewModel;
@@ -128,6 +132,11 @@ public class AirMissionViewModel {
         });
 
         validMission.bind(assignedEmpty.get(MissionRole.MAIN).not());
+
+        readOnly.bind(Bindings.createBooleanBinding(() -> Optional
+                .ofNullable(state.getValue())
+                .map(READ_ONLY_STATES::contains)
+                .orElse(false), state));
     }
 
     /**
@@ -165,7 +174,7 @@ public class AirMissionViewModel {
     }
 
     /**
-     * Set the state.
+     * Set the state. This is called from add mission dialog.
      *
      * @param action The air mission action.
      * @return This air mission view model.

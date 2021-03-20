@@ -311,13 +311,6 @@
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
     </task>
-    <task id="LOCAL-00387" summary="Create a sea region for ships.">
-      <created>1612747044840</created>
-      <option name="number" value="00387" />
-      <option name="presentableId" value="LOCAL-00387" />
-      <option name="project" value="LOCAL" />
-      <updated>1612747044840</updated>
-    </task>
     <task id="LOCAL-00388" summary="Use only one aircraft profile image.">
       <created>1612810703755</created>
       <option name="number" value="00388" />
@@ -654,7 +647,14 @@
       <option name="project" value="LOCAL" />
       <updated>1616250334730</updated>
     </task>
-    <option name="localTasksCounter" value="436" />
+    <task id="LOCAL-00436" summary="Only update air mission if the mission has actually changed.">
+      <created>1616254669026</created>
+      <option name="number" value="00436" />
+      <option name="presentableId" value="LOCAL-00436" />
+      <option name="project" value="LOCAL" />
+      <updated>1616254669026</updated>
+    </task>
+    <option name="localTasksCounter" value="437" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -669,7 +669,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Refactor patrol view model regarding its temporary patrol used for patrol stat viewing." />
     <MESSAGE value="Add patrol groups and task force groups. This allows task forces with multiple airbases to aggregate patrol squadrons. It allows grids with multiple task forces to aggregate patrol squadrons." />
     <MESSAGE value="Friendly airfield targets are now friendly airbase targets to support ferrying squadrons from and to aircraft carriers." />
     <MESSAGE value="Add squadron home text to patrol tool tip." />
@@ -694,7 +693,8 @@
     <MESSAGE value="Disable airbase context menu if no squadrons present. Disable nation tab on airfield dialog if no squadrons present." />
     <MESSAGE value="Add ETA to missions. Add state to missions." />
     <MESSAGE value="Cleanup  air mission view model. Correct assigned empty flags." />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleanup  air mission view model. Correct assigned empty flags." />
+    <MESSAGE value="Only update air mission if the mission has actually changed." />
+    <option name="LAST_COMMIT_MESSAGE" value="Only update air mission if the mission has actually changed." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -756,28 +756,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/AirMissionViewModel.java</url>
-          <line>180</line>
+          <line>189</line>
           <option name="timeStamp" value="106" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/AirMissionViewModel.java</url>
-          <line>205</line>
+          <line>214</line>
           <option name="timeStamp" value="107" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/AirbaseViewModel.java</url>
           <line>387</line>
           <option name="timeStamp" value="108" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/airfield/mission/MissionEditDialog.java</url>
-          <line>81</line>
-          <option name="timeStamp" value="109" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/AirMissionViewModel.java</url>
-          <line>763</line>
-          <option name="timeStamp" value="110" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java</url>
