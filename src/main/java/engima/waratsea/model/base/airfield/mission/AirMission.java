@@ -3,6 +3,8 @@ package engima.waratsea.model.base.airfield.mission;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
@@ -25,6 +27,20 @@ public interface AirMission extends PersistentData<MissionData> {
      * @return The air mission's id.
      */
     int getId();
+
+    /**
+     * Get the air mission's current state.
+     *
+     * @return The air mission state.
+     */
+    AirMissionState getState();
+
+    /**
+     * Set the air mission's current state.
+     *
+     * @param action The air mission action.
+     */
+    void setState(AirMissionAction action);
 
     /**
      * Get the airbase from which the mission was launched.

@@ -40,6 +40,11 @@
     -fx-padding: /* top */ 2 /* right */ 2 /* bottom */ 2 /* left */ 2;
 }
 
+.mission-details-squadron-grid {
+    -fx-hgap: 1;
+    -fx-vgap: 1;
+}
+
 .profile-vbox {
     -fx-background-color: white;
     -fx-alignment: center;
@@ -92,11 +97,6 @@
 #mission-details-summary-grid {
     -fx-hgap: 40;
     -fx-vgap: 5;
-}
-
-#mission-details-squadron-grid {
-    -fx-hgap: 1;
-    -fx-vgap: 1;
 }
 
 #mission-details-vbox {

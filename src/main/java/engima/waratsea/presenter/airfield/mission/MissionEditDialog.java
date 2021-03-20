@@ -99,18 +99,17 @@ public class MissionEditDialog {
         view.getMissionType().getSelectionModel().selectFirst(); // There is only one mission type for edit mission views.
         view.getTarget().getSelectionModel().selectFirst();      // There is only none target for edit mission views.
 
-        selectedMissionType = view
+        selectedMissionType = view                               // The mission type cannot be changed.
                 .getMissionType()
                 .getSelectionModel()
                 .getSelectedItem();
 
-        selectedTarget = view
+        selectedTarget = view                                    // The target cannot be changed.
                 .getTarget()
                 .getSelectionModel()
                 .getSelectedItem();
 
-        viewModel.setMissionType(selectedMissionType);           // The mission type cannot be changed.
-        viewModel.setTarget(selectedTarget);                     // The target cannot be changed.
+        viewModel.setTarget(selectedTarget);                     // This triggers the mission stats to recalculate and display.
 
         dialog.show(stage);
 

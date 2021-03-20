@@ -5,6 +5,7 @@ import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
@@ -23,6 +24,13 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
      * @return The target's name.
      */
     String getName();
+
+    /**
+     * Get the side of the target.
+     *
+     * @return The target's side.
+     */
+    Side getSide();
 
     /**
      * Get the title of the target. This is the title of the opponent's asset.

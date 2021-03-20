@@ -5,6 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
@@ -13,6 +14,7 @@ import engima.waratsea.model.target.data.TargetData;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -38,6 +40,16 @@ public class TargetLandGrid implements Target {
     @Override
     public String getName() {
         return reference;
+    }
+
+    /**
+     * Land grid's have no side.
+     *
+     * @return The neutral side.
+     */
+    @Override
+    public Side getSide() {
+        return Side.NEUTRAL;
     }
 
     /**
@@ -295,6 +307,37 @@ public class TargetLandGrid implements Target {
     @Override
     public int getMissionStepsLeavingRegion(final AirMissionType missionType, final Nation nation, final Airbase airbase) {
         return 0;
+    }
+
+    /**
+     * Determine if this Target is equal to a given target.
+     *
+     * @param o The other target.
+     * @return True if this target is equal to the other target.
+     */
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof Target)) {
+            return false;
+        }
+
+        if (o == this) {
+            return true;
+        }
+
+        Target otherTarget = (Target) o;
+
+        return reference.equals(otherTarget.getLocation());
+    }
+
+    /**
+     * The hash code for this object.
+     *
+     * @return hash code.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(reference);
     }
 
     /**

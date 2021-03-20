@@ -1,6 +1,7 @@
 package engima.waratsea.view.airfield.mission;
 
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
@@ -68,7 +69,8 @@ public class MissionView {
         add.disableProperty().bind(viewModel.getNoSquadronsReady());
         edit.disableProperty().bind(Bindings.createBooleanBinding(
                 () -> noMissions.getValue() || selectedItems.isEmpty(), noMissions, selectedItems));
-        delete.disableProperty().bind(viewModel.getNoMissionsExist());
+        delete.disableProperty().bind(Bindings.createBooleanBinding(
+                () -> noMissions.getValue() || selectedItems.isEmpty(), noMissions, selectedItems));
 
         return titledPane;
     }
@@ -98,6 +100,9 @@ public class MissionView {
         TableColumn<AirMissionViewModel, Target> targetColumn = new TableColumn<>("Target");
         targetColumn.setCellValueFactory(cellData -> cellData.getValue().getTarget());
 
+        TableColumn<AirMissionViewModel, AirMissionState> stateColumn = new TableColumn<>("State");
+        stateColumn.setCellValueFactory(cellData -> cellData.getValue().getState());
+
         TableColumn<AirMissionViewModel, Integer> numSquadronColumn = new TableColumn<>("Squadrons");
         numSquadronColumn.setCellValueFactory(cellData -> cellData.getValue().getTotalAssignedCount().asObject());
 
@@ -105,6 +110,7 @@ public class MissionView {
         table.getColumns().add(idColumn);
         table.getColumns().add(typeColumn);
         table.getColumns().add(targetColumn);
+        table.getColumns().add(stateColumn);
         table.getColumns().add(numSquadronColumn);
     }
 

@@ -7,11 +7,12 @@ import engima.waratsea.model.aircraft.AttackType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.mission.rules.MissionAirRules;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.state.SquadronAction;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.Dice;
 import lombok.Getter;
@@ -19,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -43,9 +43,10 @@ public class SweepAirfield implements AirMission {
 
     @Getter private final AirMissionType type = AirMissionType.SWEEP_AIRFIELD;
     @Getter private final int id;
+    @Getter private AirMissionState state;
     @Getter private final Nation nation;
     @Getter private final Airbase airbase;
-    @Getter private final Map<MissionRole, List<Squadron>> squadronMap;
+    @Getter private final Squadrons squadrons;
 
     private final String targetBaseName;      //The name of the target air base.
     private Target targetAirbase;             //The actual target air base.
@@ -54,16 +55,20 @@ public class SweepAirfield implements AirMission {
      * Constructor called by guice.
      *
      * @param data The mission data read in from a JSON file.
+     * @param squadrons The squadrons on this mission.
      * @param game The game.
      * @param rules The air sweep rules.
      * @param dice The dice utility.
      */
     @Inject
     public SweepAirfield(@Assisted final MissionData data,
+                         final Squadrons squadrons,
                          final Game game,
                          final @Named("airSweep") MissionAirRules rules,
                          final Dice dice) {
         id = data.getId();
+        state = Optional.ofNullable(data.getState()).orElse(AirMissionState.READY);
+        this.squadrons = squadrons;
         this.game = game;
         this.rules = rules;
         this.dice = dice;
@@ -72,16 +77,7 @@ public class SweepAirfield implements AirMission {
 
         airbase = data.getAirbase(); //Note, this is not read in from the JSON file. So no need to save it.
 
-        squadronMap = Optional
-                .ofNullable(data.getSquadronMap())
-                .orElseGet(Collections::emptyMap)
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry
-                        .getValue()
-                        .stream()
-                        .map(airbase::getSquadron)
-                        .collect(Collectors.toList())));
+        squadrons.setSquadrons(airbase, data.getSquadronMap());
 
         //Note, we cannot go ahead and obtain the target air base as it might not have been created at
         //this point in time. So we just save the name of the target air base. The target air base
@@ -99,20 +95,23 @@ public class SweepAirfield implements AirMission {
         MissionData data = new MissionData();
 
         data.setId(id);
+        data.setState(state);
         data.setType(AirMissionType.SWEEP_AIRFIELD);
         data.setNation(nation);
         data.setTarget(targetBaseName);
-
-        data.setSquadronMap(squadronMap
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry
-                        .getValue()
-                        .stream()
-                        .map(Squadron::getName)
-                        .collect(Collectors.toList()))));
+        data.setSquadronMap(squadrons.getData());
 
         return data;
+    }
+
+    /**
+     * Set the air mission's current state.
+     *
+     * @param action The air mission action.
+     */
+    @Override
+    public void setState(final AirMissionAction action) {
+        state = state.transition(action);
     }
 
     /**
@@ -143,7 +142,7 @@ public class SweepAirfield implements AirMission {
      */
     @Override
     public List<Squadron> getSquadrons(final MissionRole role) {
-        return squadronMap.getOrDefault(role, Collections.emptyList());
+        return squadrons.get(role);
     }
 
 
@@ -156,10 +155,17 @@ public class SweepAirfield implements AirMission {
      */
     @Override
     public List<Squadron> getSquadronsAllRoles() {
-        return MissionRole
-                .stream()
-                .flatMap(role -> squadronMap.get(role).stream())
-                .collect(Collectors.toList());
+        return squadrons.getAllRoles();
+    }
+
+    /**
+     * Get a map of mission role to list of squadrons performing that role for this mission.
+     *
+     * @return A map of mission role to list of squadron performing tht role.
+     */
+    @Override
+    public Map<MissionRole, List<Squadron>> getSquadronMap() {
+        return squadrons.getSquadronMap();
     }
 
     /**
@@ -169,12 +175,7 @@ public class SweepAirfield implements AirMission {
      */
     @Override
     public int getSteps() {
-        return MissionRole
-                .stream()
-                .flatMap(role -> squadronMap.get(role).stream())
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .intValue();
+        return squadrons.getSteps();
     }
 
     /**
@@ -182,14 +183,9 @@ public class SweepAirfield implements AirMission {
      */
     @Override
     public void addSquadrons() {
-        getTarget();
+        getTarget(); // sets target airbase.
 
-        squadronMap
-                .forEach((role, squadrons) -> squadrons
-                        .forEach(squadron -> {
-                            squadron.setState(SquadronAction.ASSIGN_TO_MISSION);
-                            squadron.equip(targetAirbase, AirMissionType.NAVAL_TASK_FORCE_STRIKE, role);
-                        }));
+        squadrons.add(targetAirbase, AirMissionType.SWEEP_AIRFIELD);
     }
 
     /**
@@ -197,12 +193,7 @@ public class SweepAirfield implements AirMission {
      */
     @Override
     public void removeSquadrons() {
-        squadronMap.get(MissionRole.MAIN).forEach(squadron -> {
-            squadron.setState(SquadronAction.REMOVE_FROM_MISSION);
-            squadron.unEquip();
-        });
-
-        squadronMap.get(MissionRole.MAIN).clear();
+        squadrons.remove();
     }
 
     /**
@@ -212,7 +203,7 @@ public class SweepAirfield implements AirMission {
      */
     @Override
     public int getNumber() {
-        return squadronMap.get(MissionRole.MAIN).size();
+        return squadrons.getNumber();
     }
 
     /**
@@ -296,7 +287,7 @@ public class SweepAirfield implements AirMission {
      * @return The attack map as described above.
      */
     private Map<Double, Integer> getAttackMap() {
-        return squadronMap.get(MissionRole.MAIN)
+        return squadrons.get(MissionRole.MAIN)
                 .stream()
                 .collect(Collectors.toMap(this::getAirProbability,
                         this::getFactor,

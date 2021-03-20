@@ -7,6 +7,8 @@ import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionDAO;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
@@ -83,6 +85,7 @@ public class AirMissionViewModel {
 
     @Getter private final ObjectProperty<AirMissionType> missionType = new SimpleObjectProperty<>();
     @Getter private final ObjectProperty<Target> target = new SimpleObjectProperty<>();
+    @Getter private final ObjectProperty<AirMissionState> state = new SimpleObjectProperty<>();
 
     private final Game game;
     private final MissionDAO missionDAO;
@@ -108,6 +111,7 @@ public class AirMissionViewModel {
         this.missionDAO = missionDAO;
 
         missionTypes.setValue(FXCollections.observableArrayList(AirMissionType.values()));
+        state.setValue(AirMissionState.READY);
 
         MissionRole.stream().forEach(role -> {
             available.put(role, new SimpleListProperty<>());
@@ -156,6 +160,17 @@ public class AirMissionViewModel {
     }
 
     /**
+     * Set the state.
+     *
+     * @param action The air mission action.
+     * @return This air mission view model.
+     */
+    public AirMissionViewModel setState(final AirMissionAction action) {
+        state.setValue(state.getValue().transition(action));
+        return this;
+    }
+
+    /**
      * Set the squadrons view model. The squadron view model converts squadron model objects
      * into squadron view model objects.
      *
@@ -176,7 +191,9 @@ public class AirMissionViewModel {
     public AirMissionViewModel setModel(final AirMission missionModel) {
         missionType.setValue(missionModel.getType());
         target.setValue(missionModel.getTarget());
+        state.setValue(missionModel.getState());
         nation = missionModel.getNation();
+        airbase = missionModel.getAirbase();   // For edits this is set.
 
         mission = buildMission(missionModel);
         id = missionModel.getId();
@@ -353,16 +370,6 @@ public class AirMissionViewModel {
         mission = buildMission(id);
         checkCapacity = false;
         nationAirbaseViewModel.editMission(this);
-    }
-
-    /**
-     * Determine if the given squadron is on this mission.
-     *
-     * @param squadron A squadron to check and see if it is on this mission.
-     * @return True if the given squadron is on this mission. False otherwise.
-     */
-    public boolean isSquadronOnMission(final SquadronViewModel squadron) {
-        return totalAssigned.getValue().contains(squadron);
     }
 
     /**

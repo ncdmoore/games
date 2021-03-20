@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.mission.data.MissionsData;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.target.Target;
 import lombok.Getter;
@@ -88,6 +89,7 @@ public class Missions {
     public void addMission(final AirMission mission) {
         missions.add(mission);
         mission.addSquadrons();
+        mission.setState(AirMissionAction.CREATE);
     }
 
     /**

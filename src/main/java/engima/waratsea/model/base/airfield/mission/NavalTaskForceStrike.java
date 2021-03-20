@@ -4,31 +4,30 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.state.SquadronAction;
 import engima.waratsea.model.target.Target;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class NavalTaskForceStrike implements AirMission {
     @Getter private final int id;
+    @Getter private AirMissionState state;
     private final Game game;
 
     @Getter private final AirMissionType type = AirMissionType.NAVAL_TASK_FORCE_STRIKE;
     @Getter private final Nation nation;
     @Getter private final Airbase airbase;
-    @Getter private final Map<MissionRole, List<Squadron>> squadronMap;
+    @Getter private final Squadrons squadrons;
 
     private final String targetName;               //The name of the target task force.
     private Target targetTaskForce;                //The actual target task force.
@@ -37,27 +36,22 @@ public class NavalTaskForceStrike implements AirMission {
      * Constructor called by guice.
      *
      * @param data The mission data read in from a JSON file.
+     * @param squadrons The squadrons on this mission.
      * @param game The game.
      */
     @Inject
     public NavalTaskForceStrike(@Assisted final MissionData data,
+                                          final Squadrons squadrons,
                                           final Game game) {
         id = data.getId();
+        state = Optional.ofNullable(data.getState()).orElse(AirMissionState.READY);
+        this.squadrons = squadrons;
         this.game = game;
         nation = data.getNation();
 
         airbase = data.getAirbase(); //Note, this is not read in from the JSON file. So no need to save it.
 
-        squadronMap = Optional
-                .ofNullable(data.getSquadronMap())
-                .orElseGet(Collections::emptyMap)
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry
-                        .getValue()
-                        .stream()
-                        .map(airbase::getSquadron)
-                        .collect(Collectors.toList())));
+        squadrons.setSquadrons(airbase, data.getSquadronMap());
 
         //Note, we cannot go ahead and obtain the target task force as it might not have been created at
         //this point in time. So we just save the name of the target task force. The target task force
@@ -75,20 +69,23 @@ public class NavalTaskForceStrike implements AirMission {
         MissionData data = new MissionData();
 
         data.setId(id);
+        data.setState(state);
         data.setType(AirMissionType.NAVAL_TASK_FORCE_STRIKE);
         data.setNation(nation);
         data.setTarget(targetName);
-
-        data.setSquadronMap(squadronMap
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry
-                        .getValue()
-                        .stream()
-                        .map(Squadron::getName)
-                        .collect(Collectors.toList()))));
+        data.setSquadronMap(squadrons.getData());
 
         return data;
+    }
+
+    /**
+     * Set the air mission's current state.
+     *
+     * @param action The air mission action.
+     */
+    @Override
+    public void setState(final AirMissionAction action) {
+        state = state.transition(action);
     }
 
     /**
@@ -119,7 +116,7 @@ public class NavalTaskForceStrike implements AirMission {
      */
     @Override
     public List<Squadron> getSquadrons(final MissionRole role) {
-        return squadronMap.getOrDefault(role, Collections.emptyList());
+        return squadrons.get(role);
     }
 
     /**
@@ -129,10 +126,17 @@ public class NavalTaskForceStrike implements AirMission {
      */
     @Override
     public List<Squadron> getSquadronsAllRoles() {
-        return MissionRole
-                .stream()
-                .flatMap(role -> squadronMap.get(role).stream())
-                .collect(Collectors.toList());
+        return squadrons.getAllRoles();
+    }
+
+    /**
+     * Get a map of mission role to list of squadrons performing that role for this mission.
+     *
+     * @return A map of mission role to list of squadron performing tht role.
+     */
+    @Override
+    public Map<MissionRole, List<Squadron>> getSquadronMap() {
+        return squadrons.getSquadronMap();
     }
 
     /**
@@ -142,12 +146,7 @@ public class NavalTaskForceStrike implements AirMission {
      */
     @Override
     public int getSteps() {
-        return MissionRole
-                .stream()
-                .flatMap(role -> squadronMap.get(role).stream())
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .intValue();
+        return squadrons.getSteps();
     }
 
     /**
@@ -157,12 +156,7 @@ public class NavalTaskForceStrike implements AirMission {
     public void addSquadrons() {
         getTarget();
 
-        squadronMap
-                .forEach((role, squadrons) -> squadrons
-                        .forEach(squadron -> {
-                            squadron.setState(SquadronAction.ASSIGN_TO_MISSION);
-                            squadron.equip(targetTaskForce, AirMissionType.NAVAL_TASK_FORCE_STRIKE, role);
-                        }));
+        squadrons.add(targetTaskForce, AirMissionType.NAVAL_TASK_FORCE_STRIKE);
     }
 
     /**
@@ -170,13 +164,7 @@ public class NavalTaskForceStrike implements AirMission {
      */
     @Override
     public void removeSquadrons() {
-        getSquadronsAllRoles()
-                .forEach(squadron -> {
-                    squadron.setState(SquadronAction.REMOVE_FROM_MISSION);
-                    squadron.unEquip();
-                });
-
-        getSquadronsAllRoles().clear();
+        squadrons.remove();
     }
 
     /**
@@ -186,10 +174,7 @@ public class NavalTaskForceStrike implements AirMission {
      */
     @Override
     public int getNumber() {
-        return MissionRole
-                .stream()
-                .map(role -> squadronMap.get(role).size())
-                .reduce(0, Integer::sum);
+        return squadrons.getNumber();
     }
 
     /**

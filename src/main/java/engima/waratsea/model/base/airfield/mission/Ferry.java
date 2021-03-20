@@ -4,22 +4,20 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
-import engima.waratsea.model.squadron.state.SquadronAction;
 import engima.waratsea.model.target.Target;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * The ferry air mission.
@@ -29,39 +27,39 @@ public class Ferry implements AirMission {
     private final Game game;
 
     @Getter private final AirMissionType type = AirMissionType.FERRY;
+    @Getter private AirMissionState state;
     @Getter private final int id;
     @Getter private final Nation nation;
-    @Getter private final Map<MissionRole, List<Squadron>> squadronMap;
 
     private final Airbase startingAirbase;
     private final String endingAirbaseName;   //The name of the destination air base.
     private Target endingAirbase;             //The actual destination air base.
+    private final Squadrons squadrons;
 
     /**
      * Constructor called by guice.
      *
      * @param data The mission data read in from a JSON file.
      * @param game The game.
+     * @param squadrons The squadron on this mission.
      */
     @Inject
     public Ferry(@Assisted final MissionData data,
-                           final Game game) {
+                           final Game game,
+                           final Squadrons squadrons) {
         id = data.getId();
+
+        state = Optional
+                .ofNullable(data.getState())
+                .orElse(AirMissionState.READY);
+
         this.game = game;
         nation = data.getNation();
+        this.squadrons = squadrons;
 
         startingAirbase = data.getAirbase(); //Note, this is not read in from the JSON file. So no need to save it.
 
-        squadronMap = Optional
-                .ofNullable(data.getSquadronMap())
-                .orElseGet(Collections::emptyMap)
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry
-                        .getValue()
-                        .stream()
-                        .map(startingAirbase::getSquadron)
-                        .collect(Collectors.toList())));
+        squadrons.setSquadrons(startingAirbase, data.getSquadronMap());
 
         //Note, we cannot go ahead and obtain the destination air base. as it might not have been created at
         //this point in time. So we just save the name of the destination air base. The destination air base
@@ -79,20 +77,23 @@ public class Ferry implements AirMission {
         MissionData data = new MissionData();
 
         data.setId(id);
+        data.setState(state);
         data.setType(AirMissionType.FERRY);
         data.setNation(nation);
         data.setTarget(endingAirbaseName);
-
-        data.setSquadronMap(squadronMap
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry
-                        .getValue()
-                        .stream()
-                        .map(Squadron::getName)
-                        .collect(Collectors.toList()))));
+        data.setSquadronMap(squadrons.getData());
 
         return data;
+    }
+
+    /**
+     * Set the air mission's current state.
+     *
+     * @param action The air mission action.
+     */
+    @Override
+    public void setState(final AirMissionAction action) {
+        state = state.transition(action);
     }
 
     /**
@@ -132,7 +133,7 @@ public class Ferry implements AirMission {
      */
     @Override
     public List<Squadron> getSquadrons(final MissionRole role) {
-        return squadronMap.get(role);
+        return squadrons.get(role);
     }
 
     /**
@@ -144,10 +145,17 @@ public class Ferry implements AirMission {
      */
     @Override
     public List<Squadron> getSquadronsAllRoles() {
-        return Stream
-                .of(MissionRole.values())
-                .flatMap(role -> squadronMap.get(role).stream())
-                .collect(Collectors.toList());
+        return squadrons.getAllRoles();
+    }
+
+    /**
+     * Get a map of mission role to list of squadrons performing that role for this mission.
+     *
+     * @return A map of mission role to list of squadron performing tht role.
+     */
+    @Override
+    public Map<MissionRole, List<Squadron>> getSquadronMap() {
+        return squadrons.getSquadronMap();
     }
 
     /**
@@ -157,12 +165,7 @@ public class Ferry implements AirMission {
      */
     @Override
     public int getSteps() {
-        return Stream
-                .of(MissionRole.values())
-                .flatMap(role -> squadronMap.get(role).stream())
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .intValue();
+        return squadrons.getSteps();
     }
 
     /**
@@ -170,14 +173,9 @@ public class Ferry implements AirMission {
      */
     @Override
     public void addSquadrons() {
-        getTarget();
+        getTarget(); // sets the ending airbase.
 
-        squadronMap
-                .get(MissionRole.MAIN)
-                .forEach(squadron -> {
-                    squadron.setState(SquadronAction.ASSIGN_TO_MISSION);
-                    squadron.equip(endingAirbase, AirMissionType.FERRY, MissionRole.MAIN);
-                });
+        squadrons.add(endingAirbase, AirMissionType.FERRY);
     }
 
     /**
@@ -185,12 +183,7 @@ public class Ferry implements AirMission {
      */
     @Override
     public void removeSquadrons() {
-        squadronMap.get(MissionRole.MAIN).forEach(squadron -> {
-            squadron.setState(SquadronAction.REMOVE_FROM_MISSION);
-            squadron.unEquip();
-        });
-
-        squadronMap.get(MissionRole.MAIN).clear();
+        squadrons.remove();
     }
 
     /**
@@ -200,7 +193,7 @@ public class Ferry implements AirMission {
      */
     @Override
     public int getNumber() {
-        return squadronMap.get(MissionRole.MAIN).size();
+        return squadrons.getNumber();
     }
 
     /**

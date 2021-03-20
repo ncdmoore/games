@@ -9,12 +9,14 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.mission.stats.ProbabilityStatsView;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,14 +83,16 @@ public class MissionDetailsView {
         Tab tab = new Tab("No: " + mission.getId());
 
         Node summaryNode = buildSummary(mission);
-        Node squadronNode = buildSquadrons(mission);
+        Node squadronSummaryNode = buildSquadronSummary(mission);
+        Node squadronDetailsNode = buildSquadronDetails(mission);
 
         Node statsNode = statsView.setHorizontal().build(mission.getMissionProbability());
 
-        VBox vBox = new VBox(summaryNode, squadronNode, statsNode);
+        VBox vBox = new VBox(summaryNode, squadronSummaryNode, squadronDetailsNode, statsNode);
         vBox.setId("mission-details-vbox");
+        ScrollPane scrollPane = new ScrollPane(vBox);
 
-        tab.setContent(vBox);
+        tab.setContent(scrollPane);
         return tab;
     }
 
@@ -125,7 +129,7 @@ public class MissionDetailsView {
      * @param mission The mission.
      * @return A node containing a summary of the mission's squadrons.
      */
-    private Node buildSquadrons(final AirMission mission) {
+    private Node buildSquadronSummary(final AirMission mission) {
         Map<AircraftBaseType, List<Squadron>> squadronTypeMap = mission
                 .getSquadronsAllRoles()
                 .stream()
@@ -150,7 +154,7 @@ public class MissionDetailsView {
                     .orElse(0);
 
             Label count = new Label(size + "");
-            styleLabel(count);
+            styleRowLabel(count);
 
             String names = squadrons
                     .orElseGet(Collections::emptyList)
@@ -158,15 +162,72 @@ public class MissionDetailsView {
                     .map(Squadron::getTitle)
                     .collect(Collectors.joining("\n"));
 
-            count.setTooltip(new Tooltip(names));
+            if (StringUtils.isNotBlank(names)) {
+                count.setTooltip(new Tooltip(names));
+            }
 
             gridPane.add(count, col, 1);
         });
 
-        gridPane.setId("mission-details-squadron-grid");
+        gridPane.getStyleClass().add("mission-details-squadron-grid");
 
         Label title = new Label("Mission Squadron Summary:");
         return new VBox(title, gridPane);
+    }
+
+    /**
+     * Build the squadron details.
+     *
+     * @param mission The mission.
+     * @return The squadron details grid.
+     **/
+    private Node buildSquadronDetails(final AirMission mission) {
+        GridPane gridPane = new GridPane();
+
+        buildDetailsHeaderRow(gridPane);
+        buildDetailsDataRow(gridPane, mission);
+
+        gridPane.getStyleClass().add("mission-details-squadron-grid");
+
+        Label title = new Label("Mission Squadron Details:");
+        return new VBox(title, gridPane);
+    }
+
+    private void buildDetailsHeaderRow(final GridPane gridPane) {
+        List<String> headers = List.of("Name", "Type", "Airbase", "Strength", "Radius");
+
+        AtomicInteger column = new AtomicInteger();
+
+        headers.forEach(header -> {
+            int col = column.getAndIncrement();
+            Label headerLabel = new Label(header);
+            styleHeaderLabel(headerLabel);
+            gridPane.add(headerLabel, col, 0);
+        });
+    }
+
+    private void buildDetailsDataRow(final GridPane gridPane, final AirMission mission) {
+        List<Squadron> squadrons = mission.getSquadronsAllRoles();
+
+        AtomicInteger row = new AtomicInteger(1);
+
+        squadrons.forEach(squadron -> {
+            int r = row.getAndIncrement();
+            AtomicInteger column = new AtomicInteger();
+
+            List<String> rowData = List.of(squadron.getTitle(),
+                    squadron.getType().toString(),
+                    squadron.getHome().getTitle(),
+                    squadron.getStrength().toString(),
+                    squadron.getRadius() + "");
+
+            rowData.forEach(rowValue -> {
+                int col = column.getAndIncrement();
+                Label rowLabel = new Label(rowValue);
+                styleRowLabel(rowLabel);
+                gridPane.add(rowLabel, col, r);
+            });
+        });
     }
 
     /**
@@ -184,7 +245,7 @@ public class MissionDetailsView {
      *
      * @param label A label that is styled.
      */
-    private void styleLabel(final Label label) {
+    private void styleRowLabel(final Label label) {
         label.setMaxWidth(props.getInt("mission.grid.details.label.width"));
         label.setMinWidth(props.getInt("mission.grid.details.label.width"));
         label.getStyleClass().add("mission-details-cell");

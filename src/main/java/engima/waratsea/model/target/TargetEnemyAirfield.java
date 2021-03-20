@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -31,6 +32,7 @@ public class TargetEnemyAirfield implements Target {
     @Getter
     private final String name;    //The name of the enemy airfield.
 
+    @Getter
     private final Side side;      //The side of the target. Not the side of the airfield. This is the opposite of the airfield.
                                   //For example if the Allied player has Tobruk as a target then the side here is allied.
 
@@ -322,6 +324,37 @@ public class TargetEnemyAirfield implements Target {
     @Override
     public int getMissionStepsLeavingRegion(final AirMissionType missionType, final Nation nation, final Airbase airbase) {
         return 0;
+    }
+
+    /**
+     * Determine if this Target is equal to a given target.
+     *
+     * @param o The other target.
+     * @return True if this target is equal to the other target.
+     */
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof Target)) {
+            return false;
+        }
+
+        if (o == this) {
+            return true;
+        }
+
+        Target otherTarget = (Target) o;
+
+        return side == otherTarget.getSide() && name.equals(otherTarget.getName()) && getLocation().equals(otherTarget.getLocation());
+    }
+
+    /**
+     * The hash code for this object.
+     *
+     * @return hash code.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, side);
     }
 
     /**
