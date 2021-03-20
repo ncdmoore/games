@@ -304,7 +304,7 @@ public class AirMissionViewModel {
 
             log.debug("Assigned squadrons: '{}'", assignedNames);
 
-            totalAssigned.setValue(FXCollections.observableArrayList(add(totalAssigned.getValue(), squadron)));
+            totalAssigned.add(squadron);
 
             ready.setValue(FXCollections.observableArrayList(remove(ready.getValue(), squadron)));
 
@@ -335,7 +335,7 @@ public class AirMissionViewModel {
 
         log.debug("Assigned squadrons: '{}'", assignedNames);
 
-        totalAssigned.setValue(FXCollections.observableArrayList(remove(totalAssigned.getValue(), squadron)));
+        totalAssigned.remove(squadron);
 
         ready.setValue(FXCollections.observableArrayList(add(ready.getValue(), squadron)));
 
@@ -405,7 +405,7 @@ public class AirMissionViewModel {
      * @param viewModel The nation's airbase view model.
      */
     private void bindAvailable(final NationAirbaseViewModel viewModel) {
-        // Copy the ready squadrons. This must be done to handle the case where a added mission is canceled.
+        // Copy the ready squadrons. This must be done to handle the case where an added mission is canceled.
         ready.set(FXCollections.observableList(new ArrayList<>(viewModel.getTotalReadySquadrons().getValue())));
 
         MissionRole.stream().forEach(role -> {
