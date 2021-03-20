@@ -127,6 +127,8 @@ public class MissionAddDialog {
 
         registerButtons();
 
+        dialog.getOkButton().disableProperty().bind(viewModel.getValidMission().not());
+
         dialog.getCancelButton().setOnAction(event -> cancel());
         dialog.getOkButton().setOnAction(event -> ok());
     }

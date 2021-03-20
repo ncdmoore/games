@@ -159,16 +159,6 @@ public class SweepAirfield implements AirMission {
     }
 
     /**
-     * Get a map of mission role to list of squadrons performing that role for this mission.
-     *
-     * @return A map of mission role to list of squadron performing tht role.
-     */
-    @Override
-    public Map<MissionRole, List<Squadron>> getSquadronMap() {
-        return squadrons.getSquadronMap();
-    }
-
-    /**
      * Get the number of steps assigned to this mission.
      *
      * @return the total number of steps assigned to this mission.

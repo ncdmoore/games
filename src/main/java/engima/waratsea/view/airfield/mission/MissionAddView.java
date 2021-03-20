@@ -141,8 +141,8 @@ public class MissionAddView {
         MissionRole.stream().forEach(role -> {
             squadrons.get(role).getAvailable().itemsProperty().bind(viewModel.getAvailable().get(role));
             squadrons.get(role).getAssigned().itemsProperty().bind(viewModel.getAssigned().get(role));
-            squadrons.get(role).getAdd().disableProperty().bind(viewModel.getAvailableExists().get(role));
-            squadrons.get(role).getRemove().disableProperty().bind(viewModel.getAssignedExists().get(role));
+            squadrons.get(role).getAdd().disableProperty().bind(viewModel.getAvailableEmpty().get(role));
+            squadrons.get(role).getRemove().disableProperty().bind(viewModel.getAssignedEmpty().get(role));
         });
 
         targetView.bind(viewModel);

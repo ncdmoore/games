@@ -15,7 +15,6 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -127,16 +126,6 @@ public class NavalTaskForceStrike implements AirMission {
     @Override
     public List<Squadron> getSquadronsAllRoles() {
         return squadrons.getAllRoles();
-    }
-
-    /**
-     * Get a map of mission role to list of squadrons performing that role for this mission.
-     *
-     * @return A map of mission role to list of squadron performing tht role.
-     */
-    @Override
-    public Map<MissionRole, List<Squadron>> getSquadronMap() {
-        return squadrons.getSquadronMap();
     }
 
     /**

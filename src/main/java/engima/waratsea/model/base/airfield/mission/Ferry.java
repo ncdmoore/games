@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -34,7 +33,7 @@ public class Ferry implements AirMission {
     private final Airbase startingAirbase;
     private final String endingAirbaseName;   //The name of the destination air base.
     private Target endingAirbase;             //The actual destination air base.
-    private final Squadrons squadrons;
+    @Getter private final Squadrons squadrons;
 
     /**
      * Constructor called by guice.
@@ -146,16 +145,6 @@ public class Ferry implements AirMission {
     @Override
     public List<Squadron> getSquadronsAllRoles() {
         return squadrons.getAllRoles();
-    }
-
-    /**
-     * Get a map of mission role to list of squadrons performing that role for this mission.
-     *
-     * @return A map of mission role to list of squadron performing tht role.
-     */
-    @Override
-    public Map<MissionRole, List<Squadron>> getSquadronMap() {
-        return squadrons.getSquadronMap();
     }
 
     /**

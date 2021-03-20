@@ -11,7 +11,6 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
 
 import java.util.List;
-import java.util.Map;
 
 public interface AirMission extends PersistentData<MissionData> {
     /**
@@ -71,6 +70,13 @@ public interface AirMission extends PersistentData<MissionData> {
     Nation getNation();
 
     /**
+     * Get the squadrons on this mission.
+     *
+     * @return The squadrons on this mission.
+     */
+    Squadrons getSquadrons();
+
+    /**
      * Get the squadrons on the mission that are assigned the given role.
      *
      * @param role The squadron's mission role.
@@ -84,13 +90,6 @@ public interface AirMission extends PersistentData<MissionData> {
      * @return All of the squadrons involved with this mission.
      */
     List<Squadron> getSquadronsAllRoles();
-
-    /**
-     * Get a map of mission role to list of squadrons performing that role for this mission.
-     *
-     * @return A map of mission role to list of squadron performing tht role.
-     */
-    Map<MissionRole, List<Squadron>> getSquadronMap();
 
     /**
      * Get the number of steps assigned to this mission.

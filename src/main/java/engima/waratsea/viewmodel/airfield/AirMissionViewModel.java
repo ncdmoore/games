@@ -50,8 +50,10 @@ public class AirMissionViewModel {
     @Getter private final Map<MissionRole, ListProperty<SquadronViewModel>> available = new HashMap<>();                // List of available squadrons for a particular role.
     @Getter private final Map<MissionRole, ListProperty<SquadronViewModel>> assigned = new HashMap<>();                 // List of squadrons assigned to this mission for a particular role.
 
-    @Getter private final Map<MissionRole, BooleanProperty> availableExists = new HashMap<>();                          // Indicates if any available squadrons exist for a particular role.
-    @Getter private final Map<MissionRole, BooleanProperty> assignedExists = new HashMap<>();                           // Indicates if any assigned squadrons exist for a particular role.
+    @Getter private final Map<MissionRole, BooleanProperty> availableEmpty = new HashMap<>();                          // Indicates if any available squadrons exist for a particular role.
+    @Getter private final Map<MissionRole, BooleanProperty> assignedEmpty = new HashMap<>();                           // Indicates if any assigned squadrons exist for a particular role.
+
+    @Getter private final BooleanProperty validMission = new SimpleBooleanProperty(false);                    // Indicates if the mission has assigned squadrons for the MAIN role.
 
     @Getter private final ListProperty<SquadronViewModel> totalAssigned = new SimpleListProperty<>(FXCollections.emptyObservableList());
     @Getter private final IntegerProperty totalAssignedCount = new SimpleIntegerProperty(0);                  // Total number of squadrons on the mission. Includes all roles.
@@ -115,14 +117,16 @@ public class AirMissionViewModel {
 
         MissionRole.stream().forEach(role -> {
             available.put(role, new SimpleListProperty<>());
-            availableExists.put(role, new SimpleBooleanProperty());
+            availableEmpty.put(role, new SimpleBooleanProperty());
 
-            assigned.put(role, new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>())));
-            assignedExists.put(role, new SimpleBooleanProperty(false));
+            assigned.put(role, new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>())));  // This list must be modifiable.
+            assignedEmpty.put(role, new SimpleBooleanProperty(true));
 
             error.put(role, new SimpleBooleanProperty());
             errorText.put(role, "");
         });
+
+        validMission.bind(assignedEmpty.get(MissionRole.MAIN).not());
     }
 
     /**
@@ -193,7 +197,6 @@ public class AirMissionViewModel {
         target.setValue(missionModel.getTarget());
         state.setValue(missionModel.getState());
         nation = missionModel.getNation();
-        airbase = missionModel.getAirbase();   // For edits this is set.
 
         mission = buildMission(missionModel);
         id = missionModel.getId();
@@ -206,10 +209,15 @@ public class AirMissionViewModel {
 
         MissionRole
                 .stream()
-                .forEach(role -> assigned
-                        .get(role)
-                        .set(FXCollections.observableArrayList(getSquadronViewModels(mission.getSquadrons(role)))));
+                .forEach(role -> {
+                    assigned
+                            .get(role)
+                            .set(FXCollections.observableArrayList(getSquadronViewModels(mission.getSquadrons(role))));
 
+                    assignedEmpty
+                            .get(role)
+                            .set(assigned.get(role).getValue().isEmpty());
+                });
 
         totalAssigned.setValue(FXCollections.observableArrayList(getSquadronViewModels(mission.getSquadronsAllRoles())));
         totalAssignedCount.setValue(mission.getSquadronsAllRoles().size());
@@ -273,7 +281,7 @@ public class AirMissionViewModel {
             log.debug("Add squadron: '{}' with role: '{}' to mission id: '{}'", new Object[]{squadron.getTitle(), role.toString(), id});
 
             assigned.get(role).get().add(squadron);
-            assignedExists.get(role).set(assigned.get(role).getValue().isEmpty());
+            assignedEmpty.get(role).set(assigned.get(role).getValue().isEmpty());
             squadron.setOnMission();
 
             String assignedNames = assigned
@@ -304,7 +312,7 @@ public class AirMissionViewModel {
         log.debug("remove squadron: '{}' with role: '{}' to mission id: '{}'", new Object[]{squadron.getTitle(), role.toString(), id});
 
         assigned.get(role).get().remove(squadron);
-        assignedExists.get(role).set(assigned.get(role).getValue().isEmpty());
+        assignedEmpty.get(role).set(assigned.get(role).getValue().isEmpty());
         squadron.setOffMission();
 
         String assignedNames = assigned
@@ -332,7 +340,7 @@ public class AirMissionViewModel {
 
         MissionRole.stream().forEach(role -> {
             assigned.get(role).get().clear();
-            assignedExists.get(role).set(false);
+            assignedEmpty.get(role).set(true);
 
             String assignedNames = assigned
                     .get(role)
@@ -392,7 +400,7 @@ public class AirMissionViewModel {
 
         MissionRole.stream().forEach(role -> {
             available.get(role).bind(Bindings.createObjectBinding(() -> FXCollections.observableArrayList(filter(missionType, target, role, ready)), missionType, target, ready));
-            availableExists.get(role).bind(available.get(role).emptyProperty());
+            availableEmpty.get(role).bind(available.get(role).emptyProperty());
         });
     }
 
@@ -780,16 +788,8 @@ public class AirMissionViewModel {
         data.setTarget(missionModel.getTarget().getName());
 
         Map<MissionRole, List<String>> squadronNames = missionModel
-                .getSquadronMap()
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        entry -> entry
-                                .getValue()
-                                .stream()
-                                .map(Squadron::getName)
-                                .collect(Collectors.toList())));
+                .getSquadrons()
+                .getData();
 
         data.setSquadronMap(squadronNames);
 
