@@ -124,7 +124,7 @@ public class MissionEditDialog {
 
         viewModel.getWarning().addListener((o, ov, nv) -> warningHandler(nv));
 
-        dialog.getOkButton().disableProperty().bind(viewModel.getValidMission().not());
+        dialog.getOkButton().disableProperty().bind(viewModel.getValidMission().not().or(viewModel.getChanged().not()));
 
         dialog.getCancelButton().setOnAction(event -> cancel());
         dialog.getOkButton().setOnAction(event -> ok());

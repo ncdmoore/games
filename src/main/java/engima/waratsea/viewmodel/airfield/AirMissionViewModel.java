@@ -53,8 +53,6 @@ public class AirMissionViewModel {
     @Getter private final Map<MissionRole, BooleanProperty> availableEmpty = new HashMap<>();                          // Indicates if any available squadrons exist for a particular role.
     @Getter private final Map<MissionRole, BooleanProperty> assignedEmpty = new HashMap<>();                           // Indicates if any assigned squadrons exist for a particular role.
 
-    @Getter private final BooleanProperty validMission = new SimpleBooleanProperty(false);                    // Indicates if the mission has assigned squadrons for the MAIN role.
-
     @Getter private final ListProperty<SquadronViewModel> totalAssigned = new SimpleListProperty<>(FXCollections.emptyObservableList());
     @Getter private final IntegerProperty totalAssignedCount = new SimpleIntegerProperty(0);                  // Total number of squadrons on the mission. Includes all roles.
 
@@ -79,6 +77,9 @@ public class AirMissionViewModel {
 
     @Getter private final BooleanProperty warning = new SimpleBooleanProperty();
     @Getter private String warningText;
+
+    @Getter private final BooleanProperty changed = new SimpleBooleanProperty(false);                         // Indicates if the mission has been changed.
+    @Getter private final BooleanProperty validMission = new SimpleBooleanProperty(false);                    // Indicates if the mission has assigned squadrons for the MAIN role.
 
     @Getter private SquadronsViewModel squadrons;
     @Getter private NationAirbaseViewModel nationAirbaseViewModel;
@@ -113,7 +114,6 @@ public class AirMissionViewModel {
         this.missionDAO = missionDAO;
 
         missionTypes.setValue(FXCollections.observableArrayList(AirMissionType.values()));
-        state.setValue(AirMissionState.READY);
 
         MissionRole.stream().forEach(role -> {
             available.put(role, new SimpleListProperty<>());
@@ -121,6 +121,7 @@ public class AirMissionViewModel {
 
             assigned.put(role, new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>())));  // This list must be modifiable.
             assignedEmpty.put(role, new SimpleBooleanProperty(true));
+            assignedEmpty.get(role).bind(assigned.get(role).emptyProperty());
 
             error.put(role, new SimpleBooleanProperty());
             errorText.put(role, "");
@@ -170,7 +171,13 @@ public class AirMissionViewModel {
      * @return This air mission view model.
      */
     public AirMissionViewModel setState(final AirMissionAction action) {
-        state.setValue(state.getValue().transition(action));
+        AirMissionState currentState = Optional
+                .ofNullable(state.getValue())
+                .orElse(AirMissionState.READY);
+
+        AirMissionState newState = currentState.transition(action);
+        state.setValue(newState);
+
         return this;
     }
 
@@ -187,7 +194,7 @@ public class AirMissionViewModel {
     }
 
     /**
-     * Set the model.
+     * Set the model. This is called by the edit mission dialog.
      *
      * @param missionModel The mission model.
      * @return This air mission view model.
@@ -209,15 +216,10 @@ public class AirMissionViewModel {
 
         MissionRole
                 .stream()
-                .forEach(role -> {
-                    assigned
+                .forEach(role -> assigned
                             .get(role)
-                            .set(FXCollections.observableArrayList(getSquadronViewModels(mission.getSquadrons(role))));
-
-                    assignedEmpty
-                            .get(role)
-                            .set(assigned.get(role).getValue().isEmpty());
-                });
+                            .getValue()
+                            .addAll(getSquadronViewModels(mission.getSquadrons(role))));
 
         totalAssigned.setValue(FXCollections.observableArrayList(getSquadronViewModels(mission.getSquadronsAllRoles())));
         totalAssignedCount.setValue(mission.getSquadronsAllRoles().size());
@@ -281,7 +283,6 @@ public class AirMissionViewModel {
             log.debug("Add squadron: '{}' with role: '{}' to mission id: '{}'", new Object[]{squadron.getTitle(), role.toString(), id});
 
             assigned.get(role).get().add(squadron);
-            assignedEmpty.get(role).set(assigned.get(role).getValue().isEmpty());
             squadron.setOnMission();
 
             String assignedNames = assigned
@@ -299,6 +300,8 @@ public class AirMissionViewModel {
             ready.setValue(FXCollections.observableArrayList(remove(ready.getValue(), squadron)));
 
             updateMissionStats();
+
+            changed.setValue(true);
         }
     }
 
@@ -312,7 +315,6 @@ public class AirMissionViewModel {
         log.debug("remove squadron: '{}' with role: '{}' to mission id: '{}'", new Object[]{squadron.getTitle(), role.toString(), id});
 
         assigned.get(role).get().remove(squadron);
-        assignedEmpty.get(role).set(assigned.get(role).getValue().isEmpty());
         squadron.setOffMission();
 
         String assignedNames = assigned
@@ -330,6 +332,8 @@ public class AirMissionViewModel {
         ready.setValue(FXCollections.observableArrayList(add(ready.getValue(), squadron)));
 
         updateMissionStats();
+
+        changed.setValue(true);
     }
 
     /**
@@ -340,7 +344,6 @@ public class AirMissionViewModel {
 
         MissionRole.stream().forEach(role -> {
             assigned.get(role).get().clear();
-            assignedEmpty.get(role).set(true);
 
             String assignedNames = assigned
                     .get(role)
@@ -756,6 +759,7 @@ public class AirMissionViewModel {
         data.setNation(nation);
         data.setType(missionType.getValue());
         data.setTarget(targetName);
+        data.setState(state.getValue());
 
         Map<MissionRole, List<String>> squadronNames = assigned
                 .entrySet()
@@ -786,6 +790,7 @@ public class AirMissionViewModel {
         data.setNation(missionModel.getNation());
         data.setType(missionModel.getType());
         data.setTarget(missionModel.getTarget().getName());
+        data.setState(missionModel.getState());
 
         Map<MissionRole, List<String>> squadronNames = missionModel
                 .getSquadrons()
