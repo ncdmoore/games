@@ -131,6 +131,8 @@ public class AirMissionViewModel {
             errorText.put(role, "");
         });
 
+        totalAssignedCount.bind(totalAssigned.sizeProperty());
+
         validMission.bind(assignedEmpty.get(MissionRole.MAIN).not());
 
         readOnly.bind(Bindings.createBooleanBinding(() -> Optional
@@ -231,7 +233,6 @@ public class AirMissionViewModel {
                             .addAll(getSquadronViewModels(mission.getSquadrons(role))));
 
         totalAssigned.setValue(FXCollections.observableArrayList(getSquadronViewModels(mission.getSquadronsAllRoles())));
-        totalAssignedCount.setValue(mission.getSquadronsAllRoles().size());
 
         isAffectedByWeather.setValue(mission.isAffectedByWeather());
 
@@ -304,7 +305,6 @@ public class AirMissionViewModel {
             log.debug("Assigned squadrons: '{}'", assignedNames);
 
             totalAssigned.setValue(FXCollections.observableArrayList(add(totalAssigned.getValue(), squadron)));
-            totalAssignedCount.setValue(totalAssigned.getValue().size());
 
             ready.setValue(FXCollections.observableArrayList(remove(ready.getValue(), squadron)));
 
@@ -336,7 +336,6 @@ public class AirMissionViewModel {
         log.debug("Assigned squadrons: '{}'", assignedNames);
 
         totalAssigned.setValue(FXCollections.observableArrayList(remove(totalAssigned.getValue(), squadron)));
-        totalAssignedCount.setValue(totalAssigned.getValue().size());
 
         ready.setValue(FXCollections.observableArrayList(add(ready.getValue(), squadron)));
 
@@ -366,7 +365,6 @@ public class AirMissionViewModel {
         });
 
         totalAssigned.setValue(FXCollections.observableList(new ArrayList<>()));
-        totalAssignedCount.setValue(0);
 
         ready.set(FXCollections.observableList(new ArrayList<>(nationAirbaseViewModel.getTotalReadySquadrons().getValue())));
     }
