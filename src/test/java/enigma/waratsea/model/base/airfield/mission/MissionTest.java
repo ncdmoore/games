@@ -138,6 +138,7 @@ public class MissionTest {
         mission.doAction(AirMissionAction.CREATE);
 
         Assert.assertEquals(AirMissionState.LAUNCHING, mission.getState());
+        Assert.assertEquals(SquadronState.QUEUED_FOR_MISSION, squadron.getState());           // Squadron is queued.
 
         mission.doAction(AirMissionAction.EXECUTE); // Execute a turn.
 
@@ -152,6 +153,7 @@ public class MissionTest {
 
         for (int turns = 1; turns < turnsToTarget; turns++) {
             Assert.assertEquals(AirMissionState.OUT_BOUND, mission.getState());   // Mission takes multiple turns and is out-bound.
+            Assert.assertEquals(SquadronState.ON_MISSION, squadron.getState());   // Squadron is on the mission.
             game.getTurn().next();                                                // Start a new game turn.
             mission.doAction(AirMissionAction.EXECUTE);                           // Execute the new game turn.
         }
@@ -191,6 +193,7 @@ public class MissionTest {
         mission.doAction(AirMissionAction.CREATE);
 
         Assert.assertEquals(AirMissionState.LAUNCHING, mission.getState());
+        Assert.assertEquals(SquadronState.QUEUED_FOR_MISSION, squadron.getState());           // Squadron is queued.
 
         int turns = 1;
         mission.doAction(AirMissionAction.EXECUTE); // Execute a turn.
@@ -207,6 +210,7 @@ public class MissionTest {
 
         for (int i = turns; i < turnsToTarget; i++) {
             Assert.assertEquals(AirMissionState.OUT_BOUND, mission.getState());   // Mission takes multiple turns and is out-bound.
+            Assert.assertEquals(SquadronState.ON_MISSION, squadron.getState());   // Squadron is on the mission.
             game.getTurn().next();                                                // Start a new game turn.
             turns++;
             mission.doAction(AirMissionAction.EXECUTE);                           // Execute the new game turn.
@@ -214,6 +218,7 @@ public class MissionTest {
 
         for (int i = turns; i < turnsToHome; i++) {
             Assert.assertEquals(AirMissionState.IN_BOUND, mission.getState());    // Mission takes multiple turns and is in-bound.
+            Assert.assertEquals(SquadronState.ON_MISSION, squadron.getState());   // Squadron is on the mission.
             game.getTurn().next();                                                // Start a new game turn.
             turns++;
             mission.doAction(AirMissionAction.EXECUTE);                           // Execute the new game turn.
