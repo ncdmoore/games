@@ -3,8 +3,8 @@ package engima.waratsea.model.target;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.Squadrons;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -66,7 +66,10 @@ public class TargetFriendlyAirbase implements Target {
      */
     @Override
     public String getTitle() {
-        return getAirbase().getTitle();
+        return Optional
+                .ofNullable(airbase)
+                .orElseGet(this::getAirbase)
+                .getTitle();
     }
 
     /**
@@ -77,7 +80,10 @@ public class TargetFriendlyAirbase implements Target {
      */
     @Override
     public Region getRegion(final Nation nation) {
-        return getAirbase().getRegion(nation);
+        return Optional
+                .ofNullable(airbase)
+                .orElseGet(this::getAirbase)
+                .getRegion(nation);
     }
 
 
@@ -89,7 +95,10 @@ public class TargetFriendlyAirbase implements Target {
      */
     @Override
     public String getRegionTitle(final Nation nation) {
-        return getAirbase().getRegion(nation).getName();
+        return Optional
+                .ofNullable(airbase)
+                .orElseGet(this::getAirbase)
+                .getRegion(nation).getName();
     }
 
     /**
@@ -138,7 +147,43 @@ public class TargetFriendlyAirbase implements Target {
      */
     @Override
     public Object getView() {
-        return getAirbase();
+        return Optional
+                .ofNullable(airbase)
+                .orElseGet(this::getAirbase);
+    }
+
+    /**
+     * The squadrons land at this target. This is only used by friendly airbases.
+     *
+     * @param squadrons The squadrons that land at this target.
+     */
+    @Override
+    public void land(final Squadrons squadrons) {
+        squadrons
+                .getAll()
+                .forEach(squadron -> airbase.addSquadron(squadron));
+
+        squadrons.land();
+    }
+
+    /**
+     * The squadrons attack this target.
+     *
+     * @param squadrons The squadrons that attack this target.
+     */
+    @Override
+    public void resolveAttack(final Squadrons squadrons) {
+        land(squadrons);
+    }
+
+    /**
+     * The squadrons sweep this target.
+     *
+     * @param squadrons The squadrons that sweep this target.
+     */
+    @Override
+    public void resolveSweep(final Squadrons squadrons) {
+        land(squadrons);
     }
 
     /**
@@ -299,7 +344,7 @@ public class TargetFriendlyAirbase implements Target {
                         .stream()
                         .filter(mission -> mission.getTarget().getRegion(nation) == getRegion(nation)))
                 .filter(mission -> mission.getType() == AirMissionType.FERRY)
-                .map(AirMission::getSteps)
+                .map(mission -> mission.getSquadrons().getSteps())
                 .reduce(0, Integer::sum);
     }
 
@@ -328,7 +373,7 @@ public class TargetFriendlyAirbase implements Target {
                         .stream()
                         .filter(mission -> mission.getTarget().getRegion(nation) != a.getRegion(nation)))
                 .filter(mission -> mission.getType() == AirMissionType.FERRY)
-                .map(AirMission::getSteps)
+                .map(mission -> mission.getSquadrons().getSteps())
                 .reduce(0, Integer::sum);
     }
 

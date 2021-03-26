@@ -1,22 +1,14 @@
 package engima.waratsea.view.airfield.mission.stats;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
-import engima.waratsea.model.target.Target;
 import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
-import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.IntegerExpression;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * The strike missions view stats.
@@ -30,6 +22,7 @@ public class StrikeView implements StatsView {
     private final Label airbaseTitle = new Label();
     private final Label distanceValue = new Label();
     private final Label etaValue = new Label();
+    private final Label rttValue = new Label();
     private final Label inRouteValue = new Label();
 
     private VBox statsVBox;
@@ -76,60 +69,15 @@ public class StrikeView implements StatsView {
      */
     @Override
     public Node bind(final AirMissionViewModel viewModel) {
-        airbaseTitle.textProperty().bind(Bindings.createStringBinding(() -> getTargetTitle(viewModel), viewModel.getTarget()));
-        distanceValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetDistance(viewModel), viewModel.getTarget()));
-        etaValue.textProperty().bind(Bindings.createStringBinding(() -> getEta(viewModel), viewModel.getTarget(), viewModel.getTotalAssigned()));
+        airbaseTitle.textProperty().bind(viewModel.getTargetTitle());
+        distanceValue.textProperty().bind(viewModel.getTargetDistance());
+        etaValue.textProperty().bind(viewModel.getTargetEta());
+        rttValue.textProperty().bind(viewModel.getTargetRtt());
         inRouteValue.textProperty().bind(viewModel.getTotalStepsInRouteToTarget().asString());
 
         viewModel.getMissionStats().addListener((o, ov, nv) -> rebuildSuccessStats(nv));
 
         return statsVBox;
-    }
-
-    /**
-     * Get the current target's name.
-     *
-     * @param viewModel The air mission view model.
-     * @return The name of the destination airbase.
-     */
-    private String getTargetTitle(final AirMissionViewModel viewModel) {
-        ObjectProperty<Target> target = viewModel.getTarget();
-        return Optional.ofNullable(target.getValue()).map(Target::getTitle).orElse("");
-    }
-
-    /**
-     * Get the current target's distance.
-     *
-     * @param viewModel The air mission view model.
-     * @return The distance to the destination airbase.
-     */
-    private String getTargetDistance(final AirMissionViewModel viewModel) {
-        ObjectProperty<Target> target = viewModel.getTarget();
-        Airbase airbase = viewModel.getAirbase();
-
-        return Optional.ofNullable(target.getValue()).map(t -> t.getDistance(airbase)).orElse(0) + "";
-    }
-
-    private String getEta(final AirMissionViewModel viewModel) {
-        ObjectProperty<Target> target = viewModel.getTarget();
-        Airbase airbase = viewModel.getAirbase();
-        ListProperty<SquadronViewModel> squadrons = viewModel.getTotalAssigned();
-
-        int minRadius = squadrons
-                .stream()
-                .map(SquadronViewModel::getRadius)
-                .map(IntegerExpression::getValue)
-                .mapToInt(v -> v)
-                .min()
-                .orElse(0);
-
-        if (minRadius == 0) {
-            return "--";
-        }
-
-        int distance = Optional.ofNullable(target.getValue()).map(t -> t.getDistance(airbase)).orElse(0);
-
-        return ((distance / minRadius) + (distance % minRadius > 0 ? 1 : 0)) + "";
     }
 
     /**
@@ -151,6 +99,7 @@ public class StrikeView implements StatsView {
     private Node buildAirbaseStats() {
         Label distance = new Label("Distance:");
         Label eta = new Label("ETA (turns):");
+        Label rtt = new Label("RTT (turns):");
         Label inRoute = new Label("Steps in route:");
 
         GridPane gridPane = new GridPane();
@@ -160,6 +109,8 @@ public class StrikeView implements StatsView {
         gridPane.add(distanceValue, 1, row);
         gridPane.add(eta, 0, ++row);
         gridPane.add(etaValue, 1, row);
+        gridPane.add(rtt, 0, ++row);
+        gridPane.add(rttValue, 1, row);
         gridPane.add(inRoute, 0, ++row);
         gridPane.add(inRouteValue, 1, row);
 

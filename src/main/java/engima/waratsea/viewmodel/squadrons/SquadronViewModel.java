@@ -17,10 +17,8 @@ import engima.waratsea.utility.Probability;
 import engima.waratsea.utility.ResourceProvider;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -77,9 +75,11 @@ public class SquadronViewModel {
     @Getter private final StringProperty navalWarshipSummary = new SimpleStringProperty();
     @Getter private final StringProperty navalTransportSummary = new SimpleStringProperty();
 
-    private final StringProperty range = new SimpleStringProperty();
-    @Getter private final IntegerProperty radius = new SimpleIntegerProperty();
-    @Getter private final StringProperty endurance = new SimpleStringProperty();
+    @Getter private final StringProperty rangeString = new SimpleStringProperty();
+    @Getter private final StringProperty enduranceString = new SimpleStringProperty();
+    @Getter private final StringProperty radiusString = new SimpleStringProperty();
+    @Getter private final StringProperty ferryDistanceString = new SimpleStringProperty();
+
     private final StringProperty ferry = new SimpleStringProperty();
     @Getter private final StringProperty altitude = new SimpleStringProperty();
     @Getter private final StringProperty landing = new SimpleStringProperty();
@@ -289,6 +289,19 @@ public class SquadronViewModel {
     }
 
     /**
+     * Get the squadron's current radius.
+     *
+     * @return The squadron's current radius.
+     */
+    public int getRange() {
+        return squadron
+                .getValue()
+                .getAircraft()
+                .getRange()
+                .get(configuration.getValue());
+    }
+
+    /**
      * Determines if the squadron can perform the given mission type.
      *
      * @param missionType The mission type.
@@ -423,8 +436,8 @@ public class SquadronViewModel {
      */
     public Map<String, List<StringProperty>> getPerformance() {
         Map<String, List<StringProperty>> details = new LinkedHashMap<>();
-        details.put("Range:", List.of(range, new SimpleStringProperty("Radius:"), new SimpleStringProperty(radius.getValue() + "")));
-        details.put("Endurance:", List.of(endurance, new SimpleStringProperty("Ferry:"), ferry));
+        details.put("Range:", List.of(rangeString, new SimpleStringProperty("Radius:"), radiusString));
+        details.put("Endurance:", List.of(enduranceString, new SimpleStringProperty("Ferry:"), ferry));
         details.put("Altitude Rating:", List.of(altitude));
         details.put("Landing Type:", List.of(landing));
         return details;
@@ -611,19 +624,24 @@ public class SquadronViewModel {
     }
 
     private void bindPerformance() {
-        range.bind(Bindings.createStringBinding(() -> Optional
+        rangeString.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
-                .map(s -> s.getAircraft().getRange() + "")
-                .orElse(""), squadron));
+                .map(s -> getRangeAsString())
+                .orElse(""), squadron, configuration));
 
-        radius.bind(Bindings.createIntegerBinding(() -> Optional
-                .ofNullable(squadron.getValue())
-                .map(s -> getRadiusAsInt())
-                .orElse(0), squadron, configuration));
-
-        endurance.bind(Bindings.createStringBinding(() -> Optional
+        enduranceString.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
                 .map(s -> getEnduranceAsString())
+                .orElse(""), squadron, configuration));
+
+        radiusString.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(s -> getRadiusAsString())
+                .orElse(""), squadron, configuration));
+
+        ferryDistanceString.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(s -> getFerryDistanceAsString())
                 .orElse(""), squadron, configuration));
 
         ferry.bind(Bindings.createStringBinding(() -> Optional
@@ -693,9 +711,19 @@ public class SquadronViewModel {
         return squadron.getValue().getAircraft().getEndurance().get(config) + "";
     }
 
-    private int getRadiusAsInt() {
+    private String getRadiusAsString() {
         SquadronConfig config = Optional.ofNullable(configuration.getValue()).orElse(SquadronConfig.NONE);
-        return squadron.getValue().getAircraft().getRadius().get(config);
+        return squadron.getValue().getAircraft().getRadius().get(config) + "";
+    }
+
+    private String getFerryDistanceAsString() {
+        SquadronConfig config = Optional.ofNullable(configuration.getValue()).orElse(SquadronConfig.NONE);
+        return squadron.getValue().getAircraft().getFerryDistance().get(config) + "";
+    }
+
+    private String getRangeAsString() {
+        SquadronConfig config = Optional.ofNullable(configuration.getValue()).orElse(SquadronConfig.NONE);
+        return squadron.getValue().getAircraft().getRange().get(config) + "";
     }
 
     private String getFerry() {

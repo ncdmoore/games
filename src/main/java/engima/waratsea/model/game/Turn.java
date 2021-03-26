@@ -32,7 +32,7 @@ public class Turn {
     private final GameRules rules;   //Game specific rules.
 
     @Getter
-    private int turn;                //One day equals 6 turns.
+    private int number;                //One day equals 6 turns.
 
     @Getter
     private TurnType type;
@@ -58,7 +58,7 @@ public class Turn {
                 final Weather weather) {
         this.rules = rules;
 
-        this.turn = 1;
+        this.number = 1;
         this.index = DAY_1;
 
         this.type = DAY_TURNS.get(index.getValue());
@@ -72,7 +72,7 @@ public class Turn {
      * @param data The persistent turn data.
      */
     public void init(final TurnData data) {
-        turn = data.getTurn();
+        number = data.getTurn();
         index = data.getIndex();
         date = data.getDate();
     }
@@ -84,7 +84,7 @@ public class Turn {
      */
     public TurnData getData() {
         TurnData data = new TurnData();
-        data.setTurn(turn);
+        data.setTurn(number);
         data.setIndex(index);
         data.setDate(date);
         return data;
@@ -117,7 +117,7 @@ public class Turn {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
         String dateString = simpleDateFormat.format(date);
 
-        log.info("Starting Date: '{}', Turn:  {}, Type: {}", new Object[]{dateString, turn, type});
+        log.info("Starting Date: '{}', Turn:  {}, Type: {}", new Object[]{dateString, number, type});
 
         startWeather(scenario);
     }
@@ -126,7 +126,7 @@ public class Turn {
      * Advance the game turn.
      */
     public void next() {
-        turn++;
+        number++;
 
         index = index.next();
         if (index == DAY_1) {

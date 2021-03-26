@@ -38,6 +38,40 @@ public class Performance {
     }
 
     /**
+     * A convenience method for getting the aircraft's range.
+     * This is the game range. The range marked on the game piece.
+     *
+     * Note range and radius are equal when endurance is unity.
+     *
+     * @return The aircraft's range.
+     */
+    public int getRange() {
+        return gameRange;
+    }
+
+    /**
+     * Get the enhanced range based off of data from a squadron configuration.
+     *
+     * @param enhancedRange The enhanced range.
+     * @param enhancedEndurance The enhanced endurance.
+     * @return The enhanced combat radius.
+     */
+    public int getEnhancedRadius(final int enhancedRange, final int enhancedEndurance) {
+        return  (enhancedRange * enhancedEndurance) / 2 + ((enhancedRange % 2) * enhancedEndurance) / 2;  // Two way distance. Return.
+    }
+
+    /**
+     * Get the enhanced ferry distance based of the data from a squadron configuration.
+     *
+     * @param enhancedRange The enhanced range.
+     * @param enhancedEndurance The enhanced endurance.
+     * @return The enhanced ferry distance.
+     */
+    public int getEnhancedFerryDistance(final int enhancedRange, final int enhancedEndurance) {
+        return enhancedRange * enhancedEndurance;
+    }
+
+    /**
      * Calculate the ferry distance.
      *
      * @param currentEndurance The aircraft's current endurance.
@@ -49,6 +83,8 @@ public class Performance {
 
     /**
      * Calculate the combat radius.
+     *
+     * Note, range and combat radius are equal when current endurance is unity.
      *
      * @param currentEndurance The aircraft's current endurance.
      * @return The current combat radius.

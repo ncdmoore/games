@@ -115,9 +115,28 @@ public class Bomber implements Aircraft {
     }
 
     /**
+     * Get the aircraft's range. This is a map of how the aircraft
+     * is configured to the range of the aircraft under that configuration.
+     * The range is the distance an aircraft may fly in one turn.
+     * The range does not depend upon endurance.
+     *
+     * SquadronConfig => range.
+     *
+     * @return A map of ranges based on the aircraft's configuration.
+     */
+    @Override
+    public Map<SquadronConfig, Integer> getRange() {
+        return configuration
+                .stream()
+                .map(this::buildRange)
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
+    }
+
+    /**
      * Get the aircraft's combat radius. This is a map of how the aircraft
      * is configured to the radius of the aircraft under that configuration.
-     * <p>
+     * The radius also depends upon the endurance.
+     *
      * SquadronConfig => combat radius.
      *
      * @return A map of radii based on the aircraft's configuration.
@@ -144,16 +163,6 @@ public class Bomber implements Aircraft {
                 .stream()
                 .map(this::buildFerryDistance)
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
-    }
-
-    /**
-     * Get the aircraft's range.
-     *
-     * @return The aircraft's range.
-     */
-    @Override
-    public int getRange() {
-        return performance.getGameRange();
     }
 
     /**
@@ -280,6 +289,10 @@ public class Bomber implements Aircraft {
                 .stream()
                 .map(this::buildNavalTransport)
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
+    }
+
+    private Pair<SquadronConfig, Integer> buildRange(final SquadronConfig config) {
+        return new Pair<>(config, config.getRange(land, navalWarship, performance));
     }
 
     private Pair<SquadronConfig, Integer> buildRadius(final SquadronConfig config) {

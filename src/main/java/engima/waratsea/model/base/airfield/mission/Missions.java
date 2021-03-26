@@ -89,7 +89,7 @@ public class Missions {
     public void addMission(final AirMission mission) {
         missions.add(mission);
         mission.addSquadrons();
-        mission.setState(AirMissionAction.CREATE);
+        mission.doAction(AirMissionAction.CREATE);
     }
 
     /**
@@ -104,7 +104,7 @@ public class Missions {
         int steps =  missions
                 .stream()
                 .filter(mission -> mission.getTarget().isEqual(target))
-                .map(AirMission::getSteps)
+                .map(mission -> mission.getSquadrons().getSteps())
                 .reduce(0, Integer::sum);
 
         log.debug("Airfield {} target {} steps {}", new Object[]{airbase.getTitle(), target.getName(), steps});

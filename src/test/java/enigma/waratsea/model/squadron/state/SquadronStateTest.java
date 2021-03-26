@@ -61,9 +61,9 @@ public class SquadronStateTest {
     public void onPatrolTransitionTest() {
         SquadronState squadronState = ON_PATROL;
 
-        squadronState = squadronState.transition(SquadronAction.LAND);
+        squadronState = squadronState.transition(SquadronAction.REMOVE_FROM_PATROL);
 
-        Assert.assertSame(squadronState, HANGER);
+        Assert.assertSame(squadronState, QUEUED_FOR_HANGER);
     }
 
     @Test

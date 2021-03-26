@@ -17,6 +17,7 @@ import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
+import engima.waratsea.model.enemy.views.airfield.AirfieldView;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.rules.GameRules;
@@ -377,6 +378,25 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
     }
 
     /**
+     * Get teh squadron's range with its current configuration.
+     *
+     * @return The squadron's range with its current configuration.
+     */
+    public int getRange() {
+        return aircraft.getRange().get(config);
+    }
+
+    /**
+     * Get the squadron's range given a configuration.
+     *
+     * @param squadronConfig A squadron configuration.
+     * @return The squadron range given a squadron configuration.
+     */
+    public int getRange(final SquadronConfig squadronConfig) {
+        return aircraft.getRange().get(squadronConfig);
+    }
+
+    /**
      * Get the squadron's radius given a configuration.
      *
      * @param squadronConfig A squadron configuration.
@@ -480,6 +500,29 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      */
     public boolean ofNation(final Nation targetNation) {
         return nation == targetNation;
+    }
+
+    /**
+     * The squadron takes off.
+     */
+    public void takeOff() {
+        state = state.transition(SquadronAction.TAKE_OFF);
+    }
+
+    /**
+     * The squadron attacks an enemy airfield.
+     *
+     * @param enemyAirfield The enemy airfield that is attacked.
+     */
+    public void attack(final AirfieldView enemyAirfield) {
+
+    }
+
+    /**
+     * The squadron lands.
+     */
+    public void land() {
+        state = state.transition(SquadronAction.LAND);
     }
 
     /**

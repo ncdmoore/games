@@ -5,11 +5,11 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionExecutor;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ import java.util.Optional;
  * The ferry air mission.
  */
 @Slf4j
-public class Ferry implements AirMission {
+public class Ferry extends AirMissionExecutor implements AirMission  {
     private final Game game;
 
     @Getter private final AirMissionType type = AirMissionType.FERRY;
@@ -31,9 +31,11 @@ public class Ferry implements AirMission {
     @Getter private final Nation nation;
 
     private final Airbase startingAirbase;
-    private final String endingAirbaseName;   //The name of the destination air base.
-    private Target endingAirbase;             //The actual destination air base.
+    private final String endingAirbaseName;    //The name of the destination air base.
+    private Target endingAirbase;              //The actual destination air base.
     @Getter private final Squadrons squadrons;
+    private int startTurn;                     //The game turn on which the mission starts.
+    private int turnsToTarget;                 //How many game turns elapse before the mission lands at the ending airbase.
 
     /**
      * Constructor called by guice.
@@ -86,13 +88,66 @@ public class Ferry implements AirMission {
     }
 
     /**
-     * Set the air mission's current state.
-     *
-     * @param action The air mission action.
+     * Muster the mission. Prepare for launching.
+     * @param action The action.
      */
     @Override
-    public void setState(final AirMissionAction action) {
-        state = state.transition(action);
+    public void doAction(final AirMissionAction action) {
+        state = state.transition(action, this);
+    }
+
+    /**
+     * Save the game turn when this mission launched.
+     */
+    @Override
+    public void launch() {
+        endingAirbase = getTarget();
+
+        startTurn = game.getTurn().getNumber();
+
+        int distance = endingAirbase.getDistance(startingAirbase);
+        int minimumRange = squadrons.getMinimumRange();
+
+        turnsToTarget = (distance / minimumRange) + (distance % minimumRange > 0 ? 1 : 0);
+
+        squadrons.takeOff();
+    }
+
+    /**
+     * Execute the mission. Ferry mission do not do anything until they land.
+     */
+    @Override
+    public void execute() {
+    }
+
+    /**
+     * Land the mission. Squadrons land.
+     */
+    @Override
+    public void land() {
+        squadrons.getAll().forEach(startingAirbase::removeSquadron);   // Remove the squadrons from their old airbase.
+        endingAirbase = getTarget();
+        endingAirbase.land(squadrons);
+    }
+
+    /**
+     * Determine if the mission has reached its target.
+     *
+     * @return True if the mission has reached its target.
+     */
+    public boolean reachedTarget() {
+        // The + 1 accounts for the current turn.
+        return getElapsedTurns() + 1 >= turnsToTarget;
+    }
+
+    /**
+     * Determine if the mission has returned home. Ferry missions do not return home.
+     * The target destination is their new home.
+     *
+     * @return True if the mission has returned to its home airbase.
+     */
+    public boolean reachedHome() {
+        return reachedTarget();
     }
 
     /**
@@ -125,45 +180,11 @@ public class Ferry implements AirMission {
     }
 
     /**
-     * Get the squadrons on the mission.
-     *
-     * @param role The squadron's mission role.
-     * @return A list of squadrons on the mission.
-     */
-    @Override
-    public List<Squadron> getSquadrons(final MissionRole role) {
-        return squadrons.get(role);
-    }
-
-    /**
-     * Get both the squadrons on the mission and the squadrons on escort duty.
-     * For this type of mission there are no escorts. So just the squadrons
-     * are returned.
-     *
-     * @return All of the squadrons involved with this mission.
-     */
-    @Override
-    public List<Squadron> getSquadronsAllRoles() {
-        return squadrons.getAllRoles();
-    }
-
-    /**
-     * Get the number of steps assigned to this mission.
-     *
-     * @return the total number of steps assigned to this mission.
-     */
-    @Override
-    public int getSteps() {
-        return squadrons.getSteps();
-    }
-
-    /**
      * Set all of the squadrons to the correct state.
      */
     @Override
     public void addSquadrons() {
-        getTarget(); // sets the ending airbase.
-
+        endingAirbase = getTarget();
         squadrons.add(endingAirbase, AirMissionType.FERRY);
     }
 
@@ -173,16 +194,6 @@ public class Ferry implements AirMission {
     @Override
     public void removeSquadrons() {
         squadrons.remove();
-    }
-
-    /**
-     * Get the number of squadron in the mission.
-     *
-     * @return The number of squadrons in the mission.
-     */
-    @Override
-    public int getNumber() {
-        return squadrons.getNumber();
     }
 
     /**
@@ -203,6 +214,18 @@ public class Ferry implements AirMission {
     @Override
     public boolean isAffectedByWeather() {
         return false;
+    }
+
+    /**
+     * Get the number of elapsed turns. This is the number of turns for which this mission
+     * has been in flight.
+     *
+     * @return The mission's elapsed turns.
+     */
+    @Override
+    public int getElapsedTurns() {
+        // If the start turn is 0, this means the mission has not launched yet; thus, elapsed time is 0.
+        return startTurn == 0 ? 0 : game.getTurn().getNumber() - startTurn;
     }
 
     /**

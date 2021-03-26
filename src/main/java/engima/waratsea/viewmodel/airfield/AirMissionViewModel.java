@@ -26,6 +26,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
@@ -37,7 +39,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
@@ -46,8 +47,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class AirMissionViewModel {
-    private static final Set<AirMissionState> READ_ONLY_STATES = Set.of(AirMissionState.OUT_BOUND, AirMissionState.IN_BOUND, AirMissionState.DONE);
-
     @Getter private final ListProperty<AirMissionType> missionTypes = new SimpleListProperty<>();                       // List of all mission types.
 
     @Getter private final Map<MissionRole, ListProperty<SquadronViewModel>> available = new HashMap<>();                // List of available squadrons for a particular role.
@@ -93,6 +92,10 @@ public class AirMissionViewModel {
     @Getter private final ObjectProperty<AirMissionType> missionType = new SimpleObjectProperty<>();
     @Getter private final ObjectProperty<Target> target = new SimpleObjectProperty<>();
     @Getter private final ObjectProperty<AirMissionState> state = new SimpleObjectProperty<>();
+    @Getter private final StringProperty targetTitle = new SimpleStringProperty();
+    @Getter private final StringProperty targetDistance = new SimpleStringProperty();
+    @Getter private final StringProperty targetEta = new SimpleStringProperty();                                        // Target Estimated time of arrival.
+    @Getter private final StringProperty targetRtt = new SimpleStringProperty();                                        // Target Round Trip time.
 
     private final Game game;
     private final MissionDAO missionDAO;
@@ -131,13 +134,33 @@ public class AirMissionViewModel {
             errorText.put(role, "");
         });
 
+        targetTitle.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(target.getValue())
+                .map(Target::getTitle)
+                .orElse(""), target));
+
+        targetDistance.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(target.getValue())
+                .map(this::getDistance)
+                .orElse(0) + "", target));
+
+        targetEta.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(target.getValue())
+                .map(this::getEta)
+                .orElse(""), target, totalAssigned));
+
+        targetRtt.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(target.getValue())
+                .map(this::getRtt)
+                .orElse(""), target, totalAssigned));
+
         totalAssignedCount.bind(totalAssigned.sizeProperty());
 
         validMission.bind(assignedEmpty.get(MissionRole.MAIN).not());
 
         readOnly.bind(Bindings.createBooleanBinding(() -> Optional
                 .ofNullable(state.getValue())
-                .map(READ_ONLY_STATES::contains)
+                .map(AirMissionState.READ_ONLY::contains)
                 .orElse(false), state));
     }
 
@@ -172,23 +195,6 @@ public class AirMissionViewModel {
     public AirMissionViewModel setTarget(final Target selectedTarget) {
         target.setValue(selectedTarget);
         updateMissionStats();
-        return this;
-    }
-
-    /**
-     * Set the state. This is called from add mission dialog.
-     *
-     * @param action The air mission action.
-     * @return This air mission view model.
-     */
-    public AirMissionViewModel setState(final AirMissionAction action) {
-        AirMissionState currentState = Optional
-                .ofNullable(state.getValue())
-                .orElse(AirMissionState.READY);
-
-        AirMissionState newState = currentState.transition(action);
-        state.setValue(newState);
-
         return this;
     }
 
@@ -230,9 +236,9 @@ public class AirMissionViewModel {
                 .forEach(role -> assigned
                             .get(role)
                             .getValue()
-                            .addAll(getSquadronViewModels(mission.getSquadrons(role))));
+                            .addAll(getSquadronViewModels(mission.getSquadrons().get(role))));
 
-        totalAssigned.setValue(FXCollections.observableArrayList(getSquadronViewModels(mission.getSquadronsAllRoles())));
+        totalAssigned.setValue(FXCollections.observableArrayList(getSquadronViewModels(mission.getSquadrons().getAll())));
 
         isAffectedByWeather.setValue(mission.isAffectedByWeather());
 
@@ -374,6 +380,7 @@ public class AirMissionViewModel {
      */
     public void createMission() {
         int newId = game.getAirMissionId();
+        state.setValue(initState());
         mission = buildMission(newId);
         id = newId;
         missionId.setValue(id);
@@ -980,5 +987,72 @@ public class AirMissionViewModel {
 
     private List<SquadronViewModel> getSquadronViewModels(final List<Squadron> squadronModels) {
         return squadrons.get(squadronModels);
+    }
+
+    /**
+     * Set the state. This is called from add mission dialog.
+     *
+     * @return The new state.
+     */
+    private AirMissionState initState() {
+        AirMissionState currentState = Optional
+                .ofNullable(state.getValue())
+                .orElse(AirMissionState.READY);
+
+        return currentState.transition(AirMissionAction.CREATE, null); // mission is null here, which is fine.
+    }
+
+    private int getDistance(final Target missionTarget) {
+        return Optional
+                .ofNullable(airbase)
+                .map(missionTarget::getDistance)
+                .orElse(0);
+    }
+
+    private String getEta(final Target missionTarget) {
+        int minimumRange = totalAssigned
+                .stream()
+                .map(SquadronViewModel::getRange)
+                .mapToInt(v -> v)
+                .min()
+                .orElse(0);
+
+        if (minimumRange == 0) {
+            return "--";
+        }
+
+        int distance = getDistance(missionTarget);
+        int elapsedTurns = getElapsedTime();
+
+        return ((distance / minimumRange) + (distance % minimumRange > 0 ? 1 : 0)) - elapsedTurns + "";
+    }
+    private String getRtt(final Target missionTarget) {
+        int minimumRange = totalAssigned
+                .stream()
+                .map(SquadronViewModel::getRange)
+                .mapToInt(v -> v)
+                .min()
+                .orElse(0);
+
+        if (minimumRange == 0) {
+            return "--";
+        }
+
+        int distance = getDistance(missionTarget) * 2;
+        int elapsedTurns = getElapsedTime();
+
+        return ((distance / minimumRange) + (distance % minimumRange > 0 ? 1 : 0)) - elapsedTurns + "";
+    }
+
+    /**
+     * Get the number of turns that the mission has been in flight.
+     *
+     * @return The number of turns the mission has been in flight.
+     */
+    private int getElapsedTime() {
+        return Optional
+                .ofNullable(mission)
+                .map(AirMission::getElapsedTurns)
+                .orElse(0);
     }
 }

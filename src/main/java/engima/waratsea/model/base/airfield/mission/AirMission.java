@@ -7,11 +7,13 @@ import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
 
 import java.util.List;
 
+/**
+ * This class represents an air mission. For example, an air strike on an airbase.
+ */
 public interface AirMission extends PersistentData<MissionData> {
     /**
      * Get the persistent mission data.
@@ -21,7 +23,7 @@ public interface AirMission extends PersistentData<MissionData> {
     MissionData getData();
 
     /**
-     * Get the air mission id.
+     * Get the air mission id. The mission id uniquely identifies a mission.
      *
      * @return The air mission's id.
      */
@@ -35,11 +37,11 @@ public interface AirMission extends PersistentData<MissionData> {
     AirMissionState getState();
 
     /**
-     * Set the air mission's current state.
+     * Instruct the mission to carry out the given action.
      *
-     * @param action The air mission action.
+     * @param action The action that is done.
      */
-    void setState(AirMissionAction action);
+    void doAction(AirMissionAction action);
 
     /**
      * Get the airbase from which the mission was launched.
@@ -77,28 +79,6 @@ public interface AirMission extends PersistentData<MissionData> {
     Squadrons getSquadrons();
 
     /**
-     * Get the squadrons on the mission that are assigned the given role.
-     *
-     * @param role The squadron's mission role.
-     * @return A list of squadrons on the mission.
-     */
-    List<Squadron> getSquadrons(MissionRole role);
-
-    /**
-     * Get all of the squadrons, all roles on the mission.
-     *
-     * @return All of the squadrons involved with this mission.
-     */
-    List<Squadron> getSquadronsAllRoles();
-
-    /**
-     * Get the number of steps assigned to this mission.
-     *
-     * @return the total number of steps assigned to this mission.
-     */
-    int getSteps();
-
-    /**
      * Set all of the squadrons to the correct state.
      */
     void addSquadrons();
@@ -107,13 +87,6 @@ public interface AirMission extends PersistentData<MissionData> {
      * Remove all the squadrons from the mission.
      */
     void removeSquadrons();
-
-    /**
-     * Get the number of squadron in the mission.
-     *
-     * @return The number of squadrons in the mission.
-     */
-    int getNumber();
 
     /**
      * Get the probability of success for this mission.
@@ -128,4 +101,12 @@ public interface AirMission extends PersistentData<MissionData> {
      * @return True if the mission is affected by the current weather conditions. False otherwise.
      */
     boolean isAffectedByWeather();
+
+    /**
+     * Get the number of elapsed turns. This is the number of turns for which this mission
+     * has been in flight.
+     *
+     * @return The mission's elapsed turns.
+     */
+    int getElapsedTurns();
 }

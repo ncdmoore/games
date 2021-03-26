@@ -108,8 +108,21 @@ public interface Aircraft extends Comparable<Aircraft> {
     Map<SquadronConfig, Attack> getAttack(AttackType attackType);
 
     /**
+     * Get the aircraft's range. This is a map of how the aircraft
+     * is configured to the range of the aircraft under that configuration.
+     * The range is the distance an aircraft may fly in one turn.
+     * The range does not depend upon endurance.
+     *
+     *  SquadronConfig => range.
+     *
+     * @return A map of ranges based on the aircraft's configuration.
+     */
+    Map<SquadronConfig, Integer> getRange();
+
+    /**
      * Get the aircraft's combat radius. This is a map of how the aircraft
      * is configured to the radius of the aircraft under that configuration.
+     * The radius depends upon the endurance.
      *
      *  SquadronConfig => combat radius.
      *
@@ -126,13 +139,6 @@ public interface Aircraft extends Comparable<Aircraft> {
      * @return A map of ferry distances based on the aircraft's configuration.
      */
     Map<SquadronConfig, Integer> getFerryDistance();
-
-    /**
-     * Get the aircraft's range.
-     *
-     * @return  The aircraft's range.
-     */
-    int getRange();
 
     /**
      * Get the aircraft's endurance. This is a map of how the aircraft

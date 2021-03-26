@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
-import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.CssResourceProvider;
@@ -178,7 +177,6 @@ public class MissionAddDialog {
         selectedMissionType = missionType;
 
         viewModel.setMissionType(missionType);
-        viewModel.setState(AirMissionAction.CREATE);
 
         view.getTarget().getItems().clear();
         view.getTarget().getItems().addAll(viewModel.getAvailableTargets());

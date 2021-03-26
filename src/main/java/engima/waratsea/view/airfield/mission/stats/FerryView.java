@@ -1,15 +1,11 @@
 package engima.waratsea.view.airfield.mission.stats;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
-import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.IntegerExpression;
-import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -89,9 +85,9 @@ public class FerryView implements StatsView {
      */
     @Override
     public Node bind(final AirMissionViewModel viewModel) {
-        airbaseTitle.textProperty().bind(Bindings.createStringBinding(() -> getTargetTitle(viewModel), viewModel.getTarget()));
-        distanceValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetDistance(viewModel), viewModel.getTarget()));
-        etaValue.textProperty().bind(Bindings.createStringBinding(() -> getEta(viewModel), viewModel.getTarget(), viewModel.getTotalAssigned()));
+        airbaseTitle.textProperty().bind(viewModel.getTargetTitle());
+        distanceValue.textProperty().bind(viewModel.getTargetDistance());
+        etaValue.textProperty().bind(viewModel.getTargetEta());
         inRouteValue.textProperty().bind(viewModel.getTotalStepsInRouteToTarget().asString());
         capacityValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetCapacity(viewModel), viewModel.getTarget()));
         currentValue.textProperty().bind(Bindings.createStringBinding(() -> getTargetCurrentSteps(viewModel), viewModel.getTarget()));
@@ -107,52 +103,6 @@ public class FerryView implements StatsView {
         airbaseRegionOutRouteValue.textProperty().bind(viewModel.getTotalStepsLeavingRegion().asString());
 
         return statsVBox;
-    }
-
-    /**
-     * Get the current target's name.
-     *
-     * @param viewModel The air mission view model.
-     * @return The name of the destination airbase.
-     */
-    private String getTargetTitle(final AirMissionViewModel viewModel) {
-        ObjectProperty<Target> target = viewModel.getTarget();
-        return Optional.ofNullable(target.getValue()).map(Target::getTitle).orElse("");
-    }
-
-    /**
-     * Get the current target's distance.
-     *
-     * @param viewModel The air mission view model.
-     * @return The distance to the destination airbase.
-     */
-    private String getTargetDistance(final AirMissionViewModel viewModel) {
-        ObjectProperty<Target> target = viewModel.getTarget();
-        Airbase airbase = viewModel.getAirbase();
-
-        return Optional.ofNullable(target.getValue()).map(t -> t.getDistance(airbase)).orElse(0) + "";
-    }
-
-    private String getEta(final AirMissionViewModel viewModel) {
-        ObjectProperty<Target> target = viewModel.getTarget();
-        Airbase airbase = viewModel.getAirbase();
-        ListProperty<SquadronViewModel> squadrons = viewModel.getTotalAssigned();
-
-        int minRadius = squadrons
-                .stream()
-                .map(SquadronViewModel::getRadius)
-                .map(IntegerExpression::getValue)
-                .mapToInt(v -> v)
-                .min()
-                .orElse(0);
-
-        if (minRadius == 0) {
-            return "--";
-        }
-
-        int distance = Optional.ofNullable(target.getValue()).map(t -> t.getDistance(airbase)).orElse(0);
-
-        return ((distance / minRadius) + (distance % minRadius > 0 ? 1 : 0)) + "";
     }
 
     /**

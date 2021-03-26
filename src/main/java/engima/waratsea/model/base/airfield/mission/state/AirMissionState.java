@@ -1,55 +1,92 @@
 package engima.waratsea.model.base.airfield.mission.state;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * Air mission states. Mission may last longer than one turn, thus we need to keep track of a mission's state.
  */
 public enum AirMissionState {
     READY("Ready") {
-        public AirMissionState transition(final AirMissionAction airMissionAction) {
-            return READY_MAP.getOrDefault(airMissionAction, READY);
+        public AirMissionState transition(final AirMissionAction action, final AirMissionExecutor mission) {
+            return action == AirMissionAction.CREATE ? LAUNCHING : READY;
         }
     },
 
     LAUNCHING("Launching") {
-        public AirMissionState transition(final AirMissionAction airMissionAction) {
-            return LAUNCHING_MAP.getOrDefault(airMissionAction, LAUNCHING);
+        public AirMissionState transition(final AirMissionAction action, final AirMissionExecutor mission) {
+            AirMissionState newState = LAUNCHING;
+
+            if (action == AirMissionAction.EXECUTE) {
+                mission.launch();
+                newState = OUT_BOUND;
+
+                if (mission.reachedTarget()) {
+                    mission.execute();
+                    newState = IN_BOUND;
+                }
+
+                // It is possible to reach the target and return home all in the same turn.
+                if (mission.reachedHome()) {
+                    mission.land();
+                    newState = DONE;
+                }
+            }
+
+            return newState;
         }
     },
 
     OUT_BOUND("Out Bound") {
-        public AirMissionState transition(final AirMissionAction airMissionAction) {
-            return OUT_BOUND_MAP.getOrDefault(airMissionAction, OUT_BOUND);
+        public AirMissionState transition(final AirMissionAction action, final AirMissionExecutor mission) {
+            AirMissionState newState = OUT_BOUND;
+
+            switch (action) {
+                case EXECUTE:
+                    if (mission.reachedTarget()) {
+                        mission.execute();
+                        newState = IN_BOUND;
+                    }
+
+                    // This may happen for ferry missions. Other missions should stay in-bound
+                    // as it took multiple turns to reach the target.
+                    if (mission.reachedHome()) {
+                        mission.land();
+                        newState = DONE;
+                    }
+                    break;
+                case RECALL:
+                    newState = IN_BOUND;
+                    break;
+                default:
+                    newState = OUT_BOUND;
+            }
+
+            return newState;
         }
     },
 
     IN_BOUND("In Bound") {
-        public AirMissionState transition(final AirMissionAction airMissionAction) {
-            return IN_BOUND_MAP.getOrDefault(airMissionAction, IN_BOUND);
+        public AirMissionState transition(final AirMissionAction action, final AirMissionExecutor mission) {
+            AirMissionState newState = IN_BOUND;
+
+            if (action == AirMissionAction.EXECUTE) {
+                if (mission.reachedHome()) {
+                    mission.land();
+                    newState = DONE;
+                }
+            }
+
+            return newState;
         }
     },
 
     DONE("Done") {
-        public AirMissionState transition(final AirMissionAction airMissionAction) {
+        public AirMissionState transition(final AirMissionAction action, final AirMissionExecutor mission) {
             return DONE;
         }
     };
 
-    private static final Map<AirMissionAction, AirMissionState> READY_MAP = new HashMap<>();
-    private static final Map<AirMissionAction, AirMissionState> LAUNCHING_MAP = new HashMap<>();
-    private static final Map<AirMissionAction, AirMissionState> OUT_BOUND_MAP = new HashMap<>();
-    private static final Map<AirMissionAction, AirMissionState> IN_BOUND_MAP = new HashMap<>();
-
-    static {
-        READY_MAP.put(AirMissionAction.CREATE, LAUNCHING);
-        LAUNCHING_MAP.put(AirMissionAction.TAKE_OFF, OUT_BOUND);
-        OUT_BOUND_MAP.put(AirMissionAction.EXECUTE, IN_BOUND);
-        OUT_BOUND_MAP.put(AirMissionAction.RECALL, IN_BOUND);
-        IN_BOUND_MAP.put(AirMissionAction.LAND, DONE);
-    }
-
+    public static final Set<AirMissionState> READ_ONLY = Set.of(OUT_BOUND, IN_BOUND, DONE);
 
     private final String value;
 
@@ -57,9 +94,10 @@ public enum AirMissionState {
      * Transition to a new state.
      *
      * @param action The air mission action or event that occurred.
+     * @param mission The air mission.
      * @return The new air mission state.
      */
-    public abstract AirMissionState transition(AirMissionAction action);
+    public abstract AirMissionState transition(AirMissionAction action, AirMissionExecutor mission);
 
     AirMissionState(final String value) {
         this.value = value;

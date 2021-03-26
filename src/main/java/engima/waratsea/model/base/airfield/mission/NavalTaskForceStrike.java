@@ -5,11 +5,11 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionExecutor;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-public class NavalTaskForceStrike implements AirMission {
+public class NavalTaskForceStrike extends AirMissionExecutor implements AirMission {
     @Getter private final int id;
     @Getter private AirMissionState state;
     private final Game game;
@@ -30,7 +30,9 @@ public class NavalTaskForceStrike implements AirMission {
 
     private final String targetName;               //The name of the target task force.
     private Target targetTaskForce;                //The actual target task force.
-
+    private int startTurn;                         //The game turn on which the missions starts.
+    private int turnsToTarget;                     //The turns until the mission reaches its target.
+    private int turnsToHome;                       //The turns until the mission returns to its home airbase.
     /**
      * Constructor called by guice.
      *
@@ -78,13 +80,73 @@ public class NavalTaskForceStrike implements AirMission {
     }
 
     /**
-     * Set the air mission's current state.
-     *
-     * @param action The air mission action.
+     * Muster the mission. Prepare for launching.
+     * @param action The action.
      */
     @Override
-    public void setState(final AirMissionAction action) {
-        state = state.transition(action);
+    public void doAction(final AirMissionAction action) {
+        state = state.transition(action, this);
+    }
+
+    /**
+     * Launch the mission. Squadrons take off.
+     */
+    @Override
+    public void launch() {
+        targetTaskForce = getTarget();
+
+        startTurn = game.getTurn().getNumber();
+
+        int distance = targetTaskForce.getDistance(airbase);
+        int roundTrip = distance * 2;
+        int minimumRange = squadrons.getMinimumRange();
+
+        turnsToTarget = (distance / minimumRange) + (distance % minimumRange > 0 ? 1 : 0);
+        turnsToHome = (roundTrip / minimumRange) + (roundTrip % minimumRange > 0 ? 1 : 0);
+
+        squadrons.takeOff();
+    }
+
+    /**
+     * Execute the mission.
+     */
+    @Override
+    public void execute() {
+        targetTaskForce = getTarget();
+
+        // Resolve the squadron attack on the enemy port.
+        targetTaskForce.resolveAttack(squadrons);
+
+    }
+
+    /**
+     * Land the mission. Squadrons land.
+     */
+    @Override
+    public void land() {
+        squadrons.land();
+    }
+
+    /**
+     * Determine if the mission has reached its target.
+     *
+     * @return True if the mission has reached its target. False otherwise.
+     */
+    @Override
+    public boolean reachedTarget() {
+        // The + 1 accounts for the current turn.
+        return getElapsedTurns() + 1 >= turnsToTarget;
+    }
+
+    /**
+     * Determine if the mission has reached its home airbase.
+     *
+     * @return True if the mission has reached its home airbase. False otherwise.
+     */
+    @Override
+    public boolean reachedHome() {
+        // The + 1 accounts for the current turn.
+        return getElapsedTurns() + 1 >= turnsToHome;
     }
 
     /**
@@ -108,37 +170,6 @@ public class NavalTaskForceStrike implements AirMission {
     }
 
     /**
-     * Get the squadrons on the mission.
-     *
-     * @param role The squadron's mission role.
-     * @return A list of squadrons on the mission.
-     */
-    @Override
-    public List<Squadron> getSquadrons(final MissionRole role) {
-        return squadrons.get(role);
-    }
-
-    /**
-     * Get both the squadrons on the mission and the squadrons on escort duty.
-     *
-     * @return All of the squadrons involved with this mission.
-     */
-    @Override
-    public List<Squadron> getSquadronsAllRoles() {
-        return squadrons.getAllRoles();
-    }
-
-    /**
-     * Get the number of steps assigned to this mission.
-     *
-     * @return the total number of steps assigned to this mission.
-     */
-    @Override
-    public int getSteps() {
-        return squadrons.getSteps();
-    }
-
-    /**
      * Set all of the squadrons to the correct state.
      */
     @Override
@@ -154,16 +185,6 @@ public class NavalTaskForceStrike implements AirMission {
     @Override
     public void removeSquadrons() {
         squadrons.remove();
-    }
-
-    /**
-     * Get the number of squadron in the mission.
-     *
-     * @return The number of squadrons in the mission.
-     */
-    @Override
-    public int getNumber() {
-        return squadrons.getNumber();
     }
 
     /**
@@ -184,6 +205,18 @@ public class NavalTaskForceStrike implements AirMission {
     @Override
     public boolean isAffectedByWeather() {
         return false;
+    }
+
+    /**
+     * Get the number of elapsed turns. This is the number of turns for which this mission
+     * has been in flight.
+     *
+     * @return The mission's elapsed turns.
+     */
+    @Override
+    public int getElapsedTurns() {
+        // If the start turn is 0, this means the mission has not launched yet; thus, elapsed time is 0.
+        return startTurn == 0 ? 0 : game.getTurn().getNumber() - startTurn;
     }
 
     /**

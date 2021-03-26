@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.Squadrons;
 import engima.waratsea.model.enemy.views.taskForce.TaskForceView;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
@@ -62,7 +63,10 @@ public class TargetEnemyTaskForce implements Target {
      */
     @Override
     public String getTitle() {
-        return getTaskForceViewView().getTitle();
+        return  Optional
+                .ofNullable(taskForceView)
+                .orElseGet(this::getTaskForceViewView)
+                .getTitle();
     }
 
     /**
@@ -134,7 +138,39 @@ public class TargetEnemyTaskForce implements Target {
      */
     @Override
     public Object getView() {
-        return getTaskForceViewView();
+        return Optional
+                .ofNullable(taskForceView)
+                .orElseGet(this::getTaskForceViewView);
+    }
+
+    /**
+     * The squadrons land at this target. This is only used by friendly airbases.
+     *
+     * @param squadrons The squadrons that land at this target.
+     */
+    @Override
+    public void land(final Squadrons squadrons) {
+
+    }
+
+    /**
+     * The squadrons attack this target.
+     *
+     * @param squadrons The squadrons that attack this target.
+     */
+    @Override
+    public void resolveAttack(final Squadrons squadrons) {
+
+    }
+
+    /**
+     * The squadrons sweep this target.
+     *
+     * @param squadrons The squadrons that sweep this target.
+     */
+    @Override
+    public void resolveSweep(final Squadrons squadrons) {
+
     }
 
     /**

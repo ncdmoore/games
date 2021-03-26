@@ -8,6 +8,7 @@ import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.mission.rules.MissionAirRules;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionExecutor;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Game;
@@ -29,7 +30,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class SweepPort implements AirMission {
+public class SweepPort extends AirMissionExecutor implements AirMission {
     private static final int INTERCEPT_FACTOR = 3; // CAP interception occurs on values 3-6 of a single six-sided die roll.
     private static final BigDecimal PERCENTAGE = new BigDecimal(100);
     private static final Set<Integer> STEP_HIT_SET = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
@@ -47,7 +48,9 @@ public class SweepPort implements AirMission {
 
     private final String targetBaseName;      //The name of the target port.
     private Target targetPort;                //The actual target port.
-
+    private int startTurn;                    //The game turn on which the missions starts.
+    private int turnsToTarget;                //The turns until the mission reaches its target.
+    private int turnsToHome;                  //The turns until the mission returns to its home airbase.
     /**
      * Constructor called by guice.
      *
@@ -103,13 +106,70 @@ public class SweepPort implements AirMission {
     }
 
     /**
-     * Set the air mission's current state.
-     *
-     * @param action The air mission action.
+     * Muster the mission. Prepare for launching.
+     * @param action The action.
      */
     @Override
-    public void setState(final AirMissionAction action) {
-        state = state.transition(action);
+    public void doAction(final AirMissionAction action) {
+        state = state.transition(action, this);
+    }
+
+    /**
+     * Launch the mission. Squadrons take off.
+     */
+    @Override
+    public void launch() {
+        targetPort = getTarget();
+
+        startTurn = game.getTurn().getNumber();
+
+        int distance = targetPort.getDistance(airbase);
+        int roundTrip = distance * 2;
+        int minimumRange = squadrons.getMinimumRange();
+
+        turnsToTarget = (distance / minimumRange) + (distance % minimumRange > 0 ? 1 : 0);
+        turnsToHome = (roundTrip / minimumRange) + (roundTrip % minimumRange > 0 ? 1 : 0);
+
+        squadrons.takeOff();
+    }
+
+    /**
+     * Execute the mission.
+     */
+    @Override
+    public void execute() {
+        targetPort = getTarget();
+        targetPort.resolveSweep(squadrons);
+    }
+
+    /**
+     * Land the mission. Squadrons land.
+     */
+    @Override
+    public void land() {
+        squadrons.land();
+    }
+
+    /**
+     * Determine if the mission has reached its target.
+     *
+     * @return True if the mission has reached its target. False otherwise.
+     */
+    @Override
+    public boolean reachedTarget() {
+        // The + 1 accounts for the current turn.
+        return getElapsedTurns() + 1 >= turnsToTarget;
+    }
+
+    /**
+     * Determine if the mission has reached its home airbase.
+     *
+     * @return True if the mission has reached its home airbase. False otherwise.
+     */
+    @Override
+    public boolean reachedHome() {
+        // The + 1 accounts for the current turn.
+        return getElapsedTurns() + 1 >= turnsToHome;
     }
 
     /**
@@ -133,39 +193,6 @@ public class SweepPort implements AirMission {
     }
 
     /**
-     * Get the squadrons on the mission.
-     *
-     * @param role The squadron's mission role.
-     * @return A list of squadrons on the mission.
-     */
-    @Override
-    public List<Squadron> getSquadrons(final MissionRole role) {
-        return squadrons.get(role);
-    }
-
-    /**
-     * Get both the squadrons on the mission and the squadrons on escort duty.
-     * For sweep mission there are not escorts. All of the squadrons are
-     * fighters anyway.
-     *
-     * @return All of the squadrons involved with this mission.
-     */
-    @Override
-    public List<Squadron> getSquadronsAllRoles() {
-        return squadrons.getAllRoles();
-    }
-
-    /**
-     * Get the number of steps assigned to this mission.
-     *
-     * @return the total number of steps assigned to this mission.
-     */
-    @Override
-    public int getSteps() {
-        return squadrons.getSteps();
-    }
-
-    /**
      * Set all of the squadrons to the correct state.
      */
     @Override
@@ -181,16 +208,6 @@ public class SweepPort implements AirMission {
     @Override
     public void removeSquadrons() {
         squadrons.remove();
-    }
-
-    /**
-     * Get the number of squadron in the mission.
-     *
-     * @return The number of squadrons in the mission.
-     */
-    @Override
-    public int getNumber() {
-        return squadrons.getNumber();
     }
 
     /**
@@ -223,6 +240,18 @@ public class SweepPort implements AirMission {
     @Override
     public boolean isAffectedByWeather() {
         return rules.isAffectedByWeather();
+    }
+
+    /**
+     * Get the number of elapsed turns. This is the number of turns for which this mission
+     * has been in flight.
+     *
+     * @return The mission's elapsed turns.
+     */
+    @Override
+    public int getElapsedTurns() {
+        // If the start turn is 0, this means the mission has not launched yet; thus, elapsed time is 0.
+        return startTurn == 0 ? 0 : game.getTurn().getNumber() - startTurn;
     }
 
     /**

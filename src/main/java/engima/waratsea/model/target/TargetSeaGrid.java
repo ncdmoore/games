@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.Squadrons;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
@@ -131,6 +132,36 @@ public class TargetSeaGrid implements Target {
     @Override
     public Object getView() {
         return reference;
+    }
+
+    /**
+     * The squadrons land at this target. This is only used by friendly airbases.
+     *
+     * @param squadrons The squadrons that land at this target.
+     */
+    @Override
+    public void land(final Squadrons squadrons) {
+
+    }
+
+    /**
+     * The squadrons attack this target.
+     *
+     * @param squadrons The squadrons that attack this target.
+     */
+    @Override
+    public void resolveAttack(final Squadrons squadrons) {
+
+    }
+
+    /**
+     * The squadrons sweep this target.
+     *
+     * @param squadrons The squadrons that sweep this target.
+     */
+    @Override
+    public void resolveSweep(final Squadrons squadrons) {
+
     }
 
     /**

@@ -51,7 +51,7 @@ public class TurnView {
         HBox hBox = new HBox(imageView);
         hBox.setId("turn-image-pane");
 
-        Label number = new Label("Turn: " + turn.getTurn());
+        Label number = new Label("Turn: " + turn.getNumber());
 
         Label type = new Label("Type: " + turn.getType());
         Label index = new Label("Time: " + turn.getIndex().getTimeRange());

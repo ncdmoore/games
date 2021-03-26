@@ -64,8 +64,10 @@ public class SquadronSummaryView {
     private final StringProperty landing = new SimpleStringProperty();
     private final StringProperty altitude = new SimpleStringProperty();
     private final StringProperty equipped = new SimpleStringProperty();
-    private final StringProperty radius = new SimpleStringProperty();
+    private final StringProperty range = new SimpleStringProperty();
     private final StringProperty endurance = new SimpleStringProperty();
+    private final StringProperty radius = new SimpleStringProperty();
+    private final StringProperty ferry = new SimpleStringProperty();
 
     private final VBox mainPane =  new VBox();
     private final ImageView aircraftProfile = new ImageView();
@@ -198,14 +200,24 @@ public class SquadronSummaryView {
                 .map(svm -> svm.getEquipped().getValue())
                 .orElse(""), squadron));
 
-        radius.bind(Bindings.createStringBinding(() -> Optional
+        range.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
-                .map(svm -> svm.getRadius().getValue() + "")
+                .map(svm -> svm.getRangeString().getValue())
                 .orElse(""), squadron));
 
         endurance.bind(Bindings.createStringBinding(() -> Optional
                 .ofNullable(squadron.getValue())
-                .map(svm -> svm.getEndurance().getValue())
+                .map(svm -> svm.getEnduranceString().getValue())
+                .orElse(""), squadron));
+
+        radius.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getRadiusString().getValue())
+                .orElse(""), squadron));
+
+        ferry.bind(Bindings.createStringBinding(() -> Optional
+                .ofNullable(squadron.getValue())
+                .map(svm -> svm.getFerryDistanceString().getValue())
                 .orElse(""), squadron));
     }
 
@@ -277,7 +289,7 @@ public class SquadronSummaryView {
         performancePane.setTitle("Squadron Performance Data");
         performancePane.setContentDisplay(ContentDisplay.RIGHT);
         performancePane.setGraphic(hbox);
-        performancePane.bindStrings(getPerformanceSummary());
+        performancePane.bindListStrings(getPerformanceSummary());
     }
 
     /**
@@ -313,15 +325,15 @@ public class SquadronSummaryView {
      *
      * @return The squadron's performance summary.
      */
-    private Map<String, StringProperty> getPerformanceSummary() {
-        Map<String, StringProperty> summary = new LinkedHashMap<>();
-        summary.put("Landing Type:", landing);
-        summary.put("Altitude Rating:", altitude);
-        summary.put(" ", new SimpleStringProperty(""));
-        summary.put("Equipped:", equipped);
-        summary.put("Radius:", radius);
-        summary.put("Endurance:", endurance);
-        summary.put("  ", new SimpleStringProperty(""));
+    private Map<String, List<StringProperty>> getPerformanceSummary() {
+        Map<String, List<StringProperty>> summary = new LinkedHashMap<>();
+        summary.put("Landing Type:", List.of(landing));
+        summary.put("Altitude Rating:", List.of(altitude));
+        summary.put(" ", List.of(new SimpleStringProperty("")));
+        summary.put("Equipped:", List.of(equipped));
+        summary.put("Range:", List.of(range));
+        summary.put("Endurance:", List.of(endurance));
+        summary.put("Radius:", List.of(radius, new SimpleStringProperty("Ferry:"), ferry));
 
         return summary;
     }

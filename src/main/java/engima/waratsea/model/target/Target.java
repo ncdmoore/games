@@ -4,6 +4,7 @@ package engima.waratsea.model.target;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.Squadrons;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
@@ -82,6 +83,27 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
      * @return The underlying object of the target.
      */
     Object getView();
+
+    /**
+     * The squadrons land at this target. This is only used by friendly airbases.
+     *
+     * @param squadrons The squadrons that land at this target.
+     */
+    void land(Squadrons squadrons);
+
+    /**
+     * The squadrons attack this target.
+     *
+     * @param squadrons The squadrons that attack this target.
+     */
+    void resolveAttack(Squadrons squadrons);
+
+    /**
+     * The squadrons sweep this target.
+     *
+     * @param squadrons The squadrons that sweep this target.
+     */
+    void resolveSweep(Squadrons squadrons);
 
     /**
      * Get the String representation of the target.

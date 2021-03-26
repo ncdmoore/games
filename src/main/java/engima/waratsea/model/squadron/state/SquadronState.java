@@ -65,7 +65,19 @@ public enum SquadronState {
          * @return The new squadron state.
          */
         public SquadronState transition(final SquadronAction action) {
-            return ON_MISSON_MAP.getOrDefault(action, ON_MISSION);
+            return ON_MISSION_MAP.getOrDefault(action, ON_MISSION);
+        }
+    },
+
+    QUEUED_FOR_HANGER("Returning") {
+        /**
+         * Transition to a new state.
+         *
+         * @param action The squadron action or event that occurred.
+         * @return The new squadron state.
+         */
+        public SquadronState transition(final SquadronAction action) {
+            return QUEUED_FOR_HANGER_MAP.getOrDefault(action, QUEUED_FOR_HANGER);
         }
     },
 
@@ -93,7 +105,8 @@ public enum SquadronState {
     private static final Map<SquadronAction, SquadronState> QUEUED_FOR_PATROL_MAP = new HashMap<>();
     private static final Map<SquadronAction, SquadronState> QUEUED_FOR_MISSION_MAP = new HashMap<>();
     private static final Map<SquadronAction, SquadronState> ON_PATROL_MAP = new HashMap<>();
-    private static final Map<SquadronAction, SquadronState> ON_MISSON_MAP = new HashMap<>();
+    private static final Map<SquadronAction, SquadronState> ON_MISSION_MAP = new HashMap<>();
+    private static final Map<SquadronAction, SquadronState> QUEUED_FOR_HANGER_MAP = new HashMap<>();
     private static final Map<SquadronAction, SquadronState> IN_HANGER_MAP = new HashMap<>();
 
 
@@ -107,9 +120,11 @@ public enum SquadronState {
         QUEUED_FOR_MISSION_MAP.put(SquadronAction.TAKE_OFF, ON_MISSION);
         QUEUED_FOR_MISSION_MAP.put(SquadronAction.REMOVE_FROM_MISSION, READY);
 
-        ON_PATROL_MAP.put(SquadronAction.LAND, HANGER);
+        ON_PATROL_MAP.put(SquadronAction.REMOVE_FROM_PATROL, QUEUED_FOR_HANGER);
 
-        ON_MISSON_MAP.put(SquadronAction.LAND, HANGER);
+        ON_MISSION_MAP.put(SquadronAction.LAND, HANGER);
+
+        QUEUED_FOR_HANGER_MAP.put(SquadronAction.LAND, HANGER);
 
         IN_HANGER_MAP.put(SquadronAction.REFIT, READY);
     }

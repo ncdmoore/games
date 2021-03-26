@@ -37,6 +37,10 @@ public enum SquadronConfig implements Comparator<SquadronConfig> {
         public int getRadius(final Attack land, final Attack naval, final Performance performance) {
             return performance.getRadius();
         }
+
+        public int getRange(final Attack land, final Attack naval, final Performance performance) {
+            return performance.getRange();
+        }
     },
 
     // The squadron is equipped with drop tanks - this extends the squadron's range. Exclusive to fighters.
@@ -51,11 +55,18 @@ public enum SquadronConfig implements Comparator<SquadronConfig> {
         }
 
         public int getFerryDistance(final Attack land, final Attack naval, final Performance performance) {
-            return (int) Math.ceil(performance.getFerryDistance() * DROP_TANK_FACTOR);
-        }
+            int enhancedRange =  (int) Math.ceil(performance.getRange() * DROP_TANK_FACTOR);
+            int endurance = performance.getEndurance();
+            return performance.getEnhancedFerryDistance(enhancedRange, endurance);        }
 
         public int getRadius(final Attack land, final Attack naval, final Performance performance) {
-            return (int) Math.ceil(performance.getRadius() * DROP_TANK_FACTOR);
+            int enhancedRange =  (int) Math.ceil(performance.getRange() * DROP_TANK_FACTOR);
+            int endurance = performance.getEndurance();
+            return performance.getEnhancedRadius(enhancedRange, endurance);
+        }
+
+        public int getRange(final Attack land, final Attack naval, final Performance performance) {
+            return (int) Math.ceil(performance.getRange() * DROP_TANK_FACTOR);
         }
     },
 
@@ -71,11 +82,19 @@ public enum SquadronConfig implements Comparator<SquadronConfig> {
         }
 
         public int getFerryDistance(final Attack land, final Attack naval, final Performance performance) {
-            return performance.getFerryDistance() * LEAN_ENGINE_FACTOR;
+            int range = performance.getRange();
+            int enhancedEndurance = performance.getEndurance() * LEAN_ENGINE_FACTOR;
+            return performance.getEnhancedFerryDistance(range, enhancedEndurance);
         }
 
         public int getRadius(final Attack land, final Attack naval, final Performance performance) {
-            return performance.getRadius() * LEAN_ENGINE_FACTOR;
+            int range = performance.getRange();
+            int enhancedEndurance = performance.getEndurance() * LEAN_ENGINE_FACTOR;
+            return performance.getEnhancedRadius(range, enhancedEndurance);
+        }
+
+        public int getRange(final Attack land, final Attack naval, final Performance performance) {
+            return performance.getRange();
         }
     },
 
@@ -92,12 +111,21 @@ public enum SquadronConfig implements Comparator<SquadronConfig> {
 
         public int getFerryDistance(final Attack land, final Attack naval, final Performance performance) {
             int modifier = getReducedPayloadModifier(land, naval);
-            return performance.getFerryDistance() + (modifier * 2);
+            int enhancedRange =  performance.getRange() + modifier;
+            int endurance = performance.getEndurance();
+            return performance.getEnhancedFerryDistance(enhancedRange, endurance);
         }
 
         public int getRadius(final Attack land, final Attack naval, final Performance performance) {
             int modifier = getReducedPayloadModifier(land, naval);
-            return performance.getRadius() + modifier;
+            int enhancedRange =  performance.getRange() + modifier;
+            int endurance = performance.getEndurance();
+            return performance.getEnhancedRadius(enhancedRange, endurance);
+        }
+
+        public int getRange(final Attack land, final Attack naval, final Performance performance) {
+            int modifier = getReducedPayloadModifier(land, naval);
+            return performance.getRange() + modifier;
         }
     },
 
@@ -114,12 +142,20 @@ public enum SquadronConfig implements Comparator<SquadronConfig> {
 
         public int getFerryDistance(final Attack land, final Attack naval, final Performance performance) {
             int modifier = getSearchModifier(land, naval);
-            return performance.getFerryDistance() + (modifier * 2);
-        }
+            int enhancedRange = performance.getRange() + modifier;
+            int endurance = performance.getEndurance();
+            return performance.getEnhancedFerryDistance(enhancedRange, endurance);        }
 
         public int getRadius(final Attack land, final Attack naval, final Performance performance) {
             int modifier = getSearchModifier(land, naval);
-            return performance.getRadius() + modifier;
+            int enhancedRange = performance.getRange() + modifier;
+            int endurance = performance.getEndurance();
+            return performance.getEnhancedRadius(enhancedRange, endurance);
+        }
+
+        public int getRange(final Attack land, final Attack naval, final Performance performance) {
+            int modifier = getSearchModifier(land, naval);
+            return performance.getRange() + modifier;
         }
     },
 
@@ -141,11 +177,18 @@ public enum SquadronConfig implements Comparator<SquadronConfig> {
         }
 
         public int getFerryDistance(final Attack land, final Attack naval, final Performance performance) {
-            return performance.getFerryDistance() * STRIPPED_DOWN_FACTOR;
-        }
+            int enhancedRange = performance.getRange() * STRIPPED_DOWN_FACTOR;
+            int endurance = performance.getEndurance();
+            return performance.getEnhancedFerryDistance(enhancedRange, endurance);        }
 
         public int getRadius(final Attack land, final Attack naval, final Performance performance) {
-            return performance.getRadius() * STRIPPED_DOWN_FACTOR;
+            int enhancedRange = performance.getRange() * STRIPPED_DOWN_FACTOR;
+            int endurance = performance.getEndurance();
+            return performance.getEnhancedRadius(enhancedRange, endurance);
+        }
+
+        public int getRange(final Attack land, final Attack naval, final Performance performance) {
+            return performance.getRange() * STRIPPED_DOWN_FACTOR;
         }
     };
 
@@ -168,6 +211,17 @@ public enum SquadronConfig implements Comparator<SquadronConfig> {
      * @return The modified attack of the squadron.
      */
     public abstract Attack getAttack(AttackType type, Attack attack);
+
+    /**
+     * Modify the given range by the squadron configuration parameters.
+     *
+     * @param land The squadron's land attack factor.
+     * @param naval The squadron's naval attack factor. May be naval warship or naval transport.
+     *              It does not matter which.
+     * @param performance The squadron's performance which contains the squadron's range.
+     * @return The modified range of the squadron.
+     */
+    public abstract int getRange(Attack land, Attack naval, Performance performance);
 
     /**
      * Modify the given radius by the squadron configuration parameters.

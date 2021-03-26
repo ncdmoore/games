@@ -72,7 +72,7 @@ public class Squadrons {
      *
      * @return All of the squadrons involved with this mission.
      */
-    public List<Squadron> getAllRoles() {
+    public List<Squadron> getAll() {
         return Stream
                 .of(MissionRole.values())
                 .flatMap(role -> squadronMap.get(role).stream())
@@ -85,12 +85,25 @@ public class Squadrons {
      * @return the total number of steps assigned to this mission.
      */
     public int getSteps() {
-        return Stream
-                .of(MissionRole.values())
+        return MissionRole.stream()
                 .flatMap(role -> squadronMap.get(role).stream())
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .intValue();
+    }
+
+    /**
+     * Get the minimum radius of all the squadrons on this mission.
+     *
+     * @return The minimum squadron radius.
+     */
+    public int getMinimumRange() {
+        return MissionRole.stream()
+                .flatMap(role -> squadronMap.get(role).stream())
+                .map(Squadron::getRange)
+                .mapToInt(v -> v)
+                .min()
+                .orElse(0);
     }
 
     /**
@@ -132,5 +145,23 @@ public class Squadrons {
                 .stream()
                 .map(role -> squadronMap.get(role).size())
                 .reduce(0, Integer::sum);
+    }
+
+    /**
+     * The squadrons take off.
+     */
+    public void takeOff() {
+        MissionRole.stream()
+                .flatMap(role -> squadronMap.get(role).stream())
+                .forEach(Squadron::takeOff);
+    }
+
+    /**
+     * The squadrons land.
+     */
+    public void land() {
+        MissionRole.stream()
+                .flatMap(role -> squadronMap.get(role).stream())
+                .forEach(Squadron::land);
     }
 }

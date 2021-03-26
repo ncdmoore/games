@@ -109,7 +109,7 @@ public class MissionDetailsView {
         Label targetValue = new Label(mission.getTarget().getTitle());
 
         Label squadronCountLabel = new Label("Squadrons:");
-        Label squadronCountValue = new Label(mission.getSquadronsAllRoles().size() + "");
+        Label squadronCountValue = new Label(mission.getSquadrons().getAll().size() + "");
         GridPane gridPane = new GridPane();
         gridPane.add(missionLabel, 0, 0);
         gridPane.add(missionValue, 1, 0);
@@ -131,7 +131,8 @@ public class MissionDetailsView {
      */
     private Node buildSquadronSummary(final AirMission mission) {
         Map<AircraftBaseType, List<Squadron>> squadronTypeMap = mission
-                .getSquadronsAllRoles()
+                .getSquadrons()
+                .getAll()
                 .stream()
                 .collect(Collectors.groupingBy(Squadron::getBaseType));
 
@@ -207,7 +208,7 @@ public class MissionDetailsView {
     }
 
     private void buildDetailsDataRow(final GridPane gridPane, final AirMission mission) {
-        List<Squadron> squadrons = mission.getSquadronsAllRoles();
+        List<Squadron> squadrons = mission.getSquadrons().getAll();
 
         AtomicInteger row = new AtomicInteger(1);
 
