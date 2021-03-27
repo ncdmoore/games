@@ -47,7 +47,7 @@ public class SweepAirfield extends AirMissionExecutor implements AirMission {
     @Getter private AirMissionState state;
     @Getter private final Nation nation;
     @Getter private final Airbase airbase;
-    @Getter private final Squadrons squadrons;
+    @Getter private final MissionSquadrons squadrons;
 
     private final String targetBaseName;      //The name of the target air base.
     private Target targetAirbase;             //The actual target air base.
@@ -65,7 +65,7 @@ public class SweepAirfield extends AirMissionExecutor implements AirMission {
      */
     @Inject
     public SweepAirfield(@Assisted final MissionData data,
-                         final Squadrons squadrons,
+                         final MissionSquadrons squadrons,
                          final Game game,
                          final @Named("airSweep") MissionAirRules rules,
                          final Dice dice) {

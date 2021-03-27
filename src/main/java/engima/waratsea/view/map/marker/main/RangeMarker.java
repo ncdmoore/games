@@ -1,6 +1,6 @@
 package engima.waratsea.view.map.marker.main;
 
-import engima.waratsea.view.map.GridView;
+import engima.waratsea.model.map.GridView;
 import engima.waratsea.view.map.MapView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

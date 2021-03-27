@@ -11,6 +11,7 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.BaseGrid;
 import engima.waratsea.model.map.BaseGridType;
 import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.map.GridView;
 import engima.waratsea.model.map.TaskForceGrid;
 import engima.waratsea.model.map.region.RegionGrid;
 import engima.waratsea.model.taskForce.TaskForce;

@@ -263,7 +263,7 @@ public class WeatherRules {
             case SQUALL:
                 return WeatherType.STORM;
             case STORM:
-                int die = dice.roll6();
+                int die = dice.roll();
                 return die > rollThree ? WeatherType.GALE : WeatherType.STORM;
             default:
                 return WeatherType.GALE;

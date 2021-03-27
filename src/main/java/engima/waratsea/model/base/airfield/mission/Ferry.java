@@ -33,7 +33,7 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
     private final Airbase startingAirbase;
     private final String endingAirbaseName;    //The name of the destination air base.
     private Target endingAirbase;              //The actual destination air base.
-    @Getter private final Squadrons squadrons;
+    @Getter private final MissionSquadrons squadrons;
     private int startTurn;                     //The game turn on which the mission starts.
     private int turnsToTarget;                 //How many game turns elapse before the mission lands at the ending airbase.
 
@@ -47,7 +47,7 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
     @Inject
     public Ferry(@Assisted final MissionData data,
                            final Game game,
-                           final Squadrons squadrons) {
+                           final MissionSquadrons squadrons) {
         id = data.getId();
 
         state = Optional

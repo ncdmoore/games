@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.airfield.mission.MissionSquadrons;
 import engima.waratsea.model.enemy.views.airfield.data.AirfieldViewData;
 import engima.waratsea.model.map.GameGrid;
 import lombok.Getter;
@@ -49,7 +50,7 @@ public class AirfieldView implements PersistentData<AirfieldViewData> {
      *
      * @return The airfield's map reference: location.
      */
-    public String getLocation() {
+    public String getReference() {
         return enemyAirfield.getReference();
     }
 
@@ -80,6 +81,23 @@ public class AirfieldView implements PersistentData<AirfieldViewData> {
      */
     @Override
     public void saveChildrenData() {
+    }
 
+    /**
+     * The airfield's CAP attempts to intercept and engage the attacking squadrons.
+     *
+     * @param squadrons The squadrons attacking the airfield.
+     */
+    public void capIntercept(final MissionSquadrons squadrons) {
+        enemyAirfield.capIntercept(squadrons);
+    }
+
+    /**
+     * The airfield fires its anti aircraft guns at the attacking squadrons.
+     *
+     * @param squadrons The squadrons attacking the airfield.
+     */
+    public void fireAntiAir(final MissionSquadrons squadrons) {
+        enemyAirfield.fireAntiAir(squadrons);
     }
 }

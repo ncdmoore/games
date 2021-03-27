@@ -26,7 +26,7 @@ public class DiceTest {
 
     @Test
     public void testRoll6() {
-        int result = dice.roll6();
+        int result = dice.roll();
         Assert.assertTrue(result <= 6);
         Assert.assertTrue(result >= 1);
     }

@@ -1,6 +1,5 @@
-package engima.waratsea.view.map;
+package engima.waratsea.model.map;
 
-import engima.waratsea.model.map.GameGrid;
 import lombok.Getter;
 
 /**

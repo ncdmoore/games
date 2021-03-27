@@ -3,6 +3,7 @@ package engima.waratsea.view.map;
 import com.google.inject.Inject;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.map.GridView;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;

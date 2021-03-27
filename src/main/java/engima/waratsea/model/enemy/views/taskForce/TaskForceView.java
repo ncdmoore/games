@@ -54,7 +54,7 @@ public class TaskForceView implements PersistentData<TaskForceViewData> {
      *
      * @return The task force's map reference: location.
      */
-    public String getLocation() {
+    public String getReference() {
         return enemyTaskForce.getReference();
     }
 

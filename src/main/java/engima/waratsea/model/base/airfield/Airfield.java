@@ -14,6 +14,7 @@ import engima.waratsea.model.base.AirbaseGroup;
 import engima.waratsea.model.base.Base;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
 import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.mission.MissionSquadrons;
 import engima.waratsea.model.base.airfield.mission.Missions;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
@@ -29,6 +30,7 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.patrol.PatrolGroups;
+import engima.waratsea.utility.Dice;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -41,12 +43,16 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Represents airfield's in the game.
  */
 @Slf4j
 public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<AirfieldData> {
+    private static final int AA_MODIFIER = 0;
+    private static final int AA_HIT = 6;
+
     private final Provider<PatrolGroups> patrolGroupsProvider;
 
     @Getter private final Side side;
@@ -68,6 +74,7 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
     private final Patrols patrols;
     private final AirOperations airOperations;
     private final GameMap gameMap;
+    private final Dice dice;
 
     /**
      * Constructor called by guice.
@@ -79,7 +86,9 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
      * @param patrols This airbase's patrols.
      * @param airOperations air operations utility.
      * @param gameMap The game map.
+     * @param dice The dice utility.
      */
+    //CHECKSTYLE:OFF
     @Inject
     public Airfield(@Assisted final AirfieldData data,
                     final Provider<PatrolGroups> patrolGroupsProvider,
@@ -87,8 +96,9 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
                     final Missions missions,
                     final Patrols patrols,
                     final AirOperations airOperations,
-                    final GameMap gameMap) {
-
+                    final GameMap gameMap,
+                    final Dice dice) {
+    //CHECKSTYLE:ON
         this.patrolGroupsProvider = patrolGroupsProvider;
 
         this.squadrons = squadrons;
@@ -96,6 +106,7 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
         this.patrols = patrols;
         this.airOperations = airOperations;
         this.gameMap = gameMap;
+        this.dice = dice;
 
         this.side = data.getSide();
         name = data.getName();
@@ -364,7 +375,7 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
     /**
      * Get the airfield's squadrons.
      *
-     * @return The airfields's squadrons.
+     * @return The airfield's squadrons.
      */
     @Override
     public List<Squadron> getSquadrons() {
@@ -567,6 +578,35 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
     }
 
     /**
+     * The airfield's CAP attempts to intercept and engage the enemy squadrons.
+     *
+     * @param enemySquadrons The enemy squadrons that attack this airfield.
+     */
+    public void capIntercept(final MissionSquadrons enemySquadrons) {
+        patrols
+                .getCap()
+                .intercept(enemySquadrons);
+    }
+
+    /**
+     * The airfield fires anti aircraft guns at the attacking enemy squadrons.
+     *
+     * @param enemySquadrons The enemy squadrons that attack this airfield.
+     */
+    public void fireAntiAir(final MissionSquadrons enemySquadrons) {
+        int numTurnedAwaySteps = (int) IntStream
+                .range(1, antiAirRating + 1)
+                .map(this::antiAirGunFires)        // Each gun fires.
+                .filter(value -> value >= AA_HIT)  // Determine if the gun hit.
+                .count();
+
+        int numDestroyedSteps = numTurnedAwaySteps / 2;
+
+        enemySquadrons.turnAway(numTurnedAwaySteps);
+        enemySquadrons.destroy(numDestroyedSteps);
+    }
+
+    /**
      * Determine if this airfield has room for the given squadron.
      *
      * @param squadron A potential new squadron.
@@ -606,6 +646,14 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
         }
 
         return landingType.contains(LandingType.LAND) ? AirbaseType.LAND : AirbaseType.SEAPLANE;
+    }
+
+    private int antiAirGunFires(final int gunNumber) {
+        int result = dice.roll() + AA_MODIFIER;
+
+        log.info("AA gun: '{}' fired: '{}'", gunNumber, result);
+
+        return result;
     }
 
     /**

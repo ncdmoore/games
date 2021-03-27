@@ -53,8 +53,9 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
     @Getter private final String model;
     @Getter private Aircraft aircraft;
     @Getter private String name;
-    @Getter @Setter private SquadronStrength strength;
-    @Getter private String reference; //This is always a map reference and never a name.
+    @Getter @Setter private SquadronStrength strength;             //The squadron's actual physical strength.
+    @Getter private transient SquadronStrength effectiveStrength;  //The effective squadron strength as determined by battlefield conditions such as flak.
+    @Getter private String reference;                              //This is always a map reference and never a name.
     @Getter private Airbase home;
     @Getter private SquadronState state;
     @Getter @Setter private SquadronConfig config;
@@ -443,7 +444,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      * @return True if this squadron is in range of the given target.
      */
     public boolean inRange(final Target target, final AirMissionType missionType, final MissionRole missionRole) {
-        String targetReference = gameMap.convertNameToReference(target.getLocation());
+        String targetReference = gameMap.convertNameToReference(target.getReference());
         String airbaseReference = home.getReference();
 
         SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()
@@ -504,8 +505,12 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
 
     /**
      * The squadron takes off.
+     *
+     * When a squadron takes off its effective strength is set to its physical strength.
+     * Effective strength is changed by battlefield conditions such as flak.
      */
     public void takeOff() {
+        effectiveStrength = strength;
         state = state.transition(SquadronAction.TAKE_OFF);
     }
 
@@ -523,6 +528,38 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      */
     public void land() {
         state = state.transition(SquadronAction.LAND);
+    }
+
+    /**
+     * The squadron's effective strength is reduced.
+     */
+    public void reduceEffectiveStrength() {
+        effectiveStrength = effectiveStrength.reduce();
+    }
+
+    /**
+     * The squadron's strength is reduced.
+     */
+    public void reduceStrength() {
+        strength = strength.reduce();
+    }
+
+    /**
+     * Indicates if the squadron is effective.
+     *
+     * @return True if the squadron is effective. False otherwise.
+     */
+    public boolean isNotEffective() {
+        return effectiveStrength == SquadronStrength.ZERO;
+    }
+
+    /**
+     * Indicates if the squadron is destroyed.
+     *
+     * @return True if the squadron is destroyed. False otherwise.
+     */
+    public boolean isDestroyed() {
+        return strength == SquadronStrength.ZERO;
     }
 
     /**
@@ -554,7 +591,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      * @return The squadron's needed config in order to reach the target given its mission and role.
      */
     public SquadronConfig determineConfig(final Target target, final AirMissionType missionType, final MissionRole missionRole) {
-        String targetReference = gameMap.convertNameToReference(target.getLocation());
+        String targetReference = gameMap.convertNameToReference(target.getReference());
         String airbaseReference = home.getReference();
 
         SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO()

@@ -5,7 +5,7 @@ import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.map.MarkerGrid;
 import engima.waratsea.model.taskForce.patrol.PatrolGroup;
 import engima.waratsea.model.taskForce.patrol.PatrolGroups;
-import engima.waratsea.view.map.GridView;
+import engima.waratsea.model.map.GridView;
 import engima.waratsea.view.map.MapView;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;

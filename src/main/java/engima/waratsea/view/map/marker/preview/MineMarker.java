@@ -2,7 +2,7 @@ package engima.waratsea.view.map.marker.preview;
 
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.presenter.dto.map.MinefieldDTO;
-import engima.waratsea.view.map.GridView;
+import engima.waratsea.model.map.GridView;
 import engima.waratsea.view.map.MapView;
 import javafx.scene.Node;
 import javafx.scene.shape.Circle;

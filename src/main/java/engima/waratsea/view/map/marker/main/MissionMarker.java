@@ -1,7 +1,7 @@
 package engima.waratsea.view.map.marker.main;
 
 import engima.waratsea.model.base.airfield.mission.AirMission;
-import engima.waratsea.view.map.GridView;
+import engima.waratsea.model.map.GridView;
 import engima.waratsea.view.map.MapView;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;

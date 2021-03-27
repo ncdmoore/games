@@ -5,7 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.region.RegionGrid;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.map.GridView;
+import engima.waratsea.model.map.GridView;
 import engima.waratsea.view.map.MapView;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -43,9 +43,14 @@ public class RegionMarker {
         this.mapView = mapView;
         this.props = props;
 
-        title = buildTitle(regionGrid);
+        title = buildTitle();
     }
 
+    /**
+     * Add base marker to this region.
+     *
+     * @param baseMarker The added base marker to this region.
+     */
     public void add(final BaseMarker baseMarker) {
         baseMarkers.add(baseMarker);
     }
@@ -85,10 +90,9 @@ public class RegionMarker {
     /**
      * Build the region's title.
      *
-     * @param regionGrid The game map region grid.
      * @return A node containing the region's title.
      */
-    private Node buildTitle(final RegionGrid regionGrid) {
+    private Node buildTitle() {
         Tooltip tooltip = new Tooltip();
         tooltip.setText(regionGrid
                 .getNations()

@@ -49,7 +49,7 @@ public class PortView implements PersistentData<PortViewData> {
      *
      * @return The port's map reference: location.
      */
-    public String getLocation() {
+    public String getReference() {
         return enemyPort.getReference();
     }
 

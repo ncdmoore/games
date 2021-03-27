@@ -37,7 +37,7 @@ public class Weather {
      * @param month The game's month.
      **/
     public void determine(final int month) {
-        int result = dice.roll6();
+        int result = dice.roll();
 
         WeatherType newWeather = rules.determineWeather(result, current, month);
 

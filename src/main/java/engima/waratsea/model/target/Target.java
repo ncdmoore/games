@@ -4,7 +4,7 @@ package engima.waratsea.model.target;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
-import engima.waratsea.model.base.airfield.mission.Squadrons;
+import engima.waratsea.model.base.airfield.mission.MissionSquadrons;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
@@ -61,7 +61,7 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
      *
      * @return The target's location.
      */
-    String getLocation();
+    String getReference();
 
     /**
      * Get the target's game grid.
@@ -89,21 +89,21 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
      *
      * @param squadrons The squadrons that land at this target.
      */
-    void land(Squadrons squadrons);
+    void land(MissionSquadrons squadrons);
 
     /**
      * The squadrons attack this target.
      *
      * @param squadrons The squadrons that attack this target.
      */
-    void resolveAttack(Squadrons squadrons);
+    void resolveAttack(MissionSquadrons squadrons);
 
     /**
      * The squadrons sweep this target.
      *
      * @param squadrons The squadrons that sweep this target.
      */
-    void resolveSweep(Squadrons squadrons);
+    void resolveSweep(MissionSquadrons squadrons);
 
     /**
      * Get the String representation of the target.

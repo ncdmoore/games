@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
-import engima.waratsea.model.base.airfield.mission.Squadrons;
+import engima.waratsea.model.base.airfield.mission.MissionSquadrons;
 import engima.waratsea.model.base.port.Port;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
@@ -100,7 +100,7 @@ public class TargetFriendlyPort implements Target {
      * @return The target's location.
      */
     @Override
-    public String getLocation() {
+    public String getReference() {
         return Optional
                 .ofNullable(port)
                 .orElseGet(this::getPort)
@@ -152,7 +152,7 @@ public class TargetFriendlyPort implements Target {
      * @param squadrons The squadrons that land at this target.
      */
     @Override
-    public void land(final Squadrons squadrons) {
+    public void land(final MissionSquadrons squadrons) {
 
     }
 
@@ -162,7 +162,7 @@ public class TargetFriendlyPort implements Target {
      * @param squadrons The squadrons that attack this target.
      */
     @Override
-    public void resolveAttack(final Squadrons squadrons) {
+    public void resolveAttack(final MissionSquadrons squadrons) {
 
     }
 
@@ -172,7 +172,7 @@ public class TargetFriendlyPort implements Target {
      * @param squadrons The squadrons that sweep this target.
      */
     @Override
-    public void resolveSweep(final Squadrons squadrons) {
+    public void resolveSweep(final MissionSquadrons squadrons) {
 
     }
 
@@ -216,7 +216,7 @@ public class TargetFriendlyPort implements Target {
      */
     @Override
     public int getDistance(final Airbase airbase) {
-        String targetReference = gameMap.convertNameToReference(getLocation());
+        String targetReference = gameMap.convertNameToReference(getReference());
         String airbaseReference = airbase.getReference();
 
         return gameMap.determineDistance(targetReference, airbaseReference);
@@ -381,7 +381,7 @@ public class TargetFriendlyPort implements Target {
 
         Target otherTarget = (Target) o;
 
-        return side == otherTarget.getSide() && name.equals(otherTarget.getName()) && getLocation().equals(otherTarget.getLocation());
+        return side == otherTarget.getSide() && name.equals(otherTarget.getName()) && getReference().equals(otherTarget.getReference());
     }
 
     /**

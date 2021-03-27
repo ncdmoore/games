@@ -26,7 +26,7 @@ public class NavalTaskForceStrike extends AirMissionExecutor implements AirMissi
     @Getter private final AirMissionType type = AirMissionType.NAVAL_TASK_FORCE_STRIKE;
     @Getter private final Nation nation;
     @Getter private final Airbase airbase;
-    @Getter private final Squadrons squadrons;
+    @Getter private final MissionSquadrons squadrons;
 
     private final String targetName;               //The name of the target task force.
     private Target targetTaskForce;                //The actual target task force.
@@ -42,7 +42,7 @@ public class NavalTaskForceStrike extends AirMissionExecutor implements AirMissi
      */
     @Inject
     public NavalTaskForceStrike(@Assisted final MissionData data,
-                                          final Squadrons squadrons,
+                                          final MissionSquadrons squadrons,
                                           final Game game) {
         id = data.getId();
         state = Optional.ofNullable(data.getState()).orElse(AirMissionState.READY);

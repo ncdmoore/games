@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.mission.MissionSquadrons;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
 import engima.waratsea.model.game.Nation;
@@ -244,6 +245,10 @@ public class CapPatrol implements Patrol {
     @Override
     public boolean isAffectedByWeather() {
         return capRules.isAffectedByWeather();
+    }
+
+    public void intercept(final MissionSquadrons enemySquadrons) {
+
     }
 
     /**

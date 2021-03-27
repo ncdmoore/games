@@ -18,7 +18,7 @@ import engima.waratsea.presenter.asset.AssetPresenter;
 import engima.waratsea.presenter.taskforce.TaskForceAirDialog;
 import engima.waratsea.presenter.taskforce.TaskForceNavalDialog;
 import engima.waratsea.view.MainMenu;
-import engima.waratsea.view.map.GridView;
+import engima.waratsea.model.map.GridView;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.map.marker.main.BaseMarker;
 import engima.waratsea.view.map.marker.main.Marker;

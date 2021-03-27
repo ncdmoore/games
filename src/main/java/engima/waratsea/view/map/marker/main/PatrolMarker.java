@@ -3,7 +3,7 @@ package engima.waratsea.view.map.marker.main;
 import engima.waratsea.model.taskForce.patrol.AswPatrolGroup;
 import engima.waratsea.model.taskForce.patrol.PatrolGroup;
 import engima.waratsea.model.taskForce.patrol.SearchPatrolGroup;
-import engima.waratsea.view.map.GridView;
+import engima.waratsea.model.map.GridView;
 import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;
 import javafx.event.EventHandler;

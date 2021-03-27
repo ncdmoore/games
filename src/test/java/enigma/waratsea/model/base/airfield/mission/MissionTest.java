@@ -271,7 +271,7 @@ public class MissionTest {
         data.setSide(Side.AXIS);
         data.setLandingType(List.of(LandingType.LAND, LandingType.CARRIER));
         data.setMaxCapacity(8);
-        data.setAntiAir(2);
+        data.setAntiAir(6);
         data.setLocation("AV29");
 
         return airfieldFactory.create(data);

@@ -15,13 +15,36 @@ import java.math.BigDecimal;
  */
 public enum SquadronStrength {
     @SerializedName(value = "FULL", alternate = {"Full", "full"})
-    FULL("Full", StepSize.TWO),
+    FULL("Full", StepSize.TWO) {
+        @Override
+        public SquadronStrength reduce() {
+            return HALF;
+        }
+    },
 
     @SerializedName(value = "HALF", alternate = {"Half", "half"})
-    HALF("Half", StepSize.ONE),
+    HALF("Half", StepSize.ONE) {
+        @Override
+        public SquadronStrength reduce() {
+            return ZERO;
+        }
+    },
 
     @SerializedName(value = "SIXTH", alternate = {"Sixth", "sixth"})
-    SIXTH("1/6", StepSize.ONE_THIRD); // Sixth is for battleship and cruiser float planes.
+    SIXTH("1/6", StepSize.ONE_THIRD) { // Sixth is for battleship and cruiser float planes.
+        @Override
+        public SquadronStrength reduce() {
+            return ZERO;
+        }
+    },
+
+    @SerializedName(value = "ZERO", alternate = {"Zero", "zero"})
+    ZERO("Zero", StepSize.ZERO) {
+        @Override
+        public SquadronStrength reduce() {
+            return ZERO;
+        }
+    };
 
     private final String value;
 
@@ -38,6 +61,8 @@ public enum SquadronStrength {
         this.value = value;
         this.steps = new BigDecimal(steps);
     }
+
+    public abstract SquadronStrength reduce();
 
     /**
      * The String representation of the squadron strength.

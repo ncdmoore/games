@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
+import engima.waratsea.model.map.GridView;
 import engima.waratsea.model.minefield.Minefield;
 import engima.waratsea.presenter.dto.map.MinefieldDTO;
 import engima.waratsea.utility.ResourceProvider;

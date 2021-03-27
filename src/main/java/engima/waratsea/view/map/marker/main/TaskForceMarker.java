@@ -8,7 +8,7 @@ import engima.waratsea.model.map.TaskForceGrid;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
-import engima.waratsea.view.map.GridView;
+import engima.waratsea.model.map.GridView;
 import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;
 import engima.waratsea.view.ship.ShipViewType;

@@ -104,6 +104,15 @@ public class Patrols {
     }
 
     /**
+     * Get the CAP patrol.
+     *
+     * @return The CAP patrol.
+     */
+    public CapPatrol getCap() {
+        return (CapPatrol) patrolMap.get(PatrolType.CAP);
+    }
+
+    /**
      * Build a patrol.
      *
      * @param patrolType The patrol type to build.

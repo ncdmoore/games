@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
-import engima.waratsea.model.base.airfield.mission.Squadrons;
+import engima.waratsea.model.base.airfield.mission.MissionSquadrons;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
@@ -97,7 +97,7 @@ public class TargetSeaGrid implements Target {
      * @return The target's location.
      */
     @Override
-    public String getLocation() {
+    public String getReference() {
         return reference;
     }
 
@@ -140,7 +140,7 @@ public class TargetSeaGrid implements Target {
      * @param squadrons The squadrons that land at this target.
      */
     @Override
-    public void land(final Squadrons squadrons) {
+    public void land(final MissionSquadrons squadrons) {
 
     }
 
@@ -150,7 +150,7 @@ public class TargetSeaGrid implements Target {
      * @param squadrons The squadrons that attack this target.
      */
     @Override
-    public void resolveAttack(final Squadrons squadrons) {
+    public void resolveAttack(final MissionSquadrons squadrons) {
 
     }
 
@@ -160,7 +160,7 @@ public class TargetSeaGrid implements Target {
      * @param squadrons The squadrons that sweep this target.
      */
     @Override
-    public void resolveSweep(final Squadrons squadrons) {
+    public void resolveSweep(final MissionSquadrons squadrons) {
 
     }
 
@@ -204,7 +204,7 @@ public class TargetSeaGrid implements Target {
      */
     @Override
     public int getDistance(final Airbase airbase) {
-        String targetReference = gameMap.convertNameToReference(getLocation());
+        String targetReference = gameMap.convertNameToReference(getReference());
         String airbaseReference = airbase.getReference();
 
         return gameMap.determineDistance(targetReference, airbaseReference);
@@ -364,7 +364,7 @@ public class TargetSeaGrid implements Target {
 
         Target otherTarget = (Target) o;
 
-        return reference.equals(otherTarget.getLocation());
+        return reference.equals(otherTarget.getReference());
     }
 
     /**

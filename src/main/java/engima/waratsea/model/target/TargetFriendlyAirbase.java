@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
-import engima.waratsea.model.base.airfield.mission.Squadrons;
+import engima.waratsea.model.base.airfield.mission.MissionSquadrons;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -107,7 +107,7 @@ public class TargetFriendlyAirbase implements Target {
      * @return The target's location.
      */
     @Override
-    public String getLocation() {
+    public String getReference() {
         return Optional
                 .ofNullable(airbase)
                 .orElseGet(this::getAirbase)
@@ -158,7 +158,7 @@ public class TargetFriendlyAirbase implements Target {
      * @param squadrons The squadrons that land at this target.
      */
     @Override
-    public void land(final Squadrons squadrons) {
+    public void land(final MissionSquadrons squadrons) {
         squadrons
                 .getAll()
                 .forEach(squadron -> airbase.addSquadron(squadron));
@@ -172,7 +172,7 @@ public class TargetFriendlyAirbase implements Target {
      * @param squadrons The squadrons that attack this target.
      */
     @Override
-    public void resolveAttack(final Squadrons squadrons) {
+    public void resolveAttack(final MissionSquadrons squadrons) {
         land(squadrons);
     }
 
@@ -182,7 +182,7 @@ public class TargetFriendlyAirbase implements Target {
      * @param squadrons The squadrons that sweep this target.
      */
     @Override
-    public void resolveSweep(final Squadrons squadrons) {
+    public void resolveSweep(final MissionSquadrons squadrons) {
         land(squadrons);
     }
 
@@ -229,7 +229,7 @@ public class TargetFriendlyAirbase implements Target {
      */
     @Override
     public int getDistance(final Airbase originAirbase) {
-        String targetReference = gameMap.convertNameToReference(getLocation());
+        String targetReference = gameMap.convertNameToReference(getReference());
         String airbaseReference = originAirbase.getReference();
 
         return gameMap.determineDistance(targetReference, airbaseReference);
@@ -456,7 +456,7 @@ public class TargetFriendlyAirbase implements Target {
 
         Target otherTarget = (Target) o;
 
-        return side == otherTarget.getSide() && name.equals(otherTarget.getName()) && getLocation().equals(otherTarget.getLocation());
+        return side == otherTarget.getSide() && name.equals(otherTarget.getName()) && getReference().equals(otherTarget.getReference());
     }
 
     /**

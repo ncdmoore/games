@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
-import engima.waratsea.view.map.GridView;
+import engima.waratsea.model.map.GridView;
 import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;
 import engima.waratsea.view.map.marker.preview.adjuster.Adjuster;

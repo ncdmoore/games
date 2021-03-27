@@ -61,7 +61,7 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
     @Getter private final AirMissionType type = AirMissionType.LAND_STRIKE;
     @Getter private final Nation nation;
     @Getter private final Airbase airbase;
-    @Getter private final Squadrons squadrons;
+    @Getter private final MissionSquadrons squadrons;
 
     private final String targetBaseName;      //The name of the target air base.
     private Target targetAirbase;             //The actual target air base.
@@ -80,7 +80,7 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
      */
     @Inject
     public LandStrike(@Assisted final MissionData data,
-                                final Squadrons squadrons,
+                                final MissionSquadrons squadrons,
                                 final Game game,
                                 final @Named("airStrike") MissionAirRules rules,
                                 final Dice dice) {

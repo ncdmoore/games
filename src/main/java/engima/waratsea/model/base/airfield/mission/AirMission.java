@@ -76,7 +76,7 @@ public interface AirMission extends PersistentData<MissionData> {
      *
      * @return The squadrons on this mission.
      */
-    Squadrons getSquadrons();
+    MissionSquadrons getSquadrons();
 
     /**
      * Set all of the squadrons to the correct state.

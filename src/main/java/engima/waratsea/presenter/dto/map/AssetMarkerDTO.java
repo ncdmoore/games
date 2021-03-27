@@ -4,7 +4,7 @@ import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
-import engima.waratsea.view.map.GridView;
+import engima.waratsea.model.map.GridView;
 import engima.waratsea.view.map.MapView;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;

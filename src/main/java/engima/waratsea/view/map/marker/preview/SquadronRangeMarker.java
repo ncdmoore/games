@@ -4,7 +4,7 @@ import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
 import engima.waratsea.presenter.dto.map.AssetMarkerDTO;
-import engima.waratsea.view.map.GridView;
+import engima.waratsea.model.map.GridView;
 import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.ViewOrder;
 import javafx.scene.Node;

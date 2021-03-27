@@ -5,7 +5,7 @@ import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.target.TargetFriendlyTaskForce;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.target.Target;
-import engima.waratsea.view.map.GridView;
+import engima.waratsea.model.map.GridView;
 import engima.waratsea.view.map.MapView;
 import engima.waratsea.view.map.marker.preview.PopUp;
 import javafx.event.EventHandler;
@@ -62,7 +62,7 @@ public class TargetMarkerDTO implements PopUpDTO {
     public TargetMarkerDTO(final TaskForce taskForce, final Target target) {
         this.taskForce = taskForce;
         this.target = target;
-        this.reference = target.getLocation();
+        this.reference = target.getReference();
     }
 
     /**

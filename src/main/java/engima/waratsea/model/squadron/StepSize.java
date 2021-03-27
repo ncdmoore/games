@@ -8,6 +8,7 @@ public final class StepSize {
     public static final String ONE = "1";
     public static final String ONE_THIRD = "0.333";
     public static final String TWO_THIRDS = "0.667";
+    public static final String ZERO = "0";
 
     /**
      * Private constructor. This class is never constructed.

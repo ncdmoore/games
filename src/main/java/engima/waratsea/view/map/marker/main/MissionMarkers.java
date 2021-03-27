@@ -5,7 +5,7 @@ import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.MarkerGrid;
 import engima.waratsea.model.target.Target;
-import engima.waratsea.view.map.GridView;
+import engima.waratsea.model.map.GridView;
 import engima.waratsea.view.map.MapView;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;

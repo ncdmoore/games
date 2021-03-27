@@ -11,9 +11,7 @@ import java.util.Random;
 @Singleton
 public class Dice {
     private static final int PERCENTAGE = 100;
-
     private static final int DICE_SIX_SIDED = 6;
-
     private static final Random DICE = new Random();
 
     /**
@@ -21,7 +19,7 @@ public class Dice {
      *
      * @return  A value between 1 and 6.
      */
-    public int roll6() {
+    public int roll() {
         return DICE.nextInt(DICE_SIX_SIDED) + 1;
     }
 

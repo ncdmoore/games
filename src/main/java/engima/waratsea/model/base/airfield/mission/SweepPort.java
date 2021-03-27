@@ -44,7 +44,7 @@ public class SweepPort extends AirMissionExecutor implements AirMission {
     @Getter private AirMissionState state;
     @Getter private final Nation nation;
     @Getter private final Airbase airbase;
-    @Getter private final Squadrons squadrons;
+    @Getter private final MissionSquadrons squadrons;
 
     private final String targetBaseName;      //The name of the target port.
     private Target targetPort;                //The actual target port.
@@ -62,7 +62,7 @@ public class SweepPort extends AirMissionExecutor implements AirMission {
      */
     @Inject
     public SweepPort(@Assisted final MissionData data,
-                     final Squadrons squadrons,
+                     final MissionSquadrons squadrons,
                      final Game game,
                      final @Named("airSweep") MissionAirRules rules,
                      final Dice dice) {

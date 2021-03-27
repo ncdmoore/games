@@ -1,6 +1,6 @@
 package engima.waratsea.presenter.dto.map;
 
-import engima.waratsea.view.map.GridView;
+import engima.waratsea.model.map.GridView;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
