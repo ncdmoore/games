@@ -7,7 +7,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="" />
+    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalTaskForceStrike.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/NavalTaskForceStrike.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -77,6 +79,9 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="6bcc0676-cf2a-434e-8f9c-4dfc5d237b3d" />
   </component>
   <component name="ProjectId" id="1Z7wld1cIeD9TcRMAlklRo7K9K8" />
   <component name="ProjectLevelVcsManager">
@@ -303,13 +308,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00395" summary="Add patrol groups and task force groups. This allows task forces with multiple airbases to aggregate patrol squadrons. It allows grids with multiple task forces to aggregate patrol squadrons.">
-      <created>1613609005723</created>
-      <option name="number" value="00395" />
-      <option name="presentableId" value="LOCAL-00395" />
-      <option name="project" value="LOCAL" />
-      <updated>1613609005724</updated>
     </task>
     <task id="LOCAL-00396" summary="Add patrol groups and task force groups. This allows task forces with multiple airbases to aggregate patrol squadrons. It allows grids with multiple task forces to aggregate patrol squadrons.">
       <created>1613610087251</created>
@@ -647,7 +645,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619894975636</updated>
     </task>
-    <option name="localTasksCounter" value="444" />
+    <task id="LOCAL-00444" summary="Update grid path calculations to include delta rows between side by side column grids.">
+      <created>1619895326113</created>
+      <option name="number" value="00444" />
+      <option name="presentableId" value="LOCAL-00444" />
+      <option name="project" value="LOCAL" />
+      <updated>1619895326113</updated>
+    </task>
+    <option name="localTasksCounter" value="445" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

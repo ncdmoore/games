@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * This class represents a naval task force stirke mission.
+ * This class represents a naval task force strike mission.
  */
 @Slf4j
 public class NavalTaskForceStrike extends AirMissionExecutor implements AirMission {
