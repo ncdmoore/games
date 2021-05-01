@@ -124,6 +124,7 @@ public class PatrolStatsView {
 
                 Map<String, Integer> ranges = getRanges(min, med, max);
 
+                gridPane.getChildren().clear();
                 buildHeaders(headers);
                 buildRows(stats, ranges);
 

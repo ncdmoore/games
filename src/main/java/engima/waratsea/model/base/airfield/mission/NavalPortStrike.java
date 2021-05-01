@@ -133,6 +133,14 @@ public class NavalPortStrike extends AirMissionExecutor implements AirMission {
     }
 
     /**
+     * Progress the mission forward.
+     */
+    @Override
+    public void fly() {
+
+    }
+
+    /**
      * Execute the mission.
      */
     @Override
@@ -141,6 +149,14 @@ public class NavalPortStrike extends AirMissionExecutor implements AirMission {
 
         // Resolve the squadron attack on the enemy port.
         targetPort.resolveAttack(squadrons);
+    }
+
+    /**
+     * Recall the mission.
+     */
+    @Override
+    public void recall() {
+
     }
 
     /**

@@ -108,6 +108,14 @@ public class NavalTaskForceStrike extends AirMissionExecutor implements AirMissi
     }
 
     /**
+     * Progress the mission forward.
+     */
+    @Override
+    public void fly() {
+
+    }
+
+    /**
      * Execute the mission.
      */
     @Override
@@ -116,6 +124,14 @@ public class NavalTaskForceStrike extends AirMissionExecutor implements AirMissi
 
         // Resolve the squadron attack on the enemy port.
         targetTaskForce.resolveAttack(squadrons);
+
+    }
+
+    /**
+     * Recall the mission.
+     */
+    @Override
+    public void recall() {
 
     }
 

@@ -452,7 +452,7 @@ public final class GameMap {
      * @param mapReferenceTwo a given map reference
      * @return The distance in grids between the given two map references.
      */
-    public int determineDistance(final String mapReferenceOne, final String mapReferenceTwo) {
+    public int determineDistanceOld(final String mapReferenceOne, final String mapReferenceTwo) {
         Optional<GameGrid> gridOne = getGrid(mapReferenceOne);
         Optional<GameGrid> gridTwo = getGrid(mapReferenceTwo);
 
@@ -469,6 +469,26 @@ public final class GameMap {
         return (int) Math.sqrt((a * a) + (b * b));
     }
 
+    public int determineDistance(final String mapReferenceOne, final String mapReferenceTwo) {
+        Optional<GameGrid> gridOne = getGrid(mapReferenceOne);
+        Optional<GameGrid> gridTwo = getGrid(mapReferenceTwo);
+
+        int rowOne = gridOne.map(GameGrid::getRow).orElse(0);
+        int rowTwo = gridTwo.map(GameGrid::getRow).orElse(0);
+
+        int columnOne = gridOne.map(GameGrid::getColumn).orElse(0);
+        int columnTwo = gridTwo.map(GameGrid::getColumn).orElse(0);
+
+        int columnDiff = Math.abs(columnTwo - columnOne);
+        int rowDiff = Math.abs(rowTwo - rowOne);
+
+        if (columnDiff > rowDiff) {
+            return columnDiff;
+        } else {
+            return columnDiff + determineRowDiff(rowOne, rowTwo, columnOne, columnTwo);
+        }
+    }
+
     /**
      * Determine if the target map reference is in range of the entity starting at the starting map
      * reference given the entity's range.
@@ -480,7 +500,11 @@ public final class GameMap {
      */
     public boolean inRange(final String startingReference, final String targetReference, final int range) {
 
-        Optional<GameGrid> targetGrid = getGrid(targetReference);
+        int distance = determineDistance(startingReference, targetReference);
+
+        return range >= distance;
+
+        /*Optional<GameGrid> targetGrid = getGrid(targetReference);
         Optional<GameGrid> startingGrid = getGrid(startingReference);
 
         int targetRow = targetGrid.map(GameGrid::getRow).orElse(0);
@@ -496,7 +520,7 @@ public final class GameMap {
 
         log.debug("a: {} ,b: {}, c: {}", new Object[]{a, b, c});
 
-        return (a * a) + (b * b) <= (c * c);
+        return (a * a) + (b * b) <= (c * c);*/
     }
 
     /**
@@ -924,5 +948,28 @@ public final class GameMap {
 
         getPort(side, reference)
                 .ifPresent(port -> port.addTaskForce(taskForce));
+    }
+
+    private int determineRowDiff(final int startRow, final int endRow, final int startColumn, final int endColumn) {
+        double columnDiff = Math.abs(startColumn - endColumn);
+        int rowDiff = Math.abs(startRow - endRow);
+
+        int rowDiffFromColumnMoves;
+
+        if (startColumn % 2 == 0)  {
+            if (endRow < startRow) {
+                rowDiffFromColumnMoves = (int) Math.ceil(columnDiff / 2.0);
+            } else {
+                rowDiffFromColumnMoves = (int) Math.floor(columnDiff / 2.0);
+            }
+        } else {
+            if (endRow < startRow) {
+                rowDiffFromColumnMoves = (int) Math.floor(columnDiff / 2.0);
+            } else {
+                rowDiffFromColumnMoves = (int) Math.ceil(columnDiff / 2.0);
+            }
+        }
+
+        return rowDiff - rowDiffFromColumnMoves;
     }
 }

@@ -134,12 +134,28 @@ public class SweepPort extends AirMissionExecutor implements AirMission {
     }
 
     /**
+     * Progress the mission forward.
+     */
+    @Override
+    public void fly() {
+
+    }
+
+    /**
      * Execute the mission.
      */
     @Override
     public void execute() {
         targetPort = getTarget();
         targetPort.resolveSweep(squadrons);
+    }
+
+    /**
+     * Recall the mission.
+     */
+    @Override
+    public void recall() {
+
     }
 
     /**

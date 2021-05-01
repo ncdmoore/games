@@ -13,6 +13,7 @@ import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.Dice;
@@ -57,6 +58,7 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
     private final Game game;
     private final Dice dice;
     private final MissionAirRules rules;
+    private final AirMissionPath missionPath;
 
     @Getter private final AirMissionType type = AirMissionType.LAND_STRIKE;
     @Getter private final Nation nation;
@@ -69,6 +71,9 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
     private int turnsToTarget;                //How many turns it takes to reach the target.
     private int turnsToHome;                  //How many turns it takes to return to the starting airbase.
 
+    private List<GameGrid> gridPath;
+    private int currentGrid;
+
     /**
      * Constructor called by guice.
      *
@@ -76,6 +81,7 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
      * @param squadrons The squadrons on this mission.
      * @param game The game.
      * @param rules The mission air rules.
+     * @param missionPath The mission path utility.
      * @param dice The dice utility.
      */
     @Inject
@@ -83,6 +89,7 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
                                 final MissionSquadrons squadrons,
                                 final Game game,
                                 final @Named("airStrike") MissionAirRules rules,
+                                final AirMissionPath missionPath,
                                 final Dice dice) {
         id = data.getId();
 
@@ -94,6 +101,7 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
         this.game = game;
         this.dice = dice;
         this.rules = rules;
+        this.missionPath = missionPath;
 
         nation = data.getNation();
 
@@ -151,7 +159,33 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
         turnsToTarget = (distance / minimumRange) + (distance % minimumRange > 0 ? 1 : 0);
         turnsToHome = (roundTrip / minimumRange) + (roundTrip % minimumRange > 0 ? 1 : 0);
 
+        gridPath = missionPath.getGrids(airbase, targetAirbase);
+        gridPath = missionPath.addInBound(gridPath);
+
+        gridPath.forEach(grid -> log.info("Grid path: '{}'", grid.getMapReference()));
+        currentGrid = 0;
+
         squadrons.takeOff();
+    }
+
+    /**
+     * Progress the mission forward.
+     */
+    @Override
+    public void fly() {
+        int startingGrid = currentGrid;
+
+        int range = squadrons.getMinimumRange();   // The mission moves the minimum range this turn.
+        currentGrid += range;
+
+        if (currentGrid >= gridPath.size()) {      // The mission has returned home.
+            currentGrid = gridPath.size() - 1;
+        }
+
+        List<GameGrid> traversed = gridPath.subList(startingGrid, currentGrid + 1);
+        // get enemy airfields that have CAP and one of the traversed grids is a CAP grid. Get the best grid for CAP intercept for the airfield/taskforce.
+        //    in the future will need to account for cap mission zones.
+        // for each airfield do cap intercept.
     }
 
     /**
@@ -162,6 +196,17 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
         // Resolve the squadrons attack on the enemy airfield.
         targetAirbase = getTarget();
         targetAirbase.resolveAttack(squadrons);
+    }
+
+    /**
+     * Recall the mission.
+     */
+    @Override
+    public void recall() {
+        // The new current grid is the corresponding grid on the inbound leg of the mission.
+        // This is the grid that is current grid from the last grid. The -1 is to get the last
+        // grid index.
+        currentGrid = gridPath.size() - currentGrid - 1;
     }
 
     /**
@@ -220,7 +265,6 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
     @Override
     public void addSquadrons() {
         targetAirbase = getTarget();
-
         squadrons.add(targetAirbase, AirMissionType.LAND_STRIKE);
     }
 

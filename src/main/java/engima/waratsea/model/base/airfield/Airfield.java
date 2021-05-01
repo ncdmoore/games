@@ -602,6 +602,9 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
 
         int numDestroyedSteps = numTurnedAwaySteps / 2;
 
+        log.info("Number squadron steps turned away: '{}'", numTurnedAwaySteps);
+        log.info("Number squadron steps destroyed: '{}'", numDestroyedSteps);
+
         enemySquadrons.turnAway(numTurnedAwaySteps);
         enemySquadrons.destroy(numDestroyedSteps);
     }

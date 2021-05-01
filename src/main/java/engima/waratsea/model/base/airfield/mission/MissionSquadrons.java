@@ -24,6 +24,7 @@ public class MissionSquadrons {
     @Getter private Map<MissionRole, List<Squadron>> squadronMap;
 
     @Getter private final List<Squadron> turnedAway = new ArrayList<>();
+    @Getter private int destroyedSquadronCount;
 
     private final Dice dice;
 
@@ -177,6 +178,10 @@ public class MissionSquadrons {
         for (int i = 0; i < numStepsToTurnAway; i++) {
             int numAttackingSquadrons = squadronMap.get(MissionRole.MAIN).size();
 
+            if (numAttackingSquadrons <= 0) {
+                break;
+            }
+
             // Pick a random squadron to turn away.
             int squadronIndex = dice.roll(numAttackingSquadrons) - 1;  // list indices start at 0.
 
@@ -184,7 +189,9 @@ public class MissionSquadrons {
                 Squadron squadron = squadronMap.get(MissionRole.MAIN).get(squadronIndex);
                 squadron.reduceEffectiveStrength();
 
-                turnedAway.add(squadron);
+                if (!turnedAway.contains(squadron)) {
+                    turnedAway.add(squadron);
+                }
 
                 if (squadron.isNotEffective()) {
                     // Remove the squadron so it cannot be turned away again.
@@ -193,6 +200,8 @@ public class MissionSquadrons {
                 }
             }
         }
+
+        squadronMap.get(MissionRole.MAIN).addAll(turnedAway);
     }
 
     /**
@@ -203,6 +212,10 @@ public class MissionSquadrons {
     public void destroy(final int numStepsToDestroy) {
         for (int i = 0; i < numStepsToDestroy; i++) {
             int numTurnedAwaySquadrons = turnedAway.size();
+
+            if (numTurnedAwaySquadrons <= 0) {
+                break;
+            }
 
             int squadronIndex = dice.roll(numTurnedAwaySquadrons) - 1; // list indices start at 0.
 
@@ -215,6 +228,8 @@ public class MissionSquadrons {
                     turnedAway.remove(squadron);
                     Airbase airbase = squadron.getHome();
                     airbase.removeSquadron(squadron);
+
+                    destroyedSquadronCount++;
                 }
             }
         }

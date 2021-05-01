@@ -10,5 +10,6 @@ public enum SquadronAction {
     REMOVE_FROM_MISSION,
     TAKE_OFF,
     LAND,
-    REFIT
+    REFIT,
+    SHOT_DOWN
 }

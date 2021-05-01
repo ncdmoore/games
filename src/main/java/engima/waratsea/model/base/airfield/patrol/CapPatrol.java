@@ -10,18 +10,17 @@ import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.rules.GameRules;
 import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
-import engima.waratsea.model.squadron.state.SquadronAction;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Slf4j
@@ -32,7 +31,11 @@ public class CapPatrol implements Patrol {
 
     private final PatrolAirRules capRules;
     private final GameRules gameRules;
-    private final List<Squadron> squadrons;
+    private final PatrolSquadrons squadrons;
+    private final PatrolPath patrolPath;
+
+    private Map<Integer, List<GameGrid>> gridPath;
+
     @Getter private final Airbase airbase;
     @Getter private int maxRadius;
 
@@ -42,25 +45,25 @@ public class CapPatrol implements Patrol {
      * @param data The CAP patrol data read in from a JSON file.
      * @param capRules The CAP air rules.
      * @param gameRules The game rules.
+     * @param squadrons The squadrons on patrol.
+     * @param patrolPath The patrol's grid path.
      */
     @Inject
     public CapPatrol(@Assisted final PatrolData data,
                                final @Named("cap") PatrolAirRules capRules,
-                               final GameRules gameRules) {
+                               final GameRules gameRules,
+                               final PatrolSquadrons squadrons,
+                               final PatrolPath patrolPath) {
         this.capRules = capRules;
         this.gameRules = gameRules;
+        this.squadrons = squadrons;
+        this.patrolPath = patrolPath;
 
         airbase = data.getAirbase();
 
-        squadrons = Optional.ofNullable(data.getSquadrons())
-                .orElseGet(Collections::emptyList)
-                .stream()
-                .map(airbase::getSquadron)
-                .collect(Collectors.toList());
+        squadrons.setSquadrons(data.getSquadrons(), airbase);
 
-        if (!squadrons.isEmpty()) {
-            maxRadius = RADIUS;
-        }
+        setMaxRadius();
     }
 
     /**
@@ -71,16 +74,7 @@ public class CapPatrol implements Patrol {
     @Override
     public PatrolData getData() {
         PatrolData data = new PatrolData();
-
-        List<String> names = Optional
-                .ofNullable(squadrons)
-                .orElseGet(Collections::emptyList)
-                .stream()
-                .map(Squadron::getName)
-                .collect(Collectors.toList());
-
-        data.setSquadrons(names);
-
+        data.setSquadrons(squadrons.getData());
         return  data;
     }
 
@@ -101,7 +95,7 @@ public class CapPatrol implements Patrol {
      */
     @Override
     public List<Squadron> getAssignedSquadrons() {
-        return squadrons;
+        return squadrons.get();
     }
 
     /**
@@ -112,10 +106,7 @@ public class CapPatrol implements Patrol {
      */
     @Override
     public List<Squadron> getAssignedSquadrons(final Nation nation) {
-        return squadrons
-                .stream()
-                .filter(squadron -> squadron.ofNation(nation))
-                .collect(Collectors.toList());
+        return squadrons.get(nation);
     }
 
     /**
@@ -125,11 +116,9 @@ public class CapPatrol implements Patrol {
      */
     @Override
     public void addSquadron(final Squadron squadron) {
-        if (canAdd(squadron)) {   //Make sure the squadron is actuall deployed at the airbase.
-            squadrons.add(squadron);
-            squadron.setState(SquadronAction.ASSIGN_TO_PATROL);
-            squadron.equip(this);
-            maxRadius = RADIUS;
+        if (canAdd(squadron)) {   //Make sure the squadron is actually deployed at the airbase.
+            squadrons.add(squadron, this);
+            updateMaxRadius();
         } else {
             log.error("Unable to add squadron: '{}' to patrol. Squadron not deployed to airbase: '{}' or unable to perform CAP", squadron, airbase);
         }
@@ -143,12 +132,7 @@ public class CapPatrol implements Patrol {
     @Override
     public void removeSquadron(final Squadron squadron) {
         squadrons.remove(squadron);
-        squadron.setState(SquadronAction.REMOVE_FROM_PATROL);
-        squadron.unEquip();
-
-        if (squadrons.isEmpty()) {
-            maxRadius = 0;
-        }
+        updateMaxRadius();
     }
 
     /**
@@ -161,7 +145,7 @@ public class CapPatrol implements Patrol {
      */
     @Override
     public List<Squadron> getAssignedSquadrons(final int targetRadius) {
-        return (targetRadius <= RADIUS) ?  squadrons : Collections.emptyList();
+        return (targetRadius <= RADIUS) ?  squadrons.get() : Collections.emptyList();
     }
 
     /**
@@ -181,10 +165,8 @@ public class CapPatrol implements Patrol {
      */
     @Override
     public void clearSquadrons() {
-        squadrons.forEach(squadron -> squadron.setState(SquadronAction.REMOVE_FROM_PATROL));
-
         squadrons.clear();
-        maxRadius = 0;
+        updateMaxRadius();
     }
 
     /**
@@ -194,13 +176,8 @@ public class CapPatrol implements Patrol {
      */
     @Override
     public void clearSquadrons(final Nation nation) {
-        List<Squadron> toRemove = squadrons.stream()
-                .filter(squadron -> squadron.ofNation(nation))
-                .peek(squadron -> squadron.setState(SquadronAction.REMOVE_FROM_PATROL))
-                .collect(Collectors.toList());
-
-        squadrons.removeAll(toRemove);
-        maxRadius = squadrons.isEmpty() ? 0 : RADIUS;
+        squadrons.clear(nation);
+        updateMaxRadius();
     }
 
     /**
@@ -215,7 +192,8 @@ public class CapPatrol implements Patrol {
                 .boxed()
                 .sorted(Collections.reverseOrder())
                 .filter(radius -> getSuccessRate(radius) > 0)
-                .findFirst().orElse(0);    }
+                .findFirst().orElse(0);
+    }
 
     /**
      * Get the best allowed squadron configuration for this patrol.
@@ -259,5 +237,33 @@ public class CapPatrol implements Patrol {
      */
     private boolean canAdd(final Squadron squadron) {
         return squadron.canDoPatrol(PatrolType.CAP) && airbase.getSquadrons().contains(squadron);
+    }
+
+    /**
+     * Set the patrol's max radius.
+     */
+    private void setMaxRadius() {
+        maxRadius = squadrons.isNotEmpty() ? RADIUS : 0;
+        gridPath = patrolPath.getGrids(this);
+    }
+
+    /**
+     * Calculate the patrol's grid path.
+     */
+    private void calculatePath() {
+        gridPath = patrolPath.getGrids(this);
+    }
+
+    /**
+     * Update the patrols maximum radius if it has changed.
+     * If the maximum radius has changed then re-calculate the patrol's grid path.
+     */
+    private void updateMaxRadius() {
+        int newMaxRadius = squadrons.isNotEmpty() ? RADIUS : 0;
+
+        if (maxRadius != newMaxRadius) {
+            maxRadius = newMaxRadius;
+            calculatePath();
+        }
     }
 }

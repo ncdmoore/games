@@ -24,6 +24,9 @@ public class GridView {
     @Getter
     private final int size;
 
+    @Getter
+    private final Point center;
+
     /**
      * Create a map grid.
      *
@@ -40,5 +43,31 @@ public class GridView {
         this.y = row * size + yOffset;                                  // y-coordinate of the top left corner.
 
         this.size = size;
+
+        int xCenter = x + (size / 2);
+        int yCenter = y - (size / 2);
+
+        center = new Point(xCenter, yCenter);
     }
+
+    public GridView(final int size, final Point point) {
+        this.x = point.getX();
+        this.y = point.getY();
+        this.size = size;
+
+        this.column = x / size;
+
+        int yOffset = (column & 1) == 1 ? size / 2 : 0;
+
+        double r = (double) ((y - yOffset)) / size;
+
+        this.row = (int) Math.ceil(r); //always round up to get the correct row.
+
+        int xCenter = x + (size / 2);
+        int yCenter = y - (size / 2);
+
+        center = new Point(xCenter, yCenter);
+    }
+
+
 }

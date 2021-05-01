@@ -10,6 +10,7 @@ import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.target.Target;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @Slf4j
 public class Ferry extends AirMissionExecutor implements AirMission  {
     private final Game game;
+    private final AirMissionPath missionPath;
 
     @Getter private final AirMissionType type = AirMissionType.FERRY;
     @Getter private AirMissionState state;
@@ -37,17 +39,22 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
     private int startTurn;                     //The game turn on which the mission starts.
     private int turnsToTarget;                 //How many game turns elapse before the mission lands at the ending airbase.
 
+    private List<GameGrid> gridPath;
+    private int currentGrid;
+
     /**
      * Constructor called by guice.
      *
      * @param data The mission data read in from a JSON file.
      * @param game The game.
      * @param squadrons The squadron on this mission.
+     * @param missionPath The mission's path.
      */
     @Inject
     public Ferry(@Assisted final MissionData data,
                            final Game game,
-                           final MissionSquadrons squadrons) {
+                           final MissionSquadrons squadrons,
+                           final AirMissionPath missionPath) {
         id = data.getId();
 
         state = Optional
@@ -55,6 +62,7 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
                 .orElse(AirMissionState.READY);
 
         this.game = game;
+        this.missionPath = missionPath;
         nation = data.getNation();
         this.squadrons = squadrons;
 
@@ -109,8 +117,33 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
         int minimumRange = squadrons.getMinimumRange();
 
         turnsToTarget = (distance / minimumRange) + (distance % minimumRange > 0 ? 1 : 0);
+        gridPath = missionPath.getGrids(startingAirbase, endingAirbase);
+
+        gridPath.forEach(grid -> log.info("Grid path: '{}'", grid.getMapReference()));
+        currentGrid = 0;
 
         squadrons.takeOff();
+    }
+
+    /**
+     * Progress the mission forward.
+     */
+    @Override
+    public void fly() {
+        int startingGrid = currentGrid;
+
+        int range = squadrons.getMinimumRange();   // The mission moves the minimum range this turn.
+        currentGrid += range;
+
+        if (currentGrid >= gridPath.size()) {      // The mission has reached it's target. It's new home airbase.
+            currentGrid = gridPath.size() - 1;
+        }
+
+        List<GameGrid> traversed = gridPath.subList(startingGrid, currentGrid + 1);
+
+        // get enemy airfields that have CAP and one of the traversed grids is a CAP grid. Get the best grid for CAP intercept for the airfield/taskforce.
+        //    in the future will need to account for cap mission zones.
+        // for each airfield do cap intercept.
     }
 
     /**
@@ -121,6 +154,16 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
     }
 
     /**
+     * Recall the mission.
+     */
+    @Override
+    public void recall() {
+        gridPath = gridPath.subList(0, currentGrid + 1);
+        Collections.reverse(gridPath);
+        currentGrid = 0;
+    }
+
+    /**
      * Land the mission. Squadrons land.
      */
     @Override
@@ -128,6 +171,7 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
         squadrons.getAll().forEach(startingAirbase::removeSquadron);   // Remove the squadrons from their old airbase.
         endingAirbase = getTarget();
         endingAirbase.land(squadrons);
+        currentGrid = gridPath.size() - 1;                             // The mission has now landed at its new home airbase.
     }
 
     /**

@@ -104,8 +104,6 @@ public class PatrolTest {
         int maxRadius = patrol.getTrueMaxRadius();
 
         Assert.assertEquals(6, maxRadius);
-
-
     }
 
     private Squadron buildSquadronSeaplaneRecon() {

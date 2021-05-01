@@ -18,6 +18,7 @@ public enum AirMissionState {
 
             if (action == AirMissionAction.EXECUTE) {
                 mission.launch();
+                mission.fly();
                 newState = OUT_BOUND;
 
                 if (mission.reachedTarget()) {
@@ -42,6 +43,8 @@ public enum AirMissionState {
 
             switch (action) {
                 case EXECUTE:
+                    mission.fly();
+
                     if (mission.reachedTarget()) {
                         mission.execute();
                         newState = IN_BOUND;
@@ -55,6 +58,9 @@ public enum AirMissionState {
                     }
                     break;
                 case RECALL:
+
+                    mission.recall();
+
                     newState = IN_BOUND;
                     break;
                 default:
@@ -70,6 +76,8 @@ public enum AirMissionState {
             AirMissionState newState = IN_BOUND;
 
             if (action == AirMissionAction.EXECUTE) {
+                mission.fly();
+
                 if (mission.reachedHome()) {
                     mission.land();
                     newState = DONE;

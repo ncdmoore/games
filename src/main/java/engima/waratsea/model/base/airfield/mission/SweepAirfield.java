@@ -136,12 +136,28 @@ public class SweepAirfield extends AirMissionExecutor implements AirMission {
     }
 
     /**
+     * Progress the mission forward.
+     */
+    @Override
+    public void fly() {
+
+    }
+
+    /**
      * Execute the mission.
      */
     @Override
     public void execute() {
         targetAirbase = getTarget();
         targetAirbase.resolveSweep(squadrons);
+    }
+
+    /**
+     * Recall the mission.
+     */
+    @Override
+    public void recall() {
+
     }
 
     /**

@@ -93,6 +93,18 @@ public enum SquadronState {
         }
     },
 
+    DESTROYED("Destroyed") {
+        /**
+         * Transition to a new state.
+         *
+         * @param action The squadron action or event that occurred.
+         * @return The new squadron state.
+         */
+        public SquadronState transition(final SquadronAction action) {
+            return DESTROYED;
+        }
+    },
+
     ALL("All") { //This is used to get all of the squadrons regardless of their state. It represents 'all' states.
                        //No squadron should ever have this state.
         @Override
@@ -121,8 +133,10 @@ public enum SquadronState {
         QUEUED_FOR_MISSION_MAP.put(SquadronAction.REMOVE_FROM_MISSION, READY);
 
         ON_PATROL_MAP.put(SquadronAction.REMOVE_FROM_PATROL, QUEUED_FOR_HANGER);
+        ON_PATROL_MAP.put(SquadronAction.SHOT_DOWN, DESTROYED);
 
         ON_MISSION_MAP.put(SquadronAction.LAND, HANGER);
+        ON_MISSION_MAP.put(SquadronAction.SHOT_DOWN, DESTROYED);
 
         QUEUED_FOR_HANGER_MAP.put(SquadronAction.LAND, HANGER);
 

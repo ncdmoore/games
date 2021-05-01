@@ -9,9 +9,9 @@ import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.rules.GameRules;
 import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
+import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
-import engima.waratsea.model.squadron.state.SquadronAction;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,22 +19,23 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Slf4j
 public class SearchPatrol implements Patrol {
     private static final LinkedHashSet<SquadronConfig> VALID_SQUADRON_CONFIGS = new LinkedHashSet<>(Arrays.asList(SquadronConfig.SEARCH, SquadronConfig.NONE));
 
-    private final List<Squadron> squadrons;
-
+    private final PatrolSquadrons squadrons;
     @Getter private final Airbase airbase;
     @Getter private int maxRadius;
 
     private final PatrolAirRules searchRules;
     private final GameRules gameRules;
+    private final PatrolPath patrolPath;
+
+    private Map<Integer, List<GameGrid>> gridPath;
 
     /**
      * The constructor.
@@ -42,24 +43,25 @@ public class SearchPatrol implements Patrol {
      * @param data The search patrol data read in from a JSON file.
      * @param searchRules The air search rules.
      * @param gameRules The game rules.
+     * @param squadrons The patrol's squadrons.
+     * @param patrolPath The patrols grid path.
      */
     @Inject
     public SearchPatrol(@Assisted final PatrolData data,
                                   final @Named("search") PatrolAirRules searchRules,
-                                  final GameRules gameRules) {
+                                  final GameRules gameRules,
+                                  final PatrolSquadrons squadrons,
+                                  final PatrolPath patrolPath) {
 
         this.searchRules = searchRules;
         this.gameRules = gameRules;
+        this.squadrons = squadrons;
+        this.patrolPath = patrolPath;
 
         airbase = data.getAirbase();
 
-        squadrons = Optional.ofNullable(data.getSquadrons())
-                .orElseGet(Collections::emptyList)
-                .stream()
-                .map(airbase::getSquadron)
-                .collect(Collectors.toList());
-
-        updateMaxRadius();
+        maxRadius = squadrons.setSquadrons(data.getSquadrons(), airbase);
+        calculatePath();
     }
     /**
      * Get the Patrol data.
@@ -69,16 +71,7 @@ public class SearchPatrol implements Patrol {
     @Override
     public PatrolData getData() {
         PatrolData data = new PatrolData();
-
-        List<String> names = Optional
-                .ofNullable(squadrons)
-                .orElseGet(Collections::emptyList)
-                .stream()
-                .map(Squadron::getName)
-                .collect(Collectors.toList());
-
-        data.setSquadrons(names);
-
+        data.setSquadrons(squadrons.getData());
         return  data;
     }
 
@@ -99,7 +92,7 @@ public class SearchPatrol implements Patrol {
      */
     @Override
     public List<Squadron> getAssignedSquadrons() {
-        return squadrons;
+        return squadrons.get();
     }
 
     /**
@@ -110,10 +103,7 @@ public class SearchPatrol implements Patrol {
      */
     @Override
     public List<Squadron> getAssignedSquadrons(final Nation nation) {
-        return squadrons
-                .stream()
-                .filter(squadron -> squadron.ofNation(nation))
-                .collect(Collectors.toList());
+        return squadrons.get(nation);
     }
 
     /**
@@ -124,10 +114,8 @@ public class SearchPatrol implements Patrol {
     @Override
     public void addSquadron(final Squadron squadron) {
         if (canAdd(squadron)) {   //Make sure the squadron is actual deployed at the airbase.
-            squadrons.add(squadron);
-            squadron.setState(SquadronAction.ASSIGN_TO_PATROL);
-            squadron.equip(this);
-            updateMaxRadius();
+            int newMaxRadius = squadrons.add(squadron, this);
+            updateMaxRadius(newMaxRadius);
         } else {
             log.error("Unable to add squadron: '{}' to patrol. Squadron not deployed to airbase: '{}'", squadron, airbase);
         }
@@ -140,10 +128,8 @@ public class SearchPatrol implements Patrol {
      */
     @Override
     public void removeSquadron(final Squadron squadron) {
-        squadrons.remove(squadron);
-        squadron.setState(SquadronAction.REMOVE_FROM_PATROL);
-        squadron.unEquip();
-        updateMaxRadius();
+        int newMaxRadius = squadrons.remove(squadron);
+        updateMaxRadius(newMaxRadius);
     }
 
     /**
@@ -156,10 +142,7 @@ public class SearchPatrol implements Patrol {
      */
     @Override
     public List<Squadron> getAssignedSquadrons(final int targetRadius) {
-        return squadrons
-                .stream()
-                .filter(squadron -> squadron.getRadius(SquadronConfig.SEARCH) >= targetRadius)
-                .collect(Collectors.toList());
+        return squadrons.get(targetRadius);
     }
 
     /**
@@ -223,10 +206,8 @@ public class SearchPatrol implements Patrol {
      */
     @Override
     public void clearSquadrons() {
-        squadrons.forEach(squadron -> squadron.setState(SquadronAction.REMOVE_FROM_PATROL));
-
-        squadrons.clear();
-        updateMaxRadius();
+        int newMaxRadius = squadrons.clear();
+        updateMaxRadius(newMaxRadius);
     }
 
     /**
@@ -236,14 +217,8 @@ public class SearchPatrol implements Patrol {
      */
     @Override
     public void clearSquadrons(final Nation nation) {
-        List<Squadron> toRemove = squadrons
-                .stream()
-                .filter(squadron -> squadron.ofNation(nation))
-                .peek(squadron -> squadron.setState(SquadronAction.REMOVE_FROM_PATROL))
-                .collect(Collectors.toList());
-
-        squadrons.removeAll(toRemove);
-        updateMaxRadius();
+        int newMaxRadius = squadrons.clear(nation);
+        updateMaxRadius(newMaxRadius);
     }
 
     /**
@@ -257,15 +232,22 @@ public class SearchPatrol implements Patrol {
     }
 
     /**
-     * Update this search's maximum search radius. If the newly added squadron has a greater
-     * radius then the current maximum search radius, then this squadron's search radius
-     * is the new maximum search radius.
-     **/
-    private void updateMaxRadius() {
-        maxRadius = squadrons
-                .stream()
-                .map(squadron -> squadron.getRadius(SquadronConfig.SEARCH))
-                .max(Integer::compare)
-                .orElse(0);
+     * Calculate the patrol's grid path.
+     */
+    private void calculatePath() {
+        gridPath = patrolPath.getGrids(this);
+    }
+
+    /**
+     * Update the patrols maximum radius if it has changed.
+     * If the maximum radius has changed then re-calculate the patrol's grid path.
+     *
+     * @param newMaxRadius The patrol's new maximum radius.
+     */
+    private void updateMaxRadius(final int newMaxRadius) {
+        if (maxRadius != newMaxRadius) {
+            maxRadius = newMaxRadius;
+            calculatePath();
+        }
     }
 }

@@ -11,9 +11,19 @@ public abstract class AirMissionExecutor {
     public abstract void launch();
 
     /**
+     * Progress the mission forward.
+     */
+    public abstract void fly();
+
+    /**
      * Execute the mission.
      */
     public abstract void execute();
+
+    /**
+     * Recall the mission.
+     */
+    public abstract void recall();
 
     /**
      * Land the mission. Squadrons land.

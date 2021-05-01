@@ -3,6 +3,8 @@ package engima.waratsea.model.map;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 /**
  * Represents map grid coordinates. This is a single rectangular grid.
  */
@@ -32,6 +34,36 @@ public class GameGrid {
         this.row = row;
         this.column = column;
         this.mapReference = buildMapReference();
+    }
+
+    /**
+     * Determine if this game grid is equal to another grid.
+     *
+     * @param o The other grid.
+     * @return True if this grid is equal to the given other gird. False otherwise.
+     */
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        GameGrid grid = (GameGrid) o;
+        return row == grid.row && column == grid.column;
+    }
+
+    /**
+     * The hash code for this class.
+     *
+     * @return This object's hash code.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
     }
 
     /**

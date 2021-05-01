@@ -542,6 +542,9 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      */
     public void reduceStrength() {
         strength = strength.reduce();
+        if (strength == SquadronStrength.ZERO) {
+            state = state.transition(SquadronAction.SHOT_DOWN);
+        }
     }
 
     /**
