@@ -17,6 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class represents a naval task force stirke mission.
+ */
 @Slf4j
 public class NavalTaskForceStrike extends AirMissionExecutor implements AirMission {
     @Getter private final int id;
