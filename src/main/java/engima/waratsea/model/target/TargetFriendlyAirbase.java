@@ -235,6 +235,17 @@ public class TargetFriendlyAirbase implements Target {
         return gameMap.determineDistance(targetReference, airbaseReference);
     }
 
+    /**
+     * Get the distance to this target from the given game grid.
+     *
+     * @param grid The game grid whose distance to target is returned.
+     * @return The distance to this target from the given game grid.
+     */
+    @Override
+    public int getDistance(final GameGrid grid) {
+        String targetReference = gameMap.convertNameToReference(getReference());
+        return gameMap.determineDistance(targetReference, grid.getMapReference());
+    }
 
     /**
      * Determine if the given squadron is allowed to attack this target.

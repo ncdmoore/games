@@ -1,8 +1,8 @@
 package engima.waratsea.model.base.airfield.mission.state;
 
 /**
- * This class servers as the 'view' of the air mission state class of the actual mission classes.
- * It lets the state classes call methods on the air missions that others should not call.
+ * This class serves as the 'view' of the air mission state class of the actual mission classes.
+ * It lets the state classes call methods on the air missions that other classes should not call.
  */
 public abstract class AirMissionExecutor {
     /**

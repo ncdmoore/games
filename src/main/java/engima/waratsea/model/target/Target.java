@@ -145,6 +145,14 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
     int getDistance(Airbase airbase);
 
     /**
+     * Get the distance to this target from the given game grid.
+     *
+     * @param grid The game grid whose distance to target is returned.
+     * @return The distance to this target from the given game grid.
+     */
+    int getDistance(GameGrid grid);
+
+    /**
      * Determine if the airbase that is the target has capacity to support additional squadron steps.
      *
      * @param excludedAirbase An airbase to exclude in determining the number of mission

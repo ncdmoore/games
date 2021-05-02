@@ -15,6 +15,7 @@ import engima.waratsea.model.target.Target;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -33,9 +34,10 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
     @Getter private final Nation nation;
 
     private final Airbase startingAirbase;
-    private final String endingAirbaseName;    //The name of the destination air base.
+    private String endingAirbaseName;          //The name of the destination air base.
     private Target endingAirbase;              //The actual destination air base.
     @Getter private final MissionSquadrons squadrons;
+    private int range;
     private int startTurn;                     //The game turn on which the mission starts.
     private int turnsToTarget;                 //How many game turns elapse before the mission lands at the ending airbase.
 
@@ -113,13 +115,14 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
 
         startTurn = game.getTurn().getNumber();
 
-        int distance = endingAirbase.getDistance(startingAirbase);
-        int minimumRange = squadrons.getMinimumRange();
+        range = squadrons.getMinimumRange();   // The mission moves the minimum range this turn.
 
-        turnsToTarget = (distance / minimumRange) + (distance % minimumRange > 0 ? 1 : 0);
+        int distance = endingAirbase.getDistance(startingAirbase);
+        turnsToTarget = getTurnsToTarget(distance);
+
         gridPath = missionPath.getGrids(startingAirbase, endingAirbase);
 
-        gridPath.forEach(grid -> log.info("Grid path: '{}'", grid.getMapReference()));
+        gridPath.forEach(grid -> log.debug("Grid path: '{}'", grid.getMapReference()));
         currentGrid = 0;
 
         squadrons.takeOff();
@@ -132,7 +135,6 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
     public void fly() {
         int startingGrid = currentGrid;
 
-        int range = squadrons.getMinimumRange();   // The mission moves the minimum range this turn.
         currentGrid += range;
 
         if (currentGrid >= gridPath.size()) {      // The mission has reached it's target. It's new home airbase.
@@ -154,13 +156,25 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
     }
 
     /**
-     * Recall the mission.
+     * Recall the mission. The mission will now land at the original airbase. The ferry is cancelled.
      */
     @Override
     public void recall() {
-        gridPath = gridPath.subList(0, currentGrid + 1);
+        // Set the grid path to be the grids already traversed, but in reverse order.
+        // The squadrons are flying back to their original starting airbase.
+        gridPath = new ArrayList<>(gridPath.subList(0, currentGrid + 1));
         Collections.reverse(gridPath);
         currentGrid = 0;
+
+        // Set the new ending airbase to the original starting airbase.
+        endingAirbaseName = startingAirbase.getName();
+        endingAirbase = getEndingAirbase(endingAirbaseName);
+
+        // Get the distance to the original airbase from current grid.
+        int distance = endingAirbase.getDistance(gridPath.get(currentGrid));
+
+        // The turns to target is updated to reflect the turns to reach the original airbase.
+        turnsToTarget = getTurnsToTarget(distance);
     }
 
     /**
@@ -220,7 +234,7 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
     @Override
     public Target getTarget() {
         return Optional.ofNullable(endingAirbase)
-                .orElseGet(this::getEndingAirbase);
+                .orElseGet(() -> getEndingAirbase(endingAirbaseName));
     }
 
     /**
@@ -275,17 +289,23 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
     /**
      * Get the destination or target air base.
      *
+     * @param airbaseName The ending airbase's name.
      * @return The destination air base.
      */
-    private Target getEndingAirbase() {
+    private Target getEndingAirbase(final String airbaseName) {
         endingAirbase = game
                 .getPlayer(startingAirbase.getSide())
                 .getTargets(AirMissionType.FERRY, nation)
                 .stream()
-                .filter(target -> target.getName().equalsIgnoreCase(endingAirbaseName))
+                .filter(target -> target.getName().equalsIgnoreCase(airbaseName))
                 .findAny()
                 .orElse(null);
 
         return endingAirbase;
     }
+
+    private int getTurnsToTarget(final int distance) {
+        return (distance / range) + (distance % range > 0 ? 1 : 0);
+    }
+
 }

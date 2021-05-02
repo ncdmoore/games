@@ -3,6 +3,7 @@ package enigma.waratsea.model.base.airfield.mission;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import engima.waratsea.model.aircraft.LandingType;
+import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
@@ -23,6 +24,7 @@ import engima.waratsea.model.game.TurnIndex;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.map.region.RegionFactory;
 import engima.waratsea.model.map.region.data.RegionData;
+import engima.waratsea.model.player.Player;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
@@ -70,6 +72,7 @@ public class MissionTest {
         targetFactory = injector.getInstance(TargetFactory.class);
         airfieldViewFactory = injector.getInstance(AirfieldViewFactory.class);
 
+        game.setHumanSide(Side.ALLIES);
         initTurn();
     }
 
@@ -110,12 +113,30 @@ public class MissionTest {
     }
 
     @Test
+    public void testFerryRecall() {
+        Airfield endingAirfield = buildFamagustaAirfield();
+        Target friendlyAirfield = buildFriendlyAirfieldTarget(endingAirfield);
+        Squadron squadron = buildSunderlandSquadron();
+
+        testFerryRecall(squadron, endingAirfield, friendlyAirfield);
+    }
+
+    @Test
     public void testLandAttackEtaTwoTurns2() {
         Airfield enemyAirfield = buildRhodesAirfield();
         Target enemyAirfieldTarget = buildEnemyAirfield(enemyAirfield);
         Squadron squadron = buildSunderlandSquadron();
 
         testLandAttack(2, squadron, enemyAirfield, enemyAirfieldTarget);
+    }
+
+    @Test
+    public void testLandAttackEtaTwoTurnsRecall() {
+        Airfield enemyAirfield = buildRhodesAirfield();
+        Target enemyAirfieldTarget = buildEnemyAirfield(enemyAirfield);
+        Squadron squadron = buildSunderlandSquadron();
+
+        testLandAttackRecall(squadron, enemyAirfield, enemyAirfieldTarget);
     }
 
     private void testFerry(final int targetEta, final Squadron squadron, final Airfield endingAirfield, final Target friendlyAirfield) {
@@ -146,10 +167,10 @@ public class MissionTest {
         mission.doAction(AirMissionAction.CREATE);
 
         Assert.assertEquals(AirMissionState.LAUNCHING, mission.getState());
-        Assert.assertEquals(SquadronState.QUEUED_FOR_MISSION, squadron.getState());           // Squadron is queued.
+        Assert.assertEquals(SquadronState.QUEUED_FOR_MISSION, squadron.getState()); // Squadron is queued.
 
         int turns = 1;
-        mission.doAction(AirMissionAction.EXECUTE); // Execute a turn.
+        mission.doAction(AirMissionAction.EXECUTE);                                 // Execute a turn.
 
         int distance = friendlyAirfield.getDistance(startingAirfield);
         int range = squadron.getRange(SquadronConfig.NONE);
@@ -161,19 +182,83 @@ public class MissionTest {
         Assert.assertEquals(eta, turnsToTarget);
 
         for (int i = turns; i < turnsToTarget; i++) {
-            Assert.assertEquals(AirMissionState.OUT_BOUND, mission.getState());   // Mission takes multiple turns and is out-bound.
-            Assert.assertEquals(SquadronState.ON_MISSION, squadron.getState());   // Squadron is on the mission.
-            game.getTurn().next();                                                // Start a new game turn.
-            mission.doAction(AirMissionAction.EXECUTE);                           // Execute the new game turn.
+            Assert.assertEquals(AirMissionState.OUT_BOUND, mission.getState());     // Mission takes multiple turns and is out-bound.
+            Assert.assertEquals(SquadronState.ON_MISSION, squadron.getState());     // Squadron is on the mission.
+            game.getTurn().next();                                                  // Start a new game turn.
+            mission.doAction(AirMissionAction.EXECUTE);                             // Execute the new game turn.
             turns++;
         }
 
-        Assert.assertEquals(AirMissionState.DONE, mission.getState());            // Mission is done.
+        Assert.assertEquals(AirMissionState.DONE, mission.getState());              // Mission is done.
 
-        Assert.assertEquals(endingAirfield, squadron.getHome());                  // Squadron has a new home.
-        Assert.assertEquals(SquadronState.HANGER, squadron.getState());           // Squadron is in the hanger.
+        Assert.assertEquals(endingAirfield, squadron.getHome());                    // Squadron has a new home.
+        Assert.assertEquals(SquadronState.HANGER, squadron.getState());             // Squadron is in the hanger.
+    }
 
+    private void testFerryRecall(final Squadron squadron, final Airfield endingAirfield, final Target friendlyAirfield) {
+        Region region = buildEgyptRegion();
 
+        Airfield startingAirfield = buildAlexandriaAirfield();
+
+        startingAirfield.addRegion(region);
+        endingAirfield.addRegion(region);
+
+        startingAirfield.addSquadron(squadron);
+
+        Deencapsulation.setField(friendlyAirfield, "airbase", endingAirfield);
+
+        MissionData data = new MissionData();
+        data.setAirbase(startingAirfield);
+        data.setNation(squadron.getNation());
+        data.setTarget(friendlyAirfield.getName());
+        data.setSquadronMap(getSquadronMap(List.of(squadron)));
+
+        AirMission mission = missionFactory.createFerry(data);
+
+        Deencapsulation.setField(mission, "endingAirbase", friendlyAirfield);
+        mission.addSquadrons();
+
+        Assert.assertEquals(AirMissionState.READY, mission.getState());
+
+        mission.doAction(AirMissionAction.CREATE);
+
+        Assert.assertEquals(AirMissionState.LAUNCHING, mission.getState());
+        Assert.assertEquals(SquadronState.QUEUED_FOR_MISSION, squadron.getState()); // Squadron is queued.
+
+        mission.doAction(AirMissionAction.EXECUTE);                                 // Execute a turn.
+
+        int distance = friendlyAirfield.getDistance(startingAirfield);
+        int range = squadron.getRange(SquadronConfig.NONE);
+        int eta = (distance / range) + (distance % range > 0 ? 1 : 0);
+
+        int turnsToTarget = Deencapsulation.getField(mission, "turnsToTarget");
+
+        final int targetEta = 2;
+        Assert.assertEquals(targetEta, eta);
+        Assert.assertEquals(eta, turnsToTarget);
+
+        // Add the starting airfield to the player's list of airbases, so the ferry mission
+        // can find it and create a target based off of it. This allows the squadrons to
+        // land at the new target which is their original starting airfield.
+        Map<String, Airbase> airbaseMap = Map.of(startingAirfield.getName(), startingAirfield);
+        Player humanPlayer = game.getPlayer(Side.ALLIES);
+
+        Deencapsulation.setField(humanPlayer, "airbaseMap", airbaseMap);
+
+        mission.doAction(AirMissionAction.RECALL);
+
+        Assert.assertEquals(AirMissionState.IN_BOUND, mission.getState());         // Mission is in-bound.
+
+        turnsToTarget = Deencapsulation.getField(mission, "turnsToTarget");
+
+        Assert.assertEquals(1, turnsToTarget);                            // Mission should be able to return in a single turn since
+                                                                                   // only a single turn has been executed.
+
+        mission.doAction(AirMissionAction.EXECUTE);                                // Execute the new game turn.
+
+        Assert.assertEquals(AirMissionState.DONE, mission.getState());             // Mission is done.
+        Assert.assertEquals(startingAirfield, squadron.getHome());                 // Squadron the same home.
+        Assert.assertEquals(SquadronState.HANGER, squadron.getState());            // Squadron is in the hanger.
     }
 
     private void testLandAttack(final int targetEta, final Squadron squadron, final Airfield enemyAirfield, final Target enemyAirfieldTarget) {
@@ -205,10 +290,10 @@ public class MissionTest {
         mission.doAction(AirMissionAction.CREATE);
 
         Assert.assertEquals(AirMissionState.LAUNCHING, mission.getState());
-        Assert.assertEquals(SquadronState.QUEUED_FOR_MISSION, squadron.getState());           // Squadron is queued.
+        Assert.assertEquals(SquadronState.QUEUED_FOR_MISSION, squadron.getState()); // Squadron is queued.
 
         int turns = 1;
-        mission.doAction(AirMissionAction.EXECUTE); // Execute a turn.
+        mission.doAction(AirMissionAction.EXECUTE);                                 // Execute a turn.
 
         int distance = enemyAirfieldTarget.getDistance(airfield);
         int range = squadron.getRange(SquadronConfig.NONE);
@@ -247,6 +332,65 @@ public class MissionTest {
             Assert.assertEquals(SquadronState.DESTROYED, squadron.getState());      // Squadron is destroyed.
             Assert.assertNull(squadron.getHome());                                  // The squadron is now homeless
         }
+    }
+
+    private void testLandAttackRecall(final Squadron squadron, final Airfield enemyAirfield, final Target enemyAirfieldTarget) {
+        Region region = buildEgyptRegion();
+
+        Airfield airfield = buildAlexandriaAirfield();
+
+        airfield.addRegion(region);
+
+        airfield.addSquadron(squadron);
+
+        AirfieldView enemyAirfieldView = buildAirfieldView(enemyAirfield);
+
+        Deencapsulation.setField(enemyAirfieldTarget, "airfieldView", enemyAirfieldView);
+
+        MissionData data = new MissionData();
+        data.setAirbase(airfield);
+        data.setNation(squadron.getNation());
+        data.setTarget(enemyAirfieldView.getName());
+        data.setSquadronMap(getSquadronMap(List.of(squadron)));
+
+        AirMission mission = missionFactory.createLandStrike(data);
+
+        Deencapsulation.setField(mission, "targetAirbase", enemyAirfieldTarget);
+        mission.addSquadrons();
+
+        Assert.assertEquals(AirMissionState.READY, mission.getState());
+
+        mission.doAction(AirMissionAction.CREATE);
+
+        Assert.assertEquals(AirMissionState.LAUNCHING, mission.getState());
+        Assert.assertEquals(SquadronState.QUEUED_FOR_MISSION, squadron.getState()); // Squadron is queued.
+
+        mission.doAction(AirMissionAction.EXECUTE);                                 // Execute a turn.
+
+        int distance = enemyAirfieldTarget.getDistance(airfield);
+        int range = squadron.getRange(SquadronConfig.NONE);
+        int eta = (distance / range) + (distance % range > 0 ? 1 : 0);
+
+        int turnsToTarget = Deencapsulation.getField(mission, "turnsToTarget");
+
+        final int targetEta = 2;
+        Assert.assertEquals(targetEta, eta);
+        Assert.assertEquals(eta, turnsToTarget);
+
+        mission.doAction(AirMissionAction.RECALL);
+
+        Assert.assertEquals(AirMissionState.IN_BOUND, mission.getState());          // Mission is in-bound.
+
+        int turnsToHome = Deencapsulation.getField(mission, "turnsToHome");
+
+        Assert.assertEquals(1, turnsToHome);                              // Mission should be able to return in a single turn since
+                                                                                   // only a single turn has been executed.
+
+        mission.doAction(AirMissionAction.EXECUTE);                                // Execute the new game turn.
+
+        Assert.assertEquals(AirMissionState.DONE, mission.getState());             // Mission is done.
+        Assert.assertEquals(airfield, squadron.getHome());                         // Squadron the same home.
+        Assert.assertEquals(SquadronState.HANGER, squadron.getState());            // Squadron is in the hanger.
     }
 
     private Airfield buildAlexandriaAirfield() {

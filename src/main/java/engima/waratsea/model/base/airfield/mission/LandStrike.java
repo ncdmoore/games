@@ -67,6 +67,7 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
 
     private final String targetBaseName;      //The name of the target air base.
     private Target targetAirbase;             //The actual target air base.
+    private int range;
     private int startTurn;                    //The game turn on which the mission starts.
     private int turnsToTarget;                //How many turns it takes to reach the target.
     private int turnsToHome;                  //How many turns it takes to return to the starting airbase.
@@ -152,12 +153,13 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
 
         startTurn = game.getTurn().getNumber();
 
+        range = squadrons.getMinimumRange();   // The mission moves the minimum range this turn.
+
         int distance = targetAirbase.getDistance(airbase);
         int roundTrip = distance * 2;
-        int minimumRange = squadrons.getMinimumRange();
 
-        turnsToTarget = (distance / minimumRange) + (distance % minimumRange > 0 ? 1 : 0);
-        turnsToHome = (roundTrip / minimumRange) + (roundTrip % minimumRange > 0 ? 1 : 0);
+        turnsToTarget = getTurnsToDistance(distance);
+        turnsToHome = getTurnsToDistance(roundTrip);
 
         gridPath = missionPath.getGrids(airbase, targetAirbase);
         gridPath = missionPath.addInBound(gridPath);
@@ -175,7 +177,6 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
     public void fly() {
         int startingGrid = currentGrid;
 
-        int range = squadrons.getMinimumRange();   // The mission moves the minimum range this turn.
         currentGrid += range;
 
         if (currentGrid >= gridPath.size()) {      // The mission has returned home.
@@ -199,14 +200,31 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
     }
 
     /**
-     * Recall the mission.
+     * Recall the mission. The squadrons return to base without having executed the mission.
      */
     @Override
     public void recall() {
+        // The last grid index should be the mission originating airbase's game grid.
+        int lastGridIndex = gridPath.size() - 1;
+
         // The new current grid is the corresponding grid on the inbound leg of the mission.
-        // This is the grid that is current grid from the last grid. The -1 is to get the last
-        // grid index.
-        currentGrid = gridPath.size() - currentGrid - 1;
+        // This is the grid that is current grid from the last grid.
+        // Grid path is of the form:
+        //
+        //  outBound-0 ... outBound-N, outBound-N+1 ... Target ... inBound-N+1, inBound-N ... inBound-0
+        //
+        // where outBound-N and inBound-N are the same distance from the starting airbase
+        // (ouBound-0 and inBound-0). In fact, outBound-N = inBound-N.
+        //
+        // Note, the grid path always contains an odd number of grids for round trip missions.
+        currentGrid = lastGridIndex - currentGrid;
+
+        // Get the distance to the original airbase from current grid. The new current grid of
+        // the inbound leg.
+        int distance = lastGridIndex - currentGrid;
+
+        turnsToHome = getTurnsToDistance(distance);
+        turnsToTarget = -1; // This should not be used anymore. Set it to an invalid value.
     }
 
     /**
@@ -465,5 +483,9 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
      */
     private int getFactor(final Squadron squadron) {
         return squadron.getAttack(AttackType.LAND).getFactor();
+    }
+
+    private int getTurnsToDistance(final int distance) {
+        return (distance / range) + (distance % range > 0 ? 1 : 0);
     }
 }
