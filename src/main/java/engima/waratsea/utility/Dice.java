@@ -47,7 +47,7 @@ public class Dice {
 
     /**
      * Get the probability of an individual successful die roll given the number of
-     * successful outcomes. For example, if both a 5 and 6 are a successful outcome
+     * successful outcomes. For example, if both a 5 and 6 are a successful outcomes
      * then numHit is set to 2 and this method returns the probability that either
      * a 5 or 6 will be rolled.
      *
