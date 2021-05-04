@@ -97,6 +97,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
         this.nation = nation;
         this.model = data.getModel();
         this.strength = data.getStrength();
+        this.effectiveStrength = data.getStrength();
         this.name = data.getName();
         this.state = data.getSquadronState();
         this.config = Optional.ofNullable(data.getConfig()).orElse(SquadronConfig.NONE);
@@ -279,6 +280,16 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      */
     public BigDecimal getSteps() {
         return strength.getSteps();
+    }
+
+    /**
+     * Get the number of steps that the squadron contains. Full strength squadrons contain two steps. Half strength
+     * squadrons contain one step. Battleship and cruiser float planes are equal to 1/3 of a step.
+     *
+     * @return Number of steps in the squadron.
+     */
+    public int getStepsAsInt() {
+        return strength.getAsSteps();
     }
 
     /**
@@ -510,7 +521,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      * Effective strength is changed by battlefield conditions such as flak.
      */
     public void takeOff() {
-        effectiveStrength = strength;
+        effectiveStrength = strength;  // Ensure that on take off the effective strength has the correct value.
         state = state.transition(SquadronAction.TAKE_OFF);
     }
 
@@ -551,6 +562,15 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      * Indicates if the squadron is effective.
      *
      * @return True if the squadron is effective. False otherwise.
+     */
+    public boolean isEffective() {
+        return effectiveStrength != SquadronStrength.ZERO;
+    }
+
+    /**
+     * Indicates if the squadron is effective.
+     *
+     * @return True if the squadron is not effective. False otherwise.
      */
     public boolean isNotEffective() {
         return effectiveStrength == SquadronStrength.ZERO;

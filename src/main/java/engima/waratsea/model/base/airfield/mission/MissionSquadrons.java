@@ -7,19 +7,23 @@ import engima.waratsea.model.squadron.state.SquadronAction;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.Dice;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
  * A utility class for handling mission squadrons.
  */
+@Slf4j
 public class MissionSquadrons {
     @Getter private Map<MissionRole, List<Squadron>> squadronMap;
 
@@ -50,6 +54,13 @@ public class MissionSquadrons {
                         .stream()
                         .map(airbase::getSquadron)
                         .collect(Collectors.toList())));
+
+        // Ensure that the squadronMap has an entry for every possible mission role.
+        // A bit of defensive programming.
+        MissionRole
+                .stream()
+                .filter(role -> !squadronMap.containsKey(role))
+                .forEach(missingRole -> squadronMap.put(missingRole, Collections.emptyList()));
     }
 
     /**
@@ -149,7 +160,7 @@ public class MissionSquadrons {
     }
 
     /**
-     * Get the number os squadrons on this mission.
+     * Get the number of squadrons on this mission.
      *
      * @return The number of squadrons on this mission.
      */
@@ -170,38 +181,66 @@ public class MissionSquadrons {
     }
 
     /**
+     * Resolve anti aircraft fire at these squadrons.
+     *
+     * @param numTurnedAwaySteps The number of squadron steps turned away.
+     */
+    public void resolveAntiAir(final int numTurnedAwaySteps) {
+        turnAwayByFlak(numTurnedAwaySteps);
+        destroyByFlak(numTurnedAwaySteps / 2);
+    }
+
+    /**
+     * The squadrons land.
+     */
+    public void land() {
+        MissionRole.stream()
+                .flatMap(role -> squadronMap.get(role).stream())
+                .forEach(Squadron::land);
+    }
+
+    /**
      * Turn away the given number of steps on this mission.
      *
      * @param numStepsToTurnAway The number of squadrons to turn away from the mission.
      */
-    public void turnAway(final int numStepsToTurnAway) {
+    private void turnAwayByFlak(final int numStepsToTurnAway) {
+        List<Squadron> availableToTurnAway = squadronMap         // The squadrons that have not been completely turned away.
+                .get(MissionRole.MAIN)
+                .stream()
+                .filter(Squadron::isEffective)
+                .collect(Collectors.toList());
+
+        Set<Squadron> turnedAwaySet = new HashSet<>(turnedAway); // The squadrons that have had at least one step turned away.
+
         for (int i = 0; i < numStepsToTurnAway; i++) {
-            int numAttackingSquadrons = squadronMap.get(MissionRole.MAIN).size();
+            int numAttackingSquadrons = availableToTurnAway.size();
 
             if (numAttackingSquadrons <= 0) {
-                break;
+                break; // There are no more squadron left to turn away.
             }
 
             // Pick a random squadron to turn away.
             int squadronIndex = dice.roll(numAttackingSquadrons) - 1;  // list indices start at 0.
 
             if (squadronIndex < numAttackingSquadrons) {
-                Squadron squadron = squadronMap.get(MissionRole.MAIN).get(squadronIndex);
-                squadron.reduceEffectiveStrength();
+                Squadron squadron = availableToTurnAway.get(squadronIndex);
+                squadron.reduceEffectiveStrength(); // Turn away a step of the selected squadron.
 
-                if (!turnedAway.contains(squadron)) {
-                    turnedAway.add(squadron);
-                }
+                turnedAwaySet.add(squadron);
+
+                log.debug("Turn away: '{}'", squadron.getName());
 
                 if (squadron.isNotEffective()) {
                     // Remove the squadron so it cannot be turned away again.
-                    // It if already fully turned away.
-                    squadronMap.get(MissionRole.MAIN).remove(squadron);
+                    // It is already fully turned away.
+                    availableToTurnAway.remove(squadron);
                 }
             }
         }
 
-        squadronMap.get(MissionRole.MAIN).addAll(turnedAway);
+        turnedAway.clear();
+        turnedAway.addAll(turnedAwaySet);
     }
 
     /**
@@ -209,14 +248,15 @@ public class MissionSquadrons {
      *
      * @param numStepsToDestroy Number of steps to destroy.
      */
-    public void destroy(final int numStepsToDestroy) {
+    private void destroyByFlak(final int numStepsToDestroy) {
         for (int i = 0; i < numStepsToDestroy; i++) {
             int numTurnedAwaySquadrons = turnedAway.size();
 
             if (numTurnedAwaySquadrons <= 0) {
-                break;
+                break; // If no squadrons were turned away then no squadrons can be destroyed.
             }
 
+            // Pick a random squadron to destroy a step.
             int squadronIndex = dice.roll(numTurnedAwaySquadrons) - 1; // list indices start at 0.
 
             if (squadronIndex < numTurnedAwaySquadrons) {
@@ -233,14 +273,5 @@ public class MissionSquadrons {
                 }
             }
         }
-    }
-
-    /**
-     * The squadrons land.
-     */
-    public void land() {
-        MissionRole.stream()
-                .flatMap(role -> squadronMap.get(role).stream())
-                .forEach(Squadron::land);
     }
 }

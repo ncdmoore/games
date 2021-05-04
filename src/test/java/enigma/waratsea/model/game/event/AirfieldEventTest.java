@@ -50,7 +50,8 @@ public class AirfieldEventTest {
 
         AirfieldData airfieldData = new AirfieldData();
         airfieldData.setName("Rome");
-        airfieldData.setSide(Side.ALLIES);
+        airfieldData.setLocation("AH12");
+        airfieldData.setSide(Side.AXIS);
         airfieldData.setLandingType(new ArrayList<>(Arrays.asList(LandingType.LAND, LandingType.SEAPLANE)));
 
         Airfield airfield = airfieldFactory.create(airfieldData);
@@ -61,7 +62,7 @@ public class AirfieldEventTest {
 
         AirfieldMatchData matchData = new AirfieldMatchData();
         matchData.setAction(AirfieldEventAction.DAMAGE.toString().toUpperCase());
-        matchData.setSide(Side.ALLIES);
+        matchData.setSide(Side.AXIS);
         matchData.setName("Rome");
 
         AirfieldEventMatcher matcher = matcherFactory.create(matchData);

@@ -82,7 +82,7 @@ public class AirMissionPathTest {
                 .map(mapReference -> gameMap.getGrid(mapReference).orElseThrow())
                 .collect(Collectors.toList());
 
-        List<GameGrid> fullPath = Deencapsulation.invoke(path, "addRows", grids);
+        List<GameGrid> fullPath = Deencapsulation.invoke(path, "addGrids", grids);
 
         int distance = gameMap.determineDistance(startGrid, endGrid);
 
@@ -103,7 +103,7 @@ public class AirMissionPathTest {
                 .map(mapReference -> gameMap.getGrid(mapReference).orElseThrow())
                 .collect(Collectors.toList());
 
-        List<GameGrid> fullPath = Deencapsulation.invoke(path, "addRows", grids);
+        List<GameGrid> fullPath = Deencapsulation.invoke(path, "addGrids", grids);
 
         int distance = gameMap.determineDistance(startGrid, endGrid);
 
@@ -123,7 +123,7 @@ public class AirMissionPathTest {
                 .map(mapReference -> gameMap.getGrid(mapReference).orElseThrow())
                 .collect(Collectors.toList());
 
-        List<GameGrid> fullPath = Deencapsulation.invoke(path, "addRows", grids);
+        List<GameGrid> fullPath = Deencapsulation.invoke(path, "addGrids", grids);
 
         int distance = gameMap.determineDistance(startGrid, endGrid);
 
@@ -143,7 +143,7 @@ public class AirMissionPathTest {
                 .map(mapReference -> gameMap.getGrid(mapReference).orElseThrow())
                 .collect(Collectors.toList());
 
-        List<GameGrid> fullPath = Deencapsulation.invoke(path, "addRows", grids);
+        List<GameGrid> fullPath = Deencapsulation.invoke(path, "addGrids", grids);
 
         int distance = gameMap.determineDistance(startGrid, endGrid);
 
@@ -163,7 +163,7 @@ public class AirMissionPathTest {
                 .map(mapReference -> gameMap.getGrid(mapReference).orElseThrow())
                 .collect(Collectors.toList());
 
-        List<GameGrid> fullPath = Deencapsulation.invoke(path, "addRows", grids);
+        List<GameGrid> fullPath = Deencapsulation.invoke(path, "addGrids", grids);
 
         int distance = gameMap.determineDistance(startGrid, endGrid);
 

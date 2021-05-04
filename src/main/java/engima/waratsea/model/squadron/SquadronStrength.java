@@ -20,6 +20,11 @@ public enum SquadronStrength {
         public SquadronStrength reduce() {
             return HALF;
         }
+
+        @Override
+        public int getAsSteps() {
+            return 2;
+        }
     },
 
     @SerializedName(value = "HALF", alternate = {"Half", "half"})
@@ -27,6 +32,11 @@ public enum SquadronStrength {
         @Override
         public SquadronStrength reduce() {
             return ZERO;
+        }
+
+        @Override
+        public int getAsSteps() {
+            return 1;
         }
     },
 
@@ -36,6 +46,11 @@ public enum SquadronStrength {
         public SquadronStrength reduce() {
             return ZERO;
         }
+
+        @Override
+        public int getAsSteps() {
+            return 0;
+        }
     },
 
     @SerializedName(value = "ZERO", alternate = {"Zero", "zero"})
@@ -43,6 +58,11 @@ public enum SquadronStrength {
         @Override
         public SquadronStrength reduce() {
             return ZERO;
+        }
+
+        @Override
+        public int getAsSteps() {
+            return 0;
         }
     };
 
@@ -63,6 +83,8 @@ public enum SquadronStrength {
     }
 
     public abstract SquadronStrength reduce();
+
+    public abstract int getAsSteps();
 
     /**
      * The String representation of the squadron strength.

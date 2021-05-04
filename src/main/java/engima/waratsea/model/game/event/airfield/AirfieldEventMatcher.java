@@ -74,7 +74,7 @@ public class AirfieldEventMatcher implements PersistentData<AirfieldMatchData> {
     }
 
     /**
-     * Determines if two ship events are equal.
+     * Determines if two airfield events are equal.
      *
      * @param firedEvent The airfield event to test for matching.
      * @return True if the airfield event matches. False otherwise.
