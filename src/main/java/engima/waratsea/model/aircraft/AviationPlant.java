@@ -21,6 +21,7 @@ import java.util.function.Function;
 
 /**
  * Responsible for loading aircraft data from JSON files.
+ * Aircraft data is read only.
  */
 @Slf4j
 @Singleton

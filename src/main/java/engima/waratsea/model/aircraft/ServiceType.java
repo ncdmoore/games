@@ -12,7 +12,7 @@ public enum ServiceType {
     @SerializedName(value = "NAVY", alternate = {"Navy", "navy"})
     NAVY("Navy");
 
-    private String value;
+    private final String value;
 
     /**
      * Constructor.

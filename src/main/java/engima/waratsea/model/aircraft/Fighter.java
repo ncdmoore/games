@@ -35,7 +35,7 @@ public class Fighter implements Aircraft {
     @Getter private final String name;
     @Getter private final AircraftType type;
     @Getter private final String designation;
-    @Getter private final Nation nationality;
+    @Getter private final Nation nation;
     @Getter private final ServiceType service;
     @Getter private final AltitudeType altitude;
     @Getter private final LandingType landing;
@@ -63,7 +63,7 @@ public class Fighter implements Aircraft {
         this.name = data.getName();
         this.type = data.getType();
         this.designation = data.getDesignation();
-        this.nationality = data.getNationality();
+        this.nation = data.getNationality();
         this.service = data.getService();
         this.altitude = data.getAltitude();
         this.landing = data.getLanding();

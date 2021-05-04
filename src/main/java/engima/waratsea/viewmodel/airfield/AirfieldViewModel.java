@@ -1,7 +1,7 @@
 package engima.waratsea.viewmodel.airfield;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.aircraft.AircraftBaseType;
+import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.game.Game;
@@ -36,7 +36,7 @@ public class AirfieldViewModel {
 
     @Getter private final StringProperty availableSquadronsTitle = new SimpleStringProperty();
 
-    @Getter private final Map<AircraftBaseType, StringProperty> airfieldSteps = new HashMap<>();
+    @Getter private final Map<AircraftType, StringProperty> airfieldSteps = new HashMap<>();
 
     private final Game game;
     private final DeploymentViewModel deploymentViewModel;
@@ -55,7 +55,7 @@ public class AirfieldViewModel {
         this.deploymentViewModel = deploymentViewModel;
 
         Stream
-                .of(AircraftBaseType.values())
+                .of(AircraftType.values())
                 .forEach(type -> airfieldSteps.put(type, new SimpleStringProperty()));
     }
 

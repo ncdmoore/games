@@ -56,7 +56,7 @@ public interface Aircraft extends Comparable<Aircraft> {
      *
      * @return The nation.
      */
-    Nation getNationality();
+    Nation getNation();
 
     /**
      * Get the aircraft's service.

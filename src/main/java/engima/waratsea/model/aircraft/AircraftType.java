@@ -3,7 +3,9 @@ package engima.waratsea.model.aircraft;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -11,41 +13,58 @@ import java.util.stream.Stream;
  */
 public enum AircraftType implements Comparator<AircraftType> {
     @SerializedName(value = "FIGHTER", alternate = {"Fighter", "fighter"})
-    FIGHTER("Fighter", "Fighter", AircraftBaseType.FIGHTER, "F", 1),
+    FIGHTER("Fighter", "Fighter", "F", 1),
 
     @SerializedName(value = "BOMBER", alternate = {"Bomber", "bomber"})
-    BOMBER("Bomber", "Bomber", AircraftBaseType.BOMBER, "B", 2),
+    BOMBER("Bomber", "Bomber", "B", 2),
 
     @SerializedName(value = "DIVE_BOMBER", alternate = {"Dive_Bomber", "dive_bomber", "Dive Bomber", "dive bomber"})
-    DIVE_BOMBER("Dive Bomber", "Dive Bomber", AircraftBaseType.DIVE_BOMBER, "DB", 3),
+    DIVE_BOMBER("Dive Bomber", "Dive Bomber", "DB", 3),
 
     @SerializedName(value = "TORPEDO_BOMBER", alternate = {"Torpedo_Bomber", "torpedo_bomber", "Torpedo Bomber", "torpedo bomber"})
-    TORPEDO_BOMBER("Torpedo Bomber", "Torp. Bomber", AircraftBaseType.TORPEDO_BOMBER, "TB", 4),
+    TORPEDO_BOMBER("Torpedo Bomber", "Torp. Bomber", "TB", 4),
 
     @SerializedName(value = "RECONNAISSANCE", alternate = {"Reconnaissance", "reconnaissance"})
-    RECONNAISSANCE("Recon", "Recon", AircraftBaseType.RECON, "R", 5);
+    RECONNAISSANCE("Recon", "Recon", "R", 5);
+
+    private static final List<AircraftType> VALUES = Arrays.asList(AircraftType.values());
 
     private final String value;
     @Getter private final String abbreviated;
-    @Getter private final AircraftBaseType baseType;
     @Getter private final String designation;
     private final Integer order;  // Enum sort order.
 
     /**
      * Constructor.
-     *
-     * @param value The string value of the enum.
+     *  @param value The string value of the enum.
      * @param abbreviated The string abbreviated value of the enum.
-     * @param baseType The base aircraft baseType.
      * @param designation The aircraft designation. F for fighter, B for bomber, etc.
      * @param order The sort order of the enum.
      */
-    AircraftType(final String value, final String abbreviated, final AircraftBaseType baseType, final String designation, final int order) {
+    AircraftType(final String value, final String abbreviated, final String designation, final int order) {
         this.value = value;
         this.abbreviated = abbreviated;
-        this.baseType = baseType;
         this.designation = designation;
         this.order = order;
+    }
+
+    /**
+     * This is used to loop through the enum values. This returns the next value
+     * in the list based off the current value. If the end of the list is reached
+     * then the head of the list is returned.
+     *
+     * @return The next reference in the enum values list.
+     */
+    public AircraftType next() {
+        int index = VALUES.indexOf(this);
+
+        if (index + 1 == VALUES.size()) {
+            index = 0;
+        } else {
+            index++;
+        }
+
+        return VALUES.get(index);
     }
 
     /**

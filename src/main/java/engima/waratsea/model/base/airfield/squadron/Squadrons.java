@@ -2,7 +2,6 @@ package engima.waratsea.model.base.airfield.squadron;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.aircraft.Aircraft;
-import engima.waratsea.model.aircraft.AircraftBaseType;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.squadron.data.SquadronsData;
@@ -183,10 +182,10 @@ public class Squadrons {
      * @param type An aircraft base type.
      * @return The number of steps of aircraft of the given type based at this airfield.
      */
-    public BigDecimal getStepsForType(final AircraftBaseType type) {
+    public BigDecimal getStepsForType(final AircraftType type) {
         return squadrons
                 .stream()
-                .filter(squadron -> squadron.getBaseType() == type)
+                .filter(squadron -> squadron.getType() == type)
                 .map(Squadron::getSteps)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }

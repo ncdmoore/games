@@ -2,9 +2,9 @@ package engima.waratsea.model.squadron.deployment;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.aircraft.AircraftBaseType;
-import engima.waratsea.model.base.airfield.AirfieldOperation;
+import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
@@ -31,17 +31,17 @@ public class SquadronDeploymentAI {
 
     private final GameMap gameMap;
     private final SquadronDeploymentDAO deploymentDAO;
-    private final SquadronDeploymentMap deploymentMap;                                     //Contains all the airfields for this nation.
+    private final SquadronDeploymentMap deploymentMap;                               //Contains all the airfields for this nation.
 
     private Scenario scenario;
     private Player player;
     private Side side;
 
     private List<Squadron> squadrons;                                                //Contains all the squadrons for this nation.
-    private Map<AircraftBaseType, List<Squadron>> squadronTypeMap;
+    private Map<AircraftType, List<Squadron>> squadronTypeMap;
     private Map<String, List<Squadron>> squadronModelMap;
 
-    private AircraftBaseType baseType = AircraftBaseType.BOMBER;                     //Seed the base aircraft type.
+    private AircraftType baseType = AircraftType.BOMBER;                             //Seed the base aircraft type.
 
     /**
      * Constructor called by guice.
@@ -116,10 +116,10 @@ public class SquadronDeploymentAI {
      *
      * @return A map of base aircraft type to a list squadrons of that type.
      */
-    private Map<AircraftBaseType, List<Squadron>> getSquadronTypeMap() {
+    private Map<AircraftType, List<Squadron>> getSquadronTypeMap() {
         return squadrons
                 .stream()
-                .collect(Collectors.groupingBy(Squadron::getBaseType));
+                .collect(Collectors.groupingBy(Squadron::getType));
     }
 
     /**
@@ -150,10 +150,10 @@ public class SquadronDeploymentAI {
 
         // get the airfields in this region and their associated ranking. The airfield ranking is used to ensure
         // that airfields with the highest rankings get the squadrons.
-        Map<AircraftBaseType, Map<Integer, List<Airfield>>> regionRankingMap = deploymentMap.getRegionRankingMap(region);
+        Map<AircraftType, Map<Integer, List<Airfield>>> regionRankingMap = deploymentMap.getRegionRankingMap(region);
 
         deployed.forEach(squadron -> {
-            AircraftBaseType type = squadron.getType().getBaseType();
+            AircraftType type = squadron.getType();
 
             // Get the region's ranked airfields for the given type of squadron.
             Map<Integer, List<Airfield>> regionRankingMapForType = regionRankingMap.get(type);
@@ -246,7 +246,7 @@ public class SquadronDeploymentAI {
             squadrons.remove(squadron);
             AirfieldOperation result = airfield.addSquadron(squadron);
             if (result == AirfieldOperation.SUCCESS) {
-                log.info("Deploy squadron: '{} of type '{}' to airfield: '{}' result: '{}'", new Object[]{squadron.getName(), squadron.getBaseType(), airfield.getName(), result});
+                log.info("Deploy squadron: '{} of type '{}' to airfield: '{}' result: '{}'", new Object[]{squadron.getName(), squadron.getType(), airfield.getName(), result});
             }
         } catch (IndexOutOfBoundsException ex) {
             log.error("Could not get find squadron of model '{}' to deploy the region mandatory requirement", model);
@@ -298,7 +298,7 @@ public class SquadronDeploymentAI {
         log.info("Finish remaining");
 
         // This map is a cache of the sorted deployment rankings per base aircraft type.
-        Map<AircraftBaseType, List<Map.Entry<Integer, List<Airfield>>>> rankings = new HashMap<>();
+        Map<AircraftType, List<Map.Entry<Integer, List<Airfield>>>> rankings = new HashMap<>();
 
         try {
             // Use a while loop so we can very the type of squadron selected from the squadron list.
@@ -307,7 +307,7 @@ public class SquadronDeploymentAI {
             // with aircraft of all the same type.
             while (!squadrons.isEmpty()) {
                 Squadron squadron = removeSquadron();
-                AircraftBaseType type = squadron.getType().getBaseType();
+                AircraftType type = squadron.getType();
 
                 List<Map.Entry<Integer, List<Airfield>>> sortedByRankings = rankings.containsKey(type)
                         ? rankings.get(type) : deploymentMap.getRankingForType(type);
@@ -356,7 +356,7 @@ public class SquadronDeploymentAI {
                 // If the airfield has room add the squadron.
                 AirfieldOperation result = airfield.addSquadron(squadron);
                 log.info("Deploy squadron: '{}' of type '{}' to airfield: '{}' result: '{}'",
-                        new Object[]{squadron.getName(),  squadron.getBaseType(), airfield.getName(), result});
+                        new Object[]{squadron.getName(),  squadron.getType(), airfield.getName(), result});
                 if (result == AirfieldOperation.SUCCESS) {
                     fields.remove(airfield); // Remove the airfield and place it at the end of the list.
                     fields.add(airfield);    // This give us a round robin deployment scheme for airfields at
@@ -403,8 +403,8 @@ public class SquadronDeploymentAI {
      * @return A type for which there are remaining squadrons.
      * @throws SquadronException Thrown when there are no more squadrons.
      */
-    private AircraftBaseType anySquadronsLeft() throws SquadronException {
-        for (AircraftBaseType type: AircraftBaseType.values()) {
+    private AircraftType anySquadronsLeft() throws SquadronException {
+        for (AircraftType type: AircraftType.values()) {
             if (squadronTypeMap.get(type) != null && !squadronTypeMap.get(type).isEmpty()) {
                 return type;
             }

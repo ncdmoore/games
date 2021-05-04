@@ -31,9 +31,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Singleton
 public class SquadronDeploymentDAO {
-    private Resource config;
-    private SquadronProps props;
-    private SquadronDeploymentFactory deploymentFactory;
+    private final Resource config;
+    private final SquadronProps props;
+    private final SquadronDeploymentFactory deploymentFactory;
 
     /**
      * The constructor. Called by guice.

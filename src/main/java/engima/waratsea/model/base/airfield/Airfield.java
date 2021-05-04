@@ -5,7 +5,6 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.aircraft.Aircraft;
-import engima.waratsea.model.aircraft.AircraftBaseType;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.asset.Asset;
@@ -462,7 +461,7 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
      * @param type An aircraft base type.
      * @return The number of steps of aircraft of the given type based at this airfield.
      */
-    public BigDecimal getStepsForType(final AircraftBaseType type) {
+    public BigDecimal getStepsForType(final AircraftType type) {
         return squadrons.getStepsForType(type);
     }
 

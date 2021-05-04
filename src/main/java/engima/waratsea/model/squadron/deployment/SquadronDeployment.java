@@ -2,7 +2,7 @@ package engima.waratsea.model.squadron.deployment;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import engima.waratsea.model.aircraft.AircraftBaseType;
+import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.squadron.deployment.data.DeploymentData;
 import lombok.Getter;
@@ -27,7 +27,7 @@ public class SquadronDeployment {
     @Setter
     private List<String> mandatory; //List of mandatory aircraft model's that must be deployed.
 
-    private final Map<AircraftBaseType, Integer> rankings = new HashMap<>();
+    private final Map<AircraftType, Integer> rankings = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -42,11 +42,11 @@ public class SquadronDeployment {
         mandatory = Optional.ofNullable(data.getMandatory())
                 .orElse(Collections.emptyList());
 
-        rankings.put(AircraftBaseType.FIGHTER, data.getFighter());
-        rankings.put(AircraftBaseType.BOMBER, data.getBomber());
-        rankings.put(AircraftBaseType.RECON, data.getRecon());
-        rankings.put(AircraftBaseType.DIVE_BOMBER, data.getDiveBomber());
-        rankings.put(AircraftBaseType.TORPEDO_BOMBER, data.getTorpedoBomber());
+        rankings.put(AircraftType.FIGHTER, data.getFighter());
+        rankings.put(AircraftType.BOMBER, data.getBomber());
+        rankings.put(AircraftType.RECONNAISSANCE, data.getRecon());
+        rankings.put(AircraftType.DIVE_BOMBER, data.getDiveBomber());
+        rankings.put(AircraftType.TORPEDO_BOMBER, data.getTorpedoBomber());
     }
 
     /**
@@ -55,7 +55,7 @@ public class SquadronDeployment {
      * @param type The base aircraft type of the ranking to retrieve.
      * @return The given base aircraft type's ranking.
      */
-    public int getRanking(final AircraftBaseType type) {
+    public int getRanking(final AircraftType type) {
         return rankings.get(type);
     }
 }

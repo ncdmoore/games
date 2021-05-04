@@ -1,7 +1,7 @@
 package engima.waratsea.view.airfield.mission;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.aircraft.AircraftBaseType;
+import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
@@ -130,17 +130,17 @@ public class MissionDetailsView {
      * @return A node containing a summary of the mission's squadrons.
      */
     private Node buildSquadronSummary(final AirMission mission) {
-        Map<AircraftBaseType, List<Squadron>> squadronTypeMap = mission
+        Map<AircraftType, List<Squadron>> squadronTypeMap = mission
                 .getSquadrons()
                 .getAll()
                 .stream()
-                .collect(Collectors.groupingBy(Squadron::getBaseType));
+                .collect(Collectors.groupingBy(Squadron::getType));
 
         GridPane gridPane = new GridPane();
 
         AtomicInteger column = new AtomicInteger();
 
-        AircraftBaseType.stream().forEach(type -> {
+        AircraftType.stream().forEach(type -> {
             int col = column.getAndIncrement();
 
             Label header = new Label(type.toString());

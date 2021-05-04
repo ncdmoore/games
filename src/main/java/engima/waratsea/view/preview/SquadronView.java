@@ -2,7 +2,7 @@ package engima.waratsea.view.preview;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import engima.waratsea.model.aircraft.AircraftBaseType;
+import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
@@ -55,7 +55,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Represents the squadron deployment view.
+ * Represents the squadron deployment view of the preview screen.
  */
 public class SquadronView {
     private static final String CSS_FILE = "squadronView.css";
@@ -95,7 +95,7 @@ public class SquadronView {
 
     private final Map<Nation, Map<Region, ImageView>> regionDeployedValue = new HashMap<>();
 
-    @Getter private final Map<Nation, Map<AircraftBaseType, Label>> airfieldSteps = new HashMap<>();
+    @Getter private final Map<Nation, Map<AircraftType, Label>> airfieldSteps = new HashMap<>();
 
     private final Map<Boolean, Image> imageMap;
 
@@ -160,8 +160,8 @@ public class SquadronView {
 
                     squadronAirfieldLabel.put(nation, new Label());
 
-                    Map<AircraftBaseType, Label> airfieldStepMap = new HashMap<>();
-                    AircraftBaseType.stream().forEach(type -> airfieldStepMap.put(type, new Label()));
+                    Map<AircraftType, Label> airfieldStepMap = new HashMap<>();
+                    AircraftType.stream().forEach(type -> airfieldStepMap.put(type, new Label()));
                     airfieldSteps.put(nation, airfieldStepMap);
 
                     buildMinimumRegion(nation);
@@ -556,7 +556,7 @@ public class SquadronView {
         gridPane.setId("airfield-summary-grid");
 
         int row = 0;
-        for (AircraftBaseType type : AircraftBaseType.values()) {
+        for (AircraftType type : AircraftType.values()) {
             gridPane.add(new Label(type.toString() + ":"), 0, row);
             gridPane.add(airfieldSteps.get(nation).get(type), 1, row);
             row++;

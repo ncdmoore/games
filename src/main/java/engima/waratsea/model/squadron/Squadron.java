@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.aircraft.Aircraft;
-import engima.waratsea.model.aircraft.AircraftBaseType;
 import engima.waratsea.model.aircraft.AircraftId;
 import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.AttackType;
@@ -169,15 +168,6 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      */
     public AircraftType getType() {
         return aircraft.getType();
-    }
-
-    /**
-     * Get the aircraft base type.
-     *
-     * @return The aircraft base type.
-     */
-    public AircraftBaseType getBaseType() {
-        return getType().getBaseType();
     }
 
     /**

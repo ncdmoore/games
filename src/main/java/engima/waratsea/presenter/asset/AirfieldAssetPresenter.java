@@ -295,7 +295,7 @@ public class AirfieldAssetPresenter {
         if (aircraft != null) {
             assetView
                     .getRangeInfo()
-                    .get(aircraft.getNationality())
+                    .get(aircraft.getNation())
                     .getConfig()
                     .getSelectionModel()
                     .selectFirst();

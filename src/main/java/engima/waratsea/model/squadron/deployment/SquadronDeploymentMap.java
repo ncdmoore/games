@@ -1,7 +1,7 @@
 package engima.waratsea.model.squadron.deployment;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.aircraft.AircraftBaseType;
+import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class SquadronDeploymentMap {
-    private GameMap gameMap;
+    private final GameMap gameMap;
 
     @Getter
-    private Map<AircraftBaseType, Map<Integer, List<Airfield>>> deploymentMap;       //Contains all the airfields for a given nation.
+    private Map<AircraftType, Map<Integer, List<Airfield>>> deploymentMap;           //Contains all the airfields for a given nation.
 
     @Getter
     private Map<Airfield, List<String>> modelMap;                                    //Contains only deployment airfields for a given nation.
@@ -73,7 +73,7 @@ public class SquadronDeploymentMap {
      * @param type The base type of aircraft for which the ranking map is returned.
      * @return The ranking map for the given type of aircraft.
      */
-    public List<Map.Entry<Integer, List<Airfield>>> getRankingForType(final AircraftBaseType type) {
+    public List<Map.Entry<Integer, List<Airfield>>> getRankingForType(final AircraftType type) {
 
         Map<Integer, List<Airfield>> rankingForTypeMap = deploymentMap.get(type);
 
@@ -98,7 +98,7 @@ public class SquadronDeploymentMap {
      * The list is sorted by ranking. Meaning the first airfield in the list is the most
      * desirable airfield to deploy aircraft of the corresponding type.
      */
-    public Map<AircraftBaseType, Map<Integer, List<Airfield>>> getRegionRankingMap(final Region region) {
+    public Map<AircraftType, Map<Integer, List<Airfield>>> getRegionRankingMap(final Region region) {
         return deploymentMap
                 .entrySet()
                 .stream()
@@ -114,12 +114,12 @@ public class SquadronDeploymentMap {
      * @return A map of base aircraft type to airfield ranking. This airfield ranking includes
      * every airfield that this nation may use.
      */
-    private Map<AircraftBaseType, Map<Integer, List<Airfield>>> getRankingMap(final List<SquadronDeployment> deployments,
-                                                                              final List<Airfield> airfields) {
+    private Map<AircraftType, Map<Integer, List<Airfield>>> getRankingMap(final List<SquadronDeployment> deployments,
+                                                                          final List<Airfield> airfields) {
         // This will be a map of aircraft base type to all airfields for this nation.
         // Any airfield not mentioned in the deployment is simply added to the end
         // of the ranking.
-        return AircraftBaseType
+        return AircraftType
                 .stream()
                 .collect(Collectors.toMap(type -> type, type -> getRanking(type, deployments, airfields)));
     }
@@ -148,7 +148,7 @@ public class SquadronDeploymentMap {
      * @param airfields The airfields.
      * @return A list of every airfield ranked by the desirability of deploying the given type of aircraft.
      */
-    private Map<Integer, List<Airfield>> getRanking(final AircraftBaseType type,
+    private Map<Integer, List<Airfield>> getRanking(final AircraftType type,
                                                     final List<SquadronDeployment> deployments,
                                                     final List<Airfield> airfields) {
         // Get the airfields from the deployment. Sort them by ranking.
@@ -224,8 +224,8 @@ public class SquadronDeploymentMap {
      * @param map A deployment map entry for a particular type of aircraft.
      * @return The updated entry with the list of airfields filtered by the given region.
      */
-    private Map.Entry<AircraftBaseType, Map<Integer, List<Airfield>>> filterRegion(final Region region,
-                                                                                   final Map.Entry<AircraftBaseType, Map<Integer, List<Airfield>>> map) {
+    private Map.Entry<AircraftType, Map<Integer, List<Airfield>>> filterRegion(final Region region,
+                                                                                   final Map.Entry<AircraftType, Map<Integer, List<Airfield>>> map) {
         // Get the airfields that are only in the given region.
         Map<Integer, List<Airfield>> filtered = map.getValue().entrySet()
                 .stream()

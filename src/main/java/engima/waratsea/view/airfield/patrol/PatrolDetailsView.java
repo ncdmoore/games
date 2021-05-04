@@ -1,7 +1,7 @@
 package engima.waratsea.view.airfield.patrol;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.aircraft.AircraftBaseType;
+import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.base.airfield.patrol.stats.PatrolStat;
 import engima.waratsea.model.squadron.Squadron;
@@ -112,12 +112,12 @@ public class PatrolDetailsView {
         GridPane gridPane = new GridPane();
         AtomicInteger column = new AtomicInteger();
 
-        Map<AircraftBaseType, List<Squadron>> squadronTypeMap = patrol
+        Map<AircraftType, List<Squadron>> squadronTypeMap = patrol
                 .getSquadrons()
                 .stream()
-                .collect(Collectors.groupingBy(Squadron::getBaseType));
+                .collect(Collectors.groupingBy(Squadron::getType));
 
-        AircraftBaseType.stream().forEach(type -> {
+        AircraftType.stream().forEach(type -> {
             int col = column.getAndIncrement();
 
             Label header = new Label(type.toString());
