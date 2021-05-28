@@ -1,6 +1,7 @@
 package engima.waratsea.model.base.airfield.mission;
 
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.GridView;
@@ -10,7 +11,6 @@ import engima.waratsea.view.ViewProps;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -21,11 +21,13 @@ import java.util.Set;
  * This is a utility class that calculates the grid through which a mission passes.
  */
 @Slf4j
-@Singleton
-public class
-AirMissionPath {
+public class AirMissionPath {
     private final GameMap gameMap;
     private final ViewProps props;
+
+    private List<GameGrid> gridPath;
+    private List<GameGrid> traversedThisTurn;   // The grids traversed this game turn.
+    private int currentGridIndex;
 
     /**
      * Constructor called by guice.
@@ -45,9 +47,8 @@ AirMissionPath {
      *
      * @param airbase The starting airbase of the mission.
      * @param target The mission's target.
-     * @return A list of game grids that the mission's path passes through.
      */
-    public List<GameGrid> getGrids(final Airbase airbase, final Target target) {
+    public void build(final Airbase airbase, final Target target) {
         String startingReference = airbase.getReference();
         String endingReference = target.getReference();
 
@@ -62,25 +63,98 @@ AirMissionPath {
         Point startingPoint = startingGridView.getCenter();
         Point endingPoint = endingGridView.getCenter();
 
-        return buildGrids(startingPoint, endingPoint, gridSize);
+        buildGrids(startingPoint, endingPoint, gridSize);
     }
 
     /**
      * For mission that are round trips. This method adds the in-bound grids.
      * Which are just the out-bound grids in reverse order minus the end grid.
-     *
-     * @param source The out-bound grid path.
-     * @return The complete round-trip grid path.
      */
-    public List<GameGrid> addInBound(final List<GameGrid> source) {
-        List<GameGrid> outBound = new ArrayList<>(source);
-        List<GameGrid> inbound = new ArrayList<>(source);
+    public void addInBound() {
+        List<GameGrid> outBound = new ArrayList<>(gridPath);
+        List<GameGrid> inbound = new ArrayList<>(gridPath);
         inbound.remove(outBound.size() - 1);
 
         Collections.reverse(inbound);
         outBound.addAll(inbound);
 
-        return outBound;
+        gridPath = outBound;
+    }
+
+    /**
+     * Mark the path as starting. The mission has started.
+     */
+    public void start() {
+        currentGridIndex = 0;
+    }
+
+    /**
+     * Progress the mission along its path by the given distance.
+     *
+     * @param distance how far the mission has progressed along its path. How far it has moved.
+     */
+    public void progress(final int distance) {
+        int startingGrid = currentGridIndex;
+        currentGridIndex += distance;
+
+        if (currentGridIndex >= gridPath.size()) {      // The mission has reached it's end grid.
+            currentGridIndex = gridPath.size() - 1;
+        }
+
+        traversedThisTurn = gridPath.subList(startingGrid, currentGridIndex + 1);
+    }
+
+    /**
+     * Recall the mission. Adjust the mission paths to indicate it has been recalled.
+     *
+     * @param state The current state of the mission.
+     */
+    public void recall(final AirMissionState state) {
+
+        switch (state) {
+            case OUT_BOUND:
+                // Set the grid path to be the grids already traversed, but in reverse order.
+                // The squadrons are flying back to their original starting airbase.
+                //
+                // Grid path is of the form:
+                //
+                //  outBound-0 ... outBound-N, outBound-N+1 ... Target ... inBound-N+1, inBound-N ... inBound-0
+                //
+                // where outBound-N and inBound-N are the same distance from the starting airbase
+                // (ouBound-0 and inBound-0). In fact, outBound-N = inBound-N.
+                //
+                // Note, the grid path always contains an odd number of grids for round trip missions.
+                gridPath = new ArrayList<>(gridPath.subList(0, currentGridIndex + 1));
+                Collections.reverse(gridPath);
+                currentGridIndex = 0;
+                break;
+            case IN_BOUND:
+                // Set the grid path to be the current grid to the end grid.
+                // There is no real change if the mission is already in bound.
+                gridPath = new ArrayList<>(gridPath.subList(currentGridIndex, gridPath.size()));
+                currentGridIndex = 0;
+                break;
+            default:
+                log.error("Invalid air mission state: '{}'", state);
+        }
+    }
+
+    /**
+     * Mark the mission as ended. Set the mission path to indicate it has reached the end.
+     */
+    public void end() {
+        currentGridIndex = gridPath.size() - 1;
+    }
+
+    /**
+     * Get the distance to the end of the path.
+     *
+     * @return The distance in game grids to the path's end grid. This is a measure of how far the mission has
+     * left to go until it reaches its end grid.
+     */
+    public int getDistanceToEnd() {
+        int lastGridIndex = gridPath.size() - 1;
+        return lastGridIndex - currentGridIndex;
     }
 
     /**
@@ -89,9 +163,8 @@ AirMissionPath {
      * @param startingPoint Marks the starting grid location.
      * @param endingPoint Marks the ending grid location.
      * @param gridSize The map's grid size.
-     * @return The full grid path between the start and end points.
      */
-    private List<GameGrid> buildGrids(final Point startingPoint, final Point endingPoint, final int gridSize) {
+    private void buildGrids(final Point startingPoint, final Point endingPoint, final int gridSize) {
         Set<GameGrid> grids = new LinkedHashSet<>();
 
         double slope = getSlope(startingPoint, endingPoint);
@@ -107,7 +180,7 @@ AirMissionPath {
             grids.add(grid);
         }
 
-        return addGrids(List.copyOf(grids));
+        gridPath = addGrids(List.copyOf(grids));
     }
 
     /**

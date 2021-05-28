@@ -13,7 +13,6 @@ import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.Dice;
@@ -58,7 +57,6 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
     private final Game game;
     private final Dice dice;
     private final MissionAirRules rules;
-    private final AirMissionPath missionPath;
 
     @Getter private final AirMissionType type = AirMissionType.LAND_STRIKE;
     @Getter private final Nation nation;
@@ -66,14 +64,12 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
     @Getter private final MissionSquadrons squadrons;
 
     private final String targetBaseName;      //The name of the target air base.
+    private final AirMissionPath missionPath; //The grid path of the mission.
     private Target targetAirbase;             //The actual target air base.
     private int range;
     private int startTurn;                    //The game turn on which the mission starts.
     private int turnsToTarget;                //How many turns it takes to reach the target.
     private int turnsToHome;                  //How many turns it takes to return to the starting airbase.
-
-    private List<GameGrid> gridPath;
-    private int currentGrid;
 
     /**
      * Constructor called by guice.
@@ -161,13 +157,12 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
         turnsToTarget = getTurnsToDistance(distance);
         turnsToHome = getTurnsToDistance(roundTrip);
 
-        gridPath = missionPath.getGrids(airbase, targetAirbase);
-        gridPath = missionPath.addInBound(gridPath);
-
-        gridPath.forEach(grid -> log.info("Grid path: '{}'", grid.getMapReference()));
-        currentGrid = 0;
+        missionPath.build(airbase, targetAirbase);
+        missionPath.addInBound();
 
         squadrons.takeOff();
+
+        missionPath.start();
     }
 
     /**
@@ -175,15 +170,8 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
      */
     @Override
     public void fly() {
-        int startingGrid = currentGrid;
+        missionPath.progress(range);
 
-        currentGrid += range;
-
-        if (currentGrid >= gridPath.size()) {      // The mission has returned home.
-            currentGrid = gridPath.size() - 1;
-        }
-
-        List<GameGrid> traversed = gridPath.subList(startingGrid, currentGrid + 1);
         // get enemy airfields that have CAP and one of the traversed grids is a CAP grid. Get the best grid for CAP intercept for the airfield/taskforce.
         //    in the future will need to account for cap mission zones.
         // for each airfield do cap intercept.
@@ -204,24 +192,10 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
      */
     @Override
     public void recall() {
-        // The last grid index should be the mission originating airbase's game grid.
-        int lastGridIndex = gridPath.size() - 1;
+        missionPath.recall(state);
 
-        // The new current grid is the corresponding grid on the inbound leg of the mission.
-        // This is the grid that is current grid from the last grid.
-        // Grid path is of the form:
-        //
-        //  outBound-0 ... outBound-N, outBound-N+1 ... Target ... inBound-N+1, inBound-N ... inBound-0
-        //
-        // where outBound-N and inBound-N are the same distance from the starting airbase
-        // (ouBound-0 and inBound-0). In fact, outBound-N = inBound-N.
-        //
-        // Note, the grid path always contains an odd number of grids for round trip missions.
-        currentGrid = lastGridIndex - currentGrid;
-
-        // Get the distance to the original airbase from current grid. The new current grid of
-        // the inbound leg.
-        int distance = lastGridIndex - currentGrid;
+        // Get the distance to the original airbase from current grid.
+        int distance = missionPath.getDistanceToEnd();
 
         turnsToHome = getTurnsToDistance(distance);
         turnsToTarget = -1; // This should not be used anymore. Set it to an invalid value.

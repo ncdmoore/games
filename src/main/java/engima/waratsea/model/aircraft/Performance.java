@@ -23,7 +23,7 @@ public class Performance {
     @Getter private final int gameRange;       // This is the range marked on the board game aircraft piece.
     @Getter private final int endurance;       // Endurance is equal to turns. Thus, if the endurance is 2, then this equates to 2 turns.
     @Getter private final int ferryDistance;   // This is the distance the aircraft may move without returning to base. One way distance.
-    @Getter private final int radius;          // The combat radius. This is the distance the aircraft may move in and still return to base.
+    @Getter private final int radius;          // The combat radius. This is the distance the aircraft may move and still return to base.
 
     /**
      * Constructor.
@@ -32,7 +32,7 @@ public class Performance {
      */
     public Performance(final PerformanceData data) {
         gameRange = data.getRange();       //This is the range marked on the board game aircraft piece.
-        endurance = data.getEndurance();  //This is the endurance marked on the board game aircraft piece.
+        endurance = data.getEndurance();   //This is the endurance marked on the board game aircraft piece.
         ferryDistance = calculateFerryDistance(endurance);
         radius = calculateRadius(endurance);
     }
@@ -57,7 +57,7 @@ public class Performance {
      * @return The enhanced combat radius.
      */
     public int getEnhancedRadius(final int enhancedRange, final int enhancedEndurance) {
-        return  (enhancedRange * enhancedEndurance) / 2 + ((enhancedRange % 2) * enhancedEndurance) / 2;  // Two way distance. Return.
+        return (enhancedRange * enhancedEndurance) / 2 + ((enhancedRange % 2) * enhancedEndurance) / 2;  // Two way distance. Return.
     }
 
     /**

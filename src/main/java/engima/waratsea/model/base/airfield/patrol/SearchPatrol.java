@@ -9,7 +9,6 @@ import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.rules.GameRules;
 import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
-import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
 import lombok.Getter;
@@ -19,7 +18,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.IntStream;
 
@@ -34,8 +32,6 @@ public class SearchPatrol implements Patrol {
     private final PatrolAirRules searchRules;
     private final GameRules gameRules;
     private final PatrolPath patrolPath;
-
-    private Map<Integer, List<GameGrid>> gridPath;
 
     /**
      * The constructor.
@@ -235,7 +231,7 @@ public class SearchPatrol implements Patrol {
      * Calculate the patrol's grid path.
      */
     private void calculatePath() {
-        gridPath = patrolPath.getGrids(this);
+        patrolPath.buildGrids(this);
     }
 
     /**

@@ -56,11 +56,10 @@ public enum AirMissionState {
                         mission.land();
                         newState = DONE;
                     }
+
                     break;
                 case RECALL:
-
                     mission.recall();
-
                     newState = IN_BOUND;
                     break;
                 default:

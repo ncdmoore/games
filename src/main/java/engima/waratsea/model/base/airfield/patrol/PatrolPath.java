@@ -8,7 +8,6 @@ import engima.waratsea.model.map.Point;
 import engima.waratsea.view.ViewProps;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,12 +18,13 @@ import java.util.Set;
 /**
  * This is a utility class that calculates the grid through which a patrol passes.
  */
-@Singleton
 public class PatrolPath {
     private static final double HALF_GRID = 0.5;
     private static final int FULL_CIRCLE = 360;
     private final GameMap gameMap;
     private final ViewProps props;
+
+    private final Map<Integer, List<GameGrid>> gridPath = new HashMap<>();
 
     /**
      * Constructor called by guice.
@@ -43,9 +43,8 @@ public class PatrolPath {
      * Get the given patrol's grid path. This includes all grids within the patrol's circle.
      *
      * @param patrol The patrol whose grid path is determined.
-     * @return The patrol's grid path.
      */
-    public Map<Integer, List<GameGrid>> getGrids(final Patrol patrol) {
+    public void buildGrids(final Patrol patrol) {
         int radius = patrol.getTrueMaxRadius();
 
         Airbase airbase = patrol.getAirbase();
@@ -59,17 +58,30 @@ public class PatrolPath {
         Point airbaseCenterPoint = airbaseGridView.getCenter();
 
         if (!patrol.getAssignedSquadrons().isEmpty()) {
-            return Map.of(0, Collections.singletonList(getGrid(airbaseCenterPoint, gridSize)));
+            gridPath.put(0, Collections.singletonList(getGrid(airbaseCenterPoint, gridSize)));
         }
 
-        Map<Integer, List<GameGrid>> grids = new HashMap<>();
-        grids.put(0, Collections.singletonList(getGrid(airbaseCenterPoint, gridSize)));
+        gridPath.put(0, Collections.singletonList(getGrid(airbaseCenterPoint, gridSize)));
 
         for (int distance = 1; distance <= radius; distance++) {
-            grids.put(distance, getGridsAtRadius(airbaseCenterPoint, radius, gridSize));
+            gridPath.put(distance, getGridsAtRadius(airbaseCenterPoint, radius, gridSize));
         }
+    }
 
-        return grids;
+    /**
+     * Determine if this patrol covers or contains the given game grid.
+     *
+     * @param targetGrid The grid checked to determine if covered by this patrol.
+     * @return The distance from the airbase
+     */
+    public int contains(final GameGrid targetGrid) {
+        return gridPath
+                .entrySet()
+                .stream()
+                .filter(e -> e.getValue().contains(targetGrid))
+                .findFirst()
+                .map(Map.Entry::getKey)
+                .orElse(-1);
     }
 
     private List<GameGrid> getGridsAtRadius(final Point point, final int radius, final int gridSize) {

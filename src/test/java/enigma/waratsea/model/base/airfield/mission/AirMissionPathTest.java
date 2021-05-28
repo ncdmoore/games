@@ -35,7 +35,11 @@ public class AirMissionPathTest {
     public void testAddInBound() {
         List<GameGrid> outBound = new ArrayList<>(Arrays.asList(new GameGrid(0,0), new GameGrid(0,1), new GameGrid(0, 2)));
 
-        List<GameGrid> fullPath = path.addInBound(outBound);
+        Deencapsulation.setField(path, "gridPath", outBound);
+
+        path.addInBound();
+
+        List<GameGrid> fullPath = Deencapsulation.getField(path, "gridPath");
 
         Assert.assertEquals(fullPath.get(0), fullPath.get(fullPath.size() - 1));
     }

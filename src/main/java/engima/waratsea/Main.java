@@ -59,7 +59,7 @@ public class Main extends Application {
 
     /**
      * Update global game parameters based on the application arguments.
-     * Global game parameters are specified in the form name=health
+     * Global game parameters are specified in the form name=value
      * @param args The application arguments.
      */
     private static void handleArguments(final String[] args) {
@@ -77,7 +77,7 @@ public class Main extends Application {
     }
 
     /**
-     * Set the game name health. The game must be a known game. This is determined by looking for a resource directory
+     * Set the game name. The game must be a known game. This is determined by looking for a resource directory
      * that corresponds to the game name. If a resource directory is found then resources exists for the given game
      * and the game name is valid. If no resource directory exists then the game name is invalid.
      * @param game name of the game.
@@ -85,8 +85,9 @@ public class Main extends Application {
     private static void handleGameParameter(final String game) {
         if (isGameValid(game)) {
             PARAMETERS.put(GAME, game);
-            log.info("Game set to: {}", game);
         }
+
+        log.info("Game set to: {}", PARAMETERS.get(GAME));
     }
 
     /**

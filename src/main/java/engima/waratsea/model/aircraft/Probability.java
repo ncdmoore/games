@@ -32,7 +32,9 @@ public class Probability {
 
     /**
      * Get the hit probability for the individual squadron. This indicates how well a squadron does on
-     * a particular task in the absence of any outside affects such as weather.
+     * a particular task in the absence of any outside affects such as weather. For example, if the
+     * squadron's attack factor is 3 then 3 dice are rolled. This method returns the probability that
+     * any 3 of these dice are a hit.
      *
      * @param attack The squadron attack.
      * @param strength The squadron strength.

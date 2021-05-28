@@ -8,9 +8,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries-with-intellij-classes.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/enigma.worldWarTwoAtSea.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/enigma.worldWarTwoAtSea.test.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/davidmoore.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/davidmoore.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WorldWarTwoAtSea.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Performance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Performance.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Probability.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Probability.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/Dice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/Dice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/AirMissionPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/AirMissionPath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/state/AirMissionState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/state/AirMissionState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AswPatrol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AswPatrol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/CapPatrol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/CapPatrol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/PatrolPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/PatrolPath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/SearchPatrol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/SearchPatrol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/mission/AirMissionPathTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/mission/AirMissionPathTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,33 +186,50 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AirfieldEventTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AirMissionPathTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.game.event.*" />
+          <option name="PATTERN" value="enigma.waratsea.model.base.airfield.mission.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.event" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.event.AirfieldEventTest" />
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.base.airfield.mission" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.mission.AirMissionPathTest" />
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AirfieldEventTest.testAirfieldDamagedEvent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AirMissionPathTest.testAddInBound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.game.event.*" />
+          <option name="PATTERN" value="enigma.waratsea.model.base.airfield.mission.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.event" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.event.AirfieldEventTest" />
-      <option name="METHOD_NAME" value="testAirfieldDamagedEvent" />
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.base.airfield.mission" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.mission.AirMissionPathTest" />
+      <option name="METHOD_NAME" value="testAddInBound" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AirMissionPathTest.testGetStartingRow" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.base.airfield.mission.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.base.airfield.mission" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.mission.AirMissionPathTest" />
+      <option name="METHOD_NAME" value="testGetStartingRow" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
@@ -224,23 +263,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MissionSquadronsTest.testDestroyedByFlak" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.base.airfield.mission.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.base.airfield.mission" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.mission.MissionSquadronsTest" />
-      <option name="METHOD_NAME" value="testDestroyedByFlak" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
@@ -269,19 +291,19 @@
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.All in worldWarTwoAtSea.test" />
-      <item itemvalue="JUnit.MissionSquadronsTest.testDestroyedByFlak" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
-      <item itemvalue="JUnit.AirfieldEventTest.testAirfieldDamagedEvent" />
-      <item itemvalue="JUnit.AirfieldEventTest" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
+      <item itemvalue="JUnit.AirMissionPathTest.testAddInBound" />
+      <item itemvalue="JUnit.AirMissionPathTest.testGetStartingRow" />
+      <item itemvalue="JUnit.AirMissionPathTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
+        <item itemvalue="JUnit.AirMissionPathTest" />
+        <item itemvalue="JUnit.AirMissionPathTest.testGetStartingRow" />
+        <item itemvalue="JUnit.AirMissionPathTest.testAddInBound" />
         <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
-        <item itemvalue="JUnit.AirfieldEventTest" />
-        <item itemvalue="JUnit.AirfieldEventTest.testAirfieldDamagedEvent" />
-        <item itemvalue="JUnit.MissionSquadronsTest.testDestroyedByFlak" />
+        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
       </list>
     </recent_temporary>
   </component>
@@ -296,13 +318,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00400" summary="Friendly airfield targets are now friendly airbase targets to support ferrying squadrons from and to aircraft carriers.">
-      <created>1613666691210</created>
-      <option name="number" value="00400" />
-      <option name="presentableId" value="LOCAL-00400" />
-      <option name="project" value="LOCAL" />
-      <updated>1613666691210</updated>
     </task>
     <task id="LOCAL-00401" summary="Friendly airfield targets are now friendly airbase targets to support ferrying squadrons from and to aircraft carriers.">
       <created>1613666884433</created>
@@ -640,7 +655,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620139058269</updated>
     </task>
-    <option name="localTasksCounter" value="449" />
+    <task id="LOCAL-00449" summary="Clean up probability text">
+      <created>1620158887495</created>
+      <option name="number" value="00449" />
+      <option name="presentableId" value="LOCAL-00449" />
+      <option name="project" value="LOCAL" />
+      <updated>1620158887495</updated>
+    </task>
+    <option name="localTasksCounter" value="450" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -655,7 +677,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Denote one of the airfields or task force markers as the currently selected marker on the game map." />
     <MESSAGE value="Tie task force dialogs into task force asset summary." />
     <MESSAGE value="Use naval flags for task force summary asset when naval flag exists." />
     <MESSAGE value="Rename ImageResourceProvider.java to ResourceProvider.java." />
@@ -680,7 +701,8 @@
     <MESSAGE value="Implement mission recall for Ferry.java and LandStrike.java classes." />
     <MESSAGE value="Update airbase flak routine and unit tests." />
     <MESSAGE value="Get of rid of base aircraft type." />
-    <option name="LAST_COMMIT_MESSAGE" value="Get of rid of base aircraft type." />
+    <MESSAGE value="Clean up probability text" />
+    <option name="LAST_COMMIT_MESSAGE" value="Clean up probability text" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -752,7 +774,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/AswPatrol.java</url>
-          <line>67</line>
+          <line>64</line>
           <option name="timeStamp" value="101" />
         </line-breakpoint>
         <breakpoint type="java-exception">
