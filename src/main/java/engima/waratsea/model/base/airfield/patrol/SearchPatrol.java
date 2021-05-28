@@ -31,7 +31,6 @@ public class SearchPatrol implements Patrol {
 
     private final PatrolAirRules searchRules;
     private final GameRules gameRules;
-    private final PatrolPath patrolPath;
 
     /**
      * The constructor.
@@ -40,24 +39,20 @@ public class SearchPatrol implements Patrol {
      * @param searchRules The air search rules.
      * @param gameRules The game rules.
      * @param squadrons The patrol's squadrons.
-     * @param patrolPath The patrols grid path.
      */
     @Inject
     public SearchPatrol(@Assisted final PatrolData data,
                                   final @Named("search") PatrolAirRules searchRules,
                                   final GameRules gameRules,
-                                  final PatrolSquadrons squadrons,
-                                  final PatrolPath patrolPath) {
+                                  final PatrolSquadrons squadrons) {
 
         this.searchRules = searchRules;
         this.gameRules = gameRules;
         this.squadrons = squadrons;
-        this.patrolPath = patrolPath;
 
         airbase = data.getAirbase();
 
         maxRadius = squadrons.setSquadrons(data.getSquadrons(), airbase);
-        calculatePath();
     }
     /**
      * Get the Patrol data.
@@ -228,13 +223,6 @@ public class SearchPatrol implements Patrol {
     }
 
     /**
-     * Calculate the patrol's grid path.
-     */
-    private void calculatePath() {
-        patrolPath.buildGrids(this);
-    }
-
-    /**
      * Update the patrols maximum radius if it has changed.
      * If the maximum radius has changed then re-calculate the patrol's grid path.
      *
@@ -243,7 +231,6 @@ public class SearchPatrol implements Patrol {
     private void updateMaxRadius(final int newMaxRadius) {
         if (maxRadius != newMaxRadius) {
             maxRadius = newMaxRadius;
-            calculatePath();
         }
     }
 }

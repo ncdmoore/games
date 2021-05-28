@@ -32,7 +32,6 @@ public class AswPatrol implements Patrol {
     private static final LinkedHashSet<SquadronConfig> VALID_SQUADRON_CONFIGS = new LinkedHashSet<>(Collections.singletonList(SquadronConfig.NONE));
 
     private final PatrolSquadrons squadrons;  //The squadrons that are on this patrol.
-    private final PatrolPath patrolPath;
     @Getter private final Airbase airbase;    //The airbase from which the patrol is flown.
     @Getter private int maxRadius;            //The maximum patrol radius of this patrol.
     private final PatrolAirRules rules;       //The set of rules that govern this patrol.
@@ -46,23 +45,19 @@ public class AswPatrol implements Patrol {
      * @param aswRules The ASW rules.
      * @param gameRules The game rules.
      * @param squadrons The patrol's squadrons.
-     * @param patrolPath The patrol's path.
      */
     @Inject
     public AswPatrol(@Assisted final PatrolData data,
                                final @Named("asw") PatrolAirRules aswRules,
                                final GameRules gameRules,
-                               final PatrolSquadrons squadrons,
-                               final PatrolPath patrolPath) {
+                               final PatrolSquadrons squadrons) {
         airbase = data.getAirbase();
 
         this.rules = aswRules;
         this.gameRules = gameRules;
         this.squadrons = squadrons;
-        this.patrolPath = patrolPath;
 
         maxRadius = squadrons.setSquadrons(data.getSquadrons(), airbase);
-        calculatePath();
     }
 
     /**
@@ -235,13 +230,6 @@ public class AswPatrol implements Patrol {
     }
 
     /**
-     * Calculate the patrol's grid path.
-     */
-    private void calculatePath() {
-        patrolPath.buildGrids(this);
-    }
-
-    /**
      * Update the patrols maximum radius if it has changed.
      * If the maximum radius has changed then re-calculate the patrol's grid path.
      *
@@ -250,7 +238,6 @@ public class AswPatrol implements Patrol {
     private void updateMaxRadius(final int newMaxRadius) {
         if (maxRadius != newMaxRadius) {
             maxRadius = newMaxRadius;
-            calculatePath();
         }
     }
 }

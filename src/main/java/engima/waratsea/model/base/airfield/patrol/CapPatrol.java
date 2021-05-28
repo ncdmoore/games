@@ -30,7 +30,6 @@ public class CapPatrol implements Patrol {
     private final PatrolAirRules capRules;
     private final GameRules gameRules;
     private final PatrolSquadrons squadrons;
-    private final PatrolPath patrolPath;
 
     @Getter private final Airbase airbase;
     @Getter private int maxRadius;
@@ -42,18 +41,15 @@ public class CapPatrol implements Patrol {
      * @param capRules The CAP air rules.
      * @param gameRules The game rules.
      * @param squadrons The squadrons on patrol.
-     * @param patrolPath The patrol's grid path.
      */
     @Inject
     public CapPatrol(@Assisted final PatrolData data,
                                final @Named("cap") PatrolAirRules capRules,
                                final GameRules gameRules,
-                               final PatrolSquadrons squadrons,
-                               final PatrolPath patrolPath) {
+                               final PatrolSquadrons squadrons) {
         this.capRules = capRules;
         this.gameRules = gameRules;
         this.squadrons = squadrons;
-        this.patrolPath = patrolPath;
 
         airbase = data.getAirbase();
 
@@ -240,14 +236,6 @@ public class CapPatrol implements Patrol {
      */
     private void setMaxRadius() {
         maxRadius = squadrons.isNotEmpty() ? RADIUS : 0;
-        calculatePath();
-    }
-
-    /**
-     * Calculate the patrol's grid path.
-     */
-    private void calculatePath() {
-        patrolPath.buildGrids(this);
     }
 
     /**
@@ -259,7 +247,6 @@ public class CapPatrol implements Patrol {
 
         if (maxRadius != newMaxRadius) {
             maxRadius = newMaxRadius;
-            calculatePath();
         }
     }
 }

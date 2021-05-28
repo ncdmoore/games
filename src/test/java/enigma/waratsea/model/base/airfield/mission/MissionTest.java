@@ -247,6 +247,11 @@ public class MissionTest {
 
         mission.doAction(AirMissionAction.RECALL);
 
+        // The recall changes the missions target to be the starting airfield.
+        // Make sure this new target has its backing airbase.
+        Target startingAirbase = mission.getTarget();
+        Deencapsulation.setField(startingAirbase, "airbase", startingAirfield);
+
         Assert.assertEquals(AirMissionState.IN_BOUND, mission.getState());         // Mission is in-bound.
 
         turnsToTarget = Deencapsulation.getField(mission, "turnsToTarget");

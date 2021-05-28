@@ -16,6 +16,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ *
+ * This class IS NOT NEEDED. Keep just in case we end up needing it later. I don't think we will ever need it.
+ * But just in case.
+ *
  * This is a utility class that calculates the grid through which a patrol passes.
  */
 public class PatrolPath {

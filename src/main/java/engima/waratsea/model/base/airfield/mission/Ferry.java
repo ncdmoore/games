@@ -39,7 +39,6 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
     private int startTurn;                     //The game turn on which the mission starts.
     private int turnsToTarget;                 //How many game turns elapse before the mission lands at the ending airbase.
 
-
     /**
      * Constructor called by guice.
      *
@@ -128,10 +127,7 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
      */
     @Override
     public void fly() {
-
-
-
-
+        missionPath.progress(range);
 
         // get enemy airfields that have CAP and one of the traversed grids is a CAP grid. Get the best grid for CAP intercept for the airfield/taskforce.
         //    in the future will need to account for cap mission zones.
