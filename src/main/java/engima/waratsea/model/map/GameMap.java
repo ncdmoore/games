@@ -452,23 +452,6 @@ public final class GameMap {
      * @param mapReferenceTwo a given map reference
      * @return The distance in grids between the given two map references.
      */
-    public int determineDistanceOld(final String mapReferenceOne, final String mapReferenceTwo) {
-        Optional<GameGrid> gridOne = getGrid(mapReferenceOne);
-        Optional<GameGrid> gridTwo = getGrid(mapReferenceTwo);
-
-        int rowOne = gridOne.map(GameGrid::getRow).orElse(0);
-        int rowTwo = gridTwo.map(GameGrid::getRow).orElse(0);
-
-        int columnOne = gridOne.map(GameGrid::getColumn).orElse(0);
-        int columnTwo = gridTwo.map(GameGrid::getColumn).orElse(0);
-
-        // a^2 + b^2 <= c^2, where a, b and c are the sides of the right triangle.
-        int a = Math.abs(rowOne - rowTwo);
-        int b = Math.abs(columnOne - columnTwo);
-
-        return (int) Math.sqrt((a * a) + (b * b));
-    }
-
     public int determineDistance(final String mapReferenceOne, final String mapReferenceTwo) {
         Optional<GameGrid> gridOne = getGrid(mapReferenceOne);
         Optional<GameGrid> gridTwo = getGrid(mapReferenceTwo);
@@ -499,28 +482,9 @@ public final class GameMap {
      * @return True if the entity is in range of the target. False otherwise.
      */
     public boolean inRange(final String startingReference, final String targetReference, final int range) {
-
         int distance = determineDistance(startingReference, targetReference);
 
         return range >= distance;
-
-        /*Optional<GameGrid> targetGrid = getGrid(targetReference);
-        Optional<GameGrid> startingGrid = getGrid(startingReference);
-
-        int targetRow = targetGrid.map(GameGrid::getRow).orElse(0);
-        int targetColumn = targetGrid.map(GameGrid::getColumn).orElse(0);
-
-        int startingRow = startingGrid.map(GameGrid::getRow).orElse(0);
-        int startingColumn = startingGrid.map(GameGrid::getColumn).orElse(0);
-
-        // a^2 + b^2 <= c^2, where a, b and c are the sides of the right triangle.
-        int a = Math.abs(targetRow - startingRow);
-        int b = Math.abs(targetColumn - startingColumn);
-        int c = range + 1;
-
-        log.debug("a: {} ,b: {}, c: {}", new Object[]{a, b, c});
-
-        return (a * a) + (b * b) <= (c * c);*/
     }
 
     /**

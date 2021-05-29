@@ -13,7 +13,6 @@ import engima.waratsea.model.enemy.views.airfield.AirfieldViewFactory;
 import engima.waratsea.model.enemy.views.airfield.data.AirfieldViewData;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
-import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.model.target.TargetFactory;
 import engima.waratsea.model.target.TargetType;
@@ -28,14 +27,10 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 public class AirMissionPathTest {
-
     private static Injector injector;
-    private static GameMap gameMap;
     private static AirfieldFactory airfieldFactory;
     private static TargetFactory targetFactory;
     private static AirfieldViewFactory airfieldViewFactory;
@@ -43,7 +38,6 @@ public class AirMissionPathTest {
     @BeforeClass
     public static void setup() {
         injector = Guice.createInjector(new TestModule());
-        gameMap = injector.getInstance(GameMap.class);
         airfieldFactory = injector.getInstance(AirfieldFactory.class);
         targetFactory = injector.getInstance(TargetFactory.class);
         airfieldViewFactory = injector.getInstance(AirfieldViewFactory.class);
@@ -205,149 +199,6 @@ public class AirMissionPathTest {
         Assert.assertEquals(homeGrid, newEndGrid);
     }
 
-    @Test
-    public void testGetStartingRow() {
-        AirMissionPath path = injector.getInstance(AirMissionPath.class);
-
-        // Coordinates are of the form (row, column)
-
-        // Even start row.
-        // Test end row greater than start row.
-        // Path is a straight line from 0,0 to 10,n. Ending column does not matter.
-        int startingRow = Deencapsulation.invoke(path, "getStartingRow", 0, 10, 0);
-
-        Assert.assertEquals(0, startingRow);
-
-        // Test end row less than start row.
-        // Path is a straight line from 10,0 to 0,n. Ending column does not matter.
-        startingRow = Deencapsulation.invoke(path, "getStartingRow", 10, 0, 0);
-
-        Assert.assertEquals(9, startingRow);
-
-        // Odd start row.
-        // Test end row greater than start row.
-        // Path is a straight line from 0,1 to 10,n. Ending column does not matter.
-        startingRow = Deencapsulation.invoke(path, "getStartingRow", 0, 10, 1);
-
-        Assert.assertEquals(1, startingRow);
-
-        // Test end row less than start row.
-        // Path is a straight line from 1,1 to 0,n. Ending column does not matter.
-        startingRow = Deencapsulation.invoke(path, "getStartingRow", 1, 0, 1);
-
-        Assert.assertEquals(1, startingRow);
-    }
-
-    @Test
-    public void testAddRowsLineSlopesToTheUpperRight() {
-        AirMissionPath path = injector.getInstance(AirMissionPath.class);
-
-        // The path slopes upward to the right.
-        String startGrid = "BG32";
-        String endGrid = "BM25";
-
-        List<GameGrid> grids = Stream
-                .of(startGrid, "BH30", "BI30", "BJ28", "BK27", "BL26", endGrid)
-                .map(mapReference -> gameMap.getGrid(mapReference).orElseThrow())
-                .collect(Collectors.toList());
-
-        List<GameGrid> fullPath = Deencapsulation.invoke(path, "addGrids", grids);
-
-        int distance = gameMap.determineDistance(startGrid, endGrid);
-
-        // The starting grid is in the list, so the number of grids is the distance plus 1.
-        Assert.assertEquals(distance + 1, fullPath.size());
-
-        Assert.assertTrue(verifyPath(fullPath));
-    }
-
-    @Test
-    public void testAddRowsLineSlopesToTheUpperLeft() {
-        AirMissionPath path = injector.getInstance(AirMissionPath.class);
-
-        // The path slopes upward to the left.
-        String startGrid = "BG32";
-        String endGrid = "BE23";
-
-        List<GameGrid> grids = Stream
-                .of(startGrid, "BF27", endGrid)
-                .map(mapReference -> gameMap.getGrid(mapReference).orElseThrow())
-                .collect(Collectors.toList());
-
-        List<GameGrid> fullPath = Deencapsulation.invoke(path, "addGrids", grids);
-
-        int distance = gameMap.determineDistance(startGrid, endGrid);
-
-        Assert.assertEquals(distance + 1, fullPath.size());
-
-        Assert.assertTrue(verifyPath(fullPath));
-    }
-
-    @Test
-    public void testAddRowsHorizontalLine() {
-        AirMissionPath path = injector.getInstance(AirMissionPath.class);
-
-        // The path is a horizontal line.
-        String startGrid = "BG32";
-        String endGrid = "BI32";
-
-        List<GameGrid> grids = Stream
-                .of(startGrid, "BH32", endGrid)
-                .map(mapReference -> gameMap.getGrid(mapReference).orElseThrow())
-                .collect(Collectors.toList());
-
-        List<GameGrid> fullPath = Deencapsulation.invoke(path, "addGrids", grids);
-
-        int distance = gameMap.determineDistance(startGrid, endGrid);
-
-        Assert.assertEquals(distance + 1, fullPath.size());
-
-        Assert.assertTrue(verifyPath(fullPath));
-    }
-
-    @Test
-    public void testAddRowsLineSlopesToLeft() {
-        AirMissionPath path = injector.getInstance(AirMissionPath.class);
-
-        // The path slopes to the left. The rows are much closer than the columns.
-        String startGrid = "BG32";
-        String endGrid = "AV29";
-
-        List<GameGrid> grids = Stream
-                .of(startGrid, "BF31", "BE32", "BD31", "BC31", "BB30", "BA31", "AZ30", "AY30", "AX29", "AW30", endGrid)
-                .map(mapReference -> gameMap.getGrid(mapReference).orElseThrow())
-                .collect(Collectors.toList());
-
-        List<GameGrid> fullPath = Deencapsulation.invoke(path, "addGrids", grids);
-
-        int distance = gameMap.determineDistance(startGrid, endGrid);
-
-        Assert.assertEquals(distance + 1, fullPath.size());
-
-        Assert.assertTrue(verifyPath(fullPath));
-    }
-
-    @Test
-    public void testAddRowsVerticalLine() {
-        AirMissionPath path = injector.getInstance(AirMissionPath.class);
-
-        // The path is a vertical line.
-        String startGrid = "AK22";
-        String endGrid = "AK24";
-
-        List<GameGrid> grids = Stream
-                .of(startGrid, endGrid)
-                .map(mapReference -> gameMap.getGrid(mapReference).orElseThrow())
-                .collect(Collectors.toList());
-
-        List<GameGrid> fullPath = Deencapsulation.invoke(path, "addGrids", grids);
-
-        int distance = gameMap.determineDistance(startGrid, endGrid);
-
-        Assert.assertEquals(distance + 1, fullPath.size());
-
-        Assert.assertTrue(verifyPath(fullPath));
-    }
 
     private Airfield buildAlexandriaAirfield() {
         AirfieldData data = new AirfieldData();
