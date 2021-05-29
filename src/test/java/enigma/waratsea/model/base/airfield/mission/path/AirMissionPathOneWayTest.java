@@ -6,7 +6,7 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
-import engima.waratsea.model.base.airfield.mission.path.AirMissionPathRoundTrip;
+import engima.waratsea.model.base.airfield.mission.path.AirMissionPathOneWay;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.enemy.views.airfield.AirfieldView;
 import engima.waratsea.model.enemy.views.airfield.AirfieldViewFactory;
@@ -45,7 +45,7 @@ public class AirMissionPathOneWayTest {
 
     @Test
     public void testStart() {
-        AirMissionPathRoundTrip path = injector.getInstance(AirMissionPathRoundTrip.class);
+        AirMissionPathOneWay path = injector.getInstance(AirMissionPathOneWay.class);
 
         Airfield airfield = buildAlexandriaAirfield();
         Airfield friendlyAirfield = buildFamagustaAirfield();
@@ -60,14 +60,14 @@ public class AirMissionPathOneWayTest {
         List<GameGrid> gridPath = Deencapsulation.getField(path, "gridPath");
 
         // The grid path size is equal to the distance to the target, minus the starting airbase grid.
-        Assert.assertEquals(2 * distanceToTarget, gridPath.size() - 1);  // The minus 1 accounts for the starting grid which is the airbase itself.
+        Assert.assertEquals(distanceToTarget, gridPath.size() - 1);  // The minus 1 accounts for the starting grid which is the airbase itself.
 
         Assert.assertTrue(verifyPath(gridPath));
     }
 
     @Test
     public void testProgress() {
-        AirMissionPathRoundTrip path = injector.getInstance(AirMissionPathRoundTrip.class);
+        AirMissionPathOneWay path = injector.getInstance(AirMissionPathOneWay.class);
 
         List<GameGrid> fullPath = new ArrayList<>(Arrays.asList(
                 new GameGrid(0,0),
@@ -99,7 +99,7 @@ public class AirMissionPathOneWayTest {
 
     @Test
     public void testRecallOutBound() {
-        AirMissionPathRoundTrip path = injector.getInstance(AirMissionPathRoundTrip.class);
+        AirMissionPathOneWay path = injector.getInstance(AirMissionPathOneWay.class);
 
         List<GameGrid> fullPath = new ArrayList<>(Arrays.asList(
                 new GameGrid(0,0),
@@ -140,7 +140,7 @@ public class AirMissionPathOneWayTest {
 
     @Test
     public void testRecallInBound() {
-        AirMissionPathRoundTrip path = injector.getInstance(AirMissionPathRoundTrip.class);
+        AirMissionPathOneWay path = injector.getInstance(AirMissionPathOneWay.class);
 
         List<GameGrid> fullPath = new ArrayList<>(Arrays.asList(
                 new GameGrid(0, 0),

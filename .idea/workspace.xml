@@ -8,8 +8,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/path/AirMissionOneWayPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/path/AirMissionOneWayPath.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/path/AirMissionRoundTripPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/path/AirMissionRoundTripPath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/mission/path/AirMissionPathOneWayTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/mission/path/AirMissionPathOneWayTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +137,7 @@
       <recent name="engima.waratsea.view.taskforce" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in enigma.worldWarTwoAtSea.test (1)">
+  <component name="RunManager" selected="JUnit.AirMissionPathOneWayTest">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -165,7 +165,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AirMissionPathOneWayTest.testRecallInBound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AirMissionPathOneWayTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <extension name="coverage">
         <pattern>
@@ -175,14 +175,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="enigma.waratsea.model.base.airfield.mission.path" />
       <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.mission.path.AirMissionPathOneWayTest" />
-      <option name="METHOD_NAME" value="testRecallInBound" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AirMissionPathOneWayTest.testRecallOutBound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AirMissionPathOneWayTest.testStart" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <extension name="coverage">
         <pattern>
@@ -192,7 +191,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="enigma.waratsea.model.base.airfield.mission.path" />
       <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.mission.path.AirMissionPathOneWayTest" />
-      <option name="METHOD_NAME" value="testRecallOutBound" />
+      <option name="METHOD_NAME" value="testStart" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
@@ -261,17 +260,17 @@
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.enigma.waratsea.model.base.airfield.mission in enigma.worldWarTwoAtSea.test" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
-      <item itemvalue="JUnit.AirMissionPathOneWayTest.testRecallOutBound" />
-      <item itemvalue="JUnit.AirMissionPathOneWayTest.testRecallInBound" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
+      <item itemvalue="JUnit.AirMissionPathOneWayTest.testStart" />
+      <item itemvalue="JUnit.AirMissionPathOneWayTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.AirMissionPathOneWayTest" />
+        <item itemvalue="JUnit.AirMissionPathOneWayTest.testStart" />
         <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
         <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
         <item itemvalue="JUnit.enigma.waratsea.model.base.airfield.mission in enigma.worldWarTwoAtSea.test" />
-        <item itemvalue="JUnit.AirMissionPathOneWayTest.testRecallInBound" />
-        <item itemvalue="JUnit.AirMissionPathOneWayTest.testRecallOutBound" />
       </list>
     </recent_temporary>
   </component>
@@ -286,20 +285,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00407" summary="Create TaskForce Asset for asset manager.">
-      <created>1614473853304</created>
-      <option name="number" value="00407" />
-      <option name="presentableId" value="LOCAL-00407" />
-      <option name="project" value="LOCAL" />
-      <updated>1614473853304</updated>
-    </task>
-    <task id="LOCAL-00408" summary="Create TaskForce Asset for asset manager.">
-      <created>1614476020820</created>
-      <option name="number" value="00408" />
-      <option name="presentableId" value="LOCAL-00408" />
-      <option name="project" value="LOCAL" />
-      <updated>1614476020820</updated>
     </task>
     <task id="LOCAL-00409" summary="Denote one of the airfields or task force markers as the currently selected marker on the game map.">
       <created>1614543863953</created>
@@ -630,7 +615,21 @@
       <option name="project" value="LOCAL" />
       <updated>1622309134252</updated>
     </task>
-    <option name="localTasksCounter" value="456" />
+    <task id="LOCAL-00456" summary="Split AirMissionPath into AirMissionOneWayPath and AirMissionRoundTripPath">
+      <created>1622309310698</created>
+      <option name="number" value="00456" />
+      <option name="presentableId" value="LOCAL-00456" />
+      <option name="project" value="LOCAL" />
+      <updated>1622309310698</updated>
+    </task>
+    <task id="LOCAL-00457" summary="Split AirMissionPath into AirMissionOneWayPath and AirMissionRoundTripPath">
+      <created>1622309448987</created>
+      <option name="number" value="00457" />
+      <option name="presentableId" value="LOCAL-00457" />
+      <option name="project" value="LOCAL" />
+      <updated>1622309448987</updated>
+    </task>
+    <option name="localTasksCounter" value="458" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
