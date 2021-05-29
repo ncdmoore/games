@@ -49,27 +49,6 @@ public class AirMissionRoundTripPath implements AirMissionPath {
     }
 
     /**
-     * For mission that are round trips. This method adds the in-bound grids.
-     * Which are just the out-bound grids in reverse order minus the end grid.
-     *
-     * @param path The current out bound path.
-     * @return The path with the in bound leg added at the end.
-     */
-    private List<GameGrid> addInBound(final List<GameGrid> path) {
-        List<GameGrid> outBound = new ArrayList<>(path);
-        List<GameGrid> inbound = new ArrayList<>(path);
-
-        // Build the in bound path.
-        inbound.remove(outBound.size() - 1);     // Remove the last out bound grid.
-        Collections.reverse(inbound);
-
-        // Construct the full path 'in bound' + 'out bound'.
-        outBound.addAll(inbound);                      // Out bound now contains the full path.
-
-        return outBound;
-    }
-
-    /**
      * Progress the mission along its path by the given distance.
      *
      * @param distance how far the mission has progressed along its path. How far it has moved.
@@ -131,5 +110,26 @@ public class AirMissionRoundTripPath implements AirMissionPath {
     public int getDistanceToEnd() {
         int lastGridIndex = gridPath.size() - 1;
         return lastGridIndex - currentGridIndex;
+    }
+
+    /**
+     * For mission that are round trips. This method adds the in-bound grids.
+     * Which are just the out-bound grids in reverse order minus the end grid.
+     *
+     * @param path The current out bound path.
+     * @return The path with the in bound leg added at the end.
+     */
+    private List<GameGrid> addInBound(final List<GameGrid> path) {
+        List<GameGrid> outBound = new ArrayList<>(path);
+        List<GameGrid> inbound = new ArrayList<>(path);
+
+        // Build the in bound path.
+        inbound.remove(outBound.size() - 1);     // Remove the last out bound grid.
+        Collections.reverse(inbound);
+
+        // Construct the full path 'in bound' + 'out bound'.
+        outBound.addAll(inbound);                      // Out bound now contains the full path.
+
+        return outBound;
     }
 }

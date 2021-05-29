@@ -39,6 +39,7 @@ public class AirMissionOneWayPath implements AirMissionPath {
      * @param airbase The starting airbase of the mission.
      * @param target The mission's target.
      */
+    @Override
     public void start(final Airbase airbase, final Target target) {
         String startingReference = airbase.getReference();
         String endingReference = target.getReference();
@@ -52,6 +53,7 @@ public class AirMissionOneWayPath implements AirMissionPath {
      *
      * @param distance how far the mission has progressed along its path. How far it has moved.
      */
+    @Override
     public void progress(final int distance) {
         int startingGrid = currentGridIndex;
         currentGridIndex += distance;
@@ -68,6 +70,7 @@ public class AirMissionOneWayPath implements AirMissionPath {
      *
      * @param state The current state of the mission.
      */
+    @Override
     public void recall(final AirMissionState state) {
         // A mission may be recalled only if it is in the out bound leg.
         // All other states are either invalid or for the in bound case a non event.
@@ -87,6 +90,7 @@ public class AirMissionOneWayPath implements AirMissionPath {
     /**
      * Mark the mission as ended. Set the mission path to indicate it has reached the end.
      */
+    @Override
     public void end() {
         currentGridIndex = gridPath.size() - 1;   // The last grid index.
     }
@@ -97,6 +101,7 @@ public class AirMissionOneWayPath implements AirMissionPath {
      * @return The distance in game grids to the path's end grid. This is a measure of how far the mission has
      * left to go until it reaches its end grid.
      */
+    @Override
     public int getDistanceToEnd() {
         int lastGridIndex = gridPath.size() - 1;
         return lastGridIndex - currentGridIndex;
