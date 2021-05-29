@@ -61,7 +61,7 @@ public class AirMissionPathTest {
 
         Deencapsulation.setField(enemyAirfieldTarget, "airfieldView", enemyAirfieldView);
 
-        path.build(airfield, enemyAirfieldTarget);
+        path.start(airfield, enemyAirfieldTarget);
 
         int distanceToTarget = enemyAirfieldTarget.getDistance(airfield);
 
@@ -71,7 +71,6 @@ public class AirMissionPathTest {
         Assert.assertEquals(distanceToTarget, gridPath.size() - 1);  // The minus 1 accounts for the starting grid which is the airbase itself.
 
         Assert.assertTrue(verifyPath(gridPath));
-
     }
 
     @Test
@@ -105,9 +104,9 @@ public class AirMissionPathTest {
                 new GameGrid(0, 5)));  // In this test the second progress moves the index here.
 
         Deencapsulation.setField(path, "gridPath", fullPath);
+        Deencapsulation.setField(path, "currentGridIndex", 0);
 
         int distanceTraversed = 3;
-        path.start();
 
         // Simulate a single turn.
         path.progress(distanceTraversed);
@@ -137,9 +136,9 @@ public class AirMissionPathTest {
                 new GameGrid(0, 0)));
 
         Deencapsulation.setField(path, "gridPath", fullPath);
+        Deencapsulation.setField(path, "currentGridIndex", 0);
 
         int distanceTraversed = 2;
-        path.start();
 
         // Simulate a single turn.
         path.progress(distanceTraversed);
@@ -178,9 +177,9 @@ public class AirMissionPathTest {
                 new GameGrid(0, 0)));
 
         Deencapsulation.setField(path, "gridPath", fullPath);
+        Deencapsulation.setField(path, "currentGridIndex", 0);
 
         int distanceTraversed = 3;
-        path.start();
 
         // Simulate a single turn.
         path.progress(distanceTraversed);
@@ -200,7 +199,7 @@ public class AirMissionPathTest {
         // The new recall path's starting grid should equal the original grid's grid at which the recall occurred.
         Assert.assertEquals(recallGrid, newStartingGrid);
 
-        GameGrid newEndGrid = newPath.get(newPath.size() - 1);
+        GameGrid newEndGrid = newPath.get(0);
 
         // The new recall path's ending grid should equal the original grid's starting grid.
         Assert.assertEquals(homeGrid, newEndGrid);

@@ -11,6 +11,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/AirMissionPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/AirMissionPath.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/mission/AirMissionPathTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/mission/AirMissionPathTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -293,10 +294,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.enigma.waratsea.model.base.airfield.mission in enigma.worldWarTwoAtSea.test" />
+        <item itemvalue="JUnit.AirMissionPathTest.testRecallInBound" />
         <item itemvalue="JUnit.AirMissionPathTest" />
         <item itemvalue="JUnit.MissionTest" />
         <item itemvalue="JUnit.AirMissionPathTest.testRecallOutBound" />
-        <item itemvalue="JUnit.AirMissionPathTest.testRecallInBound" />
       </list>
     </recent_temporary>
   </component>
@@ -311,13 +312,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00403" summary="Add squadron details to patrol view dialog box.">
-      <created>1613684733968</created>
-      <option name="number" value="00403" />
-      <option name="presentableId" value="LOCAL-00403" />
-      <option name="project" value="LOCAL" />
-      <updated>1613684733968</updated>
     </task>
     <task id="LOCAL-00404" summary="Increase height of patrol details dialog box.">
       <created>1613686442870</created>
@@ -655,7 +649,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622171050663</updated>
     </task>
-    <option name="localTasksCounter" value="452" />
+    <task id="LOCAL-00452" summary="Add Air mission path unit tests.">
+      <created>1622248696402</created>
+      <option name="number" value="00452" />
+      <option name="presentableId" value="LOCAL-00452" />
+      <option name="project" value="LOCAL" />
+      <updated>1622248696403</updated>
+    </task>
+    <option name="localTasksCounter" value="453" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -670,7 +671,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Rename ImageResourceProvider.java to ResourceProvider.java." />
     <MESSAGE value="css refactor." />
     <MESSAGE value="Add management and landing panes to task force asset view." />
     <MESSAGE value="Add mission marker to task force maker." />
@@ -695,7 +695,8 @@
     <MESSAGE value="Clean up probability text" />
     <MESSAGE value="Update AirMissionPath to encapsulate the path from the air mission." />
     <MESSAGE value="Remove patrol path. It should not be needed. Just do a distance check to see if any entity is within patrol range." />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove patrol path. It should not be needed. Just do a distance check to see if any entity is within patrol range." />
+    <MESSAGE value="Add Air mission path unit tests." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Air mission path unit tests." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -759,11 +760,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/patrol/PatrolStatsView.java</url>
           <line>103</line>
           <option name="timeStamp" value="99" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java</url>
-          <line>279</line>
-          <option name="timeStamp" value="107" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.UnsupportedOperationException" package="java.lang" />

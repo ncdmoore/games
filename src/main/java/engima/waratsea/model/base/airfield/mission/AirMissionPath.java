@@ -48,7 +48,7 @@ public class AirMissionPath {
      * @param airbase The starting airbase of the mission.
      * @param target The mission's target.
      */
-    public void build(final Airbase airbase, final Target target) {
+    public void start(final Airbase airbase, final Target target) {
         String startingReference = airbase.getReference();
         String endingReference = target.getReference();
 
@@ -64,6 +64,7 @@ public class AirMissionPath {
         Point endingPoint = endingGridView.getCenter();
 
         gridPath = buildGrids(startingPoint, endingPoint, gridSize);
+        currentGridIndex = 0;
     }
 
     /**
@@ -73,19 +74,12 @@ public class AirMissionPath {
     public void addInBound() {
         List<GameGrid> outBound = new ArrayList<>(gridPath);
         List<GameGrid> inbound = new ArrayList<>(gridPath);
-        inbound.remove(outBound.size() - 1);
+        inbound.remove(outBound.size() - 1);     // Remove the last out bound grid.
 
         Collections.reverse(inbound);
-        outBound.addAll(inbound);
+        outBound.addAll(inbound);                      // Out bound now contains the full path.
 
         gridPath = outBound;
-    }
-
-    /**
-     * Mark the path as starting. The mission has started.
-     */
-    public void start() {
-        currentGridIndex = 0;
     }
 
     /**
@@ -110,32 +104,27 @@ public class AirMissionPath {
      * @param state The current state of the mission.
      */
     public void recall(final AirMissionState state) {
-
-        switch (state) {
-            case OUT_BOUND:
-                // Set the grid path to be the grids already traversed, but in reverse order.
-                // The squadrons are flying back to their original starting airbase.
-                //
-                // Grid path is of the form:
-                //
-                //  outBound-0 ... outBound-N, outBound-N+1 ... Target ... inBound-N+1, inBound-N ... inBound-0
-                //
-                // where outBound-N and inBound-N are the same distance from the starting airbase
-                // (ouBound-0 and inBound-0). In fact, outBound-N = inBound-N.
-                //
-                // Note, the grid path always contains an odd number of grids for round trip missions.
-                gridPath = new ArrayList<>(gridPath.subList(0, currentGridIndex + 1));
-                Collections.reverse(gridPath);
-                currentGridIndex = 0;
-                break;
-            case IN_BOUND:
-                // Set the grid path to be the current grid to the end grid.
-                // There is no real change if the mission is already in bound.
-                gridPath = new ArrayList<>(gridPath.subList(currentGridIndex, gridPath.size()));
-                currentGridIndex = 0;
-                break;
-            default:
-                log.error("Invalid air mission state: '{}'", state);
+        // A mission may be recalled only if it is in the out bound leg.
+        // All other states are either invalid or for the in bound case a non event.
+        if (state == AirMissionState.OUT_BOUND) {
+            // Set the grid path to be the grids already traversed, but in reverse order.
+            // The squadrons are flying back to their original starting airbase.
+            //
+            // Grid path for round trip missions is of the form:
+            //
+            //  outBound-0 ... outBound-N, outBound-N+1 ... Target ... inBound-N+1, inBound-N ... inBound-0
+            //
+            // where outBound-N and inBound-N are the same distance from the starting airbase
+            // (ouBound-0 and inBound-0). In fact, outBound-N = inBound-N.
+            //
+            // Note, the grid path always contains an odd number of grids for round trip missions.
+            //
+            // Grid path for ferry missions is of the form:
+            //
+            // outBound-0 ... outBound-N, outBound-N+1 ... Target
+            gridPath = new ArrayList<>(gridPath.subList(0, currentGridIndex + 1));
+            Collections.reverse(gridPath);
+            currentGridIndex = 0;
         }
     }
 
@@ -143,7 +132,7 @@ public class AirMissionPath {
      * Mark the mission as ended. Set the mission path to indicate it has reached the end.
      */
     public void end() {
-        currentGridIndex = gridPath.size() - 1;
+        currentGridIndex = gridPath.size() - 1;   // The last grid index.
     }
 
     /**

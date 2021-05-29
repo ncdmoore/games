@@ -115,11 +115,10 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
         int distance = endingAirbase.getDistance(startingAirbase);
         turnsToTarget = getTurnsToTarget(distance);
 
-        missionPath.build(startingAirbase, endingAirbase);
+        missionPath.start(startingAirbase, endingAirbase);
 
         squadrons.takeOff();
 
-        missionPath.start();
     }
 
     /**

@@ -157,12 +157,10 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
         turnsToTarget = getTurnsToDistance(distance);
         turnsToHome = getTurnsToDistance(roundTrip);
 
-        missionPath.build(airbase, targetAirbase);
+        missionPath.start(airbase, targetAirbase);
         missionPath.addInBound();
 
         squadrons.takeOff();
-
-        missionPath.start();
     }
 
     /**
