@@ -25,9 +25,9 @@ public class AirMissionPath {
     private final GameMap gameMap;
     private final ViewProps props;
 
-    private List<GameGrid> gridPath;
-    private List<GameGrid> traversedThisTurn;   // The grids traversed this game turn.
-    private int currentGridIndex;
+    private List<GameGrid> gridPath = Collections.emptyList();  // Initialize to empty path.
+    private int currentGridIndex = -1;                          // Empty path. So initialize index to invalid.
+    private List<GameGrid> traversedThisTurn;                   // The grids traversed this game turn.
 
     /**
      * Constructor called by guice.
@@ -63,7 +63,7 @@ public class AirMissionPath {
         Point startingPoint = startingGridView.getCenter();
         Point endingPoint = endingGridView.getCenter();
 
-        buildGrids(startingPoint, endingPoint, gridSize);
+        gridPath = buildGrids(startingPoint, endingPoint, gridSize);
     }
 
     /**
@@ -163,8 +163,9 @@ public class AirMissionPath {
      * @param startingPoint Marks the starting grid location.
      * @param endingPoint Marks the ending grid location.
      * @param gridSize The map's grid size.
+     * @return The mission's grid path.
      */
-    private void buildGrids(final Point startingPoint, final Point endingPoint, final int gridSize) {
+    private List<GameGrid> buildGrids(final Point startingPoint, final Point endingPoint, final int gridSize) {
         Set<GameGrid> grids = new LinkedHashSet<>();
 
         double slope = getSlope(startingPoint, endingPoint);
@@ -180,7 +181,7 @@ public class AirMissionPath {
             grids.add(grid);
         }
 
-        gridPath = addGrids(List.copyOf(grids));
+        return addGrids(List.copyOf(grids));
     }
 
     /**

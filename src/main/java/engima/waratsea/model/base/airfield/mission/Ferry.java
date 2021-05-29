@@ -129,7 +129,7 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
     public void fly() {
         missionPath.progress(range);
 
-        // get enemy airfields that have CAP and one of the traversed grids is a CAP grid. Get the best grid for CAP intercept for the airfield/taskforce.
+        // get enemy airfields that have CAP and if one of the traversed grids is a CAP grid. Get the best grid for CAP intercept for the airfield/taskforce.
         //    in the future will need to account for cap mission zones.
         // for each airfield do cap intercept.
     }
