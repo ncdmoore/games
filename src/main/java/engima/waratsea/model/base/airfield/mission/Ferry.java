@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
+import engima.waratsea.model.base.airfield.mission.path.AirMissionPath;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionExecutor;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
@@ -14,6 +15,7 @@ import engima.waratsea.model.target.Target;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.inject.Named;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -51,7 +53,7 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
     public Ferry(@Assisted final MissionData data,
                            final Game game,
                            final MissionSquadrons squadrons,
-                           final AirMissionPath missionPath) {
+                           final @Named("oneWay") AirMissionPath missionPath) {
         id = data.getId();
 
         state = Optional
@@ -116,9 +118,7 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
         turnsToTarget = getTurnsToTarget(distance);
 
         missionPath.start(startingAirbase, endingAirbase);
-
         squadrons.takeOff();
-
     }
 
     /**

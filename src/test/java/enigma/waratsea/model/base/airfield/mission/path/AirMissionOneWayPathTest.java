@@ -1,4 +1,4 @@
-package enigma.waratsea.model.base.airfield.mission;
+package enigma.waratsea.model.base.airfield.mission.path;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -6,7 +6,7 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
-import engima.waratsea.model.base.airfield.mission.AirMissionPath;
+import engima.waratsea.model.base.airfield.mission.path.AirMissionRoundTripPath;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.enemy.views.airfield.AirfieldView;
 import engima.waratsea.model.enemy.views.airfield.AirfieldViewFactory;
@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
-public class AirMissionPathTest {
+public class AirMissionOneWayPathTest {
     private static Injector injector;
     private static AirfieldFactory airfieldFactory;
     private static TargetFactory targetFactory;
@@ -44,58 +44,37 @@ public class AirMissionPathTest {
     }
 
     @Test
-    public void testBuild() {
-        AirMissionPath path = injector.getInstance(AirMissionPath.class);
+    public void testStart() {
+        AirMissionRoundTripPath path = injector.getInstance(AirMissionRoundTripPath.class);
 
         Airfield airfield = buildAlexandriaAirfield();
-        Airfield enemyAirfield = buildDernaAirfield();
-        Target enemyAirfieldTarget = buildEnemyAirfield(enemyAirfield);
+        Airfield friendlyAirfield = buildFamagustaAirfield();
+        Target friendlyAirfieldTarget = buildFriendlyAirfieldTarget(friendlyAirfield);
 
-        AirfieldView enemyAirfieldView = buildAirfieldView(enemyAirfield);
+        Deencapsulation.setField(friendlyAirfieldTarget, "airbase", friendlyAirfield);
 
-        Deencapsulation.setField(enemyAirfieldTarget, "airfieldView", enemyAirfieldView);
+        path.start(airfield, friendlyAirfieldTarget);
 
-        path.start(airfield, enemyAirfieldTarget);
-
-        int distanceToTarget = enemyAirfieldTarget.getDistance(airfield);
+        int distanceToTarget = friendlyAirfieldTarget.getDistance(airfield);
 
         List<GameGrid> gridPath = Deencapsulation.getField(path, "gridPath");
 
         // The grid path size is equal to the distance to the target, minus the starting airbase grid.
-        Assert.assertEquals(distanceToTarget, gridPath.size() - 1);  // The minus 1 accounts for the starting grid which is the airbase itself.
+        Assert.assertEquals(2 * distanceToTarget, gridPath.size() - 1);  // The minus 1 accounts for the starting grid which is the airbase itself.
 
         Assert.assertTrue(verifyPath(gridPath));
     }
 
     @Test
-    public void testAddInBound() {
-        AirMissionPath path = injector.getInstance(AirMissionPath.class);
-
-        List<GameGrid> outBound = new ArrayList<>(Arrays.asList(
-                new GameGrid(0,0),
-                new GameGrid(0,1),
-                new GameGrid(0, 2)));
-
-        Deencapsulation.setField(path, "gridPath", outBound);
-
-        path.addInBound();
-
-        List<GameGrid> fullPath = Deencapsulation.getField(path, "gridPath");
-
-        Assert.assertEquals(fullPath.get(0), fullPath.get(fullPath.size() - 1));
-    }
-
-    @Test
     public void testProgress() {
-        AirMissionPath path = injector.getInstance(AirMissionPath.class);
+        AirMissionRoundTripPath path = injector.getInstance(AirMissionRoundTripPath.class);
 
         List<GameGrid> fullPath = new ArrayList<>(Arrays.asList(
                 new GameGrid(0,0),
                 new GameGrid(0,1),
                 new GameGrid(0,2),
                 new GameGrid(0,3),     // In this test the first progress moves the index here.
-                new GameGrid(0,4),
-                new GameGrid(0, 5)));  // In this test the second progress moves the index here.
+                new GameGrid(0, 4)));  // In this test the second progress moves the index here.
 
         Deencapsulation.setField(path, "gridPath", fullPath);
         Deencapsulation.setField(path, "currentGridIndex", 0);
@@ -120,14 +99,14 @@ public class AirMissionPathTest {
 
     @Test
     public void testRecallOutBound() {
-        AirMissionPath path = injector.getInstance(AirMissionPath.class);
+        AirMissionRoundTripPath path = injector.getInstance(AirMissionRoundTripPath.class);
 
         List<GameGrid> fullPath = new ArrayList<>(Arrays.asList(
                 new GameGrid(0,0),
                 new GameGrid(0,1),
                 new GameGrid(0,2),     // In this test the mission is here when it is recalled.
-                new GameGrid(0,1),
-                new GameGrid(0, 0)));
+                new GameGrid(0,3),
+                new GameGrid(0, 4)));
 
         Deencapsulation.setField(path, "gridPath", fullPath);
         Deencapsulation.setField(path, "currentGridIndex", 0);
@@ -161,14 +140,14 @@ public class AirMissionPathTest {
 
     @Test
     public void testRecallInBound() {
-        AirMissionPath path = injector.getInstance(AirMissionPath.class);
+        AirMissionRoundTripPath path = injector.getInstance(AirMissionRoundTripPath.class);
 
         List<GameGrid> fullPath = new ArrayList<>(Arrays.asList(
                 new GameGrid(0, 0),
                 new GameGrid(0, 1),
                 new GameGrid(0, 2),
-                new GameGrid(0, 1),   // In this test the mission is here when it is recalled.
-                new GameGrid(0, 0)));
+                new GameGrid(0, 3),   // In this test the mission is here when it is recalled.
+                new GameGrid(0, 4)));
 
         Deencapsulation.setField(path, "gridPath", fullPath);
         Deencapsulation.setField(path, "currentGridIndex", 0);
@@ -199,7 +178,6 @@ public class AirMissionPathTest {
         Assert.assertEquals(homeGrid, newEndGrid);
     }
 
-
     private Airfield buildAlexandriaAirfield() {
         AirfieldData data = new AirfieldData();
         data.setName("Alexandria");
@@ -222,6 +200,27 @@ public class AirMissionPathTest {
         data.setLocation("AV29");
 
         return airfieldFactory.create(data);
+    }
+
+    private Airfield buildFamagustaAirfield() {
+        AirfieldData data = new AirfieldData();
+        data.setName("Famagusta");
+        data.setSide(Side.ALLIES);
+        data.setLandingType(List.of(LandingType.LAND, LandingType.SEAPLANE, LandingType.CARRIER));
+        data.setMaxCapacity(20);
+        data.setAntiAir(8);
+        data.setLocation("BM25");
+
+        return airfieldFactory.create(data);
+    }
+
+    private Target buildFriendlyAirfieldTarget(final Airfield airfield) {
+        TargetData data = new TargetData();
+        data.setType(TargetType.FRIENDLY_AIRBASE);
+        data.setName(airfield.getName());
+        data.setSide(Side.ALLIES);
+
+        return targetFactory.createFriendlyAirfieldTarget(data);
     }
 
     private Target buildEnemyAirfield(final Airfield airfield) {

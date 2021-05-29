@@ -6,6 +6,7 @@ import com.google.inject.name.Named;
 import engima.waratsea.model.aircraft.AttackType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
+import engima.waratsea.model.base.airfield.mission.path.AirMissionPath;
 import engima.waratsea.model.base.airfield.mission.rules.MissionAirRules;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionExecutor;
@@ -86,7 +87,7 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
                                 final MissionSquadrons squadrons,
                                 final Game game,
                                 final @Named("airStrike") MissionAirRules rules,
-                                final AirMissionPath missionPath,
+                                final @Named("roundTrip") AirMissionPath missionPath,
                                 final Dice dice) {
         id = data.getId();
 
@@ -158,8 +159,6 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
         turnsToHome = getTurnsToDistance(roundTrip);
 
         missionPath.start(airbase, targetAirbase);
-        missionPath.addInBound();
-
         squadrons.takeOff();
     }
 

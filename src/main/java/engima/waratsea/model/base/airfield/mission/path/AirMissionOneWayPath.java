@@ -1,4 +1,4 @@
-package engima.waratsea.model.base.airfield.mission;
+package engima.waratsea.model.base.airfield.mission.path;
 
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
@@ -16,7 +16,7 @@ import java.util.List;
  * This is a utility class that calculates the grid through which a mission passes.
  */
 @Slf4j
-public class AirMissionPath {
+public class AirMissionOneWayPath implements AirMissionPath {
     private final MapPaths mapPaths;
 
     private List<GameGrid> gridPath = Collections.emptyList();  // Initialize to empty path.
@@ -29,7 +29,7 @@ public class AirMissionPath {
      * @param mapPaths The game map utility - used to get the air mission path.
      */
     @Inject
-    public AirMissionPath(final MapPaths mapPaths) {
+    public AirMissionOneWayPath(final MapPaths mapPaths) {
         this.mapPaths = mapPaths;
     }
 
@@ -45,21 +45,6 @@ public class AirMissionPath {
 
         gridPath = mapPaths.getStraightPath(startingReference, endingReference);
         currentGridIndex = 0;
-    }
-
-    /**
-     * For mission that are round trips. This method adds the in-bound grids.
-     * Which are just the out-bound grids in reverse order minus the end grid.
-     */
-    public void addInBound() {
-        List<GameGrid> outBound = new ArrayList<>(gridPath);
-        List<GameGrid> inbound = new ArrayList<>(gridPath);
-        inbound.remove(outBound.size() - 1);     // Remove the last out bound grid.
-
-        Collections.reverse(inbound);
-        outBound.addAll(inbound);                      // Out bound now contains the full path.
-
-        gridPath = outBound;
     }
 
     /**
@@ -90,16 +75,7 @@ public class AirMissionPath {
             // Set the grid path to be the grids already traversed, but in reverse order.
             // The squadrons are flying back to their original starting airbase.
             //
-            // Grid path for round trip missions is of the form:
-            //
-            //  outBound-0 ... outBound-N, outBound-N+1 ... Target ... inBound-N+1, inBound-N ... inBound-0
-            //
-            // where outBound-N and inBound-N are the same distance from the starting airbase
-            // (ouBound-0 and inBound-0). In fact, outBound-N = inBound-N.
-            //
-            // Note, the grid path always contains an odd number of grids for round trip missions.
-            //
-            // Grid path for ferry missions is of the form:
+            // Grid path for one way missions is of the form:
             //
             // outBound-0 ... outBound-N, outBound-N+1 ... Target
             gridPath = new ArrayList<>(gridPath.subList(0, currentGridIndex + 1));

@@ -8,12 +8,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/paths/MapPaths.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/map/paths/MapPathsTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/path/AirMissionOneWayPath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/path/AirMissionPath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/mission/path/AirMissionOneWayPathTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/AirMissionPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/AirMissionPath.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/map/GameMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/mission/AirMissionPathTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/mission/AirMissionPathTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/BasicModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/BasicModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/AirMissionPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/path/AirMissionRoundTripPath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/Ferry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/TestModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/TestModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/mission/AirMissionPathTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/base/airfield/mission/path/AirMissionRoundTripPathTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,8 +73,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -130,17 +134,18 @@
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="engima.waratsea.model.base.airfield.mission.path" />
       <recent name="engima.waratsea.model.map.region" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="enigma.waratsea.model.base.airfield.mission.path" />
+      <recent name="engima.waratsea.model.base.airfield.mission.path" />
       <recent name="engima.waratsea.view" />
       <recent name="engima.waratsea.presenter.taskforce" />
       <recent name="engima.waratsea.view.taskforce" />
-      <recent name="engima.waratsea.viewmodel.taskforce" />
-      <recent name="engima.waratsea.view.airfield.info" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in enigma.worldWarTwoAtSea.test">
+  <component name="RunManager" selected="Application.Main">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -168,17 +173,52 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AirMissionPathTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AirMissionOneWayPathTest.testProgress" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.base.airfield.mission.*" />
+          <option name="PATTERN" value="enigma.waratsea.model.base.airfield.mission.path.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.base.airfield.mission" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.mission.AirMissionPathTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.base.airfield.mission.path" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.mission.path.AirMissionOneWayPathTest" />
+      <option name="METHOD_NAME" value="testProgress" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AirMissionOneWayPathTest.testRecallInBound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.base.airfield.mission.path.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.base.airfield.mission.path" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.mission.path.AirMissionOneWayPathTest" />
+      <option name="METHOD_NAME" value="testRecallInBound" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AirMissionOneWayPathTest.testRecallOutBound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.base.airfield.mission.path.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.base.airfield.mission.path" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.mission.path.AirMissionOneWayPathTest" />
+      <option name="METHOD_NAME" value="testRecallOutBound" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -193,41 +233,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MapPathsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.map.paths.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.map.paths" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.map.paths.MapPathsTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MapPathsTest.testAddRowsVerticalLine" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.map.paths.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.map.paths" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.map.paths.MapPathsTest" />
-      <option name="METHOD_NAME" value="testAddRowsVerticalLine" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="enigma.waratsea.model.base.airfield.mission in enigma.worldWarTwoAtSea.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.base.airfield.mission.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.base.airfield.mission" />
+      <option name="TEST_OBJECT" value="package" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -253,17 +275,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="JUnit.MapPathsTest.testAddRowsVerticalLine" />
-      <item itemvalue="JUnit.MapPathsTest" />
-      <item itemvalue="JUnit.AirMissionPathTest" />
+      <item itemvalue="JUnit.AirMissionOneWayPathTest.testProgress" />
+      <item itemvalue="JUnit.AirMissionOneWayPathTest.testRecallOutBound" />
+      <item itemvalue="JUnit.AirMissionOneWayPathTest.testRecallInBound" />
+      <item itemvalue="JUnit.enigma.waratsea.model.base.airfield.mission in enigma.worldWarTwoAtSea.test" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
-        <item itemvalue="JUnit.AirMissionPathTest" />
-        <item itemvalue="JUnit.MapPathsTest" />
-        <item itemvalue="JUnit.MapPathsTest.testAddRowsVerticalLine" />
+        <item itemvalue="JUnit.enigma.waratsea.model.base.airfield.mission in enigma.worldWarTwoAtSea.test" />
+        <item itemvalue="JUnit.AirMissionOneWayPathTest.testRecallInBound" />
+        <item itemvalue="JUnit.AirMissionOneWayPathTest.testRecallOutBound" />
+        <item itemvalue="JUnit.AirMissionOneWayPathTest.testProgress" />
       </list>
     </recent_temporary>
   </component>
@@ -278,13 +302,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00405" summary="Add airbase group title to patrol details dialog and patrol stats on airbase dialog.">
-      <created>1613696089592</created>
-      <option name="number" value="00405" />
-      <option name="presentableId" value="LOCAL-00405" />
-      <option name="project" value="LOCAL" />
-      <updated>1613696089592</updated>
     </task>
     <task id="LOCAL-00406" summary="Add airbase group title to patrol details dialog and patrol stats on airbase dialog.">
       <created>1613697142716</created>
@@ -622,7 +639,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622303121243</updated>
     </task>
-    <option name="localTasksCounter" value="454" />
+    <task id="LOCAL-00454" summary="Move geometry code out of the AirMissionPath class and into MapPaths.">
+      <created>1622305462787</created>
+      <option name="number" value="00454" />
+      <option name="presentableId" value="LOCAL-00454" />
+      <option name="project" value="LOCAL" />
+      <updated>1622305462788</updated>
+    </task>
+    <option name="localTasksCounter" value="455" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -637,7 +661,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="css refactor." />
     <MESSAGE value="Add management and landing panes to task force asset view." />
     <MESSAGE value="Add mission marker to task force maker." />
     <MESSAGE value="Make sure mission edit button is disable if no mission is selected." />
@@ -662,7 +685,8 @@
     <MESSAGE value="Update AirMissionPath to encapsulate the path from the air mission." />
     <MESSAGE value="Remove patrol path. It should not be needed. Just do a distance check to see if any entity is within patrol range." />
     <MESSAGE value="Add Air mission path unit tests." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Air mission path unit tests." />
+    <MESSAGE value="Move geometry code out of the AirMissionPath class and into MapPaths." />
+    <option name="LAST_COMMIT_MESSAGE" value="Move geometry code out of the AirMissionPath class and into MapPaths." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
