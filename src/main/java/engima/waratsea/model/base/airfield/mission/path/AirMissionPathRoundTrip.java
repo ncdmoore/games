@@ -16,7 +16,7 @@ import java.util.List;
  * This is a utility class that calculates the grid through which a mission passes.
  */
 @Slf4j
-public class AirMissionOneWayPath implements AirMissionPath {
+public class AirMissionPathRoundTrip implements AirMissionPath {
     private final MapPaths mapPaths;
 
     private List<GameGrid> gridPath = Collections.emptyList();  // Initialize to empty path.
@@ -29,7 +29,7 @@ public class AirMissionOneWayPath implements AirMissionPath {
      * @param mapPaths The game map utility - used to get the air mission path.
      */
     @Inject
-    public AirMissionOneWayPath(final MapPaths mapPaths) {
+    public AirMissionPathRoundTrip(final MapPaths mapPaths) {
         this.mapPaths = mapPaths;
     }
 
@@ -44,7 +44,7 @@ public class AirMissionOneWayPath implements AirMissionPath {
         String startingReference = airbase.getReference();
         String endingReference = target.getReference();
 
-        gridPath = mapPaths.getStraightPath(startingReference, endingReference);
+        gridPath = addInBound(mapPaths.getStraightPath(startingReference, endingReference));
         currentGridIndex = 0;
     }
 
@@ -78,9 +78,14 @@ public class AirMissionOneWayPath implements AirMissionPath {
             // Set the grid path to be the grids already traversed, but in reverse order.
             // The squadrons are flying back to their original starting airbase.
             //
-            // Grid path for one way missions is of the form:
+            // Grid path for round trip missions is of the form:
             //
-            // outBound-0 ... outBound-N, outBound-N+1 ... Target
+            //  outBound-0 ... outBound-N, outBound-N+1 ... Target ... inBound-N+1, inBound-N ... inBound-0
+            //
+            // where outBound-N and inBound-N are the same distance from the starting airbase
+            // (ouBound-0 and inBound-0). In fact, outBound-N = inBound-N.
+            //
+            // Note, the grid path always contains an odd number of grids for round trip missions.
             gridPath = new ArrayList<>(gridPath.subList(0, currentGridIndex + 1));
             Collections.reverse(gridPath);
             currentGridIndex = 0;
@@ -105,5 +110,26 @@ public class AirMissionOneWayPath implements AirMissionPath {
     public int getDistanceToEnd() {
         int lastGridIndex = gridPath.size() - 1;
         return lastGridIndex - currentGridIndex;
+    }
+
+    /**
+     * For mission that are round trips. This method adds the in-bound grids.
+     * Which are just the out-bound grids in reverse order minus the end grid.
+     *
+     * @param path The current out bound path.
+     * @return The path with the in bound leg added at the end.
+     */
+    private List<GameGrid> addInBound(final List<GameGrid> path) {
+        List<GameGrid> outBound = new ArrayList<>(path);
+        List<GameGrid> inbound = new ArrayList<>(path);
+
+        // Build the in bound path.
+        inbound.remove(outBound.size() - 1);     // Remove the last out bound grid.
+        Collections.reverse(inbound);
+
+        // Construct the full path 'in bound' + 'out bound'.
+        outBound.addAll(inbound);                      // Out bound now contains the full path.
+
+        return outBound;
     }
 }

@@ -137,7 +137,7 @@
       <recent name="engima.waratsea.view.taskforce" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.All in enigma.worldWarTwoAtSea.test (1)">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -165,7 +165,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AirMissionOneWayPathTest.testProgress" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AirMissionPathOneWayTest.testRecallInBound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <extension name="coverage">
         <pattern>
@@ -174,24 +174,7 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="enigma.waratsea.model.base.airfield.mission.path" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.mission.path.AirMissionOneWayPathTest" />
-      <option name="METHOD_NAME" value="testProgress" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AirMissionOneWayPathTest.testRecallInBound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.base.airfield.mission.path.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.base.airfield.mission.path" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.mission.path.AirMissionOneWayPathTest" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.mission.path.AirMissionPathOneWayTest" />
       <option name="METHOD_NAME" value="testRecallInBound" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
@@ -199,7 +182,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AirMissionOneWayPathTest.testRecallOutBound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AirMissionPathOneWayTest.testRecallOutBound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <extension name="coverage">
         <pattern>
@@ -208,9 +191,18 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="enigma.waratsea.model.base.airfield.mission.path" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.mission.path.AirMissionOneWayPathTest" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.mission.path.AirMissionPathOneWayTest" />
       <option name="METHOD_NAME" value="testRecallOutBound" />
       <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in enigma.worldWarTwoAtSea.test (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -267,19 +259,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="JUnit.AirMissionOneWayPathTest.testProgress" />
-      <item itemvalue="JUnit.AirMissionOneWayPathTest.testRecallOutBound" />
-      <item itemvalue="JUnit.AirMissionOneWayPathTest.testRecallInBound" />
       <item itemvalue="JUnit.enigma.waratsea.model.base.airfield.mission in enigma.worldWarTwoAtSea.test" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
+      <item itemvalue="JUnit.AirMissionPathOneWayTest.testRecallOutBound" />
+      <item itemvalue="JUnit.AirMissionPathOneWayTest.testRecallInBound" />
+      <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
         <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
         <item itemvalue="JUnit.enigma.waratsea.model.base.airfield.mission in enigma.worldWarTwoAtSea.test" />
-        <item itemvalue="JUnit.AirMissionOneWayPathTest.testRecallInBound" />
-        <item itemvalue="JUnit.AirMissionOneWayPathTest.testRecallOutBound" />
-        <item itemvalue="JUnit.AirMissionOneWayPathTest.testProgress" />
+        <item itemvalue="JUnit.AirMissionPathOneWayTest.testRecallInBound" />
+        <item itemvalue="JUnit.AirMissionPathOneWayTest.testRecallOutBound" />
       </list>
     </recent_temporary>
   </component>
