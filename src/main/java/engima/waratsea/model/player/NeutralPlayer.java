@@ -25,6 +25,7 @@ import engima.waratsea.model.taskForce.mission.SeaMissionType;
 import engima.waratsea.model.victory.VictoryConditions;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -258,6 +259,16 @@ public class NeutralPlayer implements Player {
     @Override
     public List<Squadron> getSquadrons(final SquadronLocationType locationType) {
         return Collections.emptyList();
+    }
+
+    /**
+     * This gets the player's airbases which includes task forces with aircraft carriers.
+     *
+     * @return The player's airbases including task forces.
+     */
+    @Override
+    public List<Airbase> getAirbases() {
+        return new ArrayList<>(getAirfields());
     }
 
     /**

@@ -128,6 +128,9 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
     public void fly() {
         missionPath.progress(range);
 
+
+        //game.getPlayer(startingAirbase.getSide().opposite()).getAirbases().stream().filter(airbase::hasActiveCAP).forEach(airbase::capIntercept);
+
         // get enemy airfields that have CAP and if one of the traversed grids is a CAP grid. Get the best grid for CAP intercept for the airfield/taskforce.
         //    in the future will need to account for cap mission zones.
         // for each airfield do cap intercept.

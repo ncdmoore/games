@@ -52,6 +52,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * This is the computer player in the game.
@@ -405,6 +406,19 @@ public class ComputerPlayer implements Player {
         return locationType == SquadronLocationType.LAND
                 ? getLandSquadrons()
                 : getTaskForceSquadrons();
+    }
+
+    /**
+     * This gets the player's airbases which includes task forces with aircraft carriers.
+     *
+     * @return The player's airbases including task forces.
+     */
+    @Override
+    public List<Airbase> getAirbases() {
+        Stream<Airbase> taskForceAirbases = taskForces.stream().flatMap(taskForce -> taskForce.getAirbases().stream());
+        Stream<Airbase> airfieldBases = getAirfields().stream().map(airfield -> airfield);
+
+        return Stream.concat(taskForceAirbases, airfieldBases).collect(Collectors.toList());
     }
 
     /**

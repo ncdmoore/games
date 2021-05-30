@@ -120,6 +120,6 @@ public class PatrolPath {
 
     private GameGrid getGrid(final Point point, final int gridSize) {
         GridView gridView = new GridView(gridSize, point);
-        return new GameGrid(gridView.getRow(), gridView.getColumn());
+        return gameMap.getGrid(gridView.getRow(), gridView.getColumn());
     }
 }

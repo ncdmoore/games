@@ -119,7 +119,7 @@ public class MapPaths {
 
             for (int rowCount = 0; rowCount < delta; rowCount++) {
                 int row = startingRow + rowCount * increment;
-                GameGrid grid = new GameGrid(row, endColumn);
+                GameGrid grid = gameMap.getGrid(row, endColumn);
                 allGrids.add(grid);
             }
 
@@ -131,7 +131,7 @@ public class MapPaths {
 
     private GameGrid getGrid(final Point point, final int gridSize) {
         GridView gridView = new GridView(gridSize, point);
-        return new GameGrid(gridView.getRow(), gridView.getColumn());
+        return gameMap.getGrid(gridView.getRow(), gridView.getColumn());
     }
 
     private double getSlope(final Point startingPoint, final Point endingPoint) {

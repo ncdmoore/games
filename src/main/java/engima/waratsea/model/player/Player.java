@@ -186,6 +186,14 @@ public interface Player {
     List<Squadron> getSquadrons(SquadronLocationType locationType);
 
     /**
+     * This gets the player's airbases which includes task forces with aircraft carriers or capital ships
+     * with float planes.
+     *
+     * @return The player's airbases including task forces.
+     */
+    List<Airbase> getAirbases();
+
+    /**
      * This gets the player's airfields.
      *
      * @return The player's airfields.
