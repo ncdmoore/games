@@ -17,8 +17,9 @@ import engima.waratsea.model.base.airfield.mission.LandStrike;
 import engima.waratsea.model.base.airfield.mission.NavalPortStrike;
 import engima.waratsea.model.base.airfield.mission.SweepAirfield;
 import engima.waratsea.model.base.airfield.mission.SweepPort;
-import engima.waratsea.model.base.airfield.mission.path.AirMissionPathOneWay;
 import engima.waratsea.model.base.airfield.mission.path.AirMissionPath;
+import engima.waratsea.model.base.airfield.mission.path.AirMissionPathFactory;
+import engima.waratsea.model.base.airfield.mission.path.AirMissionPathOneWay;
 import engima.waratsea.model.base.airfield.mission.path.AirMissionPathRoundTrip;
 import engima.waratsea.model.base.airfield.mission.rules.MissionAirRules;
 import engima.waratsea.model.base.airfield.mission.rules.MissionAirStrikeRules;
@@ -277,8 +278,10 @@ public class BasicModule extends AbstractModule {
         install(new FactoryModuleBuilder().implement(TaskForceView.class, TaskForceView.class).build(TaskForceViewFactory.class));
 
 
-        bind(AirMissionPath.class).annotatedWith(Names.named("oneWay")).to(AirMissionPathOneWay.class);
-        bind(AirMissionPath.class).annotatedWith(Names.named("roundTrip")).to(AirMissionPathRoundTrip.class);
+        install(new FactoryModuleBuilder()
+                .implement(AirMissionPath.class, Names.named("roundTrip"), AirMissionPathRoundTrip.class)
+                .implement(AirMissionPath.class, Names.named("oneWay"), AirMissionPathOneWay.class)
+                .build(AirMissionPathFactory.class));
     }
 }
 

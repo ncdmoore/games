@@ -6,7 +6,11 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.path.AirMissionPath;
+import engima.waratsea.model.base.airfield.mission.path.AirMissionPathDAO;
 import engima.waratsea.model.base.airfield.mission.path.AirMissionPathRoundTrip;
+import engima.waratsea.model.base.airfield.mission.path.data.AirMissionPathData;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.enemy.views.airfield.AirfieldView;
 import engima.waratsea.model.enemy.views.airfield.AirfieldViewFactory;
@@ -30,22 +34,25 @@ import java.util.List;
 
 @Slf4j
 public class AirMissionPathRoundTripTest {
-    private static Injector injector;
     private static AirfieldFactory airfieldFactory;
     private static TargetFactory targetFactory;
     private static AirfieldViewFactory airfieldViewFactory;
+    private static AirMissionPathDAO missionPathDAO;
 
     @BeforeClass
     public static void setup() {
-        injector = Guice.createInjector(new TestModule());
+        Injector injector = Guice.createInjector(new TestModule());
         airfieldFactory = injector.getInstance(AirfieldFactory.class);
         targetFactory = injector.getInstance(TargetFactory.class);
         airfieldViewFactory = injector.getInstance(AirfieldViewFactory.class);
+        missionPathDAO = injector.getInstance(AirMissionPathDAO.class);
     }
 
     @Test
     public void testStart() {
-        AirMissionPathRoundTrip path = injector.getInstance(AirMissionPathRoundTrip.class);
+        AirMissionPathData data = new AirMissionPathData();
+        data.setType(AirMissionType.LAND_STRIKE);
+        AirMissionPath path = missionPathDAO.load(data);
 
         Airfield airfield = buildAlexandriaAirfield();
         Airfield enemyAirfield = buildDernaAirfield();
@@ -69,7 +76,9 @@ public class AirMissionPathRoundTripTest {
 
     @Test
     public void testAddInBound() {
-        AirMissionPathRoundTrip path = injector.getInstance(AirMissionPathRoundTrip.class);
+        AirMissionPathData data = new AirMissionPathData();
+        data.setType(AirMissionType.LAND_STRIKE);
+        AirMissionPathRoundTrip path = (AirMissionPathRoundTrip) missionPathDAO.load(data);
 
         List<GameGrid> outBound = new ArrayList<>(Arrays.asList(
                 new GameGrid(0,0),
@@ -85,7 +94,9 @@ public class AirMissionPathRoundTripTest {
 
     @Test
     public void testProgress() {
-        AirMissionPathRoundTrip path = injector.getInstance(AirMissionPathRoundTrip.class);
+        AirMissionPathData data = new AirMissionPathData();
+        data.setType(AirMissionType.LAND_STRIKE);
+        AirMissionPath path = missionPathDAO.load(data);
 
         List<GameGrid> fullPath = new ArrayList<>(Arrays.asList(
                 new GameGrid(0,0),
@@ -117,7 +128,9 @@ public class AirMissionPathRoundTripTest {
 
     @Test
     public void testRecallOutBound() {
-        AirMissionPathRoundTrip path = injector.getInstance(AirMissionPathRoundTrip.class);
+        AirMissionPathData data = new AirMissionPathData();
+        data.setType(AirMissionType.LAND_STRIKE);
+        AirMissionPath path = missionPathDAO.load(data);
 
         List<GameGrid> fullPath = new ArrayList<>(Arrays.asList(
                 new GameGrid(0,0),
@@ -158,7 +171,9 @@ public class AirMissionPathRoundTripTest {
 
     @Test
     public void testRecallInBound() {
-        AirMissionPathRoundTrip path = injector.getInstance(AirMissionPathRoundTrip.class);
+        AirMissionPathData data = new AirMissionPathData();
+        data.setType(AirMissionType.LAND_STRIKE);
+        AirMissionPath path = missionPathDAO.load(data);
 
         List<GameGrid> fullPath = new ArrayList<>(Arrays.asList(
                 new GameGrid(0, 0),
@@ -195,7 +210,6 @@ public class AirMissionPathRoundTripTest {
         // The new recall path's ending grid should equal the original grid's starting grid.
         Assert.assertEquals(homeGrid, newEndGrid);
     }
-
 
     private Airfield buildAlexandriaAirfield() {
         AirfieldData data = new AirfieldData();

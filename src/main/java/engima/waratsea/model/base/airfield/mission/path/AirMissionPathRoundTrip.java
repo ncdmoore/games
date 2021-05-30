@@ -1,6 +1,8 @@
 package engima.waratsea.model.base.airfield.mission.path;
 
+import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.mission.path.data.AirMissionPathData;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.paths.MapPaths;
@@ -11,6 +13,8 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * This is a utility class that calculates the grid through which a mission passes.
@@ -19,18 +23,45 @@ import java.util.List;
 public class AirMissionPathRoundTrip implements AirMissionPath {
     private final MapPaths mapPaths;
 
-    private List<GameGrid> gridPath = Collections.emptyList();  // Initialize to empty path.
-    private int currentGridIndex = -1;                          // Empty path. So initialize index to invalid.
+    private List<GameGrid> gridPath;
+    private int currentGridIndex;
     private List<GameGrid> traversedThisTurn;                   // The grids traversed this game turn.
 
     /**
      * Constructor called by guice.
      *
+     * @param data The air mission path data read in from a JSON file.
      * @param mapPaths The game map utility - used to get the air mission path.
      */
     @Inject
-    public AirMissionPathRoundTrip(final MapPaths mapPaths) {
+    public AirMissionPathRoundTrip(@Assisted final AirMissionPathData data,
+                                             final MapPaths mapPaths) {
         this.mapPaths = mapPaths;
+
+        this.currentGridIndex = Optional
+                .ofNullable(data)
+                .map(AirMissionPathData::getCurrentGridIndex)
+                .orElse(-1);
+
+        this.gridPath = Optional
+                .ofNullable(data)
+                .map(AirMissionPathData::getGridPath)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(mapRef -> mapPaths.getGrid(mapRef).orElseThrow())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get the persistent air mission path data.
+     *
+     * @return The persistent air mission path data.
+     */
+    public AirMissionPathData getData() {
+        AirMissionPathData data = new AirMissionPathData();
+        data.setGridPath(gridPath.stream().map(GameGrid::getMapReference).collect(Collectors.toList()));
+        data.setCurrentGridIndex(currentGridIndex);
+        return data;
     }
 
     /**

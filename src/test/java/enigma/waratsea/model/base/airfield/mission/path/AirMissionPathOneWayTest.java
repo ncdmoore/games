@@ -6,7 +6,10 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
 import engima.waratsea.model.base.airfield.data.AirfieldData;
-import engima.waratsea.model.base.airfield.mission.path.AirMissionPathOneWay;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.path.AirMissionPath;
+import engima.waratsea.model.base.airfield.mission.path.AirMissionPathDAO;
+import engima.waratsea.model.base.airfield.mission.path.data.AirMissionPathData;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.enemy.views.airfield.AirfieldView;
 import engima.waratsea.model.enemy.views.airfield.AirfieldViewFactory;
@@ -30,22 +33,25 @@ import java.util.List;
 
 @Slf4j
 public class AirMissionPathOneWayTest {
-    private static Injector injector;
     private static AirfieldFactory airfieldFactory;
     private static TargetFactory targetFactory;
     private static AirfieldViewFactory airfieldViewFactory;
+    private static AirMissionPathDAO missionPathDAO;
 
     @BeforeClass
     public static void setup() {
-        injector = Guice.createInjector(new TestModule());
+        Injector injector = Guice.createInjector(new TestModule());
         airfieldFactory = injector.getInstance(AirfieldFactory.class);
         targetFactory = injector.getInstance(TargetFactory.class);
         airfieldViewFactory = injector.getInstance(AirfieldViewFactory.class);
+        missionPathDAO = injector.getInstance(AirMissionPathDAO.class);
     }
 
     @Test
     public void testStart() {
-        AirMissionPathOneWay path = injector.getInstance(AirMissionPathOneWay.class);
+        AirMissionPathData data = new AirMissionPathData();
+        data.setType(AirMissionType.FERRY);
+        AirMissionPath path = missionPathDAO.load(data);
 
         Airfield airfield = buildAlexandriaAirfield();
         Airfield friendlyAirfield = buildFamagustaAirfield();
@@ -67,7 +73,9 @@ public class AirMissionPathOneWayTest {
 
     @Test
     public void testProgress() {
-        AirMissionPathOneWay path = injector.getInstance(AirMissionPathOneWay.class);
+        AirMissionPathData data = new AirMissionPathData();
+        data.setType(AirMissionType.FERRY);
+        AirMissionPath path = missionPathDAO.load(data);
 
         List<GameGrid> fullPath = new ArrayList<>(Arrays.asList(
                 new GameGrid(0,0),
@@ -99,7 +107,9 @@ public class AirMissionPathOneWayTest {
 
     @Test
     public void testRecallOutBound() {
-        AirMissionPathOneWay path = injector.getInstance(AirMissionPathOneWay.class);
+        AirMissionPathData data = new AirMissionPathData();
+        data.setType(AirMissionType.FERRY);
+        AirMissionPath path = missionPathDAO.load(data);
 
         List<GameGrid> fullPath = new ArrayList<>(Arrays.asList(
                 new GameGrid(0,0),
@@ -140,7 +150,9 @@ public class AirMissionPathOneWayTest {
 
     @Test
     public void testRecallInBound() {
-        AirMissionPathOneWay path = injector.getInstance(AirMissionPathOneWay.class);
+        AirMissionPathData data = new AirMissionPathData();
+        data.setType(AirMissionType.FERRY);
+        AirMissionPath path = missionPathDAO.load(data);
 
         List<GameGrid> fullPath = new ArrayList<>(Arrays.asList(
                 new GameGrid(0, 0),

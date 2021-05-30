@@ -3,6 +3,7 @@ package engima.waratsea.model.base.airfield.mission.data;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.path.data.AirMissionPathData;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.game.Nation;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class MissionData {
     @Getter private transient Airbase airbase;
     @Getter @Setter private String target;
     @Getter @Setter private Map<MissionRole, List<String>> squadronMap;
+    @Getter @Setter private AirMissionPathData airMissionPathData;
 
     /**
      * Set the air base.

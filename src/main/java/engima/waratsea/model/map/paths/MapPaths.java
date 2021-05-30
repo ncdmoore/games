@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -36,6 +37,16 @@ public class MapPaths {
         this.gameMap = gameMap;
         this.props = props;
 
+    }
+
+    /**
+     * Get a game grid given its corresponding map reference string.
+     *
+     * @param mapReference A game grid's map reference string.
+     * @return The corresponding game grid to the given map reference string.
+     */
+    public Optional<GameGrid> getGrid(final String mapReference) {
+        return gameMap.getGrid(mapReference);
     }
 
     /**

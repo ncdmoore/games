@@ -7,6 +7,8 @@ import engima.waratsea.model.aircraft.AttackType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.mission.path.AirMissionPath;
+import engima.waratsea.model.base.airfield.mission.path.AirMissionPathDAO;
+import engima.waratsea.model.base.airfield.mission.path.data.AirMissionPathData;
 import engima.waratsea.model.base.airfield.mission.rules.MissionAirRules;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionExecutor;
@@ -79,16 +81,16 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
      * @param squadrons The squadrons on this mission.
      * @param game The game.
      * @param rules The mission air rules.
-     * @param missionPath The mission path utility.
+     * @param missionPathDAO The air mission path data abstraction object.
      * @param dice The dice utility.
      */
     @Inject
     public LandStrike(@Assisted final MissionData data,
-                                final MissionSquadrons squadrons,
-                                final Game game,
-                                final @Named("airStrike") MissionAirRules rules,
-                                final @Named("roundTrip") AirMissionPath missionPath,
-                                final Dice dice) {
+                      final MissionSquadrons squadrons,
+                      final Game game,
+                      final @Named("airStrike") MissionAirRules rules,
+                      final AirMissionPathDAO missionPathDAO,
+                      final Dice dice) {
         id = data.getId();
 
         state = Optional
@@ -99,7 +101,6 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
         this.game = game;
         this.dice = dice;
         this.rules = rules;
-        this.missionPath = missionPath;
 
         nation = data.getNation();
 
@@ -111,6 +112,14 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
         targetBaseName = data.getTarget();
 
         squadrons.setSquadrons(airbase, data.getSquadronMap());
+
+        AirMissionPathData pathData = Optional
+                .ofNullable(data.getAirMissionPathData())
+                .orElseGet(AirMissionPathData::new);
+
+        pathData.setType(AirMissionType.LAND_STRIKE);
+
+        this.missionPath = missionPathDAO.load(pathData);
     }
 
     /**
@@ -128,6 +137,7 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
         data.setNation(nation);
         data.setTarget(targetBaseName);
         data.setSquadronMap(squadrons.getData());
+        data.setAirMissionPathData(missionPath.getData());
 
         return data;
     }

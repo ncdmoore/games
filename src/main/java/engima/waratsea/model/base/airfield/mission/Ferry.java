@@ -5,6 +5,8 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.mission.path.AirMissionPath;
+import engima.waratsea.model.base.airfield.mission.path.AirMissionPathDAO;
+import engima.waratsea.model.base.airfield.mission.path.data.AirMissionPathData;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionExecutor;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
@@ -15,7 +17,6 @@ import engima.waratsea.model.target.Target;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.inject.Named;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -47,13 +48,13 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
      * @param data The mission data read in from a JSON file.
      * @param game The game.
      * @param squadrons The squadron on this mission.
-     * @param missionPath The mission's path.
+     * @param missionPathDAO The air mission path data abstraction object.
      */
     @Inject
     public Ferry(@Assisted final MissionData data,
                            final Game game,
                            final MissionSquadrons squadrons,
-                           final @Named("oneWay") AirMissionPath missionPath) {
+                           final AirMissionPathDAO missionPathDAO) {
         id = data.getId();
 
         state = Optional
@@ -61,7 +62,6 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
                 .orElse(AirMissionState.READY);
 
         this.game = game;
-        this.missionPath = missionPath;
         nation = data.getNation();
         this.squadrons = squadrons;
 
@@ -73,6 +73,13 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
         //this point in time. So we just save the name of the destination air base. The destination air base
         // must be determined outside the constructor.
         endingAirbaseName = data.getTarget();
+
+        AirMissionPathData pathData = Optional
+                .ofNullable(data.getAirMissionPathData())
+                .orElseGet(AirMissionPathData::new);
+
+        pathData.setType(AirMissionType.FERRY);
+        this.missionPath = missionPathDAO.load(pathData);
     }
 
     /**
@@ -90,6 +97,7 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
         data.setNation(nation);
         data.setTarget(endingAirbaseName);
         data.setSquadronMap(squadrons.getData());
+        data.setAirMissionPathData(missionPath.getData());
 
         return data;
     }

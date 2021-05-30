@@ -1,10 +1,19 @@
 package engima.waratsea.model.base.airfield.mission.path;
 
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.airfield.mission.path.data.AirMissionPathData;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.target.Target;
 
 public interface AirMissionPath {
+
+    /**
+     * Get the persistent air mission path data.
+     *
+     * @return The persistent air mission path data.
+     */
+    AirMissionPathData getData();
+
     /**
      * Get the game map grids that the mission's path passes through.
      *
