@@ -382,14 +382,6 @@ public class TargetFriendlyPort implements Target {
     }
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-    }
-
-    /**
      * Determine if this Target is equal to a given target.
      *
      * @param o The other target.

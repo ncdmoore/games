@@ -17,5 +17,6 @@ public interface PersistentData<T> {
      * Save any of this object's children persistent data.
      * Not all objects will have children with persistent data.
      */
-    void saveChildrenData();
+    default void saveChildrenData() {
+    }
 }

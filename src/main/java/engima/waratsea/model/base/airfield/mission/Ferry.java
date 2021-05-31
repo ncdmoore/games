@@ -203,14 +203,6 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
     }
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-    }
-
-    /**
      * Get the airbase from which the mission was launched.
      *
      * @return The airbase from which the mission was launched.

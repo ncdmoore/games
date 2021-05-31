@@ -74,15 +74,7 @@ public class AirfieldView implements PersistentData<AirfieldViewData> {
         data.setName(enemyAirfield.getName());
         return data;
     }
-
-    /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-    }
-
+    
     /**
      * The airfield's CAP attempts to intercept and engage the attacking squadrons.
      *

@@ -190,15 +190,6 @@ public class SweepAirfield extends AirMissionExecutor implements AirMission {
         return getElapsedTurns() + 1 >= turnsToHome;     }
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-
-    }
-
-    /**
      * Get the mission's target.
      *
      * @return The mission's target.

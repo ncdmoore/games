@@ -147,14 +147,6 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
     }
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-    }
-
-    /**
      * Determine if the all the required victory conditions have be met.
      *
      * @return True if all the required victory conditions have been met. False otherwise.

@@ -50,14 +50,6 @@ public class TurnEventMatcher implements PersistentData<TurnMatchData> {
     }
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-    }
-
-    /**
      * Determine if the random fired event matches this event.
      *
      * @param firedEvent The event that was fired.

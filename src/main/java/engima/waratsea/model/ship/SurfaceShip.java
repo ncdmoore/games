@@ -115,13 +115,6 @@ public class SurfaceShip implements Ship {
     }
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() { }
-
-    /**
      * Get the ship's side: ALLIES or AXIS.
      *
      * @return The ship's side.

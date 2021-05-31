@@ -62,14 +62,6 @@ public class Minefield implements PersistentData<MinefieldData> {
     }
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-    }
-
-    /**
      * Mine one of the available zone map reference grids.
      *
      * @param grid The map reference grid that is mined.

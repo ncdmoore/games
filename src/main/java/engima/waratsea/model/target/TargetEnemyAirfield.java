@@ -231,14 +231,6 @@ public class TargetEnemyAirfield implements Target {
     }
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-    }
-
-    /**
      * Determine if the given squadron is allowed to perform the given mission against this target.
      *
      * @param type The air mission type.

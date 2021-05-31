@@ -189,15 +189,6 @@ public class SweepPort extends AirMissionExecutor implements AirMission {
     }
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-
-    }
-
-    /**
      * Get the mission's target.
      *
      * @return The mission's target.

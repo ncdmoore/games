@@ -115,15 +115,6 @@ public class DistantCap extends AirMissionExecutor implements AirMission, Cap {
     }
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-
-    }
-
-    /**
      * This CAP intercepts enemy squadrons.
      *
      * @param enemySquadrons The enemy squadrons that are intercepted.

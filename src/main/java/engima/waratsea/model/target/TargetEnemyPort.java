@@ -189,14 +189,6 @@ public class TargetEnemyPort implements Target {
     }
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-    }
-
-    /**
      * The String representation of this target.
      *
      * @return The String representation.

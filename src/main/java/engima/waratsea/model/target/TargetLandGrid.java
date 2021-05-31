@@ -121,14 +121,6 @@ public class TargetLandGrid implements Target {
     }
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-    }
-
-    /**
      * Get the underlying object of the target. This is the opponent's asset.
      *
      * @return The underlying object of the target.

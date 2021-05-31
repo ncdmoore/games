@@ -121,14 +121,6 @@ public class Game implements PersistentData<GameData> {
     }
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-    }
-
-    /**
      * Get the next air mission id.
      *
      * @return The next air mission id.

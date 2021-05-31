@@ -94,14 +94,6 @@ public class SquadronEventMatcher implements PersistentData<SquadronMatchData> {
     }
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-    }
-
-    /**
      * Determines if fired Squadron event matches.
      *
      * @param firedEvent The squadron event to test for matching.

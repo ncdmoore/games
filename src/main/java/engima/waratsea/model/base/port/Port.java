@@ -67,14 +67,6 @@ public class Port implements Asset, Base, PersistentData<PortData> {
     }
 
     /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-    }
-
-    /**
      * Get the port's game grid.
      *
      * @return The port's game grid.
