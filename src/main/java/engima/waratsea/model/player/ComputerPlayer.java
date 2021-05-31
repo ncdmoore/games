@@ -416,7 +416,7 @@ public class ComputerPlayer implements Player {
      */
     @Override
     public List<Airbase> getAirbases() {
-        Stream<Airbase> taskForceAirbases = taskForces.stream().flatMap(taskForce -> taskForce.getAirbases().stream());
+        Stream<Airbase> taskForceAirbases = taskForces.stream().flatMap(taskForce -> taskForce.getRealAirbases().stream());
         Stream<Airbase> airfieldBases = getAirfields().stream().map(airfield -> airfield);
 
         return Stream.concat(taskForceAirbases, airfieldBases).collect(Collectors.toList());
@@ -602,7 +602,7 @@ public class ComputerPlayer implements Player {
 
         taskForces
                 .stream()
-                .flatMap(taskForce -> taskForce.getAirbases().stream())
+                .flatMap(taskForce -> taskForce.getRealAirbases().stream())
                 .forEach(airbase -> airbaseMap.put(airbase.getName(), airbase));
     }
 

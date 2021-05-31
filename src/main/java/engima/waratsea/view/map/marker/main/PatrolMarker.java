@@ -51,7 +51,7 @@ public class PatrolMarker {
      * @param gridRadius The radius of the patrol.
      * @param patrols A list of Patrols.
      */
-    public void drawRadius(final int gridRadius, final List<PatrolGroup> patrols) {
+    public void draw(final int gridRadius, final List<PatrolGroup> patrols) {
         int offset = gridView.getSize() / 2;
 
         int radius = gridRadius * gridView.getSize();

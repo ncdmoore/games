@@ -9,6 +9,7 @@ import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.AirbaseGroup;
 import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.game.event.ship.ShipEvent;
@@ -39,6 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -68,10 +70,13 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
     @Getter @Setter private List<ShipEventMatcher> releaseShipEvents;
     @Getter @Setter private List<TurnEventMatcher> releaseTurnEvents;
     @Getter private List<Ship> ships;
-    @Getter private List<Airbase> airbases;
+    @Getter private List<Airbase> realAirbases;
     @Getter private List<Ship> cargoShips;
     @Getter private Map<String, Ship> shipMap;
     @Getter private Map<ShipType, List<Ship>> shipTypeMap;
+
+    private Ship virtualCarrier;
+    private Airbase virtualAirbase;
 
     private final Shipyard shipyard;
     private final ShipEventMatcherFactory shipEventMatcherFactory;
@@ -157,6 +162,7 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
     @Override
     public void saveChildrenData() {
         ships.forEach(shipyard::save);
+        shipyard.save(virtualCarrier);
     }
 
     /**
@@ -325,13 +331,24 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
     }
 
     /**
+     * Get the task force air bases.
+     *
+     * @return The task force air bases.
+     */
+    public List<Airbase> getAirbases() {
+        List<Airbase> all = new ArrayList<>(realAirbases);
+        all.add(virtualAirbase);
+        return all;
+    }
+
+    /**
      * Get the task force landing types supported. The list should be empty except for task forces that
      * contain aircraft carriers, including seaplane carriers.
      *
      * @return A list of the landing type's supported by this task force.
      */
     public List<LandingType> getLandingType() {
-        return airbases
+        return realAirbases
                 .stream()
                 .flatMap(carrier -> carrier.getLandingType().stream())
                 .distinct()
@@ -344,7 +361,7 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
      * @return A the squadrons stationed within this task force.
      */
     public List<Squadron> getSquadrons() {
-        return airbases
+        return realAirbases
                 .stream()
                 .flatMap(ship -> ship
                         .getSquadrons()
@@ -360,7 +377,7 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
      * @return True if any squadron is based at this task force. False otherwise.
      */
     public boolean areSquadronsPresent() {
-        return airbases
+        return realAirbases
                 .stream()
                 .anyMatch(Airbase::areSquadronsPresent);
     }
@@ -371,7 +388,7 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
      * @return The airbase group's air missions.
      */
     public List<AirMission> getMissions() {
-        return airbases
+        return realAirbases
                 .stream()
                 .flatMap(airbase -> airbase.getMissions().stream())
                 .collect(Collectors.toList());
@@ -390,6 +407,16 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
     }
 
     /**
+     * Enhance the given patrol of this task force with the given land based squadrons.
+     *
+     * @param patrolType The type of patrol.
+     * @param landBasedSquadrons The land based squadrons that patrol the over this task force.
+     */
+    public void enhancePatrol(final PatrolType patrolType, final List<Squadron> landBasedSquadrons)  {
+        virtualAirbase.updatePatrol(patrolType, landBasedSquadrons);
+    }
+
+    /**
      * Build all the task force's ships.
      * @param shipNames list of ship names.
      */
@@ -401,13 +428,15 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
                 .map(Optional::get)
                 .collect(Collectors.toList());
 
-
         shipMap = ships.stream()
                 .collect(Collectors.toMap(Ship::getName, ship -> ship));
 
         shipTypeMap = ships
                 .stream()
                 .collect(Collectors.groupingBy(Ship::getType));
+
+        // Every task force has a virtual ship that is used for land based patrols over the task force.
+        virtualCarrier = buildVirtualShip(new ShipId(name, side)).orElseThrow();
     }
 
     /**
@@ -428,10 +457,12 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
      * Separate out the ships that can conduct air operations, airbases, in this task force.
      */
     private void setAirbases() {
-        airbases = ships.stream()
+        realAirbases = ships.stream()
                 .filter(Ship::isAirbase)
                 .map(ship -> (Airbase) ship)
                 .collect(Collectors.toList());
+
+        virtualAirbase = (Airbase) virtualCarrier;
     }
 
     /**
@@ -445,6 +476,15 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
             return Optional.of(shipyard.load(shipId, this));
         } catch (ShipyardException ex) {
             log.error("Unable to build ship '{}' for side {}", shipId.getName(), shipId.getSide());
+            return Optional.empty();
+        }
+    }
+
+    private Optional<Ship> buildVirtualShip(final ShipId shipId) {
+        try {
+            return Optional.of(shipyard.loadVirtual(shipId, this));
+        } catch (ShipyardException ex) {
+            log.error("Unable to build virtual ship '{}' for side {}", shipId.getName(), shipId.getSide());
             return Optional.empty();
         }
     }

@@ -46,7 +46,9 @@ public enum ShipType {
     SUBMARINE("Submarine"),
 
     @SerializedName(value = "TRANSPORT", alternate = {"Transport", "transport"})
-    TRANSPORT("Transport");
+    TRANSPORT("Transport"),
+
+    VIRTUAL("Virtual");
 
     private final String value;
 

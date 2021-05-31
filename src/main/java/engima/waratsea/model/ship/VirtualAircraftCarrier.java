@@ -7,23 +7,20 @@ import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.Base;
-import engima.waratsea.model.base.airfield.AirOperations;
 import engima.waratsea.model.base.airfield.AirbaseType;
 import engima.waratsea.model.base.airfield.AirfieldOperation;
 import engima.waratsea.model.base.airfield.mission.AirMission;
-import engima.waratsea.model.base.airfield.mission.Missions;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.base.airfield.patrol.Patrols;
 import engima.waratsea.model.base.airfield.squadron.Squadrons;
-import engima.waratsea.model.base.airfield.squadron.data.SquadronsData;
+import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.map.region.SeaRegion;
-import engima.waratsea.model.ship.data.GunData;
 import engima.waratsea.model.ship.data.ShipData;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronState;
@@ -34,119 +31,57 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
- * Represents a capital ship: Battleship, cruisers, etc.
+ * This class represents a virtual aircraft carrier. Every task force contains a virtual aircraft carrier.
+ * It is used to hold land based patrols that patrol over the task force. This is just an adapter class
+ * that allows the land based patrols to take advantage of all of the task force patrol code.
  *
- * These ships may contain float planes. They may conduct air operations. Thus, they implement the airbase interface.
- *
- * This class may be viewed as either a ship or an airbase since it implements both interfaces.
+ * When a land based CAP mission is launched against a friendly task force the squadrons on that mission
+ * are added to this virtual aircraft carriers squadrons and to the is virtual aircraft carrier's patrol
+ * squadrons.
  */
-public class CapitalShip implements Ship, Airbase {
-    @Getter private final ShipId shipId;
+public class VirtualAircraftCarrier implements Ship, Airbase {
+    private final Game game;
+
+    @Getter private final ShipId shipId;                       // unique id.
     @Getter private final ShipType type;
-    @Getter private final String shipClass;
-    @Getter private final Nation nation;
-    @Getter private final int victoryPoints;
-    @Getter @Setter private TaskForce taskForce;
-    @Getter private final Gun primary;
-    @Getter private final Gun secondary;
-    @Getter private final Gun tertiary;
-    @Getter private final Gun antiAir;
-    @Getter private final Torpedo torpedo;
-    @Getter private final Asw asw;
-    @Getter private final Movement movement;
-    @Getter private final Fuel fuel;
-    @Getter private final Hull hull;
-    @Getter private final Cargo cargo;
-    @Getter private String originPort;
-
-    @Getter @Setter private AmmunitionType ammunitionType;
-
-    @Getter private final AirbaseType airbaseType = AirbaseType.FlOAT_PLANE;
-
     @Getter private final List<LandingType> landingType;
+    @Getter private final AirbaseType airbaseType;
+    @Getter private final int maxCapacity = 0;                // Virtual airbase has no capacity.
+    @Getter private final int antiAirRating = 0;              // Virtual airbase has no AA.
+    @Getter private final int capacity = 0;                   // Virtual airbase has no capacity.
+    @Getter @Setter private TaskForce taskForce;
 
     private final Squadrons squadrons;
-
-    private final Missions missions;
     private final Patrols patrols;
-    private final AirOperations airOperations;
     private final Region region;
 
-    /**
-     * Constructor called by guice.
-     *
-     * @param data Ship's data.
-     * @param squadrons The aircraft carrier's squadrons.
-     * @param missions The aircraft carriers air missions.
-     * @param patrols The aircraft carriers air patrols.
-     * @param airOperations This carrier's air operations.
-     * @param region The ship's region.
-     */
     @Inject
-    public CapitalShip(@Assisted final ShipData data,
-                       final Squadrons squadrons,
-                       final Missions missions,
-                       final Patrols patrols,
-                       final AirOperations airOperations,
-                       final SeaRegion region) {
-
+    public VirtualAircraftCarrier(@Assisted final ShipData data,
+                                  final Squadrons squadrons,
+                                  final Patrols patrols,
+                                  final SeaRegion region,
+                                  final Game game) {
         this.squadrons = squadrons;
-        this.missions = missions;
         this.patrols = patrols;
-        this.airOperations = airOperations;
         this.region = region;
+        this.game = game;
 
-        shipId = data.getShipId();
-        taskForce = data.getTaskForce();
+        this.shipId = data.getShipId();
         type = data.getType();
-        shipClass = data.getShipClass();
-        nation = data.getNationality();
-        victoryPoints = data.getVictoryPoints();
 
-        primary = buildGun("Primary", data.getPrimary());
-        secondary = buildGun("Secondary", data.getSecondary());
-        tertiary = buildGun("Tertiary", data.getTertiary());
-        antiAir = buildGun("Anti-Air", data.getAntiAir());
-        ammunitionType = Optional.ofNullable(data.getAmmunitionType()).orElse(AmmunitionType.NORMAL);
-        torpedo = new Torpedo(data.getTorpedo());
-        asw = new Asw(data.getAsw());
-
-        movement = new Movement(data.getMovement());
-        fuel = new Fuel(data.getFuel());
-        hull = new Hull(data.getHull());
-        cargo = new Cargo((data.getCargo()));
-
-        originPort = data.getOriginPort();
-
-        landingType = List.of(LandingType.FLOATPLANE);
-
-        Optional.ofNullable(data.getSquadronsData())
-                .map(SquadronsData::getSquadrons)
-                .ifPresent(squadronDataList -> squadronDataList.forEach(s -> s.setNation(nation)));
+        landingType = null;
+        airbaseType = null;
 
         squadrons.build(this, data.getSquadronsData());
-        missions.build(this, data.getMissionsData());
         patrols.build(this, data.getPatrolsData());
-    }
-
-    /**
-     * Build a gun.
-     *
-     * @param name The name of the gun.
-     * @param data The gun's data.
-     * @return The gun.
-     */
-    private Gun buildGun(final String name, final GunData data) {
-        data.setName(name);
-        return new Gun(data);
     }
 
     /**
@@ -159,39 +94,9 @@ public class CapitalShip implements Ship, Airbase {
         ShipData data = new ShipData();
         data.setShipId(shipId);
         data.setType(type);
-        data.setShipClass(shipClass);
-        data.setNationality(nation);
-        data.setVictoryPoints(victoryPoints);
-
-        data.setPrimary(primary.getData());
-        data.setSecondary(secondary.getData());
-        data.setTertiary(tertiary.getData());
-        data.setAntiAir(antiAir.getData());
-        data.setTorpedo(torpedo.getData());
-        data.setAsw(asw.getData());
-
-        data.setMovement(movement.getData());
-        data.setFuel(fuel.getData());
-        data.setHull(hull.getData());
-        data.setCargo(cargo.getData());
-
-        data.setOriginPort(originPort);
-
-        data.setAmmunitionType(ammunitionType);
-
         data.setSquadronsData(squadrons.getData());
-        data.setMissionsData(missions.getData());
         data.setPatrolsData(patrols.getData());
-
         return data;
-    }
-
-    /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
     }
 
     /**
@@ -214,7 +119,6 @@ public class CapitalShip implements Ship, Airbase {
         return shipId.getName();
     }
 
-
     /**
      * Get the ship's title. Some ships have revisions or configurations in their name.
      * The getName routine returns this extra information. The get title routine only
@@ -228,41 +132,218 @@ public class CapitalShip implements Ship, Airbase {
     }
 
     /**
-     * Get the airbase's nations. These are the nations that are permitted to station squadrons at this airbase.
-     * Not all nations are allowed to station squadrons at all airbase's.
+     * Get the ship's origin port. This is tracked at the ship level because a ship may be moved from one task
+     * force to another. Thus, the ship must keep track of its origin port itself.
      *
-     * @return The nations that allowed to station squadrons at this airbase.
+     * @return The port the ship sailed from.
      */
     @Override
-    public Set<Nation> getNations() {
-        return Set.of(nation);
+    public String getOriginPort() {
+        return null;
     }
 
     /**
-     * Determine if the given nation may use or station squadrons at this airbase.
+     * Get the ship's class. Not the java class, but the class of ship.
      *
-     * @param country The nation: BRITISH, ITALIAN, etc...
-     * @return True if the given nation can use this airbase. False otherwise.
+     * @return The ship's class.
      */
     @Override
-    public boolean canUse(final Nation country) {
-        return false; // Squadrons cannot be ferried to a capital ship.
-    }                 // However, squadrons can be ferried from a capital ship.
+    public String getShipClass() {
+        return null;
+    }
 
     /**
-     * Get the ship's region for the given nation.
+     * Determines if this ship is an capable of air operations. It is either an aircraft carrier or a ship with
+     * float planes.
      *
-     * @param shipNation The nation: BRITISH or ITALIAN, etc...
-     * @return Ships do not have regions, so null is returned.
+     * @return True if this ship is an aircraft carrier or float plane capable. False otherwise.
      */
     @Override
-    public Region getRegion(final Nation shipNation) {
+    public boolean isAirbase() {
+        return false;
+    }
+
+    /**
+     * Get the ship's nationality.
+     *
+     * @return The ship's nationality.
+     */
+    @Override
+    public Nation getNation() {
+        return null;
+    }
+
+    /**
+     * Get the ship's victory points if sunk.
+     *
+     * @return The ship's victory points.
+     */
+    @Override
+    public int getVictoryPoints() {
+        return 0;
+    }
+
+    /**
+     * Get the ship's primary gun.
+     *
+     * @return The ship's primary gun.
+     */
+    @Override
+    public Gun getPrimary() {
+        return null;
+    }
+
+    /**
+     * Get the ship's secondary gun.
+     *
+     * @return The ship's secondary gun.
+     */
+    @Override
+    public Gun getSecondary() {
+        return null;
+    }
+
+    /**
+     * Get the ship's tertiary gun.
+     *
+     * @return The ship's tertiary gun.
+     */
+    @Override
+    public Gun getTertiary() {
+        return null;
+    }
+
+    /**
+     * Get the ship's anti-air gun.
+     *
+     * @return The ship's anti-air gun.
+     */
+    @Override
+    public Gun getAntiAir() {
+        return null;
+    }
+
+    /**
+     * Get the ship's torpedo.
+     *
+     * @return The ship's torpedo.
+     */
+    @Override
+    public Torpedo getTorpedo() {
+        return null;
+    }
+
+    /**
+     * Get the ship's ASW capability.
+     *
+     * @return The ship's ASW capability.
+     */
+    @Override
+    public Asw getAsw() {
+        return null;
+    }
+
+    /**
+     * Get the ship's hull.
+     *
+     * @return The ship's hull.
+     */
+    @Override
+    public Hull getHull() {
+        return null;
+    }
+
+    /**
+     * Get the ship's movement.
+     *
+     * @return The ship's movement.
+     */
+    @Override
+    public Movement getMovement() {
+        return null;
+    }
+
+    /**
+     * Get the ship's cargo.
+     *
+     * @return The ship's cargo.
+     */
+    @Override
+    public Cargo getCargo() {
+        return null;
+    }
+
+    /**
+     * Get the ship's fuel.
+     *
+     * @return The ship's fuel.
+     */
+    @Override
+    public Fuel getFuel() {
+        return null;
+    }
+
+    /**
+     * Get the ship's ammunition type.
+     *
+     * @return The ship's ammunition type.
+     */
+    @Override
+    public AmmunitionType getAmmunitionType() {
+        return null;
+    }
+
+    /**
+     * Get a list of all the ship components.
+     *
+     * @return A list of ship components.
+     */
+    @Override
+    public List<Component> getComponents() {
+        return null;
+    }
+
+    /**
+     * Call this method to inform the ship that it is sailing from port.
+     */
+    @Override
+    public void setSail() {
+
+    }
+
+    /**
+     * Call this method to load a ship to its maximum cargoShips capacity.
+     */
+    @Override
+    public void loadCargo() {
+
+    }
+
+    /**
+     * Set the ships ammunition type.
+     *
+     * @param ammunitionType The ship's ammunition type.
+     */
+    @Override
+    public void setAmmunitionType(final AmmunitionType ammunitionType) {
+
+    }
+
+    /**
+     * Get the region of the squadron's home base.
+     *
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return The squadron's home base's region.
+     */
+    @Override
+    public Region getRegion(final Nation nation) {
         return region;
     }
 
     /**
-     * Get the region's title. The regions title should
-     * be independent of the nation.
+     * Get the region's title. The regions title should be independent of the nation. If nations share a region, the
+     * region is represented by a separate java region java object for each nation. This is because each nation's region
+     * has separate requirements. However, the actual map region is the same. Thus the title is the same.
      *
      * @return The region's title.
      */
@@ -272,9 +353,9 @@ public class CapitalShip implements Ship, Airbase {
     }
 
     /**
-     * Get the ship's map reference.
+     * Get the map reference of the squadron's home base.
      *
-     * @return The ship's map reference.
+     * @return The squadron's home base's map reference.
      */
     @Override
     public String getReference() {
@@ -282,9 +363,9 @@ public class CapitalShip implements Ship, Airbase {
     }
 
     /**
-     * Get the squadron's home game grid.
+     * Get the airbase's game grid.
      *
-     * @return The squadron's home game grid.
+     * @return The airbase's game grid.
      */
     @Override
     public Optional<GameGrid> getGrid() {
@@ -292,36 +373,27 @@ public class CapitalShip implements Ship, Airbase {
     }
 
     /**
-     * Determines if this ship is an squadrons carrier.
+     * Get the airbase's nations. These are the nations that are permitted to station squadrons at this airbase.
+     * All of a side's nations are allowed to station squadrons at a virtual airbase.
      *
-     * @return True if this ship is an squadrons carrier. False otherwise.
+     * @return The nations that are allowed to station squadrons at this airbase.
      */
     @Override
-    public boolean isAirbase() {
-        return true;
+    public Set<Nation> getNations() {
+        return game
+                .getPlayer(shipId.getSide())
+                .getNations();
     }
 
     /**
-     * The maximum capacity of the airbase. This is the undamaged squadron step capacity of this airbase.
+     * Determine if the given nation may use or station squadrons at this airbase.
      *
-     * @return The maximum squadron step capacity of this airbase.
+     * @param nation The nation: BRITISH, ITALIAN, etc...
+     * @return True if the given nation can use this airbase. False otherwise.
      */
     @Override
-    public int getMaxCapacity() {
-        return 2;
-    }
-
-    /**
-     * The current squadron step capacity of the airbase. A base's capacity to station
-     * squadrons may be reduced via air attack or naval bombardment. This method returns the
-     * current capacity taking into account any damage or repairs from air attacks or
-     * bombardments.
-     *
-     * @return The current capacity of the airbase in steps.
-     */
-    @Override
-    public int getCapacity() {
-        return 2;
+    public boolean canUse(final Nation nation) {
+        return false;
     }
 
     /**
@@ -336,6 +408,20 @@ public class CapitalShip implements Ship, Airbase {
     @Override
     public BigDecimal getCurrentSteps() {
         return squadrons.getCurrentSteps();
+    }
+
+    /**
+     * Determine if the given squadron can be stationed at this airbase.
+     * This does not take into account any squadron steps that are given
+     * a ferry mission to this airbase.
+     *
+     * @param squadron the squadron to station at this airbase.
+     * @return The results of the squadron station operation. Success if
+     * the squadron can be stationed. Otherwise an error code is returned.
+     */
+    @Override
+    public AirfieldOperation canStation(final Squadron squadron) {
+        return AirfieldOperation.SUCCESS;
     }
 
     /**
@@ -366,13 +452,17 @@ public class CapitalShip implements Ship, Airbase {
 
     /**
      * Indicates if the given squadron is stationed at this airbase.
+     * Squadron cannot be stationed at a virtual aircraft carrier.
+     * However, they can be placed on patrol with a virtual aircraft
+     * carrier. Thus, this method must return to true to allow any
+     * squadron to be placed on patrol.
      *
      * @param squadron The squadron that is checked to determine if this airbase is its home.
-     * @return True if the given squadron is stationed at this airbase. False otherwise.
+     * @return True always.
      */
     @Override
     public boolean isStationed(final Squadron squadron) {
-        return squadrons.isStationed(squadron);
+        return true;
     }
 
     /**
@@ -478,13 +568,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public AirfieldOperation addSquadron(final Squadron squadron) {
-        AirfieldOperation result = canStation(squadron);
-
-        if (result == AirfieldOperation.SUCCESS) {
-            squadrons.add(squadron);
-        }
-
-        return result;
+        return AirfieldOperation.SUCCESS;
     }
 
     /**
@@ -504,18 +588,18 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public List<AirMission> getMissions() {
-        return missions.getMissions();
+        return Collections.emptyList();
     }
 
     /**
      * Get the current missions of this airbase for the given nation.
      *
-     * @param squadronNation The nation: BRITISH, ITALIAN, etc...
+     * @param nation The nation: BRITISH, ITALIAN, etc...
      * @return The current squadron missions of this airbase for the given nation.
      */
     @Override
-    public List<AirMission> getMissions(final Nation squadronNation) {
-        return missions.getMissions(squadronNation);
+    public List<AirMission> getMissions(final Nation nation) {
+        return Collections.emptyList();
     }
 
     /**
@@ -525,7 +609,6 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public void addMission(final AirMission mission) {
-        missions.addMission(mission);
     }
 
     /**
@@ -538,7 +621,7 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public int getTotalMissionSteps(final Target target) {
-        return missions.getTotalMissionSteps(target);
+        return 0;
     }
 
     /**
@@ -550,15 +633,6 @@ public class CapitalShip implements Ship, Airbase {
     @Override
     public Patrol getPatrol(final PatrolType patrolType) {
         return patrols.getPatrol(patrolType);
-    }
-
-    /**
-     * Clear all missions, patrols and squadrons for this airbase.
-     */
-    @Override
-    public void clear() {
-        missions.clear();
-        patrols.clear();
     }
 
     /**
@@ -579,93 +653,15 @@ public class CapitalShip implements Ship, Airbase {
      */
     @Override
     public List<ProbabilityStats> getAirOperationStats() {
-        return airOperations.getStats(this);
+        return null;
     }
 
     /**
-     * Get the airbase's anti aircraft rating.
-     *
-     * @return The airbase's anti aircraft rating.
+     * Clear all missions, patrols and squadrons for this airbase.
      */
     @Override
-    public int getAntiAirRating() {
-        return antiAir.getHealth();
-    }
-
-    /**
-     * Determine if the given squadron can be stationed at this airbase.
-     * This does not take into account any squadron steps that are given
-     * a ferry mission to this airbase.
-     *
-     * @param squadron the squadron to station at this airbase.
-     * @return The results of the squadron station operation. Success if
-     * the squadron can be stationed. Otherwise an error code is returned.
-     */
-    @Override
-    public AirfieldOperation canStation(final Squadron squadron) {
-        if (!landingType.contains(squadron.getLandingType())) {
-            return AirfieldOperation.LANDING_TYPE_NOT_SUPPORTED;
-        }
-
-        return hasRoom(squadron) ? AirfieldOperation.SUCCESS : AirfieldOperation.BASE_FULL;
-    }
-
-    /**
-     * Call this method to inform the ship that it is sailing from port.
-     */
-    @Override
-    public void setSail() {
-        originPort = taskForce.getReference();
-    }
-
-    /**
-     * Call this method to load a ship to its maximum cargoShips capacity.
-     */
-    @Override
-    public void loadCargo() {
-        cargo.load();
-    }
-
-    /**
-     * Get a list of all the ship components.
-     *
-     * @return A list of ship components.
-     */
-    @Override
-    public List<Component> getComponents() {
-        return Stream.of(hull, primary, secondary, tertiary, antiAir, torpedo, movement, fuel, cargo)
-                .filter(Component::isPresent)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Determine the current number of steps deployed at this airfield.
-     *
-     * @return The current number of steps deployed at this airfield.
-     */
-    private int deployedSteps() {
-        return squadrons.deployedSteps();
-    }
-
-    /**
-     * Determine if the squadrons carrier has room for the given squadron.
-     *
-     * @param squadron A squadron that may be based at this squadrons carrier.
-     * @return True if this squadrons carrier has room for the given squadron. False otherwise.
-     */
-    private boolean hasRoom(final Squadron squadron) {
-        int steps = squadron.getSteps().intValue();
-        return steps + deployedSteps() <= getMaxCapacity();
-    }
-
-    /**
-     * Get the String representation of this ship.
-     *
-     * @return The String representation of this ship.
-     */
-    @Override
-    public String toString() {
-        return getTitle();
+    public void clear() {
+        patrols.clear();
     }
 
     /**
@@ -710,5 +706,14 @@ public class CapitalShip implements Ship, Airbase {
     @Override
     public int compareTo(final @NotNull Base o) {
         return 0;
+    }
+
+    /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
+
     }
 }

@@ -59,6 +59,7 @@ public class Shipyard {
         factoryMap.put(ShipType.BATTLECRUISER, shipFactory::createCapitalShip);
         factoryMap.put(ShipType.CRUISER, shipFactory::createCapitalShip);
         factoryMap.put(ShipType.MINELAYER, shipFactory::createCapitalShip);    // Some japanese mine layers have float planes.
+        factoryMap.put(ShipType.VIRTUAL, shipFactory::createVirtualShip);
 
         shipDataMap.put(Side.ALLIES, new HashMap<>());
         shipDataMap.put(Side.AXIS, new HashMap<>());
@@ -74,6 +75,19 @@ public class Shipyard {
      */
     public Ship load(final ShipId shipId, final TaskForce taskForce) throws ShipyardException {
         return config.isNew() ? buildNew(shipId, taskForce) : buildExisting(shipId, taskForce);
+    }
+
+    /**
+     * Build a virtual ship. A virtual ship is used by task forces that have over head aircraft
+     * patrols from land based squadrons.
+     *
+     * @param shipId uniquely identifies a ship.
+     * @param taskForce The ship's task force.
+     * @return The build virtual ship.
+     * @throws ShipyardException Indicates that the virtual ship could not be built.
+     */
+    public Ship loadVirtual(final ShipId shipId, final TaskForce taskForce) throws ShipyardException {
+        return config.isNew() ? buildNewVirtual(shipId, taskForce) : buildExisting(shipId, taskForce);
     }
 
     /**
@@ -118,6 +132,22 @@ public class Shipyard {
         ShipData shipData = loadExistingShipData(shipId);
         ShipType shipType = shipData.getType();
         shipData.setShipId(shipId);
+        shipData.setTaskForce(taskForce);
+        return getFactory(shipType).apply(shipData);
+    }
+
+    /**
+     * Build a virtual ship.
+     *
+     * @param shipId uniquely identifies a ship.
+     * @param taskForce The ship's task force.
+     * @return The built virtual ship.
+     */
+    private Ship buildNewVirtual(final ShipId shipId, final TaskForce taskForce) {
+        ShipData shipData = new ShipData();
+        shipData.setShipId(shipId);
+        ShipType shipType = ShipType.VIRTUAL;
+        shipData.setType(shipType);
         shipData.setTaskForce(taskForce);
         return getFactory(shipType).apply(shipData);
     }

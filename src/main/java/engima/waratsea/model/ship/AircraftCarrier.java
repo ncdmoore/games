@@ -21,7 +21,6 @@ import engima.waratsea.model.base.airfield.squadron.data.SquadronsData;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
-import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.map.region.SeaRegion;
 import engima.waratsea.model.ship.data.GunData;
@@ -77,7 +76,6 @@ public class AircraftCarrier implements Ship, Airbase {
     private final Missions missions;
     private final Patrols patrols;
     private final AirOperations airOperations;
-    private final GameMap gameMap;
     private final Region region;
 
     /**
@@ -88,7 +86,6 @@ public class AircraftCarrier implements Ship, Airbase {
      * @param missions The aircraft carriers air missions.
      * @param patrols The aircraft carriers air patrols.
      * @param airOperations This carrier's air operations.
-     * @param gameMap The game map.
      * @param region The aircraft carrier's region.
      */
     @Inject
@@ -97,13 +94,11 @@ public class AircraftCarrier implements Ship, Airbase {
                                      final Missions missions,
                                      final Patrols patrols,
                                      final AirOperations airOperations,
-                                     final GameMap gameMap,
                                      final SeaRegion region) {
         this.squadrons = squadrons;
         this.missions = missions;
         this.patrols = patrols;
         this.airOperations = airOperations;
-        this.gameMap = gameMap;
         this.region = region;
 
         shipId = data.getShipId();
@@ -294,7 +289,7 @@ public class AircraftCarrier implements Ship, Airbase {
      */
     @Override
     public Optional<GameGrid> getGrid() {
-        return gameMap.getGrid(getReference());
+        return taskForce.getGrid();
     }
 
     /**
@@ -358,6 +353,17 @@ public class AircraftCarrier implements Ship, Airbase {
     @Override
     public boolean areSquadronsPresent(final Nation targetNation) {
         return squadrons.areSquadronsPresent(targetNation);
+    }
+
+    /**
+     * Indicates if the given squadron is stationed at this airbase.
+     *
+     * @param squadron The squadron that is checked to determine if this airbase is its home.
+     * @return True if the given squadron is stationed at this airbase. False otherwise.
+     */
+    @Override
+    public boolean isStationed(final Squadron squadron) {
+        return squadrons.isStationed(squadron);
     }
 
 

@@ -34,4 +34,14 @@ public interface ShipFactory {
     @Named("surface")
     Ship createSurfaceShip(ShipData data);
 
+    /**
+     * Creates a virtual ship. A virtual ship is used by task forces that
+     * have land based patrols flying over them.
+     *
+     * @param data The ship's data.
+     * @return The virtual ship.
+     */
+    @Named("virtual")
+    Ship createVirtualShip(ShipData data);
+
 }

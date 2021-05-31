@@ -163,7 +163,7 @@ public class AirbaseGroupViewModel {
      */
     private List<AirbaseViewModel> getViewModels(final TaskForce force) {
         return force
-                .getAirbases()
+                .getRealAirbases()
                 .stream()
                 .filter(Airbase::areSquadronsPresent)
                 .map(airbase -> airbaseViewModelProvider

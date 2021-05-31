@@ -202,7 +202,7 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
      * @return A map of aircraft type to number of steps of the type.
      */
     private Map<AircraftType, Integer> getAircraftMap(final TaskForce force) {
-        return force.getAirbases()
+        return force.getRealAirbases()
                 .stream()
                 .map(Airbase::getSquadrons)
                 .flatMap(Collection::stream)

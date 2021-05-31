@@ -70,7 +70,7 @@ public class TaskForceTest {
         TaskForce taskForce = factory.create(Side.ALLIES, data);
 
         Assert.assertEquals(5, taskForce.getShips().size());
-        Assert.assertEquals(4, taskForce.getAirbases().size());
+        Assert.assertEquals(4, taskForce.getRealAirbases().size());
     }
 
     @Test

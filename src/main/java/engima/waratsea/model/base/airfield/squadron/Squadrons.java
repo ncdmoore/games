@@ -233,6 +233,16 @@ public class Squadrons {
     }
 
     /**
+     * Indicates if the given squadron is stationed at this airbase.
+     *
+     * @param squadron The squadron checked to determine if this airbase is its home.
+     * @return True if the given squadron is stationed at this airbase. False otherwise.
+     */
+    public boolean isStationed(final Squadron squadron) {
+        return squadrons.contains(squadron);
+    }
+
+    /**
      * Remove a squadron from the airbase.
      *
      * @param squadron The squadron to remove.

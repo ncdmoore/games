@@ -14,6 +14,7 @@ import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionExecutor;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.target.Target;
@@ -44,7 +45,6 @@ public class DistantCap extends AirMissionExecutor implements AirMission, Cap {
     private int startTurn;                         //The game turn on which the mission starts.
     private int turnsToTarget;                     //How many turns it takes to reach the target.
     private int turnsToHome;                       //How many turns it takes to return to the starting airbase.
-
 
     /**
      * Constructor called by guice.
@@ -174,11 +174,14 @@ public class DistantCap extends AirMissionExecutor implements AirMission, Cap {
     }
 
     /**
-     * Execute the mission.
+     * Execute the mission. The squadron have arrived at the target.
      */
     @Override
     public void execute() {
-        // Go on patrol ... for how long???
+        targetTaskForce = getTarget();
+
+        // Go on patrol for a single turn.
+        targetTaskForce.patrol(PatrolType.CAP, squadrons.getAll());
     }
 
     /**
@@ -211,7 +214,8 @@ public class DistantCap extends AirMissionExecutor implements AirMission, Cap {
     @Override
     protected boolean reachedTarget() {
         // The + 1 accounts for the current turn.
-        return getElapsedTurns() + 1 >= turnsToTarget;    }
+        return getElapsedTurns() + 1 >= turnsToTarget;
+    }
 
     /**
      * Determine if the mission has reached its home airbase.
@@ -221,7 +225,8 @@ public class DistantCap extends AirMissionExecutor implements AirMission, Cap {
     @Override
     protected boolean reachedHome() {
         // The + 1 accounts for the current turn.
-        return getElapsedTurns() + 1 >= turnsToHome;    }
+        return getElapsedTurns() + 1 >= turnsToHome;
+    }
 
     /**
      * Get the mission's target.
@@ -231,7 +236,8 @@ public class DistantCap extends AirMissionExecutor implements AirMission, Cap {
     @Override
     public Target getTarget() {
         return Optional.ofNullable(targetTaskForce)
-                .orElseGet(this::getTargetTaskForce);    }
+                .orElseGet(this::getTargetTaskForce);
+    }
 
     /**
      * Set all of the squadrons to the correct state.

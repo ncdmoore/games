@@ -70,6 +70,7 @@ public interface Airbase extends Base {
      * @return The squadron's home base's airfield type.
      */
     AirbaseType getAirbaseType();
+
     /**
      * Get the airbase's game grid.
      *
@@ -158,6 +159,14 @@ public interface Airbase extends Base {
      * @return True if the given nation has squadrons based at this airbase. False otherwise.
      */
     boolean areSquadronsPresent(Nation nation);
+
+    /**
+     * Indicates if the given squadron is stationed at this airbase.
+     *
+     * @param squadron The squadron that is checked to determine if this airbase is its home.
+     * @return True if the given squadron is stationed at this airbase. False otherwise.
+     */
+    boolean isStationed(Squadron squadron);
 
     /**
      * Get a squadron stationed at this airbase given its name.

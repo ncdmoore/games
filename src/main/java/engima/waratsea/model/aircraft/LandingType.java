@@ -11,6 +11,7 @@ import java.util.stream.Stream;
  * CARRIER - lands and takes off from aircraft carriers and land airfields.
  * LAND - lands and takes off only from land airfields.
  * SEAPLANE - lands and takes off from the sea.
+ * FLOATPLANE - lands and takes off from the sea and may be stored on capital ships.
  */
 public enum LandingType {
     @SerializedName(value = "CARRIER", alternate = {"Carrier", "carrier"})

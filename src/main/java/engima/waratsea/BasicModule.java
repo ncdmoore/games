@@ -77,6 +77,7 @@ import engima.waratsea.model.ship.CapitalShip;
 import engima.waratsea.model.ship.Ship;
 import engima.waratsea.model.ship.ShipFactory;
 import engima.waratsea.model.ship.SurfaceShip;
+import engima.waratsea.model.ship.VirtualAircraftCarrier;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
 import engima.waratsea.model.squadron.allotment.Allotment;
@@ -153,6 +154,7 @@ public class BasicModule extends AbstractModule {
                 .implement(Ship.class, Names.named("aircraft"), AircraftCarrier.class)
                 .implement(Ship.class, Names.named("capital"), CapitalShip.class)
                 .implement(Ship.class, Names.named("surface"), SurfaceShip.class)
+                .implement(Ship.class, Names.named("virtual"), VirtualAircraftCarrier.class)
                 .build(ShipFactory.class));
 
         install(new FactoryModuleBuilder()

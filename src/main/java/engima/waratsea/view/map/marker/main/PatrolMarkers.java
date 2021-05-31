@@ -46,7 +46,7 @@ public class PatrolMarkers {
      * Constructor.
      *
      * @param mapView The map view.
-     * @param markerGrid The base or task force grid of the patrol radii.
+     * @param markerGrid The base or task force grid of the patrol.
      * @param gridView The grid view of the base grid.
      */
     public PatrolMarkers(final MapView mapView, final MarkerGrid markerGrid, final GridView gridView) {
@@ -148,7 +148,7 @@ public class PatrolMarkers {
      */
     private PatrolMarker buildPatrolMarker(final Map.Entry<Integer, List<PatrolGroup>> entry) {
         PatrolMarker patrolMarker = new PatrolMarker(mapView, gridView);
-        patrolMarker.drawRadius(entry.getKey(), entry.getValue());
+        patrolMarker.draw(entry.getKey(), entry.getValue());
         return patrolMarker;
     }
 

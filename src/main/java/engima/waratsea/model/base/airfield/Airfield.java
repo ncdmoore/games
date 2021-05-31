@@ -267,6 +267,17 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
     }
 
     /**
+     * Indicates if the given squadron is stationed at this airbase.
+     *
+     * @param squadron The squadron that is checked to determine if this airbase is its home.
+     * @return True if the given squadron is stationed at this airbase. False otherwise.
+     */
+    @Override
+    public boolean isStationed(final Squadron squadron) {
+        return squadrons.isStationed(squadron);
+    }
+
+    /**
      * Base a squadron from this airfield.
      *
      * @param squadron The squadron which is now based at this airfield.

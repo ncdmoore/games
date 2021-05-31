@@ -230,7 +230,7 @@ public class CapPatrol implements Patrol, Cap {
      * @return True if the given squadron may be added to this patrol. False otherwise.
      */
     private boolean canAdd(final Squadron squadron) {
-        return squadron.canDoPatrol(PatrolType.CAP) && airbase.getSquadrons().contains(squadron);
+        return squadron.canDoPatrol(PatrolType.CAP) && airbase.isStationed(squadron);
     }
 
     /**
