@@ -131,6 +131,5 @@ public final class PersistentUtility {
      * This object is never constructed.
      */
     private PersistentUtility() {
-
     }
 }

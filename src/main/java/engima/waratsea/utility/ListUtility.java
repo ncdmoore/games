@@ -6,9 +6,9 @@ import java.util.List;
 /**
  * List utility class. It aids with stream operations.
  */
-public final class ListUtil {
+public final class ListUtility {
 
-    private ListUtil() {
+    private ListUtility() {
     }
 
     /**

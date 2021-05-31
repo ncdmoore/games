@@ -7,7 +7,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="" />
+    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/squadron/Squadrons.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/squadron/Squadrons.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/ListUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/ListUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/PersistentUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/utility/PersistentUtility.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -290,13 +294,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00414" summary="css refactor.">
-      <created>1615080040381</created>
-      <option name="number" value="00414" />
-      <option name="presentableId" value="LOCAL-00414" />
-      <option name="project" value="LOCAL" />
-      <updated>1615080040382</updated>
     </task>
     <task id="LOCAL-00415" summary="css refactor.">
       <created>1615090565697</created>
@@ -634,7 +631,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622498915022</updated>
     </task>
-    <option name="localTasksCounter" value="463" />
+    <task id="LOCAL-00463" summary="Fix warnings.">
+      <created>1622499508940</created>
+      <option name="number" value="00463" />
+      <option name="presentableId" value="LOCAL-00463" />
+      <option name="project" value="LOCAL" />
+      <updated>1622499508940</updated>
+    </task>
+    <option name="localTasksCounter" value="464" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -649,7 +653,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add task forces to base marker clicks." />
     <MESSAGE value="Add roundel to task force markers that have squadrons in at least one task force." />
     <MESSAGE value="Add tooltip to air operations for task forces in port. The tooltip indicates air opts no allowed while in port." />
     <MESSAGE value="Add ETA to mission dialogs." />
@@ -674,7 +677,8 @@
     <MESSAGE value="Add the ability to save the air mission path." />
     <MESSAGE value="Add distant cap air mission." />
     <MESSAGE value="Add virtual aircraft carrier to task forces. This holds land based patrol planes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add virtual aircraft carrier to task forces. This holds land based patrol planes." />
+    <MESSAGE value="Fix warnings." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix warnings." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

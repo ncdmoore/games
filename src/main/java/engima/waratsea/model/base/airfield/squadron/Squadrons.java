@@ -11,7 +11,7 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
 import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.squadron.state.SquadronState;
-import engima.waratsea.utility.ListUtil;
+import engima.waratsea.utility.ListUtility;
 import lombok.Getter;
 import org.apache.commons.collections4.ListUtils;
 
@@ -205,7 +205,7 @@ public class Squadrons {
                 .stream()
                 .filter(squadron -> squadron.ofNation(nation))
                 .map(Squadron::getAircraft)
-                .collect(Collectors.toMap(Aircraft::getModel, ListUtil::createList, ListUtils::union))
+                .collect(Collectors.toMap(Aircraft::getModel, ListUtility::createList, ListUtils::union))
                 .values()
                 .stream()
                 .map(aircraft -> aircraft.get(0))
