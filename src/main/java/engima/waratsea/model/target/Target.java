@@ -129,12 +129,13 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
     boolean requiresRoundTrip();
 
     /**
-     * Determine if the given squadron is allowed to attack this target.
+     * Determine if the given squadron is allowed to perform the given mission against this target.
      *
-     * @param squadron The squadron that is checked if allowed to attack this target.
-     * @return True if this target may attack this target. False otherwise.
+     * @param type The air mission type.
+     * @param squadron The squadron that is checked to determine is allowed to perform the given mission against this target.
+     * @return True if given squadron may perform the given mission against this target. False otherwise.
      */
-    boolean mayAttack(Squadron squadron);
+    boolean isMissionAllowed(AirMissionType type, Squadron squadron);
 
     /**
      * Get the distance to this target from the given airbase.

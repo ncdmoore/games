@@ -58,7 +58,7 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
     private final Provider<PatrolGroups> provider;
 
     @Getter private final Side side;
-    @Getter @Setter private String name;
+    @Getter private final String name;
     @Getter @Setter private String title;
     @Getter @Setter private SeaMission mission;
     @Getter private String reference;                                //This is always a map reference and never a name.

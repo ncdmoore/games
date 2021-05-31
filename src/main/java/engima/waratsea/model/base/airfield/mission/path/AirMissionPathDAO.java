@@ -18,6 +18,7 @@ public class AirMissionPathDAO {
      */
     @Inject
     public AirMissionPathDAO(final AirMissionPathFactory factory) {
+        factoryMap.put(AirMissionType.DISTANT_CAP, factory::createRoundTrip);
         factoryMap.put(AirMissionType.FERRY, factory::createOneWay);
         factoryMap.put(AirMissionType.LAND_STRIKE, factory::createRoundTrip);
         factoryMap.put(AirMissionType.NAVAL_PORT_STRIKE, factory::createRoundTrip);

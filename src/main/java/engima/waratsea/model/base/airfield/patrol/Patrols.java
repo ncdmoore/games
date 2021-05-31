@@ -2,6 +2,7 @@ package engima.waratsea.model.base.airfield.patrol;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.Cap;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolsData;
 import engima.waratsea.model.game.Nation;
@@ -108,8 +109,8 @@ public class Patrols {
      *
      * @return The CAP patrol.
      */
-    public CapPatrol getCap() {
-        return (CapPatrol) patrolMap.get(PatrolType.CAP);
+    public Cap getCap() {
+        return (Cap) patrolMap.get(PatrolType.CAP);
     }
 
     /**

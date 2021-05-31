@@ -64,6 +64,7 @@ public class AirMissionRules {
         noFilterMap.put(GameName.BOMB_ALLEY, noFilter);
         noFilterMap.put(GameName.CORAL_SEA, noFilter);
 
+        missionMap.put(AirMissionType.DISTANT_CAP, sweepFilterMap);
         missionMap.put(AirMissionType.FERRY, noFilterMap);
         missionMap.put(AirMissionType.LAND_STRIKE, noFilterMap);
         missionMap.put(AirMissionType.NAVAL_PORT_STRIKE, noFilterMap);

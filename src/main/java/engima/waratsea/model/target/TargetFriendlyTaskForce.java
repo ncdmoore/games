@@ -273,16 +273,21 @@ public class TargetFriendlyTaskForce implements Target {
     }
 
     /**
-     * Determine if the given squadron is allowed to attack this target.
+     * Determine if the given squadron is allowed to perform the given mission against this target.
      *
-     * @param squadron The squadron that is checked if allowed to attack this target.
-     * @return True if this target may attack this target. False otherwise.
+     * @param type The air mission type.
+     * @param squadron The squadron that is checked to determine is allowed to perform the given mission against this target.
+     * @return True if given squadron may perform the given mission against this target. False otherwise.
      */
     @Override
-    public boolean mayAttack(final Squadron squadron) {
-        return  getTaskForce()
-                .getLandingType()
-                .contains(squadron.getLandingType());
+    public boolean isMissionAllowed(final AirMissionType type, final Squadron squadron) {
+        if (type == AirMissionType.FERRY) {
+           return  getTaskForce()
+                   .getLandingType()
+                   .contains(squadron.getLandingType());
+        }
+
+        return true;
     }
 
     /**

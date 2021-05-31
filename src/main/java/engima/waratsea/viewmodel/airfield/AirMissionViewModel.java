@@ -849,7 +849,7 @@ public class AirMissionViewModel {
      * @return True if the squadron is allowed to attack the given target.
      */
     private boolean mayAttack(final SquadronViewModel squadron, final Target selectedTarget) {
-        return Optional.ofNullable(selectedTarget).map(t -> t.mayAttack(squadron.get())).orElse(false);
+        return Optional.ofNullable(selectedTarget).map(t -> t.isMissionAllowed(missionType.get(), squadron.get())).orElse(false);
     }
 
     /**

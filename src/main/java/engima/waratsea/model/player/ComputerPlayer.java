@@ -158,6 +158,7 @@ public class ComputerPlayer implements Player {
         this.squadronAI = squadronAI;
         this.minefieldAI = minefieldAI;
 
+        airTargetMap.put(AirMissionType.DISTANT_CAP, nation -> getFriendlyTaskForceTargets());
         airTargetMap.put(AirMissionType.FERRY, this::getFriendlyAirbaseTargets);
         airTargetMap.put(AirMissionType.LAND_STRIKE, nation -> getEnemyAirfieldTargets());
         airTargetMap.put(AirMissionType.SWEEP_AIRFIELD, nation -> getEnemyAirfieldTargets());
@@ -172,7 +173,7 @@ public class ComputerPlayer implements Player {
      * This gets the nations of the player based on the type of squadron location.
      *
      * @param type The type of squadrons: LAND or SEA.
-     * @return A set of the player's nations: BRITSH, ITALIAN, etc...
+     * @return A set of the player's nations: BRITISH, ITALIAN, etc...
      */
     @Override
     public Set<Nation> getSquadronNations(final SquadronLocationType type) {
@@ -560,6 +561,18 @@ public class ComputerPlayer implements Player {
     }
 
     /**
+     * Get the friendly task force targets.
+     *
+     * @return A list of friendly task force targets.
+     */
+    private List<Target> getFriendlyTaskForceTargets() {
+        return taskForces
+                .stream()
+                .map(targetDAO::getFriendlyTaskForceTarget)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Get the friendly airbase targets for the given nation.
      *
      * @param nation The nation: BRITISH, ITALIAN, etc.
@@ -629,7 +642,7 @@ public class ComputerPlayer implements Player {
      * Get squadrons for the given nation that are stationed within the player's
      * task forces.
      *
-     * @param nation The nation: BRITIAN or ITALIAN, etc...
+     * @param nation The nation: BRITAIN or ITALIAN, etc...
      * @return All the squadrons of the given nation that are stationed within
      * this players task forces.
      */

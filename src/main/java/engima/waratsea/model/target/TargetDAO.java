@@ -124,6 +124,27 @@ public class TargetDAO {
     }
 
     /**
+     * Get a friendly task force target.
+     *
+     * @param taskForce The friendly task force.
+     * @return A friendly task force target that corresponds to the given task force.
+     */
+    public Target getFriendlyTaskForceTarget(final TaskForce taskForce) {
+        if (cache.get(TargetType.FRIENDLY_TASK_FORCE).containsKey(taskForce.getName())) {
+            return cache.get(TargetType.FRIENDLY_TASK_FORCE).get(taskForce.getName());
+        }
+
+        TargetData data = new TargetData();
+        data.setSide(taskForce.getSide());
+        data.setName(taskForce.getName());
+        data.setType(TargetType.FRIENDLY_TASK_FORCE);
+
+        Target target = load(data);
+        cache.get(TargetType.FRIENDLY_TASK_FORCE).put(taskForce.getName(), target);
+        return target;
+    }
+
+    /**
      * Get an enemy task force target.
      *
      * @param taskForce The enemy task force.

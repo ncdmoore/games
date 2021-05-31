@@ -40,6 +40,7 @@ public class TargetView {
     public TargetView(final Provider<FerryView> ferryViewProvider,
                       final Provider<StrikeView> strikeViewProvider,
                       final SmallWeatherView weatherView) {
+        viewMap.put(AirMissionType.DISTANT_CAP, strikeViewProvider.get().build());
         viewMap.put(AirMissionType.FERRY, ferryViewProvider.get().build());
         viewMap.put(AirMissionType.LAND_STRIKE, strikeViewProvider.get().build());
         viewMap.put(AirMissionType.NAVAL_PORT_STRIKE, strikeViewProvider.get().build());

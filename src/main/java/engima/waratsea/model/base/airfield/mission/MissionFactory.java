@@ -6,6 +6,15 @@ import engima.waratsea.model.base.airfield.mission.data.MissionData;
 public interface MissionFactory {
 
     /**
+     * Create an CAP mission over a friendly task force.
+     *
+     * @param data The mission data.
+     * @return A CAP mission initialized with the given data.
+     */
+    @Named("cap")
+    AirMission createCap(MissionData data);
+
+    /**
      * Create an airbase ferry mission.
      *
      * @param data The mission data.

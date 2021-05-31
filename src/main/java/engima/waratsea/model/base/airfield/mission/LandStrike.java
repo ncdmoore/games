@@ -143,6 +143,15 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
     }
 
     /**
+     * Save any of this object's children persistent data.
+     * Not all objects will have children with persistent data.
+     */
+    @Override
+    public void saveChildrenData() {
+
+    }
+
+    /**
      * Muster the mission. Prepare for launching.
      * @param action The action.
      */
@@ -236,15 +245,6 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
     public boolean reachedHome() {
         // The + 1 accounts for the current turn.
         return getElapsedTurns() + 1 >= turnsToHome;
-    }
-
-    /**
-     * Save any of this object's children persistent data.
-     * Not all objects will have children with persistent data.
-     */
-    @Override
-    public void saveChildrenData() {
-
     }
 
     /**

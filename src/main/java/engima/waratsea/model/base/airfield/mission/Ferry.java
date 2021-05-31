@@ -69,7 +69,7 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
 
         squadrons.setSquadrons(startingAirbase, data.getSquadronMap());
 
-        //Note, we cannot go ahead and obtain the destination air base. as it might not have been created at
+        //Note, we cannot go ahead and obtain the destination air base as it might not have been created at
         //this point in time. So we just save the name of the destination air base. The destination air base
         // must be determined outside the constructor.
         endingAirbaseName = data.getTarget();

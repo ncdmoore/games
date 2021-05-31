@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
 import engima.waratsea.model.base.Airbase;
+import engima.waratsea.model.base.Cap;
 import engima.waratsea.model.base.airfield.mission.MissionSquadrons;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
@@ -22,7 +23,7 @@ import java.util.Set;
 import java.util.stream.IntStream;
 
 @Slf4j
-public class CapPatrol implements Patrol {
+public class CapPatrol implements Patrol, Cap {
     private static final LinkedHashSet<SquadronConfig> VALID_SQUADRON_CONFIGS = new LinkedHashSet<>(Collections.singletonList(SquadronConfig.NONE));
 
     private static final int RADIUS = 2;
@@ -217,6 +218,7 @@ public class CapPatrol implements Patrol {
         return capRules.isAffectedByWeather();
     }
 
+    @Override
     public void intercept(final MissionSquadrons enemySquadrons) {
 
     }

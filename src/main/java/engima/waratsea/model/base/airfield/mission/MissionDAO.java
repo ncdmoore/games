@@ -19,6 +19,7 @@ public class MissionDAO {
      */
     @Inject
     public MissionDAO(final MissionFactory factory) {
+        factoryMap.put(AirMissionType.DISTANT_CAP, factory::createCap);
         factoryMap.put(AirMissionType.FERRY, factory::createFerry);
         factoryMap.put(AirMissionType.LAND_STRIKE, factory::createLandStrike);
         factoryMap.put(AirMissionType.NAVAL_PORT_STRIKE, factory::createNavalPortStrike);

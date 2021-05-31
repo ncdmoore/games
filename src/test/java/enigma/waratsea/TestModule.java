@@ -12,6 +12,7 @@ import engima.waratsea.model.aircraft.Recon;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.airfield.AirfieldFactory;
 import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.mission.DistantCap;
 import engima.waratsea.model.base.airfield.mission.Ferry;
 import engima.waratsea.model.base.airfield.mission.LandStrike;
 import engima.waratsea.model.base.airfield.mission.NavalPortStrike;
@@ -192,6 +193,7 @@ public class TestModule extends AbstractModule {
         install(new FactoryModuleBuilder().implement(Airfield.class, Airfield.class).build(AirfieldFactory.class));
 
         install(new FactoryModuleBuilder()
+                .implement(AirMission.class, Names.named("cap"), DistantCap.class)
                 .implement(AirMission.class, Names.named("ferry"), Ferry.class)
                 .implement(AirMission.class, Names.named("landStrike"), LandStrike.class)
                 .implement(AirMission.class, Names.named("navalPortStrike"), NavalPortStrike.class)
