@@ -148,16 +148,6 @@ public class TargetFriendlyTaskForce implements Target {
     }
 
     /**
-     * The squadrons land at this target. This is only used by friendly airbases.
-     *
-     * @param squadrons The squadrons that land at this target.
-     */
-    @Override
-    public void land(final MissionSquadrons squadrons) {
-
-    }
-
-    /**
      * Perform a patrol of the given type over this target.
      *
      * @param patrolType The type of patrol.
@@ -264,36 +254,6 @@ public class TargetFriendlyTaskForce implements Target {
     }
 
     /**
-     * Determine if the airbase that is the target has capacity to support additional squadron steps.
-     *
-     * @param excludedAirbase            An airbase to exclude in determining the number of mission
-     *                                   steps currently assigned to this target's region.
-     * @param currentAirbaseMissionSteps The current airbase mission steps. This is the
-     *                                   airbase that is currently being edited in the GUI.
-     * @return True if this target's airbase has capacity to accept more squadron steps. False otherwise.
-     */
-    @Override
-    public boolean hasAirbaseCapacity(final Airbase excludedAirbase, final int currentAirbaseMissionSteps) {
-        return true;
-    }
-
-    /**
-     * Determine if the region that contains this target can has capacity to support additional
-     * squadron steps.
-     *
-     * @param nation                     The region's nation.
-     * @param excludedAirbase            An airbase to exclude in determining the number of mission
-     *                                   steps currently assigned to this target's region.
-     * @param currentAirbaseMissionSteps The current airbase mission steps. This is the
-     *                                   airbase that is currently being edited in the GUI.
-     * @return True if this target's region has capacity to accept more squadron steps. False otherwise.
-     */
-    @Override
-    public boolean hasRegionCapacity(final Nation nation, final Airbase excludedAirbase, final int currentAirbaseMissionSteps) {
-        return true;
-    }
-
-    /**
      * Determine if the given squadron is allowed to perform the given mission against this target.
      *
      * @param type The air mission type.
@@ -355,51 +315,6 @@ public class TargetFriendlyTaskForce implements Target {
      */
     @Override
     public int getRegionMaxSteps(final Nation nation) {
-        return 0;
-    }
-
-    /**
-     * Get the current number of squadron steps of the this target's region.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @return The current number of squadron steps of this target's region.
-     */
-    @Override
-    public int getRegionCurrentSteps(final Nation nation) {
-        return 0;
-    }
-
-    /**
-     * Get the current number of squadron steps on missions that originate
-     * outside of this target's region that are assigned targets in the
-     * same region as this target.
-     *
-     * @param missionType The type of mission.
-     * @param nation      The nation: BRITISH, ITALIAN, etc...
-     * @param airbase     The airbase that contains the mission that has this target as a target.
-     * @return The total number of squadron steps with the given mission type
-     * that originate outside of the region of this target, but have a
-     * target in the same region as this target.
-     */
-    @Override
-    public int getMissionStepsEnteringRegion(final AirMissionType missionType, final Nation nation, final Airbase airbase) {
-        return 0;
-    }
-
-    /**
-     * Get the current number of squadron steps on missions of the given type
-     * that originate in the same region as the given airbase and that have targets
-     * in different regions than the airbase region.
-     *
-     * @param missionType The type of mission.
-     * @param nation      The nation: BRITISH, ITALIAN, etc...
-     * @param airbase     The airbase that contains the mission that has this as a target.
-     * @return The total number of squadron steps with the given mission type
-     * that originate in the same region as the given airbase and that have targets
-     * in different regions than the airbase region.
-     */
-    @Override
-    public int getMissionStepsLeavingRegion(final AirMissionType missionType, final Nation nation, final Airbase airbase) {
         return 0;
     }
 

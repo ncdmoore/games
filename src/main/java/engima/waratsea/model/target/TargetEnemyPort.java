@@ -3,7 +3,6 @@ package engima.waratsea.model.target;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionSquadrons;
 import engima.waratsea.model.enemy.views.port.PortView;
 import engima.waratsea.model.game.Game;
@@ -12,7 +11,6 @@ import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameGrid;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
-import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.data.TargetData;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -146,16 +144,6 @@ public class TargetEnemyPort implements Target {
     }
 
     /**
-     * The squadrons land at this target. This is only used by friendly airbases.
-     *
-     * @param squadrons The squadrons that land at this target.
-     */
-    @Override
-    public void land(final MissionSquadrons squadrons) {
-
-    }
-
-    /**
      * The squadrons attacks this target.
      *
      * @param squadrons The squadron that attack this target.
@@ -208,18 +196,6 @@ public class TargetEnemyPort implements Target {
     }
 
     /**
-     * Determine if the given squadron is allowed to perform the given mission against this target.
-     *
-     * @param type The air mission type.
-     * @param squadron The squadron that is checked to determine is allowed to perform the given mission against this target.
-     * @return True if given squadron may perform the given mission against this target. False otherwise.
-     */
-    @Override
-    public boolean isMissionAllowed(final AirMissionType type, final Squadron squadron) {
-        return true;
-    }
-
-    /**
      * Get the distance to this target from the given airbase.
      *
      * @param airbase The airbase whose distance to target is returned.
@@ -245,36 +221,6 @@ public class TargetEnemyPort implements Target {
     }
 
     /**
-     * Determine if the airbase that is the target has capacity to support additional squadron steps.
-     *
-     * @param excludedAirbase            An airbase to exclude in determining the number of mission
-     *                                   steps currently assigned to this target's region.
-     * @param currentAirbaseMissionSteps The current airbase mission steps. This is the
-     *                                   airbase that is currently being edited in the GUI.
-     * @return True if this target's airbase has capacity to accept more squadron steps. False otherwise.
-     */
-    @Override
-    public boolean hasAirbaseCapacity(final Airbase excludedAirbase, final int currentAirbaseMissionSteps) {
-        return true;
-    }
-
-    /**
-     * Determine if the region that contains this target can has capacity to support additional
-     * squadron steps.
-     *
-     * @param nation The region's nation.
-     * @param excludedAirbase An airbase to exclude in determining the number of mission
-     *                        steps currently assigned to this target's region.
-     * @param currentAirbaseMissionSteps The current airbase mission steps. This is the
-     *                                   airbase that is currently being edited in the GUI.
-     * @return True if this target's region has capacity to accept more squadron steps. False otherwise.
-     */
-    @Override
-    public boolean hasRegionCapacity(final Nation nation, final Airbase excludedAirbase, final int currentAirbaseMissionSteps) {
-        return true;
-    }
-
-    /**
      * Get the total number of squadron steps that assigned this target.
      *
      * @return The total number of squadron steps that are assigned this target.
@@ -288,82 +234,6 @@ public class TargetEnemyPort implements Target {
                 .filter(base -> base != airbase)
                 .map(base -> base.getTotalMissionSteps(this))
                 .reduce(0, Integer::sum);
-    }
-
-    /**
-     * Get the total number of squadron steps that may be assigned to this target.
-     *
-     * @return The total number of squadron steps that may be assigned to this target.
-     */
-    @Override
-    public int getCapacitySteps() {
-        return 0;
-    }
-
-    /**
-     * Get the number of squadron steps that are currently assigned to this target.
-     *
-     * @return The number of squadron steps that are currently assigned to this target.
-     */
-    @Override
-    public int getCurrentSteps() {
-        return 0;
-    }
-
-    /**
-     * Get the maximum number of squadron steps of the target's region.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @return The maximum number of squadron steps of the target's region.
-     */
-    @Override
-    public int getRegionMaxSteps(final Nation nation) {
-        return 0;
-    }
-
-    /**
-     * Get the current number of squadron steps of the this target's region.
-     *
-     * @param nation The nation: BRITISH, ITALIAN, etc...
-     * @return The current number of squadron steps of this target's region.
-     */
-    @Override
-    public int getRegionCurrentSteps(final Nation nation) {
-        return 0;
-    }
-
-    /**
-     * Get the current number of squadron steps on missions that originate
-     * outside of this target's region that are assigned targets in the
-     * same region as this target.
-     *
-     * @param missionType The type of mission.
-     * @param nation      The nation: BRITISH, ITALIAN, etc...
-     * @param airbase The airbase that contains the mission that has this target as a target.
-     * @return The total number of squadron steps with the given mission type
-     * that originate outside of the region of this target, but have a
-     * target in the same region as this target.
-     */
-    @Override
-    public int getMissionStepsEnteringRegion(final AirMissionType missionType, final Nation nation, final Airbase airbase) {
-        return 0;
-    }
-
-    /**
-     * Get the current number of squadron steps on missions of the given type
-     * that originate in the same region as the given airbase and that have targets
-     * in different regions than the airbase region.
-     *
-     * @param missionType The type of mission.
-     * @param nation      The nation: BRITISH, ITALIAN, etc...
-     * @param airbase     The airbase that contains the mission that has this as a target.
-     * @return The total number of squadron steps with the given mission type
-     * that originate in the same region as the given airbase and that have targets
-     * in different regions than the airbase region.
-     */
-    @Override
-    public int getMissionStepsLeavingRegion(final AirMissionType missionType, final Nation nation, final Airbase airbase) {
-        return 0;
     }
 
     /**

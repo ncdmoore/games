@@ -91,7 +91,8 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
      *
      * @param squadrons The squadrons that land at this target.
      */
-    void land(MissionSquadrons squadrons);
+    default void land(MissionSquadrons squadrons) {
+    }
 
     /**
      * Augment or create a patrol of the given type over this target.
@@ -155,7 +156,9 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
      * @param squadron The squadron that is checked to determine is allowed to perform the given mission against this target.
      * @return True if given squadron may perform the given mission against this target. False otherwise.
      */
-    boolean isMissionAllowed(AirMissionType type, Squadron squadron);
+    default boolean isMissionAllowed(AirMissionType type, Squadron squadron) {
+        return true;
+    }
 
     /**
      * Get the distance to this target from the given airbase.
@@ -182,7 +185,9 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
      *                                   airbase that is currently being edited in the GUI.
      * @return True if this target's airbase has capacity to accept more squadron steps. False otherwise.
      */
-    boolean hasAirbaseCapacity(Airbase excludedAirbase, int currentAirbaseMissionSteps);
+    default boolean hasAirbaseCapacity(Airbase excludedAirbase, int currentAirbaseMissionSteps) {
+        return true;
+    }
 
     /**
      * Determine if the region that contains this target can has capacity to support additional
@@ -195,7 +200,9 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
      *                                   airbase that is currently being edited in the GUI.
      * @return True if this target's region has capacity to accept more squadron steps. False otherwise.
      */
-    boolean hasRegionCapacity(Nation nation, Airbase excludedAirbase, int currentAirbaseMissionSteps);
+    default boolean hasRegionCapacity(Nation nation, Airbase excludedAirbase, int currentAirbaseMissionSteps) {
+        return true;
+    }
 
     /**
      * Get the total number of squadron steps that are on missions with this as a target.
@@ -210,14 +217,18 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
      *
      * @return The total number of squadron steps that may be assigned to this target.
      */
-    int getCapacitySteps();
+    default int getCapacitySteps() {
+        return 0;
+    }
 
     /**
      * Get the number of squadron steps that are currently assigned to this target.
      *
      * @return The number of squadron steps that are currently assigned to this target.
      */
-    int getCurrentSteps();
+    default int getCurrentSteps() {
+        return 0;
+    }
 
     /**
      * Get the maximum number of squadron steps of this target's region.
@@ -225,7 +236,9 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
      * @param nation The nation: BRITISH, ITALIAN, etc...
      * @return The maximum number of squadron steps of this target's region.
      */
-    int getRegionMaxSteps(Nation nation);
+    default int getRegionMaxSteps(Nation nation) {
+        return 0;
+    }
 
     /**
      * Get the current number of squadron steps of this target's region.
@@ -233,7 +246,9 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
      * @param nation The nation: BRITISH, ITALIAN, etc...
      * @return The current number of squadron steps of this target's region.
      */
-    int getRegionCurrentSteps(Nation nation);
+    default int getRegionCurrentSteps(Nation nation) {
+        return 0;
+    }
 
     /**
      * Get the current number of squadron steps on missions that originate
@@ -247,7 +262,9 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
      * that originate outside of the region of this target, but have a
      * target in the same region as this target.
      */
-    int getMissionStepsEnteringRegion(AirMissionType missionType, Nation nation, Airbase airbase);
+    default int getMissionStepsEnteringRegion(AirMissionType missionType, Nation nation, Airbase airbase) {
+        return 0;
+    }
 
     /**
      * Get the current number of squadron steps on missions of the given type
@@ -261,5 +278,7 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
      * that originate in the same region as the given airbase and that have targets
      * in different regions than the airbase region.
      */
-    int getMissionStepsLeavingRegion(AirMissionType missionType, Nation nation, Airbase airbase);
+    default int getMissionStepsLeavingRegion(AirMissionType missionType, Nation nation, Airbase airbase) {
+        return 0;
+    }
 }
