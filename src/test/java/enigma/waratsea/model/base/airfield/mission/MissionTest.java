@@ -139,6 +139,20 @@ public class MissionTest {
         testLandAttackRecall(squadron, enemyAirfield, enemyAirfieldTarget);
     }
 
+    @Test
+    public void testDistantCap() {
+        Region region = buildEgyptRegion();
+        Airfield airfield = buildAlexandriaAirfield();
+
+        //create TaskForce
+        //create TaskForceTarget
+        Squadron squadron = buildHurricane();
+
+        airfield.addRegion(region);
+        airfield.addSquadron(squadron);
+
+    }
+
     private void testFerry(final int targetEta, final Squadron squadron, final Airfield endingAirfield, final Target friendlyAirfield) {
         Region region = buildEgyptRegion();
 
@@ -481,6 +495,15 @@ public class MissionTest {
         SquadronData data = new SquadronData();
         data.setName("RAF");
         data.setModel("Wellington");
+        data.setStrength(SquadronStrength.FULL);
+
+        return squadronFactory.create(Side.ALLIES, Nation.BRITISH, data);
+    }
+
+    private Squadron buildHurricane() {
+        SquadronData data = new SquadronData();
+        data.setName("RAF");
+        data.setModel("Hurricane-1");
         data.setStrength(SquadronStrength.FULL);
 
         return squadronFactory.create(Side.ALLIES, Nation.BRITISH, data);

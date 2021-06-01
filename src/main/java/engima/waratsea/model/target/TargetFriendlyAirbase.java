@@ -5,7 +5,6 @@ import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.base.airfield.mission.MissionSquadrons;
-import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -18,7 +17,6 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -166,17 +164,6 @@ public class TargetFriendlyAirbase implements Target {
                 .forEach(squadron -> airbase.addSquadron(squadron));
 
         squadrons.land();
-    }
-
-    /**
-     * Perform a patrol of the given type over this target.
-     *
-     * @param patrolType The type of patrol.
-     * @param squadrons  The squadron that perform this patrol over the target.
-     */
-    @Override
-    public void patrol(final PatrolType patrolType, final List<Squadron> squadrons) {
-
     }
 
     /**

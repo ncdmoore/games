@@ -164,11 +164,25 @@ public class TargetFriendlyTaskForce implements Target {
      * @param squadrons  The squadron that perform this patrol over the target.
      */
     @Override
-    public void patrol(final PatrolType patrolType, final List<Squadron> squadrons) {
+    public void augmentPatrol(final PatrolType patrolType, final List<Squadron> squadrons) {
         Optional
                 .ofNullable(taskForce)
                 .orElseGet(this::getTaskForce)
-                .enhancePatrol(patrolType, squadrons);
+                .augmentPatrol(patrolType, squadrons);
+    }
+
+    /**
+     * Reduce or delete a patrol of the given type over this target.
+     *
+     * @param patrolType The type of patrol.
+     * @param squadrons The squadrons that are removed from the given patrol over the target.
+     */
+    @Override
+    public void reducePatrol(final PatrolType patrolType, final List<Squadron> squadrons) {
+        Optional
+                .ofNullable(taskForce)
+                .orElseGet(this::getTaskForce)
+                .reducePatrol(patrolType, squadrons);
     }
 
     /**

@@ -153,7 +153,7 @@ public class TargetSeaGrid implements Target {
      * @param squadrons  The squadron that perform this patrol over the target.
      */
     @Override
-    public void patrol(final PatrolType patrolType, final List<Squadron> squadrons) {
+    public void augmentPatrol(final PatrolType patrolType, final List<Squadron> squadrons) {
 
     }
 

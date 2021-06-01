@@ -412,8 +412,13 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
      * @param patrolType The type of patrol.
      * @param landBasedSquadrons The land based squadrons that patrol the over this task force.
      */
-    public void enhancePatrol(final PatrolType patrolType, final List<Squadron> landBasedSquadrons)  {
+    public void augmentPatrol(final PatrolType patrolType, final List<Squadron> landBasedSquadrons)  {
         virtualAirbase.updatePatrol(patrolType, landBasedSquadrons);
+    }
+
+    public void reducePatrol(final PatrolType patrolType, final List<Squadron> landBasedSquadrons) {
+        List<Squadron> onPatrol = virtualAirbase.getPatrol(patrolType).getAssignedSquadrons();
+        landBasedSquadrons.forEach(onPatrol::remove);
     }
 
     /**

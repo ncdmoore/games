@@ -94,12 +94,22 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
     void land(MissionSquadrons squadrons);
 
     /**
-     * Perform a patrol of the given type over this target.
+     * Augment or create a patrol of the given type over this target.
      *
      * @param patrolType The type of patrol.
-     * @param squadrons The squadron that perform this patrol over the target.
+     * @param squadrons The squadrons that are added to the given patrol over the target.
      */
-    void patrol(PatrolType patrolType, List<Squadron> squadrons);
+    default void augmentPatrol(PatrolType patrolType, List<Squadron> squadrons) {
+    }
+
+    /**
+     * Reduce or delete a patrol of the given type over this target.
+     *
+     * @param patrolType The type of patrol.
+     * @param squadrons The squadrons that are removed from the given patrol over the target.
+     */
+    default void reducePatrol(PatrolType patrolType, List<Squadron> squadrons) {
+    }
 
     /**
      * The squadrons attack this target.

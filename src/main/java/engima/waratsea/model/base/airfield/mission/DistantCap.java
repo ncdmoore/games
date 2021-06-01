@@ -170,9 +170,6 @@ public class DistantCap extends AirMissionExecutor implements AirMission, Cap {
     @Override
     public void execute() {
         targetTaskForce = getTarget();
-
-        // Go on patrol for a single turn.
-        targetTaskForce.patrol(PatrolType.CAP, squadrons.getAll());
     }
 
     /**
@@ -237,6 +234,7 @@ public class DistantCap extends AirMissionExecutor implements AirMission, Cap {
     public void addSquadrons() {
         targetTaskForce = getTarget();
         squadrons.add(targetTaskForce, AirMissionType.DISTANT_CAP);
+        targetTaskForce.augmentPatrol(PatrolType.CAP, squadrons.getAll());
     }
 
     /**
@@ -244,6 +242,8 @@ public class DistantCap extends AirMissionExecutor implements AirMission, Cap {
      */
     @Override
     public void removeSquadrons() {
+        targetTaskForce = getTarget();
+        targetTaskForce.reducePatrol(PatrolType.CAP, squadrons.getAll());
         squadrons.remove();
     }
 
