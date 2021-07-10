@@ -1,7 +1,7 @@
 package engima.waratsea.view.taskforce;
 
 import com.google.inject.Inject;
-import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.RealAirbaseViewModel;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import engima.waratsea.viewmodel.taskforce.air.TaskForceAirViewModel;
 import javafx.scene.Node;
@@ -39,7 +39,7 @@ public class TaskForceAirView {
      *
      * @return The airbase choice box.
      */
-    public ChoiceBox<AirbaseViewModel> getChoiceBox() {
+    public ChoiceBox<RealAirbaseViewModel> getChoiceBox() {
         return taskForceAirOperations.getAirbases();
     }
 
@@ -48,7 +48,7 @@ public class TaskForceAirView {
      *
      * @param airbase The airbase view model that has been selected.
      */
-    public void setAirbase(final AirbaseViewModel airbase) {
+    public void setAirbase(final RealAirbaseViewModel airbase) {
         taskForceAirOperations.airbaseSelected(airbase);
     }
 }

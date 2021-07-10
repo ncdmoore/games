@@ -255,7 +255,7 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
     @Override
     public void addSquadrons() {
         targetAirbase = getTarget();
-        squadrons.add(targetAirbase, AirMissionType.LAND_STRIKE);
+        squadrons.add(targetAirbase, AirMissionType.LAND_STRIKE, id);
     }
 
     /**

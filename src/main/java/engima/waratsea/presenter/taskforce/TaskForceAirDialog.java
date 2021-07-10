@@ -9,7 +9,7 @@ import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.MainMapView;
 import engima.waratsea.view.taskforce.TaskForceAirView;
-import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.RealAirbaseViewModel;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -122,7 +122,7 @@ public class TaskForceAirDialog {
      *
      * @param airbaseViewModel The airbase view model of the ship selected.
      */
-    private void airbaseSelected(final AirbaseViewModel airbaseViewModel) {
+    private void airbaseSelected(final RealAirbaseViewModel airbaseViewModel) {
         view.setAirbase(airbaseViewModel);
 
         assetPresenter

@@ -35,6 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -58,6 +59,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
     @Getter private Airbase home;
     @Getter private SquadronState state;
     @Getter @Setter private SquadronConfig config;
+    @Getter @Setter private int missionId;
 
     static {
         DESIGNATION_MAP.put(Side.ALLIES, new HashMap<>());
@@ -100,6 +102,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
         this.name = data.getName();
         this.state = data.getSquadronState();
         this.config = Optional.ofNullable(data.getConfig()).orElse(SquadronConfig.NONE);
+        this.missionId = data.getMissionId();
 
         try {
             AircraftId aircraftId = new AircraftId(model, side);
@@ -140,6 +143,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
                 .ifPresent(h -> data.setAirfield(h.getName()));
         data.setSquadronState(state);
         data.setConfig(config);
+        data.setMissionId(missionId);
         return data;
     }
 
@@ -521,6 +525,7 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
      */
     public void land() {
         state = state.transition(SquadronAction.LAND);
+        missionId = 0;
     }
 
     /**
@@ -622,6 +627,36 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
                 .min(Map.Entry.comparingByKey())
                 .map(Map.Entry::getKey)
                 .orElse(SquadronConfig.NONE);
+    }
+
+    /**
+     * Determine if this squadron is equal to a given object.
+     *
+     * @param o The given object.
+     * @return True if this squadron is equal to the given object.
+     */
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Squadron squadron = (Squadron) o;
+
+        return side == squadron.side && nation == squadron.nation && model.equals(squadron.model) && name.equals(squadron.name);
+    }
+
+    /**
+     * The hash code for squadrons.
+     *
+     * @return The hash code.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(side, nation, model, name);
     }
 
     /**

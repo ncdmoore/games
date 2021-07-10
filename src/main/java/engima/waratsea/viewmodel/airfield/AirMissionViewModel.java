@@ -10,11 +10,14 @@ import engima.waratsea.model.base.airfield.mission.data.MissionData;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionAction;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
+import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.map.region.Region;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
+import engima.waratsea.model.taskForce.TaskForce;
+import engima.waratsea.presenter.asset.AssetPresenter;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectExpression;
@@ -52,8 +55,8 @@ public class AirMissionViewModel {
     @Getter private final Map<MissionRole, ListProperty<SquadronViewModel>> available = new HashMap<>();                // List of available squadrons for a particular role.
     @Getter private final Map<MissionRole, ListProperty<SquadronViewModel>> assigned = new HashMap<>();                 // List of squadrons assigned to this mission for a particular role.
 
-    @Getter private final Map<MissionRole, BooleanProperty> availableEmpty = new HashMap<>();                          // Indicates if any available squadrons exist for a particular role.
-    @Getter private final Map<MissionRole, BooleanProperty> assignedEmpty = new HashMap<>();                           // Indicates if any assigned squadrons exist for a particular role.
+    @Getter private final Map<MissionRole, BooleanProperty> availableEmpty = new HashMap<>();                           // Indicates if any available squadrons exist for a particular role.
+    @Getter private final Map<MissionRole, BooleanProperty> assignedEmpty = new HashMap<>();                            // Indicates if any assigned squadrons exist for a particular role.
 
     @Getter private final ListProperty<SquadronViewModel> totalAssigned = new SimpleListProperty<>(FXCollections.emptyObservableList());
     @Getter private final IntegerProperty totalAssignedCount = new SimpleIntegerProperty(0);                  // Total number of squadrons on the mission. Includes all roles.
@@ -98,6 +101,7 @@ public class AirMissionViewModel {
     @Getter private final StringProperty targetRtt = new SimpleStringProperty();                                        // Target Round Trip time.
 
     private final Game game;
+    private final AssetPresenter assetManager;
     private final MissionDAO missionDAO;
     @Getter private AirMission mission;
 
@@ -108,16 +112,20 @@ public class AirMissionViewModel {
 
     private boolean checkCapacity = true;  //For new missions the capacity of the target is checked. For existing mission it is not.
 
+
     /**
      * The constructor called by guice.
      *
      * @param game The game.
+     * @param assetManager Get's asset views that this mission might need to update.
      * @param missionDAO The mission data access object.
      */
     @Inject
     public AirMissionViewModel(final Game game,
+                               final AssetPresenter assetManager,
                                final MissionDAO missionDAO) {
         this.game = game;
+        this.assetManager = assetManager;
         this.missionDAO = missionDAO;
 
         missionTypes.setValue(FXCollections.observableArrayList(AirMissionType.values()));
@@ -386,6 +394,8 @@ public class AirMissionViewModel {
         missionId.setValue(id);
         checkCapacity = false;
         nationAirbaseViewModel.addMission(this);
+
+        addToTargetAsset(getVirtualAirbase());
     }
 
     /**
@@ -395,6 +405,17 @@ public class AirMissionViewModel {
         mission = buildMission(id);
         checkCapacity = false;
         nationAirbaseViewModel.editMission(this);
+
+        VirtualAirbaseViewModel virtualAirbase = getVirtualAirbase();
+        removeFromTargetAsset(virtualAirbase);
+        addToTargetAsset(virtualAirbase);
+    }
+
+    /**
+     * Remove this mission.
+     */
+    public void removeMission() {
+        removeFromTargetAsset(getVirtualAirbase());
     }
 
     /**
@@ -1054,5 +1075,31 @@ public class AirMissionViewModel {
                 .ofNullable(mission)
                 .map(AirMission::getElapsedTurns)
                 .orElse(0);
+    }
+
+    private void addToTargetAsset(final VirtualAirbaseViewModel virtualAirbase) {
+        if (mission.getType() == AirMissionType.DISTANT_CAP) {
+            virtualAirbase.addSquadrons(PatrolType.CAP, assigned.get(MissionRole.MAIN), id);
+        }
+    }
+
+    private void removeFromTargetAsset(final VirtualAirbaseViewModel virtualAirbase) {
+        if (mission.getType() == AirMissionType.DISTANT_CAP) {
+            virtualAirbase.clearSquadrons(PatrolType.CAP, id);
+        }
+    }
+
+
+    private VirtualAirbaseViewModel getVirtualAirbase() {
+        TaskForce taskForce = (TaskForce) target
+                .getValue()
+                .getView();
+
+        return assetManager
+                .getTaskForceAssetPresenter()
+                .getViewModel(taskForce)
+                .getTaskForceAirViewModel()
+                .getVirtualAirbase()
+                .getValue();
     }
 }

@@ -10,7 +10,7 @@ import engima.waratsea.view.InfoPane;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.info.AirfieldRangeInfo;
 import engima.waratsea.view.util.GridPaneMap;
-import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.RealAirbaseViewModel;
 import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -67,7 +67,7 @@ public class AirfieldAssetSummaryView implements AssetView {
     private final Provider<InfoPane> infoProvider;
     private final Provider<AirfieldRangeInfo> airfieldRangeInfoProvider;
 
-    @Getter private AirbaseViewModel viewModel;
+    @Getter private RealAirbaseViewModel viewModel;
     private Airbase airbase;
     @Getter private final Map<Nation, AirfieldRangeInfo> rangeInfo = new HashMap<>();
     private final Map<Nation, InfoPane> regionInfo = new HashMap<>();
@@ -109,7 +109,7 @@ public class AirfieldAssetSummaryView implements AssetView {
      * @param airbaseViewModel The airbase view model.
      * @return The node that contains the airfield's asset summary.
      */
-    public AirfieldAssetSummaryView build(final AirbaseViewModel airbaseViewModel) {
+    public AirfieldAssetSummaryView build(final RealAirbaseViewModel airbaseViewModel) {
         viewModel = airbaseViewModel;
         airbase = viewModel.getAirbaseModel();
 
@@ -145,7 +145,7 @@ public class AirfieldAssetSummaryView implements AssetView {
      *
      * @param airbaseViewModel The new airbase view model that this object is bound too.
      */
-    public void reset(final AirbaseViewModel airbaseViewModel) {
+    public void reset(final RealAirbaseViewModel airbaseViewModel) {
         viewModel = airbaseViewModel;
         airbase = viewModel.getAirbaseModel();
 
@@ -362,7 +362,7 @@ public class AirfieldAssetSummaryView implements AssetView {
         Tab tab = new Tab();
         tab.setText(nation.toString());
         tab.setUserData(nation);
-        ImageView roundel = resourceProvider.getImageView(props.getString(nation.toString() + ROUNDEL));
+        ImageView roundel = resourceProvider.getImageView(props.getString(nation + ROUNDEL));
 
         tab.setGraphic(roundel);
 

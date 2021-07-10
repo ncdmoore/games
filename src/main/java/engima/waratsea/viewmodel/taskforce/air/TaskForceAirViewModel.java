@@ -9,6 +9,8 @@ import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.RealAirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.VirtualAirbaseViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -99,7 +101,7 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
      */
     public List<Nation> getNations() {
         return airbaseGroupViewModel
-                .getAirbases()
+                .getRealAirbases()
                 .stream()
                 .flatMap(airbase -> airbase
                         .getNations()
@@ -114,6 +116,24 @@ public class TaskForceAirViewModel implements Comparable<TaskForceAirViewModel> 
      */
     public ListProperty<AirbaseViewModel> getAirbases() {
         return airbaseGroupViewModel.getAirbases();
+    }
+
+    /**
+     * Get this task forces airbases.
+     *
+     * @return A list of this task forces airbases.
+     */
+    public ListProperty<RealAirbaseViewModel> getRealAirbases() {
+        return airbaseGroupViewModel.getRealAirbases();
+    }
+
+    /**
+     * Get this task force's virtual airbase.
+     *
+     * @return The task force's virtual airbase.
+     */
+    public ObjectProperty<VirtualAirbaseViewModel> getVirtualAirbase() {
+        return airbaseGroupViewModel.getVirtualAirbase();
     }
 
     /**

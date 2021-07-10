@@ -72,6 +72,7 @@ public class CapitalShip implements Ship, Airbase {
     @Getter private final AirbaseType airbaseType = AirbaseType.FlOAT_PLANE;
 
     @Getter private final List<LandingType> landingType;
+    @Getter private final boolean real = true;
 
     private final Squadrons squadrons;
 

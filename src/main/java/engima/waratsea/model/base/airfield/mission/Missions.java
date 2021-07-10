@@ -87,6 +87,7 @@ public class Missions {
      * @param mission The mission that is added to this airbase.
      */
     public void addMission(final AirMission mission) {
+        log.info("Add mission: '{}'", mission.getId());
         missions.add(mission);
         mission.addSquadrons();
         mission.doAction(AirMissionAction.CREATE);
@@ -115,6 +116,7 @@ public class Missions {
      * Clear all squadrons from the missions.
      */
     public void clear() {
+        log.info("Clear missions for airbase: '{}'", airbase.getTitle());
         missions.forEach(AirMission::removeSquadrons);
         missions.clear();
     }

@@ -17,14 +17,18 @@ import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.Dice;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Slf4j
 public class DistantCap extends AirMissionExecutor implements AirMission, Cap {
 
     @Getter private final int id;
@@ -233,7 +237,15 @@ public class DistantCap extends AirMissionExecutor implements AirMission, Cap {
     @Override
     public void addSquadrons() {
         targetTaskForce = getTarget();
-        squadrons.add(targetTaskForce, AirMissionType.DISTANT_CAP);
+
+        log.info("Update CAP of task force: '{}'", targetTaskForce.getTitle());
+        log.info("Add squadrons: '{}'", squadrons
+                .getAll()
+                .stream()
+                .map(Squadron::getTitle)
+                .collect(Collectors.joining(",")));
+
+        squadrons.add(targetTaskForce, AirMissionType.DISTANT_CAP, id);
         targetTaskForce.augmentPatrol(PatrolType.CAP, squadrons.getAll());
     }
 
@@ -243,6 +255,14 @@ public class DistantCap extends AirMissionExecutor implements AirMission, Cap {
     @Override
     public void removeSquadrons() {
         targetTaskForce = getTarget();
+
+        log.info("Update CAP of task force: '{}'", targetTaskForce.getTitle());
+        log.info("Remove squadrons: '{}'", squadrons
+                .getAll()
+                .stream()
+                .map(Squadron::getTitle)
+                .collect(Collectors.joining(",")));
+
         targetTaskForce.reducePatrol(PatrolType.CAP, squadrons.getAll());
         squadrons.remove();
     }

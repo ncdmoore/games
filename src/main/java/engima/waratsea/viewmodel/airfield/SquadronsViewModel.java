@@ -6,17 +6,19 @@ import engima.waratsea.model.aircraft.AircraftType;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class SquadronsViewModel {
     private final Provider<SquadronViewModel> provider;
 
     // Squadron names are unique throughout the game. Thus a given squadron name uniquely identifies a squadron view model.
-    // Contains all nation's squadron view models.
+    // Contains all nation's squadron view models for a given airbase.
     // key: Squadron Name, value: squadron view model.
     private Map<String, SquadronViewModel> squadronNameMap = new HashMap<>();
 
@@ -36,6 +38,9 @@ public class SquadronsViewModel {
      * @param airbase The airbase.
      */
     public void setModel(final Airbase airbase) {
+        log.info("Set squadrons for airbase: '{}'", airbase.getTitle());
+        log.info("Contains squadrons: '{}'", airbase.getSquadrons().stream().map(Squadron::getTitle).collect(Collectors.joining(",")));
+
         squadronNameMap = airbase
                 .getSquadrons()
                 .stream()
@@ -82,9 +87,29 @@ public class SquadronsViewModel {
     }
 
     /**
+     * Add a squadron view model to this collection of squadron view models.
+     *
+     * @param squadron The squadron view model that is added.
+     */
+    public void add(final SquadronViewModel squadron) {
+        squadronNameMap.put(squadron.getNameAsString(), squadron);
+    }
+
+    /**
+     * Remove a squadron view model from this collection of squadron view models.
+     *
+     * @param squadron The squadron view model that is removed.
+     */
+    public void remove(final SquadronViewModel squadron) {
+        squadronNameMap.remove(squadron.getNameAsString());
+    }
+
+    /**
      * Save the squadrons.
      */
     public void save() {
-        squadronNameMap.values().forEach(SquadronViewModel::save);
+        squadronNameMap
+                .values()
+                .forEach(SquadronViewModel::save);
     }
 }

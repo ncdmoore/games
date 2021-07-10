@@ -13,7 +13,7 @@ import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.stats.ProbabilityStats;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
-import engima.waratsea.model.base.airfield.patrol.Patrols;
+import engima.waratsea.model.base.airfield.patrol.VirtualPatrols;
 import engima.waratsea.model.base.airfield.squadron.Squadrons;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Nation;
@@ -28,6 +28,7 @@ import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
@@ -47,6 +48,7 @@ import java.util.stream.Collectors;
  * are added to this virtual aircraft carriers squadrons and to the is virtual aircraft carrier's patrol
  * squadrons.
  */
+@Slf4j
 public class VirtualAircraftCarrier implements Ship, Airbase {
     private final Game game;
 
@@ -57,16 +59,17 @@ public class VirtualAircraftCarrier implements Ship, Airbase {
     @Getter private final int maxCapacity = 0;                // Virtual airbase has no capacity.
     @Getter private final int antiAirRating = 0;              // Virtual airbase has no AA.
     @Getter private final int capacity = 0;                   // Virtual airbase has no capacity.
+    @Getter private final boolean real = false;
     @Getter @Setter private TaskForce taskForce;
 
     private final Squadrons squadrons;
-    private final Patrols patrols;
+    private final VirtualPatrols patrols;
     private final Region region;
 
     @Inject
     public VirtualAircraftCarrier(@Assisted final ShipData data,
                                   final Squadrons squadrons,
-                                  final Patrols patrols,
+                                  final VirtualPatrols patrols,
                                   final SeaRegion region,
                                   final Game game) {
         this.squadrons = squadrons;
@@ -75,6 +78,7 @@ public class VirtualAircraftCarrier implements Ship, Airbase {
         this.game = game;
 
         this.shipId = data.getShipId();
+        taskForce = data.getTaskForce();
         type = data.getType();
 
         landingType = null;
@@ -82,6 +86,21 @@ public class VirtualAircraftCarrier implements Ship, Airbase {
 
         squadrons.build(this, data.getSquadronsData());
         patrols.build(this, data.getPatrolsData());
+
+        log.info("'{}' '{}' constructed", shipId.getSide(), getTitle());
+
+        log.info("Squadrons temporarily assigned: '{}", squadrons
+                .getSquadrons()
+                .stream()
+                .map(Squadron::getTitle)
+                .collect(Collectors.joining("'")));
+
+        log.info("Squadrons on patrol: '{}'", patrols
+                .getPatrol(PatrolType.CAP)
+                .getAssignedSquadrons()
+                .stream()
+                .map(Squadron::getTitle)
+                .collect(Collectors.joining(",")));
     }
 
     /**
@@ -128,7 +147,7 @@ public class VirtualAircraftCarrier implements Ship, Airbase {
      */
     @Override
     public String getTitle() {
-        return getName();
+        return getName() + " Distant Patrol";
     }
 
     /**
@@ -154,7 +173,8 @@ public class VirtualAircraftCarrier implements Ship, Airbase {
 
     /**
      * Determines if this ship is an capable of air operations. It is either an aircraft carrier or a ship with
-     * float planes.
+     * float planes. Virtual aircraft carriers only "temporarily" have squadrons on patrol. Virtual aircraft carriers
+     * cannot conduct flight operations.
      *
      * @return True if this ship is an aircraft carrier or float plane capable. False otherwise.
      */
@@ -568,6 +588,11 @@ public class VirtualAircraftCarrier implements Ship, Airbase {
      */
     @Override
     public AirfieldOperation addSquadron(final Squadron squadron) {
+        log.info("Virtual aircraft carrier: '{}'. Add squadron: '{}' ", getTitle(), squadron.getTitle());
+        squadrons.addTemporarily(squadron);
+
+        log.info("squadrons now contains: '{}'", squadrons.getSquadrons().stream().map(Squadron::getTitle).collect(Collectors.joining(",")));
+
         return AirfieldOperation.SUCCESS;
     }
 
@@ -578,7 +603,10 @@ public class VirtualAircraftCarrier implements Ship, Airbase {
      */
     @Override
     public void removeSquadron(final Squadron squadron) {
-        squadrons.remove(squadron);
+        log.info("Virtual aircraft carrier: '{}'. Remove squadron: '{}' ", getTitle(), squadron.getTitle());
+        squadrons.removeTemporarily(squadron);
+
+        log.info("squadrons now contains: '{}'", squadrons.getSquadrons().stream().map(Squadron::getTitle).collect(Collectors.joining(",")));
     }
 
     /**
@@ -643,6 +671,9 @@ public class VirtualAircraftCarrier implements Ship, Airbase {
      */
     @Override
     public void updatePatrol(final PatrolType patrolType, final List<Squadron> squadronsOnPatrol) {
+        log.info("Virtual aircraft carrier: '{}'. Update patrol: '{}'", getTitle(), patrolType);
+        log.info("Patrol squadrons: '{}'", squadronsOnPatrol.stream().map(Squadron::getTitle).collect(Collectors.joining(",")));
+
         patrols.update(patrolType, squadronsOnPatrol);
     }
 
@@ -661,6 +692,7 @@ public class VirtualAircraftCarrier implements Ship, Airbase {
      */
     @Override
     public void clear() {
+        log.info("Virtual aircraft carrier: '{}'. Clear patrols.", getTitle());
         patrols.clear();
     }
 

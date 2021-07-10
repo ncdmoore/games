@@ -6,9 +6,12 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.aircraft.Aircraft;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.SquadronConfig;
+import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.presenter.airfield.AirfieldDialog;
 import engima.waratsea.view.airfield.info.AirfieldRangeInfo;
 import engima.waratsea.view.asset.AirfieldAssetSummaryView;
@@ -16,8 +19,8 @@ import engima.waratsea.view.asset.AssetId;
 import engima.waratsea.view.asset.AssetSummaryView;
 import engima.waratsea.view.asset.AssetView;
 import engima.waratsea.view.map.MainMapView;
-import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import engima.waratsea.viewmodel.airfield.RangeViewModel;
+import engima.waratsea.viewmodel.airfield.RealAirbaseViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -30,10 +33,11 @@ import java.util.Set;
 @Slf4j
 @Singleton
 public class AirfieldAssetPresenter {
+    private final Provider<AssetPresenter> assetPresenterProvider;
     private final Provider<AssetSummaryView> assetSummaryViewProvider;
     private final Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider;
     private final Provider<AirfieldDialog> airfieldDialogProvider;
-    private final Provider<AirbaseViewModel> airbaseViewModelProvider;
+    private final Provider<RealAirbaseViewModel> airbaseViewModelProvider;
     private final Provider<MainMapView> mainMapViewProvider;
 
     private final Set<AssetId> hideAssets = new HashSet<>();  // Tracks which airfield asset views should be closed
@@ -42,6 +46,7 @@ public class AirfieldAssetPresenter {
     /**
      * Constructor called by guice.
      *
+     * @param assetPresenterProvider           Provides asset presenter parent.
      * @param assetSummaryViewProvider         Provides asset summary views.
      * @param airfieldAssetSummaryViewProvider Provides airfield asset summary views.
      * @param airbaseViewModelProvider         Provides airbase view model provider
@@ -49,11 +54,13 @@ public class AirfieldAssetPresenter {
      * @param mainMapViewProvider              Provides the main map's view.
      */
     @Inject
-    public AirfieldAssetPresenter(final Provider<AssetSummaryView> assetSummaryViewProvider,
+    public AirfieldAssetPresenter(final Provider<AssetPresenter> assetPresenterProvider,
+                                  final Provider<AssetSummaryView> assetSummaryViewProvider,
                                   final Provider<AirfieldAssetSummaryView> airfieldAssetSummaryViewProvider,
                                   final Provider<AirfieldDialog> airfieldDialogProvider,
-                                  final Provider<AirbaseViewModel> airbaseViewModelProvider,
+                                  final Provider<RealAirbaseViewModel> airbaseViewModelProvider,
                                   final Provider<MainMapView> mainMapViewProvider) {
+        this.assetPresenterProvider = assetPresenterProvider;
         this.assetSummaryViewProvider = assetSummaryViewProvider;
         this.airfieldAssetSummaryViewProvider = airfieldAssetSummaryViewProvider;
         this.airfieldDialogProvider = airfieldDialogProvider;
@@ -69,7 +76,7 @@ public class AirfieldAssetPresenter {
     public void addAirfieldToAssetSummary(final Airfield airfield) {
         AssetId assetId = new AssetId(AssetType.AIRFIELD, airfield.getTitle());
 
-        AirbaseViewModel viewModel = airbaseViewModelProvider
+        RealAirbaseViewModel viewModel = airbaseViewModelProvider
                 .get()
                 .setModel(airfield);
 
@@ -96,7 +103,7 @@ public class AirfieldAssetPresenter {
      * @param airbase The airbase for which the dialog is opened.
      * @return The airbase view model retrieved from the airfield asset view.
      */
-    public AirbaseViewModel getViewModel(final Airbase airbase) {
+    public RealAirbaseViewModel getViewModel(final Airbase airbase) {
         AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
         AssetSummaryView assetManager = assetSummaryViewProvider.get();
 
@@ -152,7 +159,7 @@ public class AirfieldAssetPresenter {
     private void reset(final Airbase airbase) {
         AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
 
-        AirbaseViewModel viewModel = airbaseViewModelProvider
+        RealAirbaseViewModel viewModel = airbaseViewModelProvider
                 .get()
                 .setModel(airbase);
 
@@ -165,7 +172,40 @@ public class AirfieldAssetPresenter {
         assetView.reset(viewModel);   // reset the airfield's asset summary's view of the airfield.
         registerCallbacks(viewModel, assetView);
         selectFirstAircraftModel(assetView);
+
+        resetDistantCap(airbase);
     }
+
+    /**
+     * Reset any task forces for which this airbase provides distant CAP.
+     * This is needed when the airbase dialog box for the given airbase is cancelled.
+     *
+     * @param airbase The airbase providing distant CAP.
+     */
+    private void resetDistantCap(final Airbase airbase) {
+        airbase
+                .getMissions()
+                .stream()
+                .filter(m -> m.getType() == AirMissionType.DISTANT_CAP)            // Get the Distant CAP missions only.
+                .map(AirMission::getTarget)
+                .map(target -> (TaskForce) target.getView())
+                .distinct()
+                .forEach(this::resetTaskForce);
+    }
+
+    /**
+     * Reset the given task force.
+     *
+     * @param taskForce A task force.
+     */
+    private void resetTaskForce(final TaskForce taskForce) {
+        AssetPresenter assetPresenter = assetPresenterProvider.get();
+
+        assetPresenter
+                .getTaskForceAssetPresenter()
+                .reset(taskForce);
+    }
+
 
     /**
      * Register callbacks for airfield asset presenter.
@@ -173,7 +213,7 @@ public class AirfieldAssetPresenter {
      * @param viewModel The airbase view model.
      * @param assetView The airfield asset summary view.
      */
-    private void registerCallbacks(final AirbaseViewModel viewModel, final AirfieldAssetSummaryView assetView) {
+    private void registerCallbacks(final RealAirbaseViewModel viewModel, final AirfieldAssetSummaryView assetView) {
         assetView
                 .getMissionButton()
                 .setOnAction(this::airfieldManageMissions);
@@ -204,7 +244,7 @@ public class AirfieldAssetPresenter {
     private void registerCallbacksForRange(final AirfieldRangeInfo rangeInfoView,
                                            final Nation nation,
                                            final AirfieldAssetSummaryView assetView,
-                                           final AirbaseViewModel viewModel) {
+                                           final RealAirbaseViewModel viewModel) {
         rangeInfoView
                 .getAircraftModels()
                 .getSelectionModel()
@@ -271,7 +311,7 @@ public class AirfieldAssetPresenter {
     private AirfieldAssetSummaryView addAirfieldToAssetView(final Airbase airbase) {
         AssetId assetId = new AssetId(AssetType.AIRFIELD, airbase.getTitle());
 
-        AirbaseViewModel viewModel = airbaseViewModelProvider
+        RealAirbaseViewModel viewModel = airbaseViewModelProvider
                 .get()
                 .setModel(airbase);
 
@@ -310,7 +350,7 @@ public class AirfieldAssetPresenter {
      * @param assetView The airfield asset summary view.
      * @param config    The selected squadron configuration.
      */
-    private void squadronConfigSelected(final Nation nation, final AirbaseViewModel viewModel, final AirfieldAssetSummaryView assetView, final SquadronConfig config) {
+    private void squadronConfigSelected(final Nation nation, final RealAirbaseViewModel viewModel, final AirfieldAssetSummaryView assetView, final SquadronConfig config) {
         if (config != null && assetView.getRangeInfo().get(nation).getShowRangeOnMap().isSelected()) {
             Nation tabNation = (Nation) assetView.getNationsTabPane().getSelectionModel().getSelectedItem().getUserData();
 
@@ -331,7 +371,7 @@ public class AirfieldAssetPresenter {
      * @param viewModel The airbase view model.
      * @param show If true the range marker is drawn. If false the range marker is hidden.
      */
-    private void showRangeToggled(final Nation nation, final AirbaseViewModel viewModel, final boolean show) {
+    private void showRangeToggled(final Nation nation, final RealAirbaseViewModel viewModel, final boolean show) {
         Airbase airbase = viewModel.getAirbaseModel();
 
         if (show) {
@@ -364,7 +404,7 @@ public class AirfieldAssetPresenter {
      * @param assetView The airfield asset summary view.
      * @param tab       The nation tab that is selected.
      */
-    private void nationSelected(final AirbaseViewModel viewModel, final AirfieldAssetSummaryView assetView, final Tab tab) {
+    private void nationSelected(final RealAirbaseViewModel viewModel, final AirfieldAssetSummaryView assetView, final Tab tab) {
         Nation nation = (Nation) tab.getUserData();
 
         Airbase airbase = viewModel.getAirbaseModel();

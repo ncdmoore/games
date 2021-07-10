@@ -4,33 +4,24 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.Cap;
-import engima.waratsea.model.base.airfield.mission.MissionSquadrons;
 import engima.waratsea.model.base.airfield.patrol.data.PatrolData;
 import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
 import engima.waratsea.model.game.Nation;
-import engima.waratsea.model.game.rules.GameRules;
-import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
-import engima.waratsea.model.squadron.state.SquadronAction;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Slf4j
-public class CapPatrol implements Patrol, Cap {
-    private static final LinkedHashSet<SquadronConfig> VALID_SQUADRON_CONFIGS = new LinkedHashSet<>(Collections.singletonList(SquadronConfig.NONE));
-
+public class VirtualCapPatrol implements Patrol {
     private static final int RADIUS = 2;
 
     private final PatrolAirRules capRules;
-    private final GameRules gameRules;
     private final PatrolSquadrons squadrons;
 
     @Getter private final Airbase airbase;
@@ -41,16 +32,13 @@ public class CapPatrol implements Patrol, Cap {
      *
      * @param data The CAP patrol data read in from a JSON file.
      * @param capRules The CAP air rules.
-     * @param gameRules The game rules.
      * @param squadrons The squadrons on patrol.
      */
     @Inject
-    public CapPatrol(@Assisted final PatrolData data,
-                               final @Named("cap") PatrolAirRules capRules,
-                               final GameRules gameRules,
-                               final PatrolSquadrons squadrons) {
+    public VirtualCapPatrol(@Assisted final PatrolData data,
+                                      final @Named("cap") PatrolAirRules capRules,
+                                      final PatrolSquadrons squadrons) {
         this.capRules = capRules;
-        this.gameRules = gameRules;
         this.squadrons = squadrons;
 
         airbase = data.getAirbase();
@@ -110,14 +98,12 @@ public class CapPatrol implements Patrol, Cap {
      */
     @Override
     public void addSquadron(final Squadron squadron) {
-        if (canAdd(squadron)) {   //Make sure the squadron is actually deployed at the airbase.
-            squadrons.add(squadron);
-            squadron.setState(SquadronAction.ASSIGN_TO_PATROL);
-            squadron.equip(this);
-            updateMaxRadius();
-        } else {
-            log.error("Unable to add squadron: '{}' to patrol. Squadron not deployed to airbase: '{}' or unable to perform CAP", squadron, airbase);
-        }
+        log.info("Virtual CAP. Add squadron: '{}'", squadron.getTitle());
+
+        squadrons.add(squadron);
+        updateMaxRadius();
+
+        log.info("Virtual CAP. Now contains: '{}'", squadrons.get().stream().map(Squadron::getTitle).collect(Collectors.joining(",")));
     }
 
     /**
@@ -127,10 +113,12 @@ public class CapPatrol implements Patrol, Cap {
      */
     @Override
     public void removeSquadron(final Squadron squadron) {
+        log.info("Virtual CAP. Remove squadron: '{}'", squadron.getTitle());
+
         squadrons.remove(squadron);
         updateMaxRadius();
-        squadron.setState(SquadronAction.REMOVE_FROM_PATROL);
-        squadron.unEquip();
+
+        log.info("Virtual CAP. Now contains: '{}'", squadrons.get().stream().map(Squadron::getTitle).collect(Collectors.joining(",")));
     }
 
     /**
@@ -163,9 +151,12 @@ public class CapPatrol implements Patrol, Cap {
      */
     @Override
     public void clearSquadrons() {
-        squadrons.doAction(SquadronAction.REMOVE_FROM_PATROL);
+        log.info("Virtual CAP. Clear squadrons");
+
         squadrons.clear();
         updateMaxRadius();
+
+        log.info("Virtual CAP. Now contains: '{}'", squadrons.get().stream().map(Squadron::getTitle).collect(Collectors.joining(",")));
     }
 
     /**
@@ -175,7 +166,7 @@ public class CapPatrol implements Patrol, Cap {
      */
     @Override
     public void clearSquadrons(final Nation nation) {
-        squadrons.doAction(nation, SquadronAction.REMOVE_FROM_PATROL);
+        log.info("Virtual CAP. Clear squadrons for nation: '{}'", nation);
         squadrons.clear(nation);
         updateMaxRadius();
     }
@@ -202,17 +193,7 @@ public class CapPatrol implements Patrol, Cap {
      */
     @Override
     public SquadronConfig getBestSquadronConfig() {
-        SquadronConfigRulesDTO dto = new SquadronConfigRulesDTO().setPatrolType(PatrolType.CAP);
-
-        Set<SquadronConfig> allowed = gameRules.getAllowedSquadronConfig(dto);
-
-        // Get the first config for the given patrol type that is allowed.
-        // This should return the most desired patrol squadron configuration.
-        return VALID_SQUADRON_CONFIGS
-                .stream()
-                .filter(allowed::contains)
-                .findFirst()
-                .orElse(SquadronConfig.NONE);
+        return SquadronConfig.NONE;
     }
 
     /**
@@ -223,21 +204,6 @@ public class CapPatrol implements Patrol, Cap {
     @Override
     public boolean isAffectedByWeather() {
         return capRules.isAffectedByWeather();
-    }
-
-    @Override
-    public void intercept(final MissionSquadrons enemySquadrons) {
-
-    }
-
-    /**
-     * Determine if the squadron may be added to the patrol.
-     *
-     * @param squadron The squadron that is potentially added to the patrol.
-     * @return True if the given squadron may be added to this patrol. False otherwise.
-     */
-    private boolean canAdd(final Squadron squadron) {
-        return squadron.canDoPatrol(PatrolType.CAP) && airbase.isStationed(squadron);
     }
 
     /**

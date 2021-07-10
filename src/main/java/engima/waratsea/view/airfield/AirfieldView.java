@@ -9,7 +9,7 @@ import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.airfield.mission.MissionView;
 import engima.waratsea.view.airfield.patrol.PatrolView;
 import engima.waratsea.view.airfield.squadron.SquadronStateView;
-import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.RealAirbaseViewModel;
 import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
@@ -86,7 +86,7 @@ public class AirfieldView {
      * @param viewModel The airbase view model.
      * @return A node containing the airbase details.
      */
-    public Node build(final AirbaseViewModel viewModel) {
+    public Node build(final RealAirbaseViewModel viewModel) {
         viewModelMap = viewModel.getNationViewModels();
 
         nationsTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);

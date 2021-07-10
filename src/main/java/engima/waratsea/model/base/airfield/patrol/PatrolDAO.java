@@ -11,6 +11,8 @@ import java.util.function.Function;
 @Singleton
 public class PatrolDAO {
     private final Map<PatrolType, Function<PatrolData, Patrol>> factoryMap = new HashMap<>();
+    private final Map<PatrolType, Function<PatrolData, Patrol>> virtualFactoryMap = new HashMap<>();
+
 
     /**
      * Constructor called by guice.
@@ -22,6 +24,8 @@ public class PatrolDAO {
         factoryMap.put(PatrolType.ASW, factory::createAsw);
         factoryMap.put(PatrolType.CAP, factory::createCap);
         factoryMap.put(PatrolType.SEARCH, factory::createSearch);
+
+        virtualFactoryMap.put(PatrolType.CAP, factory::createVirtualCap);
     }
 
     /**
@@ -34,4 +38,13 @@ public class PatrolDAO {
         return factoryMap.get(data.getType()).apply(data);
     }
 
+    /**
+     * Load the virtual patrol from the patrol data.
+     *
+     * @param data patrol data read in from a JSON file.
+     * @return A newly created virtual patrol.
+     */
+    public Patrol loadVirtual(final PatrolData data) {
+        return virtualFactoryMap.get(data.getType()).apply(data);
+    }
 }

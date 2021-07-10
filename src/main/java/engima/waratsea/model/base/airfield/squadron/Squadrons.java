@@ -277,6 +277,40 @@ public class Squadrons {
     }
 
     /**
+     * Used by virtual patrols to temporarily add a squadron to a virtual airbase.
+     * We do not want to set the home of the squadron in this case. Thus, we need
+     * this method.
+     *
+     * @param squadron The temporarily added squadron.
+     */
+    public void addTemporarily(final Squadron squadron) {
+        squadrons.add(squadron);
+
+        squadronMap
+                .get(squadron.getType())
+                .add(squadron);
+
+        squadronNameMap.put(squadron.getName(), squadron);
+    }
+
+    /**
+     * Used by virtual patrols to temporarily remove a squadron from a virtual airbase.
+     * We do not want to set the home of the squadron in this case. Thus, we need this
+     * method.
+     *
+     * @param squadron The temporarily removed squadron.
+     */
+    public void removeTemporarily(final Squadron squadron) {
+        squadrons.remove(squadron);
+
+        squadronMap
+                .get(squadron.getType())
+                .remove(squadron);
+
+        squadronNameMap.remove(squadron.getName());
+    }
+
+    /**
      * Remove all of the given nation's squadrons.
      *
      * @param nation The nation BRITISH, ITALIAN, etc...

@@ -64,6 +64,7 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
     @Getter private final String reference;         // A simple string is used to prevent circular logic on mapping names and references.
                                                     // Airfields are used to map airfield names to map references. Thus, we just need a map reference
     @Getter @Setter private int capacity;           // Capacity in steps.
+    @Getter private final boolean real = true;
 
     private final Map<Nation, Region> regions = new HashMap<>();  // A given airfield may be in multiple regions.
 

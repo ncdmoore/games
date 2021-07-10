@@ -206,7 +206,7 @@ public class SweepPort extends AirMissionExecutor implements AirMission {
     public void addSquadrons() {
         getTarget();
 
-        squadrons.add(targetPort, AirMissionType.SWEEP_PORT);
+        squadrons.add(targetPort, AirMissionType.SWEEP_PORT, id);
     }
 
     /**

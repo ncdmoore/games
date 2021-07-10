@@ -11,7 +11,7 @@ import engima.waratsea.view.asset.AssetId;
 import engima.waratsea.view.asset.AssetSummaryView;
 import engima.waratsea.view.asset.AssetView;
 import engima.waratsea.view.asset.TaskForceAssetSummaryView;
-import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.RealAirbaseViewModel;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -115,7 +115,7 @@ public class TaskForceAssetPresenter {
      * @param airbaseViewModel The airbase view model (ship) whose tab is selected.
      * @param taskForce The task force that the ship is in.
      */
-    public void setShip(final AirbaseViewModel airbaseViewModel, final TaskForce taskForce) {
+    public void setShip(final RealAirbaseViewModel airbaseViewModel, final TaskForce taskForce) {
         AssetSummaryView assetManager = assetSummaryViewProvider.get();
         AssetId assetId = new AssetId(AssetType.TASK_FORCE, taskForce.getTitle());
 
@@ -132,7 +132,7 @@ public class TaskForceAssetPresenter {
      *
      * @param taskForce The task force that was not saved.
      */
-    private void reset(final TaskForce taskForce) {
+    public void reset(final TaskForce taskForce) {
         AssetId assetId = new AssetId(AssetType.TASK_FORCE, taskForce.getTitle());
 
         TaskForceViewModel viewModel = taskForceViewModelProvider

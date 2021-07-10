@@ -207,7 +207,7 @@ public class NavalPortStrike extends AirMissionExecutor implements AirMission {
     public void addSquadrons() {
         getTarget(); // sets target port.
 
-        squadrons.add(targetPort, AirMissionType.NAVAL_PORT_STRIKE);
+        squadrons.add(targetPort, AirMissionType.NAVAL_PORT_STRIKE, id);
     }
 
     /**

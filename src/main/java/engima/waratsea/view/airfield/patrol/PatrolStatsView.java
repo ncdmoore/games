@@ -81,6 +81,7 @@ public class PatrolStatsView {
      * @param patrolType The patrol type.
      */
     public void bind(final AirbaseViewModel viewModel, final PatrolType patrolType) {
+
         PatrolViewModel patrolViewModel = viewModel
                 .getPatrolViewModels()
                 .get(patrolType);

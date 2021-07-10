@@ -2,7 +2,7 @@ package engima.waratsea.view.taskforce;
 
 import com.google.inject.Inject;
 import engima.waratsea.presenter.airfield.AirbasePresenter;
-import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.RealAirbaseViewModel;
 import engima.waratsea.viewmodel.taskforce.air.TaskForceAirViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
@@ -20,7 +20,7 @@ import lombok.Getter;
 public class TaskForceAirOperations {
     private final AirbasePresenter airbasePresenter;
 
-    @Getter private final ChoiceBox<AirbaseViewModel> airbases = new ChoiceBox<>();
+    @Getter private final ChoiceBox<RealAirbaseViewModel> airbases = new ChoiceBox<>();
 
     private final TaskForceAirSummaryView summaryView;
 
@@ -46,7 +46,7 @@ public class TaskForceAirOperations {
 
         Label label = new Label("Ships with aircraft:");
 
-        airbases.itemsProperty().bind(taskForceVM.getAirbases());
+        airbases.itemsProperty().bind(taskForceVM.getRealAirbases());
 
         VBox airbaseSelectionVBox = new VBox(label, airbases);
 
@@ -62,7 +62,7 @@ public class TaskForceAirOperations {
      *
      * @param airbase The selected airbase view model.
      */
-    public void airbaseSelected(final AirbaseViewModel airbase) {
+    public void airbaseSelected(final RealAirbaseViewModel airbase) {
         Node contents = airbasePresenter.build(airbase, false);
         airbaseNode.getChildren().clear();
         airbaseNode.getChildren().add(contents);

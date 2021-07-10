@@ -106,13 +106,10 @@ public class PatrolSquadrons {
      * Add the given squadron to the patrol.
      *
      * @param squadron The added squadron.
-     * @param patrol The patrol for which the squadron is added.
      * @return The new maximum radius of this patrol.
      */
-    public int add(final Squadron squadron, final Patrol patrol) {
+    public int add(final Squadron squadron) {
         squadrons.add(squadron);
-        squadron.setState(SquadronAction.ASSIGN_TO_PATROL);
-        squadron.equip(patrol);
         return getMaxRadius();
     }
 
@@ -124,9 +121,29 @@ public class PatrolSquadrons {
      */
     public int remove(final Squadron squadron) {
         squadrons.remove(squadron);
-        squadron.setState(SquadronAction.REMOVE_FROM_PATROL);
-        squadron.unEquip();
         return getMaxRadius();
+    }
+
+    /**
+     * Update the squadrons state.
+     *
+     * @param action A squadron action.
+     */
+    public void doAction(final SquadronAction action) {
+        squadrons.forEach(squadron -> squadron.setState(action));
+    }
+
+    /**
+     * Update the squadrons state.
+     *
+     * @param nation The nation.
+     * @param action A squadron action.
+     */
+    public void doAction(final Nation nation, final SquadronAction action) {
+        squadrons
+                .stream()
+                .filter(squadron -> squadron.ofNation(nation))
+                .forEach(squadron -> squadron.setState(action));
     }
 
     /**
@@ -135,8 +152,6 @@ public class PatrolSquadrons {
      * @return The new maximum radius of this patrol: 0.
      */
     public int clear() {
-        squadrons.forEach(squadron -> squadron.setState(SquadronAction.REMOVE_FROM_PATROL));
-
         squadrons.clear();
         return 0;
     }
@@ -148,11 +163,7 @@ public class PatrolSquadrons {
      * @return The new maximum radius of this patrol.
      */
     public int clear(final Nation nation) {
-        List<Squadron> toRemove = squadrons.stream()
-                .filter(squadron -> squadron.ofNation(nation))
-                .peek(squadron -> squadron.setState(SquadronAction.REMOVE_FROM_PATROL))
-                .collect(Collectors.toList());
-
+        List<Squadron> toRemove = get(nation);
         squadrons.removeAll(toRemove);
         return getMaxRadius();
     }
@@ -168,6 +179,5 @@ public class PatrolSquadrons {
                 .map(Squadron::getRadius)
                 .max(Integer::compare)
                 .orElse(0);
-
     }
 }

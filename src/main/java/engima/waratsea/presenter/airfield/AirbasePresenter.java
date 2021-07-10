@@ -13,9 +13,9 @@ import engima.waratsea.view.airfield.mission.MissionView;
 import engima.waratsea.view.airfield.patrol.PatrolView;
 import engima.waratsea.view.squadron.SquadronViewType;
 import engima.waratsea.viewmodel.airfield.AirMissionViewModel;
-import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
 import engima.waratsea.viewmodel.airfield.PatrolViewModel;
+import engima.waratsea.viewmodel.airfield.RealAirbaseViewModel;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
@@ -33,7 +33,7 @@ public class AirbasePresenter {
     private final Provider<MissionAddDialog> missionAddDetailsDialogProvider;
     private final Provider<MissionEditDialog> missionEditDetailsDialogProvider;
 
-    private AirbaseViewModel viewModel;
+    private RealAirbaseViewModel viewModel;
 
     private AirfieldView view;
 
@@ -53,7 +53,7 @@ public class AirbasePresenter {
      * @param showPatrols Indicates whether to show the patrol management pane on initial display of the airbase view.
      * @return The node containing the airbase view.
      */
-    public Node build(final AirbaseViewModel airbaseVM, final boolean showPatrols) {
+    public Node build(final RealAirbaseViewModel airbaseVM, final boolean showPatrols) {
         view = viewProvider.get();
         viewModel = airbaseVM;
 
@@ -161,7 +161,10 @@ public class AirbasePresenter {
                 .get(nation)
                 .deleteMissionFromTable(mission);
 
+        mission.removeMission();
+
         getNationView(nation).removeMission(mission);
+
     }
 
     /**
@@ -448,6 +451,8 @@ public class AirbasePresenter {
     }
 
     private NationAirbaseViewModel getNationView(final Nation nation) {
-        return viewModel.getNationViewModels().get(nation);
+        return viewModel
+                .getNationViewModels()
+                .get(nation);
     }
 }

@@ -22,6 +22,7 @@ public class SquadronData {
     @Getter @Setter private String airfield;
     @Setter private SquadronState squadronState;
     @Getter @Setter private SquadronConfig config;
+    @Getter @Setter private int missionId;
 
     /**
      * Get the state of the squadron.

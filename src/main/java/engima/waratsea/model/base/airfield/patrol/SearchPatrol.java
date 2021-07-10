@@ -11,6 +11,7 @@ import engima.waratsea.model.game.rules.GameRules;
 import engima.waratsea.model.game.rules.SquadronConfigRulesDTO;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronConfig;
+import engima.waratsea.model.squadron.state.SquadronAction;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -105,7 +106,9 @@ public class SearchPatrol implements Patrol {
     @Override
     public void addSquadron(final Squadron squadron) {
         if (canAdd(squadron)) {   //Make sure the squadron is actual deployed at the airbase.
-            int newMaxRadius = squadrons.add(squadron, this);
+            int newMaxRadius = squadrons.add(squadron);
+            squadron.setState(SquadronAction.ASSIGN_TO_PATROL);
+            squadron.equip(this);
             updateMaxRadius(newMaxRadius);
         } else {
             log.error("Unable to add squadron: '{}' to patrol. Squadron not deployed to airbase: '{}'", squadron, airbase);
@@ -121,6 +124,8 @@ public class SearchPatrol implements Patrol {
     public void removeSquadron(final Squadron squadron) {
         int newMaxRadius = squadrons.remove(squadron);
         updateMaxRadius(newMaxRadius);
+        squadron.setState(SquadronAction.REMOVE_FROM_PATROL);
+        squadron.unEquip();
     }
 
     /**
@@ -197,6 +202,7 @@ public class SearchPatrol implements Patrol {
      */
     @Override
     public void clearSquadrons() {
+        squadrons.doAction(SquadronAction.REMOVE_FROM_PATROL);
         int newMaxRadius = squadrons.clear();
         updateMaxRadius(newMaxRadius);
     }
@@ -208,6 +214,7 @@ public class SearchPatrol implements Patrol {
      */
     @Override
     public void clearSquadrons(final Nation nation) {
+        squadrons.doAction(nation, SquadronAction.REMOVE_FROM_PATROL);
         int newMaxRadius = squadrons.clear(nation);
         updateMaxRadius(newMaxRadius);
     }

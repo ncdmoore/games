@@ -53,9 +53,7 @@
         </encoder>
     </appender>
 
-    <logger name="engima.waratsea.model.ship" level="warn" additivity="true">
-        <appender-ref ref="MISSING_SHIP_FILE" />
-    </logger>
+
 
     <logger name="engima.waratsea.model.aircraft" level="warn" additivity="true">
         <appender-ref ref="MISSING_AIRCRAFT_FILE" />

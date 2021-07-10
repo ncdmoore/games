@@ -30,6 +30,7 @@ import engima.waratsea.model.base.airfield.patrol.CapPatrol;
 import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolFactory;
 import engima.waratsea.model.base.airfield.patrol.SearchPatrol;
+import engima.waratsea.model.base.airfield.patrol.VirtualCapPatrol;
 import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirAswRules;
 import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirCapRules;
 import engima.waratsea.model.base.airfield.patrol.rules.PatrolAirRules;
@@ -219,6 +220,7 @@ public class BasicModule extends AbstractModule {
                 .implement(Patrol.class, Names.named("search"), SearchPatrol.class)
                 .implement(Patrol.class, Names.named("asw"), AswPatrol.class)
                 .implement(Patrol.class, Names.named("cap"), CapPatrol.class)
+                .implement(Patrol.class, Names.named("virtualCap"), VirtualCapPatrol.class)
                 .build(PatrolFactory.class));
 
         install(new FactoryModuleBuilder()

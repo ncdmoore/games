@@ -9,6 +9,7 @@ import engima.waratsea.model.asset.Asset;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.AirbaseGroup;
 import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.patrol.Patrol;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
@@ -76,7 +77,7 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
     @Getter private Map<ShipType, List<Ship>> shipTypeMap;
 
     private Ship virtualCarrier;
-    private Airbase virtualAirbase;
+    @Getter private Airbase virtualAirbase;
 
     private final Shipyard shipyard;
     private final ShipEventMatcherFactory shipEventMatcherFactory;
@@ -413,12 +414,25 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
      * @param landBasedSquadrons The land based squadrons that patrol the over this task force.
      */
     public void augmentPatrol(final PatrolType patrolType, final List<Squadron> landBasedSquadrons)  {
+        log.debug("Augment Patrol for Task force: '{}'", title);
+        landBasedSquadrons.forEach(virtualAirbase::addSquadron);
         virtualAirbase.updatePatrol(patrolType, landBasedSquadrons);
     }
 
+    /**
+     * Reduce the given patrol of this task force by the given land based squadrons.
+     *
+     * @param patrolType The type of patrol.
+     * @param landBasedSquadrons The land based squadrons that were on patrol over this task force.
+     */
     public void reducePatrol(final PatrolType patrolType, final List<Squadron> landBasedSquadrons) {
-        List<Squadron> onPatrol = virtualAirbase.getPatrol(patrolType).getAssignedSquadrons();
-        landBasedSquadrons.forEach(onPatrol::remove);
+        log.debug("Reduce Patrol for Task force: '{}'", title);
+
+        Patrol patrol = virtualAirbase.getPatrol(patrolType);
+
+        List<Squadron> onPatrol = patrol.getAssignedSquadrons();        //Get all the squadrons on patrol.
+        landBasedSquadrons.forEach(onPatrol::remove);                   //Remove the land based squadrons from the patrol.
+        landBasedSquadrons.forEach(virtualAirbase::removeSquadron);     //Remove the land based squadrons from the airbase.
     }
 
     /**

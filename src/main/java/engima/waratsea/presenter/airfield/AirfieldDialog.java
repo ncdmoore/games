@@ -9,7 +9,7 @@ import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.DialogView;
 import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.map.MainMapView;
-import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.RealAirbaseViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.stage.Modality;
@@ -37,7 +37,7 @@ public class AirfieldDialog {
 
     private Airbase airbase;
 
-    private AirbaseViewModel viewModel;
+    private RealAirbaseViewModel viewModel;
 
     /**
      * Constructor called by guice.

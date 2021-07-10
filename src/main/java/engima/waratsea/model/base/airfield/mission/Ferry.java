@@ -229,7 +229,7 @@ public class Ferry extends AirMissionExecutor implements AirMission  {
     @Override
     public void addSquadrons() {
         endingAirbase = getTarget();
-        squadrons.add(endingAirbase, AirMissionType.FERRY);
+        squadrons.add(endingAirbase, AirMissionType.FERRY, id);
     }
 
     /**

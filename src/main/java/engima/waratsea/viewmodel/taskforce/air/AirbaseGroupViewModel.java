@@ -11,6 +11,8 @@ import engima.waratsea.model.taskForce.patrol.PatrolGroupDAO;
 import engima.waratsea.model.taskForce.patrol.PatrolGroups;
 import engima.waratsea.model.taskForce.patrol.data.PatrolGroupData;
 import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.RealAirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.VirtualAirbaseViewModel;
 import engima.waratsea.viewmodel.squadrons.SquadronViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ListProperty;
@@ -34,12 +36,14 @@ import java.util.stream.Collectors;
  * of all the ships that may act as airbases.
  */
 public class AirbaseGroupViewModel {
-    private final Provider<AirbaseViewModel> airbaseViewModelProvider;
+    private final Provider<RealAirbaseViewModel> realAirbaseViewModelProvider;
+    private final Provider<VirtualAirbaseViewModel> virtualAirbaseViewModelProvider;
     private final Provider<PatrolGroups> patrolGroupsProvider;
 
     private final ObjectProperty<TaskForce> taskForce = new SimpleObjectProperty<>();
 
-    @Getter private final ListProperty<AirbaseViewModel> airbases = new SimpleListProperty<>();
+    @Getter private final ListProperty<RealAirbaseViewModel> realAirbases = new SimpleListProperty<>();
+    @Getter private final ObjectProperty<VirtualAirbaseViewModel> virtualAirbase = new SimpleObjectProperty<>();
 
     //This is the total squadrons on patrol of all airbases within a given task force.
     @Getter private final Map<PatrolType, ListProperty<SquadronViewModel>> totalSquadronsOnPatrol =
@@ -54,15 +58,18 @@ public class AirbaseGroupViewModel {
     /**
      * Constructor called by guice.
      *
-     * @param airbaseViewModelProvider Provides airbase view models.
+     * @param realAirbaseViewModelProvider Provides real airbase view models.
+     * @param virtualAirbaseViewModelProvider Provides virtual airbase view models.
      * @param patrolGroupsProvider Provides patrol groups.
      * @param patrolGroupDAO Provides patrol groups.
      */
     @Inject
-    public AirbaseGroupViewModel(final Provider<AirbaseViewModel> airbaseViewModelProvider,
+    public AirbaseGroupViewModel(final Provider<RealAirbaseViewModel> realAirbaseViewModelProvider,
+                                 final Provider<VirtualAirbaseViewModel> virtualAirbaseViewModelProvider,
                                  final Provider<PatrolGroups> patrolGroupsProvider,
                                  final PatrolGroupDAO patrolGroupDAO) {
-        this.airbaseViewModelProvider = airbaseViewModelProvider;
+        this.realAirbaseViewModelProvider = realAirbaseViewModelProvider;
+        this.virtualAirbaseViewModelProvider = virtualAirbaseViewModelProvider;
         this.patrolGroupsProvider = patrolGroupsProvider;
         this.patrolGroupDAO = patrolGroupDAO;
 
@@ -84,10 +91,28 @@ public class AirbaseGroupViewModel {
     }
 
     /**
+     * Get all of the airbases including the virtual airbase.
+     *
+     * @return All of the airbases.
+     */
+    public ListProperty<AirbaseViewModel> getAirbases() {
+        List<AirbaseViewModel> allAirBases = realAirbases
+                .getValue()
+                .stream()
+                .map(a -> (AirbaseViewModel) a)
+                .collect(Collectors.toList());
+
+        allAirBases.add(virtualAirbase.getValue());
+
+        return new SimpleListProperty<>(FXCollections.observableArrayList(allAirBases));
+    }
+
+    /**
+     *
      * Save the task force's airbases data to the model.
      */
     public void save() {
-        airbases.forEach(AirbaseViewModel::save);
+        realAirbases.forEach(RealAirbaseViewModel::save);
     }
 
     /**
@@ -146,13 +171,27 @@ public class AirbaseGroupViewModel {
      * bind the airbases.
      */
     private void bindAirbases() {
-        Callable<ObservableList<AirbaseViewModel>> bindingFunction = () -> Optional
+        bindRealAirbases();
+        bindVirtualAirbase();
+    }
+
+    private void bindRealAirbases() {
+        Callable<ObservableList<RealAirbaseViewModel>> bindingFunction = () -> Optional
                 .ofNullable(taskForce.getValue())
-                .map(this::getViewModels)
+                .map(this::getRealViewModels)
                 .map(FXCollections::observableArrayList)
                 .orElse(FXCollections.emptyObservableList());
 
-        airbases.bind(Bindings.createObjectBinding(bindingFunction, taskForce));
+        realAirbases.bind(Bindings.createObjectBinding(bindingFunction, taskForce));
+    }
+
+    private void bindVirtualAirbase() {
+        Callable<VirtualAirbaseViewModel> bindingFunction = () -> Optional
+                .ofNullable(taskForce.getValue())
+                .map(this::getVirtualViewModel)
+                .orElse(null);
+
+        virtualAirbase.bind(Bindings.createObjectBinding(bindingFunction, taskForce));
     }
 
     /**
@@ -161,16 +200,23 @@ public class AirbaseGroupViewModel {
      * @param force A task force.
      * @return The corresponding airbase view models of the given task force.
      */
-    private List<AirbaseViewModel> getViewModels(final TaskForce force) {
+    private List<RealAirbaseViewModel> getRealViewModels(final TaskForce force) {
         return force
                 .getRealAirbases()
                 .stream()
                 .filter(Airbase::areSquadronsPresent)
-                .map(airbase -> airbaseViewModelProvider
+                .map(airbase -> realAirbaseViewModelProvider
                         .get()
                         .setModel(airbase)
                         .setGroup(this))
                 .collect(Collectors.toList());
+    }
+
+    private VirtualAirbaseViewModel getVirtualViewModel(final TaskForce force) {
+        return virtualAirbaseViewModelProvider
+                .get()
+                .setModel(force.getVirtualAirbase())
+                .setGroup(this);
     }
 
     /**
@@ -200,9 +246,9 @@ public class AirbaseGroupViewModel {
      * @return The squadrons on the given patrol type from all airbases.
      */
     private ObservableList<SquadronViewModel> getAllSquadronsOnPatrol(final PatrolType patrolType) {
-        return airbases
+        return realAirbases
                 .stream()
-                .map(AirbaseViewModel::getPatrolViewModels)
+                .map(RealAirbaseViewModel::getPatrolViewModels)
                 .map(m -> m.get(patrolType))
                 .flatMap(patrolVM -> patrolVM.getAssignedAllNations().stream())
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));

@@ -344,6 +344,15 @@ public class SquadronViewModel {
     }
 
     /**
+     * Get the squadrons mission id.
+     *
+     * @return The squadrons mission id.
+     */
+    public int getMissionId() {
+        return squadron.getValue().getMissionId();
+    }
+
+    /**
      * Get the squadron details.
      *
      * @return The squadron's details.

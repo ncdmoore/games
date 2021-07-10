@@ -12,6 +12,7 @@ import engima.waratsea.view.util.BoundTitledGridPane;
 import engima.waratsea.view.util.GridPaneMap;
 import engima.waratsea.viewmodel.airfield.AirbaseViewModel;
 import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
+import engima.waratsea.viewmodel.airfield.RealAirbaseViewModel;
 import engima.waratsea.viewmodel.taskforce.TaskForceViewModel;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.Node;
@@ -126,7 +127,7 @@ public class TaskForceAssetSummaryView implements AssetView {
      *
      * @param airbaseViewModel The air base view model.
      */
-    public void setShip(final AirbaseViewModel airbaseViewModel) {
+    public void setShip(final RealAirbaseViewModel airbaseViewModel) {
         String title = airbaseViewModel
                 .getAirbase()
                 .getValue()
@@ -148,6 +149,7 @@ public class TaskForceAssetSummaryView implements AssetView {
                 .getTaskForceAirViewModel()
                 .getAirbases()
                 .forEach(this::bindShip);
+
     }
 
     private void buildSummary() {
@@ -282,7 +284,10 @@ public class TaskForceAssetSummaryView implements AssetView {
         readyInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
         readyInfoNode.getStyleClass().add("asset-component-pane");
 
-        HBox hBox = new HBox(squadronInfoNode, readyInfoNode, missionInfoNode, patrolInfoNode);
+        HBox hBox = airbaseViewModel.isReal()
+                ? new HBox(squadronInfoNode, readyInfoNode, missionInfoNode, patrolInfoNode)
+                : new HBox(patrolInfoNode);
+
         hBox.setId("asset-nation-tab-hbox");
 
         hBox.setFillHeight(false);
@@ -316,7 +321,6 @@ public class TaskForceAssetSummaryView implements AssetView {
         airOperations
                 .disableProperty()
                 .bind(squadronsPresent.not().or(atPort));
-
 
         viewModel
                 .getTaskForceAirViewModel()

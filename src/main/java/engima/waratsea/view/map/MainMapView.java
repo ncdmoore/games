@@ -6,6 +6,8 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.AirbaseGroup;
 import engima.waratsea.model.base.airfield.Airfield;
+import engima.waratsea.model.base.airfield.mission.AirMission;
+import engima.waratsea.model.base.airfield.mission.AirMissionType;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.BaseGrid;
@@ -14,6 +16,7 @@ import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.GridView;
 import engima.waratsea.model.map.TaskForceGrid;
 import engima.waratsea.model.map.region.RegionGrid;
+import engima.waratsea.model.target.Target;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.MainMenu;
@@ -279,6 +282,18 @@ public class MainMapView {
      */
     public void toggleBaseMarkers(final Airbase airbase) {
         airbaseMarkersMap.get(airbase).toggleMarkers();
+
+        game.getHumanPlayer().getTaskForces().forEach(this::toggleTaskForceMarkers);
+
+       /* airbase
+                .getMissions()
+                .stream()
+                .filter(mission -> mission.getType() == AirMissionType.DISTANT_CAP)
+                .map(AirMission::getTarget)
+                .map(Target::getView)
+                .map(o -> (TaskForce) o)
+                .forEach(this::toggleTaskForceMarkers);*/
+
     }
 
     /**
@@ -288,6 +303,16 @@ public class MainMapView {
      */
     public void toggleTaskForceMarkers(final TaskForce taskForce) {
         taskForceMarkersMap.get(taskForce).toggleMarkers();
+
+        taskForce
+                .getAirbases()
+                .stream()
+                .flatMap(airbase -> airbase.getMissions().stream())
+                .filter(mission -> mission.getType() == AirMissionType.DISTANT_CAP)
+                .map(AirMission::getTarget)
+                .map(Target::getView)
+                .map(o -> (TaskForce) o)
+                .forEach(this::toggleTaskForceMarkers);
     }
 
     /**

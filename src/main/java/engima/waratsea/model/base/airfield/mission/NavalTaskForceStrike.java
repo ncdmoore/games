@@ -186,7 +186,7 @@ public class NavalTaskForceStrike extends AirMissionExecutor implements AirMissi
     public void addSquadrons() {
         getTarget();
 
-        squadrons.add(targetTaskForce, AirMissionType.NAVAL_TASK_FORCE_STRIKE);
+        squadrons.add(targetTaskForce, AirMissionType.NAVAL_TASK_FORCE_STRIKE, id);
     }
 
     /**

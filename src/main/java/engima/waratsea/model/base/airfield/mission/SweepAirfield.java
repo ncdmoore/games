@@ -208,7 +208,7 @@ public class SweepAirfield extends AirMissionExecutor implements AirMission {
     public void addSquadrons() {
         getTarget(); // sets target airbase.
 
-        squadrons.add(targetAirbase, AirMissionType.SWEEP_AIRFIELD);
+        squadrons.add(targetAirbase, AirMissionType.SWEEP_AIRFIELD, id);
     }
 
     /**

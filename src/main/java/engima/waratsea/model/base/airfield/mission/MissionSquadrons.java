@@ -135,13 +135,15 @@ public class MissionSquadrons {
      *
      * @param target The target of this mission.
      * @param type The type of mission.
+     * @param missionId The mission id.
      */
-    public void add(final Target target, final AirMissionType type) {
+    public void add(final Target target, final AirMissionType type, final int missionId) {
         squadronMap
                 .forEach((role, squadrons) -> squadrons
                         .forEach(squadron -> {
                             squadron.setState(SquadronAction.ASSIGN_TO_MISSION);
                             squadron.equip(target, type, role);
+                            squadron.setMissionId(missionId);
                         }));
     }
 
@@ -154,6 +156,7 @@ public class MissionSquadrons {
                     .forEach(squadron -> {
                         squadron.setState(SquadronAction.REMOVE_FROM_MISSION);
                         squadron.unEquip();
+                        squadron.setMissionId(0);
                 }));
 
         squadronMap.clear();
