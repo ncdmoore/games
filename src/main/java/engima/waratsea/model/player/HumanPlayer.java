@@ -162,6 +162,7 @@ public class HumanPlayer implements Player {
         airTargetMap.put(AirMissionType.LAND_STRIKE, nation -> getEnemyAirfieldTargets());
         airTargetMap.put(AirMissionType.SWEEP_AIRFIELD, nation -> getEnemyAirfieldTargets());
         airTargetMap.put(AirMissionType.NAVAL_PORT_STRIKE, nation -> getEnemyPortTargets());
+        airTargetMap.put(AirMissionType.NAVAL_PORT_RECON, nation -> getEnemyPortTargets());
         airTargetMap.put(AirMissionType.SWEEP_PORT, nation -> getEnemyPortTargets());
         airTargetMap.put(AirMissionType.NAVAL_TASK_FORCE_STRIKE, nation -> getEnemyTaskForceTargets());
 

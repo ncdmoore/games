@@ -15,6 +15,7 @@ import engima.waratsea.model.base.airfield.mission.AirMission;
 import engima.waratsea.model.base.airfield.mission.DistantCap;
 import engima.waratsea.model.base.airfield.mission.Ferry;
 import engima.waratsea.model.base.airfield.mission.LandStrike;
+import engima.waratsea.model.base.airfield.mission.NavalPortRecon;
 import engima.waratsea.model.base.airfield.mission.NavalPortStrike;
 import engima.waratsea.model.base.airfield.mission.SweepAirfield;
 import engima.waratsea.model.base.airfield.mission.SweepPort;
@@ -209,6 +210,7 @@ public class BasicModule extends AbstractModule {
                 .implement(AirMission.class, Names.named("ferry"), Ferry.class)
                 .implement(AirMission.class, Names.named("landStrike"), LandStrike.class)
                 .implement(AirMission.class, Names.named("navalPortStrike"), NavalPortStrike.class)
+                .implement(AirMission.class, Names.named("navalPortRecon"), NavalPortRecon.class)
                 .implement(AirMission.class, Names.named("sweepAirfield"), SweepAirfield.class)
                 .implement(AirMission.class, Names.named("sweepPort"), SweepPort.class)
                 .build(engima.waratsea.model.base.airfield.mission.MissionFactory.class));

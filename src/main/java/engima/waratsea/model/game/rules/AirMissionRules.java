@@ -68,6 +68,7 @@ public class AirMissionRules {
         missionMap.put(AirMissionType.FERRY, noFilterMap);
         missionMap.put(AirMissionType.LAND_STRIKE, noFilterMap);
         missionMap.put(AirMissionType.NAVAL_PORT_STRIKE, noFilterMap);
+        missionMap.put(AirMissionType.NAVAL_PORT_RECON, noFilterMap);
         missionMap.put(AirMissionType.NAVAL_TASK_FORCE_STRIKE, noFilterMap);
         missionMap.put(AirMissionType.SWEEP_AIRFIELD, sweepFilterMap);
         missionMap.put(AirMissionType.SWEEP_PORT, sweepFilterMap);

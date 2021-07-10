@@ -395,7 +395,7 @@ public class AirMissionViewModel {
         checkCapacity = false;
         nationAirbaseViewModel.addMission(this);
 
-        addToTargetAsset(getVirtualAirbase());
+        addToTargetAsset();
     }
 
     /**
@@ -406,16 +406,15 @@ public class AirMissionViewModel {
         checkCapacity = false;
         nationAirbaseViewModel.editMission(this);
 
-        VirtualAirbaseViewModel virtualAirbase = getVirtualAirbase();
-        removeFromTargetAsset(virtualAirbase);
-        addToTargetAsset(virtualAirbase);
+        removeFromTargetAsset();
+        addToTargetAsset();
     }
 
     /**
      * Remove this mission.
      */
     public void removeMission() {
-        removeFromTargetAsset(getVirtualAirbase());
+        removeFromTargetAsset();
     }
 
     /**
@@ -1077,14 +1076,16 @@ public class AirMissionViewModel {
                 .orElse(0);
     }
 
-    private void addToTargetAsset(final VirtualAirbaseViewModel virtualAirbase) {
+    private void addToTargetAsset() {
         if (mission.getType() == AirMissionType.DISTANT_CAP) {
+            VirtualAirbaseViewModel virtualAirbase = getVirtualAirbase();
             virtualAirbase.addSquadrons(PatrolType.CAP, assigned.get(MissionRole.MAIN), id);
         }
     }
 
-    private void removeFromTargetAsset(final VirtualAirbaseViewModel virtualAirbase) {
+    private void removeFromTargetAsset() {
         if (mission.getType() == AirMissionType.DISTANT_CAP) {
+            VirtualAirbaseViewModel virtualAirbase = getVirtualAirbase();
             virtualAirbase.clearSquadrons(PatrolType.CAP, id);
         }
     }

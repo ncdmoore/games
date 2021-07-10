@@ -42,6 +42,15 @@ public interface MissionFactory {
     AirMission createNavalPortStrike(MissionData data);
 
     /**
+     * Create an airbase naval recon mission.
+     *
+     * @param data The mission data.
+     * @return A naval recon mission initialized with the given data.
+     */
+    @Named("navalPortRecon")
+    AirMission createNavalPortRecon(MissionData data);
+
+    /**
      * Create an airbase fighter sweep mission over an enemy airfield.
      *
      * @param data The mission data.

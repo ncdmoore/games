@@ -44,6 +44,7 @@ public class TargetView {
         viewMap.put(AirMissionType.FERRY, ferryViewProvider.get().build());
         viewMap.put(AirMissionType.LAND_STRIKE, strikeViewProvider.get().build());
         viewMap.put(AirMissionType.NAVAL_PORT_STRIKE, strikeViewProvider.get().build());
+        viewMap.put(AirMissionType.NAVAL_PORT_RECON, strikeViewProvider.get().build());
         viewMap.put(AirMissionType.NAVAL_TASK_FORCE_STRIKE, strikeViewProvider.get().build());
         viewMap.put(AirMissionType.SWEEP_AIRFIELD, strikeViewProvider.get().build());
         viewMap.put(AirMissionType.SWEEP_PORT, strikeViewProvider.get().build());

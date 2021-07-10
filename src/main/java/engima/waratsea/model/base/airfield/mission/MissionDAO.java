@@ -23,6 +23,7 @@ public class MissionDAO {
         factoryMap.put(AirMissionType.FERRY, factory::createFerry);
         factoryMap.put(AirMissionType.LAND_STRIKE, factory::createLandStrike);
         factoryMap.put(AirMissionType.NAVAL_PORT_STRIKE, factory::createNavalPortStrike);
+        factoryMap.put(AirMissionType.NAVAL_PORT_RECON, factory::createNavalPortRecon);
         factoryMap.put(AirMissionType.SWEEP_AIRFIELD, factory::createSweepAirfield);
         factoryMap.put(AirMissionType.SWEEP_PORT, factory::createSweepPort);
     }

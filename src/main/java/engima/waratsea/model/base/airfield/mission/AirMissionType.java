@@ -19,6 +19,7 @@ public enum AirMissionType {
     FERRY("Ferry", "Ferry", Collections.singletonList(MissionRole.MAIN)),
     LAND_STRIKE("Airfield Strike", "Strike", Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT)),
     NAVAL_PORT_STRIKE("Port Strike", "Strike", Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT)),
+    NAVAL_PORT_RECON("Port Recon", "Recon", Collections.singletonList(MissionRole.MAIN)),
     NAVAL_TASK_FORCE_STRIKE("Task Force Strike", "Strike", Arrays.asList(MissionRole.MAIN, MissionRole.ESCORT)),
     SWEEP_AIRFIELD("Airfield Sweep", "Sweep", Collections.singletonList(MissionRole.MAIN)),
     SWEEP_PORT("Port Sweep", "Sweep", Collections.singletonList(MissionRole.MAIN));
