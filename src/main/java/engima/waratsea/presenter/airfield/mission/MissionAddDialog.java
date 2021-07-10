@@ -181,6 +181,7 @@ public class MissionAddDialog {
         view.getTarget().getItems().clear();
         view.getTarget().getItems().addAll(viewModel.getAvailableTargets());
         view.getTarget().getSelectionModel().selectFirst();
+        view.getTarget().setDisable(viewModel.getAvailableTargets().isEmpty());
 
         setMainRoleTabText();
         clearNonMainRoleTabs();

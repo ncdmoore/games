@@ -578,6 +578,7 @@ public class HumanPlayer implements Player {
     private List<Target> getFriendlyTaskForceTargets() {
         return taskForces
                 .stream()
+                .filter(taskForce -> !taskForce.atPort())
                 .map(targetDAO::getFriendlyTaskForceTarget)
                 .collect(Collectors.toList());
     }
