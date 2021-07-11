@@ -3,6 +3,7 @@ package engima.waratsea.view.taskforce;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.view.InfoPane;
+import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.taskforce.air.TaskForceAirViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
@@ -24,10 +25,13 @@ public class TaskForceAirSummaryView {
 
     private final InfoPane squadronSummary;
 
+    private final ViewProps props;
 
     @Inject
-    public TaskForceAirSummaryView(final Provider<InfoPane> infoProvider) {
+    public TaskForceAirSummaryView(final Provider<InfoPane> infoProvider,
+                                   final ViewProps props) {
         squadronSummary = infoProvider.get();
+        this.props = props;
     }
 
     /**
@@ -38,7 +42,9 @@ public class TaskForceAirSummaryView {
     public TaskForceAirSummaryView build() {
         titledPane.getStyleClass().add("title-pane-non-collapsible");
 
-        Node squadronSummaryNode = squadronSummary.build("Squadron Summary");
+        Node squadronSummaryNode = squadronSummary
+                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
+                .build("Squadron Summary");
 
         leftVBox.getChildren().addAll(titledPane, imageView, squadronSummaryNode);
         leftVBox.getStyleClass().add("spacing-5");

@@ -1,6 +1,5 @@
 package engima.waratsea.view;
 
-import com.google.inject.Inject;
 import engima.waratsea.view.util.BoundTitledGridPane;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
@@ -15,18 +14,30 @@ import java.util.Map;
  * - component-grid
  */
 public class InfoPane {
-    private final ViewProps props;
 
     private final BoundTitledGridPane infoPane = new BoundTitledGridPane();
 
     /**
-     * Constructor called by guice.
+     * Set the width.
      *
-     * @param props The view properties.
+     * @param width
+     * @return
      */
-    @Inject
-    public InfoPane(final ViewProps props) {
-        this.props = props;
+    public InfoPane setWidth(final int width) {
+        infoPane.setWidth(width);
+        return this;
+    }
+
+    /**
+     * Set the row threshold property.
+     *
+     * @param threshold The row threshold property. If this is set to true then the grid will automatically be laid out
+     *                  in two columns if the number of rows is greater than the row threshold.
+     * @return This object.
+     */
+    public InfoPane setThreshold(final boolean threshold) {
+        infoPane.setThreshold(threshold);
+        return this;
     }
 
     /**
@@ -37,7 +48,6 @@ public class InfoPane {
      */
     public BoundTitledGridPane build(final String title) {
         return infoPane
-                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
                 .setGridStyleId("component-grid")
                 .setTitle(title)
                 .build();

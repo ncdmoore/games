@@ -3,6 +3,7 @@ package engima.waratsea.view.airfield;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.view.InfoPane;
+import engima.waratsea.view.ViewProps;
 import engima.waratsea.view.util.BoundTitledGridPane;
 import engima.waratsea.viewmodel.airfield.NationAirbaseViewModel;
 import javafx.scene.Node;
@@ -26,6 +27,8 @@ public class AirfieldSummaryView {
     private final InfoPane airfieldPatrolInfo;
     private final InfoPane airfieldReadyInfo;
 
+    private final ViewProps props;
+
     private final ImageView imageView = new ImageView();
 
     private final TitledPane titledPane = new TitledPane();
@@ -35,13 +38,16 @@ public class AirfieldSummaryView {
      * Constructor called by guice.
      *
      * @param infoProvider The provides airfield information.
+     * @param props The view properties.
      */
     @Inject
-    public AirfieldSummaryView(final Provider<InfoPane> infoProvider) {
+    public AirfieldSummaryView(final Provider<InfoPane> infoProvider,
+                               final ViewProps props) {
         this.airfieldSquadronInfo = infoProvider.get();
         this.airfieldMissionInfo = infoProvider.get();
         this.airfieldPatrolInfo = infoProvider.get();
         this.airfieldReadyInfo = infoProvider.get();
+        this.props = props;
     }
 
     /**
@@ -52,10 +58,21 @@ public class AirfieldSummaryView {
     public AirfieldSummaryView build() {
         titledPane.getStyleClass().add("title-pane-non-collapsible");
 
-        BoundTitledGridPane squadronSummary = airfieldSquadronInfo.build("Squadron Summary");
-        BoundTitledGridPane missionSummary = airfieldMissionInfo.build("Mission Summary");
-        BoundTitledGridPane patrolSummary = airfieldPatrolInfo.build("Patrol Summary");
-        BoundTitledGridPane readySummary = airfieldReadyInfo.build("Ready Summary");
+        BoundTitledGridPane squadronSummary = airfieldSquadronInfo
+                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
+                .build("Squadron Summary");
+
+        BoundTitledGridPane missionSummary = airfieldMissionInfo
+                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
+                .build("Mission Summary");
+
+        BoundTitledGridPane patrolSummary = airfieldPatrolInfo
+                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
+                .build("Patrol Summary");
+
+        BoundTitledGridPane readySummary = airfieldReadyInfo
+                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
+                .build("Ready Summary");
 
         Accordion accordion = new Accordion();
         accordion.getPanes().addAll(squadronSummary, missionSummary, patrolSummary, readySummary);

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BoundGridPaneMap {
+    private static final int ROW_THRESHOLD = 6; // Number of rows larger than the threshold triggers multi column layout.
     private int width;
 
     @Setter private String gridStyleId;
@@ -34,36 +35,12 @@ public class BoundGridPaneMap {
      * Build a grid pane that contains the given data.
      *
      * @param data A map of key, value pairs that serves as the source of the grid data.
+     * @param threshold Indicates if the row threshold should be checked.
      * @return A grid pane. Each row contains two
      * columns. The first column is the key and the second the value.
      */
-    public Node buildAndBindIntegers(final Map<String, IntegerProperty> data) {
-        GridPane gridPane = new GridPane();
-
-        int row = 0;
-        for (Map.Entry<String, IntegerProperty> entry : data.entrySet()) {
-            Label keyLabel = new Label(entry.getKey());
-            Label valueLabel = new Label();
-
-            valueLabel.textProperty().bind(entry.getValue().asString());
-
-            gridPane.add(keyLabel, 0, row);
-            gridPane.add(valueLabel, 1, row);
-            row++;
-        }
-
-        if (StringUtils.isNotBlank(gridStyleId)) {
-            gridPane.getStyleClass().add(gridStyleId);
-        }
-
-        if (columnConstraints != null) {
-            gridPane.getColumnConstraints().addAll(columnConstraints);
-        }
-
-        gridPane.setMaxWidth(width);
-        gridPane.setMinWidth(width);
-
-        return gridPane;
+    public Node buildAndBindIntegers(final Map<String, IntegerProperty> data, final boolean threshold) {
+        return threshold && (data.entrySet().size() > ROW_THRESHOLD) ? buildColumns(data, 1) : buildColumns(data, 0);
     }
 
     /**
@@ -122,6 +99,43 @@ public class BoundGridPaneMap {
                 gridPane.add(valueLabel, column + 1, row);
             }
             row++;
+        }
+
+        if (StringUtils.isNotBlank(gridStyleId)) {
+            gridPane.getStyleClass().add(gridStyleId);
+        }
+
+        if (columnConstraints != null) {
+            gridPane.getColumnConstraints().addAll(columnConstraints);
+        }
+
+        gridPane.setMaxWidth(width);
+        gridPane.setMinWidth(width);
+
+        return gridPane;
+    }
+
+    private Node buildColumns(final Map<String, IntegerProperty> data, final int columnThreshold) {
+        GridPane gridPane = new GridPane();
+
+        int row = 0;
+        int col = 0;
+        for (Map.Entry<String, IntegerProperty> entry : data.entrySet()) {
+
+            Label keyLabel = new Label(entry.getKey());
+            Label valueLabel = new Label();
+
+            valueLabel.textProperty().bind(entry.getValue().asString());
+
+            gridPane.add(keyLabel, col, row);
+            gridPane.add(valueLabel, col + 1, row);
+
+            if (col >= columnThreshold) {
+                col = 0;
+                row++;
+            } else {
+                col += 2;
+            }
         }
 
         if (StringUtils.isNotBlank(gridStyleId)) {

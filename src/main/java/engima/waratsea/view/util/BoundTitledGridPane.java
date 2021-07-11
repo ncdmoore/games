@@ -14,6 +14,7 @@ public class BoundTitledGridPane extends TitledPane {
     private int width;
     private int height;
     private String gridStyleId;
+    private boolean threshold = false;
 
     @Setter private List<ColumnConstraints> columnConstraints;
     @Getter private final BoundGridPaneMap gridPane = new BoundGridPaneMap();
@@ -26,6 +27,17 @@ public class BoundTitledGridPane extends TitledPane {
      */
     public BoundTitledGridPane setWidth(final int value) {
         width = value;
+        return this;
+    }
+
+    /**
+     * Enable/disable the column threshold property.
+     *
+     * @param newThreshold The new value of the column threshold property.
+     * @return This object.
+     */
+    public BoundTitledGridPane setThreshold(final boolean newThreshold) {
+        this.threshold = newThreshold;
         return this;
     }
 
@@ -91,7 +103,7 @@ public class BoundTitledGridPane extends TitledPane {
      * @return This titled pane.
      */
     public BoundTitledGridPane bindIntegers(final Map<String, IntegerProperty> data) {
-        setContent(gridPane.buildAndBindIntegers(data));
+        setContent(gridPane.buildAndBindIntegers(data, threshold));
         return this;
     }
 

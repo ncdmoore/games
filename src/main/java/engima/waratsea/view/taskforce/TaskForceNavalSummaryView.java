@@ -3,6 +3,7 @@ package engima.waratsea.view.taskforce;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import engima.waratsea.view.InfoPane;
+import engima.waratsea.view.ViewProps;
 import engima.waratsea.viewmodel.taskforce.naval.TaskForceNavalViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
@@ -24,9 +25,13 @@ public class TaskForceNavalSummaryView {
 
     private final InfoPane shipSummary;
 
+    private final ViewProps props;
+
     @Inject
-    public TaskForceNavalSummaryView(final Provider<InfoPane> infoProvider) {
+    public TaskForceNavalSummaryView(final Provider<InfoPane> infoProvider,
+                                     final ViewProps props) {
         shipSummary = infoProvider.get();
+        this.props = props;
     }
 
     /**
@@ -37,7 +42,9 @@ public class TaskForceNavalSummaryView {
     public TaskForceNavalSummaryView build() {
         titledPane.getStyleClass().add("title-pane-non-collapsible");
 
-        Node shipSummaryNode = shipSummary.build("Ship Summary");
+        Node shipSummaryNode = shipSummary
+                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
+                .build("Ship Summary");
         shipSummaryNode.getStyleClass().add("title-pane-non-collapsible");
 
         leftVBox.getChildren().addAll(titledPane, imageView, shipSummaryNode);

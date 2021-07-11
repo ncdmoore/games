@@ -106,7 +106,9 @@ public class TaskForceAssetSummaryView implements AssetView {
         buildLandingTypes();
         buildShipsTabPane();
 
-        BoundTitledGridPane shipSummaryNode = shipSummary.build("Ship Summary");
+        BoundTitledGridPane shipSummaryNode = shipSummary
+                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
+                .build("Ship Summary");
         shipSummaryNode.setMinHeight(props.getInt("asset.pane.component.height"));
         shipSummaryNode.getStyleClass().add("asset-component-pane");
 
@@ -265,22 +267,31 @@ public class TaskForceAssetSummaryView implements AssetView {
         tab.setGraphic(roundel);
 
         squadronInfo.put(title, infoProvider.get());
-        TitledPane squadronInfoNode = squadronInfo.get(title).build("Squadron Summary");
+        TitledPane squadronInfoNode = squadronInfo.get(title)
+                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
+                .build("Squadron Summary");
         squadronInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
         squadronInfoNode.getStyleClass().add("asset-component-pane");
 
         missionInfo.put(title, infoProvider.get());
-        TitledPane missionInfoNode = missionInfo.get(title).build("Mission Summary");
+        TitledPane missionInfoNode = missionInfo.get(title)
+                .setWidth(props.getInt("asset.pane.grid.component.width.two.columns"))
+                .setThreshold(true)
+                .build("Mission Summary");
         missionInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
         missionInfoNode.getStyleClass().add("asset-component-pane");
 
         patrolInfo.put(title, infoProvider.get());
-        TitledPane patrolInfoNode = patrolInfo.get(title).build("Patrol Summary");
+        TitledPane patrolInfoNode = patrolInfo.get(title)
+                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
+                .build("Patrol Summary");
         patrolInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
         patrolInfoNode.getStyleClass().add("asset-component-pane");
 
         readyInfo.put(title, infoProvider.get());
-        TitledPane readyInfoNode = readyInfo.get(title).build("Ready Summary");
+        TitledPane readyInfoNode = readyInfo.get(title)
+                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
+                .build("Ready Summary");
         readyInfoNode.setMinHeight(props.getInt("asset.pane.nation.component.height"));
         readyInfoNode.getStyleClass().add("asset-component-pane");
 

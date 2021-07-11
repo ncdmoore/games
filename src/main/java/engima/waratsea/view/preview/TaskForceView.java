@@ -303,8 +303,12 @@ public class TaskForceView {
      * @return A node that contains the ship detailed information of the task force.
      */
     private Node buildShipDetails() {
-        Node shipSummaryNode = shipSummary.build("Ship Summary");
-        Node squadronSummaryNode = squadronSummary.build("Squadron Summary");
+        Node shipSummaryNode = shipSummary
+                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
+                .build("Ship Summary");
+        Node squadronSummaryNode = squadronSummary
+                .setWidth(props.getInt("airfield.dialog.airfield.details.width"))
+                .build("Squadron Summary");
 
         HBox hBox = new HBox(new VBox(shipSummaryNode), new VBox(squadronSummaryNode));
 
