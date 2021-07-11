@@ -221,7 +221,7 @@ public class AswPatrolSearchRules {
      * @return The squadron's augmented step factor.
      */
     private int processStepFactor(final Squadron squadron) {
-        return LANDING_TYPE_STEP_FACTOR.get(squadron.getLandingType()) * squadron.getSteps().intValue();
+        return LANDING_TYPE_STEP_FACTOR.get(squadron.getLandingType()) * squadron.getSteps();
     }
 
     /**

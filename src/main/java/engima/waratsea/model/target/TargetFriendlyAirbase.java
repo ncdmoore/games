@@ -302,7 +302,7 @@ public class TargetFriendlyAirbase implements Target {
      */
     @Override
     public int getCurrentSteps() {
-        return getAirbase().getCurrentSteps().intValue();
+        return getAirbase().getCurrentSteps();
     }
 
     /**
@@ -402,7 +402,7 @@ public class TargetFriendlyAirbase implements Target {
     public boolean hasAirbaseCapacity(final Airbase excludedAirbase, final int currentAirbaseMissionSteps) {
         int airbaseMaxSteps = getAirbase().getCapacity();
 
-        int airbaseCurrentSteps = getAirbase().getCurrentSteps().intValue();
+        int airbaseCurrentSteps = getAirbase().getCurrentSteps();
         int airbaseMissionSteps = getMissionSteps(excludedAirbase);    // excludes current airbase.
 
         return airbaseMaxSteps >= airbaseCurrentSteps + airbaseMissionSteps + currentAirbaseMissionSteps;

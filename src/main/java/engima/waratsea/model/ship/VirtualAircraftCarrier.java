@@ -31,7 +31,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -426,7 +425,7 @@ public class VirtualAircraftCarrier implements Ship, Airbase {
      * @return The current number of steps deployed at this airbase.
      */
     @Override
-    public BigDecimal getCurrentSteps() {
+    public int getCurrentSteps() {
         return squadrons.getCurrentSteps();
     }
 

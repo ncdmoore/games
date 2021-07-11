@@ -285,7 +285,7 @@ public class SquadronViewModel {
      * @return The number of steps in the squadron.
      */
     public int getSteps() {
-        return get().getSteps().intValue();
+        return get().getSteps();
     }
 
     /**

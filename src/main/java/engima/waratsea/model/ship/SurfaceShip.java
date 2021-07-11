@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Represents the default surface ship: destroyer, destoryer escorts, transports, etc.
+ * Represents the default surface ship: destroyer, destroyer escorts, transports, etc.
  *
  * These ships have no aircraft at all!!
  */

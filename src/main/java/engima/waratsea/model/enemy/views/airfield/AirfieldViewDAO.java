@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AirfieldViewDAO {
 
-    private Resource resource;
-    private AirfieldViewFactory factory;
+    private final Resource resource;
+    private final AirfieldViewFactory factory;
 
     /**
      * Constructor called by guice.

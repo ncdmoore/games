@@ -106,9 +106,9 @@ public class SearchPatrol implements Patrol {
     @Override
     public void addSquadron(final Squadron squadron) {
         if (canAdd(squadron)) {   //Make sure the squadron is actual deployed at the airbase.
-            int newMaxRadius = squadrons.add(squadron);
             squadron.setState(SquadronAction.ASSIGN_TO_PATROL);
             squadron.equip(this);
+            int newMaxRadius = squadrons.add(squadron);
             updateMaxRadius(newMaxRadius);
         } else {
             log.error("Unable to add squadron: '{}' to patrol. Squadron not deployed to airbase: '{}'", squadron, airbase);
@@ -173,7 +173,8 @@ public class SearchPatrol implements Patrol {
                 .stream()
                 .filter(allowed::contains)
                 .findFirst()
-                .orElse(SquadronConfig.NONE);    }
+                .orElse(SquadronConfig.NONE);
+    }
 
     /**
      * Determine if the patrol is adversely affected by the current weather conditions.

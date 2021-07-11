@@ -3,8 +3,6 @@ package engima.waratsea.model.squadron;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 
-import java.math.BigDecimal;
-
 /**
  * Represents the strength of a squadron.
  *
@@ -15,76 +13,61 @@ import java.math.BigDecimal;
  */
 public enum SquadronStrength {
     @SerializedName(value = "FULL", alternate = {"Full", "full"})
-    FULL("Full", StepSize.TWO) {
+    FULL("Full", 2, 12) {
         @Override
         public SquadronStrength reduce() {
             return HALF;
         }
-
-        @Override
-        public int getAsSteps() {
-            return 2;
-        }
     },
 
     @SerializedName(value = "HALF", alternate = {"Half", "half"})
-    HALF("Half", StepSize.ONE) {
+    HALF("Half", 1, 6) {
         @Override
         public SquadronStrength reduce() {
             return ZERO;
-        }
-
-        @Override
-        public int getAsSteps() {
-            return 1;
         }
     },
 
     @SerializedName(value = "SIXTH", alternate = {"Sixth", "sixth"})
-    SIXTH("1/6", StepSize.ONE_THIRD) { // Sixth is for battleship and cruiser float planes.
+    SIXTH("1/6", 0, 2) { // Sixth is for battleship and cruiser float planes.
         @Override
         public SquadronStrength reduce() {
             return ZERO;
-        }
-
-        @Override
-        public int getAsSteps() {
-            return 0;
         }
     },
 
     @SerializedName(value = "ZERO", alternate = {"Zero", "zero"})
-    ZERO("Zero", StepSize.ZERO) {
+    ZERO("Zero", 0, 0) {
         @Override
         public SquadronStrength reduce() {
             return ZERO;
-        }
-
-        @Override
-        public int getAsSteps() {
-            return 0;
         }
     };
 
     private final String value;
 
     @Getter
-    private final BigDecimal steps;
+    private final int steps;
+
+    @Getter
+    private final int aircraft;
+
+    private static final int AIRCRAFT_PER_STEP_SIZE = 6;
 
     /**
      * The constructor.
      *
      * @param value The String value of the squadron strength.
-     * @param steps The number of steps that squadron strength maps to.
+     * @param steps The number of steps.
+     * @param aircraft The number of aircraft.
      */
-    SquadronStrength(final String value, final String steps) {
+    SquadronStrength(final String value, final int steps, final int aircraft) {
         this.value = value;
-        this.steps = new BigDecimal(steps);
+        this.steps = steps;
+        this.aircraft = aircraft;
     }
 
     public abstract SquadronStrength reduce();
-
-    public abstract int getAsSteps();
 
     /**
      * The String representation of the squadron strength.
@@ -94,5 +77,15 @@ public enum SquadronStrength {
     @Override
     public String toString() {
         return value;
+    }
+
+    /**
+     * Get the number of steps given the number of aircraft.
+     *
+     * @param aircraft The number of aircraft.
+     * @return The steps size given the number of aircraft.
+     */
+    public static int calculateSteps(final int aircraft) {
+        return aircraft / AIRCRAFT_PER_STEP_SIZE;
     }
 }

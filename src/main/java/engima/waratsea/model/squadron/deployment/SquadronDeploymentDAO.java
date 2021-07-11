@@ -79,7 +79,7 @@ public class SquadronDeploymentDAO {
 
         log.info("load specific squadron deployment, scenario: '{}', side: '{}', nation: '{}', year: '{}'", new Object[]{scenario.getTitle(), side.toLower(), nation.toString(), year});
         List<SquadronDeployment> deployment = config
-                .getScenarioURL(side, SquadronDeployment.class, year + "/" + side.toLower() + "/" + nation.toString() + ".json")
+                .getScenarioURL(side, SquadronDeployment.class, year + "/" + side.toLower() + "/" + nation + ".json")
                 .map(url -> readDeployment(url, side, nation))
                 .orElseGet(Collections::emptyList);
 
@@ -101,7 +101,7 @@ public class SquadronDeploymentDAO {
         String year = getAllotmentYear(scenario);
 
         log.info("Load squadron deployment, scenario: '{}', side: '{}', nation: '{}', year: '{}'", new Object[]{scenario.getTitle(), side.toLower(), nation.toString(), year});
-        return config.getGameURL(side, SquadronDeployment.class, year + "/" + side.toLower() + "/" + nation.toString() + ".json")
+        return config.getGameURL(side, SquadronDeployment.class, year + "/" + side.toLower() + "/" + nation + ".json")
                 .map(url -> readDeployment(url, side, nation))
                 .orElseThrow(() -> new SquadronException("Unable to load deployment for " + scenario.getTitle() + " for " + side.toLower() + " nation: " + nation + " year: " + year));
     }

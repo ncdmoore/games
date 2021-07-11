@@ -329,7 +329,7 @@ public class AirfieldAssetSummaryView implements AssetView {
         data.put(space1, "");
         data.put("Max Capacity (Steps):", airbase.getMaxCapacity() + "");
         data.put("Current Capacity (Steps):", airbase.getCapacity() + "");
-        data.put("Current stationed (Steps):", airbase.getCurrentSteps().toBigInteger().toString());
+        data.put("Current stationed (Steps):", airbase.getCurrentSteps() + "");
         data.put(space2, "");
         data.put("AA Rating:", airbase.getAntiAirRating() + "");
 

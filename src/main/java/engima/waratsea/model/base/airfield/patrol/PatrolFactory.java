@@ -35,7 +35,7 @@ public interface PatrolFactory {
     Patrol createCap(PatrolData data);
 
     /**
-     * Creates a vitual CAP patrol.
+     * Creates a virtual CAP patrol.
      *
      * @param data The patrol's data.
      * @return The patrol.

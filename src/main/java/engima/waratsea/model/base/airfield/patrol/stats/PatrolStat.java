@@ -3,8 +3,6 @@ package engima.waratsea.model.base.airfield.patrol.stats;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 /**
  * Represents an individual patrol stat.
  */
@@ -21,7 +19,7 @@ public class PatrolStat {
         this.value = value;
     }
 
-    public PatrolStat(final BigDecimal value) {
+    public PatrolStat(final int value) {
         this.value = value + "";
     }
 

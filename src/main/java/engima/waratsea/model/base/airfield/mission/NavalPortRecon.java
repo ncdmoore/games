@@ -126,9 +126,6 @@ public class NavalPortRecon extends AirMissionExecutor implements AirMission {
     public void execute() {
         targetPort = getTarget();
 
-        // Resolve the squadron attack on the enemy port.
-        targetPort.resolveAttack(squadrons);
-
     }
 
     /**

@@ -51,7 +51,7 @@ public enum ShipViewType  implements Comparator<ShipViewType> {
      * Constructor.
      *
      * @param value The string value of the enum.
-     * @param order The sort ordr.
+     * @param order The sort order.
      */
     ShipViewType(final String value, final int order) {
         this.value = value;

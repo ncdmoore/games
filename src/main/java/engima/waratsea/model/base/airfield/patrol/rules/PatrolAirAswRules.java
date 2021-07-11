@@ -2,11 +2,11 @@ package engima.waratsea.model.base.airfield.patrol.rules;
 
 import com.google.inject.Inject;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.weather.Weather;
 import engima.waratsea.model.weather.WeatherType;
 import engima.waratsea.utility.Dice;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -161,16 +161,17 @@ public class PatrolAirAswRules implements PatrolAirRules {
     }
 
     /**
-     * Get the number of steps of squadrons on patrol.
+     * Get the number of squadron steps on patrol.
      *
      * @param squadrons The squadrons on patrol.
      * @return The number of steps on patrol.
      */
     private int getSteps(final List<Squadron> squadrons) {
-        return squadrons
+        int totalNumberOfAircraft = squadrons
                 .stream()
-                .map(Squadron::getSteps)
-                .map(BigDecimal::intValue)
+                .map(Squadron::getAircraftNumber)
                 .reduce(0, Integer::sum);
+
+        return SquadronStrength.calculateSteps(totalNumberOfAircraft);
     }
 }

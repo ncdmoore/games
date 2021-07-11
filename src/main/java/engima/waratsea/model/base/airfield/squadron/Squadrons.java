@@ -9,13 +9,13 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.SquadronFactory;
+import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.squadron.data.SquadronData;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.utility.ListUtility;
 import lombok.Getter;
 import org.apache.commons.collections4.ListUtils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -156,11 +156,12 @@ public class Squadrons {
      * @return The current number of steps deployed at this airfield.
      */
     public int deployedSteps() {
-        return squadrons
+        int totalNumberOfAircraft = squadrons
                 .stream()
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .intValue();
+                .map(Squadron::getAircraftNumber)
+                .reduce(0, Integer::sum);
+
+        return SquadronStrength.calculateSteps(totalNumberOfAircraft);
     }
 
     /**
@@ -168,11 +169,13 @@ public class Squadrons {
      *
      * @return The current number of steps deployed at this airfield.
      */
-    public BigDecimal getCurrentSteps() {
-        return squadrons
+    public int getCurrentSteps() {
+        int totalNumberOfAircraft = squadrons
                 .stream()
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .map(Squadron::getAircraftNumber)
+                .reduce(0, Integer::sum);
+
+        return SquadronStrength.calculateSteps(totalNumberOfAircraft);
     }
 
     /**
@@ -182,12 +185,14 @@ public class Squadrons {
      * @param type An aircraft base type.
      * @return The number of steps of aircraft of the given type based at this airfield.
      */
-    public BigDecimal getStepsForType(final AircraftType type) {
-        return squadrons
+    public int getStepsForType(final AircraftType type) {
+        int totalNumberOfAircraft = squadrons
                 .stream()
                 .filter(squadron -> squadron.getType() == type)
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .map(Squadron::getAircraftNumber)
+                .reduce(0, Integer::sum);
+
+        return SquadronStrength.calculateSteps(totalNumberOfAircraft);
     }
 
     /**

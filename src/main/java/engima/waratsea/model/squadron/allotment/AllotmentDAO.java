@@ -74,7 +74,7 @@ public class AllotmentDAO {
 
         log.info("load specific squadron allotments, scenario: '{}', side: '{}', nation: '{}', year: '{}'", new Object[]{scenario.getTitle(), side.toLower(), nation.toString(), year});
         Allotment allotment = config
-                .getScenarioURL(side, Allotment.class, year + "/" + side.toLower() + "/" + nation.toString() + ".json")
+                .getScenarioURL(side, Allotment.class, year + "/" + side.toLower() + "/" + nation + ".json")
                 .map(url -> readAllotment(url, side))
                 .orElse(null);
 
@@ -96,7 +96,7 @@ public class AllotmentDAO {
         String year = getAllotmentYear(scenario);
 
         log.info("Load squadron allotments, scenario: '{}', side: '{}', nation: '{}', year: '{}'", new Object[]{scenario.getTitle(), side.toLower(), nation.toString(), year});
-        return config.getGameURL(side, Allotment.class, year + "/" + side.toLower() + "/" + nation.toString() + ".json")
+        return config.getGameURL(side, Allotment.class, year + "/" + side.toLower() + "/" + nation + ".json")
                 .map(url -> readAllotment(url, side))
                 .orElseThrow(() -> new SquadronException("Unable to load allotment for " + scenario.getTitle() + " for " + side.toLower() + " nation: " + nation + " year: " + year));
     }

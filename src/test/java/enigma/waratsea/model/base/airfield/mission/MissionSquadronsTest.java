@@ -66,7 +66,7 @@ public class MissionSquadronsTest {
 
         int initialSquadronSteps = squadrons                            // Squadrons are full strength.
                 .stream()
-                .map(Squadron::getStepsAsInt)
+                .map(Squadron::getSteps)
                 .reduce(0, Integer::sum);
 
         List<String> squadronNames = squadrons
@@ -160,7 +160,7 @@ public class MissionSquadronsTest {
 
         int initialSquadronSteps = squadrons
                 .stream()
-                .map(Squadron::getStepsAsInt)
+                .map(Squadron::getSteps)
                 .reduce(0, Integer::sum);
 
         // The mission strength is not affected until the "destroyByFlak" call is made.
@@ -212,7 +212,7 @@ public class MissionSquadronsTest {
         return squadrons
                 .stream()
                 .map(Squadron::getEffectiveStrength)
-                .map(SquadronStrength::getAsSteps)
+                .map(SquadronStrength::getSteps)
                 .reduce(0, Integer::sum);
     }
 
@@ -220,7 +220,7 @@ public class MissionSquadronsTest {
         return squadrons
                 .stream()
                 .map(Squadron::getStrength)
-                .map(SquadronStrength::getAsSteps)
+                .map(SquadronStrength::getSteps)
                 .reduce(0, Integer::sum);
     }
 }

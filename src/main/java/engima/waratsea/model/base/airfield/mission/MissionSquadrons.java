@@ -3,13 +3,13 @@ package engima.waratsea.model.base.airfield.mission;
 import com.google.inject.Inject;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.squadron.state.SquadronAction;
 import engima.waratsea.model.target.Target;
 import engima.waratsea.utility.Dice;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -109,11 +109,13 @@ public class MissionSquadrons {
      * @return the total number of steps assigned to this mission.
      */
     public int getSteps() {
-        return MissionRole.stream()
+        int totalNumberOfAircraft = MissionRole
+                .stream()
                 .flatMap(role -> squadronMap.get(role).stream())
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .intValue();
+                .map(Squadron::getAircraftNumber)
+                .reduce(0, Integer::sum);
+
+        return SquadronStrength.calculateSteps(totalNumberOfAircraft);
     }
 
     /**

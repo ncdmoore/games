@@ -35,7 +35,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -360,7 +359,7 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
      * @return The current number of steps deployed at this airfield.
      */
     @Override
-    public BigDecimal getCurrentSteps() {
+    public int getCurrentSteps() {
         return squadrons.getCurrentSteps();
     }
 
@@ -465,7 +464,7 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
      * @param type An aircraft base type.
      * @return The number of steps of aircraft of the given type based at this airfield.
      */
-    public BigDecimal getStepsForType(final AircraftType type) {
+    public int getStepsForType(final AircraftType type) {
         return squadrons.getStepsForType(type);
     }
 
@@ -613,7 +612,7 @@ public class Airfield implements Asset, Airbase, AirbaseGroup, PersistentData<Ai
      * @return True if this airfield can house the new squadron. False otherwise.
      */
     private boolean determineRoom(final Squadron squadron) {
-        int steps = squadron.getSteps().intValue();
+        int steps = squadron.getSteps();
 
         boolean result = steps + deployedSteps() <= maxCapacity;
 

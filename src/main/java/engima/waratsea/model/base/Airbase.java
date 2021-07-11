@@ -16,7 +16,6 @@ import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.squadron.state.SquadronState;
 import engima.waratsea.model.target.Target;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -127,7 +126,7 @@ public interface Airbase extends Base {
      *
      * @return The current number of steps deployed at this airbase.
      */
-    BigDecimal getCurrentSteps();
+    int getCurrentSteps();
 
     /**
      * Determine if the given squadron can be stationed at this airbase.

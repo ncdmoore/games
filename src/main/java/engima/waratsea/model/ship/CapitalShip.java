@@ -33,7 +33,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -327,7 +326,7 @@ public class CapitalShip implements Ship, Airbase {
      * @return The current number of steps deployed at this airbase.
      */
     @Override
-    public BigDecimal getCurrentSteps() {
+    public int getCurrentSteps() {
         return squadrons.getCurrentSteps();
     }
 
@@ -647,7 +646,7 @@ public class CapitalShip implements Ship, Airbase {
      * @return True if this squadrons carrier has room for the given squadron. False otherwise.
      */
     private boolean hasRoom(final Squadron squadron) {
-        int steps = squadron.getSteps().intValue();
+        int steps = squadron.getSteps();
         return steps + deployedSteps() <= getMaxCapacity();
     }
 

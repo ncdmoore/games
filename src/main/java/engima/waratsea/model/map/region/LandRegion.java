@@ -11,10 +11,10 @@ import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.region.data.RegionData;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronStrength;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -52,7 +52,7 @@ public class LandRegion implements Region {
      * @param side The side of the task force. ALLIES or AXIS.
      * @param data The task force data read from a JSON file.
      * @param airfieldDAO The data abstraction object for airfields. Loads the airfields.
-     * @param portDAO The data abstraction objectg for ports. Loads the ports.
+     * @param portDAO The data abstraction object for ports. Loads the ports.
      */
     @Inject
     public LandRegion(@Assisted final Side side,
@@ -100,11 +100,12 @@ public class LandRegion implements Region {
     @Override
     public Region setRequirements(final List<Squadron> squadrons) {
         // Get the nation's total steps.
-        int totalSteps = squadrons
+        int totalAircraft = squadrons
                 .stream()
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .intValue();
+                .map(Squadron::getAircraftNumber)
+                .reduce(0, Integer::sum);
+
+        int totalSteps = SquadronStrength.calculateSteps(totalAircraft);
 
         minSteps = determineValue(totalSteps, minStepsString);  //Set the minimum steps that must be deployed in this region.
         maxSteps = determineValue(totalSteps, maxStepsString);  //Set the maximum steps that may be deployed in this region.
@@ -134,10 +135,10 @@ public class LandRegion implements Region {
     }
 
     /**
-     * Determine if this region has roon to add a squadron.
+     * Determine if this region has room to add a squadron.
      *
      * @param squadron The potential squadron to add.
-     * @return True if the squadron may be added. False otherise.
+     * @return True if the squadron may be added. False otherwise.
      */
     @Override
     public boolean hasRoom(final Squadron squadron) {
@@ -147,7 +148,7 @@ public class LandRegion implements Region {
             return true; //If maxSteps is zero, then this region has no maximum.
         }
 
-        int steps = squadron.getSteps().intValue();
+        int steps = squadron.getSteps();
 
         boolean result = steps + getCurrentSteps() <= maxSteps;
 
@@ -163,7 +164,7 @@ public class LandRegion implements Region {
     /**
      * Determine if this region's minimum squadron requirement is met.
      *
-     * @return True if this region's minimum squadron requirement is met. False if this region's mininum
+     * @return True if this region's minimum squadron requirement is met. False if this region's minimum
      * squadron requirement is not yet met.
      */
     @Override
@@ -176,7 +177,7 @@ public class LandRegion implements Region {
      * of squadron steps is removed from this region.
      *
      * @param removedSteps The number of squadron steps to remove from this region.
-     * @return True if the given squadron steps can be removed from this region and the region's mimimun
+     * @return True if the given squadron steps can be removed from this region and the region's minimum
      * squadron step requirement is still satisfied. False otherwise.
      */
     @Override
@@ -191,13 +192,14 @@ public class LandRegion implements Region {
      */
     @Override
     public int getCurrentSteps() {
-        return airfields
+        int totalNumberOfAircraft = airfields
                 .stream()
                 .flatMap(airfield -> airfield.getSquadrons().stream())
                 .filter(squadron -> squadron.ofNation(nation))
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .intValue();
+                .map(Squadron::getAircraftNumber)
+                .reduce(0, Integer::sum);
+
+        return SquadronStrength.calculateSteps(totalNumberOfAircraft);
     }
 
     /**

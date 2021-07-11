@@ -20,7 +20,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,18 +106,18 @@ public class DeploymentViewModel {
      * @return A landing type's deployment.
      */
     private Deployment getDeployment(final LandingType landingType, final List<Squadron> squadrons) {
-        BigDecimal total = squadrons
+        int total = squadrons
                 .stream()
                 .filter(squadron -> squadron.isLandingTypeCompatible(landingType))
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .map(Squadron::getAircraftNumber)
+                .reduce(0, Integer::sum);
 
-        BigDecimal deployed = squadrons
+        int deployed = squadrons
                 .stream()
                 .filter(squadron -> squadron.isLandingTypeCompatible(landingType))
                 .filter(Squadron::isDeployed)
-                .map(Squadron::getSteps)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .map(Squadron::getAircraftNumber)
+                .reduce(0, Integer::sum);
 
         Deployment landingTypeDeployment = new Deployment(landingType);
         landingTypeDeployment.setDeployedSteps(deployed);

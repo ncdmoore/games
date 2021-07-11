@@ -32,7 +32,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -259,23 +258,23 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
     }
 
     /**
-     * Get the number of steps that the squadron contains. Full strength squadrons contain two steps. Half strength
-     * squadrons contain one step. Battleship and cruiser float planes are equal to 1/3 of a step.
+     * Get the number of aircraft that the squadron contains. Full strength squadrons contain 12 aircraft. Half strength
+     * squadrons contain 6 aircraft. Sixth strength squadrons (Battleship and cruiser float planes) contain two aircraft.
      *
-     * @return Number of steps in the squadron.
+     * @return Number of aircraft in the squadron.
      */
-    public BigDecimal getSteps() {
-        return strength.getSteps();
+    public int getAircraftNumber() {
+        return strength.getAircraft();
     }
 
     /**
      * Get the number of steps that the squadron contains. Full strength squadrons contain two steps. Half strength
-     * squadrons contain one step. Battleship and cruiser float planes are equal to 1/3 of a step.
+     * squadrons contain one step. Battleship and cruiser float planes are equal to 0 steps.
      *
      * @return Number of steps in the squadron.
      */
-    public int getStepsAsInt() {
-        return strength.getAsSteps();
+    public int getSteps() {
+        return strength.getSteps();
     }
 
     /**

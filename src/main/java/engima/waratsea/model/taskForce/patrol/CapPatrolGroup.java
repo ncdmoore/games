@@ -10,10 +10,10 @@ import engima.waratsea.model.base.airfield.patrol.stats.PatrolStat;
 import engima.waratsea.model.base.airfield.patrol.stats.PatrolStats;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.Squadron;
+import engima.waratsea.model.squadron.SquadronStrength;
 import engima.waratsea.model.taskForce.patrol.data.PatrolGroupData;
 import lombok.Getter;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -134,7 +134,7 @@ public class CapPatrolGroup implements PatrolGroup {
 
         Map<String, PatrolStat> data = new LinkedHashMap<>();
         data.put("Squadrons", new PatrolStat(inRange.size(), getPatrolSquadrons(radius)));
-        data.put("Steps", new PatrolStat(inRange.stream().map(Squadron::getSteps).reduce(BigDecimal.ZERO, BigDecimal::add)));
+        data.put("Steps", new PatrolStat(SquadronStrength.calculateSteps(inRange.stream().map(Squadron::getAircraftNumber).reduce(0, Integer::sum))));
         data.put("Intercept", new PatrolStat(getSuccessRate(radius) + " %"));
         data.put("No Weather", new PatrolStat(capRules.getBaseSearchSuccessNoWeather(radius, inRange) + "%"));
 

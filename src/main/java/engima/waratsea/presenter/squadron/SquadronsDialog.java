@@ -44,7 +44,7 @@ public class SquadronsDialog {
      *
      * @param dialogProvider Provides the dialog.
      * @param viewProvider Provides the view.
-     * @param viewModelProvider Provies the view model.
+     * @param viewModelProvider Provides the view model.
      * @param cssResourceProvider The CSS resource provider.
      * @param props The view properties.
      * @param game The game.

@@ -58,9 +58,9 @@ public class FlightDeck implements Component {
     }
 
     /**
-     * Retrun the flight deck's maximum aircraft capacity.
+     * Return the flight deck's maximum aircraft capacity.
      *
-     * @return The flight deck's macimum aircraft capacity.
+     * @return The flight deck's maximum aircraft capacity.
      */
     public int getMaxCapacity() {
         // The capacity list is zero based, so minus one from the max health.

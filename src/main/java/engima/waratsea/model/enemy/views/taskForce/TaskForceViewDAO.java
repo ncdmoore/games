@@ -178,7 +178,7 @@ public class TaskForceViewDAO {
     }
 
     /**
-     * Add the task force to the tasl fprce data read in form the JSON file.
+     * Add the task force to the task force data read in form the JSON file.
      *
      * @param data The task force view data read in from the JSON file.
      * @param taskForce The task force that is added.

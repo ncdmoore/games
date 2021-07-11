@@ -127,7 +127,7 @@ public class SquadronDeploymentAI {
      * requirement fulfillment when the deployment specifies a particular aircraft model must be deployed
      * to a particular airfield.
      *
-     * @return A map of aircraft model to list of squqdrons of that model.
+     * @return A map of aircraft model to list of squadrons of that model.
      */
     private Map<String, List<Squadron>> getSquadronModelMap() {
         return squadrons
@@ -266,7 +266,7 @@ public class SquadronDeploymentAI {
             while (deployedSteps < region.getNeeded()) {
                 Squadron squadron = removeSquadron();
                 deployed.add(squadron);
-                deployedSteps += squadron.getStrength().getSteps().intValue();
+                deployedSteps += squadron.getStrength().getSteps();
             }
         } catch (SquadronException ex) {
             log.error("Could not get enough squadrons to deploy the region requirement for region: " + region.getName());
