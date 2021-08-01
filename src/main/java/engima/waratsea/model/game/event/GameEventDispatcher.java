@@ -52,10 +52,12 @@ public class GameEventDispatcher<E extends GameEvent> {
      */
     public void fire(final E e) {
         // We need to copy the handler list because a handler may unregister while doing the actual event processing.
-        // If we don't copy then we may end up with map's keys being modified while we are trying to iterate over them.
+        // This is a very common pattern. A handler receives the event, processes the event, and now is no longer
+        // interested in the event. Thus, it unregisters to keep from receiving unwanted events. If we don't copy
+        // the handlers we may end up with the map's keys being modified while we are trying to iterate over them.
         // This can lead to an memory corruption exception.
-        List<GameEventHandler<E>> handlers = new ArrayList<>(map.values());
+        List<GameEventHandler<E>> copyOfHandlers = new ArrayList<>(map.values());
 
-        handlers.forEach(h -> h.notify(e));
+        copyOfHandlers.forEach(h -> h.notify(e));
     }
 }
