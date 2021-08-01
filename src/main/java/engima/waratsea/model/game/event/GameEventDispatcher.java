@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * This class is responsible for delivering events to event handlers.
@@ -15,14 +14,12 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class GameEventDispatcher<E extends GameEvent> {
-    private List<GameEventHandler<E>> handlers = new ArrayList<>();
     private final Map<Object, GameEventHandler<E>> map = new HashMap<>();
 
     /**
      * Clear the dispatcher.
      */
     public void clear() {
-        handlers.clear();
         map.clear();
     }
 
@@ -35,7 +32,6 @@ public class GameEventDispatcher<E extends GameEvent> {
     public void register(final Object key, final GameEventHandler<E> handler) {
         log.info("{}: registers", key);
         map.put(key, handler);
-        add(handler);
     }
 
     /**
@@ -45,10 +41,7 @@ public class GameEventDispatcher<E extends GameEvent> {
      */
     public void unregister(final Object key) {
         log.info("{}: unregisters", key);
-        if (map.containsKey(key)) {
-            remove(map.get(key));
-            map.remove(key);
-        }
+        map.remove(key);
     }
 
     /**
@@ -58,46 +51,11 @@ public class GameEventDispatcher<E extends GameEvent> {
      * @param e The event
      */
     public void fire(final E e) {
+        // We need to copy the handler list because a handler may unregister while doing the actual event processing.
+        // If we don't copy then we may end up with map's keys being modified while we are trying to iterate over them.
+        // This can lead to an memory corruption exception.
+        List<GameEventHandler<E>> handlers = new ArrayList<>(map.values());
+
         handlers.forEach(h -> h.notify(e));
-    }
-
-    /**
-     * Add an event handler to the list of event handlers.
-     *
-     * @param handler The event handler that is placed in the event handler list.
-     */
-    private void add(final GameEventHandler<E> handler) {
-        // This exact event handler already receives events of this type.
-        if (handlers.contains(handler)) {
-            log.warn("Duplicate handler: {}",  handler.getClass());
-            return;
-        }
-
-        List<GameEventHandler<E>> updatedList = new ArrayList<>(handlers);
-
-        log.debug("Register handler: {}", handler);
-        updatedList.add(handler);
-        log.debug("Contains {} handlers", updatedList.size());
-
-        handlers = updatedList;
-    }
-
-    /**
-     * Remove an event handler from the list of event handlers.
-     *
-     * @param handler The event handler that is removed.
-     */
-    private void remove(final GameEventHandler<E> handler) {
-        log.debug("Unregister handler: {}", handler);
-
-        // Since the event handler can unregister during the processing of the notification
-        // we make a copy of the current list of handlers and update the copy. Then we
-        // replace the newly updated copy in the registry. This keeps this method from
-        // updating/writing to the registry while the fire method below is still using the
-        // registry. This avoids a data exception being thrown.
-        handlers = handlers
-                .stream()
-                .filter(element -> element != handler)
-                .collect(Collectors.toList());
     }
 }
