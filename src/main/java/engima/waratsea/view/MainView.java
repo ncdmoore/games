@@ -5,8 +5,8 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.game.Game;
 import engima.waratsea.utility.CssResourceProvider;
 import engima.waratsea.view.asset.AssetSummaryView;
-import engima.waratsea.view.map.SelectedGridView;
 import engima.waratsea.view.map.MainMapView;
+import engima.waratsea.view.map.SelectedGridView;
 import engima.waratsea.view.turn.TurnView;
 import engima.waratsea.view.weather.WeatherView;
 import javafx.geometry.Rectangle2D;
@@ -125,6 +125,11 @@ public class MainView {
         stage.show();
     }
 
-
+    /**
+     * The game has started.
+     */
+    public void startGame() {
+        turnView.startGame();
+    }
 
 }

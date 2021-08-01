@@ -5,12 +5,12 @@ package engima.waratsea.model.game.event;
  *
  * @param <E> The type of game event to receive.
  */
-public interface GameEventHandler<E> {
+public interface GameEventHandler<E extends GameEvent> {
 
     /**
      * Notify the handler that the event occurred.
      *
      * @param event The event.
      */
-    void notify(E event);
+     void notify(E event);
 }

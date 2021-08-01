@@ -1,40 +1,31 @@
 package engima.waratsea.view.turn;
 
 import com.google.inject.Inject;
-import engima.waratsea.model.game.Turn;
-import engima.waratsea.utility.ResourceProvider;
-import engima.waratsea.view.ViewProps;
+import com.google.inject.Singleton;
+import engima.waratsea.viewmodel.turn.TurnViewModel;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
 
-import java.text.SimpleDateFormat;
-
+@Singleton
 public class TurnView {
+    @Getter private Button button;
 
-    private final ResourceProvider resourceProvider;
-    private final ViewProps props;
-
-    private final Turn turn;
+    private final TurnViewModel viewModel;
 
     /**
      * THe constructor called by guice.
      *
-     * @param resourceProvider The image resource provider.
-     * @param props The view properties.
-     * @param turn The game's weather.
+     * @param viewModel The turn view model.
      */
     @Inject
-    public TurnView(final ResourceProvider resourceProvider,
-                    final ViewProps props,
-                    final Turn turn) {
-        this.resourceProvider = resourceProvider;
-        this.props = props;
-        this.turn = turn;
+    public TurnView(final TurnViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 
     /**
@@ -43,33 +34,44 @@ public class TurnView {
      * @return A node that contains the weather.
      */
     public Node build() {
+        button = new Button("Next Turn");
+
         TitledPane titledPane = new TitledPane();
         titledPane.setText("Turn");
 
-        ImageView imageView = resourceProvider.getImageView(props.getString(turn.getType().toLower() + ".image"));
+        ImageView imageView = new ImageView();
+        imageView.imageProperty().bind(viewModel.getImage());
 
-        HBox hBox = new HBox(imageView);
-        hBox.setId("turn-image-pane");
+        Label number = new Label();
+        number.textProperty().bind(viewModel.getNumber());
 
-        Label number = new Label("Turn: " + turn.getNumber());
+        Label type = new Label();
+        type.textProperty().bind(viewModel.getType());
 
-        Label type = new Label("Type: " + turn.getType());
-        Label index = new Label("Time: " + turn.getIndex().getTimeRange());
+        Label index = new Label();
+        index.textProperty().bind(viewModel.getTimeRange());
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
-        String dateString = simpleDateFormat.format(turn.getDate());
+        Label date = new Label();
+        date.textProperty().bind(viewModel.getDate());
 
-        Label date = new Label("Date: " + dateString);
+        VBox imageBox = new VBox(imageView);
+        VBox textBox = new VBox(date, number, type, index, button);
+        textBox.getStyleClass().add("spacing-5");
 
-        VBox vBox = new VBox(date, number, type, index);
+        HBox mainBox = new HBox(textBox, imageBox);
+        mainBox.setId("turn-pane");
 
-        StackPane stackPane = new StackPane(vBox, hBox);
-        stackPane.setMaxWidth(props.getInt("main.left.side.width"));
-        stackPane.setMinWidth(props.getInt("main.left.side.width"));
-        stackPane.setId("turn-pane");
+        titledPane.setContent(mainBox);
 
-        titledPane.setContent(stackPane);
+        button.setOnAction(viewModel::nextTurn);
 
         return titledPane;
+    }
+
+    /**
+     * A new game has started.
+     */
+    public void startGame() {
+        viewModel.start();
     }
 }

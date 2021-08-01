@@ -147,6 +147,7 @@ public class TaskForceTest {
         TaskForceData data = new TaskForceData();
 
         data.setMission(missionData);
+        data.setName("TF1");
         data.setLocation("Alexandria");
         data.setState(TaskForceState.RESERVE);
         data.setShips(new ArrayList<>(Collections.singletonList("CVL04 Eagle-1")));

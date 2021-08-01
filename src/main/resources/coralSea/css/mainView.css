@@ -77,10 +77,7 @@
 
 #turn-pane {
     -fx-background-color: whitesmoke;
-}
-
-#turn-image-pane {
-    -fx-alignment: top-right;
+    -fx-spacing: 20;
 }
 
 #base-marker-title {

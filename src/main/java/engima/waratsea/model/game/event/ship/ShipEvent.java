@@ -2,31 +2,25 @@ package engima.waratsea.model.game.event.ship;
 
 import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.event.GameEvent;
+import engima.waratsea.model.game.event.GameEventDispatcher;
 import engima.waratsea.model.game.event.GameEventHandler;
 import engima.waratsea.model.ship.Ship;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Indicates that a ship event has occurred in the game.
  */
 @Slf4j
 public class ShipEvent extends GameEvent {
-    private static transient List<GameEventHandler<ShipEvent>> handlers = new ArrayList<>();
-    private static final transient Map<Object, GameEventHandler<ShipEvent>> MAP = new HashMap<>();
+    private static final GameEventDispatcher<ShipEvent> DISPATCHER = new GameEventDispatcher<>();
 
     /**
      * Initialize the ship event class. This method clears out all ship event handlers.
      */
     public static void init() {
-        handlers.clear();
-        MAP.clear();
+        DISPATCHER.clear();
     }
 
     /**
@@ -36,8 +30,7 @@ public class ShipEvent extends GameEvent {
      * @param shipEventHandler The ship event handler that is registered.
      */
     public static void register(final Object handler, final GameEventHandler<ShipEvent> shipEventHandler) {
-        MAP.put(handler, shipEventHandler);
-        handlers = add(ShipEvent.class, handlers, shipEventHandler);
+        DISPATCHER.register(handler, shipEventHandler);
     }
 
     /**
@@ -46,9 +39,7 @@ public class ShipEvent extends GameEvent {
      * @param handler The ship event handler that is unregistered.
      */
     public static void unregister(final Object handler) {
-        if (MAP.containsKey(handler)) {
-            handlers = remove(ShipEvent.class, handlers, MAP.get(handler));
-        }
+        DISPATCHER.unregister(handler);
     }
 
     @Getter
@@ -67,9 +58,10 @@ public class ShipEvent extends GameEvent {
      * This is how an event is fired and all the event handlers receive
      * notification of the event.
      */
+    @Override
     public void fire() {
         log();
-        handlers.forEach(h -> h.notify(this));
+        DISPATCHER.fire(this);
     }
 
     /**

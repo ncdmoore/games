@@ -3,15 +3,12 @@ package engima.waratsea.model.game.event.airfield;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.event.GameEvent;
+import engima.waratsea.model.game.event.GameEventDispatcher;
 import engima.waratsea.model.game.event.GameEventHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -19,15 +16,13 @@ import java.util.Optional;
  */
 @Slf4j
 public class AirfieldEvent extends GameEvent {
-    private static transient List<GameEventHandler<AirfieldEvent>> handlers = new ArrayList<>();
-    private static final transient Map<Object, GameEventHandler<AirfieldEvent>> MAP = new HashMap<>();
+    private static final GameEventDispatcher<AirfieldEvent> DISPATCHER = new GameEventDispatcher<>();
 
     /**
      * Initialize the airfield event class. This method clears out all airfield event handlers.
      */
     public static void init() {
-        handlers.clear();
-        MAP.clear();
+        DISPATCHER.clear();
     }
 
     /**
@@ -37,8 +32,7 @@ public class AirfieldEvent extends GameEvent {
      * @param airfieldEventHandler The airfield event handler that is registered.
      */
     public static void register(final Object handler, final GameEventHandler<AirfieldEvent> airfieldEventHandler) {
-        MAP.put(handler, airfieldEventHandler);
-        handlers = add(AirfieldEvent.class, handlers, airfieldEventHandler);
+        DISPATCHER.register(handler, airfieldEventHandler);
     }
 
     /**
@@ -47,9 +41,7 @@ public class AirfieldEvent extends GameEvent {
      * @param handler The airfield event handler that is unregistered.
      */
     public static void unregister(final Object handler) {
-        if (MAP.containsKey(handler)) {
-            handlers = remove(AirfieldEvent.class, handlers, MAP.get(handler));
-        }
+        DISPATCHER.unregister(handler);
     }
 
     @Getter
@@ -72,9 +64,10 @@ public class AirfieldEvent extends GameEvent {
      * This is how an event is fired and all the event handlers receive
      * notification of the event.
      */
+    @Override
     public void fire() {
-        String asset = Optional.ofNullable(by).map(a -> "by" + a.toString()).orElse("");
+        String asset = Optional.ofNullable(by).map(a -> "by" + a).orElse("");
         log.info("Fire event: {} {} {}", new Object[]{airfield.getName(), action, asset});
-        handlers.forEach(h -> h.notify(this));
+        DISPATCHER.fire(this);
     }
 }

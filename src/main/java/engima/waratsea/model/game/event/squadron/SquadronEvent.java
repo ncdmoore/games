@@ -2,31 +2,25 @@ package engima.waratsea.model.game.event.squadron;
 
 import engima.waratsea.model.game.AssetType;
 import engima.waratsea.model.game.event.GameEvent;
+import engima.waratsea.model.game.event.GameEventDispatcher;
 import engima.waratsea.model.game.event.GameEventHandler;
 import engima.waratsea.model.squadron.Squadron;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Indicates that a squadron event has occurred in the game.
  */
 @Slf4j
 public class SquadronEvent extends GameEvent {
-    private static transient List<GameEventHandler<SquadronEvent>> handlers = new ArrayList<>();
-    private static final transient Map<Object, GameEventHandler<SquadronEvent>> MAP = new HashMap<>();
+    private static final GameEventDispatcher<SquadronEvent> DISPATCHER = new GameEventDispatcher<>();
 
     /**
      * Initialize the squadron event class. This method clears out all squadron event handlers.
      */
     public static void init() {
-        handlers.clear();
-        MAP.clear();
+        DISPATCHER.clear();
     }
 
     /**
@@ -36,8 +30,7 @@ public class SquadronEvent extends GameEvent {
      * @param squadronEventHandler The squadron event handler that is registered.
      */
     public static void register(final Object handler, final GameEventHandler<SquadronEvent> squadronEventHandler) {
-        MAP.put(handler, squadronEventHandler);
-        handlers = add(SquadronEvent.class, handlers, squadronEventHandler);
+        DISPATCHER.register(handler, squadronEventHandler);
     }
 
     /**
@@ -46,9 +39,7 @@ public class SquadronEvent extends GameEvent {
      * @param handler The squadron event handler that is unregistered.
      */
     public static void unregister(final Object handler) {
-        if (MAP.containsKey(handler)) {
-            handlers = remove(SquadronEvent.class, handlers, MAP.get(handler));
-        }
+        DISPATCHER.unregister(handler);
     }
 
     @Getter
@@ -67,9 +58,10 @@ public class SquadronEvent extends GameEvent {
      * This is how an event is fired and all the event handlers receive
      * notification of the event.
      */
+    @Override
     public void fire() {
         log();
-        handlers.forEach(h -> h.notify(this));
+        DISPATCHER.fire(this);
     }
 
     /**

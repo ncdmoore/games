@@ -87,6 +87,8 @@ public class MainPresenter implements Presenter {
         menuProvider.get().getVictoryConditions().setOnAction(event -> victoryConditions());
 
         mainMapPresenter.setMouseEventHandlers();
+
+        gameStarted();
     }
 
     /**
@@ -119,7 +121,6 @@ public class MainPresenter implements Presenter {
      * Quit the current game and return to the main menu: the startup screen.
      */
     private void exitMain() {
-        System.out.println("exit main");
         startPresenterProvider.get().show(stage);
     }
 
@@ -149,5 +150,15 @@ public class MainPresenter implements Presenter {
      */
     private void victoryConditions() {
         victoryDialogProvider.get().show();
+    }
+
+    /**
+     * Tell the view that the game has started. This is done for both brand new games
+     * and existing saved games. Both types are started.
+     */
+    private void gameStarted() {
+        viewProvider
+                .get()
+                .startGame();
     }
 }

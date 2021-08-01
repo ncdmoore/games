@@ -84,10 +84,6 @@
     -fx-background-color: whitesmoke;
 }
 
-#turn-image-pane {
-    -fx-alignment: top-right;
-}
-
 #base-marker-title {
     -fx-border-color: dodgerblue;
     -fx-background-color: linear-gradient(to right, silver 0%, white 50%, silver);

@@ -2,9 +2,8 @@ package engima.waratsea.view.weather;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import engima.waratsea.model.weather.Weather;
-import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
+import engima.waratsea.viewmodel.weather.WeatherViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
@@ -17,25 +16,21 @@ import javafx.scene.layout.VBox;
 @Singleton
 public class WeatherView {
 
-    private final ResourceProvider resourceProvider;
     private final ViewProps props;
 
-    private final Weather weather;
+    private final WeatherViewModel viewModel;
 
     /**
      * THe constructor called by guice.
      *
-     * @param resourceProvider The image resource provider.
      * @param props The view properties.
-     * @param weather The game's weather.
+     * @param viewModel The game's weather.
      */
     @Inject
-    public WeatherView(final ResourceProvider resourceProvider,
-                       final ViewProps props,
-                       final Weather weather) {
-        this.resourceProvider = resourceProvider;
+    public WeatherView(final ViewProps props,
+                       final WeatherViewModel viewModel) {
         this.props = props;
-        this.weather = weather;
+        this.viewModel = viewModel;
     }
 
     /**
@@ -47,9 +42,11 @@ public class WeatherView {
         TitledPane titledPane = new TitledPane();
         titledPane.setText("Weather");
 
-        Label label = new Label(weather.getCurrent().toString());
+        Label label = new Label();
+        label.textProperty().bind(viewModel.getWeatherValue());
 
-        ImageView icon = resourceProvider.getImageView(props.getString(weather.getCurrent().toLower() + ".image"));
+        ImageView icon = new ImageView();
+        icon.imageProperty().bind(viewModel.getImage());
 
         VBox vBox = new VBox(label, icon);
 

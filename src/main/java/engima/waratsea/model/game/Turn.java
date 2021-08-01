@@ -32,7 +32,7 @@ public class Turn {
     private final GameRules rules;   //Game specific rules.
 
     @Getter
-    private int number;                //One day equals 6 turns.
+    private int number;              //One day equals 6 turns.
 
     @Getter
     private TurnType type;
@@ -75,6 +75,7 @@ public class Turn {
         number = data.getTurn();
         index = data.getIndex();
         date = data.getDate();
+        type = DAY_TURNS.get(index.getValue());
     }
 
     /**

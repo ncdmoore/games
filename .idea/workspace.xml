@@ -7,18 +7,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="Refactor">
+    <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/GameEventDispatcher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/turn/TurnViewModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/weather/WeatherViewModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/Night.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/Twilight.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/GameEventDispatcherTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/TurnEventTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/InfoPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/InfoPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/airfield/AirfieldSummaryView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/AirfieldAssetSummaryView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/TaskForceAssetSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/asset/TaskForceAssetSummaryView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/preview/TaskForceView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceAirSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceAirSummaryView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceNavalSummaryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/taskforce/TaskForceNavalSummaryView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/util/BoundGridPaneMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/util/BoundGridPaneMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/util/BoundTitledGridPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/util/BoundTitledGridPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/properties/view.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/properties/view.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Turn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Turn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/GameEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/GameEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/GameEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/GameEventHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/airfield/AirfieldEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/ship/ShipEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/squadron/SquadronEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/turn/TurnEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/turn/TurnEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/MainPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/MainView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/turn/TurnView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/turn/TurnView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/weather/WeatherView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/view/weather/WeatherView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bombAlley/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/coralSea/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/mainView.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/mainView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/GameEventTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/ShipEventTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/ShipEventTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/TestEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/TestEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/TestEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/TestEventHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/TestEventHandlerImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/TestEventHandlerUnregister.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/game/event/TestEventHandlerUnregister.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/taskForce/TaskForceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/enigma/waratsea/model/taskForce/TaskForceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,8 +92,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -114,6 +132,7 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JAVA" />
@@ -134,10 +153,10 @@
       <recent name="$PROJECT_DIR$/src/main/resources/arcticConvoy/aircraft/allies/images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/css" />
       <recent name="$PROJECT_DIR$/src/main/resources/sounds" />
-      <recent name="$PROJECT_DIR$/src/main/resources/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/bombAlley/aircraft/allies" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
@@ -163,7 +182,7 @@
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="engima.waratsea.Main" />
       <module name="enigma.worldWarTwoAtSea.main" />
-      <option name="PROGRAM_PARAMETERS" value="game=coralSea" />
+      <option name="PROGRAM_PARAMETERS" value="game=bombAlley" />
       <option name="VM_PARAMETERS" value="--module-path /Library/java/JavaVirtualMachines/javafx-sdk-12.0.2/lib --add-modules javafx.controls,javafx.fxml,javafx.media" />
       <extension name="coverage">
         <pattern>
@@ -181,24 +200,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in enigma.worldWarTwoAtSea.test (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="All in enigma.worldWarTwoAtSea.test (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="enigma.worldWarTwoAtSea.test" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="All in enigma.worldWarTwoAtSea.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <option name="PACKAGE_NAME" value="" />
@@ -208,40 +209,75 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
+    <configuration name="GameEventDispatcherTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.game.event.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.event" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.event.GameEventDispatcherTest" />
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="airfieldTest.maxSearchRadiusTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GameEventDispatcherTest.testEventFireAndReception" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.base.airfield.*" />
+          <option name="PATTERN" value="enigma.waratsea.model.game.event.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.base.airfield" />
-      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.base.airfield.airfieldTest" />
-      <option name="METHOD_NAME" value="maxSearchRadiusTest" />
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.event" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.event.GameEventDispatcherTest" />
+      <option name="METHOD_NAME" value="testEventFireAndReception" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="enigma.waratsea.model.game in enigma.worldWarTwoAtSea.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GameEventDispatcherTest.testEventFireAndReceptionUnregisterFireAgain" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="enigma.worldWarTwoAtSea.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="enigma.waratsea.model.game.*" />
+          <option name="PATTERN" value="enigma.waratsea.model.game.event.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game" />
-      <option name="TEST_OBJECT" value="package" />
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.event" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.event.GameEventDispatcherTest" />
+      <option name="METHOD_NAME" value="testEventFireAndReceptionUnregisterFireAgain" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameEventDispatcherTest.testTwoEventHandlers" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enigma.worldWarTwoAtSea.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="enigma.waratsea.model.game.event.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="enigma.waratsea.model.game.event" />
+      <option name="MAIN_CLASS_NAME" value="enigma.waratsea.model.game.event.GameEventDispatcherTest" />
+      <option name="METHOD_NAME" value="testTwoEventHandlers" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -267,19 +303,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
-      <item itemvalue="JUnit.enigma.waratsea.model.game in enigma.worldWarTwoAtSea.test" />
-      <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (2)" />
-      <item itemvalue="JUnit.airfieldTest.maxSearchRadiusTest" />
+      <item itemvalue="JUnit.GameEventDispatcherTest.testEventFireAndReception" />
+      <item itemvalue="JUnit.GameEventDispatcherTest.testTwoEventHandlers" />
+      <item itemvalue="JUnit.GameEventDispatcherTest.testEventFireAndReceptionUnregisterFireAgain" />
+      <item itemvalue="JUnit.GameEventDispatcherTest" />
       <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test" />
-        <item itemvalue="JUnit.airfieldTest.maxSearchRadiusTest" />
-        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (2)" />
-        <item itemvalue="JUnit.enigma.waratsea.model.game in enigma.worldWarTwoAtSea.test" />
-        <item itemvalue="JUnit.All in enigma.worldWarTwoAtSea.test (1)" />
+        <item itemvalue="JUnit.GameEventDispatcherTest" />
+        <item itemvalue="JUnit.GameEventDispatcherTest.testTwoEventHandlers" />
+        <item itemvalue="JUnit.GameEventDispatcherTest.testEventFireAndReception" />
+        <item itemvalue="JUnit.GameEventDispatcherTest.testEventFireAndReceptionUnregisterFireAgain" />
       </list>
     </recent_temporary>
   </component>
@@ -294,13 +330,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00423" summary="Add management and landing panes to task force asset view.">
-      <created>1615139003964</created>
-      <option name="number" value="00423" />
-      <option name="presentableId" value="LOCAL-00423" />
-      <option name="project" value="LOCAL" />
-      <updated>1615139003964</updated>
     </task>
     <task id="LOCAL-00424" summary="Add management and landing panes to task force asset view.">
       <created>1615150569059</created>
@@ -638,7 +667,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626018144045</updated>
     </task>
-    <option name="localTasksCounter" value="472" />
+    <task id="LOCAL-00472" summary="Refactor infoPane to support multi column key/value pair layout.">
+      <created>1626036154458</created>
+      <option name="number" value="00472" />
+      <option name="presentableId" value="LOCAL-00472" />
+      <option name="project" value="LOCAL" />
+      <updated>1626036154458</updated>
+    </task>
+    <option name="localTasksCounter" value="473" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -653,7 +689,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Cleanup  air mission view model. Correct assigned empty flags." />
     <MESSAGE value="Only update air mission if the mission has actually changed." />
     <MESSAGE value="Add the ability to mark a mission as read only." />
     <MESSAGE value="Add mission states. Complete Ferry mission model." />
@@ -678,16 +713,12 @@
     <MESSAGE value="Update asset view when distant CAP changes." />
     <MESSAGE value="Disable target selection choicebox if no targets exist for selected mission type." />
     <MESSAGE value="Refactor mission and patrol step calculations to include number of aircraft." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor mission and patrol step calculations to include number of aircraft." />
+    <MESSAGE value="Refactor infoPane to support multi column key/value pair layout." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor infoPane to support multi column key/value pair layout." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/asset/AssetPresenter.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/presenter/dto/map/AssetMarkerDTO.java</url>
           <line>43</line>
@@ -772,6 +803,16 @@
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/SearchPatrol.java</url>
           <line>165</line>
           <option name="timeStamp" value="145" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/weather/WeatherViewModel.java</url>
+          <line>43</line>
+          <option name="timeStamp" value="151" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/turn/TurnViewModel.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="154" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.UnsupportedOperationException" package="java.lang" />
