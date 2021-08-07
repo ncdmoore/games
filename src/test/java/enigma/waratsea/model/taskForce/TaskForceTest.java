@@ -249,8 +249,7 @@ public class TaskForceTest {
         List<TurnMatchData> releaseEvents = new ArrayList<>();
         releaseEvents.add(releaseEvent);
 
-        TurnEvent event = new TurnEvent();
-        event.setTurn(turnNumber);
+        TurnEvent event = new TurnEvent(turnNumber);
 
         data.setReleaseTurnEvents(releaseEvents);
 
@@ -283,8 +282,7 @@ public class TaskForceTest {
         List<TurnMatchData> releaseEvents = new ArrayList<>();
         releaseEvents.add(releaseEvent);
 
-        TurnEvent event = new TurnEvent();
-        event.setTurn(5);
+        TurnEvent event = new TurnEvent(5);
 
         data.setReleaseTurnEvents(releaseEvents);
 

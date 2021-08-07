@@ -15,6 +15,11 @@ import java.util.Map;
 @Slf4j
 public class GameEventDispatcher<E extends GameEvent> {
     private final Map<Object, GameEventHandler<E>> map = new HashMap<>();
+    private final String name;
+
+    public GameEventDispatcher(final String name) {
+        this.name = name;
+    }
 
     /**
      * Clear the dispatcher.
@@ -30,7 +35,7 @@ public class GameEventDispatcher<E extends GameEvent> {
      * @param handler The object's handler for the event.
      */
     public void register(final Object key, final GameEventHandler<E> handler) {
-        log.info("{}: registers", key);
+        log.info("Event {}: registers handler for: {}", name, key);
         map.put(key, handler);
     }
 
@@ -40,7 +45,7 @@ public class GameEventDispatcher<E extends GameEvent> {
      * @param key The object that registered for the event.
      */
     public void unregister(final Object key) {
-        log.info("{}: unregisters", key);
+        log.info("Event {}: unregisters handler for: {}", name, key);
         map.remove(key);
     }
 

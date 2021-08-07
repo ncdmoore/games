@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 @Slf4j
 public class AirfieldEvent extends GameEvent {
-    private static final GameEventDispatcher<AirfieldEvent> DISPATCHER = new GameEventDispatcher<>();
+    private static final GameEventDispatcher<AirfieldEvent> DISPATCHER = new GameEventDispatcher<>("AirfieldEvent");
 
     /**
      * Initialize the airfield event class. This method clears out all airfield event handlers.

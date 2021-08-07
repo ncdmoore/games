@@ -3,6 +3,7 @@ package engima.waratsea.model.game;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.data.TurnData;
+import engima.waratsea.model.game.event.turn.TurnEvent;
 import engima.waratsea.model.game.rules.GameRules;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.weather.Weather;
@@ -121,6 +122,9 @@ public class Turn {
         log.info("Starting Date: '{}', Turn:  {}, Type: {}", new Object[]{dateString, number, type});
 
         startWeather(scenario);
+
+        TurnEvent turnEvent = new TurnEvent(number);
+        turnEvent.fire();
     }
 
     /**
@@ -137,6 +141,9 @@ public class Turn {
         type = DAY_TURNS.get(index.getValue());
 
         weather.determine(getMonth());
+
+        TurnEvent turnEvent = new TurnEvent(number);
+        turnEvent.fire();
     }
 
     /**

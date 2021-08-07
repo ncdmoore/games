@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class SquadronEvent extends GameEvent {
-    private static final GameEventDispatcher<SquadronEvent> DISPATCHER = new GameEventDispatcher<>();
+    private static final GameEventDispatcher<SquadronEvent> DISPATCHER = new GameEventDispatcher<>("SquadronEvent");
 
     /**
      * Initialize the squadron event class. This method clears out all squadron event handlers.

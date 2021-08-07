@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class TurnEvent extends GameEvent {
-    private static final GameEventDispatcher<TurnEvent> DISPATCHER = new GameEventDispatcher<>();
+    private static final GameEventDispatcher<TurnEvent> DISPATCHER = new GameEventDispatcher<>("TurnEvent");
 
     /**
      *
@@ -33,12 +33,21 @@ public class TurnEvent extends GameEvent {
     }
 
     /**
-     * This is how event handlers unregister for random turn event notifications.
+     * This is how event handlers unregister for turn event notifications.
      *
      * @param handler The turn event handler that is unregistered.
      */
     public static void unregister(final Object handler) {
         DISPATCHER.unregister(handler);
+    }
+
+    /**
+     * The constructor.
+     *
+     * @param turn The value of the turn.
+     */
+    public TurnEvent(final int turn) {
+        this.turn = turn;
     }
 
     /**

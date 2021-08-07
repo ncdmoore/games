@@ -67,11 +67,4 @@ public class TurnView {
 
         return titledPane;
     }
-
-    /**
-     * A new game has started.
-     */
-    public void startGame() {
-        viewModel.start();
-    }
 }

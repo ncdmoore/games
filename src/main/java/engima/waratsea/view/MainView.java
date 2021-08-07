@@ -124,12 +124,4 @@ public class MainView {
         stage.setScene(scene);
         stage.show();
     }
-
-    /**
-     * The game has started.
-     */
-    public void startGame() {
-        turnView.startGame();
-    }
-
 }

@@ -2,6 +2,8 @@ package engima.waratsea.viewmodel.weather;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engima.waratsea.model.game.event.scenario.ScenarioEvent;
+import engima.waratsea.model.game.event.turn.TurnEvent;
 import engima.waratsea.model.weather.Weather;
 import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
@@ -32,17 +34,37 @@ public class WeatherViewModel {
         this.resourceProvider = resourceProvider;
         this.props = props;
 
-        weatherValue.setValue(weather.getCurrent().toString());
-        image.setValue(resourceProvider.getImage(props.getString(weather.getCurrent().toLower() + ".image")));
+        update();
+
+        ScenarioEvent.register(this, this::handleScenarioEvent);
+    }
+
+    /**
+     * Update the weather due to a scenario event.
+     *
+     * @param event The scenario event.
+     */
+    private void handleScenarioEvent(final ScenarioEvent event) {
+        log.debug("Update weather view model");
+        // The game has started. Register for turn events. This cannot be done in the constructor
+        // since this class is a singleton. Every time a game starts the handlers are reset (except
+        // for ScenarioEvent handlers). Thus, we need to register here so that we register with
+        // every new game started.
+        TurnEvent.register(this, this::handleTurnEvent);
+        update();
     }
 
     /**
      * Update the weather.
+     *
+     * @param event The turn event.
      */
-    public void update() {
+    private void handleTurnEvent(final TurnEvent event) {
+        log.debug("Update weather view model");
+        update();
+    }
 
-        log.info("Update weather view model");
-
+    private void update() {
         weatherValue.setValue(weather.getCurrent().toString());
         image.setValue(resourceProvider.getImage(props.getString(weather.getCurrent().toLower() + ".image")));
     }

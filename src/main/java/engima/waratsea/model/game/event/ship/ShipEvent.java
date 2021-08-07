@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class ShipEvent extends GameEvent {
-    private static final GameEventDispatcher<ShipEvent> DISPATCHER = new GameEventDispatcher<>();
+    private static final GameEventDispatcher<ShipEvent> DISPATCHER = new GameEventDispatcher<>("ShipEvent");
 
     /**
      * Initialize the ship event class. This method clears out all ship event handlers.

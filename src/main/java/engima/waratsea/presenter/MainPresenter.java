@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Game;
+import engima.waratsea.model.game.event.scenario.ScenarioEvent;
+import engima.waratsea.model.game.event.scenario.ScenarioEventTypes;
 import engima.waratsea.model.squadron.SquadronLocationType;
 import engima.waratsea.presenter.map.MainMapPresenter;
 import engima.waratsea.presenter.preview.StartPresenter;
@@ -157,8 +159,7 @@ public class MainPresenter implements Presenter {
      * and existing saved games. Both types are started.
      */
     private void gameStarted() {
-        viewProvider
-                .get()
-                .startGame();
+        ScenarioEvent scenarioEvent = new ScenarioEvent(ScenarioEventTypes.START);
+        scenarioEvent.fire();
     }
 }

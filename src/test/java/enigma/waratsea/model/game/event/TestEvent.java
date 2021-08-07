@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class TestEvent extends GameEvent {
-    private static final GameEventDispatcher<TestEvent> DISPATCHER = new GameEventDispatcher<>();
+    private static final GameEventDispatcher<TestEvent> DISPATCHER = new GameEventDispatcher<>("TestEvent");
 
     /**
      * Initialize the test event class. This method clears out all test event handlers.

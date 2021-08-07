@@ -3,6 +3,7 @@ package engima.waratsea.viewmodel.turn;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Turn;
+import engima.waratsea.model.game.event.scenario.ScenarioEvent;
 import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import javafx.beans.property.ObjectProperty;
@@ -43,14 +44,8 @@ public class TurnViewModel {
         this.props = props;
 
         update();
-    }
 
-    /**
-     * This method is called whenever a new game is started.
-     **/
-    public void start() {
-        log.info("game started...");
-        update();
+        ScenarioEvent.register(this, this::handleScenarioEvent);
     }
 
     /**
@@ -60,6 +55,10 @@ public class TurnViewModel {
      */
     public void nextTurn(final ActionEvent event) {
         turn.next();
+        update();
+    }
+
+    private void handleScenarioEvent(final ScenarioEvent event) {
         update();
     }
 
