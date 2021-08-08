@@ -3,6 +3,7 @@ package engima.waratsea.viewmodel.weather;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.event.scenario.ScenarioEvent;
+import engima.waratsea.model.game.event.scenario.ScenarioEventTypes;
 import engima.waratsea.model.game.event.turn.TurnEvent;
 import engima.waratsea.model.weather.Weather;
 import engima.waratsea.utility.ResourceProvider;
@@ -46,8 +47,10 @@ public class WeatherViewModel {
      * @param event The scenario event.
      */
     private void handleScenarioEvent(final ScenarioEvent event) {
-        log.debug("Update weather view model");
-        update();
+        if (event.getType() == ScenarioEventTypes.START) {
+            log.debug("Update weather view model");
+            update();
+        }
     }
 
     /**

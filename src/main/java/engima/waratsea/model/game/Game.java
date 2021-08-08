@@ -3,6 +3,9 @@ package engima.waratsea.model.game;
 import com.google.inject.Inject;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.data.GameData;
+import engima.waratsea.model.game.event.GameEvent;
+import engima.waratsea.model.game.event.scenario.ScenarioEvent;
+import engima.waratsea.model.game.event.scenario.ScenarioEventTypes;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.MapException;
 import engima.waratsea.model.player.Player;
@@ -35,7 +38,6 @@ public class Game implements PersistentData<GameData> {
     @Getter private final Turn turn;
 
     private final Map<Side, Player> playerMap = new HashMap<>();
-    private final GameCaches gameCaches;
     private final Resource resource;
     private final ScenarioDAO scenarioDAO;
     private final GameDAO gameDAO;
@@ -55,7 +57,6 @@ public class Game implements PersistentData<GameData> {
      * @param humanPlayer The human player.
      * @param neutralPlayer The neutral player.
      * @param resource The game configuration.
-     * @param gameCaches The game caches.
      * @param scenarioDAO  The scenario data abstraction object.
      * @param gameDAO The game data abstraction object.
      * @param gameMap The game map.
@@ -68,7 +69,6 @@ public class Game implements PersistentData<GameData> {
                 final @Named("Human") Player humanPlayer,
                 final @Named("Neutral") Player neutralPlayer,
                 final Resource resource,
-                final GameCaches gameCaches,
                 final ScenarioDAO scenarioDAO,
                 final GameDAO gameDAO,
                 final GameMap gameMap) {
@@ -82,7 +82,6 @@ public class Game implements PersistentData<GameData> {
         this.humanPlayer = humanPlayer;
         this.neutralPlayer = neutralPlayer;
         this.resource = resource;
-        this.gameCaches = gameCaches;
         this.scenarioDAO = scenarioDAO;
         this.gameDAO = gameDAO;
         this.gameMap = gameMap;
@@ -209,7 +208,7 @@ public class Game implements PersistentData<GameData> {
      * @throws SquadronException Indicates the squadron data could not be loaded.
      */
     public void startNew() throws ScenarioException, MapException, VictoryException, SquadronException {                // New Game Step 4.
-        gameCaches.init();
+        init();
 
         loadGameMap();     // Loads airfields and ports. They are part of the map.
         loadGameVictory();
@@ -232,7 +231,7 @@ public class Game implements PersistentData<GameData> {
      * @throws VictoryException indicates that the victory conditions could not be loaded.
      */
     public void startExisting() throws ScenarioException, MapException, VictoryException {                              // Saved Game Step 4.
-        gameCaches.init();
+        init();
 
         loadGameMap();     // Loads airfields and ports. They are part of the  map.
         loadGameVictory();
@@ -350,5 +349,12 @@ public class Game implements PersistentData<GameData> {
     private void buildViews() {
         humanPlayer.buildViews(computerPlayer);
         computerPlayer.buildViews(humanPlayer);
+    }
+
+    private void init() {
+        GameEvent.init();
+
+        ScenarioEvent event = new ScenarioEvent(ScenarioEventTypes.BOOT);
+        event.fire();
     }
 }

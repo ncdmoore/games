@@ -123,13 +123,18 @@ public class MainPresenter implements Presenter {
      * Quit the current game and return to the main menu: the startup screen.
      */
     private void exitMain() {
-        startPresenterProvider.get().show(stage);
+        gameEnded();
+
+        startPresenterProvider
+                .get()
+                .show(stage);
     }
 
     /**
      * Quit the game.
      */
     private void exitGame() {
+        gameEnded();
         stage.close();
     }
 
@@ -161,5 +166,13 @@ public class MainPresenter implements Presenter {
     private void gameStarted() {
         ScenarioEvent scenarioEvent = new ScenarioEvent(ScenarioEventTypes.START);
         scenarioEvent.fire();
+    }
+
+    /**
+     * Tell the view that the game has ended.
+     */
+    private void gameEnded() {
+        ScenarioEvent event = new ScenarioEvent(ScenarioEventTypes.END);
+        event.fire();
     }
 }

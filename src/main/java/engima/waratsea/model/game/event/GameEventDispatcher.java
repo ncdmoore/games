@@ -48,7 +48,7 @@ public class GameEventDispatcher<E extends GameEvent> {
      * @param handler The object's handler for the event.
      */
     public void register(final Object key, final GameEventHandler<E> handler) {
-        log.info("Event {}: registers handler for: {}", name, key);
+        log.debug("Event {}: registers handler for: {}", name, key);
         map.put(key, handler);
     }
 
@@ -72,7 +72,7 @@ public class GameEventDispatcher<E extends GameEvent> {
      * @param key The object that registered for the event.
      */
     public void unregister(final Object key) {
-        log.info("Event {}: unregisters handler for: {}", name, key);
+        log.debug("Event {}: unregisters handler for: {}", name, key);
         map.remove(key);
     }
 

@@ -5,6 +5,8 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.base.port.Port;
+import engima.waratsea.model.game.event.scenario.ScenarioEvent;
+import engima.waratsea.model.game.event.scenario.ScenarioEventTypes;
 import engima.waratsea.model.target.data.TargetData;
 import engima.waratsea.model.taskForce.TaskForce;
 import lombok.extern.slf4j.Slf4j;
@@ -41,13 +43,20 @@ public class TargetDAO {
         TargetType
                 .stream()
                 .forEach(type -> cache.put(type, new HashMap<>()));
+
+        ScenarioEvent.register(this, this::init, true);
     }
 
     /**
      * Initialize the cache.
+     *
+     * @param event The scenario event.
      */
-    public void init() {
-        cache.values().forEach(Map::clear);
+    public void init(final ScenarioEvent event) {
+        if (event.getType() == ScenarioEventTypes.BOOT) {
+            log.debug("Clear the Target DAO cache.");
+            cache.values().forEach(Map::clear);
+        }
     }
 
     /**

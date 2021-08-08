@@ -7,6 +7,8 @@ import engima.waratsea.model.base.BaseId;
 import engima.waratsea.model.base.port.data.PortData;
 import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Side;
+import engima.waratsea.model.game.event.scenario.ScenarioEvent;
+import engima.waratsea.model.game.event.scenario.ScenarioEventTypes;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.utility.PersistentUtility;
 import lombok.extern.slf4j.Slf4j;
@@ -44,13 +46,20 @@ public class PortDAO {
                    final PortFactory factory) {
         this.config = config;
         this.factory = factory;
+
+        ScenarioEvent.register(this, this::init, true);
     }
 
     /**
      * Initialize the airfield cache.
+     *
+     * @param event The scenario event.
      */
-    public void init() {
-        cache.clear();
+    public void init(final ScenarioEvent event) {
+        if (event.getType() == ScenarioEventTypes.BOOT) {
+            log.debug("Clear port DAO cache.");
+            cache.clear();
+        }
     }
 
     /**

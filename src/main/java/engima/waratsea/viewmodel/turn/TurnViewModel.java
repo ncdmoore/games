@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import engima.waratsea.model.game.Turn;
 import engima.waratsea.model.game.event.scenario.ScenarioEvent;
+import engima.waratsea.model.game.event.scenario.ScenarioEventTypes;
 import engima.waratsea.utility.ResourceProvider;
 import engima.waratsea.view.ViewProps;
 import javafx.beans.property.ObjectProperty;
@@ -59,7 +60,9 @@ public class TurnViewModel {
     }
 
     private void handleScenarioEvent(final ScenarioEvent event) {
-        update();
+        if (event.getType() == ScenarioEventTypes.START) {
+            update();
+        }
     }
 
     private void update() {
