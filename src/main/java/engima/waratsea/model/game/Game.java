@@ -208,7 +208,7 @@ public class Game implements PersistentData<GameData> {
      * @throws SquadronException Indicates the squadron data could not be loaded.
      */
     public void startNew() throws ScenarioException, MapException, VictoryException, SquadronException {                // New Game Step 4.
-        init();
+        init();            // Initialize the game.
 
         loadGameMap();     // Loads airfields and ports. They are part of the map.
         loadGameVictory();
@@ -231,7 +231,7 @@ public class Game implements PersistentData<GameData> {
      * @throws VictoryException indicates that the victory conditions could not be loaded.
      */
     public void startExisting() throws ScenarioException, MapException, VictoryException {                              // Saved Game Step 4.
-        init();
+        init();            // Initialize the game.
 
         loadGameMap();     // Loads airfields and ports. They are part of the  map.
         loadGameVictory();
