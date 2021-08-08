@@ -36,7 +36,8 @@ public class WeatherViewModel {
 
         update();
 
-        ScenarioEvent.register(this, this::handleScenarioEvent);
+        ScenarioEvent.register(this, this::handleScenarioEvent, true);
+        TurnEvent.register(this, this::handleTurnEvent, true);
     }
 
     /**
@@ -46,11 +47,6 @@ public class WeatherViewModel {
      */
     private void handleScenarioEvent(final ScenarioEvent event) {
         log.debug("Update weather view model");
-        // The game has started. Register for turn events. This cannot be done in the constructor
-        // since this class is a singleton. Every time a game starts the handlers are reset (except
-        // for ScenarioEvent handlers). Thus, we need to register here so that we register with
-        // every new game started.
-        TurnEvent.register(this, this::handleTurnEvent);
         update();
     }
 

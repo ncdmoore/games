@@ -4,8 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * This class is responsible for delivering events to event handlers.
@@ -15,6 +18,7 @@ import java.util.Map;
 @Slf4j
 public class GameEventDispatcher<E extends GameEvent> {
     private final Map<Object, GameEventHandler<E>> map = new HashMap<>();
+    private final Set<Object> preserve = new HashSet<>();
     private final String name;
 
     public GameEventDispatcher(final String name) {
@@ -25,7 +29,16 @@ public class GameEventDispatcher<E extends GameEvent> {
      * Clear the dispatcher.
      */
     public void clear() {
-        map.clear();
+        // Must create a new list to avoid concurrent access issues
+        // where we attempt to remove a object from a map that we
+        // are currently iterating.
+        List<Object> toBeRemoved = map
+                .keySet()
+                .stream()
+                .filter(key -> !preserve.contains(key))
+                .collect(Collectors.toList());
+
+        toBeRemoved.forEach(map::remove);
     }
 
     /**
@@ -37,6 +50,20 @@ public class GameEventDispatcher<E extends GameEvent> {
     public void register(final Object key, final GameEventHandler<E> handler) {
         log.info("Event {}: registers handler for: {}", name, key);
         map.put(key, handler);
+    }
+
+    /**
+     * Register a handler for the given event type.
+     *
+     * @param key The object that registered for the event.
+     * @param handler The object's handler for the event.
+     * @param keep Indicates if the handler is never removed for listening to the given event.
+     */
+    public void register(final Object key, final GameEventHandler<E> handler, final boolean keep) {
+        register(key, handler);
+        if (keep) {
+            preserve.add(key);
+        }
     }
 
     /**

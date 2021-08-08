@@ -45,7 +45,7 @@ public class TurnViewModel {
 
         update();
 
-        ScenarioEvent.register(this, this::handleScenarioEvent);
+        ScenarioEvent.register(this, this::handleScenarioEvent, true);
     }
 
     /**

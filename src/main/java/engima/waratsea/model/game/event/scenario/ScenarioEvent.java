@@ -24,13 +24,31 @@ public class ScenarioEvent extends GameEvent {
     private static final GameEventDispatcher<ScenarioEvent> DISPATCHER = new GameEventDispatcher<>("ScenarioEvent");
 
     /**
+     * Initialize the airfield event class. This method clears out all airfield event handlers.
+     */
+    public static void init() {
+        DISPATCHER.clear();
+    }
+
+    /**
      * This is how event handlers register to receive scenario event notifications.
      *
      * @param handler The handler of the scenario event.
      * @param scenarioEventHandler The scenario event handler that is registered.
      */
     public static void register(final Object handler, final GameEventHandler<ScenarioEvent> scenarioEventHandler) {
-        DISPATCHER.register(handler, scenarioEventHandler);
+        DISPATCHER.register(handler, scenarioEventHandler, true);
+    }
+
+    /**
+     * This is how event handlers register to receive scenario event notifications.
+     *
+     * @param handler The handler of the scenario event.
+     * @param scenarioEventHandler The scenario event handler that is registered.
+     * @param keep Indicates if the handler should be preserved.
+     */
+    public static void register(final Object handler, final GameEventHandler<ScenarioEvent> scenarioEventHandler, final boolean keep) {
+        DISPATCHER.register(handler, scenarioEventHandler, keep);
     }
 
     public ScenarioEvent(final ScenarioEventTypes type) {

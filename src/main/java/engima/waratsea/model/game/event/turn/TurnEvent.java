@@ -33,6 +33,17 @@ public class TurnEvent extends GameEvent {
     }
 
     /**
+     * This is how event handlers register to receive turn event notifications.
+     *
+     * @param handler The handler of the turn event.
+     * @param turnEventHandler The turn event handler that is registered.
+     * @param keep Indicates if the event handler should always persist.
+     */
+    public static void register(final Object handler, final GameEventHandler<TurnEvent> turnEventHandler, final boolean keep) {
+        DISPATCHER.register(handler, turnEventHandler, keep);
+    }
+
+    /**
      * This is how event handlers unregister for turn event notifications.
      *
      * @param handler The turn event handler that is unregistered.
