@@ -351,6 +351,9 @@ public class Game implements PersistentData<GameData> {
         computerPlayer.buildViews(humanPlayer);
     }
 
+    /**
+     * Initialize a game.
+     */
     private void init() {
         GameEvent.init();
 
