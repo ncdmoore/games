@@ -6,7 +6,6 @@ import engima.waratsea.model.game.data.TurnData;
 import engima.waratsea.model.game.event.turn.TurnEvent;
 import engima.waratsea.model.game.rules.GameRules;
 import engima.waratsea.model.scenario.Scenario;
-import engima.waratsea.model.weather.Weather;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,17 +45,17 @@ public class Turn {
     // A day consists of 3 day turns, 1 twilight turn and 2 night turns.
     private static final List<TurnType> DAY_TURNS = new ArrayList<>(Arrays.asList(DAY, DAY, DAY, TWILIGHT, NIGHT, NIGHT));
 
-    private final Weather weather;
+    private final Phases phases;
 
     /**
      * Constructor called by guice.
      *
      * @param rules The game rules.
-     * @param weather The game weather.
+     * @param phases The game turn phases.
      */
     @Inject
     public Turn(final GameRules rules,
-                final Weather weather) {
+                final Phases phases) {
         this.rules = rules;
 
         this.number = 1;
@@ -64,7 +63,7 @@ public class Turn {
 
         this.type = DAY_TURNS.get(index.getValue());
 
-        this.weather = weather;
+        this.phases = phases;
     }
 
     /**
@@ -121,8 +120,6 @@ public class Turn {
 
         log.info("Starting Date: '{}', Turn:  {}, Type: {}", new Object[]{dateString, number, type});
 
-        startWeather(scenario);
-
         TurnEvent turnEvent = new TurnEvent(number);
         turnEvent.fire();
     }
@@ -140,7 +137,7 @@ public class Turn {
 
         type = DAY_TURNS.get(index.getValue());
 
-        weather.determine(getMonth());
+        phases.execute();
 
         TurnEvent turnEvent = new TurnEvent(number);
         turnEvent.fire();
@@ -174,7 +171,7 @@ public class Turn {
      *
      * @return The game's current month 1-12.
      */
-    private int getMonth() {
+    public int getMonth() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.get(Calendar.MONTH);
@@ -190,15 +187,5 @@ public class Turn {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             return calendar.getTime();
         }).orElse(null);
-    }
-
-    /**
-     * Roll for the initial weather.
-     *
-     * @param scenario The selected game scenario.
-     */
-    private void startWeather(final Scenario scenario) {
-        weather.setCurrent(scenario.getWeather());
-        weather.determine(getMonth());
     }
 }

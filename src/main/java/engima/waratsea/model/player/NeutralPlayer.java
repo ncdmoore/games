@@ -38,8 +38,8 @@ public class NeutralPlayer implements Player {
     private final PortDAO portDAO;
 
     @Getter private Set<Nation> nations;
-    @Getter private List<Airfield> airfields;
-    @Getter private List<Port> ports;
+    @Getter private List<Airfield> airfields = Collections.emptyList();
+    @Getter private List<Port> ports = Collections.emptyList();
     private Map<String, Airfield> airfieldMap;
     private Map<String, Port> portMap;
 

@@ -36,6 +36,7 @@ import engima.waratsea.model.target.Target;
 import engima.waratsea.model.target.TargetFactory;
 import engima.waratsea.model.target.TargetType;
 import engima.waratsea.model.target.data.TargetData;
+import engima.waratsea.model.weather.Weather;
 import engima.waratsea.model.weather.WeatherType;
 import enigma.waratsea.TestModule;
 import mockit.Deencapsulation;
@@ -52,6 +53,7 @@ import java.util.stream.Collectors;
 
 public class MissionTest {
     private static Turn turn;
+    private static Weather weather;
     private static Game game;
     private static MissionFactory missionFactory;
     private static AirfieldFactory airfieldFactory;
@@ -64,6 +66,7 @@ public class MissionTest {
     public static void setup() {
         Injector injector = Guice.createInjector(new TestModule());
         turn = injector.getInstance(Turn.class);
+        weather = injector.getInstance(Weather.class);
         game = injector.getInstance(Game.class);
         missionFactory = injector.getInstance(MissionFactory.class);
         airfieldFactory = injector.getInstance(AirfieldFactory.class);
@@ -73,7 +76,7 @@ public class MissionTest {
         airfieldViewFactory = injector.getInstance(AirfieldViewFactory.class);
 
         game.setHumanSide(Side.ALLIES);
-        initTurn();
+        initScenario();
     }
 
     @Test
@@ -543,12 +546,13 @@ public class MissionTest {
         return map;
     }
 
-    private static void initTurn() {
+    private static void initScenario() {
         Scenario scenario = new Scenario();
         scenario.setDate(new Date());
         scenario.setTurnIndex(TurnIndex.TWILIGHT);
         scenario.setWeather(WeatherType.CLEAR);
 
         turn.start(scenario);
+        weather.start(scenario);
     }
 }

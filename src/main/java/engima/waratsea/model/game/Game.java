@@ -221,6 +221,7 @@ public class Game implements PersistentData<GameData> {
         buildViews();
 
         turn.start(scenario);
+        weather.start(scenario);
     }
 
     /**

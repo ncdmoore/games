@@ -18,6 +18,8 @@ import engima.waratsea.model.flotilla.FlotillaAI;
 import engima.waratsea.model.flotilla.FlotillaDAO;
 import engima.waratsea.model.flotilla.FlotillaType;
 import engima.waratsea.model.game.Nation;
+import engima.waratsea.model.game.Phase;
+import engima.waratsea.model.game.Phases;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.map.GameMap;
 import engima.waratsea.model.map.region.Region;
@@ -44,6 +46,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,13 +84,13 @@ public class ComputerPlayer implements Player {
 
     @Getter @Setter private Side side;
     @Getter private Set<Nation> nations;
-    @Getter private List<TaskForce> taskForces;
-    @Getter private List<TaskForceView> enemyTaskForces;
-    @Getter private List<Airfield> airfields;
-    @Getter private List<AirfieldView> enemyAirfields;
-    @Getter private List<Port> ports;
-    @Getter private List<PortView> enemyPorts;
-    @Getter private List<Minefield> minefields;
+    @Getter private List<TaskForce> taskForces = Collections.emptyList();
+    @Getter private List<TaskForceView> enemyTaskForces = Collections.emptyList();
+    @Getter private List<Airfield> airfields = Collections.emptyList();
+    @Getter private List<AirfieldView> enemyAirfields = Collections.emptyList();
+    @Getter private List<Port> ports = Collections.emptyList();
+    @Getter private List<PortView> enemyPorts = Collections.emptyList();
+    @Getter private List<Minefield> minefields = Collections.emptyList();
 
     private Map<String, TaskForce> taskForceMap;
     private Map<String, Airfield> airfieldMap;
@@ -138,7 +141,8 @@ public class ComputerPlayer implements Player {
                           final TargetDAO targetDAO,
                           final FlotillaAI flotillaAI,
                           final SquadronAI squadronAI,
-                          final MinefieldAI minefieldAI) {
+                          final MinefieldAI minefieldAI,
+                          final Phases phases) {
         //CHECKSTYLE:ON
 
         this.gameMap = gameMap;
@@ -168,6 +172,9 @@ public class ComputerPlayer implements Player {
         airTargetMap.put(AirMissionType.NAVAL_TASK_FORCE_STRIKE, nation -> getEnemyTaskForceTargets());
 
         seaTargetMap.put(SeaMissionType.INTERCEPT, this::getEnemyTaskForceTargets);
+
+        phases.register(Phase.COMPUTER_PATROL, this::executePatrols);
+        phases.register(Phase.COMPUTER_MISSION, this::executeMissions);
     }
 
     /**
@@ -668,5 +675,19 @@ public class ComputerPlayer implements Player {
                 .stream()
                 .map(Squadron::getNation)
                 .collect(Collectors.toSet());
+    }
+
+    /**
+     * Execute the player's patrols.
+     */
+    private void executePatrols() {
+        log.info("Execute computer Patrols");
+    }
+
+    /**
+     * Execute the player's missions.
+     */
+    private void executeMissions() {
+        log.info("Execute human Missions");
     }
 }
