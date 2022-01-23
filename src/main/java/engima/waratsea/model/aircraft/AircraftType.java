@@ -1,6 +1,7 @@
 package engima.waratsea.model.aircraft;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 /**
  * Defines all the aircraft types in the game.
  */
+@AllArgsConstructor
 public enum AircraftType implements Comparator<AircraftType> {
     @SerializedName(value = "FIGHTER", alternate = {"Fighter", "fighter"})
     FIGHTER("Fighter", "Fighter", "F", 1),
@@ -33,20 +35,6 @@ public enum AircraftType implements Comparator<AircraftType> {
     @Getter private final String abbreviated;
     @Getter private final String designation;
     private final Integer order;  // Enum sort order.
-
-    /**
-     * Constructor.
-     *  @param value The string value of the enum.
-     * @param abbreviated The string abbreviated value of the enum.
-     * @param designation The aircraft designation. F for fighter, B for bomber, etc.
-     * @param order The sort order of the enum.
-     */
-    AircraftType(final String value, final String abbreviated, final String designation, final int order) {
-        this.value = value;
-        this.abbreviated = abbreviated;
-        this.designation = designation;
-        this.order = order;
-    }
 
     /**
      * This is used to loop through the enum values. This returns the next value

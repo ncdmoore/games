@@ -1,12 +1,12 @@
 package engima.waratsea.model.aircraft.data;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * An aircraft's ferryDistance data.
  */
+@Data
 public class PerformanceData {
-    @Getter @Setter private int range;
-    @Getter @Setter private int endurance;
+    private int range;
+    private int endurance;
 }

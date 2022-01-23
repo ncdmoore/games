@@ -7,29 +7,29 @@ import engima.waratsea.model.aircraft.LandingType;
 import engima.waratsea.model.aircraft.ServiceType;
 import engima.waratsea.model.game.Nation;
 import engima.waratsea.model.squadron.SquadronConfig;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.Set;
 
 /**
  * Represents aircraft data.
  */
+@Data
 public class AircraftData {
-    @Getter @Setter private AircraftId aircraftId;
-    @Getter @Setter private String name;
-    @Getter @Setter private AircraftType type;
-    @Getter @Setter private Nation nationality;
-    @Getter @Setter private ServiceType service;
-    @Getter @Setter private String designation;
-    @Getter @Setter private AltitudeType altitude;
-    @Getter @Setter private LandingType landing;
-    @Getter @Setter private LandingType takeoff;
-    @Getter @Setter private AttackData navalWarship;
-    @Getter @Setter private AttackData navalTransport;
-    @Getter @Setter private AttackData land;
-    @Getter @Setter private AttackData air;
-    @Getter @Setter private PerformanceData performance;
-    @Getter @Setter private FrameData frame;
-    @Getter @Setter private Set<SquadronConfig> config;
+    private AircraftId aircraftId;
+    private String name;
+    private AircraftType type;
+    private Nation nationality;
+    private ServiceType service;
+    private String designation;
+    private AltitudeType altitude;
+    private LandingType landing;
+    private LandingType takeoff;
+    private AttackData navalWarship;
+    private AttackData navalTransport;
+    private AttackData land;
+    private AttackData air;
+    private PerformanceData performance;
+    private FrameData frame;
+    private Set<SquadronConfig> config;
 }

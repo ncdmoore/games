@@ -1,11 +1,13 @@
 package engima.waratsea.model.aircraft;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
  * The aircraft's altitude rating.
  */
+@AllArgsConstructor
 public enum AltitudeType {
     @SerializedName(value = "HIGH", alternate = {"High", "high"})
     HIGH("High"),
@@ -18,15 +20,6 @@ public enum AltitudeType {
 
     @Getter
     private final String value;
-
-    /**
-     * Constructor.
-     *
-     * @param value The String representation of the altitude rating.
-     */
-    AltitudeType(final String value) {
-        this.value = value;
-    }
 
     /**
      * Get the String representation.
