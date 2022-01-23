@@ -1,10 +1,12 @@
 package engima.waratsea.model.aircraft;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.RequiredArgsConstructor;
 
 /**
  * The aircraft's service.
  */
+@RequiredArgsConstructor
 public enum ServiceType {
     @SerializedName(value = "AIR_FORCE", alternate = {"AIRFORCE", "Air Force", "air force"})
     AIR_FORCE("Air Force"),
@@ -13,15 +15,6 @@ public enum ServiceType {
     NAVY("Navy");
 
     private final String value;
-
-    /**
-     * Constructor.
-     *
-     * @param value The String value of this enum.
-     */
-    ServiceType(final String value) {
-        this.value = value;
-    }
 
     /**
      * Returns the String value of this enum.

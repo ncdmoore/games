@@ -2,6 +2,7 @@ package engima.waratsea.model.aircraft;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.stream.Stream;
 
@@ -13,6 +14,7 @@ import java.util.stream.Stream;
  * SEAPLANE - lands and takes off from the sea.
  * FLOATPLANE - lands and takes off from the sea and may be stored on capital ships.
  */
+@RequiredArgsConstructor
 public enum LandingType {
     @SerializedName(value = "CARRIER", alternate = {"Carrier", "carrier"})
     CARRIER("Carrier"),
@@ -28,15 +30,6 @@ public enum LandingType {
 
     @Getter
     private final String value;
-
-    /**
-     * The constructor.
-     *
-     * @param value The String value of the landing type.
-     */
-    LandingType(final String value) {
-        this.value = value;
-    }
 
     /**
      * Get the String representation.
