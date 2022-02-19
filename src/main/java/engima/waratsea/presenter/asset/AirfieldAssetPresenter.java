@@ -343,7 +343,7 @@ public class AirfieldAssetPresenter {
     }
 
     /**
-     * Callback for squadron configuration drop down selected.
+     * Callback for squadron configuration drop-down selected.
      *
      * @param nation    The nation.
      * @param viewModel The airbase view model.
