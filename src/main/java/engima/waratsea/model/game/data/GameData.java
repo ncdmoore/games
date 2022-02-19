@@ -3,8 +3,7 @@ package engima.waratsea.model.game.data;
 import engima.waratsea.model.game.Side;
 import engima.waratsea.model.scenario.Scenario;
 import engima.waratsea.model.weather.WeatherType;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.annotation.Nonnull;
 
@@ -12,13 +11,14 @@ import javax.annotation.Nonnull;
  * The game data that is persisted. This data is read when a saved game is loaded. This data is written when a
  * game is saved. This class contains all the persistent data needed by the game class.
  */
+@Data
 public class GameData implements Comparable<GameData> {
-    @Getter @Setter private Side humanSide;
-    @Getter @Setter private Scenario scenario;
-    @Getter @Setter private String savedGameName;
-    @Getter @Setter private TurnData turn;
-    @Getter @Setter private WeatherType weather;
-    @Getter @Setter private int airMissionId;
+    private Side humanSide;
+    private Scenario scenario;
+    private String savedGameName;
+    private TurnData turn;
+    private WeatherType weather;
+    private int airMissionId;
 
     /**
      * Called to sort saved games.
