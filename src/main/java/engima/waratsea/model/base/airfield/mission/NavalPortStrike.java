@@ -48,7 +48,7 @@ public class NavalPortStrike extends AirMissionExecutor implements AirMission {
 
     private final String targetBaseName;      //The name of the target port.
     private Target targetPort;                //The actual target port.
-    private int startTurn;                    //The game turn on which the missions starts.
+    private int startTurn;                    //The game turn on which the mission starts.
     private int turnsToTarget;                //The turns until the mission reaches its target.
     private int turnsToHome;                  //The turns until the mission returns to its home airbase.
     /**
@@ -201,7 +201,7 @@ public class NavalPortStrike extends AirMissionExecutor implements AirMission {
     }
 
     /**
-     * Set all of the squadrons to the correct state.
+     * Set all the squadrons to the correct state.
      */
     @Override
     public void addSquadrons() {
@@ -225,21 +225,25 @@ public class NavalPortStrike extends AirMissionExecutor implements AirMission {
      */
     @Override
     public List<ProbabilityStats> getMissionProbability() {
-        Map<Double, Integer> warshipFactors = getAttackMap(AttackType.NAVAL_WARSHIP);
+        var warshipFactors = getAttackMap(AttackType.NAVAL_WARSHIP);
 
-        ProbabilityStats warshipsHitProbability = new ProbabilityStats();
-        warshipsHitProbability.setTitle("Warship Hits");
-        warshipsHitProbability.setEventColumnTitle("Ship Hits");
-        warshipsHitProbability.setMetaData(getModifierMap());
-        warshipsHitProbability.setProbability(buildProbabilityShipHit(warshipFactors));
+        ProbabilityStats warshipsHitProbability = ProbabilityStats
+                .builder()
+                .title("Warship Hits")
+                .eventColumnTitle("Ship Hits")
+                .metaData(getModifierMap())
+                .probability(buildProbabilityShipHit(warshipFactors))
+                .build();
 
-        Map<Double, Integer> transportFactors = getAttackMap(AttackType.NAVAL_TRANSPORT);
+        var transportFactors = getAttackMap(AttackType.NAVAL_TRANSPORT);
 
-        ProbabilityStats transportHitProbability = new ProbabilityStats();
-        transportHitProbability.setTitle("Transport Hits");
-        transportHitProbability.setEventColumnTitle("Ship Hits");
-        transportHitProbability.setMetaData(getModifierMap());
-        transportHitProbability.setProbability(buildProbabilityShipHit(transportFactors));
+        ProbabilityStats transportHitProbability = ProbabilityStats
+                .builder()
+                .title("Transport Hits")
+                .eventColumnTitle("Ship Hits")
+                .metaData(getModifierMap())
+                .probability(buildProbabilityShipHit(transportFactors))
+                .build();
 
         return List.of(warshipsHitProbability, transportHitProbability);
     }

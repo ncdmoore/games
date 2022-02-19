@@ -51,7 +51,7 @@ public class SweepAirfield extends AirMissionExecutor implements AirMission {
 
     private final String targetBaseName;      //The name of the target air base.
     private Target targetAirbase;             //The actual target air base.
-    private int startTurn;                    //The game turn on which the missions starts.
+    private int startTurn;                    //The game turn on which the mission starts.
     private int turnsToTarget;                //The turns until the mission reaches its target.
     private int turnsToHome;                  //The turns until the mission returns to its home airbase.
     /**
@@ -202,7 +202,7 @@ public class SweepAirfield extends AirMissionExecutor implements AirMission {
 
 
     /**
-     * Set all of the squadrons to the correct state.
+     * Set all the squadrons to the correct state.
      */
     @Override
     public void addSquadrons() {
@@ -226,18 +226,22 @@ public class SweepAirfield extends AirMissionExecutor implements AirMission {
      */
     @Override
     public List<ProbabilityStats> getMissionProbability() {
-        Map<Double, Integer> factors = getAttackMap();
+        var factors = getAttackMap();
 
-        ProbabilityStats interceptionProbability = new ProbabilityStats();
-        interceptionProbability.setTitle("Interception");
-        interceptionProbability.setEventColumnTitle("Intercept");
-        interceptionProbability.setMetaData(rules.getModifierMap());
-        interceptionProbability.setProbability(buildProbabilityIntercept());
+        ProbabilityStats interceptionProbability = ProbabilityStats
+                .builder()
+                .title("Interception")
+                .eventColumnTitle("Intercept")
+                .metaData(rules.getModifierMap())
+                .probability(buildProbabilityIntercept())
+                .build();
 
-        ProbabilityStats stepHitProbability = new ProbabilityStats();
-        stepHitProbability.setTitle("Steps Hit");
-        stepHitProbability.setEventColumnTitle("Steps Hit");
-        stepHitProbability.setProbability(buildProbabilityAirHit(factors));
+        ProbabilityStats stepHitProbability = ProbabilityStats
+                .builder()
+                .title("Steps Hit")
+                .eventColumnTitle("Steps Hit")
+                .probability(buildProbabilityAirHit(factors))
+                .build();
 
         return List.of(interceptionProbability, stepHitProbability);
     }

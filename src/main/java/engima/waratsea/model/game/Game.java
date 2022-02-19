@@ -104,7 +104,7 @@ public class Game implements PersistentData<GameData> {
     }
 
     /**
-     * Get all of the game persistent data.
+     * Get all the game persistent data.
      *
      * @return The game's persistent data.
      */

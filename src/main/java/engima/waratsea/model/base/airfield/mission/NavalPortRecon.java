@@ -34,7 +34,7 @@ public class NavalPortRecon extends AirMissionExecutor implements AirMission {
 
     private final String targetName;               //The name of the port.
     private Target targetPort;                     //The actual port.
-    private int startTurn;                         //The game turn on which the missions starts.
+    private int startTurn;                         //The game turn on which the mission starts.
     private int turnsToTarget;                     //The turns until the mission reaches its target.
     private int turnsToHome;                       //The turns until the mission returns to its home airbase.
     /**
@@ -178,7 +178,7 @@ public class NavalPortRecon extends AirMissionExecutor implements AirMission {
     }
 
     /**
-     * Set all of the squadrons to the correct state.
+     * Set all the squadrons to the correct state.
      */
     @Override
     public void addSquadrons() {

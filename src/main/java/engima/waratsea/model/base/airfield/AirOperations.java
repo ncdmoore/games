@@ -48,13 +48,13 @@ public class AirOperations {
 
         return airbaseTypes
                 .stream()
-                .map(type -> {
-                    ProbabilityStats stats = new ProbabilityStats();
-                    stats.setTitle(type.getSquadronType());
-                    stats.setEventColumnTitle("Step Destroyed");
-                    stats.setProbability(buildStats(type));
-                    return stats;
-                }).collect(Collectors.toList());
+                .map(type -> ProbabilityStats
+                        .builder()
+                        .title(type.getSquadronType())
+                        .eventColumnTitle("Step Destroyed")
+                        .probability(buildStats(type))
+                        .build())
+                .collect(Collectors.toList());
     }
 
     private Map<String, Integer> buildStats(final AirbaseType airbaseType) {

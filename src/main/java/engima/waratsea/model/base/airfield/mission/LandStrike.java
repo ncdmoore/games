@@ -37,7 +37,7 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
     private static final BigDecimal PERCENTAGE = new BigDecimal(100);
 
     private static final int ONE_STEP_ELIMINATED = 3;  // The number of successful die rolls required to eliminate one step of aircraft.
-    private static final int TWO_STEP_ELIMINATED = 6;  // THe number of successful die rolls required to eliminate tow steps of aircraft.
+    private static final int TWO_STEP_ELIMINATED = 6;  // THe number of successful die rolls required to eliminate two steps of aircraft.
     private static final Set<Integer> STEP_HIT_SET = new HashSet<>(Arrays.asList(ONE_STEP_ELIMINATED, TWO_STEP_ELIMINATED));
 
     private static final Map<Integer, Integer> STEP_ELIMINATED_MAP = new HashMap<>();
@@ -250,7 +250,7 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
     }
 
     /**
-     * Set all of the squadrons to the correct state.
+     * Set all the squadrons to the correct state.
      */
     @Override
     public void addSquadrons() {
@@ -275,19 +275,23 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
      */
     @Override
     public List<ProbabilityStats> getMissionProbability() {
-        Map<Double, Integer> factors = getAttackMap();
+        var factors = getAttackMap();
 
-        ProbabilityStats stepsDestroyedProbability = new ProbabilityStats();
-        stepsDestroyedProbability.setTitle("Squadron Steps Destroyed");
-        stepsDestroyedProbability.setEventColumnTitle("Steps Destroyed");
-        stepsDestroyedProbability.setMetaData(rules.getModifierMap());
-        stepsDestroyedProbability.setProbability(buildProbabilityStepDestroyed(factors));
+        ProbabilityStats stepsDestroyedProbability = ProbabilityStats
+                .builder()
+                .title("Squadron Steps Destroyed")
+                .eventColumnTitle("Steps Destroyed")
+                .metaData(rules.getModifierMap())
+                .probability(buildProbabilityStepDestroyed(factors))
+                .build();
 
-        ProbabilityStats capacityReducedProbability = new ProbabilityStats();
-        capacityReducedProbability.setTitle("Airfield Capacity Reduced");
-        capacityReducedProbability.setEventColumnTitle("Capacity Reduced");
-        capacityReducedProbability.setMetaData(rules.getModifierMap());
-        capacityReducedProbability.setProbability(buildProbabilityAirfieldDamaged(factors));
+        ProbabilityStats capacityReducedProbability = ProbabilityStats
+                .builder()
+                .title("Airfield Capacity Reduced")
+                .eventColumnTitle("Capacity Reduced")
+                .metaData(rules.getModifierMap())
+                .probability(buildProbabilityAirfieldDamaged(factors))
+                .build();
 
         return List.of(stepsDestroyedProbability, capacityReducedProbability);
     }
