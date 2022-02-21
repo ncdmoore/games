@@ -89,7 +89,7 @@ public class AirMissionPathOneWay implements AirMissionPath {
         int startingGrid = currentGridIndex;
         currentGridIndex += distance;
 
-        if (currentGridIndex >= gridPath.size()) {      // The mission has reached it's end grid.
+        if (currentGridIndex >= gridPath.size()) {      // The mission has reached its end grid.
             currentGridIndex = gridPath.size() - 1;
         }
 
@@ -103,8 +103,8 @@ public class AirMissionPathOneWay implements AirMissionPath {
      */
     @Override
     public void recall(final AirMissionState state) {
-        // A mission may be recalled only if it is in the out bound leg.
-        // All other states are either invalid or for the in bound case a non event.
+        // A mission may be recalled only if it is in the out-bound leg.
+        // All other states are either invalid or for the in bound case a non-event.
         if (state == AirMissionState.OUT_BOUND) {
             // Set the grid path to be the grids already traversed, but in reverse order.
             // The squadrons are flying back to their original starting airbase.

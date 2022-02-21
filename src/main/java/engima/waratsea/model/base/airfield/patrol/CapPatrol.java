@@ -159,7 +159,7 @@ public class CapPatrol implements Patrol, Cap {
     }
 
     /**
-     * Clear all of the squadrons from this patrol.
+     * Clear all the squadrons from this patrol.
      */
     @Override
     public void clearSquadrons() {
@@ -198,7 +198,7 @@ public class CapPatrol implements Patrol, Cap {
     /**
      * Get the best allowed squadron configuration for this patrol.
      *
-     * @return The best allowed squadron configuration for this patrols.
+     * @return The best allowed squadron configuration for this patrol.
      */
     @Override
     public SquadronConfig getBestSquadronConfig() {
