@@ -244,9 +244,9 @@ public class Bomber implements Aircraft {
     }
 
     /**
-     * Get the aircraft's air to air attack factor.
+     * Get the aircraft's air-to-air attack factor.
      *
-     * @return The aircraft's air to air attack factor.
+     * @return The aircraft's air-to-air attack factor.
      */
     private Map<SquadronConfig, Attack> getAir() {
         return configuration

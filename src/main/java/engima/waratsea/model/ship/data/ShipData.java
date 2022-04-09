@@ -9,39 +9,39 @@ import engima.waratsea.model.ship.AmmunitionType;
 import engima.waratsea.model.ship.ShipId;
 import engima.waratsea.model.ship.ShipType;
 import engima.waratsea.model.taskForce.TaskForce;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.List;
 
 /**
  * Represents the ship's data that is read and written to JSON files.
  */
+@Data
 public class ShipData {
-    @Getter @Setter private transient ShipId shipId;
-    @Getter @Setter private transient TaskForce taskForce;
-    @Getter @Setter private ShipType type;
-    @Getter @Setter private String shipClass;
-    @Getter @Setter private Nation nationality;
-    @Getter @Setter private FlightDeckData flightDeck;
-    @Getter @Setter private GunData primary;
-    @Getter @Setter private GunData secondary;
-    @Getter @Setter private GunData tertiary;
-    @Getter @Setter private GunData antiAir;
-    @Getter @Setter private AmmunitionType ammunitionType;
-    @Getter @Setter private TorpedoData torpedo;
-    @Getter @Setter private AswData asw;
-    @Getter @Setter private HullData hull;
-    @Getter @Setter private FuelData fuel;
-    @Getter @Setter private MovementData movement;
-    @Getter @Setter private CargoData cargo;             //Cargo is 3 times the value in the board game. This is done to avoid fractions.
-    @Getter @Setter private int victoryPoints;
-    @Getter @Setter private String originPort;
-    @Getter @Setter private List<LandingType> landingType;
+    private transient ShipId shipId;
+    private transient TaskForce taskForce;
+    private ShipType type;
+    private String shipClass;
+    private Nation nationality;
+    private FlightDeckData flightDeck;
+    private GunData primary;
+    private GunData secondary;
+    private GunData tertiary;
+    private GunData antiAir;
+    private AmmunitionType ammunitionType;
+    private TorpedoData torpedo;
+    private AswData asw;
+    private HullData hull;
+    private FuelData fuel;
+    private MovementData movement;
+    private CargoData cargo;             //Cargo is 3 times the value in the board game. This is done to avoid fractions.
+    private int victoryPoints;
+    private String originPort;
+    private List<LandingType> landingType;
 
-    @Getter @Setter private SquadronsData squadronsData; //squadrons stationed at the airfield.
-    @Getter @Setter private MissionsData missionsData;
-    @Getter @Setter private PatrolsData patrolsData;
+    private SquadronsData squadronsData; //squadrons stationed at the airfield.
+    private MissionsData missionsData;
+    private PatrolsData patrolsData;
 
 
     /** The default ship data constructor.

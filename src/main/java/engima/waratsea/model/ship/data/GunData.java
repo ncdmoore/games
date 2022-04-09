@@ -1,27 +1,16 @@
 package engima.waratsea.model.ship.data;
 
 import engima.waratsea.model.ship.ArmourType;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * Gun data that is persisted.
  */
+@Data
 public class GunData {
-    @Getter
-    @Setter
     private String name;
-
-    @Getter
-    @Setter
     private int maxHealth;
-
-    @Getter
-    @Setter
     private ArmourType armour;
-
-    @Getter
-    @Setter
     private int health;
 
     /**

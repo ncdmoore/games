@@ -1,26 +1,26 @@
 package engima.waratsea.model.base.airfield.mission.data;
 
 import engima.waratsea.model.base.Airbase;
-import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
+import engima.waratsea.model.base.airfield.mission.MissionRole;
 import engima.waratsea.model.base.airfield.mission.path.data.AirMissionPathData;
 import engima.waratsea.model.base.airfield.mission.state.AirMissionState;
 import engima.waratsea.model.game.Nation;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.List;
 import java.util.Map;
 
+@Data
 public class MissionData {
-    @Getter @Setter private int id;
-    @Getter @Setter private AirMissionState state;
-    @Getter @Setter private AirMissionType type;
-    @Getter @Setter private Nation nation;
-    @Getter private transient Airbase airbase;
-    @Getter @Setter private String target;
-    @Getter @Setter private Map<MissionRole, List<String>> squadronMap;
-    @Getter @Setter private AirMissionPathData airMissionPathData;
+    private int id;
+    private AirMissionState state;
+    private AirMissionType type;
+    private Nation nation;
+    private transient Airbase airbase;
+    private String target;
+    private Map<MissionRole, List<String>> squadronMap;
+    private AirMissionPathData airMissionPathData;
 
     /**
      * Set the air base.

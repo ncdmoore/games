@@ -39,11 +39,13 @@ public enum AirMissionState {
 
     OUT_BOUND("Out Bound") {
         public AirMissionState transition(final AirMissionAction action, final AirMissionExecutor mission) {
-            AirMissionState newState = OUT_BOUND;
+            AirMissionState newState;
 
             switch (action) {
                 case EXECUTE:
                     mission.fly();
+
+                    newState = OUT_BOUND;
 
                     if (mission.reachedTarget()) {
                         mission.execute();

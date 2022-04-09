@@ -163,8 +163,8 @@ public enum SquadronConfig implements Comparator<SquadronConfig> {
     STRIPPED_DOWN("Stripped Down", 6) {
 
         public Attack getAttack(final AttackType type, final Attack attack) {
-            AttackData data = new AttackData();
-            if (type == AttackType.AIR) {             // a zero attack modifier.
+            AttackData data = new AttackData();       // a zero attack modifier.
+            if (type == AttackType.AIR) {             // stripped down air attack still has factors.
                 data.setFull(attack.getFull());
                 data.setHalf(attack.getHalf());
                 data.setSixth(attack.getSixth());

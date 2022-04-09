@@ -2,12 +2,12 @@ package engima.waratsea.model.base.airfield.patrol.data;
 
 import engima.waratsea.model.base.Airbase;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.Map;
 
+@Data
 public class PatrolsData {
-    @Getter @Setter private transient Airbase airbase;
-    @Getter @Setter private Map<PatrolType, PatrolData> patrols;
+    private transient Airbase airbase;
+    private Map<PatrolType, PatrolData> patrols;
 }

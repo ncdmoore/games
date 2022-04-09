@@ -4,14 +4,14 @@ import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.squadron.Squadron;
 import engima.waratsea.model.taskForce.TaskForce;
 import engima.waratsea.model.taskForce.patrol.PatrolGroups;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class PatrolGroupData {
-    @Getter @Setter private transient PatrolGroups groups;
-    @Getter @Setter private transient PatrolType type;
-    @Getter @Setter private transient TaskForce taskForce;
-    @Getter @Setter private transient List<Squadron> squadrons;
+    private transient PatrolGroups groups;
+    private transient PatrolType type;
+    private transient TaskForce taskForce;
+    private transient List<Squadron> squadrons;
 }

@@ -1,13 +1,13 @@
 package engima.waratsea.model.base.airfield.mission.path.data;
 
 import engima.waratsea.model.base.airfield.mission.AirMissionType;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class AirMissionPathData {
-    @Getter @Setter private transient AirMissionType type;
-    @Getter @Setter private List<String> gridPath;
-    @Getter @Setter private int currentGridIndex;
+    private transient AirMissionType type;
+    private List<String> gridPath;
+    private int currentGridIndex;
 }

@@ -59,12 +59,15 @@ public class Attack {
      * @return A reduced attack factor.
      */
     public Attack getReducedRoundDown(final int reduction) {
-        AttackData data = new AttackData();
-        data.setModifier(modifier);
-        data.setFull(full / reduction);
-        data.setHalf(half / reduction);
-        data.setSixth(sixth / reduction);
-        data.setFinalModifier(finalModifier);
+        AttackData data = AttackData
+                .builder()
+                .modifier(modifier)
+                .full(full / reduction)
+                .half(half / reduction)
+                .sixth(sixth / reduction)
+                .finalModifier(finalModifier)
+                .build();
+
         return new Attack(data);
     }
 
@@ -75,12 +78,14 @@ public class Attack {
      * @return A reduced attack factor.
      */
     public Attack getReducedRoundUp(final int reduction) {
-        AttackData data = new AttackData();
-        data.setModifier(modifier);
-        data.setFull((full / reduction) + (full % reduction));
-        data.setHalf((half / reduction) + (half % reduction));
-        data.setSixth((sixth / reduction) + (sixth % reduction));
-        data.setFinalModifier(finalModifier);
+        AttackData data = AttackData
+                .builder()
+                .modifier(modifier)
+                .full((full / reduction) + (full % reduction))
+                .half((half / reduction) + (half % reduction))
+                .sixth((sixth / reduction) + (sixth % reduction))
+                .build();
+
         return new Attack(data);
     }
 }

@@ -1,26 +1,15 @@
 package engima.waratsea.model.ship.data;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * Torpedo data that is persisted.
  */
+@Data
 public class TorpedoData {
-    @Getter
-    @Setter
     private int maxHealth;
-
-    @Getter
-    @Setter
     private int health;
-
-    @Getter
-    @Setter
     private int maxNumber;
-
-    @Getter
-    @Setter
     private int number;
 
     /**
