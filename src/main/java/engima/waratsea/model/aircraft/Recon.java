@@ -14,7 +14,6 @@ import javafx.util.Pair;
 import lombok.Getter;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,7 +24,12 @@ import java.util.stream.Collectors;
  * Represents a reconnaissance aircraft.
  */
 public class Recon implements Aircraft {
-    private final Map<AttackType, FunctionalMap<SquadronConfig, Attack>> attackMap = new HashMap<>();
+    private final Map<AttackType, FunctionalMap<SquadronConfig, Attack>> attackMap = Map.of(
+            AttackType.AIR, this::getAir,
+            AttackType.LAND, this::getLand,
+            AttackType.NAVAL_WARSHIP, this::getNavalWarship,
+            AttackType.NAVAL_TRANSPORT, this::getNavalTransport
+    );
 
     @Getter private final AircraftId aircraftId;
     @Getter private final String name;
@@ -77,11 +81,6 @@ public class Recon implements Aircraft {
         this.probability = probability;
 
         probability.setConfigurations(configuration);
-
-        attackMap.put(AttackType.AIR, this::getAir);
-        attackMap.put(AttackType.LAND, this::getLand);
-        attackMap.put(AttackType.NAVAL_WARSHIP, this::getNavalWarship);
-        attackMap.put(AttackType.NAVAL_TRANSPORT, this::getNavalTransport);
     }
 
     /**

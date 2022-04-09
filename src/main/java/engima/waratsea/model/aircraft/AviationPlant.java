@@ -6,6 +6,7 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.aircraft.data.AircraftData;
 import engima.waratsea.model.game.Resource;
 import engima.waratsea.model.game.Side;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -30,7 +31,10 @@ public class AviationPlant {
     private final Map<AircraftType, Function<AircraftData, Aircraft>> factoryMap = new HashMap<>();
 
     //Each side has a map of aircraft model names to aircraft model data. This acts as a cash for data read in from JSON files.
-    private final Map<Side, Map<String, AircraftData>> aircraftDataMap = new HashMap<>();
+    private final Map<Side, Map<String, AircraftData>> aircraftDataMap = Map.of(
+            Side.ALLIES, new HashMap<>(),
+            Side.AXIS, new HashMap<>()
+    );
 
     private final Resource config;
     private final AircraftFactory factory;
@@ -42,13 +46,9 @@ public class AviationPlant {
      * @param factory The aircraft factory.
      */
     @Inject
-    public AviationPlant(final Resource config,
-                         final AircraftFactory factory) {
+    public AviationPlant(final Resource config, final AircraftFactory factory) {
         this.config = config;
         this.factory = factory;
-
-        aircraftDataMap.put(Side.ALLIES, new HashMap<>());
-        aircraftDataMap.put(Side.AXIS, new HashMap<>());
 
         factoryMap.put(AircraftType.FIGHTER, factory::createFighter);
         factoryMap.put(AircraftType.RECONNAISSANCE, factory::createRecon);
@@ -76,21 +76,11 @@ public class AviationPlant {
      * @param model The aircraft's model.
      * @param side The side. ALLIES or AXIS.
      * @return The aircraft's data.
-     * @throws AviationPlantException Indicates that the aircraft's data could not be found.
      */
-    private AircraftData getData(final String model, final Side side) throws AviationPlantException {
-        AircraftData data;
-
-        Map<String, AircraftData> dataMap = aircraftDataMap.get(side);
-
-        if (dataMap.containsKey(model)) {
-            data = dataMap.get(model);
-        } else {
-            data = loadData(model, side);
-            dataMap.put(model, data);
-        }
-
-        return data;
+    private AircraftData getData(final String model, final Side side) {
+        return aircraftDataMap
+                .get(side)
+                .computeIfAbsent(model, m -> loadData(m, side));
     }
 
     /**
@@ -99,9 +89,9 @@ public class AviationPlant {
      * @param model The aircraft model to read.
      * @param side The side of the ship. ALLIES or AXIS.
      * @return The aircraft's class data.
-     * @throws AviationPlantException An error occurred while attempting to read the aircraft's model data.
      */
-    private AircraftData loadData(final String model, final Side side) throws AviationPlantException {
+    @SneakyThrows
+    private AircraftData loadData(final String model, final Side side) {
         log.debug("Load aircraft model: '{}' for side {}", model, side);
         return config
                 .getGameURL(side, Aircraft.class, model + ".json")
