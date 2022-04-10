@@ -43,7 +43,10 @@ import java.util.Set;
  */
 @Slf4j
 public class Squadron implements Comparable<Squadron>, Asset, PersistentData<SquadronData> {
-    private static final Map<Side, Map<String, Integer>> DESIGNATION_MAP = new HashMap<>();
+    private static final Map<Side, Map<String, Integer>> DESIGNATION_MAP = Map.of(
+            Side.ALLIES, new HashMap<>(),
+            Side.AXIS, new HashMap<>()
+    );
 
     private final GameMap gameMap;
     private final GameRules rules;
@@ -59,11 +62,6 @@ public class Squadron implements Comparable<Squadron>, Asset, PersistentData<Squ
     @Getter private SquadronState state;
     @Getter @Setter private SquadronConfig config;
     @Getter @Setter private int missionId;
-
-    static {
-        DESIGNATION_MAP.put(Side.ALLIES, new HashMap<>());
-        DESIGNATION_MAP.put(Side.AXIS, new HashMap<>());
-    }
 
     /**
      * Initialize the designation maps for both sides.

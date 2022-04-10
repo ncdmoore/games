@@ -55,12 +55,11 @@ public class Allotment {
     @Getter
     private final List<SquadronData> recon;
 
-    private static final Map<String, Function<AllotmentData, AllotmentTableData>> FUNCTION_MAP = new HashMap<>();
-    static {
-        FUNCTION_MAP.put("bombers", AllotmentData::getBombers);
-        FUNCTION_MAP.put("fighters", AllotmentData::getFighters);
-        FUNCTION_MAP.put("recon", AllotmentData::getRecon);
-    }
+    private static final Map<String, Function<AllotmentData, AllotmentTableData>> FUNCTION_MAP = Map.of(
+        "bombers", AllotmentData::getBombers,
+        "fighters", AllotmentData::getFighters,
+        "recon", AllotmentData::getRecon
+    );
 
     /**
      * Constructor called by guice.

@@ -23,9 +23,6 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -38,22 +35,14 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
 
     private static final int ONE_STEP_ELIMINATED = 3;  // The number of successful die rolls required to eliminate one step of aircraft.
     private static final int TWO_STEP_ELIMINATED = 6;  // THe number of successful die rolls required to eliminate two steps of aircraft.
-    private static final Set<Integer> STEP_HIT_SET = new HashSet<>(Arrays.asList(ONE_STEP_ELIMINATED, TWO_STEP_ELIMINATED));
-
-    private static final Map<Integer, Integer> STEP_ELIMINATED_MAP = new HashMap<>();
-    private static final Map<Integer, Integer> CAPACITY_REDUCED_MAP = new HashMap<>();
+    private static final Set<Integer> STEP_HIT_SET = Set.of(ONE_STEP_ELIMINATED, TWO_STEP_ELIMINATED);
 
     private static final int AIRFIELD_CAPACITY_REDUCED_BY_1 = 4;
     private static final int AIRFIELD_CAPACITY_REDUCED_BY_2 = 8;
-    private static final Set<Integer> CAPACITY_HIT_SET = new HashSet<>(Arrays.asList(AIRFIELD_CAPACITY_REDUCED_BY_1, AIRFIELD_CAPACITY_REDUCED_BY_2));
+    private static final Set<Integer> CAPACITY_HIT_SET = Set.of(AIRFIELD_CAPACITY_REDUCED_BY_1, AIRFIELD_CAPACITY_REDUCED_BY_2);
 
-    static {
-        STEP_ELIMINATED_MAP.put(ONE_STEP_ELIMINATED, 1);
-        STEP_ELIMINATED_MAP.put(TWO_STEP_ELIMINATED, 2);
-
-        CAPACITY_REDUCED_MAP.put(AIRFIELD_CAPACITY_REDUCED_BY_1, 1);
-        CAPACITY_REDUCED_MAP.put(AIRFIELD_CAPACITY_REDUCED_BY_2, 2);
-    }
+    private static final Map<Integer, Integer> STEP_ELIMINATED_MAP = Map.of(ONE_STEP_ELIMINATED, 1, TWO_STEP_ELIMINATED, 2);
+    private static final Map<Integer, Integer> CAPACITY_REDUCED_MAP = Map.of(AIRFIELD_CAPACITY_REDUCED_BY_1, 1, AIRFIELD_CAPACITY_REDUCED_BY_2, 2);
 
     @Getter private final int id;
     @Getter private AirMissionState state;
@@ -179,7 +168,7 @@ public class LandStrike extends AirMissionExecutor implements AirMission  {
     public void fly() {
         missionPath.progress(range);
 
-        // get enemy airfields that have CAP and one of the traversed grids is a CAP grid. Get the best grid for CAP intercept for the airfield/taskforce.
+        // get enemy airfields that have CAP and if any of the traversed grids is a CAP grid. Get the best grid for CAP intercept for the airfield/taskforce.
         //    in the future will need to account for cap mission zones.
         // for each airfield do cap intercept.
     }

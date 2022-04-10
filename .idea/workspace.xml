@@ -11,9 +11,11 @@
       <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/game/GameEvent.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/game/GameEventTypes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/data/AttackData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/data/AttackData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/scenario/ScenarioEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/scenario/ScenarioEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/mission/LandStrike.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/GameName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/GameName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Nation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/Nation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/Squadron.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/allotment/Allotment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/squadron/allotment/Allotment.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -287,27 +289,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00444" summary="Update grid path calculations to include delta rows between side by side column grids.">
-      <created>1619895326113</created>
-      <option name="number" value="00444" />
-      <option name="presentableId" value="LOCAL-00444" />
-      <option name="project" value="LOCAL" />
-      <updated>1619895326113</updated>
-    </task>
-    <task id="LOCAL-00445" summary="Update grid path calculations to include delta rows between side by side column grids.">
-      <created>1619895430162</created>
-      <option name="number" value="00445" />
-      <option name="presentableId" value="LOCAL-00445" />
-      <option name="project" value="LOCAL" />
-      <updated>1619895430162</updated>
-    </task>
-    <task id="LOCAL-00446" summary="Implement mission recall for Ferry.java and LandStrike.java classes.">
-      <created>1619969960426</created>
-      <option name="number" value="00446" />
-      <option name="presentableId" value="LOCAL-00446" />
-      <option name="project" value="LOCAL" />
-      <updated>1619969960426</updated>
     </task>
     <task id="LOCAL-00447" summary="Update airbase flak routine and unit tests.">
       <created>1620092372833</created>
@@ -631,7 +612,28 @@
       <option name="project" value="LOCAL" />
       <updated>1649625417612</updated>
     </task>
-    <option name="localTasksCounter" value="493" />
+    <task id="LOCAL-00493" summary="Fix attackData final probability bug.">
+      <created>1649629243732</created>
+      <option name="number" value="00493" />
+      <option name="presentableId" value="LOCAL-00493" />
+      <option name="project" value="LOCAL" />
+      <updated>1649629243732</updated>
+    </task>
+    <task id="LOCAL-00494" summary="Fix attackData final probability bug.">
+      <created>1649629304832</created>
+      <option name="number" value="00494" />
+      <option name="presentableId" value="LOCAL-00494" />
+      <option name="project" value="LOCAL" />
+      <updated>1649629304832</updated>
+    </task>
+    <task id="LOCAL-00495" summary="Fix attackData final probability bug.">
+      <created>1649629396319</created>
+      <option name="number" value="00495" />
+      <option name="presentableId" value="LOCAL-00495" />
+      <option name="project" value="LOCAL" />
+      <updated>1649629396319</updated>
+    </task>
+    <option name="localTasksCounter" value="496" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -646,7 +648,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Update AirMissionPath to encapsulate the path from the air mission." />
     <MESSAGE value="Remove patrol path. It should not be needed. Just do a distance check to see if any entity is within patrol range." />
     <MESSAGE value="Add Air mission path unit tests." />
     <MESSAGE value="Move geometry code out of the AirMissionPath class and into MapPaths." />
@@ -671,7 +672,8 @@
     <MESSAGE value="use new lombok methods" />
     <MESSAGE value="Update gradle" />
     <MESSAGE value="rename GameEvent to Event" />
-    <option name="LAST_COMMIT_MESSAGE" value="rename GameEvent to Event" />
+    <MESSAGE value="Fix attackData final probability bug." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix attackData final probability bug." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -755,16 +757,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/patrol/SearchPatrol.java</url>
           <line>165</line>
           <option name="timeStamp" value="145" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java</url>
-          <line>192</line>
-          <option name="timeStamp" value="153" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Bomber.java</url>
-          <line>196</line>
-          <option name="timeStamp" value="154" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.UnsupportedOperationException" package="java.lang" />

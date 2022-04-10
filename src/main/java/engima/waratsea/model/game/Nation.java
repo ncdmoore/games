@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -58,18 +57,17 @@ public enum Nation implements Comparator<Nation> {
     @Setter
     private boolean squadronsPresent;
 
-    private static final Map<String, Nation> VALUE_MAP = new HashMap<>();
-    static {
-        VALUE_MAP.put("Australian", Nation.AUSTRALIAN);
-        VALUE_MAP.put("British", Nation.BRITISH);
-        VALUE_MAP.put("French", Nation.FRENCH);
-        VALUE_MAP.put("German", Nation.GERMAN);
-        VALUE_MAP.put("Greek", Nation.GREEK);
-        VALUE_MAP.put("Italian", Nation.ITALIAN);
-        VALUE_MAP.put("Japanese", Nation.JAPANESE);
-        VALUE_MAP.put("Polish", Nation.POLISH);
-        VALUE_MAP.put("United States", Nation.UNITED_STATES);
-    }
+    private static final Map<String, Nation> VALUE_MAP = Map.of(
+        "Australian", Nation.AUSTRALIAN,
+        "British", Nation.BRITISH,
+        "French", Nation.FRENCH,
+        "German", Nation.GERMAN,
+        "Greek", Nation.GREEK,
+        "Italian", Nation.ITALIAN,
+        "Japanese", Nation.JAPANESE,
+        "Polish", Nation.POLISH,
+        "United States", Nation.UNITED_STATES
+    );
 
     /**
      * Constructor.

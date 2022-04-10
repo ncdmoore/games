@@ -2,7 +2,6 @@ package engima.waratsea.model.game;
 
 import lombok.Getter;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public enum GameName {
@@ -10,16 +9,14 @@ public enum GameName {
     BOMB_ALLEY("bombAlley"),
     CORAL_SEA("coralSea");
 
-    private static final Map<String, GameName> CONVERSION_MAP = new HashMap<>();
-
-    static {
-        CONVERSION_MAP.put("arcticConvoy", GameName.ARCTIC_CONVOY);
-        CONVERSION_MAP.put("ARCTIC_CONVOY", GameName.ARCTIC_CONVOY);
-        CONVERSION_MAP.put("bombAlley", GameName.BOMB_ALLEY);
-        CONVERSION_MAP.put("BOMB_ALLEY", GameName.BOMB_ALLEY);
-        CONVERSION_MAP.put("coralSea", GameName.CORAL_SEA);
-        CONVERSION_MAP.put("CORAL_SEA", GameName.CORAL_SEA);
-    }
+    private static final Map<String, GameName> CONVERSION_MAP = Map.of(
+            "arcticConvoy", GameName.ARCTIC_CONVOY,
+            "ARCTIC_CONVOY", GameName.ARCTIC_CONVOY,
+            "bombAlley", GameName.BOMB_ALLEY,
+            "BOMB_ALLEY", GameName.BOMB_ALLEY,
+            "coralSea", GameName.CORAL_SEA,
+            "CORAL_SEA", GameName.CORAL_SEA
+    );
 
     /**
      * Convert the String representation to the enum.
