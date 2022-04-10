@@ -88,7 +88,7 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
     private final List<History> history = new ArrayList<>();
 
     /**
-     * Constructor of the a side's victory.
+     * Constructor of a side's victory.
      *
      * @param data The victory data read in from a JSON file.
      * @param side The side ALLIES or AXIS of the victory conditions.
@@ -161,7 +161,7 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
      * Get the generic victory conditions details.
      *
      * @param victoryType The type of victory conditions to get the details of.
-     * @return A list of all of the generic victory conditions.
+     * @return A list of all the generic victory conditions.
      */
     public List<VictoryConditionDetails> getDetails(final VictoryType victoryType) {
         switch (victoryType) {
