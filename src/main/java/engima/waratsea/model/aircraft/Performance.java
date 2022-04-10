@@ -14,7 +14,7 @@ import lombok.Getter;
  *
  * Note, that if an aircraft has an endurance greater than one, that it may take multiple turns for a squadron
  * to reach its destination. If an aircraft has an endurance greater than two, then it is possible that
- * it make take two turns for the squadron to reach it's attack target. For example if the endurance is three:
+ * it make take two turns for the squadron to reach its attack target. For example if the endurance is three:
  * one turn flying toward the target; one turn continuing to target, attacking target and then heading home; and
  * one turn flying toward home.
  *
@@ -57,7 +57,7 @@ public class Performance {
      * @return The enhanced combat radius.
      */
     public int getEnhancedRadius(final int enhancedRange, final int enhancedEndurance) {
-        return (enhancedRange * enhancedEndurance) / 2 + ((enhancedRange % 2) * enhancedEndurance) / 2;  // Two way distance. Return.
+        return (enhancedRange * enhancedEndurance) / 2 + ((enhancedRange % 2) * enhancedEndurance) / 2;  // Two-way distance. Return.
     }
 
     /**
@@ -90,6 +90,6 @@ public class Performance {
      * @return The current combat radius.
      */
     private int calculateRadius(final int currentEndurance) {
-        return  (gameRange * currentEndurance) / 2 + ((gameRange % 2) * currentEndurance) / 2;  // Two way distance. Return.
+        return  (gameRange * currentEndurance) / 2 + ((gameRange % 2) * currentEndurance) / 2;  // Two-way distance. Return.
     }
 }
