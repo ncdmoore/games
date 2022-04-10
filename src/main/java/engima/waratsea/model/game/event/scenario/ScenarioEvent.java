@@ -8,7 +8,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * This class is used to communicates scenario events to the rest of the application.
+ * This class is used to communicate scenario events to the rest of the application.
  *
  * Scenario events are used by the view model to update on existing game loads.
  * These view models are singleton objects, thus the ScenarioEvent class does not
@@ -24,7 +24,7 @@ public class ScenarioEvent extends Event {
     private static final EventDispatcher<ScenarioEvent> DISPATCHER = new EventDispatcher<>("ScenarioEvent");
 
     /**
-     * Initialize the airfield event class. This method clears out all airfield event handlers.
+     * Initialize the scenario event class. This method clears out all scenario event handlers.
      */
     public static void init() {
         DISPATCHER.clear();

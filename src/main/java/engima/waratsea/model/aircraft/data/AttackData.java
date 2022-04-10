@@ -19,5 +19,5 @@ public class AttackData {
     private int half;
     private int sixth;
     private boolean defensive;
-    private double finalModifier;
+    private double finalModifier = 1.0;
 }
