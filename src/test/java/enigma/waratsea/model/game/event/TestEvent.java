@@ -1,15 +1,15 @@
 package enigma.waratsea.model.game.event;
 
-import engima.waratsea.model.game.event.GameEvent;
-import engima.waratsea.model.game.event.GameEventDispatcher;
-import engima.waratsea.model.game.event.GameEventHandler;
+import engima.waratsea.model.game.event.Event;
+import engima.waratsea.model.game.event.EventDispatcher;
+import engima.waratsea.model.game.event.EventHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class TestEvent extends GameEvent {
-    private static final GameEventDispatcher<TestEvent> DISPATCHER = new GameEventDispatcher<>("TestEvent");
+public class TestEvent extends Event {
+    private static final EventDispatcher<TestEvent> DISPATCHER = new EventDispatcher<>("TestEvent");
 
     /**
      * Initialize the test event class. This method clears out all test event handlers.
@@ -24,7 +24,7 @@ public class TestEvent extends GameEvent {
      * @param key The object registering
      * @param testEventHandler The test event handler that is registered.
      */
-    public static void register(final Object key, final GameEventHandler<TestEvent> testEventHandler) {
+    public static void register(final Object key, final EventHandler<TestEvent> testEventHandler) {
         DISPATCHER.register(key, testEventHandler);
     }
 

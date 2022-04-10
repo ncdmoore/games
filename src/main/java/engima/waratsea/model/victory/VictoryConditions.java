@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.Side;
-import engima.waratsea.model.game.event.GameEvent;
+import engima.waratsea.model.game.event.Event;
 import engima.waratsea.model.game.event.airfield.AirfieldEvent;
 import engima.waratsea.model.game.event.ship.ShipEvent;
 import engima.waratsea.model.game.event.squadron.SquadronEvent;
@@ -67,7 +67,7 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
      */
     private static class History {
         @Getter
-        private final GameEvent event;
+        private final Event event;
 
         @Getter
         private final int points;
@@ -78,7 +78,7 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
          * @param event The game event.
          * @param points The corresponding points awarded.
          */
-        History(final GameEvent event, final int points) {
+        History(final Event event, final int points) {
             this.event = event;
             this.points = points;
         }
@@ -323,7 +323,7 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
      * @param event The game event
      * @param points The resulting victory points.
      */
-    private void saveHistory(final GameEvent event, final int points) {
+    private void saveHistory(final Event event, final int points) {
         history.add(new History(event, points));
     }
 
@@ -332,7 +332,7 @@ public class VictoryConditions implements PersistentData<VictoryConditionsData> 
      *
      * @param conditions The list of victory conditions.
      * @param <T> The type of the victory conditions.
-     * @return True if all of the victory conditions are met. False otherwise.
+     * @return True if all the victory conditions are met. False otherwise.
      */
     private <T extends VictoryCondition> boolean conditionMet(final List<T> conditions) {
         // Ensure that the conditions is not null. It will at least be an empty list.

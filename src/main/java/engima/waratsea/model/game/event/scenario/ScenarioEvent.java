@@ -1,8 +1,8 @@
 package engima.waratsea.model.game.event.scenario;
 
-import engima.waratsea.model.game.event.GameEvent;
-import engima.waratsea.model.game.event.GameEventDispatcher;
-import engima.waratsea.model.game.event.GameEventHandler;
+import engima.waratsea.model.game.event.Event;
+import engima.waratsea.model.game.event.EventDispatcher;
+import engima.waratsea.model.game.event.EventHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +20,8 @@ import lombok.extern.slf4j.Slf4j;
  * doesn't make sense to unregister for a ScenarioEvent.
  */
 @Slf4j
-public class ScenarioEvent extends GameEvent {
-    private static final GameEventDispatcher<ScenarioEvent> DISPATCHER = new GameEventDispatcher<>("ScenarioEvent");
+public class ScenarioEvent extends Event {
+    private static final EventDispatcher<ScenarioEvent> DISPATCHER = new EventDispatcher<>("ScenarioEvent");
 
     /**
      * Initialize the airfield event class. This method clears out all airfield event handlers.
@@ -36,7 +36,7 @@ public class ScenarioEvent extends GameEvent {
      * @param handler The handler of the scenario event.
      * @param scenarioEventHandler The scenario event handler that is registered.
      */
-    public static void register(final Object handler, final GameEventHandler<ScenarioEvent> scenarioEventHandler) {
+    public static void register(final Object handler, final EventHandler<ScenarioEvent> scenarioEventHandler) {
         DISPATCHER.register(handler, scenarioEventHandler, true);
     }
 
@@ -47,7 +47,7 @@ public class ScenarioEvent extends GameEvent {
      * @param scenarioEventHandler The scenario event handler that is registered.
      * @param keep Indicates if the handler should be preserved.
      */
-    public static void register(final Object handler, final GameEventHandler<ScenarioEvent> scenarioEventHandler, final boolean keep) {
+    public static void register(final Object handler, final EventHandler<ScenarioEvent> scenarioEventHandler, final boolean keep) {
         DISPATCHER.register(handler, scenarioEventHandler, keep);
     }
 

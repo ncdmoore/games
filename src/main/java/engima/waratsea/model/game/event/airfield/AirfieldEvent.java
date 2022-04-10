@@ -2,9 +2,9 @@ package engima.waratsea.model.game.event.airfield;
 
 import engima.waratsea.model.base.airfield.Airfield;
 import engima.waratsea.model.game.AssetType;
-import engima.waratsea.model.game.event.GameEvent;
-import engima.waratsea.model.game.event.GameEventDispatcher;
-import engima.waratsea.model.game.event.GameEventHandler;
+import engima.waratsea.model.game.event.Event;
+import engima.waratsea.model.game.event.EventDispatcher;
+import engima.waratsea.model.game.event.EventHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +15,8 @@ import java.util.Optional;
  * Indicates an airfield event has occurred in the game.
  */
 @Slf4j
-public class AirfieldEvent extends GameEvent {
-    private static final GameEventDispatcher<AirfieldEvent> DISPATCHER = new GameEventDispatcher<>("AirfieldEvent");
+public class AirfieldEvent extends Event {
+    private static final EventDispatcher<AirfieldEvent> DISPATCHER = new EventDispatcher<>("AirfieldEvent");
 
     /**
      * Initialize the airfield event class. This method clears out all airfield event handlers.
@@ -31,7 +31,7 @@ public class AirfieldEvent extends GameEvent {
      * @param handler The object that handles the event.
      * @param airfieldEventHandler The airfield event handler that is registered.
      */
-    public static void register(final Object handler, final GameEventHandler<AirfieldEvent> airfieldEventHandler) {
+    public static void register(final Object handler, final EventHandler<AirfieldEvent> airfieldEventHandler) {
         DISPATCHER.register(handler, airfieldEventHandler);
     }
 

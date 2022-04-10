@@ -3,7 +3,7 @@ package engima.waratsea.model.game;
 import com.google.inject.Inject;
 import engima.waratsea.model.PersistentData;
 import engima.waratsea.model.game.data.GameData;
-import engima.waratsea.model.game.event.GameEvent;
+import engima.waratsea.model.game.event.Event;
 import engima.waratsea.model.game.event.scenario.ScenarioEvent;
 import engima.waratsea.model.game.event.scenario.ScenarioEventTypes;
 import engima.waratsea.model.map.GameMap;
@@ -356,7 +356,7 @@ public class Game implements PersistentData<GameData> {
      * Initialize a game.
      */
     private void init() {
-        GameEvent.init();
+        Event.init();
 
         ScenarioEvent event = new ScenarioEvent(ScenarioEventTypes.BOOT);
         event.fire();

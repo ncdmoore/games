@@ -1,9 +1,9 @@
 package engima.waratsea.model.game.event.squadron;
 
 import engima.waratsea.model.game.AssetType;
-import engima.waratsea.model.game.event.GameEvent;
-import engima.waratsea.model.game.event.GameEventDispatcher;
-import engima.waratsea.model.game.event.GameEventHandler;
+import engima.waratsea.model.game.event.Event;
+import engima.waratsea.model.game.event.EventDispatcher;
+import engima.waratsea.model.game.event.EventHandler;
 import engima.waratsea.model.squadron.Squadron;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +13,8 @@ import lombok.extern.slf4j.Slf4j;
  * Indicates that a squadron event has occurred in the game.
  */
 @Slf4j
-public class SquadronEvent extends GameEvent {
-    private static final GameEventDispatcher<SquadronEvent> DISPATCHER = new GameEventDispatcher<>("SquadronEvent");
+public class SquadronEvent extends Event {
+    private static final EventDispatcher<SquadronEvent> DISPATCHER = new EventDispatcher<>("SquadronEvent");
 
     /**
      * Initialize the squadron event class. This method clears out all squadron event handlers.
@@ -29,7 +29,7 @@ public class SquadronEvent extends GameEvent {
      * @param handler The object that handles the event.
      * @param squadronEventHandler The squadron event handler that is registered.
      */
-    public static void register(final Object handler, final GameEventHandler<SquadronEvent> squadronEventHandler) {
+    public static void register(final Object handler, final EventHandler<SquadronEvent> squadronEventHandler) {
         DISPATCHER.register(handler, squadronEventHandler);
     }
 

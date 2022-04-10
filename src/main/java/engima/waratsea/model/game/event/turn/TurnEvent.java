@@ -1,8 +1,8 @@
 package engima.waratsea.model.game.event.turn;
 
-import engima.waratsea.model.game.event.GameEvent;
-import engima.waratsea.model.game.event.GameEventDispatcher;
-import engima.waratsea.model.game.event.GameEventHandler;
+import engima.waratsea.model.game.event.Event;
+import engima.waratsea.model.game.event.EventDispatcher;
+import engima.waratsea.model.game.event.EventHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +11,8 @@ import lombok.extern.slf4j.Slf4j;
  * Indicates that a turn event has occurred in the game.
  */
 @Slf4j
-public class TurnEvent extends GameEvent {
-    private static final GameEventDispatcher<TurnEvent> DISPATCHER = new GameEventDispatcher<>("TurnEvent");
+public class TurnEvent extends Event {
+    private static final EventDispatcher<TurnEvent> DISPATCHER = new EventDispatcher<>("TurnEvent");
 
     /**
      *
@@ -28,7 +28,7 @@ public class TurnEvent extends GameEvent {
      * @param handler The handler of the turn event.
      * @param turnEventHandler The turn event handler that is registered.
      */
-    public static void register(final Object handler, final GameEventHandler<TurnEvent> turnEventHandler) {
+    public static void register(final Object handler, final EventHandler<TurnEvent> turnEventHandler) {
         DISPATCHER.register(handler, turnEventHandler);
     }
 
@@ -39,7 +39,7 @@ public class TurnEvent extends GameEvent {
      * @param turnEventHandler The turn event handler that is registered.
      * @param keep Indicates if the event handler should always persist.
      */
-    public static void register(final Object handler, final GameEventHandler<TurnEvent> turnEventHandler, final boolean keep) {
+    public static void register(final Object handler, final EventHandler<TurnEvent> turnEventHandler, final boolean keep) {
         DISPATCHER.register(handler, turnEventHandler, keep);
     }
 

@@ -1,9 +1,9 @@
 package engima.waratsea.model.game.event.ship;
 
 import engima.waratsea.model.game.AssetType;
-import engima.waratsea.model.game.event.GameEvent;
-import engima.waratsea.model.game.event.GameEventDispatcher;
-import engima.waratsea.model.game.event.GameEventHandler;
+import engima.waratsea.model.game.event.Event;
+import engima.waratsea.model.game.event.EventDispatcher;
+import engima.waratsea.model.game.event.EventHandler;
 import engima.waratsea.model.ship.Ship;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +13,8 @@ import lombok.extern.slf4j.Slf4j;
  * Indicates that a ship event has occurred in the game.
  */
 @Slf4j
-public class ShipEvent extends GameEvent {
-    private static final GameEventDispatcher<ShipEvent> DISPATCHER = new GameEventDispatcher<>("ShipEvent");
+public class ShipEvent extends Event {
+    private static final EventDispatcher<ShipEvent> DISPATCHER = new EventDispatcher<>("ShipEvent");
 
     /**
      * Initialize the ship event class. This method clears out all ship event handlers.
@@ -29,7 +29,7 @@ public class ShipEvent extends GameEvent {
      * @param handler The object that handles the event.
      * @param shipEventHandler The ship event handler that is registered.
      */
-    public static void register(final Object handler, final GameEventHandler<ShipEvent> shipEventHandler) {
+    public static void register(final Object handler, final EventHandler<ShipEvent> shipEventHandler) {
         DISPATCHER.register(handler, shipEventHandler);
     }
 

@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
  * This is the event base class.
  */
 @Slf4j
-public abstract class GameEvent {
+public abstract class Event {
 
     /**
      * Initialize all game events.
