@@ -179,7 +179,7 @@ public class SquadronViewModel {
     }
 
     /**
-     * Save the squadron to the model. Currently the only two things that vary for squadrons are:
+     * Save the squadron to the model. Currently, the only two things that vary for squadrons are:
      *  - configuration
      *  - state
      */

@@ -3,7 +3,6 @@ package engima.waratsea.view.squadron;
 import engima.waratsea.model.aircraft.AircraftType;
 import lombok.Getter;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -20,15 +19,13 @@ public enum SquadronViewType {
     @Getter
     private final String value;
 
-    private static final Map<AircraftType, SquadronViewType> VIEW_TYPE_MAP = new HashMap<>();
-
-    static {
-        VIEW_TYPE_MAP.put(AircraftType.FIGHTER, FIGHTER);
-        VIEW_TYPE_MAP.put(AircraftType.BOMBER, BOMBER);
-        VIEW_TYPE_MAP.put(AircraftType.DIVE_BOMBER, DIVE_BOMBER);
-        VIEW_TYPE_MAP.put(AircraftType.TORPEDO_BOMBER, TORPEDO_BOMBER);
-        VIEW_TYPE_MAP.put(AircraftType.RECONNAISSANCE, RECONNAISSANCE);
-    }
+    private static final Map<AircraftType, SquadronViewType> VIEW_TYPE_MAP = Map.of(
+            AircraftType.FIGHTER, FIGHTER,
+            AircraftType.BOMBER, BOMBER,
+            AircraftType.DIVE_BOMBER, DIVE_BOMBER,
+            AircraftType.TORPEDO_BOMBER, TORPEDO_BOMBER,
+            AircraftType.RECONNAISSANCE, RECONNAISSANCE
+    );
 
     /**
      * Constructor.
