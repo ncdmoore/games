@@ -13,7 +13,7 @@ import lombok.Getter;
  * This determines which targets a squadron may strike and still make it safely back to base.
  *
  * Note, that if an aircraft has an endurance greater than one, that it may take multiple turns for a squadron
- * to reach it's destination. If an aircraft has an endurance greater than two, then it is possible that
+ * to reach its destination. If an aircraft has an endurance greater than two, then it is possible that
  * it make take two turns for the squadron to reach it's attack target. For example if the endurance is three:
  * one turn flying toward the target; one turn continuing to target, attacking target and then heading home; and
  * one turn flying toward home.
