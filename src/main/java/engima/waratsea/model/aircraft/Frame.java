@@ -6,9 +6,10 @@ import lombok.Getter;
 /**
  * Represents the aircraft's frame.
  */
+@Getter
 public class Frame {
-    @Getter private final int frame;
-    @Getter private final boolean fragile;
+    private final int frame;
+    private final boolean fragile;
 
     /**
      * The constructor.

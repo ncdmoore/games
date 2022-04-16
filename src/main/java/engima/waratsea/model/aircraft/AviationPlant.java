@@ -28,7 +28,7 @@ import java.util.function.Function;
 @Singleton
 public class AviationPlant {
     // Aircraft type to aircraft factory map.
-    private final Map<AircraftType, Function<AircraftData, Aircraft>> factoryMap = new HashMap<>();
+    private final Map<AircraftType, Function<AircraftData, Aircraft>> factoryMap;
 
     //Each side has a map of aircraft model names to aircraft model data. This acts as a cash for data read in from JSON files.
     private final Map<Side, Map<String, AircraftData>> aircraftDataMap = Map.of(
@@ -50,9 +50,10 @@ public class AviationPlant {
         this.config = config;
         this.factory = factory;
 
-        factoryMap.put(AircraftType.FIGHTER, factory::createFighter);
-        factoryMap.put(AircraftType.RECONNAISSANCE, factory::createRecon);
-        factoryMap.put(AircraftType.BOMBER, factory::createBomber);
+        factoryMap = Map.of(
+                AircraftType.FIGHTER, factory::createFighter,
+                AircraftType.RECONNAISSANCE, factory::createRecon,
+                AircraftType.BOMBER, factory::createBomber);
     }
 
     /**

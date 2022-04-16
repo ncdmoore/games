@@ -12,8 +12,8 @@
       <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/game/GameEvent.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/game/GameEventTypes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Attack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Attack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/AirfieldDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/base/airfield/AirfieldDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/AviationPlant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/AviationPlant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/aircraft/Frame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -287,13 +287,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00449" summary="Clean up probability text">
-      <created>1620158887495</created>
-      <option name="number" value="00449" />
-      <option name="presentableId" value="LOCAL-00449" />
-      <option name="project" value="LOCAL" />
-      <updated>1620158887495</updated>
     </task>
     <task id="LOCAL-00450" summary="Update AirMissionPath to encapsulate the path from the air mission.">
       <created>1622160211456</created>
@@ -631,7 +624,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649634647494</updated>
     </task>
-    <option name="localTasksCounter" value="498" />
+    <task id="LOCAL-00498" summary="Update to java 9 maps in a few classes.">
+      <created>1650141738219</created>
+      <option name="number" value="00498" />
+      <option name="presentableId" value="LOCAL-00498" />
+      <option name="project" value="LOCAL" />
+      <updated>1650141738220</updated>
+    </task>
+    <option name="localTasksCounter" value="499" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
