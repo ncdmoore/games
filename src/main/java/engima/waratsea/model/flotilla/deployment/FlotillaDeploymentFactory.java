@@ -4,7 +4,7 @@ package engima.waratsea.model.flotilla.deployment;
 import engima.waratsea.model.flotilla.deployment.data.DeploymentData;
 
 /**
- * Create's flotilla deployment.
+ * Create flotilla deployment.
  */
 public interface FlotillaDeploymentFactory {
     /**

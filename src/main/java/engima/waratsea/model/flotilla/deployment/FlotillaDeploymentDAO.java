@@ -26,9 +26,9 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class FlotillaDeploymentDAO {
-    private Resource config;
+    private final Resource config;
 
-    private FlotillaDeploymentFactory flotillaDeploymentFactory;
+    private final FlotillaDeploymentFactory flotillaDeploymentFactory;
 
     /**
      * Constructor called by guice.
