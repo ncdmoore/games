@@ -35,7 +35,7 @@ public class FlotillaAI {
 
     private static final Random SELECT = new Random();
 
-    private FlotillaDeploymentDAO flotillaDeploymentDAO;
+    private final FlotillaDeploymentDAO flotillaDeploymentDAO;
 
     /**
      * Constructor called by guice.

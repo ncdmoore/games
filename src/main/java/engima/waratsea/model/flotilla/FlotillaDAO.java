@@ -19,7 +19,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -33,7 +32,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FlotillaDAO {
     // Flotilla type to flotilla factory map.
-    private final Map<FlotillaType, BiFunction<Side, FlotillaData, Flotilla>> factoryMap = new HashMap<>();
+    private final Map<FlotillaType, BiFunction<Side, FlotillaData, Flotilla>> factoryMap;
 
     private final Resource config;
 
@@ -48,8 +47,10 @@ public class FlotillaDAO {
                        final FlotillaFactory factory) {
         this.config = config;
 
-        factoryMap.put(FlotillaType.SUBMARINE, factory::createSubmarineFlotilla);
-        factoryMap.put(FlotillaType.MTB, factory::createMTBFlotilla);
+        factoryMap = Map.of(
+                FlotillaType.SUBMARINE, factory::createSubmarineFlotilla,
+                FlotillaType.MTB, factory::createMTBFlotilla
+        );
     }
 
     /**

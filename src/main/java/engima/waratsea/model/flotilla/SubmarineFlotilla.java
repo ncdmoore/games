@@ -36,8 +36,8 @@ public class SubmarineFlotilla implements Flotilla {
     @Setter
     private String reference; //This is always a map reference and never a name.
 
-    private SubmarineDAO submarineDAO;
-    private GameMap gameMap;
+    private final SubmarineDAO submarineDAO;
+    private final GameMap gameMap;
 
     /**
      * Constructor called by guice.
@@ -67,7 +67,7 @@ public class SubmarineFlotilla implements Flotilla {
      */
     @Override
     public void saveChildrenData() {
-        subs.forEach(submarine -> submarineDAO.save(submarine));
+        subs.forEach(submarineDAO::save);
     }
 
     /**

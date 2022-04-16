@@ -35,8 +35,8 @@ public class MotorTorpedoBoatFlotilla implements Flotilla {
     @Getter
     private String reference; //This is always a map reference and never a name.
 
-    private MotorTorpedoBoatDAO boatDAO;
-    private GameMap gameMap;
+    private final MotorTorpedoBoatDAO boatDAO;
+    private final GameMap gameMap;
 
     /**
      * Constructor called by guice.
@@ -82,7 +82,7 @@ public class MotorTorpedoBoatFlotilla implements Flotilla {
      */
     @Override
     public void saveChildrenData() {
-        boats.forEach(mtb -> boatDAO.save(mtb));
+        boats.forEach(boatDAO::save);
     }
 
     /**
