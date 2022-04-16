@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import engima.waratsea.model.weather.Weather;
 import engima.waratsea.model.weather.WeatherType;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -12,9 +11,7 @@ import java.util.Map;
  * Represents the air mission land strike rules.
  */
 public class MissionAirStrikeRules implements MissionAirRules {
-
-    private final Map<WeatherType, Integer> weatherModifier = new HashMap<>();
-
+    private final Map<WeatherType, Integer> weatherModifier;
     private final Weather weather;
 
     /**
@@ -27,14 +24,14 @@ public class MissionAirStrikeRules implements MissionAirRules {
         this.weather = weather;
 
         //CHECKSTYLE:OFF: checkstyle:magicnumber
-
-        weatherModifier.put(WeatherType.CLEAR, 0);
-        weatherModifier.put(WeatherType.CLOUDY, 0);
-        weatherModifier.put(WeatherType.RAIN, -1);
-        weatherModifier.put(WeatherType.SQUALL, -2);
-        weatherModifier.put(WeatherType.STORM, -100);
-        weatherModifier.put(WeatherType.GALE, -100);
-
+        weatherModifier = Map.of(
+                WeatherType.CLEAR, 0,
+                WeatherType.CLOUDY, 0,
+                WeatherType.RAIN, -1,
+                WeatherType.SQUALL, -2,
+                WeatherType.STORM, -100,
+                WeatherType.GALE, -100
+        );
         //CHECKSTYLE:ON: checkstyle:magicnumber
     }
 
