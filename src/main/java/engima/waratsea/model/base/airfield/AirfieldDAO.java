@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * This class loads airfield data from JSON files.
+ * This class load's airfield data from JSON files.
  */
 @Slf4j
 @Singleton

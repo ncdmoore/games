@@ -4,24 +4,22 @@ import engima.waratsea.model.aircraft.data.AttackData;
 import engima.waratsea.model.squadron.SquadronStrength;
 import lombok.Getter;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Represents an aircraft's attack for air, land or naval.
  */
 public class Attack {
-    @Getter private final int modifier;      // Determines which values of a six sided die are hits. For example a modifier of
-                                             // 1 indicates that both a 5 and a 6 are hits. Note, a 6 is always a hit;
-                                             // i.e. a modifier of 0 indicates that only a 6 is a hit.
-    @Getter private final int full;          // Total number of dice rolled for a full strength squadron.
-    @Getter private final int half;          // Total number of dice rolled for a half strength squadron.
-    @Getter private final int sixth;         // Total number of dice rolled for one-sixth strength squadron.
-    @Getter private final boolean defensive; // Indicates if the factor is defensive only. Only returns fire does not initiate.
-
-    private final Map<SquadronStrength, Integer> factor = new HashMap<>();
-
+    @Getter private final int modifier;          // Determines which values of a six sided die are hits. For example a modifier of
+                                                 // 1 indicates that both a 5 and a 6 are hits. Note, a 6 is always a hit;
+                                                 // i.e. a modifier of 0 indicates that only a 6 is a hit.
+    @Getter private final int full;              // Total number of dice rolled for a full strength squadron.
+    @Getter private final int half;              // Total number of dice rolled for a half strength squadron.
+    @Getter private final int sixth;             // Total number of dice rolled for one-sixth strength squadron.
+    @Getter private final boolean defensive;     // Indicates if the factor is defensive only. Only returns fire does not initiate.
     @Getter private final double finalModifier;  // The final factor in determining a successful attack.
+
+    private final Map<SquadronStrength, Integer> factor;
 
     /**
      * Constructor.
@@ -34,12 +32,12 @@ public class Attack {
         this.half = data.getHalf();
         this.sixth = data.getSixth();
         this.defensive = data.isDefensive();
-
-        factor.put(SquadronStrength.FULL, full);
-        factor.put(SquadronStrength.HALF, half);
-        factor.put(SquadronStrength.SIXTH, sixth);
-
         this.finalModifier = data.getFinalModifier();
+
+        factor = Map.of(
+                SquadronStrength.FULL, full,
+                SquadronStrength.HALF, half,
+                SquadronStrength.SIXTH, sixth);
     }
 
     /**
