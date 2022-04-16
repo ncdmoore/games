@@ -2,9 +2,11 @@ package engima.waratsea.model.base.airfield.mission;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.stream.Stream;
 
+@RequiredArgsConstructor
 public enum MissionRole {
     @SerializedName(value = "MAIN", alternate = {"Main", "main"})
     MAIN("Main"),
@@ -14,15 +16,6 @@ public enum MissionRole {
 
     @Getter
     private final String value;
-
-    /**
-     * Constructor.
-     *
-     * @param value The String representation of this enum.
-     */
-    MissionRole(final String value) {
-        this.value = value;
-    }
 
     /**
      * The String representation of this enum.

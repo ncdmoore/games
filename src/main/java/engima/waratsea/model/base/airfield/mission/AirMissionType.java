@@ -1,6 +1,7 @@
 package engima.waratsea.model.base.airfield.mission;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,6 +15,7 @@ import java.util.stream.Stream;
  * Squadrons have roles within a mission. For example on a Naval Strike mission a squadron may participate
  * in the actual strike itself, i.e., attack a ship, or it may serve as an escort.
  */
+@RequiredArgsConstructor
 public enum AirMissionType {
     DISTANT_CAP("Distant CAP", "CAP", Collections.singletonList(MissionRole.MAIN)),
     FERRY("Ferry", "Ferry", Collections.singletonList(MissionRole.MAIN)),
@@ -31,19 +33,6 @@ public enum AirMissionType {
 
     @Getter
     private final List<MissionRole> roles;
-
-    /**
-     * Constructor.
-     *
-     * @param value The String value of the enum.
-     * @param title The mission type's title.
-     * @param roles The available squadron roles for the type of mission.
-     */
-    AirMissionType(final String value, final String title, final List<MissionRole> roles) {
-        this.value = value;
-        this.title = title;
-        this.roles = roles;
-    }
 
     /**
      * Get the String representation of this enum.

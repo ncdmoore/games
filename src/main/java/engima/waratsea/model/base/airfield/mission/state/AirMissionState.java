@@ -1,10 +1,13 @@
 package engima.waratsea.model.base.airfield.mission.state;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.Set;
 
 /**
  * Air mission states. Mission may last longer than one turn, thus we need to keep track of a mission's state.
  */
+@RequiredArgsConstructor
 public enum AirMissionState {
     READY("Ready") {
         public AirMissionState transition(final AirMissionAction action, final AirMissionExecutor mission) {
@@ -107,10 +110,6 @@ public enum AirMissionState {
      * @return The new air mission state.
      */
     public abstract AirMissionState transition(AirMissionAction action, AirMissionExecutor mission);
-
-    AirMissionState(final String value) {
-        this.value = value;
-    }
 
     /**
      * The String representation of this enum.
