@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Each nation has its on unique airfield view model. Thus, all of the property values of this view model are for
+ * Each nation has its on unique airfield view model. Thus, all the property values of this view model are for
  * a given nation. This is just used in the preview screens.
  */
 public class AirfieldViewModel {

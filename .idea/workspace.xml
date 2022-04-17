@@ -11,6 +11,9 @@
     <list default="true" id="eade594e-ffee-46ba-a62b-71982cd686a3" name="Default Changelist" comment="Update to java 9 maps in a few classes.">
       <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/game/GameEvent.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/model/game/event/game/GameEventTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/AirfieldViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/AirfieldViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/NationAirbaseViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/airfield/NationAirbaseViewModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -284,13 +287,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558992135041</updated>
-    </task>
-    <task id="LOCAL-00456" summary="Split AirMissionPath into AirMissionOneWayPath and AirMissionRoundTripPath">
-      <created>1622309310698</created>
-      <option name="number" value="00456" />
-      <option name="presentableId" value="LOCAL-00456" />
-      <option name="project" value="LOCAL" />
-      <updated>1622309310698</updated>
     </task>
     <task id="LOCAL-00457" summary="Split AirMissionPath into AirMissionOneWayPath and AirMissionRoundTripPath">
       <created>1622309448987</created>
@@ -628,16 +624,24 @@
       <option name="project" value="LOCAL" />
       <updated>1650203587169</updated>
     </task>
-    <option name="localTasksCounter" value="505" />
+    <task id="LOCAL-00505" summary="Update to java 9 maps in a few classes.">
+      <created>1650204030049</created>
+      <option name="number" value="00505" />
+      <option name="presentableId" value="LOCAL-00505" />
+      <option name="project" value="LOCAL" />
+      <updated>1650204030049</updated>
+    </task>
+    <option name="localTasksCounter" value="506" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
-    <option name="COLUMN_ORDER">
+    <option name="COLUMN_ID_ORDER">
       <list>
-        <option value="0" />
-        <option value="2" />
-        <option value="3" />
-        <option value="1" />
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
       </list>
     </option>
   </component>
@@ -666,9 +670,9 @@
     <MESSAGE value="Update gradle" />
     <MESSAGE value="rename GameEvent to Event" />
     <MESSAGE value="Fix attackData final probability bug." />
-    <MESSAGE value="Update to java 9 maps in a few classes." />
     <MESSAGE value="Use new Lombok constructor annotations" />
-    <option name="LAST_COMMIT_MESSAGE" value="Use new Lombok constructor annotations" />
+    <MESSAGE value="Update to java 9 maps in a few classes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to java 9 maps in a few classes." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -767,6 +771,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/viewmodel/squadrons/SquadronViewModel.java</url>
           <line>147</line>
           <option name="timeStamp" value="158" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/engima/waratsea/model/victory/ShipVictory.java</url>
+          <line>77</line>
+          <option name="timeStamp" value="161" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.UnsupportedOperationException" package="java.lang" />
