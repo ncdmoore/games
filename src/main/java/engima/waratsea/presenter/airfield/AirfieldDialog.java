@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 /**
- * Represents the airfield details dialog. This is were the airfield missions and patrols are assigned.
+ * Represents the airfield details dialog. This is where the airfield missions and patrols are assigned.
  */
 @Slf4j
 public class AirfieldDialog {

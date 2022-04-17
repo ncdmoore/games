@@ -15,7 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Represents the Task force's air operations dialog.
+ * Represents the Task force's air operations' dialog.
  */
 public class TaskForceAirDialog {
     private static final String CSS_FILE = "taskForceAirDetails.css";

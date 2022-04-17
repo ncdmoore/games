@@ -13,7 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Represents the task force's naval operations dialog.
+ * Represents the task force's naval operations' dialog.
  */
 public class TaskForceNavalDialog {
     private static final String CSS_FILE = "taskForceNavalDetails.css";
