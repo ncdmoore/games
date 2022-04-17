@@ -1,11 +1,14 @@
 package engima.waratsea.model.squadron.state;
 
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.Map;
 
 /**
  * The state of a squadron.
  */
+@RequiredArgsConstructor
 public enum SquadronState {
 
     READY("Ready") {
@@ -154,15 +157,6 @@ public enum SquadronState {
      * @return The new squadron state.
      */
     public abstract SquadronState transition(SquadronAction action);
-
-    /**
-     * The squadron state constructor.
-     *
-     * @param value The String representation of this enum.
-     */
-    SquadronState(final String value) {
-        this.value = value;
-    }
 
     @Override
     public String toString() {

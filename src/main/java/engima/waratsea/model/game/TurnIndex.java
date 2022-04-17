@@ -1,10 +1,12 @@
 package engima.waratsea.model.game;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This is used so that a scenario can set the starting turn.
  */
+@RequiredArgsConstructor
 public enum TurnIndex {
     DAY_1(0, "06:00 - 10:00") {
         /**
@@ -78,17 +80,6 @@ public enum TurnIndex {
 
     @Getter
     private final String timeRange;
-
-    /**
-     * Constructor.
-     *
-     * @param value The integer value.
-     * @param timeRange The corresponding time range of the index.
-     */
-    TurnIndex(final int value, final String timeRange) {
-        this.value = value;
-        this.timeRange = timeRange;
-    }
 
     /**
      * Advance to the next index.

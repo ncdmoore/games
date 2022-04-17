@@ -9,7 +9,7 @@ import engima.waratsea.model.victory.data.VictoryConditionsData;
 public interface VictoryConditionsFactory {
 
     /**
-     * Create's the victory.
+     * Create the victory.
      *
      * @param data Victory data from a JSON file.
      * @param side The side of the victory conditions. ALLIES or AXIS.

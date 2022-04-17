@@ -2,10 +2,12 @@ package engima.waratsea.model.ship;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Represents a ship's armour type.
  */
+@RequiredArgsConstructor
 public enum ArmourType {
     @SerializedName(value = "HEAVY", alternate = {"Heavy", "heavy"})
     HEAVY("Heavy"),
@@ -18,15 +20,6 @@ public enum ArmourType {
 
     @Getter
     private final String value;
-
-    /**
-     * The constructor.
-     *
-     * @param value The string value of the enum.
-     */
-    ArmourType(final String value) {
-        this.value = value;
-    }
 
     /**
      * Get the string value of the enum.

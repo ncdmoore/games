@@ -10,7 +10,7 @@ import com.google.inject.name.Named;
  */
 public interface AirfieldVictoryFactory<E, D> {
     /**
-     * Create's the airfields victory condition.
+     * Create the airfield's victory condition.
      *
      * @param data Airfield victory data from a JSON file.
      * @return The airfield victory condition object.

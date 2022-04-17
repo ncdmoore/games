@@ -167,7 +167,7 @@ public class SearchPatrolGroup implements PatrolGroup {
      * Get the patrol factors at the given radius.
      *
      * @param radius Patrol radius.
-     * @return A string that specifies the factors that determine the patrols success.
+     * @return A string that specifies the factors that determine the patrol's success.
      */
     private String getPatrolSearchFactors(final int radius) {
         return getSearchFactors(radius)

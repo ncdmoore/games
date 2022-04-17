@@ -1,6 +1,7 @@
 package engima.waratsea.model.game;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -8,6 +9,7 @@ import java.util.stream.Stream;
 /**
  * WW2 at sea contains two combatants or sides.
  */
+@RequiredArgsConstructor
 public enum Side {
     ALLIES("Allies", "Allied"),
     AXIS("Axis", "Axis"),
@@ -18,17 +20,6 @@ public enum Side {
 
     @Getter
     private final String possessive;
-
-    /**
-     * Constructs a Side.
-     *
-     * @param value The string representation of the side.
-     * @param possessive The possessive form of the word.
-     */
-    Side(final String value, final String possessive) {
-        this.value = value;
-        this.possessive = possessive;
-    }
 
     /**
      * Given a side this method returns the opposing side.

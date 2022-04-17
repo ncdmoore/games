@@ -1,10 +1,12 @@
 package engima.waratsea.model.ship;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Represents the type of ship.
  */
+@RequiredArgsConstructor
 public enum ShipType {
     @SerializedName(value = "AIRCRAFT_CARRIER", alternate = {"Aircraft_Carrier", "aircraft_carrier"})
     AIRCRAFT_CARRIER("Aircraft carrier"),
@@ -51,15 +53,6 @@ public enum ShipType {
     VIRTUAL("Virtual");
 
     private final String value;
-
-    /**
-     * Constructor.
-     *
-     * @param value The string value of the enum.
-     */
-    ShipType(final String value) {
-        this.value = value;
-    }
 
     /**
      * Return the string representation of the enum.

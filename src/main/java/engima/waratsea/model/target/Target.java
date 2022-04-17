@@ -145,7 +145,7 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
      * Determine if a squadron journeying to this target must make a round trip.
      *
      * @return True if the squadron must make a round trip to reach this target. The squadron must fly to and then
-     * return to it's original base. False otherwise.
+     * return to its original base. False otherwise.
      */
     boolean requiresRoundTrip();
 
@@ -190,7 +190,7 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
     }
 
     /**
-     * Determine if the region that contains this target can has capacity to support additional
+     * Determine if the region that contains this target has capacity to support additional
      * squadron steps.
      *
      * @param nation The region's nation.
@@ -252,14 +252,14 @@ public interface Target extends Comparable<Target>, PersistentData<TargetData> {
 
     /**
      * Get the current number of squadron steps on missions that originate
-     * outside of this target's region that are assigned targets in the
+     * outside this target's region that are assigned targets in the
      * same region as this target.
      *
      * @param missionType The type of mission.
      * @param nation The nation: BRITISH, ITALIAN, etc...
      * @param airbase The airbase that contains the mission that has this target as a target.
      * @return The total number of squadron steps with the given mission type
-     * that originate outside of the region of this target, but have a
+     * that originate outside the region of this target, but have a
      * target in the same region as this target.
      */
     default int getMissionStepsEnteringRegion(AirMissionType missionType, Nation nation, Airbase airbase) {

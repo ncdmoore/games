@@ -2,11 +2,13 @@ package engima.waratsea.model.game;
 
 import engima.waratsea.model.game.rules.GameRules;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 
 /**
  * Represents the stages of a day.
  */
+@RequiredArgsConstructor
 public enum TurnType {
     DAY("Day") {     // A daylight turn.
         /**
@@ -53,15 +55,6 @@ public enum TurnType {
 
     @Getter
     private final String value;
-
-    /**
-     * Constructor.
-     *
-     * @param value The String representation of this enum.
-     */
-    TurnType(final String value) {
-        this.value = value;
-    }
 
     /**
      * Get the turn type's true type. Twilight turns are either treated as DAY or NIGHT turns.

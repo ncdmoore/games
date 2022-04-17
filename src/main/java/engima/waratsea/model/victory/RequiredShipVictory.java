@@ -85,7 +85,7 @@ public class RequiredShipVictory implements VictoryCondition<ShipEvent, ShipVict
     /**
      * Get the victory conditions details.
      *
-     * @return The victory conditions detials in generic form.
+     * @return The victory conditions details in generic form.
      */
     @Override
     public VictoryConditionDetails getDetails() {

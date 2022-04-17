@@ -1,9 +1,11 @@
 package engima.waratsea.model.victory;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.stream.Stream;
 
+@RequiredArgsConstructor
 public enum VictoryType {
     SHIP("Ship", "Ship events that produce victory points."),
     SQUADRON("Squadron", "Squadron events that produce victory points."),
@@ -12,11 +14,6 @@ public enum VictoryType {
 
     private final String value;
     @Getter private final String description;
-
-    VictoryType(final String value, final String description) {
-        this.value = value;
-        this.description = description;
-    }
 
     /**
      * Get the String representation of this enum.

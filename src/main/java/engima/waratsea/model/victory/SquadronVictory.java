@@ -41,7 +41,7 @@ public class SquadronVictory implements VictoryCondition<SquadronEvent, Squadron
     private boolean requirementMet;
 
     /**
-     * The consturctor called by guice.
+     * The constructor called by guice.
      *
      * @param data The squadron victory condition data read in from a JSON file.
      * @param factory The squadron event matcher factory.
@@ -134,7 +134,7 @@ public class SquadronVictory implements VictoryCondition<SquadronEvent, Squadron
     /**
      * Get the victory conditions details.
      *
-     * @return The victory conditions detials in generic form.
+     * @return The victory conditions details in generic form.
      */
     @Override
     public VictoryConditionDetails getDetails() {

@@ -1,6 +1,7 @@
 package engima.waratsea.model.taskForce;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Represents a task force state.
@@ -8,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * Reserve task forces are in reserve and are not available to the player.
  * Certain game events will trigger a task force to change states from reserve to active.
  */
+@RequiredArgsConstructor
 public enum TaskForceState {
     @SerializedName(value = "ACTIVE", alternate = {"Active", "active"})
     ACTIVE("Active"),
@@ -16,14 +18,6 @@ public enum TaskForceState {
     RESERVE("Reserve");
 
     private final String value;
-
-    /**
-     * Constructor.
-     * @param value The string value of the enum.
-     */
-    TaskForceState(final String value) {
-        this.value = value;
-    }
 
     /**
      * Return the string value of the enum.

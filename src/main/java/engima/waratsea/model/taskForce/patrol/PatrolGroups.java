@@ -41,7 +41,7 @@ public class PatrolGroups {
      */
     public PatrolGroups build(final AirbaseGroup group) {
         airbaseGroup = group;
-        homeGroup = group;  // By default the home group is equal to the airbase group.
+        homeGroup = group;  // By default, the home group is equal to the airbase group.
                             // Task force groups will override this default.
         PatrolType
                 .stream()

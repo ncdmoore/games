@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Represents an ship victory condition.
+ * Represents a ship victory condition.
  */
 @Slf4j
 public class AirfieldVictory implements VictoryCondition<AirfieldEvent, AirfieldVictoryData> {
@@ -155,7 +155,7 @@ public class AirfieldVictory implements VictoryCondition<AirfieldEvent, Airfield
     /**
      * Get the victory conditions details.
      *
-     * @return The victory conditions detials in generic form.
+     * @return The victory conditions details in generic form.
      */
     @Override
     public VictoryConditionDetails getDetails() {

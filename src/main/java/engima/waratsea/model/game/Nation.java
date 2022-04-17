@@ -2,6 +2,7 @@ package engima.waratsea.model.game;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.Comparator;
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 /**
  * The game nations.
  */
+@RequiredArgsConstructor
 public enum Nation implements Comparator<Nation> {
     @SerializedName(value = "AUSTRALIAN", alternate = {"Australian", "australian"})
     AUSTRALIAN("Australian", "Australian", "HMAS"),
@@ -68,19 +70,6 @@ public enum Nation implements Comparator<Nation> {
         "Polish", Nation.POLISH,
         "United States", Nation.UNITED_STATES
     );
-
-    /**
-     * Constructor.
-     *
-     * @param value The string value of the Nation.
-     * @param fileName The string value used for file names that involve a nation.
-     * @param shipPrefix The prefix before a ship name.
-     */
-    Nation(final String value, final String fileName, final String shipPrefix) {
-        this.value = value;
-        this.fileName = fileName;
-        this.shipPrefix = shipPrefix;
-    }
 
     /**
      * Get the enum given the value.

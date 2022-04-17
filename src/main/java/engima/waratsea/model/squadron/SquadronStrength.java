@@ -2,6 +2,7 @@ package engima.waratsea.model.squadron;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Represents the strength of a squadron.
@@ -11,6 +12,7 @@ import lombok.Getter;
  *
  * Seaplanes on cruisers and battleships are equal to a squadron at 1/6 th strength.
  */
+@RequiredArgsConstructor
 public enum SquadronStrength {
     @SerializedName(value = "FULL", alternate = {"Full", "full"})
     FULL("Full", 2, 12) {
@@ -53,19 +55,6 @@ public enum SquadronStrength {
     private final int aircraft;
 
     private static final int AIRCRAFT_PER_STEP_SIZE = 6;
-
-    /**
-     * The constructor.
-     *
-     * @param value The String value of the squadron strength.
-     * @param steps The number of steps.
-     * @param aircraft The number of aircraft.
-     */
-    SquadronStrength(final String value, final int steps, final int aircraft) {
-        this.value = value;
-        this.steps = steps;
-        this.aircraft = aircraft;
-    }
 
     public abstract SquadronStrength reduce();
 

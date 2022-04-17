@@ -31,11 +31,11 @@ import java.util.Map;
 public class SubmarineDAO {
 
     //Each side has a map of ship class names to ship's data. This acts as a cash for data read in from JSON files.
-    private Map<Side, Map<String, SubmarineData>> subDataMap = new HashMap<>();
+    private final Map<Side, Map<String, SubmarineData>> subDataMap;
 
-    private Resource config;
-    private ShipRegistry registry;
-    private SubmarineFactory subFactory;
+    private final Resource config;
+    private final ShipRegistry registry;
+    private final SubmarineFactory subFactory;
 
     /**
      * Constructor called by guice.
@@ -53,9 +53,10 @@ public class SubmarineDAO {
         this.registry = registry;
         this.subFactory = subFactory;
 
-
-        subDataMap.put(Side.ALLIES, new HashMap<>());
-        subDataMap.put(Side.AXIS, new HashMap<>());
+        subDataMap = Map.of(
+                Side.ALLIES, new HashMap<>(),
+                Side.AXIS, new HashMap<>()
+        );
     }
 
     /**

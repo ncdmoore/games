@@ -1,9 +1,11 @@
 package engima.waratsea.model.game;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
 
+@RequiredArgsConstructor
 public enum GameName {
     ARCTIC_CONVOY("arcticConvoy"),
     BOMB_ALLEY("bombAlley"),
@@ -30,13 +32,4 @@ public enum GameName {
 
     @Getter
     private final String value;
-
-    /**
-     * Constructor.
-     *
-     * @param value The String representation of this enum.
-     */
-    GameName(final String value) {
-        this.value = value;
-    }
 }

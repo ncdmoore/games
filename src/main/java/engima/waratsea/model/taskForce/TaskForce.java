@@ -261,7 +261,7 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
     }
 
     /**
-     * Set the task force's new reference. Since during the initial task force setup
+     * Set the task force's new reference. Since during the initial task force set up
      * a task force may be removed from the map, it is possible for the new location
      * to be null. This just indicates that the task force is temporarily not assigned
      * to the game. This occurs in the game Arctic Convoy.
@@ -359,7 +359,7 @@ public class TaskForce implements AirbaseGroup, Comparable<TaskForce>, Asset, Pe
     /**
      * Get the squadron's stationed within this task force.
      *
-     * @return A the squadrons stationed within this task force.
+     * @return The squadrons stationed within this task force.
      */
     public List<Squadron> getSquadrons() {
         return realAirbases

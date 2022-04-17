@@ -45,7 +45,7 @@ public class MinefieldDeploymentDAO {
     }
 
     /**
-     * Load all of the given sides's minefields.
+     * Load the given sides' minefields.
      *
      * @param side The side ALLIES or AXIS.
      * @return A list of minefields.

@@ -5,13 +5,12 @@ import com.google.inject.Singleton;
 import engima.waratsea.model.base.airfield.patrol.PatrolType;
 import engima.waratsea.model.taskForce.patrol.data.PatrolGroupData;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
 @Singleton
 public class PatrolGroupDAO {
-    private final Map<PatrolType, Function<PatrolGroupData, PatrolGroup>> factoryMap = new HashMap<>();
+    private final Map<PatrolType, Function<PatrolGroupData, PatrolGroup>> factoryMap;
 
     /**
      * Constructor called by guice.
@@ -20,9 +19,11 @@ public class PatrolGroupDAO {
      */
     @Inject
     public PatrolGroupDAO(final PatrolGroupFactory factory) {
-        factoryMap.put(PatrolType.ASW, factory::createAsw);
-        factoryMap.put(PatrolType.CAP, factory::createCap);
-        factoryMap.put(PatrolType.SEARCH, factory::createSearch);
+        factoryMap = Map.of(
+                PatrolType.ASW, factory::createAsw,
+                PatrolType.CAP, factory::createCap,
+                PatrolType.SEARCH, factory::createSearch
+        );
     }
 
     /**

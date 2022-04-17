@@ -1,12 +1,14 @@
 package engima.waratsea.model.weather;
 
-import java.util.ArrayList;
+import lombok.RequiredArgsConstructor;
+
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * The types of weather represented in the game.
  */
+@RequiredArgsConstructor
 public enum WeatherType {
 
     CLEAR("Clear"),
@@ -16,18 +18,9 @@ public enum WeatherType {
     STORM("Storm"),
     GALE("Gale");
 
-    private static final List<WeatherType> VALUES = new ArrayList<>(Arrays.asList(WeatherType.values()));
+    private static final List<WeatherType> VALUES = Arrays.asList(WeatherType.values());
 
     private final String value;
-
-    /**
-     * The constructor.
-     *
-     * @param value The String representation of this enum.
-     */
-    WeatherType(final String value) {
-        this.value = value;
-    }
 
     /**
      * The weather has worsened.

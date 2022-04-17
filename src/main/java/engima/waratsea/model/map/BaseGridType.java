@@ -1,6 +1,7 @@
 package engima.waratsea.model.map;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This class represents the type's or bases within the game. A base may be
@@ -9,6 +10,7 @@ import lombok.Getter;
  *    only a port
  *    or both an airfield and a port.
  */
+@RequiredArgsConstructor
 public enum BaseGridType {
     AIRFIELD("Airfield"),
     SEAPLANE("Seaplane"),
@@ -17,15 +19,6 @@ public enum BaseGridType {
 
     @Getter
     private final String value;
-
-    /**
-     * Constructor.
-     *
-     * @param value The string value of the enum.
-     */
-    BaseGridType(final String value) {
-        this.value = value;
-    }
 
     /**
      * Get the lower case String version of the value.

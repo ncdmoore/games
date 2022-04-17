@@ -1,10 +1,12 @@
 package engima.waratsea.model.taskForce.mission;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Represents a task force's mission.
  */
+@RequiredArgsConstructor
 public enum SeaMissionType {
     @SerializedName(value = "AIR_RAID", alternate = {"Air_Raid", "air_raid"})
     AIR_RAID("Air Raid"),
@@ -46,14 +48,6 @@ public enum SeaMissionType {
     TRANSPORT("Transport");
 
     private final String value;
-
-    /**
-     * Construct a task force mission type.
-     * @param value The string value. Used in the GUI.
-     */
-    SeaMissionType(final String value) {
-        this.value = value;
-    }
 
     /**
      * The string representation of the task force mission.

@@ -1,5 +1,7 @@
 package engima.waratsea.model.map;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * Each grid within the game map is composed one of the following.
  *
@@ -7,6 +9,7 @@ package engima.waratsea.model.map;
  *   Only Land
  *   or both Sea and Land
  */
+@RequiredArgsConstructor
 public enum GridType {
     SEA_DEEP("Deep sea"),
     SEA_SHALLOW("Shallow sea"),
@@ -14,10 +17,6 @@ public enum GridType {
     BOTH("Coast");
 
     private final String title;
-
-    GridType(final String title) {
-        this.title = title;
-    }
 
     /**
      * Get the String representation of this enum.

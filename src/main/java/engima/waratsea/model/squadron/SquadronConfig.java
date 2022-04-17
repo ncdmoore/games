@@ -5,6 +5,7 @@ import engima.waratsea.model.aircraft.AttackType;
 import engima.waratsea.model.aircraft.Performance;
 import engima.waratsea.model.aircraft.data.AttackData;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Comparator;
 import java.util.stream.Stream;
@@ -18,6 +19,7 @@ import java.util.stream.Stream;
  * For example, if both the NONE and the LEAN_ENGINE configurations can be applied to a squadron,
  * then the NONE configuration is applied as it has the higher priority.
  */
+@RequiredArgsConstructor
 public enum SquadronConfig implements Comparator<SquadronConfig> {
     // No special configuration.
     NONE("Basic", 1) {
@@ -245,17 +247,6 @@ public enum SquadronConfig implements Comparator<SquadronConfig> {
      */
     public abstract int getFerryDistance(Attack land, Attack naval, Performance performance);
     public abstract int getEndurance(Performance performance);
-
-    /**
-     * Constructor.
-     *
-     * @param value The String value of this enum.
-     * @param priority The priority of the configuration.
-     */
-    SquadronConfig(final String value, final int priority) {
-        this.value = value;
-        this.priority = priority;
-    }
 
     /**
      * The String representation of this enum.
